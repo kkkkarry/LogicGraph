@@ -15,3 +15,6 @@ To address this limitation, we introduce **LogicGraph**, the first benchmark aim
 ### 📊 Dataset
 
 The LogicGraph dataset is fully open-source and available in this repository. It consists of 900 instances divided into three difficulty tiers based on the number of valid derivation paths: Small, Medium, and Large.
+
+### 💻 Code Status
+Currently, the dataset is fully public. The neuro-symbolic generation pipeline, Prover9 evaluation scripts, and model inference code are being finalized and will be released soon.
