@@ -1,0 +1,309 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A5)",
+        "prover9_expression": "(uses(manufacturer, device) -> synthesizes(manufacturer, substance))",
+        "natural": "Provided that the manufacturer uses the device, the manufacturer synthesizes the substance."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(uses(manufacturer, device) | develops(manufacturer, substance))",
+        "natural": "Either the manufacturer uses the device or the manufacturer develops the substance."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(develops(manufacturer, substance) -> safe(substance))",
+        "natural": "In the event that the manufacturer develops the substance, the substance is safe."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → G)",
+        "prover9_expression": "(tests(manufacturer, substance) -> safe(substance))",
+        "natural": "Should the manufacturer test the substance, the substance is safe."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A7 ∨ ¬A6)",
+        "prover9_expression": "(approves(regulator, substance) | -recalls(manufacturer, substance))",
+        "natural": "Either the regulator approves the substance or it is not the case that the manufacturer recalls the substance."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9_expression": "(-(uses(manufacturer, device) -> safe(substance)) -> halts(manufacturer, production))",
+        "natural": "If it is not the case that using the device implies the substance is safe, then the manufacturer halts production."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A1 → G) → ¬A3)",
+        "prover9_expression": "(-(uses(manufacturer, device) -> safe(substance)) -> -halts(manufacturer, production))",
+        "natural": "Given that it is not the case that using the device implies the substance is safe, the manufacturer does not halt production."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A5 → A4) → A6)",
+        "prover9_expression": "(-(synthesizes(manufacturer, substance) -> tests(manufacturer, substance)) -> recalls(manufacturer, substance))",
+        "natural": "Whenever it is not the case that synthesizing the substance implies testing it, the manufacturer recalls the substance."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A7",
+        "prover9_expression": "-approves(regulator, substance)",
+        "natural": "It is not the case that the regulator approves the substance."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "safe(substance)",
+    "natural": "The substance is safe."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the manufacturer uses the device, the substance is safe."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The substance is safe."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | -A6)",
+            "-A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that the manufacturer recalls the substance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A5 -> A4) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(A5 -> A4)",
+          "natural": "If the manufacturer synthesizes the substance, then the manufacturer tests the substance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A5)",
+            "(A5 -> A4)"
+          ],
+          "conclusion": "(A1 -> A4)",
+          "natural": "If the manufacturer uses the device, then the manufacturer tests the substance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A4)",
+            "(A4 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the manufacturer uses the device, the substance is safe."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The substance is safe."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "uses(manufacturer, device)",
+      "A2": "develops(manufacturer, substance)",
+      "A3": "halts(manufacturer, production)",
+      "A4": "tests(manufacturer, substance)",
+      "A5": "synthesizes(manufacturer, substance)",
+      "A6": "recalls(manufacturer, substance)",
+      "A7": "approves(regulator, substance)",
+      "G": "safe(substance)"
+    },
+    "natural_facts": {
+      "A1": "The manufacturer uses the device.",
+      "A2": "The manufacturer develops the substance.",
+      "A3": "The manufacturer halts production.",
+      "A4": "The manufacturer tests the substance.",
+      "A5": "The manufacturer synthesizes the substance.",
+      "A6": "The manufacturer recalls the substance.",
+      "A7": "The regulator approves the substance.",
+      "G": "The substance is safe."
+    },
+    "prover9_expressions": [
+      "(uses(manufacturer, device) -> tests(manufacturer, substance))",
+      "(uses(manufacturer, device) -> synthesizes(manufacturer, substance))",
+      "(uses(manufacturer, device) -> safe(substance))",
+      "(uses(manufacturer, device) | develops(manufacturer, substance))",
+      "(develops(manufacturer, substance) -> safe(substance))",
+      "(tests(manufacturer, substance) -> safe(substance))",
+      "(synthesizes(manufacturer, substance) -> tests(manufacturer, substance))",
+      "(approves(regulator, substance) | -recalls(manufacturer, substance))",
+      "(-(uses(manufacturer, device) -> safe(substance)) -> halts(manufacturer, production))",
+      "(-(uses(manufacturer, device) -> safe(substance)) -> -halts(manufacturer, production))",
+      "(-(synthesizes(manufacturer, substance) -> tests(manufacturer, substance)) -> recalls(manufacturer, substance))",
+      "safe(substance)",
+      "-recalls(manufacturer, substance)",
+      "-approves(regulator, substance)"
+    ],
+    "natural_expressions": [
+      "If the manufacturer uses the device, then the manufacturer tests the substance.",
+      "Provided that the manufacturer uses the device, the manufacturer synthesizes the substance.",
+      "Whenever the manufacturer uses the device, the substance is safe.",
+      "Either the manufacturer uses the device or the manufacturer develops the substance.",
+      "In the event that the manufacturer develops the substance, the substance is safe.",
+      "Should the manufacturer test the substance, the substance is safe.",
+      "If the manufacturer synthesizes the substance, then the manufacturer tests the substance.",
+      "Either the regulator approves the substance or it is not the case that the manufacturer recalls the substance.",
+      "If it is not the case that using the device implies the substance is safe, then the manufacturer halts production.",
+      "Given that it is not the case that using the device implies the substance is safe, the manufacturer does not halt production.",
+      "Whenever it is not the case that synthesizing the substance implies testing it, the manufacturer recalls the substance.",
+      "The substance is safe.",
+      "It is not the case that the manufacturer recalls the substance.",
+      "It is not the case that the regulator approves the substance."
+    ],
+    "node_mappings": {
+      "(A1 → A4)": {
+        "formal": "(A1 → A4)",
+        "prover9": "(A1 -> A4)",
+        "prover9_expression": "(uses(manufacturer, device) -> tests(manufacturer, substance))",
+        "natural": "If the manufacturer uses the device, then the manufacturer tests the substance."
+      },
+      "(A1 → A5)": {
+        "formal": "(A1 → A5)",
+        "prover9": "(A1 -> A5)",
+        "prover9_expression": "(uses(manufacturer, device) -> synthesizes(manufacturer, substance))",
+        "natural": "Provided that the manufacturer uses the device, the manufacturer synthesizes the substance."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(uses(manufacturer, device) -> safe(substance))",
+        "natural": "Whenever the manufacturer uses the device, the substance is safe."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(uses(manufacturer, device) | develops(manufacturer, substance))",
+        "natural": "Either the manufacturer uses the device or the manufacturer develops the substance."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(develops(manufacturer, substance) -> safe(substance))",
+        "natural": "In the event that the manufacturer develops the substance, the substance is safe."
+      },
+      "(A4 → G)": {
+        "formal": "(A4 → G)",
+        "prover9": "(A4 -> G)",
+        "prover9_expression": "(tests(manufacturer, substance) -> safe(substance))",
+        "natural": "Should the manufacturer test the substance, the substance is safe."
+      },
+      "(A5 → A4)": {
+        "formal": "(A5 → A4)",
+        "prover9": "(A5 -> A4)",
+        "prover9_expression": "(synthesizes(manufacturer, substance) -> tests(manufacturer, substance))",
+        "natural": "If the manufacturer synthesizes the substance, then the manufacturer tests the substance."
+      },
+      "(A7 ∨ ¬A6)": {
+        "formal": "(A7 ∨ ¬A6)",
+        "prover9": "(A7 | -A6)",
+        "prover9_expression": "(approves(regulator, substance) | -recalls(manufacturer, substance))",
+        "natural": "Either the regulator approves the substance or it is not the case that the manufacturer recalls the substance."
+      },
+      "(¬(A1 → G) → A3)": {
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9": "(-(A1 -> G) -> A3)",
+        "prover9_expression": "(-(uses(manufacturer, device) -> safe(substance)) -> halts(manufacturer, production))",
+        "natural": "If it is not the case that using the device implies the substance is safe, then the manufacturer halts production."
+      },
+      "(¬(A1 → G) → ¬A3)": {
+        "formal": "(¬(A1 → G) → ¬A3)",
+        "prover9": "(-(A1 -> G) -> -A3)",
+        "prover9_expression": "(-(uses(manufacturer, device) -> safe(substance)) -> -halts(manufacturer, production))",
+        "natural": "Given that it is not the case that using the device implies the substance is safe, the manufacturer does not halt production."
+      },
+      "(¬(A5 → A4) → A6)": {
+        "formal": "(¬(A5 → A4) → A6)",
+        "prover9": "(-(A5 -> A4) -> A6)",
+        "prover9_expression": "(-(synthesizes(manufacturer, substance) -> tests(manufacturer, substance)) -> recalls(manufacturer, substance))",
+        "natural": "Whenever it is not the case that synthesizing the substance implies testing it, the manufacturer recalls the substance."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "safe(substance)",
+        "natural": "The substance is safe."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-recalls(manufacturer, substance)",
+        "natural": "It is not the case that the manufacturer recalls the substance."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-approves(regulator, substance)",
+        "natural": "It is not the case that the regulator approves the substance."
+      }
+    }
+  }
+}

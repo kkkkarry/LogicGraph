@@ -1,0 +1,749 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 10
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 11
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(rejected_by_admin(admin,content) | flagged_by_system(content))",
+              "natural": "Either the administrator rejects the content or the system flags the content."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A7 -> -A6)",
+              "prover9_expression": "(rejected_by_admin(admin,content) -> -published_content(content))",
+              "natural": "If the administrator rejects the content, then it is not the case that the content is published content."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A8 -> -A6)",
+              "prover9_expression": "(flagged_by_system(content) -> -published_content(content))",
+              "natural": "Whenever the system flags the content, it is not the case that the content is published content."
+            }
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that the content is published content."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A6 | (-(-(A2 -> A1) -> A3) -> A5))",
+              "prover9_expression": "(published_content(content) | (-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> escalated_review(content)))",
+              "natural": "Either the content is published content, or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is under escalated review."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A6",
+              "prover9_expression": "-published_content(content)",
+              "natural": "It is not the case that the content is published content."
+            }
+          ],
+          "conclusion": "(-(-(A2 -> A1) -> A3) -> A5)",
+          "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is under escalated review."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A2 -> A1) -> A3) -> A5)",
+              "prover9_expression": "(-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> escalated_review(content))",
+              "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is under escalated review."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(escalated_review(content) -> pending_review(content))",
+              "natural": "Provided that the content is under escalated review, the content is pending review."
+            }
+          ],
+          "conclusion": "(-(-(A2 -> A1) -> A3) -> A4)",
+          "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A2 -> A1) -> A3) -> A4)",
+              "prover9_expression": "(-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content))",
+              "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A4",
+              "prover9_expression": "-pending_review(content)",
+              "natural": "It is not the case that the content is pending review."
+            }
+          ],
+          "conclusion": "(-(A2 -> A1) -> A3)",
+          "natural": "If it is not the case that the platform approving the content implies the platform publishes it, then the content violates the alcohol policy."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A2 -> A1) -> A3)",
+              "prover9_expression": "(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol))",
+              "natural": "If it is not the case that the platform approving the content implies the platform publishes it, then the content violates the alcohol policy."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A3",
+              "prover9_expression": "-violates_policy(content,alcohol)",
+              "natural": "It is not the case that the content violates the alcohol policy."
+            }
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Under the condition that the platform approves content, the platform publishes content."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(approves(platform,content) -> publishes(platform,content))",
+              "natural": "Under the condition that the platform approves content, the platform publishes content."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A2",
+              "prover9_expression": "approves(platform,content)",
+              "natural": "The platform approves content."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The platform publishes content."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(publishes(platform,content) -> platform_operational(platform))",
+              "natural": "If the platform publishes content, then the platform is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "publishes(platform,content)",
+              "natural": "The platform publishes content."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The platform is operational."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(-(A12 -> A11) -> A13)",
+              "prover9_expression": "(-(sponsored_publication(publication,content) -> promotional_content(event,content)) -> conflicting_sponsorship(publication))",
+              "natural": "If it is not the case that the publication being a sponsored publication for content implies the content is promotional content for an event, then the publication has conflicting sponsorship."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(-(A12 -> A11) -> -A13)",
+              "prover9_expression": "(-(sponsored_publication(publication,content) -> promotional_content(event,content)) -> -conflicting_sponsorship(publication))",
+              "natural": "If it is not the case that the publication being a sponsored publication for content implies the content is promotional content for an event, then it is not the case that the publication has conflicting sponsorship."
+            }
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "Provided that the publication is a sponsored publication for content, the content is promotional content for an event."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> A12)",
+              "prover9_expression": "(regional_event(event,region) -> sponsored_publication(publication,content))",
+              "natural": "Under the condition that an event is a regional event in a region, the publication is a sponsored publication for content."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(sponsored_publication(publication,content) -> promotional_content(event,content))",
+              "natural": "Provided that the publication is a sponsored publication for content, the content is promotional content for an event."
+            }
+          ],
+          "conclusion": "(A10 -> A11)",
+          "natural": "Whenever an event is a regional event in a region, the content is promotional content for that event."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> A11)",
+              "prover9_expression": "(regional_event(event,region) -> promotional_content(event,content))",
+              "natural": "Whenever an event is a regional event in a region, the content is promotional content for that event."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> A1)",
+              "prover9_expression": "(promotional_content(event,content) -> publishes(platform,content))",
+              "natural": "If the content is promotional content for an event, then the platform publishes the content."
+            }
+          ],
+          "conclusion": "(A10 -> A1)",
+          "natural": "Provided that an event is a regional event in a region, the platform publishes content."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A9 -> A10)",
+              "prover9_expression": "(scheduled_event(platform,event) -> regional_event(event,region))",
+              "natural": "Provided that the platform schedules an event, the event is a regional event in a region."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> A1)",
+              "prover9_expression": "(regional_event(event,region) -> publishes(platform,content))",
+              "natural": "Provided that an event is a regional event in a region, the platform publishes content."
+            }
+          ],
+          "conclusion": "(A9 -> A1)",
+          "natural": "Under the condition that the platform schedules an event, the platform publishes content."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> A1)",
+              "prover9_expression": "(scheduled_event(platform,event) -> publishes(platform,content))",
+              "natural": "Under the condition that the platform schedules an event, the platform publishes content."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A9",
+              "prover9_expression": "scheduled_event(platform,event)",
+              "natural": "The platform schedules an event."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The platform publishes content."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(publishes(platform,content) -> platform_operational(platform))",
+              "natural": "If the platform publishes content, then the platform is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "publishes(platform,content)",
+              "natural": "The platform publishes content."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The platform is operational."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A20 -> A19)",
+              "prover9_expression": "(severe_deadline_violation(content) -> deadline_violation(content))",
+              "natural": "Provided that the content severely violates the deadline, the content violates the deadline."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A20",
+              "prover9_expression": "severe_deadline_violation(content)",
+              "natural": "The content severely violates the deadline."
+            }
+          ],
+          "conclusion": "A19",
+          "natural": "The content violates the deadline."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A19 -> -A18)",
+              "prover9_expression": "(deadline_violation(content) -> -approval_deadline_met(content))",
+              "natural": "If the content violates the deadline, then it is not the case that the content meets the approval deadline."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A19",
+              "prover9_expression": "deadline_violation(content)",
+              "natural": "The content violates the deadline."
+            }
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that the content meets the approval deadline."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(-(A16 -> (A14 | (-(-(A2 -> A1) -> A3) -> A4))) -> A17) -> A18)",
+              "prover9_expression": "(-(-(supervisor_approval(content) -> (manual_approval_needed(content) | (-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content)))) -> approval_escalation(content)) -> approval_deadline_met(content))",
+              "natural": "If it is not the case that the negation of the content receiving supervisor approval implies that either the content requires manual approval or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review, and that implies the content undergoes approval escalation, does not hold, then the content meets the approval deadline."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A18",
+              "prover9_expression": "-approval_deadline_met(content)",
+              "natural": "It is not the case that the content meets the approval deadline."
+            }
+          ],
+          "conclusion": "(-(A16 -> (A14 | (-(-(A2 -> A1) -> A3) -> A4))) -> A17)",
+          "natural": "If it is not the case that the content receiving supervisor approval implies that either the content requires manual approval or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review, then the content undergoes approval escalation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 -> (A14 | (-(-(A2 -> A1) -> A3) -> A4))) -> A17)",
+              "prover9_expression": "(-(supervisor_approval(content) -> (manual_approval_needed(content) | (-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content)))) -> approval_escalation(content))",
+              "natural": "If it is not the case that the content receiving supervisor approval implies that either the content requires manual approval or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review, then the content undergoes approval escalation."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A17",
+              "prover9_expression": "-approval_escalation(content)",
+              "natural": "It is not the case that the content undergoes approval escalation."
+            }
+          ],
+          "conclusion": "(A16 -> (A14 | (-(-(A2 -> A1) -> A3) -> A4)))",
+          "natural": "Whenever the content receives supervisor approval, then either the content requires manual approval, or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(automated_approval(content) | supervisor_approval(content))",
+              "natural": "The content receives automated approval or the content receives supervisor approval."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> (A14 | (-(-(A2 -> A1) -> A3) -> A4)))",
+              "prover9_expression": "(automated_approval(content) -> (manual_approval_needed(content) | (-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content))))",
+              "natural": "If the content receives automated approval, then either the content requires manual approval, or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> (A14 | (-(-(A2 -> A1) -> A3) -> A4)))",
+              "prover9_expression": "(supervisor_approval(content) -> (manual_approval_needed(content) | (-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content))))",
+              "natural": "Whenever the content receives supervisor approval, then either the content requires manual approval, or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+            }
+          ],
+          "conclusion": "(A14 | (-(-(A2 -> A1) -> A3) -> A4))",
+          "natural": "Either the content requires manual approval, or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 | (-(-(A2 -> A1) -> A3) -> A4))",
+              "prover9_expression": "(manual_approval_needed(content) | (-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content)))",
+              "natural": "Either the content requires manual approval, or if it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A14",
+              "prover9_expression": "-manual_approval_needed(content)",
+              "natural": "It is not the case that the content requires manual approval."
+            }
+          ],
+          "conclusion": "(-(-(A2 -> A1) -> A3) -> A4)",
+          "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A2 -> A1) -> A3) -> A4)",
+              "prover9_expression": "(-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content))",
+              "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A4",
+              "prover9_expression": "-pending_review(content)",
+              "natural": "It is not the case that the content is pending review."
+            }
+          ],
+          "conclusion": "(-(A2 -> A1) -> A3)",
+          "natural": "If it is not the case that the platform approving the content implies the platform publishes it, then the content violates the alcohol policy."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A2 -> A1) -> A3)",
+              "prover9_expression": "(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol))",
+              "natural": "If it is not the case that the platform approving the content implies the platform publishes it, then the content violates the alcohol policy."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A3",
+              "prover9_expression": "-violates_policy(content,alcohol)",
+              "natural": "It is not the case that the content violates the alcohol policy."
+            }
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Under the condition that the platform approves content, the platform publishes content."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(approves(platform,content) -> publishes(platform,content))",
+              "natural": "Under the condition that the platform approves content, the platform publishes content."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A2",
+              "prover9_expression": "approves(platform,content)",
+              "natural": "The platform approves content."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The platform publishes content."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(publishes(platform,content) -> platform_operational(platform))",
+              "natural": "If the platform publishes content, then the platform is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "publishes(platform,content)",
+              "natural": "The platform publishes content."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The platform is operational."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(A26 | A25) -> A27)",
+              "prover9_expression": "(-(internal_review(platform) | compliance_audit(platform)) -> external_investigation(platform))",
+              "natural": "If it is not the case that either the platform conducts an internal review or the platform undergoes a compliance audit, then the platform is subject to an external investigation."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A26 | A25) -> -A27)",
+              "prover9_expression": "(-(internal_review(platform) | compliance_audit(platform)) -> -external_investigation(platform))",
+              "natural": "If it is not the case that either the platform conducts an internal review or the platform undergoes a compliance audit, then it is not the case that the platform is subject to an external investigation."
+            }
+          ],
+          "conclusion": "(A26 | A25)",
+          "natural": "Either the platform conducts an internal review or the platform undergoes a compliance audit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A26 | A25)",
+              "prover9_expression": "(internal_review(platform) | compliance_audit(platform))",
+              "natural": "Either the platform conducts an internal review or the platform undergoes a compliance audit."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A26",
+              "prover9_expression": "-internal_review(platform)",
+              "natural": "It is not the case that the platform conducts an internal review."
+            }
+          ],
+          "conclusion": "A25",
+          "natural": "The platform undergoes a compliance audit."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A25 -> (-A23 -> A24))",
+              "prover9_expression": "(compliance_audit(platform) -> (-regulatory_investigation(platform) -> platform_warning(platform)))",
+              "natural": "If the platform undergoes a compliance audit, and if it is not the case that the platform is under regulatory investigation, then the platform receives a warning."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A25",
+              "prover9_expression": "compliance_audit(platform)",
+              "natural": "The platform undergoes a compliance audit."
+            }
+          ],
+          "conclusion": "(-A23 -> A24)",
+          "natural": "If it is not the case that the platform is under regulatory investigation, then the platform receives a warning."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A23 -> A24)",
+              "prover9_expression": "(-regulatory_investigation(platform) -> platform_warning(platform))",
+              "natural": "If it is not the case that the platform is under regulatory investigation, then the platform receives a warning."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A24",
+              "prover9_expression": "-platform_warning(platform)",
+              "natural": "It is not the case that the platform receives a warning."
+            }
+          ],
+          "conclusion": "A23",
+          "natural": "The platform is under regulatory investigation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A23 -> A22)",
+              "prover9_expression": "(regulatory_investigation(platform) -> platform_penalty(platform))",
+              "natural": "Whenever the platform is under regulatory investigation, the platform incurs a penalty."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A23",
+              "prover9_expression": "regulatory_investigation(platform)",
+              "natural": "The platform is under regulatory investigation."
+            }
+          ],
+          "conclusion": "A22",
+          "natural": "The platform incurs a penalty."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A22 -> -A21)",
+              "prover9_expression": "(platform_penalty(platform) -> -legal_compliance_issue(content))",
+              "natural": "If the platform incurs a penalty, then it is not the case that the content has a legal compliance issue."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A22",
+              "prover9_expression": "platform_penalty(platform)",
+              "natural": "The platform incurs a penalty."
+            }
+          ],
+          "conclusion": "-A21",
+          "natural": "It is not the case that the content has a legal compliance issue."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(-(-(A2 -> A1) -> A3) -> A4) -> A21)",
+              "prover9_expression": "(-(-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content)) -> legal_compliance_issue(content))",
+              "natural": "If it is not the case that the negation of the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, implies the content is pending review, does not hold, then the content has a legal compliance issue."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A21",
+              "prover9_expression": "-legal_compliance_issue(content)",
+              "natural": "It is not the case that the content has a legal compliance issue."
+            }
+          ],
+          "conclusion": "(-(-(A2 -> A1) -> A3) -> A4)",
+          "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A2 -> A1) -> A3) -> A4)",
+              "prover9_expression": "(-(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol)) -> pending_review(content))",
+              "natural": "If it is not the case that the platform approving the content does not imply the platform publishes it, and that leads to the content violating the alcohol policy, then the content is pending review."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A4",
+              "prover9_expression": "-pending_review(content)",
+              "natural": "It is not the case that the content is pending review."
+            }
+          ],
+          "conclusion": "(-(A2 -> A1) -> A3)",
+          "natural": "If it is not the case that the platform approving the content implies the platform publishes it, then the content violates the alcohol policy."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A2 -> A1) -> A3)",
+              "prover9_expression": "(-(approves(platform,content) -> publishes(platform,content)) -> violates_policy(content,alcohol))",
+              "natural": "If it is not the case that the platform approving the content implies the platform publishes it, then the content violates the alcohol policy."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A3",
+              "prover9_expression": "-violates_policy(content,alcohol)",
+              "natural": "It is not the case that the content violates the alcohol policy."
+            }
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Under the condition that the platform approves content, the platform publishes content."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(approves(platform,content) -> publishes(platform,content))",
+              "natural": "Under the condition that the platform approves content, the platform publishes content."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A2",
+              "prover9_expression": "approves(platform,content)",
+              "natural": "The platform approves content."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The platform publishes content."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(publishes(platform,content) -> platform_operational(platform))",
+              "natural": "If the platform publishes content, then the platform is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "publishes(platform,content)",
+              "natural": "The platform publishes content."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The platform is operational."
+        }
+      ]
+    }
+  ]
+}

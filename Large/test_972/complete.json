@@ -1,0 +1,2127 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 10,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 3
+      },
+      "2": {
+        "core": 1,
+        "branch": 2
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 0
+      },
+      "5": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(paper_approved(journal) -> article_published(paper))",
+        "natural": "If the journal approves the paper, then the article is published."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(license_signed(author) -> affiliation_confirmed(institution))",
+        "natural": "Provided that the author signs the license, the affiliation with the institution is confirmed."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → A9)",
+        "prover9_expression": "(affiliation_confirmed(institution) -> copyright_agreed(author))",
+        "natural": "Under the condition that the affiliation with the institution is confirmed, the author agrees to the copyright terms."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A13 ∨ ¬A12)",
+        "prover9_expression": "(formatting_complete(paper) | -publication_delayed(paper))",
+        "natural": "Either formatting for the paper is complete or publication is not delayed."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A14 → A15)",
+        "prover9_expression": "(ethics_approved(committee) -> conflict_disclosed(author))",
+        "natural": "If the committee grants ethics approval, then the author discloses conflicts of interest."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A15 → ¬A13)",
+        "prover9_expression": "(conflict_disclosed(author) -> -formatting_complete(paper))",
+        "natural": "Whenever the author discloses conflicts of interest, it is not the case that formatting is complete for the paper."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 → G)",
+        "prover9_expression": "(funding_acknowledged(grant) -> article_published(paper))",
+        "natural": "Under the condition that the grant is acknowledged for funding, the article is published."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(grant_provided(agency) -> funding_acknowledged(grant))",
+        "natural": "If the agency provides the grant, then the grant is acknowledged for funding."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A2 → A25)",
+        "prover9_expression": "(manuscript_submitted(author,paper) -> authorship_verified(coauthor))",
+        "natural": "Whenever the author submits the manuscript for the paper, the coauthor's authorship is verified."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A2 → A3)",
+        "prover9_expression": "(manuscript_submitted(author,paper) -> research_completed(team,paper))",
+        "natural": "If the author submits the manuscript for the paper, then the team completes the research for the paper."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A22 ∨ A23)",
+        "prover9_expression": "(algorithm_used(system) | manual_check_performed(editor))",
+        "natural": "Either the system uses an algorithm or the editor performs a manual check."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A23 → (A20 → A21))",
+        "prover9_expression": "(manual_check_performed(editor) -> (plagiarism_detected(paper) -> retraction_issued(journal)))",
+        "natural": "Whenever the editor performs a manual check, then if plagiarism is detected in the paper, the journal issues a retraction."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A24 ∨ (A22 → (A20 → A21)))",
+        "prover9_expression": "(false_positive(match) | (algorithm_used(system) -> (plagiarism_detected(paper) -> retraction_issued(journal))))",
+        "natural": "Either the match is a false positive or, if the system uses an algorithm, then if plagiarism is detected in the paper, the journal issues a retraction."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A25 → A26)",
+        "prover9_expression": "(authorship_verified(coauthor) -> contribution_documented(coauthor))",
+        "natural": "Provided that the coauthor's authorship is verified, the coauthor's contribution is documented."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A27 → (A26 → A1))",
+        "prover9_expression": "(orcid_linked(researcher) -> (contribution_documented(coauthor) -> paper_approved(journal)))",
+        "natural": "Under the condition that the researcher's ORCID is linked, then if the coauthor's contribution is documented, the journal approves the paper."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A27 ∨ A28)",
+        "prover9_expression": "(orcid_linked(researcher) | email_verified(address))",
+        "natural": "Either the researcher's ORCID is linked or the email address is verified."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A30 → A32)",
+        "prover9_expression": "(coauthor_contacted(correspondent) -> response_received(author))",
+        "natural": "Under the condition that the correspondent contacts the coauthor, a response is received from the author."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A30 ∨ A31)",
+        "prover9_expression": "(coauthor_contacted(correspondent) | institution_contacted(official))",
+        "natural": "Either the correspondent contacts the coauthor or the official is contacted at the institution."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A31 → ¬A29)",
+        "prover9_expression": "(institution_contacted(official) -> -authorship_disputed(paper))",
+        "natural": "Whenever the official is contacted at the institution, the authorship of the paper is not disputed."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A34 ∨ (A33 ∨ (A32 → ¬A29)))",
+        "prover9_expression": "(exception_granted(editor) | (deadline_extended(journal) | (response_received(author) -> -authorship_disputed(paper))))",
+        "natural": "Either the editor grants an exception or, either the journal extends the deadline or, if a response is received from the author, then the authorship of the paper is not disputed."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A35 → A1)",
+        "prover9_expression": "(methodology_validated(reviewer) -> paper_approved(journal))",
+        "natural": "Under the condition that the reviewer validates the methodology, the journal approves the paper."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A36 → A35)",
+        "prover9_expression": "(data_available(repository) -> methodology_validated(reviewer))",
+        "natural": "Provided that the data is available in the repository, the reviewer validates the methodology."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A38 → A37)",
+        "prover9_expression": "(dataset_uploaded(team) -> supplementary_materials(submitted))",
+        "natural": "Whenever the team uploads the dataset, supplementary materials are submitted."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A38 ∨ A39)",
+        "prover9_expression": "(dataset_uploaded(team) | code_shared(platform))",
+        "natural": "Either the team uploads the dataset or the code is shared on the platform."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A39 → (A3 → A36))",
+        "prover9_expression": "(code_shared(platform) -> (research_completed(team,paper) -> data_available(repository)))",
+        "natural": "If the code is shared on the platform, then provided that the team completes the research for the paper, the data is available in the repository."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A41 ∨ (A40 → (¬(A3 → A1) → ¬A4)))",
+        "prover9_expression": "(resubmission_allowed(journal) | (submission_withdrawn(author) -> (-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper))))",
+        "natural": "Either the journal allows resubmission or, if the author withdraws the submission, then if it is not the case that if the team completes the research for the paper then the journal approves the paper, then the preprint for the paper is not released."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A43 → (A42 ∨ ¬A41))",
+        "prover9_expression": "(revision_completed(author) -> (major_revisions_required(paper) | -resubmission_allowed(journal)))",
+        "natural": "Provided that the author completes the revisions, then either major revisions are required for the paper or resubmission is not allowed by the journal."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A45 → A44)",
+        "prover9_expression": "(publication_scheduled(issue) -> acceptance_notified(editor))",
+        "natural": "Whenever publication is scheduled for the issue, the editor notifies acceptance."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A46 ∨ (A10 → A9))",
+        "prover9_expression": "(license_agreement(signed) | (license_signed(author) -> copyright_agreed(author)))",
+        "natural": "Either the license agreement is signed or, if the author signs the license, then the author agrees to the copyright terms."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A47 ∨ ¬A46)",
+        "prover9_expression": "(open_access_selected(option) | -license_agreement(signed))",
+        "natural": "Either the open access option is selected or the license agreement is not signed."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A48 → ¬A47)",
+        "prover9_expression": "(apc_paid(institution) -> -open_access_selected(option))",
+        "natural": "If the institution pays the APC, then it is not the case that the open access option is selected."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A49 → A48)",
+        "prover9_expression": "(invoice_processed(administrator) -> apc_paid(institution))",
+        "natural": "Under the condition that the administrator processes the invoice, the institution pays the APC."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A51 → A50)",
+        "prover9_expression": "(exclusive_rights(granted) -> traditional_license(chosen))",
+        "natural": "Provided that exclusive rights are granted, the traditional license is chosen."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A53 → A54)",
+        "prover9_expression": "(publishing_agreement(executed) -> rights_retained(author))",
+        "natural": "If the publishing agreement is executed, then the author retains rights."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A54 → A52)",
+        "prover9_expression": "(rights_retained(author) -> copyright_transferred(publisher))",
+        "natural": "Under the condition that the author retains rights, copyright is transferred to the publisher."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A7 → A6)",
+        "prover9_expression": "(reviewer_assigned(reviewer,paper) -> peer_review_requested(paper))",
+        "natural": "Provided that the reviewer is assigned to the paper, a peer review is requested for the paper."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(reviewer_assigned(reviewer,paper) | editor_assigned(editor,paper))",
+        "natural": "Either the reviewer is assigned to the paper or the editor is assigned to the paper."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬(A10 → A9) → ¬A50)",
+        "prover9_expression": "(-(license_signed(author) -> copyright_agreed(author)) -> -traditional_license(chosen))",
+        "natural": "Under the condition that it is not the case that if the author signs the license then the author agrees to the copyright terms, it is not the case that the traditional license is chosen."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(¬(A28 → (A26 → A1)) → A29)",
+        "prover9_expression": "(-(email_verified(address) -> (contribution_documented(coauthor) -> paper_approved(journal))) -> authorship_disputed(paper))",
+        "natural": "If it is not the case that if the email address is verified then, if the coauthor's contribution is documented, the journal approves the paper, then the authorship of the paper is disputed."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(¬(A3 → A1) → A4)",
+        "prover9_expression": "(-(research_completed(team,paper) -> paper_approved(journal)) -> preprint_released(paper))",
+        "natural": "Provided that it is not the case that if the team completes the research for the paper then the journal approves the paper, the preprint for the paper is released."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(¬(A8 → G) → A10)",
+        "prover9_expression": "(-(editor_assigned(editor,paper) -> article_published(paper)) -> license_signed(author))",
+        "natural": "Under the condition that it is not the case that if the editor is assigned to the paper then the article is published, the author signs the license."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(¬(A8 → G) → ¬A9)",
+        "prover9_expression": "(-(editor_assigned(editor,paper) -> article_published(paper)) -> -copyright_agreed(author))",
+        "natural": "Provided that it is not the case that if the editor is assigned to the paper then the article is published, it is not the case that the author agrees to the copyright terms."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(¬(¬(A10 → A9) → A51) → A53)",
+        "prover9_expression": "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> publishing_agreement(executed))",
+        "natural": "Under the condition that it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, the publishing agreement is executed."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(¬(¬(A10 → A9) → A51) → ¬A52)",
+        "prover9_expression": "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> -copyright_transferred(publisher))",
+        "natural": "If it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, then it is not the case that copyright is transferred to the publisher."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(¬(¬(A3 → A1) → ¬A4) → A5)",
+        "prover9_expression": "(-(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)) -> embargo_violated(paper))",
+        "natural": "Provided that it is not the case that if it is not the case that if the team completes the research for the paper then the journal approves the paper, then it is not the case that the preprint for the paper is released, the embargo for the paper is violated."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(¬(¬(A3 → A1) → ¬A4) → ¬A5)",
+        "prover9_expression": "(-(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)) -> -embargo_violated(paper))",
+        "natural": "Whenever it is not the case that if it is not the case that if the team completes the research for the paper then the journal approves the paper, then it is not the case that the preprint for the paper is released, it is not the case that the embargo for the paper is violated."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(¬(¬A17 → ¬A18) → A19)",
+        "prover9_expression": "(-(-grant_provided(agency) -> -cost_incurred(author)) -> fee_waived(paper))",
+        "natural": "Under the condition that it is not the case that if it is not the case that the agency provides the grant then it is not the case that the author incurs costs, the fee for the paper is waived."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(¬A17 → A18)",
+        "prover9_expression": "(-grant_provided(agency) -> cost_incurred(author))",
+        "natural": "If it is not the case that the agency provides the grant, then the author incurs costs."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(¬A43 → A45)",
+        "prover9_expression": "(-revision_completed(author) -> publication_scheduled(issue))",
+        "natural": "If it is not the case that the author completes the revisions, then publication is scheduled for the issue."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(¬G → A12)",
+        "prover9_expression": "(-article_published(paper) -> publication_delayed(paper))",
+        "natural": "Under the condition that the article is not published, the publication of the paper is delayed."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(¬G → A20)",
+        "prover9_expression": "(-article_published(paper) -> plagiarism_detected(paper))",
+        "natural": "Provided that the article is not published, plagiarism is detected in the paper."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A14",
+        "prover9_expression": "ethics_approved(committee)",
+        "natural": "The committee has granted ethics approval."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A2",
+        "prover9_expression": "manuscript_submitted(author,paper)",
+        "natural": "The author has submitted the manuscript for the paper."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A40",
+        "prover9_expression": "submission_withdrawn(author)",
+        "natural": "The author has withdrawn the submission."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A49",
+        "prover9_expression": "invoice_processed(administrator)",
+        "natural": "The administrator has processed the invoice."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A19",
+        "prover9_expression": "-fee_waived(paper)",
+        "natural": "It is not the case that the fee for the paper is waived."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A21",
+        "prover9_expression": "-retraction_issued(journal)",
+        "natural": "It is not the case that the journal has issued a retraction."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A24",
+        "prover9_expression": "-false_positive(match)",
+        "natural": "It is not the case that the match is a false positive."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A33",
+        "prover9_expression": "-deadline_extended(journal)",
+        "natural": "It is not the case that the journal has extended the deadline."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A34",
+        "prover9_expression": "-exception_granted(editor)",
+        "natural": "It is not the case that the editor has granted an exception."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A37",
+        "prover9_expression": "-supplementary_materials(submitted)",
+        "natural": "It is not the case that supplementary materials have been submitted."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A42",
+        "prover9_expression": "-major_revisions_required(paper)",
+        "natural": "It is not the case that major revisions are required for the paper."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A44",
+        "prover9_expression": "-acceptance_notified(editor)",
+        "natural": "It is not the case that the editor has notified acceptance."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A6",
+        "prover9_expression": "-peer_review_requested(paper)",
+        "natural": "It is not the case that a peer review has been requested for the paper."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "article_published(paper)",
+    "natural": "The article is published."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A3 -> A1) -> -A4) -> A5)",
+            "(-(-(A3 -> A1) -> -A4) -> -A5)"
+          ],
+          "conclusion": "(-(A3 -> A1) -> -A4)",
+          "natural": "Whenever it is not the case that if the team completes the research for the paper then the journal approves the paper, it is not the case that the preprint for the paper is released."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 -> A1) -> A4)",
+            "(-(A3 -> A1) -> -A4)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Provided that the team completes the research for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that the author submits the manuscript for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> A1)",
+            "A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The journal has approved the paper."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A11 -> A9)"
+          ],
+          "conclusion": "(A10 -> A9)",
+          "natural": "Whenever the author signs the license, the author agrees to the copyright terms."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A8 -> G) -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(-(A8 -> G) -> A9)",
+          "natural": "If it is not the case that if the editor is assigned to the paper then the article is published, then the author agrees to the copyright terms."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A8 -> G) -> A9)",
+            "(-(A8 -> G) -> -A9)"
+          ],
+          "conclusion": "(A8 -> G)",
+          "natural": "Whenever the editor is assigned to the paper, the article is published."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A7 -> A6)",
+            "(A8 -> G)",
+            "(A7 | A8)"
+          ],
+          "conclusion": "(A6 | G)",
+          "natural": "Either a peer review is requested for the paper or the article is published."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | G)",
+            "-A6"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A15)",
+            "(A15 -> -A13)"
+          ],
+          "conclusion": "(A14 -> -A13)",
+          "natural": "Provided that ethics approval is given by the committee, formatting is not complete for the paper."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> -A13)",
+            "A14"
+          ],
+          "conclusion": "-A13",
+          "natural": "It is not the case that the formatting for the paper is complete."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | -A12)",
+            "-A13"
+          ],
+          "conclusion": "-A12",
+          "natural": "It is not the case that the publication of the paper is delayed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A12)",
+            "-A12"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A17 -> -A18) -> A19)",
+            "-A19"
+          ],
+          "conclusion": "(-A17 -> -A18)",
+          "natural": "Provided that it is not the case that the agency provides the grant, it is not the case that the author incurs costs."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A17 -> A18)",
+            "(-A17 -> -A18)"
+          ],
+          "conclusion": "A17",
+          "natural": "The agency has provided the grant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> A16)",
+            "A17"
+          ],
+          "conclusion": "A16",
+          "natural": "The grant has been acknowledged for funding."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> G)",
+            "A16"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A24 | (A22 -> (A20 -> A21)))",
+            "-A24"
+          ],
+          "conclusion": "(A22 -> (A20 -> A21))",
+          "natural": "Provided that the system uses an algorithm, then if plagiarism is detected in the paper, the journal issues a retraction."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A22 | A23)",
+            "(A22 -> (A20 -> A21))",
+            "(A23 -> (A20 -> A21))"
+          ],
+          "conclusion": "(A20 -> A21)",
+          "natural": "Under the condition that plagiarism is detected in the paper, the journal issues a retraction."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A20 -> A21)",
+            "-A21"
+          ],
+          "conclusion": "-A20",
+          "natural": "It is not the case that plagiarism is detected in the paper."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A20)",
+            "-A20"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A34 | (A33 | (A32 -> -A29)))",
+            "-A34"
+          ],
+          "conclusion": "(A33 | (A32 -> -A29))",
+          "natural": "Either the journal extends the deadline or, if a response is received from the author, then the authorship of the paper is not disputed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A33 | (A32 -> -A29))",
+            "-A33"
+          ],
+          "conclusion": "(A32 -> -A29)",
+          "natural": "If a response is received from the author, then the authorship of the paper is not disputed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A30 -> A32)",
+            "(A32 -> -A29)"
+          ],
+          "conclusion": "(A30 -> -A29)",
+          "natural": "Provided that the correspondent contacts the coauthor, it is not the case that the authorship of the paper is disputed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A30 | A31)",
+            "(A30 -> -A29)",
+            "(A31 -> -A29)"
+          ],
+          "conclusion": "-A29",
+          "natural": "It is not the case that the authorship of the paper is disputed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A28 -> (A26 -> A1)) -> A29)",
+            "-A29"
+          ],
+          "conclusion": "(A28 -> (A26 -> A1))",
+          "natural": "If the email address is verified, then provided that the coauthor's contribution is documented, the journal approves the paper."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A27 | A28)",
+            "(A27 -> (A26 -> A1))",
+            "(A28 -> (A26 -> A1))"
+          ],
+          "conclusion": "(A26 -> A1)",
+          "natural": "Whenever the coauthor's contribution is documented, the journal approves the paper."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A25 -> A26)",
+            "(A26 -> A1)"
+          ],
+          "conclusion": "(A25 -> A1)",
+          "natural": "If the coauthor's authorship is verified, then the journal approves the paper."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A25)",
+            "(A25 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that the author submits the manuscript for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> A1)",
+            "A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The journal has approved the paper."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A38 -> A37)",
+            "(A39 -> (A3 -> A36))",
+            "(A38 | A39)"
+          ],
+          "conclusion": "(A37 | (A3 -> A36))",
+          "natural": "Either supplementary materials are submitted or, if the team completes the research for the paper, then the data is available in the repository."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A37 | (A3 -> A36))",
+            "-A37"
+          ],
+          "conclusion": "(A3 -> A36)",
+          "natural": "If the team completes the research for the paper, then the data is available in the repository."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A36)",
+            "(A36 -> A35)"
+          ],
+          "conclusion": "(A3 -> A35)",
+          "natural": "Whenever the team completes the research for the paper, the reviewer validates the methodology."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A35)",
+            "(A35 -> A1)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Provided that the team completes the research for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that the author submits the manuscript for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> A1)",
+            "A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The journal has approved the paper."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A43 -> A45)",
+            "(A45 -> A44)"
+          ],
+          "conclusion": "(-A43 -> A44)",
+          "natural": "Whenever it is not the case that the author completes the revisions, the editor notifies acceptance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A43 -> A44)",
+            "-A44"
+          ],
+          "conclusion": "A43",
+          "natural": "The author has completed the revisions."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A43 -> (A42 | -A41))",
+            "A43"
+          ],
+          "conclusion": "(A42 | -A41)",
+          "natural": "Either major revisions are required for the paper or resubmission is not allowed by the journal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A42 | -A41)",
+            "-A42"
+          ],
+          "conclusion": "-A41",
+          "natural": "It is not the case that the journal allows resubmission."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A41 | (A40 -> (-(A3 -> A1) -> -A4)))",
+            "-A41"
+          ],
+          "conclusion": "(A40 -> (-(A3 -> A1) -> -A4))",
+          "natural": "Under the condition that the author withdraws the submission, then if it is not the case that if the team completes the research for the paper then the journal approves the paper, then the preprint for the paper is not released."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A40 -> (-(A3 -> A1) -> -A4))",
+            "A40"
+          ],
+          "conclusion": "(-(A3 -> A1) -> -A4)",
+          "natural": "Whenever it is not the case that if the team completes the research for the paper then the journal approves the paper, it is not the case that the preprint for the paper is released."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 -> A1) -> A4)",
+            "(-(A3 -> A1) -> -A4)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Provided that the team completes the research for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that the author submits the manuscript for the paper, the journal approves the paper."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> A1)",
+            "A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The journal has approved the paper."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A49 -> A48)",
+            "A49"
+          ],
+          "conclusion": "A48",
+          "natural": "The institution has paid the APC."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A48 -> -A47)",
+            "A48"
+          ],
+          "conclusion": "-A47",
+          "natural": "It is not the case that the open access option has been selected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A47 | -A46)",
+            "-A47"
+          ],
+          "conclusion": "-A46",
+          "natural": "It is not the case that the license agreement has been signed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A46 | (A10 -> A9))",
+            "-A46"
+          ],
+          "conclusion": "(A10 -> A9)",
+          "natural": "Whenever the author signs the license, the author agrees to the copyright terms."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A8 -> G) -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(-(A8 -> G) -> A9)",
+          "natural": "If it is not the case that if the editor is assigned to the paper then the article is published, then the author agrees to the copyright terms."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A8 -> G) -> A9)",
+            "(-(A8 -> G) -> -A9)"
+          ],
+          "conclusion": "(A8 -> G)",
+          "natural": "Whenever the editor is assigned to the paper, the article is published."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A7 -> A6)",
+            "(A8 -> G)",
+            "(A7 | A8)"
+          ],
+          "conclusion": "(A6 | G)",
+          "natural": "Either a peer review is requested for the paper or the article is published."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | G)",
+            "-A6"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A53 -> A54)",
+            "(A54 -> A52)"
+          ],
+          "conclusion": "(A53 -> A52)",
+          "natural": "Whenever the publishing agreement is executed, copyright is transferred to the publisher."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(A10 -> A9) -> A51) -> A53)",
+            "(A53 -> A52)"
+          ],
+          "conclusion": "(-(-(A10 -> A9) -> A51) -> A52)",
+          "natural": "Whenever it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, copyright is transferred to the publisher."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A10 -> A9) -> A51) -> A52)",
+            "(-(-(A10 -> A9) -> A51) -> -A52)"
+          ],
+          "conclusion": "(-(A10 -> A9) -> A51)",
+          "natural": "Provided that it is not the case that if the author signs the license then the author agrees to the copyright terms, exclusive rights are granted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A10 -> A9) -> A51)",
+            "(A51 -> A50)"
+          ],
+          "conclusion": "(-(A10 -> A9) -> A50)",
+          "natural": "If it is not the case that if the author signs the license then the author agrees to the copyright terms, then the traditional license is chosen."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A10 -> A9) -> A50)",
+            "(-(A10 -> A9) -> -A50)"
+          ],
+          "conclusion": "(A10 -> A9)",
+          "natural": "Whenever the author signs the license, the author agrees to the copyright terms."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A8 -> G) -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(-(A8 -> G) -> A9)",
+          "natural": "If it is not the case that if the editor is assigned to the paper then the article is published, then the author agrees to the copyright terms."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A8 -> G) -> A9)",
+            "(-(A8 -> G) -> -A9)"
+          ],
+          "conclusion": "(A8 -> G)",
+          "natural": "Whenever the editor is assigned to the paper, the article is published."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A7 -> A6)",
+            "(A8 -> G)",
+            "(A7 | A8)"
+          ],
+          "conclusion": "(A6 | G)",
+          "natural": "Either a peer review is requested for the paper or the article is published."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | G)",
+            "-A6"
+          ],
+          "conclusion": "G",
+          "natural": "The article is published."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Academic Publishing",
+    "atomic_facts": {
+      "A1": "paper_approved(journal)",
+      "A2": "manuscript_submitted(author,paper)",
+      "A3": "research_completed(team,paper)",
+      "A4": "preprint_released(paper)",
+      "A5": "embargo_violated(paper)",
+      "A6": "peer_review_requested(paper)",
+      "A7": "reviewer_assigned(reviewer,paper)",
+      "A8": "editor_assigned(editor,paper)",
+      "A9": "copyright_agreed(author)",
+      "A10": "license_signed(author)",
+      "A11": "affiliation_confirmed(institution)",
+      "A12": "publication_delayed(paper)",
+      "A13": "formatting_complete(paper)",
+      "A14": "ethics_approved(committee)",
+      "A15": "conflict_disclosed(author)",
+      "A16": "funding_acknowledged(grant)",
+      "A17": "grant_provided(agency)",
+      "A18": "cost_incurred(author)",
+      "A19": "fee_waived(paper)",
+      "A20": "plagiarism_detected(paper)",
+      "A21": "retraction_issued(journal)",
+      "A22": "algorithm_used(system)",
+      "A23": "manual_check_performed(editor)",
+      "A24": "false_positive(match)",
+      "A25": "authorship_verified(coauthor)",
+      "A26": "contribution_documented(coauthor)",
+      "A27": "orcid_linked(researcher)",
+      "A28": "email_verified(address)",
+      "A29": "authorship_disputed(paper)",
+      "A30": "coauthor_contacted(correspondent)",
+      "A31": "institution_contacted(official)",
+      "A32": "response_received(author)",
+      "A33": "deadline_extended(journal)",
+      "A34": "exception_granted(editor)",
+      "A35": "methodology_validated(reviewer)",
+      "A36": "data_available(repository)",
+      "A37": "supplementary_materials(submitted)",
+      "A38": "dataset_uploaded(team)",
+      "A39": "code_shared(platform)",
+      "A40": "submission_withdrawn(author)",
+      "A41": "resubmission_allowed(journal)",
+      "A42": "major_revisions_required(paper)",
+      "A43": "revision_completed(author)",
+      "A44": "acceptance_notified(editor)",
+      "A45": "publication_scheduled(issue)",
+      "A46": "license_agreement(signed)",
+      "A47": "open_access_selected(option)",
+      "A48": "apc_paid(institution)",
+      "A49": "invoice_processed(administrator)",
+      "A50": "traditional_license(chosen)",
+      "A51": "exclusive_rights(granted)",
+      "A52": "copyright_transferred(publisher)",
+      "A53": "publishing_agreement(executed)",
+      "A54": "rights_retained(author)",
+      "G": "article_published(paper)"
+    },
+    "natural_facts": {
+      "A1": "The journal has approved the paper.",
+      "A2": "The author has submitted the manuscript for the paper.",
+      "A3": "The team has completed the research for the paper.",
+      "A4": "The preprint for the paper has been released.",
+      "A5": "The embargo for the paper has been violated.",
+      "A6": "A peer review has been requested for the paper.",
+      "A7": "The reviewer has been assigned to the paper.",
+      "A8": "The editor has been assigned to the paper.",
+      "A9": "The author has agreed to the copyright terms.",
+      "A10": "The author has signed the license.",
+      "A11": "The affiliation with the institution has been confirmed.",
+      "A12": "The publication of the paper has been delayed.",
+      "A13": "The formatting for the paper is complete.",
+      "A14": "The committee has granted ethics approval.",
+      "A15": "The author has disclosed conflicts of interest.",
+      "A16": "The grant has been acknowledged for funding.",
+      "A17": "The agency has provided the grant.",
+      "A18": "The author has incurred costs.",
+      "A19": "The fee for the paper has been waived.",
+      "A20": "Plagiarism has been detected in the paper.",
+      "A21": "The journal has issued a retraction.",
+      "A22": "The system has used an algorithm.",
+      "A23": "The editor has performed a manual check.",
+      "A24": "The match is a false positive.",
+      "A25": "The coauthor's authorship has been verified.",
+      "A26": "The coauthor's contribution has been documented.",
+      "A27": "The researcher's ORCID has been linked.",
+      "A28": "The email address has been verified.",
+      "A29": "The authorship of the paper is disputed.",
+      "A30": "The correspondent has contacted the coauthor.",
+      "A31": "The official has been contacted at the institution.",
+      "A32": "A response has been received from the author.",
+      "A33": "The journal has extended the deadline.",
+      "A34": "The editor has granted an exception.",
+      "A35": "The reviewer has validated the methodology.",
+      "A36": "The data is available in the repository.",
+      "A37": "Supplementary materials have been submitted.",
+      "A38": "The team has uploaded the dataset.",
+      "A39": "The code has been shared on the platform.",
+      "A40": "The author has withdrawn the submission.",
+      "A41": "The journal allows resubmission.",
+      "A42": "Major revisions are required for the paper.",
+      "A43": "The author has completed the revisions.",
+      "A44": "The editor has notified acceptance.",
+      "A45": "Publication has been scheduled for the issue.",
+      "A46": "The license agreement has been signed.",
+      "A47": "The open access option has been selected.",
+      "A48": "The institution has paid the APC.",
+      "A49": "The administrator has processed the invoice.",
+      "A50": "The traditional license has been chosen.",
+      "A51": "Exclusive rights have been granted.",
+      "A52": "Copyright has been transferred to the publisher.",
+      "A53": "The publishing agreement has been executed.",
+      "A54": "The author has retained rights."
+    },
+    "prover9_expressions": [
+      "(paper_approved(journal) -> article_published(paper))",
+      "(license_signed(author) -> affiliation_confirmed(institution))",
+      "(license_signed(author) -> copyright_agreed(author))",
+      "(affiliation_confirmed(institution) -> copyright_agreed(author))",
+      "(formatting_complete(paper) | -publication_delayed(paper))",
+      "(ethics_approved(committee) -> conflict_disclosed(author))",
+      "(ethics_approved(committee) -> -formatting_complete(paper))",
+      "(conflict_disclosed(author) -> -formatting_complete(paper))",
+      "(funding_acknowledged(grant) -> article_published(paper))",
+      "(grant_provided(agency) -> funding_acknowledged(grant))",
+      "(manuscript_submitted(author,paper) -> paper_approved(journal))",
+      "(manuscript_submitted(author,paper) -> authorship_verified(coauthor))",
+      "(manuscript_submitted(author,paper) -> research_completed(team,paper))",
+      "(plagiarism_detected(paper) -> retraction_issued(journal))",
+      "(algorithm_used(system) -> (plagiarism_detected(paper) -> retraction_issued(journal)))",
+      "(algorithm_used(system) | manual_check_performed(editor))",
+      "(manual_check_performed(editor) -> (plagiarism_detected(paper) -> retraction_issued(journal)))",
+      "(false_positive(match) | (algorithm_used(system) -> (plagiarism_detected(paper) -> retraction_issued(journal))))",
+      "(authorship_verified(coauthor) -> paper_approved(journal))",
+      "(authorship_verified(coauthor) -> contribution_documented(coauthor))",
+      "(contribution_documented(coauthor) -> paper_approved(journal))",
+      "(orcid_linked(researcher) -> (contribution_documented(coauthor) -> paper_approved(journal)))",
+      "(orcid_linked(researcher) | email_verified(address))",
+      "(email_verified(address) -> (contribution_documented(coauthor) -> paper_approved(journal)))",
+      "(research_completed(team,paper) -> paper_approved(journal))",
+      "(research_completed(team,paper) -> methodology_validated(reviewer))",
+      "(research_completed(team,paper) -> data_available(repository))",
+      "(coauthor_contacted(correspondent) -> response_received(author))",
+      "(coauthor_contacted(correspondent) -> -authorship_disputed(paper))",
+      "(coauthor_contacted(correspondent) | institution_contacted(official))",
+      "(institution_contacted(official) -> -authorship_disputed(paper))",
+      "(response_received(author) -> -authorship_disputed(paper))",
+      "(deadline_extended(journal) | (response_received(author) -> -authorship_disputed(paper)))",
+      "(exception_granted(editor) | (deadline_extended(journal) | (response_received(author) -> -authorship_disputed(paper))))",
+      "(methodology_validated(reviewer) -> paper_approved(journal))",
+      "(data_available(repository) -> methodology_validated(reviewer))",
+      "(supplementary_materials(submitted) | (research_completed(team,paper) -> data_available(repository)))",
+      "(dataset_uploaded(team) -> supplementary_materials(submitted))",
+      "(dataset_uploaded(team) | code_shared(platform))",
+      "(code_shared(platform) -> (research_completed(team,paper) -> data_available(repository)))",
+      "(submission_withdrawn(author) -> (-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)))",
+      "(resubmission_allowed(journal) | (submission_withdrawn(author) -> (-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper))))",
+      "(major_revisions_required(paper) | -resubmission_allowed(journal))",
+      "(revision_completed(author) -> (major_revisions_required(paper) | -resubmission_allowed(journal)))",
+      "(publication_scheduled(issue) -> acceptance_notified(editor))",
+      "(license_agreement(signed) | (license_signed(author) -> copyright_agreed(author)))",
+      "(open_access_selected(option) | -license_agreement(signed))",
+      "(apc_paid(institution) -> -open_access_selected(option))",
+      "(invoice_processed(administrator) -> apc_paid(institution))",
+      "(exclusive_rights(granted) -> traditional_license(chosen))",
+      "(publishing_agreement(executed) -> copyright_transferred(publisher))",
+      "(publishing_agreement(executed) -> rights_retained(author))",
+      "(rights_retained(author) -> copyright_transferred(publisher))",
+      "(peer_review_requested(paper) | article_published(paper))",
+      "(reviewer_assigned(reviewer,paper) -> peer_review_requested(paper))",
+      "(reviewer_assigned(reviewer,paper) | editor_assigned(editor,paper))",
+      "(editor_assigned(editor,paper) -> article_published(paper))",
+      "(-(license_signed(author) -> copyright_agreed(author)) -> traditional_license(chosen))",
+      "(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted))",
+      "(-(license_signed(author) -> copyright_agreed(author)) -> -traditional_license(chosen))",
+      "(-(email_verified(address) -> (contribution_documented(coauthor) -> paper_approved(journal))) -> authorship_disputed(paper))",
+      "(-(research_completed(team,paper) -> paper_approved(journal)) -> preprint_released(paper))",
+      "(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper))",
+      "(-(editor_assigned(editor,paper) -> article_published(paper)) -> license_signed(author))",
+      "(-(editor_assigned(editor,paper) -> article_published(paper)) -> copyright_agreed(author))",
+      "(-(editor_assigned(editor,paper) -> article_published(paper)) -> -copyright_agreed(author))",
+      "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> copyright_transferred(publisher))",
+      "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> publishing_agreement(executed))",
+      "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> -copyright_transferred(publisher))",
+      "(-(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)) -> embargo_violated(paper))",
+      "(-(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)) -> -embargo_violated(paper))",
+      "(-(-grant_provided(agency) -> -cost_incurred(author)) -> fee_waived(paper))",
+      "(-grant_provided(agency) -> cost_incurred(author))",
+      "(-grant_provided(agency) -> -cost_incurred(author))",
+      "(-revision_completed(author) -> acceptance_notified(editor))",
+      "(-revision_completed(author) -> publication_scheduled(issue))",
+      "(-article_published(paper) -> publication_delayed(paper))",
+      "(-article_published(paper) -> plagiarism_detected(paper))",
+      "paper_approved(journal)",
+      "ethics_approved(committee)",
+      "funding_acknowledged(grant)",
+      "grant_provided(agency)",
+      "manuscript_submitted(author,paper)",
+      "submission_withdrawn(author)",
+      "revision_completed(author)",
+      "apc_paid(institution)",
+      "invoice_processed(administrator)",
+      "article_published(paper)",
+      "-publication_delayed(paper)",
+      "-formatting_complete(paper)",
+      "-fee_waived(paper)",
+      "-plagiarism_detected(paper)",
+      "-retraction_issued(journal)",
+      "-false_positive(match)",
+      "-authorship_disputed(paper)",
+      "-deadline_extended(journal)",
+      "-exception_granted(editor)",
+      "-supplementary_materials(submitted)",
+      "-resubmission_allowed(journal)",
+      "-major_revisions_required(paper)",
+      "-acceptance_notified(editor)",
+      "-license_agreement(signed)",
+      "-open_access_selected(option)",
+      "-peer_review_requested(paper)"
+    ],
+    "natural_expressions": [
+      "If the journal approves the paper, then the article is published.",
+      "Provided that the author signs the license, the affiliation with the institution is confirmed.",
+      "Whenever the author signs the license, the author agrees to the copyright terms.",
+      "Under the condition that the affiliation with the institution is confirmed, the author agrees to the copyright terms.",
+      "Either formatting for the paper is complete or publication is not delayed.",
+      "If the committee grants ethics approval, then the author discloses conflicts of interest.",
+      "Provided that ethics approval is given by the committee, formatting is not complete for the paper.",
+      "Whenever the author discloses conflicts of interest, it is not the case that formatting is complete for the paper.",
+      "Under the condition that the grant is acknowledged for funding, the article is published.",
+      "If the agency provides the grant, then the grant is acknowledged for funding.",
+      "Provided that the author submits the manuscript for the paper, the journal approves the paper.",
+      "Whenever the author submits the manuscript for the paper, the coauthor's authorship is verified.",
+      "If the author submits the manuscript for the paper, then the team completes the research for the paper.",
+      "Under the condition that plagiarism is detected in the paper, the journal issues a retraction.",
+      "Provided that the system uses an algorithm, then if plagiarism is detected in the paper, the journal issues a retraction.",
+      "Either the system uses an algorithm or the editor performs a manual check.",
+      "Whenever the editor performs a manual check, then if plagiarism is detected in the paper, the journal issues a retraction.",
+      "Either the match is a false positive or, if the system uses an algorithm, then if plagiarism is detected in the paper, the journal issues a retraction.",
+      "If the coauthor's authorship is verified, then the journal approves the paper.",
+      "Provided that the coauthor's authorship is verified, the coauthor's contribution is documented.",
+      "Whenever the coauthor's contribution is documented, the journal approves the paper.",
+      "Under the condition that the researcher's ORCID is linked, then if the coauthor's contribution is documented, the journal approves the paper.",
+      "Either the researcher's ORCID is linked or the email address is verified.",
+      "If the email address is verified, then provided that the coauthor's contribution is documented, the journal approves the paper.",
+      "Provided that the team completes the research for the paper, the journal approves the paper.",
+      "Whenever the team completes the research for the paper, the reviewer validates the methodology.",
+      "If the team completes the research for the paper, then the data is available in the repository.",
+      "Under the condition that the correspondent contacts the coauthor, a response is received from the author.",
+      "Provided that the correspondent contacts the coauthor, it is not the case that the authorship of the paper is disputed.",
+      "Either the correspondent contacts the coauthor or the official is contacted at the institution.",
+      "Whenever the official is contacted at the institution, the authorship of the paper is not disputed.",
+      "If a response is received from the author, then the authorship of the paper is not disputed.",
+      "Either the journal extends the deadline or, if a response is received from the author, then the authorship of the paper is not disputed.",
+      "Either the editor grants an exception or, either the journal extends the deadline or, if a response is received from the author, then the authorship of the paper is not disputed.",
+      "Under the condition that the reviewer validates the methodology, the journal approves the paper.",
+      "Provided that the data is available in the repository, the reviewer validates the methodology.",
+      "Either supplementary materials are submitted or, if the team completes the research for the paper, then the data is available in the repository.",
+      "Whenever the team uploads the dataset, supplementary materials are submitted.",
+      "Either the team uploads the dataset or the code is shared on the platform.",
+      "If the code is shared on the platform, then provided that the team completes the research for the paper, the data is available in the repository.",
+      "Under the condition that the author withdraws the submission, then if it is not the case that if the team completes the research for the paper then the journal approves the paper, then the preprint for the paper is not released.",
+      "Either the journal allows resubmission or, if the author withdraws the submission, then if it is not the case that if the team completes the research for the paper then the journal approves the paper, then the preprint for the paper is not released.",
+      "Either major revisions are required for the paper or resubmission is not allowed by the journal.",
+      "Provided that the author completes the revisions, then either major revisions are required for the paper or resubmission is not allowed by the journal.",
+      "Whenever publication is scheduled for the issue, the editor notifies acceptance.",
+      "Either the license agreement is signed or, if the author signs the license, then the author agrees to the copyright terms.",
+      "Either the open access option is selected or the license agreement is not signed.",
+      "If the institution pays the APC, then it is not the case that the open access option is selected.",
+      "Under the condition that the administrator processes the invoice, the institution pays the APC.",
+      "Provided that exclusive rights are granted, the traditional license is chosen.",
+      "Whenever the publishing agreement is executed, copyright is transferred to the publisher.",
+      "If the publishing agreement is executed, then the author retains rights.",
+      "Under the condition that the author retains rights, copyright is transferred to the publisher.",
+      "Either a peer review is requested for the paper or the article is published.",
+      "Provided that the reviewer is assigned to the paper, a peer review is requested for the paper.",
+      "Either the reviewer is assigned to the paper or the editor is assigned to the paper.",
+      "Whenever the editor is assigned to the paper, the article is published.",
+      "If it is not the case that if the author signs the license then the author agrees to the copyright terms, then the traditional license is chosen.",
+      "Provided that it is not the case that if the author signs the license then the author agrees to the copyright terms, exclusive rights are granted.",
+      "Under the condition that it is not the case that if the author signs the license then the author agrees to the copyright terms, it is not the case that the traditional license is chosen.",
+      "If it is not the case that if the email address is verified then, if the coauthor's contribution is documented, the journal approves the paper, then the authorship of the paper is disputed.",
+      "Provided that it is not the case that if the team completes the research for the paper then the journal approves the paper, the preprint for the paper is released.",
+      "Whenever it is not the case that if the team completes the research for the paper then the journal approves the paper, it is not the case that the preprint for the paper is released.",
+      "Under the condition that it is not the case that if the editor is assigned to the paper then the article is published, the author signs the license.",
+      "If it is not the case that if the editor is assigned to the paper then the article is published, then the author agrees to the copyright terms.",
+      "Provided that it is not the case that if the editor is assigned to the paper then the article is published, it is not the case that the author agrees to the copyright terms.",
+      "Whenever it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, copyright is transferred to the publisher.",
+      "Under the condition that it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, the publishing agreement is executed.",
+      "If it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, then it is not the case that copyright is transferred to the publisher.",
+      "Provided that it is not the case that if it is not the case that if the team completes the research for the paper then the journal approves the paper, then it is not the case that the preprint for the paper is released, the embargo for the paper is violated.",
+      "Whenever it is not the case that if it is not the case that if the team completes the research for the paper then the journal approves the paper, then it is not the case that the preprint for the paper is released, it is not the case that the embargo for the paper is violated.",
+      "Under the condition that it is not the case that if it is not the case that the agency provides the grant then it is not the case that the author incurs costs, the fee for the paper is waived.",
+      "If it is not the case that the agency provides the grant, then the author incurs costs.",
+      "Provided that it is not the case that the agency provides the grant, it is not the case that the author incurs costs.",
+      "Whenever it is not the case that the author completes the revisions, the editor notifies acceptance.",
+      "If it is not the case that the author completes the revisions, then publication is scheduled for the issue.",
+      "Under the condition that the article is not published, the publication of the paper is delayed.",
+      "Provided that the article is not published, plagiarism is detected in the paper.",
+      "The journal has approved the paper.",
+      "The committee has granted ethics approval.",
+      "The grant has been acknowledged for funding.",
+      "The agency has provided the grant.",
+      "The author has submitted the manuscript for the paper.",
+      "The author has withdrawn the submission.",
+      "The author has completed the revisions.",
+      "The institution has paid the APC.",
+      "The administrator has processed the invoice.",
+      "The article is published.",
+      "It is not the case that the publication of the paper is delayed.",
+      "It is not the case that the formatting for the paper is complete.",
+      "It is not the case that the fee for the paper is waived.",
+      "It is not the case that plagiarism is detected in the paper.",
+      "It is not the case that the journal has issued a retraction.",
+      "It is not the case that the match is a false positive.",
+      "It is not the case that the authorship of the paper is disputed.",
+      "It is not the case that the journal has extended the deadline.",
+      "It is not the case that the editor has granted an exception.",
+      "It is not the case that supplementary materials have been submitted.",
+      "It is not the case that the journal allows resubmission.",
+      "It is not the case that major revisions are required for the paper.",
+      "It is not the case that the editor has notified acceptance.",
+      "It is not the case that the license agreement has been signed.",
+      "It is not the case that the open access option has been selected.",
+      "It is not the case that a peer review has been requested for the paper."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(paper_approved(journal) -> article_published(paper))",
+        "natural": "If the journal approves the paper, then the article is published."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(license_signed(author) -> affiliation_confirmed(institution))",
+        "natural": "Provided that the author signs the license, the affiliation with the institution is confirmed."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(license_signed(author) -> copyright_agreed(author))",
+        "natural": "Whenever the author signs the license, the author agrees to the copyright terms."
+      },
+      "(A11 → A9)": {
+        "formal": "(A11 → A9)",
+        "prover9": "(A11 -> A9)",
+        "prover9_expression": "(affiliation_confirmed(institution) -> copyright_agreed(author))",
+        "natural": "Under the condition that the affiliation with the institution is confirmed, the author agrees to the copyright terms."
+      },
+      "(A13 ∨ ¬A12)": {
+        "formal": "(A13 ∨ ¬A12)",
+        "prover9": "(A13 | -A12)",
+        "prover9_expression": "(formatting_complete(paper) | -publication_delayed(paper))",
+        "natural": "Either formatting for the paper is complete or publication is not delayed."
+      },
+      "(A14 → A15)": {
+        "formal": "(A14 → A15)",
+        "prover9": "(A14 -> A15)",
+        "prover9_expression": "(ethics_approved(committee) -> conflict_disclosed(author))",
+        "natural": "If the committee grants ethics approval, then the author discloses conflicts of interest."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(ethics_approved(committee) -> -formatting_complete(paper))",
+        "natural": "Provided that ethics approval is given by the committee, formatting is not complete for the paper."
+      },
+      "(A15 → ¬A13)": {
+        "formal": "(A15 → ¬A13)",
+        "prover9": "(A15 -> -A13)",
+        "prover9_expression": "(conflict_disclosed(author) -> -formatting_complete(paper))",
+        "natural": "Whenever the author discloses conflicts of interest, it is not the case that formatting is complete for the paper."
+      },
+      "(A16 → G)": {
+        "formal": "(A16 → G)",
+        "prover9": "(A16 -> G)",
+        "prover9_expression": "(funding_acknowledged(grant) -> article_published(paper))",
+        "natural": "Under the condition that the grant is acknowledged for funding, the article is published."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(grant_provided(agency) -> funding_acknowledged(grant))",
+        "natural": "If the agency provides the grant, then the grant is acknowledged for funding."
+      },
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(manuscript_submitted(author,paper) -> paper_approved(journal))",
+        "natural": "Provided that the author submits the manuscript for the paper, the journal approves the paper."
+      },
+      "(A2 → A25)": {
+        "formal": "(A2 → A25)",
+        "prover9": "(A2 -> A25)",
+        "prover9_expression": "(manuscript_submitted(author,paper) -> authorship_verified(coauthor))",
+        "natural": "Whenever the author submits the manuscript for the paper, the coauthor's authorship is verified."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(manuscript_submitted(author,paper) -> research_completed(team,paper))",
+        "natural": "If the author submits the manuscript for the paper, then the team completes the research for the paper."
+      },
+      "(A20 → A21)": {
+        "formal": "(A20 → A21)",
+        "prover9": "(A20 -> A21)",
+        "prover9_expression": "(plagiarism_detected(paper) -> retraction_issued(journal))",
+        "natural": "Under the condition that plagiarism is detected in the paper, the journal issues a retraction."
+      },
+      "(A22 → (A20 → A21))": {
+        "formal": "(A22 → (A20 → A21))",
+        "prover9": "(A22 -> (A20 -> A21))",
+        "prover9_expression": "(algorithm_used(system) -> (plagiarism_detected(paper) -> retraction_issued(journal)))",
+        "natural": "Provided that the system uses an algorithm, then if plagiarism is detected in the paper, the journal issues a retraction."
+      },
+      "(A22 ∨ A23)": {
+        "formal": "(A22 ∨ A23)",
+        "prover9": "(A22 | A23)",
+        "prover9_expression": "(algorithm_used(system) | manual_check_performed(editor))",
+        "natural": "Either the system uses an algorithm or the editor performs a manual check."
+      },
+      "(A23 → (A20 → A21))": {
+        "formal": "(A23 → (A20 → A21))",
+        "prover9": "(A23 -> (A20 -> A21))",
+        "prover9_expression": "(manual_check_performed(editor) -> (plagiarism_detected(paper) -> retraction_issued(journal)))",
+        "natural": "Whenever the editor performs a manual check, then if plagiarism is detected in the paper, the journal issues a retraction."
+      },
+      "(A24 ∨ (A22 → (A20 → A21)))": {
+        "formal": "(A24 ∨ (A22 → (A20 → A21)))",
+        "prover9": "(A24 | (A22 -> (A20 -> A21)))",
+        "prover9_expression": "(false_positive(match) | (algorithm_used(system) -> (plagiarism_detected(paper) -> retraction_issued(journal))))",
+        "natural": "Either the match is a false positive or, if the system uses an algorithm, then if plagiarism is detected in the paper, the journal issues a retraction."
+      },
+      "(A25 → A1)": {
+        "formal": "(A25 → A1)",
+        "prover9": "(A25 -> A1)",
+        "prover9_expression": "(authorship_verified(coauthor) -> paper_approved(journal))",
+        "natural": "If the coauthor's authorship is verified, then the journal approves the paper."
+      },
+      "(A25 → A26)": {
+        "formal": "(A25 → A26)",
+        "prover9": "(A25 -> A26)",
+        "prover9_expression": "(authorship_verified(coauthor) -> contribution_documented(coauthor))",
+        "natural": "Provided that the coauthor's authorship is verified, the coauthor's contribution is documented."
+      },
+      "(A26 → A1)": {
+        "formal": "(A26 → A1)",
+        "prover9": "(A26 -> A1)",
+        "prover9_expression": "(contribution_documented(coauthor) -> paper_approved(journal))",
+        "natural": "Whenever the coauthor's contribution is documented, the journal approves the paper."
+      },
+      "(A27 → (A26 → A1))": {
+        "formal": "(A27 → (A26 → A1))",
+        "prover9": "(A27 -> (A26 -> A1))",
+        "prover9_expression": "(orcid_linked(researcher) -> (contribution_documented(coauthor) -> paper_approved(journal)))",
+        "natural": "Under the condition that the researcher's ORCID is linked, then if the coauthor's contribution is documented, the journal approves the paper."
+      },
+      "(A27 ∨ A28)": {
+        "formal": "(A27 ∨ A28)",
+        "prover9": "(A27 | A28)",
+        "prover9_expression": "(orcid_linked(researcher) | email_verified(address))",
+        "natural": "Either the researcher's ORCID is linked or the email address is verified."
+      },
+      "(A28 → (A26 → A1))": {
+        "formal": "(A28 → (A26 → A1))",
+        "prover9": "(A28 -> (A26 -> A1))",
+        "prover9_expression": "(email_verified(address) -> (contribution_documented(coauthor) -> paper_approved(journal)))",
+        "natural": "If the email address is verified, then provided that the coauthor's contribution is documented, the journal approves the paper."
+      },
+      "(A3 → A1)": {
+        "formal": "(A3 → A1)",
+        "prover9": "(A3 -> A1)",
+        "prover9_expression": "(research_completed(team,paper) -> paper_approved(journal))",
+        "natural": "Provided that the team completes the research for the paper, the journal approves the paper."
+      },
+      "(A3 → A35)": {
+        "formal": "(A3 → A35)",
+        "prover9": "(A3 -> A35)",
+        "prover9_expression": "(research_completed(team,paper) -> methodology_validated(reviewer))",
+        "natural": "Whenever the team completes the research for the paper, the reviewer validates the methodology."
+      },
+      "(A3 → A36)": {
+        "formal": "(A3 → A36)",
+        "prover9": "(A3 -> A36)",
+        "prover9_expression": "(research_completed(team,paper) -> data_available(repository))",
+        "natural": "If the team completes the research for the paper, then the data is available in the repository."
+      },
+      "(A30 → A32)": {
+        "formal": "(A30 → A32)",
+        "prover9": "(A30 -> A32)",
+        "prover9_expression": "(coauthor_contacted(correspondent) -> response_received(author))",
+        "natural": "Under the condition that the correspondent contacts the coauthor, a response is received from the author."
+      },
+      "(A30 → ¬A29)": {
+        "formal": "(A30 → ¬A29)",
+        "prover9": "(A30 -> -A29)",
+        "prover9_expression": "(coauthor_contacted(correspondent) -> -authorship_disputed(paper))",
+        "natural": "Provided that the correspondent contacts the coauthor, it is not the case that the authorship of the paper is disputed."
+      },
+      "(A30 ∨ A31)": {
+        "formal": "(A30 ∨ A31)",
+        "prover9": "(A30 | A31)",
+        "prover9_expression": "(coauthor_contacted(correspondent) | institution_contacted(official))",
+        "natural": "Either the correspondent contacts the coauthor or the official is contacted at the institution."
+      },
+      "(A31 → ¬A29)": {
+        "formal": "(A31 → ¬A29)",
+        "prover9": "(A31 -> -A29)",
+        "prover9_expression": "(institution_contacted(official) -> -authorship_disputed(paper))",
+        "natural": "Whenever the official is contacted at the institution, the authorship of the paper is not disputed."
+      },
+      "(A32 → ¬A29)": {
+        "formal": "(A32 → ¬A29)",
+        "prover9": "(A32 -> -A29)",
+        "prover9_expression": "(response_received(author) -> -authorship_disputed(paper))",
+        "natural": "If a response is received from the author, then the authorship of the paper is not disputed."
+      },
+      "(A33 ∨ (A32 → ¬A29))": {
+        "formal": "(A33 ∨ (A32 → ¬A29))",
+        "prover9": "(A33 | (A32 -> -A29))",
+        "prover9_expression": "(deadline_extended(journal) | (response_received(author) -> -authorship_disputed(paper)))",
+        "natural": "Either the journal extends the deadline or, if a response is received from the author, then the authorship of the paper is not disputed."
+      },
+      "(A34 ∨ (A33 ∨ (A32 → ¬A29)))": {
+        "formal": "(A34 ∨ (A33 ∨ (A32 → ¬A29)))",
+        "prover9": "(A34 | (A33 | (A32 -> -A29)))",
+        "prover9_expression": "(exception_granted(editor) | (deadline_extended(journal) | (response_received(author) -> -authorship_disputed(paper))))",
+        "natural": "Either the editor grants an exception or, either the journal extends the deadline or, if a response is received from the author, then the authorship of the paper is not disputed."
+      },
+      "(A35 → A1)": {
+        "formal": "(A35 → A1)",
+        "prover9": "(A35 -> A1)",
+        "prover9_expression": "(methodology_validated(reviewer) -> paper_approved(journal))",
+        "natural": "Under the condition that the reviewer validates the methodology, the journal approves the paper."
+      },
+      "(A36 → A35)": {
+        "formal": "(A36 → A35)",
+        "prover9": "(A36 -> A35)",
+        "prover9_expression": "(data_available(repository) -> methodology_validated(reviewer))",
+        "natural": "Provided that the data is available in the repository, the reviewer validates the methodology."
+      },
+      "(A37 ∨ (A3 → A36))": {
+        "formal": "(A37 ∨ (A3 → A36))",
+        "prover9": "(A37 | (A3 -> A36))",
+        "prover9_expression": "(supplementary_materials(submitted) | (research_completed(team,paper) -> data_available(repository)))",
+        "natural": "Either supplementary materials are submitted or, if the team completes the research for the paper, then the data is available in the repository."
+      },
+      "(A38 → A37)": {
+        "formal": "(A38 → A37)",
+        "prover9": "(A38 -> A37)",
+        "prover9_expression": "(dataset_uploaded(team) -> supplementary_materials(submitted))",
+        "natural": "Whenever the team uploads the dataset, supplementary materials are submitted."
+      },
+      "(A38 ∨ A39)": {
+        "formal": "(A38 ∨ A39)",
+        "prover9": "(A38 | A39)",
+        "prover9_expression": "(dataset_uploaded(team) | code_shared(platform))",
+        "natural": "Either the team uploads the dataset or the code is shared on the platform."
+      },
+      "(A39 → (A3 → A36))": {
+        "formal": "(A39 → (A3 → A36))",
+        "prover9": "(A39 -> (A3 -> A36))",
+        "prover9_expression": "(code_shared(platform) -> (research_completed(team,paper) -> data_available(repository)))",
+        "natural": "If the code is shared on the platform, then provided that the team completes the research for the paper, the data is available in the repository."
+      },
+      "(A40 → (¬(A3 → A1) → ¬A4))": {
+        "formal": "(A40 → (¬(A3 → A1) → ¬A4))",
+        "prover9": "(A40 -> (-(A3 -> A1) -> -A4))",
+        "prover9_expression": "(submission_withdrawn(author) -> (-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)))",
+        "natural": "Under the condition that the author withdraws the submission, then if it is not the case that if the team completes the research for the paper then the journal approves the paper, then the preprint for the paper is not released."
+      },
+      "(A41 ∨ (A40 → (¬(A3 → A1) → ¬A4)))": {
+        "formal": "(A41 ∨ (A40 → (¬(A3 → A1) → ¬A4)))",
+        "prover9": "(A41 | (A40 -> (-(A3 -> A1) -> -A4)))",
+        "prover9_expression": "(resubmission_allowed(journal) | (submission_withdrawn(author) -> (-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper))))",
+        "natural": "Either the journal allows resubmission or, if the author withdraws the submission, then if it is not the case that if the team completes the research for the paper then the journal approves the paper, then the preprint for the paper is not released."
+      },
+      "(A42 ∨ ¬A41)": {
+        "formal": "(A42 ∨ ¬A41)",
+        "prover9": "(A42 | -A41)",
+        "prover9_expression": "(major_revisions_required(paper) | -resubmission_allowed(journal))",
+        "natural": "Either major revisions are required for the paper or resubmission is not allowed by the journal."
+      },
+      "(A43 → (A42 ∨ ¬A41))": {
+        "formal": "(A43 → (A42 ∨ ¬A41))",
+        "prover9": "(A43 -> (A42 | -A41))",
+        "prover9_expression": "(revision_completed(author) -> (major_revisions_required(paper) | -resubmission_allowed(journal)))",
+        "natural": "Provided that the author completes the revisions, then either major revisions are required for the paper or resubmission is not allowed by the journal."
+      },
+      "(A45 → A44)": {
+        "formal": "(A45 → A44)",
+        "prover9": "(A45 -> A44)",
+        "prover9_expression": "(publication_scheduled(issue) -> acceptance_notified(editor))",
+        "natural": "Whenever publication is scheduled for the issue, the editor notifies acceptance."
+      },
+      "(A46 ∨ (A10 → A9))": {
+        "formal": "(A46 ∨ (A10 → A9))",
+        "prover9": "(A46 | (A10 -> A9))",
+        "prover9_expression": "(license_agreement(signed) | (license_signed(author) -> copyright_agreed(author)))",
+        "natural": "Either the license agreement is signed or, if the author signs the license, then the author agrees to the copyright terms."
+      },
+      "(A47 ∨ ¬A46)": {
+        "formal": "(A47 ∨ ¬A46)",
+        "prover9": "(A47 | -A46)",
+        "prover9_expression": "(open_access_selected(option) | -license_agreement(signed))",
+        "natural": "Either the open access option is selected or the license agreement is not signed."
+      },
+      "(A48 → ¬A47)": {
+        "formal": "(A48 → ¬A47)",
+        "prover9": "(A48 -> -A47)",
+        "prover9_expression": "(apc_paid(institution) -> -open_access_selected(option))",
+        "natural": "If the institution pays the APC, then it is not the case that the open access option is selected."
+      },
+      "(A49 → A48)": {
+        "formal": "(A49 → A48)",
+        "prover9": "(A49 -> A48)",
+        "prover9_expression": "(invoice_processed(administrator) -> apc_paid(institution))",
+        "natural": "Under the condition that the administrator processes the invoice, the institution pays the APC."
+      },
+      "(A51 → A50)": {
+        "formal": "(A51 → A50)",
+        "prover9": "(A51 -> A50)",
+        "prover9_expression": "(exclusive_rights(granted) -> traditional_license(chosen))",
+        "natural": "Provided that exclusive rights are granted, the traditional license is chosen."
+      },
+      "(A53 → A52)": {
+        "formal": "(A53 → A52)",
+        "prover9": "(A53 -> A52)",
+        "prover9_expression": "(publishing_agreement(executed) -> copyright_transferred(publisher))",
+        "natural": "Whenever the publishing agreement is executed, copyright is transferred to the publisher."
+      },
+      "(A53 → A54)": {
+        "formal": "(A53 → A54)",
+        "prover9": "(A53 -> A54)",
+        "prover9_expression": "(publishing_agreement(executed) -> rights_retained(author))",
+        "natural": "If the publishing agreement is executed, then the author retains rights."
+      },
+      "(A54 → A52)": {
+        "formal": "(A54 → A52)",
+        "prover9": "(A54 -> A52)",
+        "prover9_expression": "(rights_retained(author) -> copyright_transferred(publisher))",
+        "natural": "Under the condition that the author retains rights, copyright is transferred to the publisher."
+      },
+      "(A6 ∨ G)": {
+        "formal": "(A6 ∨ G)",
+        "prover9": "(A6 | G)",
+        "prover9_expression": "(peer_review_requested(paper) | article_published(paper))",
+        "natural": "Either a peer review is requested for the paper or the article is published."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(reviewer_assigned(reviewer,paper) -> peer_review_requested(paper))",
+        "natural": "Provided that the reviewer is assigned to the paper, a peer review is requested for the paper."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(reviewer_assigned(reviewer,paper) | editor_assigned(editor,paper))",
+        "natural": "Either the reviewer is assigned to the paper or the editor is assigned to the paper."
+      },
+      "(A8 → G)": {
+        "formal": "(A8 → G)",
+        "prover9": "(A8 -> G)",
+        "prover9_expression": "(editor_assigned(editor,paper) -> article_published(paper))",
+        "natural": "Whenever the editor is assigned to the paper, the article is published."
+      },
+      "(¬(A10 → A9) → A50)": {
+        "formal": "(¬(A10 → A9) → A50)",
+        "prover9": "(-(A10 -> A9) -> A50)",
+        "prover9_expression": "(-(license_signed(author) -> copyright_agreed(author)) -> traditional_license(chosen))",
+        "natural": "If it is not the case that if the author signs the license then the author agrees to the copyright terms, then the traditional license is chosen."
+      },
+      "(¬(A10 → A9) → A51)": {
+        "formal": "(¬(A10 → A9) → A51)",
+        "prover9": "(-(A10 -> A9) -> A51)",
+        "prover9_expression": "(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted))",
+        "natural": "Provided that it is not the case that if the author signs the license then the author agrees to the copyright terms, exclusive rights are granted."
+      },
+      "(¬(A10 → A9) → ¬A50)": {
+        "formal": "(¬(A10 → A9) → ¬A50)",
+        "prover9": "(-(A10 -> A9) -> -A50)",
+        "prover9_expression": "(-(license_signed(author) -> copyright_agreed(author)) -> -traditional_license(chosen))",
+        "natural": "Under the condition that it is not the case that if the author signs the license then the author agrees to the copyright terms, it is not the case that the traditional license is chosen."
+      },
+      "(¬(A28 → (A26 → A1)) → A29)": {
+        "formal": "(¬(A28 → (A26 → A1)) → A29)",
+        "prover9": "(-(A28 -> (A26 -> A1)) -> A29)",
+        "prover9_expression": "(-(email_verified(address) -> (contribution_documented(coauthor) -> paper_approved(journal))) -> authorship_disputed(paper))",
+        "natural": "If it is not the case that if the email address is verified then, if the coauthor's contribution is documented, the journal approves the paper, then the authorship of the paper is disputed."
+      },
+      "(¬(A3 → A1) → A4)": {
+        "formal": "(¬(A3 → A1) → A4)",
+        "prover9": "(-(A3 -> A1) -> A4)",
+        "prover9_expression": "(-(research_completed(team,paper) -> paper_approved(journal)) -> preprint_released(paper))",
+        "natural": "Provided that it is not the case that if the team completes the research for the paper then the journal approves the paper, the preprint for the paper is released."
+      },
+      "(¬(A3 → A1) → ¬A4)": {
+        "formal": "(¬(A3 → A1) → ¬A4)",
+        "prover9": "(-(A3 -> A1) -> -A4)",
+        "prover9_expression": "(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper))",
+        "natural": "Whenever it is not the case that if the team completes the research for the paper then the journal approves the paper, it is not the case that the preprint for the paper is released."
+      },
+      "(¬(A8 → G) → A10)": {
+        "formal": "(¬(A8 → G) → A10)",
+        "prover9": "(-(A8 -> G) -> A10)",
+        "prover9_expression": "(-(editor_assigned(editor,paper) -> article_published(paper)) -> license_signed(author))",
+        "natural": "Under the condition that it is not the case that if the editor is assigned to the paper then the article is published, the author signs the license."
+      },
+      "(¬(A8 → G) → A9)": {
+        "formal": "(¬(A8 → G) → A9)",
+        "prover9": "(-(A8 -> G) -> A9)",
+        "prover9_expression": "(-(editor_assigned(editor,paper) -> article_published(paper)) -> copyright_agreed(author))",
+        "natural": "If it is not the case that if the editor is assigned to the paper then the article is published, then the author agrees to the copyright terms."
+      },
+      "(¬(A8 → G) → ¬A9)": {
+        "formal": "(¬(A8 → G) → ¬A9)",
+        "prover9": "(-(A8 -> G) -> -A9)",
+        "prover9_expression": "(-(editor_assigned(editor,paper) -> article_published(paper)) -> -copyright_agreed(author))",
+        "natural": "Provided that it is not the case that if the editor is assigned to the paper then the article is published, it is not the case that the author agrees to the copyright terms."
+      },
+      "(¬(¬(A10 → A9) → A51) → A52)": {
+        "formal": "(¬(¬(A10 → A9) → A51) → A52)",
+        "prover9": "(-(-(A10 -> A9) -> A51) -> A52)",
+        "prover9_expression": "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> copyright_transferred(publisher))",
+        "natural": "Whenever it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, copyright is transferred to the publisher."
+      },
+      "(¬(¬(A10 → A9) → A51) → A53)": {
+        "formal": "(¬(¬(A10 → A9) → A51) → A53)",
+        "prover9": "(-(-(A10 -> A9) -> A51) -> A53)",
+        "prover9_expression": "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> publishing_agreement(executed))",
+        "natural": "Under the condition that it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, the publishing agreement is executed."
+      },
+      "(¬(¬(A10 → A9) → A51) → ¬A52)": {
+        "formal": "(¬(¬(A10 → A9) → A51) → ¬A52)",
+        "prover9": "(-(-(A10 -> A9) -> A51) -> -A52)",
+        "prover9_expression": "(-(-(license_signed(author) -> copyright_agreed(author)) -> exclusive_rights(granted)) -> -copyright_transferred(publisher))",
+        "natural": "If it is not the case that if it is not the case that if the author signs the license then the author agrees to the copyright terms, then exclusive rights are granted, then it is not the case that copyright is transferred to the publisher."
+      },
+      "(¬(¬(A3 → A1) → ¬A4) → A5)": {
+        "formal": "(¬(¬(A3 → A1) → ¬A4) → A5)",
+        "prover9": "(-(-(A3 -> A1) -> -A4) -> A5)",
+        "prover9_expression": "(-(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)) -> embargo_violated(paper))",
+        "natural": "Provided that it is not the case that if it is not the case that if the team completes the research for the paper then the journal approves the paper, then it is not the case that the preprint for the paper is released, the embargo for the paper is violated."
+      },
+      "(¬(¬(A3 → A1) → ¬A4) → ¬A5)": {
+        "formal": "(¬(¬(A3 → A1) → ¬A4) → ¬A5)",
+        "prover9": "(-(-(A3 -> A1) -> -A4) -> -A5)",
+        "prover9_expression": "(-(-(research_completed(team,paper) -> paper_approved(journal)) -> -preprint_released(paper)) -> -embargo_violated(paper))",
+        "natural": "Whenever it is not the case that if it is not the case that if the team completes the research for the paper then the journal approves the paper, then it is not the case that the preprint for the paper is released, it is not the case that the embargo for the paper is violated."
+      },
+      "(¬(¬A17 → ¬A18) → A19)": {
+        "formal": "(¬(¬A17 → ¬A18) → A19)",
+        "prover9": "(-(-A17 -> -A18) -> A19)",
+        "prover9_expression": "(-(-grant_provided(agency) -> -cost_incurred(author)) -> fee_waived(paper))",
+        "natural": "Under the condition that it is not the case that if it is not the case that the agency provides the grant then it is not the case that the author incurs costs, the fee for the paper is waived."
+      },
+      "(¬A17 → A18)": {
+        "formal": "(¬A17 → A18)",
+        "prover9": "(-A17 -> A18)",
+        "prover9_expression": "(-grant_provided(agency) -> cost_incurred(author))",
+        "natural": "If it is not the case that the agency provides the grant, then the author incurs costs."
+      },
+      "(¬A17 → ¬A18)": {
+        "formal": "(¬A17 → ¬A18)",
+        "prover9": "(-A17 -> -A18)",
+        "prover9_expression": "(-grant_provided(agency) -> -cost_incurred(author))",
+        "natural": "Provided that it is not the case that the agency provides the grant, it is not the case that the author incurs costs."
+      },
+      "(¬A43 → A44)": {
+        "formal": "(¬A43 → A44)",
+        "prover9": "(-A43 -> A44)",
+        "prover9_expression": "(-revision_completed(author) -> acceptance_notified(editor))",
+        "natural": "Whenever it is not the case that the author completes the revisions, the editor notifies acceptance."
+      },
+      "(¬A43 → A45)": {
+        "formal": "(¬A43 → A45)",
+        "prover9": "(-A43 -> A45)",
+        "prover9_expression": "(-revision_completed(author) -> publication_scheduled(issue))",
+        "natural": "If it is not the case that the author completes the revisions, then publication is scheduled for the issue."
+      },
+      "(¬G → A12)": {
+        "formal": "(¬G → A12)",
+        "prover9": "(-G -> A12)",
+        "prover9_expression": "(-article_published(paper) -> publication_delayed(paper))",
+        "natural": "Under the condition that the article is not published, the publication of the paper is delayed."
+      },
+      "(¬G → A20)": {
+        "formal": "(¬G → A20)",
+        "prover9": "(-G -> A20)",
+        "prover9_expression": "(-article_published(paper) -> plagiarism_detected(paper))",
+        "natural": "Provided that the article is not published, plagiarism is detected in the paper."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "paper_approved(journal)",
+        "natural": "The journal has approved the paper."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "ethics_approved(committee)",
+        "natural": "The committee has granted ethics approval."
+      },
+      "A16": {
+        "formal": "A16",
+        "prover9": "A16",
+        "prover9_expression": "funding_acknowledged(grant)",
+        "natural": "The grant has been acknowledged for funding."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "grant_provided(agency)",
+        "natural": "The agency has provided the grant."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "manuscript_submitted(author,paper)",
+        "natural": "The author has submitted the manuscript for the paper."
+      },
+      "A40": {
+        "formal": "A40",
+        "prover9": "A40",
+        "prover9_expression": "submission_withdrawn(author)",
+        "natural": "The author has withdrawn the submission."
+      },
+      "A43": {
+        "formal": "A43",
+        "prover9": "A43",
+        "prover9_expression": "revision_completed(author)",
+        "natural": "The author has completed the revisions."
+      },
+      "A48": {
+        "formal": "A48",
+        "prover9": "A48",
+        "prover9_expression": "apc_paid(institution)",
+        "natural": "The institution has paid the APC."
+      },
+      "A49": {
+        "formal": "A49",
+        "prover9": "A49",
+        "prover9_expression": "invoice_processed(administrator)",
+        "natural": "The administrator has processed the invoice."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "article_published(paper)",
+        "natural": "The article is published."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-publication_delayed(paper)",
+        "natural": "It is not the case that the publication of the paper is delayed."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-formatting_complete(paper)",
+        "natural": "It is not the case that the formatting for the paper is complete."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-fee_waived(paper)",
+        "natural": "It is not the case that the fee for the paper is waived."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-plagiarism_detected(paper)",
+        "natural": "It is not the case that plagiarism is detected in the paper."
+      },
+      "¬A21": {
+        "formal": "¬A21",
+        "prover9": "-A21",
+        "prover9_expression": "-retraction_issued(journal)",
+        "natural": "It is not the case that the journal has issued a retraction."
+      },
+      "¬A24": {
+        "formal": "¬A24",
+        "prover9": "-A24",
+        "prover9_expression": "-false_positive(match)",
+        "natural": "It is not the case that the match is a false positive."
+      },
+      "¬A29": {
+        "formal": "¬A29",
+        "prover9": "-A29",
+        "prover9_expression": "-authorship_disputed(paper)",
+        "natural": "It is not the case that the authorship of the paper is disputed."
+      },
+      "¬A33": {
+        "formal": "¬A33",
+        "prover9": "-A33",
+        "prover9_expression": "-deadline_extended(journal)",
+        "natural": "It is not the case that the journal has extended the deadline."
+      },
+      "¬A34": {
+        "formal": "¬A34",
+        "prover9": "-A34",
+        "prover9_expression": "-exception_granted(editor)",
+        "natural": "It is not the case that the editor has granted an exception."
+      },
+      "¬A37": {
+        "formal": "¬A37",
+        "prover9": "-A37",
+        "prover9_expression": "-supplementary_materials(submitted)",
+        "natural": "It is not the case that supplementary materials have been submitted."
+      },
+      "¬A41": {
+        "formal": "¬A41",
+        "prover9": "-A41",
+        "prover9_expression": "-resubmission_allowed(journal)",
+        "natural": "It is not the case that the journal allows resubmission."
+      },
+      "¬A42": {
+        "formal": "¬A42",
+        "prover9": "-A42",
+        "prover9_expression": "-major_revisions_required(paper)",
+        "natural": "It is not the case that major revisions are required for the paper."
+      },
+      "¬A44": {
+        "formal": "¬A44",
+        "prover9": "-A44",
+        "prover9_expression": "-acceptance_notified(editor)",
+        "natural": "It is not the case that the editor has notified acceptance."
+      },
+      "¬A46": {
+        "formal": "¬A46",
+        "prover9": "-A46",
+        "prover9_expression": "-license_agreement(signed)",
+        "natural": "It is not the case that the license agreement has been signed."
+      },
+      "¬A47": {
+        "formal": "¬A47",
+        "prover9": "-A47",
+        "prover9_expression": "-open_access_selected(option)",
+        "natural": "It is not the case that the open access option has been selected."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-peer_review_requested(paper)",
+        "natural": "It is not the case that a peer review has been requested for the paper."
+      }
+    }
+  }
+}

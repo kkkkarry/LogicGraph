@@ -1,0 +1,1231 @@
+{
+  "solution_stats": {
+    "total_solutions": 9,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A5 -> A7)",
+              "prover9_expression": "(batch_testing(drug_x) -> efficacy_testing(drug_x))",
+              "natural": "In the case that batch testing is performed on drug_x, efficacy testing is conducted."
+            },
+            {
+              "id": "Rule45",
+              "prover9": "(A7 -> A6)",
+              "prover9_expression": "(efficacy_testing(drug_x) -> safety_verification(drug_x))",
+              "natural": "Provided efficacy testing is conducted on drug_x, safety verification is completed."
+            }
+          ],
+          "conclusion": "(A5 -> A6)",
+          "natural": "Whenever batch testing is done on drug_x, safety verification is completed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(batch_testing(drug_x) -> safety_verification(drug_x))",
+              "natural": "Whenever batch testing is done on drug_x, safety verification is completed."
+            },
+            {
+              "id": "Rule44",
+              "prover9": "(A6 -> (A2 -> (-G -> -A1)))",
+              "prover9_expression": "(safety_verification(drug_x) -> (regulatory_approval(drug_x) -> (-market_release(drug_x) -> -compound_purity_standards(drug_x))))",
+              "natural": "If safety verification is completed for drug_x, then if regulatory approval is obtained, the lack of market release means compound purity standards are not met."
+            }
+          ],
+          "conclusion": "(A5 -> (A2 -> (-G -> -A1)))",
+          "natural": "If batch testing is performed on drug_x, then if regulatory approval is obtained, the absence of market release implies compound purity standards are not met."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A3 -> A5)",
+              "prover9_expression": "(manufacturing_process(drug_x) -> batch_testing(drug_x))",
+              "natural": "Provided a manufacturing process is in place for drug_x, batch testing is performed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> (A2 -> (-G -> -A1)))",
+              "prover9_expression": "(batch_testing(drug_x) -> (regulatory_approval(drug_x) -> (-market_release(drug_x) -> -compound_purity_standards(drug_x))))",
+              "natural": "If batch testing is performed on drug_x, then if regulatory approval is obtained, the absence of market release implies compound purity standards are not met."
+            }
+          ],
+          "conclusion": "(A3 -> (A2 -> (-G -> -A1)))",
+          "natural": "If a manufacturing process is established for drug_x, then if regulatory approval is obtained, the absence of market release implies compound purity standards are not met."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(manufacturing_process(drug_x) | quality_control(drug_x))",
+              "natural": "Either a manufacturing process is established for drug_x or quality control is implemented."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (A2 -> (-G -> -A1)))",
+              "prover9_expression": "(manufacturing_process(drug_x) -> (regulatory_approval(drug_x) -> (-market_release(drug_x) -> -compound_purity_standards(drug_x))))",
+              "natural": "If a manufacturing process is established for drug_x, then if regulatory approval is obtained, the absence of market release implies compound purity standards are not met."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A4 -> (A2 -> (-G -> -A1)))",
+              "prover9_expression": "(quality_control(drug_x) -> (regulatory_approval(drug_x) -> (-market_release(drug_x) -> -compound_purity_standards(drug_x))))",
+              "natural": "If quality control is implemented for drug_x, then if regulatory approval is obtained, the lack of market release means compound purity standards are not met."
+            }
+          ],
+          "conclusion": "(A2 -> (-G -> -A1))",
+          "natural": "Should regulatory approval be granted for drug_x, then if market release does not happen, compound purity standards are not met."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(regulatory_approval(drug_x) -> (-market_release(drug_x) -> -compound_purity_standards(drug_x)))",
+              "natural": "Should regulatory approval be granted for drug_x, then if market release does not happen, compound purity standards are not met."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A2",
+              "prover9_expression": "regulatory_approval(drug_x)",
+              "natural": "Regulatory approval has been obtained for drug_x."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should market release not occur for drug_x, compound purity standards are not met."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule53",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-market_release(drug_x) -> compound_purity_standards(drug_x))",
+              "natural": "If market release does not occur for drug_x, compound purity standards are met."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-market_release(drug_x) -> -compound_purity_standards(drug_x))",
+              "natural": "Should market release not occur for drug_x, compound purity standards are not met."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule51",
+              "prover9": "(-(A9 -> A11) -> A13)",
+              "prover9_expression": "(-(chemical_synthesis(drug_x) -> purified_compound(drug_x)) -> manufacturing_halt(drug_x))",
+              "natural": "If it is not the case that chemical synthesis leads to purified compound, manufacturing is halted."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A12)",
+              "prover9_expression": "(manufacturing_halt(drug_x) -> contamination_detected(drug_x))",
+              "natural": "Whenever manufacturing is halted for drug_x, it is due to contamination being detected."
+            }
+          ],
+          "conclusion": "(-(A9 -> A11) -> A12)",
+          "natural": "Should the implication from chemical synthesis to purified compound not hold, contamination is detected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A9 -> A11) -> A12)",
+              "prover9_expression": "(-(chemical_synthesis(drug_x) -> purified_compound(drug_x)) -> contamination_detected(drug_x))",
+              "natural": "Should the implication from chemical synthesis to purified compound not hold, contamination is detected."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A12",
+              "prover9_expression": "-contamination_detected(drug_x)",
+              "natural": "It is not the case that contamination is detected in drug_x."
+            }
+          ],
+          "conclusion": "(A9 -> A11)",
+          "natural": "In the case that chemical synthesis is applied to drug_x, a purified compound is obtained."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> A11)",
+              "prover9_expression": "(chemical_synthesis(drug_x) -> purified_compound(drug_x))",
+              "natural": "In the case that chemical synthesis is applied to drug_x, a purified compound is obtained."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(purified_compound(drug_x) -> active_ingredient(drug_x))",
+              "natural": "If a purified compound is obtained for drug_x, then it contains an active ingredient."
+            }
+          ],
+          "conclusion": "(A9 -> A10)",
+          "natural": "Whenever chemical synthesis is used for drug_x, it contains an active ingredient."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> A10)",
+              "prover9_expression": "(chemical_synthesis(drug_x) -> active_ingredient(drug_x))",
+              "natural": "Whenever chemical synthesis is used for drug_x, it contains an active ingredient."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(active_ingredient(drug_x) -> market_release(drug_x))",
+              "natural": "Provided that drug_x contains an active ingredient, it will be released to the market."
+            }
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "Should chemical synthesis be used for drug_x, it will be released to the market."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule47",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(plant_extraction(plant_a) | chemical_synthesis(drug_x))",
+              "natural": "Either plant extraction is done with plant_a or chemical synthesis is used for drug_x."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(A8 -> G)",
+              "prover9_expression": "(plant_extraction(plant_a) -> market_release(drug_x))",
+              "natural": "If plant extraction is carried out using plant_a, market release occurs for drug_x."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> G)",
+              "prover9_expression": "(chemical_synthesis(drug_x) -> market_release(drug_x))",
+              "natural": "Should chemical synthesis be used for drug_x, it will be released to the market."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A18 | -A17)",
+              "prover9_expression": "(automated_check(material_p) | -visual_inspection(material_p))",
+              "natural": "An automated check is performed on material_p, or visual inspection does not occur."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A18",
+              "prover9_expression": "-automated_check(material_p)",
+              "natural": "An automated check is not performed on material_p."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "A visual inspection is not conducted on material_p."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A17 | -A16)",
+              "prover9_expression": "(visual_inspection(material_p) | -packaging_defect(material_p))",
+              "natural": "Either a visual inspection is done on material_p or there is no packaging defect."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-visual_inspection(material_p)",
+              "natural": "A visual inspection is not conducted on material_p."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "No packaging defect is found in material_p."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule48",
+              "prover9": "(-(A14 -> A15) -> A16)",
+              "prover9_expression": "(-(packaging_material(material_p) -> sterile_packaging(material_p)) -> packaging_defect(material_p))",
+              "natural": "If it is not the case that packaging material being material_p implies sterile packaging, then a packaging defect is found."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-packaging_defect(material_p)",
+              "natural": "No packaging defect is found in material_p."
+            }
+          ],
+          "conclusion": "(A14 -> A15)",
+          "natural": "In the event that packaging material is material_p, sterile packaging is ensured for it."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(packaging_material(material_p) -> sterile_packaging(material_p))",
+              "natural": "In the event that packaging material is material_p, sterile packaging is ensured for it."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> -A15)",
+              "prover9_expression": "(packaging_material(material_p) -> -sterile_packaging(material_p))",
+              "natural": "When packaging material is material_p, it is not the case that sterile packaging is provided."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "Material_p is not used as packaging material."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-market_release(drug_x) -> packaging_material(material_p))",
+              "natural": "Whenever market release does not happen for drug_x, packaging material is material_p."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-packaging_material(material_p)",
+              "natural": "Material_p is not used as packaging material."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A24)",
+              "prover9_expression": "(internal_review(drug_x) -> quality_audit(drug_x))",
+              "natural": "Whenever an internal review is done for drug_x, a quality audit is carried out."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "internal_review(drug_x)",
+              "natural": "An internal review is conducted for drug_x."
+            }
+          ],
+          "conclusion": "A24",
+          "natural": "A quality audit is carried out for drug_x."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A24 -> (A22 -> A23))",
+              "prover9_expression": "(quality_audit(drug_x) -> (backup_cooling(vehicle_v) -> emergency_protocol(vehicle_v)))",
+              "natural": "If a quality audit is conducted for drug_x, then if backup cooling is available for vehicle_v, an emergency protocol is in place."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A24",
+              "prover9_expression": "quality_audit(drug_x)",
+              "natural": "A quality audit is carried out for drug_x."
+            }
+          ],
+          "conclusion": "(A22 -> A23)",
+          "natural": "Provided backup cooling is available for vehicle_v, an emergency protocol is in place."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A23)",
+              "prover9_expression": "(backup_cooling(vehicle_v) -> emergency_protocol(vehicle_v))",
+              "natural": "Provided backup cooling is available for vehicle_v, an emergency protocol is in place."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A23 -> -A20)",
+              "prover9_expression": "(emergency_protocol(vehicle_v) -> -temperature_controlled(vehicle_v))",
+              "natural": "Assuming an emergency protocol is in place for vehicle_v, temperature control is not ensured."
+            }
+          ],
+          "conclusion": "(A22 -> -A20)",
+          "natural": "In the event that backup cooling is available for vehicle_v, temperature control is not maintained."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A21 | A22)",
+              "prover9_expression": "(refrigeration_failure(vehicle_v) | backup_cooling(vehicle_v))",
+              "natural": "Either refrigeration failure happens in vehicle_v or backup cooling is available."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A21 -> -A20)",
+              "prover9_expression": "(refrigeration_failure(vehicle_v) -> -temperature_controlled(vehicle_v))",
+              "natural": "Whenever refrigeration failure occurs in vehicle_v, temperature control is not maintained."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> -A20)",
+              "prover9_expression": "(backup_cooling(vehicle_v) -> -temperature_controlled(vehicle_v))",
+              "natural": "In the event that backup cooling is available for vehicle_v, temperature control is not maintained."
+            }
+          ],
+          "conclusion": "-A20",
+          "natural": "Temperature control is not maintained in vehicle_v."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A19 -> A20)",
+              "prover9_expression": "(vehicle_transport(vehicle_v) -> temperature_controlled(vehicle_v))",
+              "natural": "If vehicle_v is used for transport, then it is temperature-controlled."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A20",
+              "prover9_expression": "-temperature_controlled(vehicle_v)",
+              "natural": "Temperature control is not maintained in vehicle_v."
+            }
+          ],
+          "conclusion": "-A19",
+          "natural": "Vehicle_v is not used for transport."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule55",
+              "prover9": "(-G -> A19)",
+              "prover9_expression": "(-market_release(drug_x) -> vehicle_transport(vehicle_v))",
+              "natural": "In the case that market release is absent for drug_x, vehicle_v is used for transport."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A19",
+              "prover9_expression": "-vehicle_transport(vehicle_v)",
+              "natural": "Vehicle_v is not used for transport."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A33 | A34)",
+              "prover9_expression": "(protocol_deviation(drug_x) | standard_procedure(drug_x))",
+              "natural": "A protocol deviation occurs for drug_x, or a standard procedure is followed."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A33 -> (A32 -> A31))",
+              "prover9_expression": "(protocol_deviation(drug_x) -> (retest_required(drug_x) -> test_failure(drug_x)))",
+              "natural": "Whenever a protocol deviation happens for drug_x, if a retest is required, a test failure occurs."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A34 -> (A32 -> A31))",
+              "prover9_expression": "(standard_procedure(drug_x) -> (retest_required(drug_x) -> test_failure(drug_x)))",
+              "natural": "Provided a standard procedure is followed for drug_x, then if a retest is required, a test failure happens."
+            }
+          ],
+          "conclusion": "(A32 -> A31)",
+          "natural": "If a retest is required for drug_x, then a test failure has occurred."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-(A29 -> A30) -> A32)",
+              "prover9_expression": "(-(simulation_complete(drug_x) -> results_analyzed(drug_x)) -> retest_required(drug_x))",
+              "natural": "Provided that the implication from simulation completion to results analysis does not hold, a retest is required."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A32 -> A31)",
+              "prover9_expression": "(retest_required(drug_x) -> test_failure(drug_x))",
+              "natural": "If a retest is required for drug_x, then a test failure has occurred."
+            }
+          ],
+          "conclusion": "(-(A29 -> A30) -> A31)",
+          "natural": "In the event that it is not true that simulation completion leads to results analysis, a test failure occurs."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A29 -> A30) -> A31)",
+              "prover9_expression": "(-(simulation_complete(drug_x) -> results_analyzed(drug_x)) -> test_failure(drug_x))",
+              "natural": "In the event that it is not true that simulation completion leads to results analysis, a test failure occurs."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A31",
+              "prover9_expression": "-test_failure(drug_x)",
+              "natural": "A test failure does not occur for drug_x."
+            }
+          ],
+          "conclusion": "(A29 -> A30)",
+          "natural": "Whenever simulation is completed for drug_x, results are analyzed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A29 -> A30)",
+              "prover9_expression": "(simulation_complete(drug_x) -> results_analyzed(drug_x))",
+              "natural": "Whenever simulation is completed for drug_x, results are analyzed."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A30 -> -A26)",
+              "prover9_expression": "(results_analyzed(drug_x) -> -animal_testing(animal_m))",
+              "natural": "In the event that results are analyzed for drug_x, animal testing does not happen with animal_m."
+            }
+          ],
+          "conclusion": "(A29 -> -A26)",
+          "natural": "Should simulation be completed for drug_x, then animal testing is not performed using animal_m."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A28 -> A29)",
+              "prover9_expression": "(computer_modeling(drug_x) -> simulation_complete(drug_x))",
+              "natural": "If computer modeling is applied to drug_x, then simulation is completed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A29 -> -A26)",
+              "prover9_expression": "(simulation_complete(drug_x) -> -animal_testing(animal_m))",
+              "natural": "Should simulation be completed for drug_x, then animal testing is not performed using animal_m."
+            }
+          ],
+          "conclusion": "(A28 -> -A26)",
+          "natural": "Given that computer modeling is used for drug_x, animal testing does not occur with animal_m."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A27 | A28)",
+              "prover9_expression": "(in_vitro_testing(drug_x) | computer_modeling(drug_x))",
+              "natural": "In vitro testing is done on drug_x, or computer modeling is applied."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A27 -> -A26)",
+              "prover9_expression": "(in_vitro_testing(drug_x) -> -animal_testing(animal_m))",
+              "natural": "Provided that in vitro testing is conducted on drug_x, animal testing does not happen using animal_m."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A28 -> -A26)",
+              "prover9_expression": "(computer_modeling(drug_x) -> -animal_testing(animal_m))",
+              "natural": "Given that computer modeling is used for drug_x, animal testing does not occur with animal_m."
+            }
+          ],
+          "conclusion": "-A26",
+          "natural": "Animal testing is not performed using animal_m."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A26 | G)",
+              "prover9_expression": "(animal_testing(animal_m) | market_release(drug_x))",
+              "natural": "Either animal testing is performed using animal_m or market release occurs for drug_x."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A26",
+              "prover9_expression": "-animal_testing(animal_m)",
+              "natural": "Animal testing is not performed using animal_m."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A37 | (A14 -> A36))",
+              "prover9_expression": "(packaging_approval(material_p) | (packaging_material(material_p) -> moisture_barrier(material_p)))",
+              "natural": "Either packaging approval is granted for material_p, or if packaging material is material_p, a moisture barrier is included."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A37",
+              "prover9_expression": "-packaging_approval(material_p)",
+              "natural": "Packaging approval is not granted for material_p."
+            }
+          ],
+          "conclusion": "(A14 -> A36)",
+          "natural": "Given that packaging material is material_p, it includes a moisture barrier."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A36)",
+              "prover9_expression": "(packaging_material(material_p) -> moisture_barrier(material_p))",
+              "natural": "Given that packaging material is material_p, it includes a moisture barrier."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A36 -> -A35)",
+              "prover9_expression": "(moisture_barrier(material_p) -> -moisture_sensitive(material_p))",
+              "natural": "In the case that a moisture barrier is provided for material_p, it is not sensitive to moisture."
+            }
+          ],
+          "conclusion": "(A14 -> -A35)",
+          "natural": "Whenever packaging material is material_p, it is not sensitive to moisture."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> A35)",
+              "prover9_expression": "(packaging_material(material_p) -> moisture_sensitive(material_p))",
+              "natural": "Assuming packaging material is material_p, it is sensitive to moisture."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> -A35)",
+              "prover9_expression": "(packaging_material(material_p) -> -moisture_sensitive(material_p))",
+              "natural": "Whenever packaging material is material_p, it is not sensitive to moisture."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "Material_p is not used as packaging material."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-market_release(drug_x) -> packaging_material(material_p))",
+              "natural": "Whenever market release does not happen for drug_x, packaging material is material_p."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-packaging_material(material_p)",
+              "natural": "Material_p is not used as packaging material."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A38 -> A40)",
+              "prover9_expression": "(packaging_validation(material_p) -> pressure_test(material_p))",
+              "natural": "Whenever packaging validation is conducted on material_p, a pressure test is performed."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A40 -> A39)",
+              "prover9_expression": "(pressure_test(material_p) -> seal_integrity(material_p))",
+              "natural": "Given that a pressure test is conducted on material_p, seal integrity is ensured."
+            }
+          ],
+          "conclusion": "(A38 -> A39)",
+          "natural": "Provided packaging validation is done on material_p, seal integrity is ensured."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> A39)",
+              "prover9_expression": "(packaging_validation(material_p) -> seal_integrity(material_p))",
+              "natural": "Provided packaging validation is done on material_p, seal integrity is ensured."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A39 -> (A14 -> A15))",
+              "prover9_expression": "(seal_integrity(material_p) -> (packaging_material(material_p) -> sterile_packaging(material_p)))",
+              "natural": "Should seal integrity be ensured for material_p, then if packaging material is material_p, sterile packaging is provided."
+            }
+          ],
+          "conclusion": "(A38 -> (A14 -> A15))",
+          "natural": "If packaging validation is performed on material_p, then if packaging material is material_p, sterile packaging is ensured."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> (A14 -> A15))",
+              "prover9_expression": "(packaging_validation(material_p) -> (packaging_material(material_p) -> sterile_packaging(material_p)))",
+              "natural": "If packaging validation is performed on material_p, then if packaging material is material_p, sterile packaging is ensured."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A38",
+              "prover9_expression": "packaging_validation(material_p)",
+              "natural": "Packaging validation is performed on material_p."
+            }
+          ],
+          "conclusion": "(A14 -> A15)",
+          "natural": "In the event that packaging material is material_p, sterile packaging is ensured for it."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(packaging_material(material_p) -> sterile_packaging(material_p))",
+              "natural": "In the event that packaging material is material_p, sterile packaging is ensured for it."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> -A15)",
+              "prover9_expression": "(packaging_material(material_p) -> -sterile_packaging(material_p))",
+              "natural": "When packaging material is material_p, it is not the case that sterile packaging is provided."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "Material_p is not used as packaging material."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-market_release(drug_x) -> packaging_material(material_p))",
+              "natural": "Whenever market release does not happen for drug_x, packaging material is material_p."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-packaging_material(material_p)",
+              "natural": "Material_p is not used as packaging material."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(A50 -> (-(-(A46 | A47) -> -A48) -> -A49))",
+              "prover9_expression": "(contingency_plan(material_p) -> (-(-(quality_assurance(material_p) | regulatory_compliance(material_p)) -> -material_quarantine(material_p)) -> -supply_suspended(material_p)))",
+              "natural": "If a contingency plan exists for material_p, then if it is not the case that the absence of quality assurance or regulatory compliance leads to no quarantine, supply is not suspended."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A50",
+              "prover9_expression": "contingency_plan(material_p)",
+              "natural": "A contingency plan exists for material_p."
+            }
+          ],
+          "conclusion": "(-(-(A46 | A47) -> -A48) -> -A49)",
+          "natural": "Provided that the condition where not having quality assurance or regulatory compliance leads to no quarantine is false, supply is not suspended."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule52",
+              "prover9": "(-(-(A46 | A47) -> -A48) -> A49)",
+              "prover9_expression": "(-(-(quality_assurance(material_p) | regulatory_compliance(material_p)) -> -material_quarantine(material_p)) -> supply_suspended(material_p))",
+              "natural": "In the event that the negation of the absence of quality assurance or regulatory compliance implying no quarantine does not hold, supply is suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A46 | A47) -> -A48) -> -A49)",
+              "prover9_expression": "(-(-(quality_assurance(material_p) | regulatory_compliance(material_p)) -> -material_quarantine(material_p)) -> -supply_suspended(material_p))",
+              "natural": "Provided that the condition where not having quality assurance or regulatory compliance leads to no quarantine is false, supply is not suspended."
+            }
+          ],
+          "conclusion": "(-(A46 | A47) -> -A48)",
+          "natural": "Whenever it is not true that quality assurance or regulatory compliance occurs, material_p is not quarantined."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-(A46 | A47) -> A48)",
+              "prover9_expression": "(-(quality_assurance(material_p) | regulatory_compliance(material_p)) -> material_quarantine(material_p))",
+              "natural": "If it is not the case that either quality assurance is applied or regulatory compliance is maintained, material_p is quarantined."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A46 | A47) -> -A48)",
+              "prover9_expression": "(-(quality_assurance(material_p) | regulatory_compliance(material_p)) -> -material_quarantine(material_p))",
+              "natural": "Whenever it is not true that quality assurance or regulatory compliance occurs, material_p is not quarantined."
+            }
+          ],
+          "conclusion": "(A46 | A47)",
+          "natural": "Either quality assurance is applied to material_p or regulatory compliance is maintained."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A46 | A47)",
+              "prover9_expression": "(quality_assurance(material_p) | regulatory_compliance(material_p))",
+              "natural": "Either quality assurance is applied to material_p or regulatory compliance is maintained."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(A46 -> (A44 -> (A42 | A43)))",
+              "prover9_expression": "(quality_assurance(material_p) -> (supply_chain_check(material_p) -> (supplier_approved(material_p) | alternate_supplier(material_p))))",
+              "natural": "Should quality assurance be applied to material_p, then if a supply chain check is done, either the supplier is approved or an alternate supplier is available."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A47 -> (A44 -> (A42 | A43)))",
+              "prover9_expression": "(regulatory_compliance(material_p) -> (supply_chain_check(material_p) -> (supplier_approved(material_p) | alternate_supplier(material_p))))",
+              "natural": "Provided regulatory compliance is maintained for material_p, then if a supply chain check is performed, either the supplier is approved or an alternate supplier is available."
+            }
+          ],
+          "conclusion": "(A44 -> (A42 | A43))",
+          "natural": "If a supply chain check is done for material_p, then either the supplier is approved or an alternate supplier is available."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A44 | A45)",
+              "prover9_expression": "(supply_chain_check(material_p) | direct_procurement(material_p))",
+              "natural": "A supply chain check is performed for material_p, or direct procurement is used."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A44 -> (A42 | A43))",
+              "prover9_expression": "(supply_chain_check(material_p) -> (supplier_approved(material_p) | alternate_supplier(material_p)))",
+              "natural": "If a supply chain check is done for material_p, then either the supplier is approved or an alternate supplier is available."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(A45 -> (A42 | A43))",
+              "prover9_expression": "(direct_procurement(material_p) -> (supplier_approved(material_p) | alternate_supplier(material_p)))",
+              "natural": "Whenever direct procurement is used for material_p, either the supplier is approved or an alternate supplier is available."
+            }
+          ],
+          "conclusion": "(A42 | A43)",
+          "natural": "The supplier is approved for material_p, or an alternate supplier is available."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(A42 -> A41)",
+              "prover9_expression": "(supplier_approved(material_p) -> material_certified(material_p))",
+              "natural": "In the event that the supplier is approved for material_p, material_p is certified."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(A43 -> -A14)",
+              "prover9_expression": "(alternate_supplier(material_p) -> -packaging_material(material_p))",
+              "natural": "Provided an alternate supplier is available for material_p, it is not used as packaging material."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A42 | A43)",
+              "prover9_expression": "(supplier_approved(material_p) | alternate_supplier(material_p))",
+              "natural": "The supplier is approved for material_p, or an alternate supplier is available."
+            }
+          ],
+          "conclusion": "(A41 | -A14)",
+          "natural": "Either material_p is certified or it is not used as packaging material."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A41 | -A14)",
+              "prover9_expression": "(material_certified(material_p) | -packaging_material(material_p))",
+              "natural": "Either material_p is certified or it is not used as packaging material."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A41",
+              "prover9_expression": "-material_certified(material_p)",
+              "natural": "Material_p is not certified."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "Material_p is not used as packaging material."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-market_release(drug_x) -> packaging_material(material_p))",
+              "natural": "Whenever market release does not happen for drug_x, packaging material is material_p."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-packaging_material(material_p)",
+              "natural": "Material_p is not used as packaging material."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule43",
+              "prover9": "(A57 -> (A54 -> A56))",
+              "prover9_expression": "(shelf_life_determination(material_p) -> (accelerated_aging(material_p) -> stability_verified(material_p)))",
+              "natural": "In the event that shelf life is determined for material_p, then if accelerated aging is conducted, stability is verified."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "A57",
+              "prover9_expression": "shelf_life_determination(material_p)",
+              "natural": "Shelf life is determined for material_p."
+            }
+          ],
+          "conclusion": "(A54 -> A56)",
+          "natural": "Whenever accelerated aging is done on material_p, stability is verified."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A54 -> A56)",
+              "prover9_expression": "(accelerated_aging(material_p) -> stability_verified(material_p))",
+              "natural": "Whenever accelerated aging is done on material_p, stability is verified."
+            },
+            {
+              "id": "Rule42",
+              "prover9": "(A56 -> A53)",
+              "prover9_expression": "(stability_verified(material_p) -> packaging_stability(material_p))",
+              "natural": "Provided stability is verified for material_p, packaging stability is ensured."
+            }
+          ],
+          "conclusion": "(A54 -> A53)",
+          "natural": "Should accelerated aging be conducted on material_p, packaging stability is verified."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A54 -> A53)",
+              "prover9_expression": "(accelerated_aging(material_p) -> packaging_stability(material_p))",
+              "natural": "Should accelerated aging be conducted on material_p, packaging stability is verified."
+            },
+            {
+              "id": "Rule41",
+              "prover9": "(A55 -> (A14 -> A52))",
+              "prover9_expression": "(real_time_stability(material_p) -> (packaging_material(material_p) -> light_barrier(material_p)))",
+              "natural": "If real-time stability is monitored for material_p, then if packaging material is material_p, a light barrier is used."
+            },
+            {
+              "id": "Rule40",
+              "prover9": "(A54 | A55)",
+              "prover9_expression": "(accelerated_aging(material_p) | real_time_stability(material_p))",
+              "natural": "Either accelerated aging is conducted on material_p or real-time stability is monitored."
+            }
+          ],
+          "conclusion": "(A53 | (A14 -> A52))",
+          "natural": "Either packaging stability is verified for material_p, or if packaging material is material_p, a light barrier is present."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A53 | (A14 -> A52))",
+              "prover9_expression": "(packaging_stability(material_p) | (packaging_material(material_p) -> light_barrier(material_p)))",
+              "natural": "Either packaging stability is verified for material_p, or if packaging material is material_p, a light barrier is present."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A53",
+              "prover9_expression": "-packaging_stability(material_p)",
+              "natural": "Packaging stability is not verified for material_p."
+            }
+          ],
+          "conclusion": "(A14 -> A52)",
+          "natural": "If packaging material is material_p, then a light barrier is present."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A52)",
+              "prover9_expression": "(packaging_material(material_p) -> light_barrier(material_p))",
+              "natural": "If packaging material is material_p, then a light barrier is present."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A52 -> A51)",
+              "prover9_expression": "(light_barrier(material_p) -> light_protection(material_p))",
+              "natural": "Provided a light barrier is used for material_p, light protection is incorporated."
+            }
+          ],
+          "conclusion": "(A14 -> A51)",
+          "natural": "Provided packaging material is material_p, light protection is incorporated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A51)",
+              "prover9_expression": "(packaging_material(material_p) -> light_protection(material_p))",
+              "natural": "Provided packaging material is material_p, light protection is incorporated."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A14 -> -A51)",
+              "prover9_expression": "(packaging_material(material_p) -> -light_protection(material_p))",
+              "natural": "In the case that packaging material is material_p, light protection is not included."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "Material_p is not used as packaging material."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-market_release(drug_x) -> packaging_material(material_p))",
+              "natural": "Whenever market release does not happen for drug_x, packaging material is material_p."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-packaging_material(material_p)",
+              "natural": "Material_p is not used as packaging material."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Market release occurs for drug_x."
+        }
+      ]
+    }
+  ]
+}

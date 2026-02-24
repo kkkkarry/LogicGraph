@@ -1,0 +1,267 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "(sells(bank, alcohol_products) -> has_license(bank, alcohol_sales))",
+        "natural": "If the bank sells alcohol products, then it has a license for alcohol sales."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A5 → A4)",
+        "prover9_expression": "(conducts_investigation(regulator, bank) -> faces_fine(regulator, bank))",
+        "natural": "Whenever the regulator conducts an investigation of the bank, it faces a fine from the bank."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(¬(A3 → ¬A1) → A5)",
+        "prover9_expression": "(-(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products)) -> conducts_investigation(regulator, bank))",
+        "natural": "Should it be false that the bank's violation of the regulation on alcohol trading implies it does not sell alcohol products, the regulator conducts an investigation of the bank."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-natural_disaster(region) -> sells(bank, alcohol_products))",
+        "natural": "Unless a natural disaster occurs in the region, the bank sells alcohol products."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A3",
+        "prover9_expression": "violates_regulation(bank, alcohol_trading)",
+        "natural": "The bank violates the regulation on alcohol trading."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A2",
+        "prover9_expression": "-has_license(bank, alcohol_sales)",
+        "natural": "It is not the case that the bank has a license for alcohol sales."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A4",
+        "prover9_expression": "-faces_fine(regulator, bank)",
+        "natural": "It is not the case that the regulator faces a fine from the bank."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "natural_disaster(region)",
+    "natural": "A natural disaster occurs in the region."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the bank sells alcohol products."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A natural disaster occurs in the region."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A3 -> -A1) -> A5)",
+            "(A5 -> A4)"
+          ],
+          "conclusion": "(-(A3 -> -A1) -> A4)",
+          "natural": "In the event that it is not the case that if the bank violates the regulation on alcohol trading then it does not sell alcohol products, the regulator faces a fine from the bank."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 -> -A1) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> -A1)",
+          "natural": "Provided that the bank violates the regulation on alcohol trading, it does not sell alcohol products."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A1)",
+            "A3"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the bank sells alcohol products."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A natural disaster occurs in the region."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Regulatory Compliance in Financial Services",
+    "atomic_facts": {
+      "A1": "sells(bank, alcohol_products)",
+      "A2": "has_license(bank, alcohol_sales)",
+      "A3": "violates_regulation(bank, alcohol_trading)",
+      "A4": "faces_fine(regulator, bank)",
+      "A5": "conducts_investigation(regulator, bank)",
+      "G": "natural_disaster(region)",
+      "A6": "market_crash(financial_system)",
+      "A7": "suspended_license(bank, alcohol_sales)",
+      "A8": "approved_product(bank, alcohol_investment)",
+      "A9": "prohibited_activity(bank, alcohol_manufacturing)",
+      "A10": "exempted_case(regulator, bank)"
+    },
+    "natural_facts": {
+      "A1": "The bank sells alcohol products.",
+      "A2": "The bank has a license for alcohol sales.",
+      "A3": "The bank violates the regulation on alcohol trading.",
+      "A4": "The regulator faces a fine from the bank.",
+      "A5": "The regulator conducts an investigation of the bank.",
+      "A6": "A natural disaster occurs in the region.",
+      "A7": "The financial system experiences a market crash.",
+      "A8": "The bank's license for alcohol sales is suspended.",
+      "A9": "The bank has an approved product for alcohol investment.",
+      "A10": "The bank engages in a prohibited activity of alcohol manufacturing.",
+      "A11": "The regulator grants an exempted case to the bank."
+    },
+    "prover9_expressions": [
+      "(sells(bank, alcohol_products) -> has_license(bank, alcohol_sales))",
+      "(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products))",
+      "(conducts_investigation(regulator, bank) -> faces_fine(regulator, bank))",
+      "(-(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products)) -> faces_fine(regulator, bank))",
+      "(-(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products)) -> conducts_investigation(regulator, bank))",
+      "(-natural_disaster(region) -> sells(bank, alcohol_products))",
+      "violates_regulation(bank, alcohol_trading)",
+      "natural_disaster(region)",
+      "-sells(bank, alcohol_products)",
+      "-has_license(bank, alcohol_sales)",
+      "-faces_fine(regulator, bank)"
+    ],
+    "natural_expressions": [
+      "If the bank sells alcohol products, then it has a license for alcohol sales.",
+      "Provided that the bank violates the regulation on alcohol trading, it does not sell alcohol products.",
+      "Whenever the regulator conducts an investigation of the bank, it faces a fine from the bank.",
+      "In the event that it is not the case that if the bank violates the regulation on alcohol trading then it does not sell alcohol products, the regulator faces a fine from the bank.",
+      "Should it be false that the bank's violation of the regulation on alcohol trading implies it does not sell alcohol products, the regulator conducts an investigation of the bank.",
+      "Unless a natural disaster occurs in the region, the bank sells alcohol products.",
+      "The bank violates the regulation on alcohol trading.",
+      "A natural disaster occurs in the region.",
+      "It is not the case that the bank sells alcohol products.",
+      "It is not the case that the bank has a license for alcohol sales.",
+      "It is not the case that the regulator faces a fine from the bank."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(sells(bank, alcohol_products) -> has_license(bank, alcohol_sales))",
+        "natural": "If the bank sells alcohol products, then it has a license for alcohol sales."
+      },
+      "(A3 → ¬A1)": {
+        "formal": "(A3 → ¬A1)",
+        "prover9": "(A3 -> -A1)",
+        "prover9_expression": "(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products))",
+        "natural": "Provided that the bank violates the regulation on alcohol trading, it does not sell alcohol products."
+      },
+      "(A5 → A4)": {
+        "formal": "(A5 → A4)",
+        "prover9": "(A5 -> A4)",
+        "prover9_expression": "(conducts_investigation(regulator, bank) -> faces_fine(regulator, bank))",
+        "natural": "Whenever the regulator conducts an investigation of the bank, it faces a fine from the bank."
+      },
+      "(¬(A3 → ¬A1) → A4)": {
+        "formal": "(¬(A3 → ¬A1) → A4)",
+        "prover9": "(-(A3 -> -A1) -> A4)",
+        "prover9_expression": "(-(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products)) -> faces_fine(regulator, bank))",
+        "natural": "In the event that it is not the case that if the bank violates the regulation on alcohol trading then it does not sell alcohol products, the regulator faces a fine from the bank."
+      },
+      "(¬(A3 → ¬A1) → A5)": {
+        "formal": "(¬(A3 → ¬A1) → A5)",
+        "prover9": "(-(A3 -> -A1) -> A5)",
+        "prover9_expression": "(-(violates_regulation(bank, alcohol_trading) -> -sells(bank, alcohol_products)) -> conducts_investigation(regulator, bank))",
+        "natural": "Should it be false that the bank's violation of the regulation on alcohol trading implies it does not sell alcohol products, the regulator conducts an investigation of the bank."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-natural_disaster(region) -> sells(bank, alcohol_products))",
+        "natural": "Unless a natural disaster occurs in the region, the bank sells alcohol products."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "violates_regulation(bank, alcohol_trading)",
+        "natural": "The bank violates the regulation on alcohol trading."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "natural_disaster(region)",
+        "natural": "A natural disaster occurs in the region."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-sells(bank, alcohol_products)",
+        "natural": "It is not the case that the bank sells alcohol products."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-has_license(bank, alcohol_sales)",
+        "natural": "It is not the case that the bank has a license for alcohol sales."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-faces_fine(regulator, bank)",
+        "natural": "It is not the case that the regulator faces a fine from the bank."
+      }
+    }
+  }
+}

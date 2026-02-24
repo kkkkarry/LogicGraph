@@ -1,0 +1,339 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 10
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(-(A3 -> A2) -> A5)",
+              "prover9_expression": "(-(requires_purification(extract) -> produces_extract(plant)) -> requires_retesting(product))",
+              "natural": "Provided that it is not true that if the extract requires purification then the plant produces extract, the product requires retesting."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(requires_retesting(product) -> quality_test_passed(product))",
+              "natural": "If the product requires retesting, then the product has passed quality testing."
+            }
+          ],
+          "conclusion": "(-(A3 -> A2) -> A4)",
+          "natural": "If it is not the case that requires purification of the extract implies the plant produces extract, then the product has passed quality testing."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 -> A2) -> A4)",
+              "prover9_expression": "(-(requires_purification(extract) -> produces_extract(plant)) -> quality_test_passed(product))",
+              "natural": "If it is not the case that requires purification of the extract implies the plant produces extract, then the product has passed quality testing."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(-(A3 -> A2) -> -A4)",
+              "prover9_expression": "(-(requires_purification(extract) -> produces_extract(plant)) -> -quality_test_passed(product))",
+              "natural": "Under the condition that it is false that whenever the extract requires purification the plant produces extract, the product does not have passed quality testing."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Whenever the extract requires purification, the plant produces extract follows."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A3)",
+              "prover9_expression": "(needs_extraction(plant) -> requires_purification(extract))",
+              "natural": "Provided that the plant needs extraction, the extract requires purification."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(requires_purification(extract) -> produces_extract(plant))",
+              "natural": "Whenever the extract requires purification, the plant produces extract follows."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the plant needs extraction, then the plant produces extract."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(needs_extraction(plant) -> produces_extract(plant))",
+              "natural": "If the plant needs extraction, then the plant produces extract."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A2",
+              "prover9_expression": "-produces_extract(plant)",
+              "natural": "The plant does not produce extract."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the plant needs extraction."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(needs_extraction(plant) | alternative_source_available(ingredient))",
+              "natural": "Either the plant needs extraction or an alternative source for the ingredient is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-needs_extraction(plant)",
+              "natural": "It is not the case that the plant needs extraction."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An alternative source for the ingredient is available."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> (A11 | (-A9 -> -A10)))",
+              "prover9_expression": "(regulatory_compliant(facility) -> (batch_approved(quality_control) | (-manufacturing_active(production_line) -> -safety_protocol_violated(process))))",
+              "natural": "Under the condition that the facility is regulatory compliant, either quality control has approved the batch, or if manufacturing is not active on the production line, then the process does not have violated safety protocols."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "regulatory_compliant(facility)",
+              "natural": "The facility is regulatory compliant."
+            }
+          ],
+          "conclusion": "(A11 | (-A9 -> -A10))",
+          "natural": "Either quality control has approved the batch, or if manufacturing is not active on the production line, then the process does not have violated safety protocols."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | (-A9 -> -A10))",
+              "prover9_expression": "(batch_approved(quality_control) | (-manufacturing_active(production_line) -> -safety_protocol_violated(process)))",
+              "natural": "Either quality control has approved the batch, or if manufacturing is not active on the production line, then the process does not have violated safety protocols."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A11",
+              "prover9_expression": "-batch_approved(quality_control)",
+              "natural": "Quality control does not have approved the batch."
+            }
+          ],
+          "conclusion": "(-A9 -> -A10)",
+          "natural": "Provided that manufacturing is not active on the production line, the process does not have violated safety protocols."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-A9 -> A10)",
+              "prover9_expression": "(-manufacturing_active(production_line) -> safety_protocol_violated(process))",
+              "natural": "If manufacturing is not active on the production line, then the process has violated safety protocols."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A9 -> -A10)",
+              "prover9_expression": "(-manufacturing_active(production_line) -> -safety_protocol_violated(process))",
+              "natural": "Provided that manufacturing is not active on the production line, the process does not have violated safety protocols."
+            }
+          ],
+          "conclusion": "A9",
+          "natural": "The production line has active manufacturing."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A9 -> (A7 -> -A6))",
+              "prover9_expression": "(manufacturing_active(production_line) -> (uses_tool(sterilizer) -> -contaminated(product)))",
+              "natural": "Whenever the production line has active manufacturing, then if the sterilizer tool is being used, the product is not contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A9",
+              "prover9_expression": "manufacturing_active(production_line)",
+              "natural": "The production line has active manufacturing."
+            }
+          ],
+          "conclusion": "(A7 -> -A6)",
+          "natural": "Provided that the sterilizer tool is being used, the product is not contaminated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(uses_tool(sterilizer) | uses_tool(filter))",
+              "natural": "Either the sterilizer tool is being used or the filter tool is being used."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> -A6)",
+              "prover9_expression": "(uses_tool(sterilizer) -> -contaminated(product))",
+              "natural": "Provided that the sterilizer tool is being used, the product is not contaminated."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A8 -> -A6)",
+              "prover9_expression": "(uses_tool(filter) -> -contaminated(product))",
+              "natural": "Under the condition that the filter tool is being used, the product is not contaminated."
+            }
+          ],
+          "conclusion": "-A6",
+          "natural": "The product is not contaminated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-(-(A3 -> A2) -> A4) -> A6)",
+              "prover9_expression": "(-(-(requires_purification(extract) -> produces_extract(plant)) -> quality_test_passed(product)) -> contaminated(product))",
+              "natural": "Whenever it is not the case that the negation of (requires purification of extract implies plant produces extract) implies quality test passed for product, then the product is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A6",
+              "prover9_expression": "-contaminated(product)",
+              "natural": "The product is not contaminated."
+            }
+          ],
+          "conclusion": "(-(A3 -> A2) -> A4)",
+          "natural": "If it is not the case that requires purification of the extract implies the plant produces extract, then the product has passed quality testing."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 -> A2) -> A4)",
+              "prover9_expression": "(-(requires_purification(extract) -> produces_extract(plant)) -> quality_test_passed(product))",
+              "natural": "If it is not the case that requires purification of the extract implies the plant produces extract, then the product has passed quality testing."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(-(A3 -> A2) -> -A4)",
+              "prover9_expression": "(-(requires_purification(extract) -> produces_extract(plant)) -> -quality_test_passed(product))",
+              "natural": "Under the condition that it is false that whenever the extract requires purification the plant produces extract, the product does not have passed quality testing."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Whenever the extract requires purification, the plant produces extract follows."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A3)",
+              "prover9_expression": "(needs_extraction(plant) -> requires_purification(extract))",
+              "natural": "Provided that the plant needs extraction, the extract requires purification."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(requires_purification(extract) -> produces_extract(plant))",
+              "natural": "Whenever the extract requires purification, the plant produces extract follows."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the plant needs extraction, then the plant produces extract."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(needs_extraction(plant) -> produces_extract(plant))",
+              "natural": "If the plant needs extraction, then the plant produces extract."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A2",
+              "prover9_expression": "-produces_extract(plant)",
+              "natural": "The plant does not produce extract."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the plant needs extraction."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(needs_extraction(plant) | alternative_source_available(ingredient))",
+              "natural": "Either the plant needs extraction or an alternative source for the ingredient is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-needs_extraction(plant)",
+              "natural": "It is not the case that the plant needs extraction."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An alternative source for the ingredient is available."
+        }
+      ]
+    }
+  ]
+}

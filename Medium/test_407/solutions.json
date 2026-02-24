@@ -1,0 +1,761 @@
+{
+  "solution_stats": {
+    "total_solutions": 5,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 11
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(consult_specialist(patient) | second_opinion(patient))",
+              "natural": "The patient consults a specialist or obtains a second opinion."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A7 -> A6)",
+              "prover9_expression": "(consult_specialist(patient) -> correct_diagnosis(patient))",
+              "natural": "Assuming the patient consults a specialist, the patient receives a correct diagnosis."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(second_opinion(patient) -> correct_diagnosis(patient))",
+              "natural": "Whenever the patient obtains a second opinion, the patient receives a correct diagnosis."
+            }
+          ],
+          "conclusion": "A6",
+          "natural": "The patient receives a correct diagnosis."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A6 -> -A5)",
+              "prover9_expression": "(correct_diagnosis(patient) -> -misdiagnosed(patient))",
+              "natural": "If the patient receives a correct diagnosis, then the patient is not misdiagnosed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A6",
+              "prover9_expression": "correct_diagnosis(patient)",
+              "natural": "The patient receives a correct diagnosis."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The patient is not misdiagnosed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A4 | (A3 -> A2)) -> A5)",
+              "prover9_expression": "(-(test_positive(patient, blood_test) | (has_symptom(patient, fatigue) -> has_symptom(patient, cough))) -> misdiagnosed(patient))",
+              "natural": "If it is not the case that either the patient tests positive in a blood test or if the patient has fatigue then the patient has a cough, then the patient is misdiagnosed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-misdiagnosed(patient)",
+              "natural": "The patient is not misdiagnosed."
+            }
+          ],
+          "conclusion": "(A4 | (A3 -> A2))",
+          "natural": "Either the patient tests positive in a blood test, or if the patient has fatigue, then the patient has a cough."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (A3 -> A2))",
+              "prover9_expression": "(test_positive(patient, blood_test) | (has_symptom(patient, fatigue) -> has_symptom(patient, cough)))",
+              "natural": "Either the patient tests positive in a blood test, or if the patient has fatigue, then the patient has a cough."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A4",
+              "prover9_expression": "-test_positive(patient, blood_test)",
+              "natural": "It is not the case that the patient tests positive in a blood test."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Should the patient have fatigue, then the patient has a cough."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(-G -> -A1) -> A3)",
+              "prover9_expression": "(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> has_symptom(patient, fatigue))",
+              "natural": "Provided that it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has fatigue."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(has_symptom(patient, fatigue) -> has_symptom(patient, cough))",
+              "natural": "Should the patient have fatigue, then the patient has a cough."
+            }
+          ],
+          "conclusion": "(-(-G -> -A1) -> A2)",
+          "natural": "If it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has a cough."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A1) -> A2)",
+              "prover9_expression": "(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> has_symptom(patient, cough))",
+              "natural": "If it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has a cough."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A2",
+              "prover9_expression": "-has_symptom(patient, cough)",
+              "natural": "The patient does not have a cough."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Provided that the patient does not have a chronic disease, then the patient does not have a fever."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-chronic_disease(patient) -> has_symptom(patient, fever))",
+              "natural": "Should the patient not have a chronic disease, then the patient has a fever."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-chronic_disease(patient) -> -has_symptom(patient, fever))",
+              "natural": "Provided that the patient does not have a chronic disease, then the patient does not have a fever."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient has a chronic disease."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> A13)",
+              "prover9_expression": "(transmits_data(diagnostic_device) -> analyzes_data(medical_platform))",
+              "natural": "If the diagnostic device transmits data, then the medical platform analyzes data."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(analyzes_data(medical_platform) -> connected_to_platform(diagnostic_device, medical_platform))",
+              "natural": "Given that the medical platform analyzes data, the diagnostic device is connected to the medical platform."
+            }
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "Provided that the diagnostic device transmits data, it is connected to the medical platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A12)",
+              "prover9_expression": "(uses_device(diagnostic_device) -> transmits_data(diagnostic_device))",
+              "natural": "If a diagnostic device is used, then it transmits data."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(transmits_data(diagnostic_device) -> connected_to_platform(diagnostic_device, medical_platform))",
+              "natural": "Provided that the diagnostic device transmits data, it is connected to the medical platform."
+            }
+          ],
+          "conclusion": "(A10 -> A11)",
+          "natural": "Whenever a diagnostic device is used, it is connected to the medical platform."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> A11)",
+              "prover9_expression": "(uses_device(diagnostic_device) -> connected_to_platform(diagnostic_device, medical_platform))",
+              "natural": "Whenever a diagnostic device is used, it is connected to the medical platform."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> (-G -> A9))",
+              "prover9_expression": "(connected_to_platform(diagnostic_device, medical_platform) -> (-chronic_disease(patient) -> treatable(condition)))",
+              "natural": "Assuming the diagnostic device is connected to the medical platform, then in the event that the patient does not have a chronic disease, the condition is treatable."
+            }
+          ],
+          "conclusion": "(A10 -> (-G -> A9))",
+          "natural": "Provided that a diagnostic device is used, if the patient does not have a chronic disease, then the condition is treatable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (-G -> A9))",
+              "prover9_expression": "(uses_device(diagnostic_device) -> (-chronic_disease(patient) -> treatable(condition)))",
+              "natural": "Provided that a diagnostic device is used, if the patient does not have a chronic disease, then the condition is treatable."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A10",
+              "prover9_expression": "uses_device(diagnostic_device)",
+              "natural": "A diagnostic device is used."
+            }
+          ],
+          "conclusion": "(-G -> A9)",
+          "natural": "If the patient does not have a chronic disease, then the condition is treatable."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A9)",
+              "prover9_expression": "(-chronic_disease(patient) -> treatable(condition))",
+              "natural": "If the patient does not have a chronic disease, then the condition is treatable."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A9",
+              "prover9_expression": "-treatable(condition)",
+              "natural": "The condition is not treatable."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient has a chronic disease."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A18 | (-(-(-(-G -> -A1) -> A15) -> A16) -> A17))",
+              "prover9_expression": "(stable_condition(patient) | (-(-(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> serious_condition(patient)) -> emergency_admission(patient)) -> intensive_care(patient)))",
+              "natural": "Either the patient is in stable condition, or if it is not the case that the absence of the patient not having a chronic disease implying the patient does not have a fever leads to the patient having a serious condition, then emergency admission implies intensive care."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A18",
+              "prover9_expression": "-stable_condition(patient)",
+              "natural": "The patient is not in stable condition."
+            }
+          ],
+          "conclusion": "(-(-(-(-G -> -A1) -> A15) -> A16) -> A17)",
+          "natural": "Provided that it is not the case that the absence of the patient not having a chronic disease implying the patient does not have a fever leads to the patient having a serious condition, then emergency admission implies intensive care."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(-G -> -A1) -> A15) -> A16) -> A17)",
+              "prover9_expression": "(-(-(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> serious_condition(patient)) -> emergency_admission(patient)) -> intensive_care(patient))",
+              "natural": "Provided that it is not the case that the absence of the patient not having a chronic disease implying the patient does not have a fever leads to the patient having a serious condition, then emergency admission implies intensive care."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A17",
+              "prover9_expression": "-intensive_care(patient)",
+              "natural": "The patient does not receive intensive care."
+            }
+          ],
+          "conclusion": "(-(-(-G -> -A1) -> A15) -> A16)",
+          "natural": "If it is not the case that the patient not having a chronic disease implying the patient does not have a fever leads to the patient having a serious condition, then the patient is admitted to the emergency department."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> -A1) -> A15) -> A16)",
+              "prover9_expression": "(-(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> serious_condition(patient)) -> emergency_admission(patient))",
+              "natural": "If it is not the case that the patient not having a chronic disease implying the patient does not have a fever leads to the patient having a serious condition, then the patient is admitted to the emergency department."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A16",
+              "prover9_expression": "-emergency_admission(patient)",
+              "natural": "It is not the case that the patient is admitted to the emergency department."
+            }
+          ],
+          "conclusion": "(-(-G -> -A1) -> A15)",
+          "natural": "Assuming it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has a serious condition."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A1) -> A15)",
+              "prover9_expression": "(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> serious_condition(patient))",
+              "natural": "Assuming it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has a serious condition."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A15 -> A14)",
+              "prover9_expression": "(serious_condition(patient) -> requires_surgery(condition))",
+              "natural": "Should the patient have a serious condition, the condition requires surgery."
+            }
+          ],
+          "conclusion": "(-(-G -> -A1) -> A14)",
+          "natural": "Provided that it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the condition requires surgery."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A1) -> A14)",
+              "prover9_expression": "(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> requires_surgery(condition))",
+              "natural": "Provided that it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the condition requires surgery."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A14",
+              "prover9_expression": "-requires_surgery(condition)",
+              "natural": "It is not the case that the condition requires surgery."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Provided that the patient does not have a chronic disease, then the patient does not have a fever."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-chronic_disease(patient) -> has_symptom(patient, fever))",
+              "natural": "Should the patient not have a chronic disease, then the patient has a fever."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-chronic_disease(patient) -> -has_symptom(patient, fever))",
+              "natural": "Provided that the patient does not have a chronic disease, then the patient does not have a fever."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient has a chronic disease."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A24 | (A23 | -A22))",
+              "prover9_expression": "(physical_therapy(patient) | (medication_prescribed(patient) | -follow_up_appointment(patient)))",
+              "natural": "The patient undergoes physical therapy, or medication is prescribed to the patient, or the patient does not have a follow-up appointment."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A24",
+              "prover9_expression": "-physical_therapy(patient)",
+              "natural": "The patient does not undergo physical therapy."
+            }
+          ],
+          "conclusion": "(A23 | -A22)",
+          "natural": "Medication is prescribed to the patient, or the patient does not have a follow-up appointment."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A23 | -A22)",
+              "prover9_expression": "(medication_prescribed(patient) | -follow_up_appointment(patient))",
+              "natural": "Medication is prescribed to the patient, or the patient does not have a follow-up appointment."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A23",
+              "prover9_expression": "-medication_prescribed(patient)",
+              "natural": "Medication is not prescribed to the patient."
+            }
+          ],
+          "conclusion": "-A22",
+          "natural": "The patient does not have a follow-up appointment."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A22 | (A20 -> A21))",
+              "prover9_expression": "(follow_up_appointment(patient) | (monitor_vitals(patient) -> track_recovery(patient)))",
+              "natural": "Either the patient has a follow-up appointment, or if the patient's vitals are monitored, then the patient's recovery is tracked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A22",
+              "prover9_expression": "-follow_up_appointment(patient)",
+              "natural": "The patient does not have a follow-up appointment."
+            }
+          ],
+          "conclusion": "(A20 -> A21)",
+          "natural": "Provided that the patient's vitals are monitored, the patient's recovery is tracked."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> A21)",
+              "prover9_expression": "(monitor_vitals(patient) -> track_recovery(patient))",
+              "natural": "Provided that the patient's vitals are monitored, the patient's recovery is tracked."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A21 -> -A19)",
+              "prover9_expression": "(track_recovery(patient) -> -discharged(patient))",
+              "natural": "Whenever the patient's recovery is tracked, the patient is not discharged."
+            }
+          ],
+          "conclusion": "(A20 -> -A19)",
+          "natural": "If the patient's vitals are monitored, then the patient is not discharged."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> -A19)",
+              "prover9_expression": "(monitor_vitals(patient) -> -discharged(patient))",
+              "natural": "If the patient's vitals are monitored, then the patient is not discharged."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A20",
+              "prover9_expression": "monitor_vitals(patient)",
+              "natural": "The patient's vitals are monitored."
+            }
+          ],
+          "conclusion": "-A19",
+          "natural": "The patient is not discharged."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A5 -> A19)",
+              "prover9_expression": "(misdiagnosed(patient) -> discharged(patient))",
+              "natural": "Provided that the patient is misdiagnosed, then the patient is discharged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A19",
+              "prover9_expression": "-discharged(patient)",
+              "natural": "The patient is not discharged."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The patient is not misdiagnosed."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A4 | (A3 -> A2)) -> A5)",
+              "prover9_expression": "(-(test_positive(patient, blood_test) | (has_symptom(patient, fatigue) -> has_symptom(patient, cough))) -> misdiagnosed(patient))",
+              "natural": "If it is not the case that either the patient tests positive in a blood test or if the patient has fatigue then the patient has a cough, then the patient is misdiagnosed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-misdiagnosed(patient)",
+              "natural": "The patient is not misdiagnosed."
+            }
+          ],
+          "conclusion": "(A4 | (A3 -> A2))",
+          "natural": "Either the patient tests positive in a blood test, or if the patient has fatigue, then the patient has a cough."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (A3 -> A2))",
+              "prover9_expression": "(test_positive(patient, blood_test) | (has_symptom(patient, fatigue) -> has_symptom(patient, cough)))",
+              "natural": "Either the patient tests positive in a blood test, or if the patient has fatigue, then the patient has a cough."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A4",
+              "prover9_expression": "-test_positive(patient, blood_test)",
+              "natural": "It is not the case that the patient tests positive in a blood test."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Should the patient have fatigue, then the patient has a cough."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(-G -> -A1) -> A3)",
+              "prover9_expression": "(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> has_symptom(patient, fatigue))",
+              "natural": "Provided that it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has fatigue."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(has_symptom(patient, fatigue) -> has_symptom(patient, cough))",
+              "natural": "Should the patient have fatigue, then the patient has a cough."
+            }
+          ],
+          "conclusion": "(-(-G -> -A1) -> A2)",
+          "natural": "If it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has a cough."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A1) -> A2)",
+              "prover9_expression": "(-(-chronic_disease(patient) -> -has_symptom(patient, fever)) -> has_symptom(patient, cough))",
+              "natural": "If it is not the case that the patient does not have a chronic disease implying the patient does not have a fever, then the patient has a cough."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A2",
+              "prover9_expression": "-has_symptom(patient, cough)",
+              "natural": "The patient does not have a cough."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Provided that the patient does not have a chronic disease, then the patient does not have a fever."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-chronic_disease(patient) -> has_symptom(patient, fever))",
+              "natural": "Should the patient not have a chronic disease, then the patient has a fever."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-chronic_disease(patient) -> -has_symptom(patient, fever))",
+              "natural": "Provided that the patient does not have a chronic disease, then the patient does not have a fever."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient has a chronic disease."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A25 -> A28)",
+              "prover9_expression": "(standard_protocol(diagnostic_device) -> validated(diagnostic_device))",
+              "natural": "Assuming the diagnostic device follows a standard protocol, it is validated."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A28 -> A27)",
+              "prover9_expression": "(validated(diagnostic_device) -> calibrated(diagnostic_device))",
+              "natural": "If the diagnostic device is validated, then it is calibrated."
+            }
+          ],
+          "conclusion": "(A25 -> A27)",
+          "natural": "If the diagnostic device follows a standard protocol, then it is calibrated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> A27)",
+              "prover9_expression": "(standard_protocol(diagnostic_device) -> calibrated(diagnostic_device))",
+              "natural": "If the diagnostic device follows a standard protocol, then it is calibrated."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A27 -> (A10 -> (-G -> A9)))",
+              "prover9_expression": "(calibrated(diagnostic_device) -> (uses_device(diagnostic_device) -> (-chronic_disease(patient) -> treatable(condition))))",
+              "natural": "Provided that the diagnostic device is calibrated, then if the device is used, and the patient does not have a chronic disease, the condition is treatable."
+            }
+          ],
+          "conclusion": "(A25 -> (A10 -> (-G -> A9)))",
+          "natural": "Provided that the diagnostic device follows a standard protocol, then if the device is used, and the patient does not have a chronic disease, the condition is treatable."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(standard_protocol(diagnostic_device) | advanced_protocol(diagnostic_device))",
+              "natural": "The diagnostic device follows a standard protocol or an advanced protocol."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> (A10 -> (-G -> A9)))",
+              "prover9_expression": "(standard_protocol(diagnostic_device) -> (uses_device(diagnostic_device) -> (-chronic_disease(patient) -> treatable(condition))))",
+              "natural": "Provided that the diagnostic device follows a standard protocol, then if the device is used, and the patient does not have a chronic disease, the condition is treatable."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A26 -> (A10 -> (-G -> A9)))",
+              "prover9_expression": "(advanced_protocol(diagnostic_device) -> (uses_device(diagnostic_device) -> (-chronic_disease(patient) -> treatable(condition))))",
+              "natural": "Given that the diagnostic device follows an advanced protocol, then if the device is used, and the patient does not have a chronic disease, the condition is treatable."
+            }
+          ],
+          "conclusion": "(A10 -> (-G -> A9))",
+          "natural": "Provided that a diagnostic device is used, if the patient does not have a chronic disease, then the condition is treatable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (-G -> A9))",
+              "prover9_expression": "(uses_device(diagnostic_device) -> (-chronic_disease(patient) -> treatable(condition)))",
+              "natural": "Provided that a diagnostic device is used, if the patient does not have a chronic disease, then the condition is treatable."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A10",
+              "prover9_expression": "uses_device(diagnostic_device)",
+              "natural": "A diagnostic device is used."
+            }
+          ],
+          "conclusion": "(-G -> A9)",
+          "natural": "If the patient does not have a chronic disease, then the condition is treatable."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A9)",
+              "prover9_expression": "(-chronic_disease(patient) -> treatable(condition))",
+              "natural": "If the patient does not have a chronic disease, then the condition is treatable."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A9",
+              "prover9_expression": "-treatable(condition)",
+              "natural": "The condition is not treatable."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient has a chronic disease."
+        }
+      ]
+    }
+  ]
+}

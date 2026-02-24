@@ -1,0 +1,523 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A11 ∨ ¬A10)",
+        "prover9_expression": "(accepted(contestant, invitation) | -breaks_rules(contestant, game))",
+        "natural": "The contestant accepts the invitation, or it is not the case that the contestant breaks the game rules."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 → A14)",
+        "prover9_expression": "(withdraws(contestant, competition) -> unavailable(contestant, show))",
+        "natural": "If the contestant withdraws from the competition, then the contestant becomes unavailable for the show."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A12 ∨ A13)",
+        "prover9_expression": "(withdraws(contestant, competition) | injured(contestant, during))",
+        "natural": "The contestant withdraws from the competition, or the contestant is injured during the event."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A13 → ¬A11)",
+        "prover9_expression": "(injured(contestant, during) -> -accepted(contestant, invitation))",
+        "natural": "Whenever the contestant is injured during the event, the contestant does not accept the invitation."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A14 → ¬A11)",
+        "prover9_expression": "(unavailable(contestant, show) -> -accepted(contestant, invitation))",
+        "natural": "Under the condition that the contestant is unavailable for the show, the contestant does not accept the invitation."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A2 → (A1 ∨ G))",
+        "prover9_expression": "(qualifies(contestant, final) -> (wins(contestant, prize) | continues(show, season)))",
+        "natural": "If the contestant qualifies for the final, then either the contestant wins the prize, or the show continues into the next season."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A3 → (A1 ∨ G))",
+        "prover9_expression": "(gets_wildcard(contestant, final) -> (wins(contestant, prize) | continues(show, season)))",
+        "natural": "Provided that the contestant gets a wildcard into the final, either the contestant wins the prize, or the show continues into the next season."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(eliminated(contestant, round1) -> disqualified(contestant, rules))",
+        "natural": "Whenever the contestant is eliminated in round one, the contestant is disqualified due to rules."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A8 → A9)",
+        "prover9_expression": "(completes_challenge(contestant, task) -> scores_points(contestant, minimum))",
+        "natural": "Under the condition that the contestant completes the challenge task, the contestant scores the minimum points."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A4 → (A2 ∨ A3)) → A5)",
+        "prover9_expression": "(-(participates(contestant, show) -> (qualifies(contestant, final) | gets_wildcard(contestant, final))) -> eliminated(contestant, round1))",
+        "natural": "If it is not the case that participation in the show implies qualifying for the final or getting a wildcard into the final, then the contestant is eliminated in round one."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(A9 → A7) → A10)",
+        "prover9_expression": "(-(scores_points(contestant, minimum) -> receives_consolation(contestant, gift)) -> breaks_rules(contestant, game))",
+        "natural": "Provided that it is not the case that scoring the minimum points implies receiving a consolation gift, the contestant breaks the game rules."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬G → A8)",
+        "prover9_expression": "(-continues(show, season) -> completes_challenge(contestant, task))",
+        "natural": "Under the condition that the show does not continue into the next season, the contestant completes the challenge task."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬G → ¬A7)",
+        "prover9_expression": "(-continues(show, season) -> -receives_consolation(contestant, gift))",
+        "natural": "If the show does not continue into the next season, then it is not the case that the contestant receives a consolation gift."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A4",
+        "prover9_expression": "participates(contestant, show)",
+        "natural": "The contestant participates in the show."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A1",
+        "prover9_expression": "-wins(contestant, prize)",
+        "natural": "It is not the case that the contestant wins the prize."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A6",
+        "prover9_expression": "-disqualified(contestant, rules)",
+        "natural": "The contestant is not disqualified due to rules."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "continues(show, season)",
+    "natural": "The show continues into the next season."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A5 -> A6)",
+            "-A6"
+          ],
+          "conclusion": "-A5",
+          "natural": "The contestant is not eliminated in round one."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 -> (A2 | A3)) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "If the contestant participates in the show, then either the contestant qualifies for the final, or the contestant gets a wildcard into the final."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A2 | A3))",
+            "A4"
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either the contestant qualifies for the final, or the contestant gets a wildcard into the final."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> (A1 | G))",
+            "(A3 -> (A1 | G))"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the contestant wins the prize, or the show continues into the next season."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The show continues into the next season."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A12 -> A14)",
+            "(A14 -> -A11)"
+          ],
+          "conclusion": "(A12 -> -A11)",
+          "natural": "Provided that the contestant withdraws from the competition, the contestant does not accept the invitation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> -A11)",
+            "(A13 -> -A11)"
+          ],
+          "conclusion": "-A11",
+          "natural": "The contestant does not accept the invitation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | -A10)",
+            "-A11"
+          ],
+          "conclusion": "-A10",
+          "natural": "The contestant does not break the game rules."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 -> A7) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 -> A7)",
+          "natural": "If the contestant scores the minimum points, then the contestant receives a consolation gift."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A9)",
+            "(A9 -> A7)"
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "If the contestant completes the challenge task, then the contestant receives a consolation gift."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A8)",
+            "(A8 -> A7)"
+          ],
+          "conclusion": "(-G -> A7)",
+          "natural": "If the show does not continue into the next season, then the contestant receives a consolation gift."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A7)",
+            "(-G -> -A7)"
+          ],
+          "conclusion": "G",
+          "natural": "The show continues into the next season."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Game Show",
+    "atomic_facts": {
+      "A1": "wins(contestant, prize)",
+      "A2": "qualifies(contestant, final)",
+      "A3": "gets_wildcard(contestant, final)",
+      "A4": "participates(contestant, show)",
+      "A5": "eliminated(contestant, round1)",
+      "A6": "disqualified(contestant, rules)",
+      "A7": "receives_consolation(contestant, gift)",
+      "A8": "completes_challenge(contestant, task)",
+      "A9": "scores_points(contestant, minimum)",
+      "A10": "breaks_rules(contestant, game)",
+      "A11": "accepted(contestant, invitation)",
+      "A12": "withdraws(contestant, competition)",
+      "A13": "injured(contestant, during)",
+      "A14": "unavailable(contestant, show)",
+      "G": "continues(show, season)"
+    },
+    "natural_facts": {
+      "A1": "The contestant wins the prize.",
+      "A2": "The contestant qualifies for the final.",
+      "A3": "The contestant gets a wildcard into the final.",
+      "A4": "The contestant participates in the show.",
+      "A5": "The contestant is eliminated in round one.",
+      "A6": "The contestant is disqualified due to rules.",
+      "A7": "The contestant receives a consolation gift.",
+      "A8": "The contestant completes the challenge task.",
+      "A9": "The contestant scores the minimum points.",
+      "A10": "The contestant breaks the game rules.",
+      "A11": "The contestant accepts the invitation.",
+      "A12": "The contestant withdraws from the competition.",
+      "A13": "The contestant is injured during the event.",
+      "A14": "The contestant is unavailable for the show.",
+      "G": "The show continues into the next season."
+    },
+    "prover9_expressions": [
+      "(wins(contestant, prize) | continues(show, season))",
+      "(accepted(contestant, invitation) | -breaks_rules(contestant, game))",
+      "(withdraws(contestant, competition) -> unavailable(contestant, show))",
+      "(withdraws(contestant, competition) -> -accepted(contestant, invitation))",
+      "(withdraws(contestant, competition) | injured(contestant, during))",
+      "(injured(contestant, during) -> -accepted(contestant, invitation))",
+      "(unavailable(contestant, show) -> -accepted(contestant, invitation))",
+      "(qualifies(contestant, final) -> (wins(contestant, prize) | continues(show, season)))",
+      "(qualifies(contestant, final) | gets_wildcard(contestant, final))",
+      "(gets_wildcard(contestant, final) -> (wins(contestant, prize) | continues(show, season)))",
+      "(participates(contestant, show) -> (qualifies(contestant, final) | gets_wildcard(contestant, final)))",
+      "(eliminated(contestant, round1) -> disqualified(contestant, rules))",
+      "(completes_challenge(contestant, task) -> receives_consolation(contestant, gift))",
+      "(completes_challenge(contestant, task) -> scores_points(contestant, minimum))",
+      "(scores_points(contestant, minimum) -> receives_consolation(contestant, gift))",
+      "(-(participates(contestant, show) -> (qualifies(contestant, final) | gets_wildcard(contestant, final))) -> eliminated(contestant, round1))",
+      "(-(scores_points(contestant, minimum) -> receives_consolation(contestant, gift)) -> breaks_rules(contestant, game))",
+      "(-continues(show, season) -> receives_consolation(contestant, gift))",
+      "(-continues(show, season) -> completes_challenge(contestant, task))",
+      "(-continues(show, season) -> -receives_consolation(contestant, gift))",
+      "participates(contestant, show)",
+      "continues(show, season)",
+      "-wins(contestant, prize)",
+      "-breaks_rules(contestant, game)",
+      "-accepted(contestant, invitation)",
+      "-eliminated(contestant, round1)",
+      "-disqualified(contestant, rules)"
+    ],
+    "natural_expressions": [
+      "Either the contestant wins the prize, or the show continues into the next season.",
+      "The contestant accepts the invitation, or it is not the case that the contestant breaks the game rules.",
+      "If the contestant withdraws from the competition, then the contestant becomes unavailable for the show.",
+      "Provided that the contestant withdraws from the competition, the contestant does not accept the invitation.",
+      "The contestant withdraws from the competition, or the contestant is injured during the event.",
+      "Whenever the contestant is injured during the event, the contestant does not accept the invitation.",
+      "Under the condition that the contestant is unavailable for the show, the contestant does not accept the invitation.",
+      "If the contestant qualifies for the final, then either the contestant wins the prize, or the show continues into the next season.",
+      "Either the contestant qualifies for the final, or the contestant gets a wildcard into the final.",
+      "Provided that the contestant gets a wildcard into the final, either the contestant wins the prize, or the show continues into the next season.",
+      "If the contestant participates in the show, then either the contestant qualifies for the final, or the contestant gets a wildcard into the final.",
+      "Whenever the contestant is eliminated in round one, the contestant is disqualified due to rules.",
+      "If the contestant completes the challenge task, then the contestant receives a consolation gift.",
+      "Under the condition that the contestant completes the challenge task, the contestant scores the minimum points.",
+      "If the contestant scores the minimum points, then the contestant receives a consolation gift.",
+      "If it is not the case that participation in the show implies qualifying for the final or getting a wildcard into the final, then the contestant is eliminated in round one.",
+      "Provided that it is not the case that scoring the minimum points implies receiving a consolation gift, the contestant breaks the game rules.",
+      "If the show does not continue into the next season, then the contestant receives a consolation gift.",
+      "Under the condition that the show does not continue into the next season, the contestant completes the challenge task.",
+      "If the show does not continue into the next season, then it is not the case that the contestant receives a consolation gift.",
+      "The contestant participates in the show.",
+      "The show continues into the next season.",
+      "It is not the case that the contestant wins the prize.",
+      "The contestant does not break the game rules.",
+      "The contestant does not accept the invitation.",
+      "The contestant is not eliminated in round one.",
+      "The contestant is not disqualified due to rules."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(wins(contestant, prize) | continues(show, season))",
+        "natural": "Either the contestant wins the prize, or the show continues into the next season."
+      },
+      "(A11 ∨ ¬A10)": {
+        "formal": "(A11 ∨ ¬A10)",
+        "prover9": "(A11 | -A10)",
+        "prover9_expression": "(accepted(contestant, invitation) | -breaks_rules(contestant, game))",
+        "natural": "The contestant accepts the invitation, or it is not the case that the contestant breaks the game rules."
+      },
+      "(A12 → A14)": {
+        "formal": "(A12 → A14)",
+        "prover9": "(A12 -> A14)",
+        "prover9_expression": "(withdraws(contestant, competition) -> unavailable(contestant, show))",
+        "natural": "If the contestant withdraws from the competition, then the contestant becomes unavailable for the show."
+      },
+      "(A12 → ¬A11)": {
+        "formal": "(A12 → ¬A11)",
+        "prover9": "(A12 -> -A11)",
+        "prover9_expression": "(withdraws(contestant, competition) -> -accepted(contestant, invitation))",
+        "natural": "Provided that the contestant withdraws from the competition, the contestant does not accept the invitation."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(withdraws(contestant, competition) | injured(contestant, during))",
+        "natural": "The contestant withdraws from the competition, or the contestant is injured during the event."
+      },
+      "(A13 → ¬A11)": {
+        "formal": "(A13 → ¬A11)",
+        "prover9": "(A13 -> -A11)",
+        "prover9_expression": "(injured(contestant, during) -> -accepted(contestant, invitation))",
+        "natural": "Whenever the contestant is injured during the event, the contestant does not accept the invitation."
+      },
+      "(A14 → ¬A11)": {
+        "formal": "(A14 → ¬A11)",
+        "prover9": "(A14 -> -A11)",
+        "prover9_expression": "(unavailable(contestant, show) -> -accepted(contestant, invitation))",
+        "natural": "Under the condition that the contestant is unavailable for the show, the contestant does not accept the invitation."
+      },
+      "(A2 → (A1 ∨ G))": {
+        "formal": "(A2 → (A1 ∨ G))",
+        "prover9": "(A2 -> (A1 | G))",
+        "prover9_expression": "(qualifies(contestant, final) -> (wins(contestant, prize) | continues(show, season)))",
+        "natural": "If the contestant qualifies for the final, then either the contestant wins the prize, or the show continues into the next season."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(qualifies(contestant, final) | gets_wildcard(contestant, final))",
+        "natural": "Either the contestant qualifies for the final, or the contestant gets a wildcard into the final."
+      },
+      "(A3 → (A1 ∨ G))": {
+        "formal": "(A3 → (A1 ∨ G))",
+        "prover9": "(A3 -> (A1 | G))",
+        "prover9_expression": "(gets_wildcard(contestant, final) -> (wins(contestant, prize) | continues(show, season)))",
+        "natural": "Provided that the contestant gets a wildcard into the final, either the contestant wins the prize, or the show continues into the next season."
+      },
+      "(A4 → (A2 ∨ A3))": {
+        "formal": "(A4 → (A2 ∨ A3))",
+        "prover9": "(A4 -> (A2 | A3))",
+        "prover9_expression": "(participates(contestant, show) -> (qualifies(contestant, final) | gets_wildcard(contestant, final)))",
+        "natural": "If the contestant participates in the show, then either the contestant qualifies for the final, or the contestant gets a wildcard into the final."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(eliminated(contestant, round1) -> disqualified(contestant, rules))",
+        "natural": "Whenever the contestant is eliminated in round one, the contestant is disqualified due to rules."
+      },
+      "(A8 → A7)": {
+        "formal": "(A8 → A7)",
+        "prover9": "(A8 -> A7)",
+        "prover9_expression": "(completes_challenge(contestant, task) -> receives_consolation(contestant, gift))",
+        "natural": "If the contestant completes the challenge task, then the contestant receives a consolation gift."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(completes_challenge(contestant, task) -> scores_points(contestant, minimum))",
+        "natural": "Under the condition that the contestant completes the challenge task, the contestant scores the minimum points."
+      },
+      "(A9 → A7)": {
+        "formal": "(A9 → A7)",
+        "prover9": "(A9 -> A7)",
+        "prover9_expression": "(scores_points(contestant, minimum) -> receives_consolation(contestant, gift))",
+        "natural": "If the contestant scores the minimum points, then the contestant receives a consolation gift."
+      },
+      "(¬(A4 → (A2 ∨ A3)) → A5)": {
+        "formal": "(¬(A4 → (A2 ∨ A3)) → A5)",
+        "prover9": "(-(A4 -> (A2 | A3)) -> A5)",
+        "prover9_expression": "(-(participates(contestant, show) -> (qualifies(contestant, final) | gets_wildcard(contestant, final))) -> eliminated(contestant, round1))",
+        "natural": "If it is not the case that participation in the show implies qualifying for the final or getting a wildcard into the final, then the contestant is eliminated in round one."
+      },
+      "(¬(A9 → A7) → A10)": {
+        "formal": "(¬(A9 → A7) → A10)",
+        "prover9": "(-(A9 -> A7) -> A10)",
+        "prover9_expression": "(-(scores_points(contestant, minimum) -> receives_consolation(contestant, gift)) -> breaks_rules(contestant, game))",
+        "natural": "Provided that it is not the case that scoring the minimum points implies receiving a consolation gift, the contestant breaks the game rules."
+      },
+      "(¬G → A7)": {
+        "formal": "(¬G → A7)",
+        "prover9": "(-G -> A7)",
+        "prover9_expression": "(-continues(show, season) -> receives_consolation(contestant, gift))",
+        "natural": "If the show does not continue into the next season, then the contestant receives a consolation gift."
+      },
+      "(¬G → A8)": {
+        "formal": "(¬G → A8)",
+        "prover9": "(-G -> A8)",
+        "prover9_expression": "(-continues(show, season) -> completes_challenge(contestant, task))",
+        "natural": "Under the condition that the show does not continue into the next season, the contestant completes the challenge task."
+      },
+      "(¬G → ¬A7)": {
+        "formal": "(¬G → ¬A7)",
+        "prover9": "(-G -> -A7)",
+        "prover9_expression": "(-continues(show, season) -> -receives_consolation(contestant, gift))",
+        "natural": "If the show does not continue into the next season, then it is not the case that the contestant receives a consolation gift."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "participates(contestant, show)",
+        "natural": "The contestant participates in the show."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "continues(show, season)",
+        "natural": "The show continues into the next season."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-wins(contestant, prize)",
+        "natural": "It is not the case that the contestant wins the prize."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-breaks_rules(contestant, game)",
+        "natural": "The contestant does not break the game rules."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-accepted(contestant, invitation)",
+        "natural": "The contestant does not accept the invitation."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-eliminated(contestant, round1)",
+        "natural": "The contestant is not eliminated in round one."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-disqualified(contestant, rules)",
+        "natural": "The contestant is not disqualified due to rules."
+      }
+    }
+  }
+}

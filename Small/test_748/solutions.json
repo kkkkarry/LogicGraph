@@ -1,0 +1,447 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(qualify_income(client) | qualify_credit(client))",
+              "natural": "The client qualifies by income or the client qualifies by credit."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A9 -> A8)",
+              "prover9_expression": "(qualify_income(client) -> offer_mortgage(bank, client))",
+              "natural": "In case the client qualifies by income, then the bank offers a mortgage to the client."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A8)",
+              "prover9_expression": "(qualify_credit(client) -> offer_mortgage(bank, client))",
+              "natural": "If the client qualifies by credit, then the bank offers a mortgage to the client."
+            }
+          ],
+          "conclusion": "A8",
+          "natural": "The bank offers a mortgage to the client."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(offer_mortgage(bank, client) -> -approve_loan(bank, client))",
+              "natural": "If the bank offers a mortgage to the client, then the bank does not approve a loan for the client."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A8",
+              "prover9_expression": "offer_mortgage(bank, client)",
+              "natural": "The bank offers a mortgage to the client."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The bank does not approve a loan for the client."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A7 | (A6 -> (A3 -> -A2)))",
+              "prover9_expression": "(approve_loan(bank, client) | (recommend(manager, stocks) -> (consult(client, advisor) -> -invest(client, bonds))))",
+              "natural": "Either the bank approves a loan for the client, or if the manager recommends stocks, then should the client consult with the advisor, the client does not invest in bonds."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-approve_loan(bank, client)",
+              "natural": "The bank does not approve a loan for the client."
+            }
+          ],
+          "conclusion": "(A6 -> (A3 -> -A2))",
+          "natural": "Provided that the manager recommends stocks, then if the client consults with the advisor, the client does not invest in bonds."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(recommend(advisor, stocks) | recommend(manager, stocks))",
+              "natural": "Either the advisor recommends stocks or the manager recommends stocks."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A5 -> (A3 -> -A2))",
+              "prover9_expression": "(recommend(advisor, stocks) -> (consult(client, advisor) -> -invest(client, bonds)))",
+              "natural": "Should the advisor recommend stocks, then if the client consults with the advisor, the client does not invest in bonds."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (A3 -> -A2))",
+              "prover9_expression": "(recommend(manager, stocks) -> (consult(client, advisor) -> -invest(client, bonds)))",
+              "natural": "Provided that the manager recommends stocks, then if the client consults with the advisor, the client does not invest in bonds."
+            }
+          ],
+          "conclusion": "(A3 -> -A2)",
+          "natural": "If the client consults with the advisor, then the client does not invest in bonds."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(consult(client, advisor) | consult(client, manager))",
+              "natural": "The client consults with the advisor or the client consults with the manager."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> -A2)",
+              "prover9_expression": "(consult(client, advisor) -> -invest(client, bonds))",
+              "natural": "If the client consults with the advisor, then the client does not invest in bonds."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A4 -> -A2)",
+              "prover9_expression": "(consult(client, manager) -> -invest(client, bonds))",
+              "natural": "Whenever the client consults with the manager, the client does not invest in bonds."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The client does not invest in bonds."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A2 | (-G -> -A1))",
+              "prover9_expression": "(invest(client, bonds) | (-guaranteed_return(investment) -> -invest(client, stocks)))",
+              "natural": "Either the client invests in bonds or if the investment does not have a guaranteed return, then the client does not invest in stocks."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-invest(client, bonds)",
+              "natural": "The client does not invest in bonds."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should the investment not have a guaranteed return, then the client does not invest in stocks."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-guaranteed_return(investment) -> invest(client, stocks))",
+              "natural": "If the investment does not have a guaranteed return, then the client invests in stocks."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-guaranteed_return(investment) -> -invest(client, stocks))",
+              "natural": "Should the investment not have a guaranteed return, then the client does not invest in stocks."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The investment has a guaranteed return."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> (A14 -> (-(A11 | G) -> A12)))",
+              "prover9_expression": "(senior(advisor) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))))",
+              "natural": "Whenever the advisor is senior, then if the manager warns the client, it follows that if the investment is not high risk and lacks a guaranteed return, it has low return."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A15",
+              "prover9_expression": "senior(advisor)",
+              "natural": "The advisor is senior."
+            }
+          ],
+          "conclusion": "(A14 -> (-(A11 | G) -> A12))",
+          "natural": "Should the manager warn the client, then if neither the investment is high risk nor has a guaranteed return, the investment has low return."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(warn(advisor, client) | warn(manager, client))",
+              "natural": "Either the advisor warns the client or the manager warns the client."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (-(A11 | G) -> A12))",
+              "prover9_expression": "(warn(advisor, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment)))",
+              "natural": "Provided that the advisor warns the client, then if it is not the case that the investment is high risk or has a guaranteed return, the investment has low return."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (-(A11 | G) -> A12))",
+              "prover9_expression": "(warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment)))",
+              "natural": "Should the manager warn the client, then if neither the investment is high risk nor has a guaranteed return, the investment has low return."
+            }
+          ],
+          "conclusion": "(-(A11 | G) -> A12)",
+          "natural": "Given that it is not the case that the investment is high risk or has a guaranteed return, then the investment has low return."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A11 | G) -> A12)",
+              "prover9_expression": "(-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))",
+              "natural": "Given that it is not the case that the investment is high risk or has a guaranteed return, then the investment has low return."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A12",
+              "prover9_expression": "-low_return(investment)",
+              "natural": "The investment does not have low return."
+            }
+          ],
+          "conclusion": "(A11 | G)",
+          "natural": "Either the investment is high risk or the investment has a guaranteed return."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | G)",
+              "prover9_expression": "(high_risk(investment) | guaranteed_return(investment))",
+              "natural": "Either the investment is high risk or the investment has a guaranteed return."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A11",
+              "prover9_expression": "-high_risk(investment)",
+              "natural": "It is not the case that the investment is high risk."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The investment has a guaranteed return."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(-(A18 -> (A16 -> (A14 -> (-(A11 | G) -> A12)))) -> -A20) -> A21)",
+              "prover9_expression": "(-(-(director(manager) -> (regional(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))))) -> -fired(manager)) -> promoted(manager))",
+              "natural": "If it is not true that the absence of the condition that if the manager is a director, then if the manager is regional, then if the manager warns the client, the investment not being high risk or having a guaranteed return implies low return, results in the manager not being fired, then the manager is promoted."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A21",
+              "prover9_expression": "-promoted(manager)",
+              "natural": "The manager is not promoted."
+            }
+          ],
+          "conclusion": "(-(A18 -> (A16 -> (A14 -> (-(A11 | G) -> A12)))) -> -A20)",
+          "natural": "If it is not the case that should the manager be a director, then provided the manager is regional, then if the manager warns the client, the lack of the investment being high risk or having a guaranteed return leads to low return, then the manager is not fired."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A18 -> (A16 -> (A14 -> (-(A11 | G) -> A12)))) -> A20)",
+              "prover9_expression": "(-(director(manager) -> (regional(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))))) -> fired(manager))",
+              "natural": "If it is not true that if the manager is a director, then if the manager is regional, then if the manager warns the client, the investment not being high risk or having a guaranteed return implies low return, then the manager is fired."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A18 -> (A16 -> (A14 -> (-(A11 | G) -> A12)))) -> -A20)",
+              "prover9_expression": "(-(director(manager) -> (regional(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))))) -> -fired(manager))",
+              "natural": "If it is not the case that should the manager be a director, then provided the manager is regional, then if the manager warns the client, the lack of the investment being high risk or having a guaranteed return leads to low return, then the manager is not fired."
+            }
+          ],
+          "conclusion": "(A18 -> (A16 -> (A14 -> (-(A11 | G) -> A12))))",
+          "natural": "If the manager is a director, then provided the manager is regional, then if the manager warns the client, the non-occurrence of the investment being high risk or having a guaranteed return results in the investment having low return."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A18 | A19)",
+              "prover9_expression": "(director(manager) | assistant(manager))",
+              "natural": "The manager is either a director or an assistant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A16 -> (A14 -> (-(A11 | G) -> A12))))",
+              "prover9_expression": "(director(manager) -> (regional(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment)))))",
+              "natural": "If the manager is a director, then provided the manager is regional, then if the manager warns the client, the non-occurrence of the investment being high risk or having a guaranteed return results in the investment having low return."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A19 -> (A16 -> (A14 -> (-(A11 | G) -> A12))))",
+              "prover9_expression": "(assistant(manager) -> (regional(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment)))))",
+              "natural": "In the event that the manager is an assistant, then if the manager is regional, then if the manager warns the client, the failure of the investment to be high risk or have a guaranteed return implies the investment has low return."
+            }
+          ],
+          "conclusion": "(A16 -> (A14 -> (-(A11 | G) -> A12)))",
+          "natural": "Under the condition that the manager is regional, then if the manager warns the client, the absence of the investment being high risk or having a guaranteed return implies the investment has low return."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A16 | A17)",
+              "prover9_expression": "(regional(manager) | local(manager))",
+              "natural": "Either the manager is regional or the manager is local."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> (A14 -> (-(A11 | G) -> A12)))",
+              "prover9_expression": "(regional(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))))",
+              "natural": "Under the condition that the manager is regional, then if the manager warns the client, the absence of the investment being high risk or having a guaranteed return implies the investment has low return."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> (A14 -> (-(A11 | G) -> A12)))",
+              "prover9_expression": "(local(manager) -> (warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))))",
+              "natural": "Given that the manager is local, then should the manager warn the client, the lack of the investment being high risk or having a guaranteed return leads to the investment having low return."
+            }
+          ],
+          "conclusion": "(A14 -> (-(A11 | G) -> A12))",
+          "natural": "Should the manager warn the client, then if neither the investment is high risk nor has a guaranteed return, the investment has low return."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(warn(advisor, client) | warn(manager, client))",
+              "natural": "Either the advisor warns the client or the manager warns the client."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (-(A11 | G) -> A12))",
+              "prover9_expression": "(warn(advisor, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment)))",
+              "natural": "Provided that the advisor warns the client, then if it is not the case that the investment is high risk or has a guaranteed return, the investment has low return."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (-(A11 | G) -> A12))",
+              "prover9_expression": "(warn(manager, client) -> (-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment)))",
+              "natural": "Should the manager warn the client, then if neither the investment is high risk nor has a guaranteed return, the investment has low return."
+            }
+          ],
+          "conclusion": "(-(A11 | G) -> A12)",
+          "natural": "Given that it is not the case that the investment is high risk or has a guaranteed return, then the investment has low return."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A11 | G) -> A12)",
+              "prover9_expression": "(-(high_risk(investment) | guaranteed_return(investment)) -> low_return(investment))",
+              "natural": "Given that it is not the case that the investment is high risk or has a guaranteed return, then the investment has low return."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A12",
+              "prover9_expression": "-low_return(investment)",
+              "natural": "The investment does not have low return."
+            }
+          ],
+          "conclusion": "(A11 | G)",
+          "natural": "Either the investment is high risk or the investment has a guaranteed return."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | G)",
+              "prover9_expression": "(high_risk(investment) | guaranteed_return(investment))",
+              "natural": "Either the investment is high risk or the investment has a guaranteed return."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A11",
+              "prover9_expression": "-high_risk(investment)",
+              "natural": "It is not the case that the investment is high risk."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The investment has a guaranteed return."
+        }
+      ]
+    }
+  ]
+}

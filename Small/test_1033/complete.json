@@ -1,0 +1,423 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(buggy(technology) -> stable(technology))",
+        "natural": "Provided that the technology is buggy, it is stable."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → A5)",
+        "prover9_expression": "(buggy(technology) -> performant(technology))",
+        "natural": "Whenever the technology is buggy, it is performant."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A5 → ¬A4)",
+        "prover9_expression": "(performant(technology) -> -stable(technology))",
+        "natural": "If the technology is performant, then it is not stable."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → A7)",
+        "prover9_expression": "(addictive(substance) -> healthy(substance))",
+        "natural": "Provided that the substance is addictive, it is healthy."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 → A8)",
+        "prover9_expression": "(addictive(substance) -> profitable(substance))",
+        "natural": "Whenever the substance is addictive, it is profitable."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A6 ∨ (A3 → ¬A4))",
+        "prover9_expression": "(addictive(substance) | (buggy(technology) -> -stable(technology)))",
+        "natural": "Either the substance is addictive, or if the technology is buggy, then it is not stable."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A9 → (A8 → ¬A7))",
+        "prover9_expression": "(regulated(substance) -> (profitable(substance) -> -healthy(substance)))",
+        "natural": "Under the condition that the substance is regulated, if it is profitable, then it is not healthy."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A2 → A1) → A3)",
+        "prover9_expression": "(-(released(game) -> completed(game)) -> buggy(technology))",
+        "natural": "If it is not the case that the game being released implies it is completed, then the technology is buggy."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬G → A2)",
+        "prover9_expression": "(-funded(project) -> released(game))",
+        "natural": "Whenever the project is not funded, the game is released."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A9",
+        "prover9_expression": "regulated(substance)",
+        "natural": "The substance is regulated."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A1",
+        "prover9_expression": "-completed(game)",
+        "natural": "It is not the case that the game is completed."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "funded(project)",
+    "natural": "The project is funded."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A5)",
+            "(A5 -> -A4)"
+          ],
+          "conclusion": "(A3 -> -A4)",
+          "natural": "Under the condition that the technology is buggy, it is not stable."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A3 -> -A4)"
+          ],
+          "conclusion": "-A3",
+          "natural": "The technology is not buggy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> A1) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "If the game is released, then the game is completed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that the project is not funded, the game is completed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The project is funded."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> (A8 -> -A7))",
+            "A9"
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "If the substance is profitable, then it is not healthy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A8)",
+            "(A8 -> -A7)"
+          ],
+          "conclusion": "(A6 -> -A7)",
+          "natural": "Under the condition that the substance is addictive, it is not healthy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A6 -> A7)",
+            "(A6 -> -A7)"
+          ],
+          "conclusion": "-A6",
+          "natural": "The substance is not addictive."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (A3 -> -A4))",
+            "-A6"
+          ],
+          "conclusion": "(A3 -> -A4)",
+          "natural": "Under the condition that the technology is buggy, it is not stable."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A3 -> -A4)"
+          ],
+          "conclusion": "-A3",
+          "natural": "The technology is not buggy."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> A1) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "If the game is released, then the game is completed."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that the project is not funded, the game is completed."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The project is funded."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "VideoGameDevelopment",
+    "atomic_facts": {
+      "A1": "completed(game)",
+      "A2": "released(game)",
+      "A3": "buggy(technology)",
+      "A4": "stable(technology)",
+      "A5": "performant(technology)",
+      "A6": "addictive(substance)",
+      "A7": "healthy(substance)",
+      "A8": "profitable(substance)",
+      "A9": "regulated(substance)",
+      "G": "funded(project)"
+    },
+    "natural_facts": {
+      "A1": "The game is completed.",
+      "A2": "The game is released.",
+      "A3": "The technology is buggy.",
+      "A4": "The technology is stable.",
+      "A5": "The technology is performant.",
+      "A6": "The substance is addictive.",
+      "A7": "The substance is healthy.",
+      "A8": "The substance is profitable.",
+      "A9": "The substance is regulated.",
+      "G": "The project is funded."
+    },
+    "prover9_expressions": [
+      "(released(game) -> completed(game))",
+      "(buggy(technology) -> stable(technology))",
+      "(buggy(technology) -> performant(technology))",
+      "(buggy(technology) -> -stable(technology))",
+      "(performant(technology) -> -stable(technology))",
+      "(addictive(substance) -> healthy(substance))",
+      "(addictive(substance) -> profitable(substance))",
+      "(addictive(substance) -> -healthy(substance))",
+      "(addictive(substance) | (buggy(technology) -> -stable(technology)))",
+      "(profitable(substance) -> -healthy(substance))",
+      "(regulated(substance) -> (profitable(substance) -> -healthy(substance)))",
+      "(-(released(game) -> completed(game)) -> buggy(technology))",
+      "(-funded(project) -> completed(game))",
+      "(-funded(project) -> released(game))",
+      "regulated(substance)",
+      "funded(project)",
+      "-completed(game)",
+      "-buggy(technology)",
+      "-addictive(substance)"
+    ],
+    "natural_expressions": [
+      "If the game is released, then the game is completed.",
+      "Provided that the technology is buggy, it is stable.",
+      "Whenever the technology is buggy, it is performant.",
+      "Under the condition that the technology is buggy, it is not stable.",
+      "If the technology is performant, then it is not stable.",
+      "Provided that the substance is addictive, it is healthy.",
+      "Whenever the substance is addictive, it is profitable.",
+      "Under the condition that the substance is addictive, it is not healthy.",
+      "Either the substance is addictive, or if the technology is buggy, then it is not stable.",
+      "If the substance is profitable, then it is not healthy.",
+      "Under the condition that the substance is regulated, if it is profitable, then it is not healthy.",
+      "If it is not the case that the game being released implies it is completed, then the technology is buggy.",
+      "Provided that the project is not funded, the game is completed.",
+      "Whenever the project is not funded, the game is released.",
+      "The substance is regulated.",
+      "The project is funded.",
+      "It is not the case that the game is completed.",
+      "The technology is not buggy.",
+      "The substance is not addictive."
+    ],
+    "node_mappings": {
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(released(game) -> completed(game))",
+        "natural": "If the game is released, then the game is completed."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(buggy(technology) -> stable(technology))",
+        "natural": "Provided that the technology is buggy, it is stable."
+      },
+      "(A3 → A5)": {
+        "formal": "(A3 → A5)",
+        "prover9": "(A3 -> A5)",
+        "prover9_expression": "(buggy(technology) -> performant(technology))",
+        "natural": "Whenever the technology is buggy, it is performant."
+      },
+      "(A3 → ¬A4)": {
+        "formal": "(A3 → ¬A4)",
+        "prover9": "(A3 -> -A4)",
+        "prover9_expression": "(buggy(technology) -> -stable(technology))",
+        "natural": "Under the condition that the technology is buggy, it is not stable."
+      },
+      "(A5 → ¬A4)": {
+        "formal": "(A5 → ¬A4)",
+        "prover9": "(A5 -> -A4)",
+        "prover9_expression": "(performant(technology) -> -stable(technology))",
+        "natural": "If the technology is performant, then it is not stable."
+      },
+      "(A6 → A7)": {
+        "formal": "(A6 → A7)",
+        "prover9": "(A6 -> A7)",
+        "prover9_expression": "(addictive(substance) -> healthy(substance))",
+        "natural": "Provided that the substance is addictive, it is healthy."
+      },
+      "(A6 → A8)": {
+        "formal": "(A6 → A8)",
+        "prover9": "(A6 -> A8)",
+        "prover9_expression": "(addictive(substance) -> profitable(substance))",
+        "natural": "Whenever the substance is addictive, it is profitable."
+      },
+      "(A6 → ¬A7)": {
+        "formal": "(A6 → ¬A7)",
+        "prover9": "(A6 -> -A7)",
+        "prover9_expression": "(addictive(substance) -> -healthy(substance))",
+        "natural": "Under the condition that the substance is addictive, it is not healthy."
+      },
+      "(A6 ∨ (A3 → ¬A4))": {
+        "formal": "(A6 ∨ (A3 → ¬A4))",
+        "prover9": "(A6 | (A3 -> -A4))",
+        "prover9_expression": "(addictive(substance) | (buggy(technology) -> -stable(technology)))",
+        "natural": "Either the substance is addictive, or if the technology is buggy, then it is not stable."
+      },
+      "(A8 → ¬A7)": {
+        "formal": "(A8 → ¬A7)",
+        "prover9": "(A8 -> -A7)",
+        "prover9_expression": "(profitable(substance) -> -healthy(substance))",
+        "natural": "If the substance is profitable, then it is not healthy."
+      },
+      "(A9 → (A8 → ¬A7))": {
+        "formal": "(A9 → (A8 → ¬A7))",
+        "prover9": "(A9 -> (A8 -> -A7))",
+        "prover9_expression": "(regulated(substance) -> (profitable(substance) -> -healthy(substance)))",
+        "natural": "Under the condition that the substance is regulated, if it is profitable, then it is not healthy."
+      },
+      "(¬(A2 → A1) → A3)": {
+        "formal": "(¬(A2 → A1) → A3)",
+        "prover9": "(-(A2 -> A1) -> A3)",
+        "prover9_expression": "(-(released(game) -> completed(game)) -> buggy(technology))",
+        "natural": "If it is not the case that the game being released implies it is completed, then the technology is buggy."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-funded(project) -> completed(game))",
+        "natural": "Provided that the project is not funded, the game is completed."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-funded(project) -> released(game))",
+        "natural": "Whenever the project is not funded, the game is released."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "regulated(substance)",
+        "natural": "The substance is regulated."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "funded(project)",
+        "natural": "The project is funded."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-completed(game)",
+        "natural": "It is not the case that the game is completed."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-buggy(technology)",
+        "natural": "The technology is not buggy."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-addictive(substance)",
+        "natural": "The substance is not addictive."
+      }
+    }
+  }
+}

@@ -1,0 +1,912 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "(uses(machine1, solvent) -> operates(machine1, mixer))",
+        "natural": "If machine1 uses solvent, then machine1 operates as a mixer."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (A10 ∨ (A8 → (A7 ∨ G))))",
+        "prover9_expression": "(safe(compound1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+        "natural": "Whenever compound1 is safe, then either compound2 is approved or if compound1 is tested in lab1, either compound1 is approved or production meets quality standards."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 ∨ A14)",
+        "prover9_expression": "(synthesized(compound1, reactor1) | synthesized(compound1, reactor2))",
+        "natural": "Compound1 is synthesized in reactor1 or compound1 is synthesized in reactor2."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 → (A10 ∨ (A8 → (A7 ∨ G))))",
+        "prover9_expression": "(synthesized(compound1, reactor2) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+        "natural": "If compound1 is synthesized in reactor2, then compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 ∨ A16)",
+        "prover9_expression": "(purified(compound1, column1) | purified(compound1, column2))",
+        "natural": "Either compound1 is purified in column1 or compound1 is purified in column2."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A16 → (A13 → (A10 ∨ (A8 → (A7 ∨ G)))))",
+        "prover9_expression": "(purified(compound1, column2) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))))",
+        "natural": "Whenever compound1 is purified in column2, then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A18 → A11)",
+        "prover9_expression": "(analyzed(compound1, spectroscopy) -> safe(compound1))",
+        "natural": "If compound1 is analyzed by spectroscopy, then compound1 is safe."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A19 → A11)",
+        "prover9_expression": "(analyzed(compound1, chromatography) -> safe(compound1))",
+        "natural": "Under the condition that compound1 is analyzed by chromatography, compound1 is safe."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A21 → (¬(A18 ∨ A19) → A20))",
+        "prover9_expression": "(documented(process1) -> (-(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography)) -> incomplete_analysis(compound1)))",
+        "natural": "Whenever process1 is documented, then if it is not the case that compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography, compound1 has incomplete analysis."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A22 → A21)",
+        "prover9_expression": "(reviewed(process1, qa1) -> documented(process1))",
+        "natural": "If process1 is reviewed by qa1, then process1 is documented."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A22 ∨ A23)",
+        "prover9_expression": "(reviewed(process1, qa1) | reviewed(process1, qa2))",
+        "natural": "Process1 is reviewed by qa1 or process1 is reviewed by qa2."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A23 → A24)",
+        "prover9_expression": "(reviewed(process1, qa2) -> verified(process1, supervisor))",
+        "natural": "Under the condition that process1 is reviewed by qa2, process1 is verified by supervisor."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A24 → A21)",
+        "prover9_expression": "(verified(process1, supervisor) -> documented(process1))",
+        "natural": "If process1 is verified by supervisor, then process1 is documented."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A3 → G)",
+        "prover9_expression": "(produces(machine1, intermediate) -> quality_standard(production))",
+        "natural": "Whenever machine1 produces an intermediate, production meets quality standards."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(tested(compound1, lab1) | tested(compound1, lab2))",
+        "natural": "Compound1 is tested in lab1 or compound1 is tested in lab2."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A9 → (A7 ∨ G))",
+        "prover9_expression": "(tested(compound1, lab2) -> (approved(compound1) | quality_standard(production)))",
+        "natural": "If compound1 is tested in lab2, then compound1 is approved or production meets quality standards."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(¬(A15 → (A13 → (A10 ∨ (A8 → (A7 ∨ G))))) → A17)",
+        "prover9_expression": "(-(purified(compound1, column1) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))) -> failed_purification(compound1))",
+        "natural": "If it is not the case that if compound1 is purified in column1 then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards, then compound1 has failed purification."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(¬(A2 → A3) → A5)",
+        "prover9_expression": "(-(operates(machine1, mixer) -> produces(machine1, intermediate)) -> contaminated(mixture2))",
+        "natural": "If it is not the case that if machine1 operates as a mixer then machine1 produces an intermediate, mixture2 is contaminated."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(¬(A5 → A4) → A6)",
+        "prover9_expression": "(-(contaminated(mixture2) -> contaminated(mixture1)) -> rejected(batch1))",
+        "natural": "Under the condition that it is not the case that if mixture2 is contaminated then mixture1 is contaminated, batch1 is rejected."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(¬A11 → A12)",
+        "prover9_expression": "(-safe(compound1) -> toxic(compound1))",
+        "natural": "If compound1 is not safe, then compound1 is toxic."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(¬A11 → ¬A12)",
+        "prover9_expression": "(-safe(compound1) -> -toxic(compound1))",
+        "natural": "Whenever compound1 is not safe, then it is not the case that compound1 is toxic."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "uses(machine1, solvent)",
+        "natural": "Machine1 uses solvent."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A10",
+        "prover9_expression": "-approved(compound2)",
+        "natural": "It is not the case that compound2 is approved."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A17",
+        "prover9_expression": "-failed_purification(compound1)",
+        "natural": "Compound1 does not have failed purification."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A20",
+        "prover9_expression": "-incomplete_analysis(compound1)",
+        "natural": "It is not the case that compound1 has incomplete analysis."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A4",
+        "prover9_expression": "-contaminated(mixture1)",
+        "natural": "Mixture1 is not contaminated."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A6",
+        "prover9_expression": "-rejected(batch1)",
+        "natural": "Batch1 is not rejected."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A7",
+        "prover9_expression": "-approved(compound1)",
+        "natural": "Compound1 is not approved."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "quality_standard(production)",
+    "natural": "Production meets quality standards."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A5 -> A4) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(A5 -> A4)",
+          "natural": "If mixture2 is contaminated, then mixture1 is contaminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A2 -> A3) -> A5)",
+            "(A5 -> A4)"
+          ],
+          "conclusion": "(-(A2 -> A3) -> A4)",
+          "natural": "Provided that it is not the case that if machine1 operates as a mixer then machine1 produces an intermediate, mixture1 is contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> A3) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "Provided that machine1 operates as a mixer, machine1 produces an intermediate."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "If machine1 operates as a mixer, then production meets quality standards."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that machine1 uses solvent, production meets quality standards."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Production meets quality standards."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A11 -> A12)",
+            "(-A11 -> -A12)"
+          ],
+          "conclusion": "A11",
+          "natural": "Compound1 is safe."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> (A10 | (A8 -> (A7 | G))))",
+            "A11"
+          ],
+          "conclusion": "(A10 | (A8 -> (A7 | G)))",
+          "natural": "Either compound2 is approved, or if compound1 is tested in lab1, then either compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A8 -> (A7 | G)))",
+            "-A10"
+          ],
+          "conclusion": "(A8 -> (A7 | G))",
+          "natural": "Provided that compound1 is tested in lab1, then compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A7 | G))",
+            "(A9 -> (A7 | G))"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Production meets quality standards."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A15 -> (A13 -> (A10 | (A8 -> (A7 | G))))) -> A17)",
+            "-A17"
+          ],
+          "conclusion": "(A15 -> (A13 -> (A10 | (A8 -> (A7 | G)))))",
+          "natural": "Provided that compound1 is purified in column1, then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A15 | A16)",
+            "(A15 -> (A13 -> (A10 | (A8 -> (A7 | G)))))",
+            "(A16 -> (A13 -> (A10 | (A8 -> (A7 | G)))))"
+          ],
+          "conclusion": "(A13 -> (A10 | (A8 -> (A7 | G))))",
+          "natural": "Under the condition that compound1 is synthesized in reactor1, then compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> (A10 | (A8 -> (A7 | G))))",
+            "(A14 -> (A10 | (A8 -> (A7 | G))))"
+          ],
+          "conclusion": "(A10 | (A8 -> (A7 | G)))",
+          "natural": "Either compound2 is approved, or if compound1 is tested in lab1, then either compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A8 -> (A7 | G)))",
+            "-A10"
+          ],
+          "conclusion": "(A8 -> (A7 | G))",
+          "natural": "Provided that compound1 is tested in lab1, then compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A7 | G))",
+            "(A9 -> (A7 | G))"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Production meets quality standards."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A23 -> A24)",
+            "(A24 -> A21)"
+          ],
+          "conclusion": "(A23 -> A21)",
+          "natural": "Provided that process1 is reviewed by qa2, process1 is documented."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A22 | A23)",
+            "(A22 -> A21)",
+            "(A23 -> A21)"
+          ],
+          "conclusion": "A21",
+          "natural": "Process1 is documented."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> (-(A18 | A19) -> A20))",
+            "A21"
+          ],
+          "conclusion": "(-(A18 | A19) -> A20)",
+          "natural": "Whenever it is not the case that compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography, compound1 has incomplete analysis."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A18 | A19) -> A20)",
+            "-A20"
+          ],
+          "conclusion": "(A18 | A19)",
+          "natural": "Compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A18 | A19)",
+            "(A18 -> A11)",
+            "(A19 -> A11)"
+          ],
+          "conclusion": "A11",
+          "natural": "Compound1 is safe."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> (A10 | (A8 -> (A7 | G))))",
+            "A11"
+          ],
+          "conclusion": "(A10 | (A8 -> (A7 | G)))",
+          "natural": "Either compound2 is approved, or if compound1 is tested in lab1, then either compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A8 -> (A7 | G)))",
+            "-A10"
+          ],
+          "conclusion": "(A8 -> (A7 | G))",
+          "natural": "Provided that compound1 is tested in lab1, then compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A7 | G))",
+            "(A9 -> (A7 | G))"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either compound1 is approved or production meets quality standards."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Production meets quality standards."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "uses(machine1, solvent)",
+      "A2": "operates(machine1, mixer)",
+      "A3": "produces(machine1, intermediate)",
+      "A4": "contaminated(mixture1)",
+      "A5": "contaminated(mixture2)",
+      "A6": "rejected(batch1)",
+      "A7": "approved(compound1)",
+      "A8": "tested(compound1, lab1)",
+      "A9": "tested(compound1, lab2)",
+      "A10": "approved(compound2)",
+      "A11": "safe(compound1)",
+      "A12": "toxic(compound1)",
+      "A13": "synthesized(compound1, reactor1)",
+      "A14": "synthesized(compound1, reactor2)",
+      "A15": "purified(compound1, column1)",
+      "A16": "purified(compound1, column2)",
+      "A17": "failed_purification(compound1)",
+      "A18": "analyzed(compound1, spectroscopy)",
+      "A19": "analyzed(compound1, chromatography)",
+      "A20": "incomplete_analysis(compound1)",
+      "A21": "documented(process1)",
+      "A22": "reviewed(process1, qa1)",
+      "A23": "reviewed(process1, qa2)",
+      "A24": "verified(process1, supervisor)",
+      "G": "quality_standard(production)"
+    },
+    "natural_facts": {
+      "A1": "Machine1 uses solvent.",
+      "A2": "Machine1 operates as a mixer.",
+      "A3": "Machine1 produces an intermediate.",
+      "A4": "Mixture1 is contaminated.",
+      "A5": "Mixture2 is contaminated.",
+      "A6": "Batch1 is rejected.",
+      "A7": "Compound1 is approved.",
+      "A8": "Compound1 is tested in lab1.",
+      "A9": "Compound1 is tested in lab2.",
+      "A10": "Compound2 is approved.",
+      "A11": "Compound1 is safe.",
+      "A12": "Compound1 is toxic.",
+      "A13": "Compound1 is synthesized in reactor1.",
+      "A14": "Compound1 is synthesized in reactor2.",
+      "A15": "Compound1 is purified in column1.",
+      "A16": "Compound1 is purified in column2.",
+      "A17": "Compound1 has a failed purification.",
+      "A18": "Compound1 is analyzed by spectroscopy.",
+      "A19": "Compound1 is analyzed by chromatography.",
+      "A20": "Compound1 has incomplete analysis.",
+      "A21": "Process1 is documented.",
+      "A22": "Process1 is reviewed by qa1.",
+      "A23": "Process1 is reviewed by qa2.",
+      "A24": "Process1 is verified by supervisor.",
+      "G": "Production meets quality standards."
+    },
+    "prover9_expressions": [
+      "(uses(machine1, solvent) -> operates(machine1, mixer))",
+      "(uses(machine1, solvent) -> quality_standard(production))",
+      "(approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))",
+      "(safe(compound1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+      "(synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+      "(synthesized(compound1, reactor1) | synthesized(compound1, reactor2))",
+      "(synthesized(compound1, reactor2) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+      "(purified(compound1, column1) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))))",
+      "(purified(compound1, column1) | purified(compound1, column2))",
+      "(purified(compound1, column2) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))))",
+      "(analyzed(compound1, spectroscopy) -> safe(compound1))",
+      "(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography))",
+      "(analyzed(compound1, chromatography) -> safe(compound1))",
+      "(operates(machine1, mixer) -> produces(machine1, intermediate))",
+      "(operates(machine1, mixer) -> quality_standard(production))",
+      "(documented(process1) -> (-(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography)) -> incomplete_analysis(compound1)))",
+      "(reviewed(process1, qa1) -> documented(process1))",
+      "(reviewed(process1, qa1) | reviewed(process1, qa2))",
+      "(reviewed(process1, qa2) -> documented(process1))",
+      "(reviewed(process1, qa2) -> verified(process1, supervisor))",
+      "(verified(process1, supervisor) -> documented(process1))",
+      "(produces(machine1, intermediate) -> quality_standard(production))",
+      "(contaminated(mixture2) -> contaminated(mixture1))",
+      "(approved(compound1) | quality_standard(production))",
+      "(tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))",
+      "(tested(compound1, lab1) | tested(compound1, lab2))",
+      "(tested(compound1, lab2) -> (approved(compound1) | quality_standard(production)))",
+      "(-(purified(compound1, column1) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))) -> failed_purification(compound1))",
+      "(-(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography)) -> incomplete_analysis(compound1))",
+      "(-(operates(machine1, mixer) -> produces(machine1, intermediate)) -> contaminated(mixture1))",
+      "(-(operates(machine1, mixer) -> produces(machine1, intermediate)) -> contaminated(mixture2))",
+      "(-(contaminated(mixture2) -> contaminated(mixture1)) -> rejected(batch1))",
+      "(-safe(compound1) -> toxic(compound1))",
+      "(-safe(compound1) -> -toxic(compound1))",
+      "uses(machine1, solvent)",
+      "safe(compound1)",
+      "documented(process1)",
+      "quality_standard(production)",
+      "-approved(compound2)",
+      "-failed_purification(compound1)",
+      "-incomplete_analysis(compound1)",
+      "-contaminated(mixture1)",
+      "-rejected(batch1)",
+      "-approved(compound1)"
+    ],
+    "natural_expressions": [
+      "If machine1 uses solvent, then machine1 operates as a mixer.",
+      "Provided that machine1 uses solvent, production meets quality standards.",
+      "Either compound2 is approved, or if compound1 is tested in lab1, then either compound1 is approved or production meets quality standards.",
+      "Whenever compound1 is safe, then either compound2 is approved or if compound1 is tested in lab1, either compound1 is approved or production meets quality standards.",
+      "Under the condition that compound1 is synthesized in reactor1, then compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards.",
+      "Compound1 is synthesized in reactor1 or compound1 is synthesized in reactor2.",
+      "If compound1 is synthesized in reactor2, then compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards.",
+      "Provided that compound1 is purified in column1, then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards.",
+      "Either compound1 is purified in column1 or compound1 is purified in column2.",
+      "Whenever compound1 is purified in column2, then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards.",
+      "If compound1 is analyzed by spectroscopy, then compound1 is safe.",
+      "Compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography.",
+      "Under the condition that compound1 is analyzed by chromatography, compound1 is safe.",
+      "Provided that machine1 operates as a mixer, machine1 produces an intermediate.",
+      "If machine1 operates as a mixer, then production meets quality standards.",
+      "Whenever process1 is documented, then if it is not the case that compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography, compound1 has incomplete analysis.",
+      "If process1 is reviewed by qa1, then process1 is documented.",
+      "Process1 is reviewed by qa1 or process1 is reviewed by qa2.",
+      "Provided that process1 is reviewed by qa2, process1 is documented.",
+      "Under the condition that process1 is reviewed by qa2, process1 is verified by supervisor.",
+      "If process1 is verified by supervisor, then process1 is documented.",
+      "Whenever machine1 produces an intermediate, production meets quality standards.",
+      "If mixture2 is contaminated, then mixture1 is contaminated.",
+      "Either compound1 is approved or production meets quality standards.",
+      "Provided that compound1 is tested in lab1, then compound1 is approved or production meets quality standards.",
+      "Compound1 is tested in lab1 or compound1 is tested in lab2.",
+      "If compound1 is tested in lab2, then compound1 is approved or production meets quality standards.",
+      "If it is not the case that if compound1 is purified in column1 then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards, then compound1 has failed purification.",
+      "Whenever it is not the case that compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography, compound1 has incomplete analysis.",
+      "Provided that it is not the case that if machine1 operates as a mixer then machine1 produces an intermediate, mixture1 is contaminated.",
+      "If it is not the case that if machine1 operates as a mixer then machine1 produces an intermediate, mixture2 is contaminated.",
+      "Under the condition that it is not the case that if mixture2 is contaminated then mixture1 is contaminated, batch1 is rejected.",
+      "If compound1 is not safe, then compound1 is toxic.",
+      "Whenever compound1 is not safe, then it is not the case that compound1 is toxic.",
+      "Machine1 uses solvent.",
+      "Compound1 is safe.",
+      "Process1 is documented.",
+      "Production meets quality standards.",
+      "It is not the case that compound2 is approved.",
+      "Compound1 does not have failed purification.",
+      "It is not the case that compound1 has incomplete analysis.",
+      "Mixture1 is not contaminated.",
+      "Batch1 is not rejected.",
+      "Compound1 is not approved."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(uses(machine1, solvent) -> operates(machine1, mixer))",
+        "natural": "If machine1 uses solvent, then machine1 operates as a mixer."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(uses(machine1, solvent) -> quality_standard(production))",
+        "natural": "Provided that machine1 uses solvent, production meets quality standards."
+      },
+      "(A10 ∨ (A8 → (A7 ∨ G)))": {
+        "formal": "(A10 ∨ (A8 → (A7 ∨ G)))",
+        "prover9": "(A10 | (A8 -> (A7 | G)))",
+        "prover9_expression": "(approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))",
+        "natural": "Either compound2 is approved, or if compound1 is tested in lab1, then either compound1 is approved or production meets quality standards."
+      },
+      "(A11 → (A10 ∨ (A8 → (A7 ∨ G))))": {
+        "formal": "(A11 → (A10 ∨ (A8 → (A7 ∨ G))))",
+        "prover9": "(A11 -> (A10 | (A8 -> (A7 | G))))",
+        "prover9_expression": "(safe(compound1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+        "natural": "Whenever compound1 is safe, then either compound2 is approved or if compound1 is tested in lab1, either compound1 is approved or production meets quality standards."
+      },
+      "(A13 → (A10 ∨ (A8 → (A7 ∨ G))))": {
+        "formal": "(A13 → (A10 ∨ (A8 → (A7 ∨ G))))",
+        "prover9": "(A13 -> (A10 | (A8 -> (A7 | G))))",
+        "prover9_expression": "(synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+        "natural": "Under the condition that compound1 is synthesized in reactor1, then compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+      },
+      "(A13 ∨ A14)": {
+        "formal": "(A13 ∨ A14)",
+        "prover9": "(A13 | A14)",
+        "prover9_expression": "(synthesized(compound1, reactor1) | synthesized(compound1, reactor2))",
+        "natural": "Compound1 is synthesized in reactor1 or compound1 is synthesized in reactor2."
+      },
+      "(A14 → (A10 ∨ (A8 → (A7 ∨ G))))": {
+        "formal": "(A14 → (A10 ∨ (A8 → (A7 ∨ G))))",
+        "prover9": "(A14 -> (A10 | (A8 -> (A7 | G))))",
+        "prover9_expression": "(synthesized(compound1, reactor2) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))",
+        "natural": "If compound1 is synthesized in reactor2, then compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+      },
+      "(A15 → (A13 → (A10 ∨ (A8 → (A7 ∨ G)))))": {
+        "formal": "(A15 → (A13 → (A10 ∨ (A8 → (A7 ∨ G)))))",
+        "prover9": "(A15 -> (A13 -> (A10 | (A8 -> (A7 | G)))))",
+        "prover9_expression": "(purified(compound1, column1) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))))",
+        "natural": "Provided that compound1 is purified in column1, then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+      },
+      "(A15 ∨ A16)": {
+        "formal": "(A15 ∨ A16)",
+        "prover9": "(A15 | A16)",
+        "prover9_expression": "(purified(compound1, column1) | purified(compound1, column2))",
+        "natural": "Either compound1 is purified in column1 or compound1 is purified in column2."
+      },
+      "(A16 → (A13 → (A10 ∨ (A8 → (A7 ∨ G)))))": {
+        "formal": "(A16 → (A13 → (A10 ∨ (A8 → (A7 ∨ G)))))",
+        "prover9": "(A16 -> (A13 -> (A10 | (A8 -> (A7 | G)))))",
+        "prover9_expression": "(purified(compound1, column2) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production))))))",
+        "natural": "Whenever compound1 is purified in column2, then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards."
+      },
+      "(A18 → A11)": {
+        "formal": "(A18 → A11)",
+        "prover9": "(A18 -> A11)",
+        "prover9_expression": "(analyzed(compound1, spectroscopy) -> safe(compound1))",
+        "natural": "If compound1 is analyzed by spectroscopy, then compound1 is safe."
+      },
+      "(A18 ∨ A19)": {
+        "formal": "(A18 ∨ A19)",
+        "prover9": "(A18 | A19)",
+        "prover9_expression": "(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography))",
+        "natural": "Compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography."
+      },
+      "(A19 → A11)": {
+        "formal": "(A19 → A11)",
+        "prover9": "(A19 -> A11)",
+        "prover9_expression": "(analyzed(compound1, chromatography) -> safe(compound1))",
+        "natural": "Under the condition that compound1 is analyzed by chromatography, compound1 is safe."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(operates(machine1, mixer) -> produces(machine1, intermediate))",
+        "natural": "Provided that machine1 operates as a mixer, machine1 produces an intermediate."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(operates(machine1, mixer) -> quality_standard(production))",
+        "natural": "If machine1 operates as a mixer, then production meets quality standards."
+      },
+      "(A21 → (¬(A18 ∨ A19) → A20))": {
+        "formal": "(A21 → (¬(A18 ∨ A19) → A20))",
+        "prover9": "(A21 -> (-(A18 | A19) -> A20))",
+        "prover9_expression": "(documented(process1) -> (-(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography)) -> incomplete_analysis(compound1)))",
+        "natural": "Whenever process1 is documented, then if it is not the case that compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography, compound1 has incomplete analysis."
+      },
+      "(A22 → A21)": {
+        "formal": "(A22 → A21)",
+        "prover9": "(A22 -> A21)",
+        "prover9_expression": "(reviewed(process1, qa1) -> documented(process1))",
+        "natural": "If process1 is reviewed by qa1, then process1 is documented."
+      },
+      "(A22 ∨ A23)": {
+        "formal": "(A22 ∨ A23)",
+        "prover9": "(A22 | A23)",
+        "prover9_expression": "(reviewed(process1, qa1) | reviewed(process1, qa2))",
+        "natural": "Process1 is reviewed by qa1 or process1 is reviewed by qa2."
+      },
+      "(A23 → A21)": {
+        "formal": "(A23 → A21)",
+        "prover9": "(A23 -> A21)",
+        "prover9_expression": "(reviewed(process1, qa2) -> documented(process1))",
+        "natural": "Provided that process1 is reviewed by qa2, process1 is documented."
+      },
+      "(A23 → A24)": {
+        "formal": "(A23 → A24)",
+        "prover9": "(A23 -> A24)",
+        "prover9_expression": "(reviewed(process1, qa2) -> verified(process1, supervisor))",
+        "natural": "Under the condition that process1 is reviewed by qa2, process1 is verified by supervisor."
+      },
+      "(A24 → A21)": {
+        "formal": "(A24 → A21)",
+        "prover9": "(A24 -> A21)",
+        "prover9_expression": "(verified(process1, supervisor) -> documented(process1))",
+        "natural": "If process1 is verified by supervisor, then process1 is documented."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(produces(machine1, intermediate) -> quality_standard(production))",
+        "natural": "Whenever machine1 produces an intermediate, production meets quality standards."
+      },
+      "(A5 → A4)": {
+        "formal": "(A5 → A4)",
+        "prover9": "(A5 -> A4)",
+        "prover9_expression": "(contaminated(mixture2) -> contaminated(mixture1))",
+        "natural": "If mixture2 is contaminated, then mixture1 is contaminated."
+      },
+      "(A7 ∨ G)": {
+        "formal": "(A7 ∨ G)",
+        "prover9": "(A7 | G)",
+        "prover9_expression": "(approved(compound1) | quality_standard(production))",
+        "natural": "Either compound1 is approved or production meets quality standards."
+      },
+      "(A8 → (A7 ∨ G))": {
+        "formal": "(A8 → (A7 ∨ G))",
+        "prover9": "(A8 -> (A7 | G))",
+        "prover9_expression": "(tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))",
+        "natural": "Provided that compound1 is tested in lab1, then compound1 is approved or production meets quality standards."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(tested(compound1, lab1) | tested(compound1, lab2))",
+        "natural": "Compound1 is tested in lab1 or compound1 is tested in lab2."
+      },
+      "(A9 → (A7 ∨ G))": {
+        "formal": "(A9 → (A7 ∨ G))",
+        "prover9": "(A9 -> (A7 | G))",
+        "prover9_expression": "(tested(compound1, lab2) -> (approved(compound1) | quality_standard(production)))",
+        "natural": "If compound1 is tested in lab2, then compound1 is approved or production meets quality standards."
+      },
+      "(¬(A15 → (A13 → (A10 ∨ (A8 → (A7 ∨ G))))) → A17)": {
+        "formal": "(¬(A15 → (A13 → (A10 ∨ (A8 → (A7 ∨ G))))) → A17)",
+        "prover9": "(-(A15 -> (A13 -> (A10 | (A8 -> (A7 | G))))) -> A17)",
+        "prover9_expression": "(-(purified(compound1, column1) -> (synthesized(compound1, reactor1) -> (approved(compound2) | (tested(compound1, lab1) -> (approved(compound1) | quality_standard(production)))))) -> failed_purification(compound1))",
+        "natural": "If it is not the case that if compound1 is purified in column1 then if compound1 is synthesized in reactor1, compound2 is approved or if compound1 is tested in lab1, compound1 is approved or production meets quality standards, then compound1 has failed purification."
+      },
+      "(¬(A18 ∨ A19) → A20)": {
+        "formal": "(¬(A18 ∨ A19) → A20)",
+        "prover9": "(-(A18 | A19) -> A20)",
+        "prover9_expression": "(-(analyzed(compound1, spectroscopy) | analyzed(compound1, chromatography)) -> incomplete_analysis(compound1))",
+        "natural": "Whenever it is not the case that compound1 is analyzed by spectroscopy or compound1 is analyzed by chromatography, compound1 has incomplete analysis."
+      },
+      "(¬(A2 → A3) → A4)": {
+        "formal": "(¬(A2 → A3) → A4)",
+        "prover9": "(-(A2 -> A3) -> A4)",
+        "prover9_expression": "(-(operates(machine1, mixer) -> produces(machine1, intermediate)) -> contaminated(mixture1))",
+        "natural": "Provided that it is not the case that if machine1 operates as a mixer then machine1 produces an intermediate, mixture1 is contaminated."
+      },
+      "(¬(A2 → A3) → A5)": {
+        "formal": "(¬(A2 → A3) → A5)",
+        "prover9": "(-(A2 -> A3) -> A5)",
+        "prover9_expression": "(-(operates(machine1, mixer) -> produces(machine1, intermediate)) -> contaminated(mixture2))",
+        "natural": "If it is not the case that if machine1 operates as a mixer then machine1 produces an intermediate, mixture2 is contaminated."
+      },
+      "(¬(A5 → A4) → A6)": {
+        "formal": "(¬(A5 → A4) → A6)",
+        "prover9": "(-(A5 -> A4) -> A6)",
+        "prover9_expression": "(-(contaminated(mixture2) -> contaminated(mixture1)) -> rejected(batch1))",
+        "natural": "Under the condition that it is not the case that if mixture2 is contaminated then mixture1 is contaminated, batch1 is rejected."
+      },
+      "(¬A11 → A12)": {
+        "formal": "(¬A11 → A12)",
+        "prover9": "(-A11 -> A12)",
+        "prover9_expression": "(-safe(compound1) -> toxic(compound1))",
+        "natural": "If compound1 is not safe, then compound1 is toxic."
+      },
+      "(¬A11 → ¬A12)": {
+        "formal": "(¬A11 → ¬A12)",
+        "prover9": "(-A11 -> -A12)",
+        "prover9_expression": "(-safe(compound1) -> -toxic(compound1))",
+        "natural": "Whenever compound1 is not safe, then it is not the case that compound1 is toxic."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "uses(machine1, solvent)",
+        "natural": "Machine1 uses solvent."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "safe(compound1)",
+        "natural": "Compound1 is safe."
+      },
+      "A21": {
+        "formal": "A21",
+        "prover9": "A21",
+        "prover9_expression": "documented(process1)",
+        "natural": "Process1 is documented."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "quality_standard(production)",
+        "natural": "Production meets quality standards."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-approved(compound2)",
+        "natural": "It is not the case that compound2 is approved."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-failed_purification(compound1)",
+        "natural": "Compound1 does not have failed purification."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-incomplete_analysis(compound1)",
+        "natural": "It is not the case that compound1 has incomplete analysis."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-contaminated(mixture1)",
+        "natural": "Mixture1 is not contaminated."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-rejected(batch1)",
+        "natural": "Batch1 is not rejected."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-approved(compound1)",
+        "natural": "Compound1 is not approved."
+      }
+    }
+  }
+}

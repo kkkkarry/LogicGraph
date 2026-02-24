@@ -1,0 +1,2899 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 12,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      },
+      "3": {
+        "core": 1,
+        "branch": 3
+      },
+      "4": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A26)",
+        "prover9_expression": "(contains(reactor_vessel, active_ingredient) -> batch_complete(active_ingredient))",
+        "natural": "If the reactor vessel contains the active ingredient, then the batch of active ingredient is complete."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 ∨ (A9 ∨ G))",
+        "prover9_expression": "(contamination_detected(active_ingredient) | (quality_passed(active_ingredient) | product_ready(finished_product)))",
+        "natural": "Either contamination is detected in the active ingredient, or the active ingredient passes quality checks, or the finished product is ready."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → ¬A10)",
+        "prover9_expression": "(purification_complete(active_ingredient) -> -contamination_detected(active_ingredient))",
+        "natural": "Whenever purification of the active ingredient is complete, contamination is not detected in the active ingredient."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → A13)",
+        "prover9_expression": "(filter_engaged(filtration_system) -> solvent_added(solvent_tank))",
+        "natural": "Under the condition that the filtration system is engaged, solvent is added to the solvent tank."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → A14)",
+        "prover9_expression": "(solvent_added(solvent_tank) -> mixing_active(agitator_motor))",
+        "natural": "Whenever solvent is added to the solvent tank, the agitator motor is actively mixing."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A15 → (A14 → A11))",
+        "prover9_expression": "(power_sufficient(agitator_motor) -> (mixing_active(agitator_motor) -> purification_complete(active_ingredient)))",
+        "natural": "Under the condition that the agitator motor has sufficient power, if the agitator motor is actively mixing, then purification of the active ingredient is complete."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 → G)",
+        "prover9_expression": "(transport_ready(transfer_pump) -> product_ready(finished_product))",
+        "natural": "If the transfer pump is ready for transport, then the finished product is ready."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(line_clear(transfer_line) -> transport_ready(transfer_pump))",
+        "natural": "Provided that the transfer line is clear, the transfer pump is ready for transport."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A18 → A19)",
+        "prover9_expression": "(blockage_detected(transfer_line) -> pressure_high(transfer_line))",
+        "natural": "If a blockage is detected in the transfer line, then the transfer line has high pressure."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A18 ∨ A17)",
+        "prover9_expression": "(blockage_detected(transfer_line) | line_clear(transfer_line))",
+        "natural": "Either a blockage is detected in the transfer line, or the transfer line is clear."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A2 → (A1 → G))",
+        "prover9_expression": "(heated(reactor_vessel, temperature_standard) -> (contains(reactor_vessel, active_ingredient) -> product_ready(finished_product)))",
+        "natural": "Under the condition that the reactor vessel is heated to the standard temperature, if the reactor vessel contains the active ingredient, then the finished product is ready."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A20 → G)",
+        "prover9_expression": "(packaging_ready(filling_machine) -> product_ready(finished_product))",
+        "natural": "If the filling machine is ready for packaging, then the finished product is ready."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A21 → G)",
+        "prover9_expression": "(labeling_ready(label_printer) -> product_ready(finished_product))",
+        "natural": "Provided that the label printer is ready for labeling, the finished product is ready."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A22 → A20)",
+        "prover9_expression": "(container_supplied(container_hopper) -> packaging_ready(filling_machine))",
+        "natural": "If the container hopper supplies containers, then the filling machine is ready for packaging."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A22 ∨ A23)",
+        "prover9_expression": "(container_supplied(container_hopper) | label_supplied(label_roll))",
+        "natural": "Either the container hopper supplies containers, or the label roll supplies labels."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A23 → A66)",
+        "prover9_expression": "(label_supplied(label_roll) -> label_printed(product_label))",
+        "natural": "Whenever the label roll supplies labels, the product label is printed."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A25 ∨ (¬(A23 → A21) → A24))",
+        "prover9_expression": "(labeling_delayed(label_printer) | (-(label_supplied(label_roll) -> labeling_ready(label_printer)) -> packaging_delayed(filling_machine)))",
+        "natural": "Either labeling is delayed at the label printer, or if it is not the case that the label roll supplying labels leads to the label printer being ready for labeling, then packaging is delayed at the filling machine."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A29 → A30)",
+        "prover9_expression": "(inspection_scheduled(quality_lab) -> inspection_complete(quality_lab))",
+        "natural": "If an inspection is scheduled at the quality lab, then the inspection at the quality lab is complete."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A29 ∨ (A28 → (¬(A26 → G) → A27)))",
+        "prover9_expression": "(inspection_scheduled(quality_lab) | (batch_released(active_ingredient) -> (-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient))))",
+        "natural": "Either an inspection is scheduled at the quality lab, or if the batch of active ingredient is released, then if it is not the case that the batch being complete leads to the finished product being ready, the batch of active ingredient has failed."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A3 → (A1 → G))",
+        "prover9_expression": "(cooled(reactor_vessel, temperature_standard) -> (contains(reactor_vessel, active_ingredient) -> product_ready(finished_product)))",
+        "natural": "Under the condition that the reactor vessel is cooled to the standard temperature, if the reactor vessel contains the active ingredient, then the finished product is ready."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A32 → A37)",
+        "prover9_expression": "(calibration_current(temperature_probe) -> signal_clear(temperature_probe))",
+        "natural": "If the temperature probe has current calibration, then the temperature probe signal is clear."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A32 ∨ A33)",
+        "prover9_expression": "(calibration_current(temperature_probe) | calibration_overdue(temperature_probe))",
+        "natural": "Either the temperature probe has current calibration, or it has overdue calibration."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A33 → (A31 → (¬(A5 → A3) → A7)))",
+        "prover9_expression": "(calibration_overdue(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+        "natural": "Whenever the temperature probe has overdue calibration, if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A34 → (A31 → (¬(A5 → A3) → A7)))",
+        "prover9_expression": "(reading_accurate(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+        "natural": "Provided that the temperature probe reading is accurate, if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A35 → A34)",
+        "prover9_expression": "(connection_secure(temperature_probe) -> reading_accurate(temperature_probe))",
+        "natural": "If the temperature probe connection is secure, then the temperature probe reading is accurate."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A36 → A35)",
+        "prover9_expression": "(power_adequate(temperature_probe) -> connection_secure(temperature_probe))",
+        "natural": "Under the condition that the temperature probe has adequate power, the temperature probe connection is secure."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A39 → A11)",
+        "prover9_expression": "(solvent_removed(active_ingredient) -> purification_complete(active_ingredient))",
+        "natural": "If solvent is removed from the active ingredient, then purification of the active ingredient is complete."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A4 → A2)",
+        "prover9_expression": "(heat_source_active(heating_system) -> heated(reactor_vessel, temperature_standard))",
+        "natural": "Provided that the heating system has an active heat source, the reactor vessel is heated to the standard temperature."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(heat_source_active(heating_system) | cooling_system_active(cooling_unit))",
+        "natural": "Either the heating system has an active heat source, or the cooling system is active in the cooling unit."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A41 ∨ A42)",
+        "prover9_expression": "(pressure_adequate(drain_valve) | pressure_low(drain_valve))",
+        "natural": "Either the drain valve has adequate pressure, or it has low pressure."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A42 → (A40 → (A12 → A39)))",
+        "prover9_expression": "(pressure_low(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient))))",
+        "natural": "Provided that the drain valve has low pressure, if the drain valve is open, then if the filtration system is engaged, solvent is removed from the active ingredient."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A44 → A43)",
+        "prover9_expression": "(valve_clogged(drain_valve) -> flow_restricted(drain_valve))",
+        "natural": "If the drain valve is clogged, then the drain valve has restricted flow."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A45 → A44)",
+        "prover9_expression": "(seal_leaking(drain_valve) -> valve_clogged(drain_valve))",
+        "natural": "Whenever the drain valve seal is leaking, the drain valve is clogged."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A46 ∨ A47)",
+        "prover9_expression": "(maintenance_performed(transfer_line) | maintenance_overdue(transfer_line))",
+        "natural": "Either maintenance is performed on the transfer line, or maintenance is overdue on the transfer line."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A47 → ¬A18)",
+        "prover9_expression": "(maintenance_overdue(transfer_line) -> -blockage_detected(transfer_line))",
+        "natural": "If maintenance is overdue on the transfer line, then a blockage is not detected in the transfer line."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A49 → (A46 → ¬A18))",
+        "prover9_expression": "(integrity_confirmed(transfer_line) -> (maintenance_performed(transfer_line) -> -blockage_detected(transfer_line)))",
+        "natural": "Under the condition that the transfer line integrity is confirmed, if maintenance is performed on the transfer line, then a blockage is not detected in the transfer line."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A50 ∨ A51)",
+        "prover9_expression": "(test_completed(transfer_line) | test_pending(transfer_line))",
+        "natural": "Either testing is completed on the transfer line, or testing is pending on the transfer line."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A51 → (A48 → A49))",
+        "prover9_expression": "(test_pending(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line)))",
+        "natural": "Provided that testing is pending on the transfer line, if the transfer line passes inspection, then the transfer line integrity is confirmed."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A52 → (A50 → (A48 → A49)))",
+        "prover9_expression": "(pressure_test_ok(transfer_line) -> (test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))))",
+        "natural": "Under the condition that the transfer line pressure test is okay, if testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A53 → (A50 → (A48 → A49)))",
+        "prover9_expression": "(visual_inspection_ok(transfer_line) -> (test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))))",
+        "natural": "If the transfer line visual inspection is okay, then if testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A55 → A56)",
+        "prover9_expression": "(needs_recertification(transfer_line) -> recertification_scheduled(transfer_line))",
+        "natural": "Provided that the transfer line needs recertification, recertification is scheduled for the transfer line."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A55 → ¬A56)",
+        "prover9_expression": "(needs_recertification(transfer_line) -> -recertification_scheduled(transfer_line))",
+        "natural": "If the transfer line needs recertification, then it is not the case that recertification is scheduled for the transfer line."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A58 ∨ (A18 → A57))",
+        "prover9_expression": "(emergency_shutdown(transfer_system) | (blockage_detected(transfer_line) -> flow_stopped(transfer_line)))",
+        "natural": "Either the transfer system has an emergency shutdown, or if a blockage is detected in the transfer line, then flow is stopped in the transfer line."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A59 → A61)",
+        "prover9_expression": "(pump_primed(transfer_pump) -> suction_adequate(transfer_pump))",
+        "natural": "Whenever the transfer pump is primed, the transfer pump has adequate suction."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A59 ∨ A60)",
+        "prover9_expression": "(pump_primed(transfer_pump) | pump_dry(transfer_pump))",
+        "natural": "Either the transfer pump is primed, or it is dry."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A60 → A16)",
+        "prover9_expression": "(pump_dry(transfer_pump) -> transport_ready(transfer_pump))",
+        "natural": "If the transfer pump is dry, then the transfer pump is ready for transport."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A62 ∨ A63)",
+        "prover9_expression": "(reservoir_full(solvent_tank) | reservoir_low(solvent_tank))",
+        "natural": "Either the solvent tank reservoir is full, or it is low."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A63 → (A61 → A16))",
+        "prover9_expression": "(reservoir_low(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump)))",
+        "natural": "Under the condition that the solvent tank reservoir is low, if the transfer pump has adequate suction, then the transfer pump is ready for transport."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A64 → (A62 → (A61 → A16)))",
+        "prover9_expression": "(level_sensor_ok(solvent_tank) -> (reservoir_full(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump))))",
+        "natural": "Provided that the solvent tank level sensor is okay, if the solvent tank reservoir is full, then if the transfer pump has adequate suction, the transfer pump is ready for transport."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(A67 → A21)",
+        "prover9_expression": "(label_applied(product_container) -> labeling_ready(label_printer))",
+        "natural": "Under the condition that the product label is applied to the container, the label printer is ready for labeling."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(A68 → (A66 → A67))",
+        "prover9_expression": "(printer_ready(label_printer) -> (label_printed(product_label) -> label_applied(product_container)))",
+        "natural": "If the label printer is ready, then if the product label is printed, the product label is applied to the container."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(A68 ∨ A69)",
+        "prover9_expression": "(printer_ready(label_printer) | printer_offline(label_printer))",
+        "natural": "Either the label printer is ready, or it is offline."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(A7 → ¬A6)",
+        "prover9_expression": "(temperature_safe(reactor_vessel) -> -temperature_critical(reactor_vessel))",
+        "natural": "If the reactor vessel temperature is safe, then it is not the case that the reactor vessel temperature is critical."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(A70 ∨ (A69 → (A66 → A67)))",
+        "prover9_expression": "(packaging_complete(product_batch) | (printer_offline(label_printer) -> (label_printed(product_label) -> label_applied(product_container))))",
+        "natural": "Either packaging of the product batch is complete, or if the label printer is offline, then if the product label is printed, the product label is applied to the container."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(A71 ∨ ¬A70)",
+        "prover9_expression": "(labeling_complete(product_batch) | -packaging_complete(product_batch))",
+        "natural": "Either labeling of the product batch is complete, or packaging of the product batch is not complete."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(A72 → A73)",
+        "prover9_expression": "(pallet_ready(shipping_area) -> shipment_scheduled(shipping_dock))",
+        "natural": "Whenever a pallet is ready in the shipping area, a shipment is scheduled at the shipping dock."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(A72 ∨ ¬A71)",
+        "prover9_expression": "(pallet_ready(shipping_area) | -labeling_complete(product_batch))",
+        "natural": "Either a pallet is ready in the shipping area, or labeling of the product batch is not complete."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(A74 ∨ A75)",
+        "prover9_expression": "(box_supplied(packaging_line) | carton_supplied(packaging_line))",
+        "natural": "Either boxes are supplied to the packaging line, or cartons are supplied to the packaging line."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(A75 → A21)",
+        "prover9_expression": "(carton_supplied(packaging_line) -> labeling_ready(label_printer))",
+        "natural": "Provided that cartons are supplied to the packaging line, the label printer is ready for labeling."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(A77 → A76)",
+        "prover9_expression": "(conveyor_running(packaging_line) -> packaging_active(filling_machine))",
+        "natural": "Under the condition that the packaging line conveyor is running, the filling machine is actively packaging."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(A78 → (A74 → A20))",
+        "prover9_expression": "(conveyor_stopped(packaging_line) -> (box_supplied(packaging_line) -> packaging_ready(filling_machine)))",
+        "natural": "If the packaging line conveyor is stopped, then if boxes are supplied to the packaging line, the filling machine is ready for packaging."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(A79 → A77)",
+        "prover9_expression": "(motor_operational(conveyor_motor) -> conveyor_running(packaging_line))",
+        "natural": "Whenever the conveyor motor is operational, the packaging line conveyor is running."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(A79 ∨ A80)",
+        "prover9_expression": "(motor_operational(conveyor_motor) | motor_failed(conveyor_motor))",
+        "natural": "Either the conveyor motor is operational, or it has failed."
+      },
+      {
+        "id": "Rule64",
+        "formal": "(A8 → A7)",
+        "prover9_expression": "(temperature_stable(reactor_vessel) -> temperature_safe(reactor_vessel))",
+        "natural": "Provided that the reactor vessel temperature is stable, the reactor vessel temperature is safe."
+      },
+      {
+        "id": "Rule65",
+        "formal": "(A80 → A78)",
+        "prover9_expression": "(motor_failed(conveyor_motor) -> conveyor_stopped(packaging_line))",
+        "natural": "If the conveyor motor has failed, then the packaging line conveyor is stopped."
+      },
+      {
+        "id": "Rule66",
+        "formal": "(¬(A26 → G) → ¬A27)",
+        "prover9_expression": "(-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> -batch_failed(active_ingredient))",
+        "natural": "Whenever it is not the case that the batch being complete leads to the finished product being ready, it is not the case that the batch of active ingredient has failed."
+      },
+      {
+        "id": "Rule67",
+        "formal": "(¬(A37 → A36) → A38)",
+        "prover9_expression": "(-(signal_clear(temperature_probe) -> power_adequate(temperature_probe)) -> reading_faulty(temperature_probe))",
+        "natural": "If it is not the case that the temperature probe signal being clear leads to the temperature probe having adequate power, then the temperature probe reading is faulty."
+      },
+      {
+        "id": "Rule68",
+        "formal": "(¬(A41 → (A40 → (A12 → A39))) → A45)",
+        "prover9_expression": "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> seal_leaking(drain_valve))",
+        "natural": "If it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, then the drain valve seal is leaking."
+      },
+      {
+        "id": "Rule69",
+        "formal": "(¬(A5 → A3) → A6)",
+        "prover9_expression": "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_critical(reactor_vessel))",
+        "natural": "Whenever it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is critical."
+      },
+      {
+        "id": "Rule70",
+        "formal": "(¬(A5 → A3) → A8)",
+        "prover9_expression": "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_stable(reactor_vessel))",
+        "natural": "If it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, then the reactor vessel temperature is stable."
+      },
+      {
+        "id": "Rule71",
+        "formal": "(¬(A54 ∨ (A52 ∨ A53)) → A55)",
+        "prover9_expression": "(-(certification_valid(transfer_line) | (pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line))) -> needs_recertification(transfer_line))",
+        "natural": "If it is not the case that either the transfer line certification is valid or the transfer line pressure test is okay or the transfer line visual inspection is okay, then the transfer line needs recertification."
+      },
+      {
+        "id": "Rule72",
+        "formal": "(¬A64 → A65)",
+        "prover9_expression": "(-level_sensor_ok(solvent_tank) -> level_sensor_faulty(solvent_tank))",
+        "natural": "Provided that the solvent tank level sensor is not okay, the solvent tank level sensor is faulty."
+      },
+      {
+        "id": "Rule73",
+        "formal": "(¬A64 → ¬A65)",
+        "prover9_expression": "(-level_sensor_ok(solvent_tank) -> -level_sensor_faulty(solvent_tank))",
+        "natural": "If the solvent tank level sensor is not okay, then it is not the case that the solvent tank level sensor is faulty."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "contains(reactor_vessel, active_ingredient)",
+        "natural": "The reactor vessel contains the active ingredient."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A12",
+        "prover9_expression": "filter_engaged(filtration_system)",
+        "natural": "The filtration system is engaged."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A15",
+        "prover9_expression": "power_sufficient(agitator_motor)",
+        "natural": "The agitator motor has sufficient power."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A28",
+        "prover9_expression": "batch_released(active_ingredient)",
+        "natural": "The batch of active ingredient is released."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A31",
+        "prover9_expression": "sensor_functional(temperature_probe)",
+        "natural": "The temperature probe is functional."
+      },
+      {
+        "id": "Fact6",
+        "formal": "A40",
+        "prover9_expression": "valve_open(drain_valve)",
+        "natural": "The drain valve is open."
+      },
+      {
+        "id": "Fact7",
+        "formal": "A48",
+        "prover9_expression": "inspection_passed(transfer_line)",
+        "natural": "The transfer line passes inspection."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A19",
+        "prover9_expression": "-pressure_high(transfer_line)",
+        "natural": "It is not the case that the transfer line has high pressure."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A24",
+        "prover9_expression": "-packaging_delayed(filling_machine)",
+        "natural": "It is not the case that packaging is delayed at the filling machine."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A25",
+        "prover9_expression": "-labeling_delayed(label_printer)",
+        "natural": "It is not the case that labeling is delayed at the label printer."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A30",
+        "prover9_expression": "-inspection_complete(quality_lab)",
+        "natural": "It is not the case that the inspection at the quality lab is complete."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A38",
+        "prover9_expression": "-reading_faulty(temperature_probe)",
+        "natural": "It is not the case that the temperature probe reading is faulty."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A43",
+        "prover9_expression": "-flow_restricted(drain_valve)",
+        "natural": "It is not the case that the drain valve has restricted flow."
+      },
+      {
+        "id": "Fact14",
+        "formal": "¬A54",
+        "prover9_expression": "-certification_valid(transfer_line)",
+        "natural": "It is not the case that the transfer line certification is valid."
+      },
+      {
+        "id": "Fact15",
+        "formal": "¬A57",
+        "prover9_expression": "-flow_stopped(transfer_line)",
+        "natural": "It is not the case that flow is stopped in the transfer line."
+      },
+      {
+        "id": "Fact16",
+        "formal": "¬A58",
+        "prover9_expression": "-emergency_shutdown(transfer_system)",
+        "natural": "It is not the case that the transfer system has an emergency shutdown."
+      },
+      {
+        "id": "Fact17",
+        "formal": "¬A73",
+        "prover9_expression": "-shipment_scheduled(shipping_dock)",
+        "natural": "It is not the case that a shipment is scheduled at the shipping dock."
+      },
+      {
+        "id": "Fact18",
+        "formal": "¬A76",
+        "prover9_expression": "-packaging_active(filling_machine)",
+        "natural": "It is not the case that the filling machine is actively packaging."
+      },
+      {
+        "id": "Fact19",
+        "formal": "¬A9",
+        "prover9_expression": "-quality_passed(active_ingredient)",
+        "natural": "It is not the case that the active ingredient passes quality checks."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "product_ready(finished_product)",
+    "natural": "The finished product is ready."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A5 -> A3) -> A8)",
+            "(A8 -> A7)"
+          ],
+          "conclusion": "(-(A5 -> A3) -> A7)",
+          "natural": "Provided that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A5 -> A3) -> A7)",
+            "(A7 -> -A6)"
+          ],
+          "conclusion": "(-(A5 -> A3) -> -A6)",
+          "natural": "Under the condition that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, it is not the case that the reactor vessel temperature is critical."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A5 -> A3) -> A6)",
+            "(-(A5 -> A3) -> -A6)"
+          ],
+          "conclusion": "(A5 -> A3)",
+          "natural": "Whenever the cooling system is active in the cooling unit, the reactor vessel is cooled to the standard temperature."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A4 -> A2)",
+            "(A5 -> A3)",
+            "(A4 | A5)"
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either the reactor vessel is heated to the standard temperature, or it is cooled to the standard temperature."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> (A1 -> G))",
+            "(A3 -> (A1 -> G))"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the reactor vessel contains the active ingredient, the finished product is ready."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A15 -> (A14 -> A11))",
+            "A15"
+          ],
+          "conclusion": "(A14 -> A11)",
+          "natural": "If the agitator motor is actively mixing, then purification of the active ingredient is complete."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A13 -> A14)",
+            "(A14 -> A11)"
+          ],
+          "conclusion": "(A13 -> A11)",
+          "natural": "If solvent is added to the solvent tank, then purification of the active ingredient is complete."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A12 -> A13)",
+            "(A13 -> A11)"
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "If the filtration system is engaged, then purification of the active ingredient is complete."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> A11)",
+            "A12"
+          ],
+          "conclusion": "A11",
+          "natural": "Purification of the active ingredient is complete."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> -A10)",
+            "A11"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that contamination is detected in the active ingredient."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A9 | G))",
+            "-A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "Either the active ingredient passes quality checks, or the finished product is ready."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that a blockage is detected in the transfer line."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A18 | A17)",
+            "-A18"
+          ],
+          "conclusion": "A17",
+          "natural": "The transfer line is clear."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> A16)",
+            "A17"
+          ],
+          "conclusion": "A16",
+          "natural": "The transfer pump is ready for transport."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> G)",
+            "A16"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A25 | (-(A23 -> A21) -> A24))",
+            "-A25"
+          ],
+          "conclusion": "(-(A23 -> A21) -> A24)",
+          "natural": "If it is not the case that the label roll supplying labels leads to the label printer being ready for labeling, then packaging is delayed at the filling machine."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A23 -> A21) -> A24)",
+            "-A24"
+          ],
+          "conclusion": "(A23 -> A21)",
+          "natural": "Under the condition that the label roll supplies labels, the label printer is ready for labeling."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A22 -> A20)",
+            "(A23 -> A21)",
+            "(A22 | A23)"
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the filling machine is ready for packaging, or the label printer is ready for labeling."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A20 | A21)",
+            "(A20 -> G)",
+            "(A21 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A29 -> A30)",
+            "-A30"
+          ],
+          "conclusion": "-A29",
+          "natural": "It is not the case that an inspection is scheduled at the quality lab."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A29 | (A28 -> (-(A26 -> G) -> A27)))",
+            "-A29"
+          ],
+          "conclusion": "(A28 -> (-(A26 -> G) -> A27))",
+          "natural": "Provided that the batch of active ingredient is released, if it is not the case that the batch being complete leads to the finished product being ready, then the batch of active ingredient has failed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> (-(A26 -> G) -> A27))",
+            "A28"
+          ],
+          "conclusion": "(-(A26 -> G) -> A27)",
+          "natural": "Under the condition that it is not the case that the batch being complete leads to the finished product being ready, the batch of active ingredient has failed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A26 -> G) -> A27)",
+            "(-(A26 -> G) -> -A27)"
+          ],
+          "conclusion": "(A26 -> G)",
+          "natural": "If the batch of active ingredient is complete, then the finished product is ready."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A26)",
+            "(A26 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the reactor vessel contains the active ingredient, the finished product is ready."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A37 -> A36) -> A38)",
+            "-A38"
+          ],
+          "conclusion": "(A37 -> A36)",
+          "natural": "Whenever the temperature probe signal is clear, the temperature probe has adequate power."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A37)",
+            "(A37 -> A36)"
+          ],
+          "conclusion": "(A32 -> A36)",
+          "natural": "Under the condition that the temperature probe has current calibration, the temperature probe has adequate power."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A36)",
+            "(A36 -> A35)"
+          ],
+          "conclusion": "(A32 -> A35)",
+          "natural": "Provided that the temperature probe has current calibration, the temperature probe connection is secure."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A35)",
+            "(A35 -> A34)"
+          ],
+          "conclusion": "(A32 -> A34)",
+          "natural": "Whenever the temperature probe has current calibration, the temperature probe reading is accurate."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A34)",
+            "(A34 -> (A31 -> (-(A5 -> A3) -> A7)))"
+          ],
+          "conclusion": "(A32 -> (A31 -> (-(A5 -> A3) -> A7)))",
+          "natural": "If the temperature probe has current calibration, then if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A32 | A33)",
+            "(A32 -> (A31 -> (-(A5 -> A3) -> A7)))",
+            "(A33 -> (A31 -> (-(A5 -> A3) -> A7)))"
+          ],
+          "conclusion": "(A31 -> (-(A5 -> A3) -> A7))",
+          "natural": "Provided that the temperature probe is functional, if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, then the reactor vessel temperature is safe."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A31 -> (-(A5 -> A3) -> A7))",
+            "A31"
+          ],
+          "conclusion": "(-(A5 -> A3) -> A7)",
+          "natural": "Provided that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A5 -> A3) -> A7)",
+            "(A7 -> -A6)"
+          ],
+          "conclusion": "(-(A5 -> A3) -> -A6)",
+          "natural": "Under the condition that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, it is not the case that the reactor vessel temperature is critical."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A5 -> A3) -> A6)",
+            "(-(A5 -> A3) -> -A6)"
+          ],
+          "conclusion": "(A5 -> A3)",
+          "natural": "Whenever the cooling system is active in the cooling unit, the reactor vessel is cooled to the standard temperature."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A4 -> A2)",
+            "(A5 -> A3)",
+            "(A4 | A5)"
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either the reactor vessel is heated to the standard temperature, or it is cooled to the standard temperature."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> (A1 -> G))",
+            "(A3 -> (A1 -> G))"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the reactor vessel contains the active ingredient, the finished product is ready."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A41 -> (A40 -> (A12 -> A39))) -> A45)",
+            "(A45 -> A44)"
+          ],
+          "conclusion": "(-(A41 -> (A40 -> (A12 -> A39))) -> A44)",
+          "natural": "Under the condition that it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, the drain valve is clogged."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A41 -> (A40 -> (A12 -> A39))) -> A44)",
+            "(A44 -> A43)"
+          ],
+          "conclusion": "(-(A41 -> (A40 -> (A12 -> A39))) -> A43)",
+          "natural": "Provided that it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, the drain valve has restricted flow."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A41 -> (A40 -> (A12 -> A39))) -> A43)",
+            "-A43"
+          ],
+          "conclusion": "(A41 -> (A40 -> (A12 -> A39)))",
+          "natural": "If the drain valve has adequate pressure, then if the drain valve is open, then if the filtration system is engaged, solvent is removed from the active ingredient."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A41 | A42)",
+            "(A41 -> (A40 -> (A12 -> A39)))",
+            "(A42 -> (A40 -> (A12 -> A39)))"
+          ],
+          "conclusion": "(A40 -> (A12 -> A39))",
+          "natural": "Under the condition that the drain valve is open, if the filtration system is engaged, then solvent is removed from the active ingredient."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A40 -> (A12 -> A39))",
+            "A40"
+          ],
+          "conclusion": "(A12 -> A39)",
+          "natural": "Provided that the filtration system is engaged, solvent is removed from the active ingredient."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A12 -> A39)",
+            "(A39 -> A11)"
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "If the filtration system is engaged, then purification of the active ingredient is complete."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> A11)",
+            "A12"
+          ],
+          "conclusion": "A11",
+          "natural": "Purification of the active ingredient is complete."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> -A10)",
+            "A11"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that contamination is detected in the active ingredient."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A9 | G))",
+            "-A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "Either the active ingredient passes quality checks, or the finished product is ready."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A55 -> A56)",
+            "(A55 -> -A56)"
+          ],
+          "conclusion": "-A55",
+          "natural": "It is not the case that the transfer line needs recertification."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A54 | (A52 | A53)) -> A55)",
+            "-A55"
+          ],
+          "conclusion": "(A54 | (A52 | A53))",
+          "natural": "Either the transfer line certification is valid, or the transfer line pressure test is okay, or the transfer line visual inspection is okay."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A54 | (A52 | A53))",
+            "-A54"
+          ],
+          "conclusion": "(A52 | A53)",
+          "natural": "Either the transfer line pressure test is okay, or the transfer line visual inspection is okay."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A52 | A53)",
+            "(A52 -> (A50 -> (A48 -> A49)))",
+            "(A53 -> (A50 -> (A48 -> A49)))"
+          ],
+          "conclusion": "(A50 -> (A48 -> A49))",
+          "natural": "If testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A50 | A51)",
+            "(A50 -> (A48 -> A49))",
+            "(A51 -> (A48 -> A49))"
+          ],
+          "conclusion": "(A48 -> A49)",
+          "natural": "If the transfer line passes inspection, then the transfer line integrity is confirmed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A48 -> A49)",
+            "(A49 -> (A46 -> -A18))"
+          ],
+          "conclusion": "(A48 -> (A46 -> -A18))",
+          "natural": "Provided that the transfer line passes inspection, if maintenance is performed on the transfer line, then a blockage is not detected in the transfer line."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A48 -> (A46 -> -A18))",
+            "A48"
+          ],
+          "conclusion": "(A46 -> -A18)",
+          "natural": "Under the condition that maintenance is performed on the transfer line, a blockage is not detected in the transfer line."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A46 | A47)",
+            "(A46 -> -A18)",
+            "(A47 -> -A18)"
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that a blockage is detected in the transfer line."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A18 | A17)",
+            "-A18"
+          ],
+          "conclusion": "A17",
+          "natural": "The transfer line is clear."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> A16)",
+            "A17"
+          ],
+          "conclusion": "A16",
+          "natural": "The transfer pump is ready for transport."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> G)",
+            "A16"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A58 | (A18 -> A57))",
+            "-A58"
+          ],
+          "conclusion": "(A18 -> A57)",
+          "natural": "Whenever a blockage is detected in the transfer line, flow is stopped in the transfer line."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A18 -> A57)",
+            "-A57"
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that a blockage is detected in the transfer line."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A18 | A17)",
+            "-A18"
+          ],
+          "conclusion": "A17",
+          "natural": "The transfer line is clear."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> A16)",
+            "A17"
+          ],
+          "conclusion": "A16",
+          "natural": "The transfer pump is ready for transport."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> G)",
+            "A16"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A64 -> A65)",
+            "(-A64 -> -A65)"
+          ],
+          "conclusion": "A64",
+          "natural": "The solvent tank level sensor is okay."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A64 -> (A62 -> (A61 -> A16)))",
+            "A64"
+          ],
+          "conclusion": "(A62 -> (A61 -> A16))",
+          "natural": "If the solvent tank reservoir is full, then if the transfer pump has adequate suction, the transfer pump is ready for transport."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A62 | A63)",
+            "(A62 -> (A61 -> A16))",
+            "(A63 -> (A61 -> A16))"
+          ],
+          "conclusion": "(A61 -> A16)",
+          "natural": "Provided that the transfer pump has adequate suction, the transfer pump is ready for transport."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A59 -> A61)",
+            "(A61 -> A16)"
+          ],
+          "conclusion": "(A59 -> A16)",
+          "natural": "Under the condition that the transfer pump is primed, the transfer pump is ready for transport."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A59 | A60)",
+            "(A59 -> A16)",
+            "(A60 -> A16)"
+          ],
+          "conclusion": "A16",
+          "natural": "The transfer pump is ready for transport."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> G)",
+            "A16"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A72 -> A73)",
+            "-A73"
+          ],
+          "conclusion": "-A72",
+          "natural": "It is not the case that a pallet is ready in the shipping area."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A72 | -A71)",
+            "-A72"
+          ],
+          "conclusion": "-A71",
+          "natural": "It is not the case that labeling of the product batch is complete."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A71 | -A70)",
+            "-A71"
+          ],
+          "conclusion": "-A70",
+          "natural": "It is not the case that packaging of the product batch is complete."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A70 | (A69 -> (A66 -> A67)))",
+            "-A70"
+          ],
+          "conclusion": "(A69 -> (A66 -> A67))",
+          "natural": "Provided that the label printer is offline, if the product label is printed, then the product label is applied to the container."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A68 | A69)",
+            "(A68 -> (A66 -> A67))",
+            "(A69 -> (A66 -> A67))"
+          ],
+          "conclusion": "(A66 -> A67)",
+          "natural": "Whenever the product label is printed, the product label is applied to the container."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A66 -> A67)",
+            "(A67 -> A21)"
+          ],
+          "conclusion": "(A66 -> A21)",
+          "natural": "If the product label is printed, then the label printer is ready for labeling."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A23 -> A66)",
+            "(A66 -> A21)"
+          ],
+          "conclusion": "(A23 -> A21)",
+          "natural": "Under the condition that the label roll supplies labels, the label printer is ready for labeling."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A22 -> A20)",
+            "(A23 -> A21)",
+            "(A22 | A23)"
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the filling machine is ready for packaging, or the label printer is ready for labeling."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A20 | A21)",
+            "(A20 -> G)",
+            "(A21 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A79 -> A77)",
+            "(A80 -> A78)",
+            "(A79 | A80)"
+          ],
+          "conclusion": "(A77 | A78)",
+          "natural": "Either the packaging line conveyor is running, or it is stopped."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A77 -> A76)",
+            "(A78 -> (A74 -> A20))",
+            "(A77 | A78)"
+          ],
+          "conclusion": "(A76 | (A74 -> A20))",
+          "natural": "Either the filling machine is actively packaging, or if boxes are supplied to the packaging line, then the filling machine is ready for packaging."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A76 | (A74 -> A20))",
+            "-A76"
+          ],
+          "conclusion": "(A74 -> A20)",
+          "natural": "If boxes are supplied to the packaging line, then the filling machine is ready for packaging."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A74 -> A20)",
+            "(A75 -> A21)",
+            "(A74 | A75)"
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the filling machine is ready for packaging, or the label printer is ready for labeling."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A20 | A21)",
+            "(A20 -> G)",
+            "(A21 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The finished product is ready."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "contains(reactor_vessel, active_ingredient)",
+      "A2": "heated(reactor_vessel, temperature_standard)",
+      "A3": "cooled(reactor_vessel, temperature_standard)",
+      "A4": "heat_source_active(heating_system)",
+      "A5": "cooling_system_active(cooling_unit)",
+      "A6": "temperature_critical(reactor_vessel)",
+      "A7": "temperature_safe(reactor_vessel)",
+      "A8": "temperature_stable(reactor_vessel)",
+      "A9": "quality_passed(active_ingredient)",
+      "A10": "contamination_detected(active_ingredient)",
+      "A11": "purification_complete(active_ingredient)",
+      "A12": "filter_engaged(filtration_system)",
+      "A13": "solvent_added(solvent_tank)",
+      "A14": "mixing_active(agitator_motor)",
+      "A15": "power_sufficient(agitator_motor)",
+      "A16": "transport_ready(transfer_pump)",
+      "A17": "line_clear(transfer_line)",
+      "A18": "blockage_detected(transfer_line)",
+      "A19": "pressure_high(transfer_line)",
+      "A20": "packaging_ready(filling_machine)",
+      "A21": "labeling_ready(label_printer)",
+      "A22": "container_supplied(container_hopper)",
+      "A23": "label_supplied(label_roll)",
+      "A24": "packaging_delayed(filling_machine)",
+      "A25": "labeling_delayed(label_printer)",
+      "A26": "batch_complete(active_ingredient)",
+      "A27": "batch_failed(active_ingredient)",
+      "A28": "batch_released(active_ingredient)",
+      "A29": "inspection_scheduled(quality_lab)",
+      "A30": "inspection_complete(quality_lab)",
+      "A31": "sensor_functional(temperature_probe)",
+      "A32": "calibration_current(temperature_probe)",
+      "A33": "calibration_overdue(temperature_probe)",
+      "A34": "reading_accurate(temperature_probe)",
+      "A35": "connection_secure(temperature_probe)",
+      "A36": "power_adequate(temperature_probe)",
+      "A37": "signal_clear(temperature_probe)",
+      "A38": "reading_faulty(temperature_probe)",
+      "A39": "solvent_removed(active_ingredient)",
+      "A40": "valve_open(drain_valve)",
+      "A41": "pressure_adequate(drain_valve)",
+      "A42": "pressure_low(drain_valve)",
+      "A43": "flow_restricted(drain_valve)",
+      "A44": "valve_clogged(drain_valve)",
+      "A45": "seal_leaking(drain_valve)",
+      "A46": "maintenance_performed(transfer_line)",
+      "A47": "maintenance_overdue(transfer_line)",
+      "A48": "inspection_passed(transfer_line)",
+      "A49": "integrity_confirmed(transfer_line)",
+      "A50": "test_completed(transfer_line)",
+      "A51": "test_pending(transfer_line)",
+      "A52": "pressure_test_ok(transfer_line)",
+      "A53": "visual_inspection_ok(transfer_line)",
+      "A54": "certification_valid(transfer_line)",
+      "A55": "needs_recertification(transfer_line)",
+      "A56": "recertification_scheduled(transfer_line)",
+      "A57": "flow_stopped(transfer_line)",
+      "A58": "emergency_shutdown(transfer_system)",
+      "A59": "pump_primed(transfer_pump)",
+      "A60": "pump_dry(transfer_pump)",
+      "A61": "suction_adequate(transfer_pump)",
+      "A62": "reservoir_full(solvent_tank)",
+      "A63": "reservoir_low(solvent_tank)",
+      "A64": "level_sensor_ok(solvent_tank)",
+      "A65": "level_sensor_faulty(solvent_tank)",
+      "A66": "label_printed(product_label)",
+      "A67": "label_applied(product_container)",
+      "A68": "printer_ready(label_printer)",
+      "A69": "printer_offline(label_printer)",
+      "A70": "packaging_complete(product_batch)",
+      "A71": "labeling_complete(product_batch)",
+      "A72": "pallet_ready(shipping_area)",
+      "A73": "shipment_scheduled(shipping_dock)",
+      "A74": "box_supplied(packaging_line)",
+      "A75": "carton_supplied(packaging_line)",
+      "A76": "packaging_active(filling_machine)",
+      "A77": "conveyor_running(packaging_line)",
+      "A78": "conveyor_stopped(packaging_line)",
+      "A79": "motor_operational(conveyor_motor)",
+      "A80": "motor_failed(conveyor_motor)",
+      "G": "product_ready(finished_product)"
+    },
+    "natural_facts": {
+      "A1": "The reactor vessel contains the active ingredient.",
+      "A2": "The reactor vessel is heated to the standard temperature.",
+      "A3": "The reactor vessel is cooled to the standard temperature.",
+      "A4": "The heating system has an active heat source.",
+      "A5": "The cooling unit has an active cooling system.",
+      "A6": "The reactor vessel temperature is critical.",
+      "A7": "The reactor vessel temperature is safe.",
+      "A8": "The reactor vessel temperature is stable.",
+      "A9": "The active ingredient has passed quality checks.",
+      "A10": "Contamination is detected in the active ingredient.",
+      "A11": "Purification of the active ingredient is complete.",
+      "A12": "The filtration system is engaged.",
+      "A13": "Solvent is added to the solvent tank.",
+      "A14": "The agitator motor is actively mixing.",
+      "A15": "The agitator motor has sufficient power.",
+      "A16": "The transfer pump is ready for transport.",
+      "A17": "The transfer line is clear.",
+      "A18": "A blockage is detected in the transfer line.",
+      "A19": "The transfer line has high pressure.",
+      "A20": "The filling machine is ready for packaging.",
+      "A21": "The label printer is ready for labeling.",
+      "A22": "The container hopper supplies containers.",
+      "A23": "The label roll supplies labels.",
+      "A24": "Packaging is delayed at the filling machine.",
+      "A25": "Labeling is delayed at the label printer.",
+      "A26": "The batch of active ingredient is complete.",
+      "A27": "The batch of active ingredient has failed.",
+      "A28": "The batch of active ingredient is released.",
+      "A29": "An inspection is scheduled at the quality lab.",
+      "A30": "The inspection at the quality lab is complete.",
+      "A31": "The temperature probe is functional.",
+      "A32": "The temperature probe has current calibration.",
+      "A33": "The temperature probe has overdue calibration.",
+      "A34": "The temperature probe reading is accurate.",
+      "A35": "The temperature probe connection is secure.",
+      "A36": "The temperature probe has adequate power.",
+      "A37": "The temperature probe signal is clear.",
+      "A38": "The temperature probe reading is faulty.",
+      "A39": "Solvent is removed from the active ingredient.",
+      "A40": "The drain valve is open.",
+      "A41": "The drain valve has adequate pressure.",
+      "A42": "The drain valve has low pressure.",
+      "A43": "The drain valve has restricted flow.",
+      "A44": "The drain valve is clogged.",
+      "A45": "The drain valve seal is leaking.",
+      "A46": "Maintenance is performed on the transfer line.",
+      "A47": "Maintenance is overdue on the transfer line.",
+      "A48": "The transfer line passes inspection.",
+      "A49": "The transfer line integrity is confirmed.",
+      "A50": "Testing is completed on the transfer line.",
+      "A51": "Testing is pending on the transfer line.",
+      "A52": "The transfer line pressure test is okay.",
+      "A53": "The transfer line visual inspection is okay.",
+      "A54": "The transfer line certification is valid.",
+      "A55": "The transfer line needs recertification.",
+      "A56": "Recertification is scheduled for the transfer line.",
+      "A57": "Flow is stopped in the transfer line.",
+      "A58": "The transfer system has an emergency shutdown.",
+      "A59": "The transfer pump is primed.",
+      "A60": "The transfer pump is dry.",
+      "A61": "The transfer pump has adequate suction.",
+      "A62": "The solvent tank reservoir is full.",
+      "A63": "The solvent tank reservoir is low.",
+      "A64": "The solvent tank level sensor is okay.",
+      "A65": "The solvent tank level sensor is faulty.",
+      "A66": "The product label is printed.",
+      "A67": "The product label is applied to the container.",
+      "A68": "The label printer is ready.",
+      "A69": "The label printer is offline.",
+      "A70": "Packaging of the product batch is complete.",
+      "A71": "Labeling of the product batch is complete.",
+      "A72": "A pallet is ready in the shipping area.",
+      "A73": "A shipment is scheduled at the shipping dock.",
+      "A74": "Boxes are supplied to the packaging line.",
+      "A75": "Cartons are supplied to the packaging line.",
+      "A76": "The filling machine is actively packaging.",
+      "A77": "The packaging line conveyor is running.",
+      "A78": "The packaging line conveyor is stopped.",
+      "A79": "The conveyor motor is operational.",
+      "A80": "The conveyor motor has failed.",
+      "G": "The finished product is ready."
+    },
+    "prover9_expressions": [
+      "(contains(reactor_vessel, active_ingredient) -> batch_complete(active_ingredient))",
+      "(contains(reactor_vessel, active_ingredient) -> product_ready(finished_product))",
+      "(contamination_detected(active_ingredient) | (quality_passed(active_ingredient) | product_ready(finished_product)))",
+      "(purification_complete(active_ingredient) -> -contamination_detected(active_ingredient))",
+      "(filter_engaged(filtration_system) -> purification_complete(active_ingredient))",
+      "(filter_engaged(filtration_system) -> solvent_added(solvent_tank))",
+      "(filter_engaged(filtration_system) -> solvent_removed(active_ingredient))",
+      "(solvent_added(solvent_tank) -> purification_complete(active_ingredient))",
+      "(solvent_added(solvent_tank) -> mixing_active(agitator_motor))",
+      "(mixing_active(agitator_motor) -> purification_complete(active_ingredient))",
+      "(power_sufficient(agitator_motor) -> (mixing_active(agitator_motor) -> purification_complete(active_ingredient)))",
+      "(transport_ready(transfer_pump) -> product_ready(finished_product))",
+      "(line_clear(transfer_line) -> transport_ready(transfer_pump))",
+      "(blockage_detected(transfer_line) -> pressure_high(transfer_line))",
+      "(blockage_detected(transfer_line) -> flow_stopped(transfer_line))",
+      "(blockage_detected(transfer_line) | line_clear(transfer_line))",
+      "(heated(reactor_vessel, temperature_standard) -> (contains(reactor_vessel, active_ingredient) -> product_ready(finished_product)))",
+      "(heated(reactor_vessel, temperature_standard) | cooled(reactor_vessel, temperature_standard))",
+      "(packaging_ready(filling_machine) -> product_ready(finished_product))",
+      "(packaging_ready(filling_machine) | labeling_ready(label_printer))",
+      "(labeling_ready(label_printer) -> product_ready(finished_product))",
+      "(container_supplied(container_hopper) -> packaging_ready(filling_machine))",
+      "(container_supplied(container_hopper) | label_supplied(label_roll))",
+      "(label_supplied(label_roll) -> labeling_ready(label_printer))",
+      "(label_supplied(label_roll) -> label_printed(product_label))",
+      "(labeling_delayed(label_printer) | (-(label_supplied(label_roll) -> labeling_ready(label_printer)) -> packaging_delayed(filling_machine)))",
+      "(batch_complete(active_ingredient) -> product_ready(finished_product))",
+      "(batch_released(active_ingredient) -> (-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient)))",
+      "(inspection_scheduled(quality_lab) -> inspection_complete(quality_lab))",
+      "(inspection_scheduled(quality_lab) | (batch_released(active_ingredient) -> (-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient))))",
+      "(cooled(reactor_vessel, temperature_standard) -> (contains(reactor_vessel, active_ingredient) -> product_ready(finished_product)))",
+      "(sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel)))",
+      "(calibration_current(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+      "(calibration_current(temperature_probe) -> reading_accurate(temperature_probe))",
+      "(calibration_current(temperature_probe) -> connection_secure(temperature_probe))",
+      "(calibration_current(temperature_probe) -> power_adequate(temperature_probe))",
+      "(calibration_current(temperature_probe) -> signal_clear(temperature_probe))",
+      "(calibration_current(temperature_probe) | calibration_overdue(temperature_probe))",
+      "(calibration_overdue(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+      "(reading_accurate(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+      "(connection_secure(temperature_probe) -> reading_accurate(temperature_probe))",
+      "(power_adequate(temperature_probe) -> connection_secure(temperature_probe))",
+      "(signal_clear(temperature_probe) -> power_adequate(temperature_probe))",
+      "(solvent_removed(active_ingredient) -> purification_complete(active_ingredient))",
+      "(heat_source_active(heating_system) -> heated(reactor_vessel, temperature_standard))",
+      "(heat_source_active(heating_system) | cooling_system_active(cooling_unit))",
+      "(valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))",
+      "(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient))))",
+      "(pressure_adequate(drain_valve) | pressure_low(drain_valve))",
+      "(pressure_low(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient))))",
+      "(valve_clogged(drain_valve) -> flow_restricted(drain_valve))",
+      "(seal_leaking(drain_valve) -> valve_clogged(drain_valve))",
+      "(maintenance_performed(transfer_line) -> -blockage_detected(transfer_line))",
+      "(maintenance_performed(transfer_line) | maintenance_overdue(transfer_line))",
+      "(maintenance_overdue(transfer_line) -> -blockage_detected(transfer_line))",
+      "(inspection_passed(transfer_line) -> (maintenance_performed(transfer_line) -> -blockage_detected(transfer_line)))",
+      "(inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))",
+      "(integrity_confirmed(transfer_line) -> (maintenance_performed(transfer_line) -> -blockage_detected(transfer_line)))",
+      "(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard))",
+      "(test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line)))",
+      "(test_completed(transfer_line) | test_pending(transfer_line))",
+      "(test_pending(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line)))",
+      "(pressure_test_ok(transfer_line) -> (test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))))",
+      "(pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line))",
+      "(visual_inspection_ok(transfer_line) -> (test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))))",
+      "(certification_valid(transfer_line) | (pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line)))",
+      "(needs_recertification(transfer_line) -> recertification_scheduled(transfer_line))",
+      "(needs_recertification(transfer_line) -> -recertification_scheduled(transfer_line))",
+      "(emergency_shutdown(transfer_system) | (blockage_detected(transfer_line) -> flow_stopped(transfer_line)))",
+      "(pump_primed(transfer_pump) -> transport_ready(transfer_pump))",
+      "(pump_primed(transfer_pump) -> suction_adequate(transfer_pump))",
+      "(pump_primed(transfer_pump) | pump_dry(transfer_pump))",
+      "(pump_dry(transfer_pump) -> transport_ready(transfer_pump))",
+      "(suction_adequate(transfer_pump) -> transport_ready(transfer_pump))",
+      "(reservoir_full(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump)))",
+      "(reservoir_full(solvent_tank) | reservoir_low(solvent_tank))",
+      "(reservoir_low(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump)))",
+      "(level_sensor_ok(solvent_tank) -> (reservoir_full(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump))))",
+      "(label_printed(product_label) -> labeling_ready(label_printer))",
+      "(label_printed(product_label) -> label_applied(product_container))",
+      "(label_applied(product_container) -> labeling_ready(label_printer))",
+      "(printer_ready(label_printer) -> (label_printed(product_label) -> label_applied(product_container)))",
+      "(printer_ready(label_printer) | printer_offline(label_printer))",
+      "(printer_offline(label_printer) -> (label_printed(product_label) -> label_applied(product_container)))",
+      "(temperature_safe(reactor_vessel) -> -temperature_critical(reactor_vessel))",
+      "(packaging_complete(product_batch) | (printer_offline(label_printer) -> (label_printed(product_label) -> label_applied(product_container))))",
+      "(labeling_complete(product_batch) | -packaging_complete(product_batch))",
+      "(pallet_ready(shipping_area) -> shipment_scheduled(shipping_dock))",
+      "(pallet_ready(shipping_area) | -labeling_complete(product_batch))",
+      "(box_supplied(packaging_line) -> packaging_ready(filling_machine))",
+      "(box_supplied(packaging_line) | carton_supplied(packaging_line))",
+      "(carton_supplied(packaging_line) -> labeling_ready(label_printer))",
+      "(packaging_active(filling_machine) | (box_supplied(packaging_line) -> packaging_ready(filling_machine)))",
+      "(conveyor_running(packaging_line) -> packaging_active(filling_machine))",
+      "(conveyor_running(packaging_line) | conveyor_stopped(packaging_line))",
+      "(conveyor_stopped(packaging_line) -> (box_supplied(packaging_line) -> packaging_ready(filling_machine)))",
+      "(motor_operational(conveyor_motor) -> conveyor_running(packaging_line))",
+      "(motor_operational(conveyor_motor) | motor_failed(conveyor_motor))",
+      "(temperature_stable(reactor_vessel) -> temperature_safe(reactor_vessel))",
+      "(motor_failed(conveyor_motor) -> conveyor_stopped(packaging_line))",
+      "(quality_passed(active_ingredient) | product_ready(finished_product))",
+      "(-(label_supplied(label_roll) -> labeling_ready(label_printer)) -> packaging_delayed(filling_machine))",
+      "(-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient))",
+      "(-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> -batch_failed(active_ingredient))",
+      "(-(signal_clear(temperature_probe) -> power_adequate(temperature_probe)) -> reading_faulty(temperature_probe))",
+      "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> flow_restricted(drain_valve))",
+      "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> valve_clogged(drain_valve))",
+      "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> seal_leaking(drain_valve))",
+      "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_critical(reactor_vessel))",
+      "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))",
+      "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_stable(reactor_vessel))",
+      "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> -temperature_critical(reactor_vessel))",
+      "(-(certification_valid(transfer_line) | (pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line))) -> needs_recertification(transfer_line))",
+      "(-level_sensor_ok(solvent_tank) -> level_sensor_faulty(solvent_tank))",
+      "(-level_sensor_ok(solvent_tank) -> -level_sensor_faulty(solvent_tank))",
+      "contains(reactor_vessel, active_ingredient)",
+      "purification_complete(active_ingredient)",
+      "filter_engaged(filtration_system)",
+      "power_sufficient(agitator_motor)",
+      "transport_ready(transfer_pump)",
+      "line_clear(transfer_line)",
+      "batch_released(active_ingredient)",
+      "sensor_functional(temperature_probe)",
+      "valve_open(drain_valve)",
+      "inspection_passed(transfer_line)",
+      "level_sensor_ok(solvent_tank)",
+      "product_ready(finished_product)",
+      "-contamination_detected(active_ingredient)",
+      "-blockage_detected(transfer_line)",
+      "-pressure_high(transfer_line)",
+      "-packaging_delayed(filling_machine)",
+      "-labeling_delayed(label_printer)",
+      "-inspection_scheduled(quality_lab)",
+      "-inspection_complete(quality_lab)",
+      "-reading_faulty(temperature_probe)",
+      "-flow_restricted(drain_valve)",
+      "-certification_valid(transfer_line)",
+      "-needs_recertification(transfer_line)",
+      "-flow_stopped(transfer_line)",
+      "-emergency_shutdown(transfer_system)",
+      "-packaging_complete(product_batch)",
+      "-labeling_complete(product_batch)",
+      "-pallet_ready(shipping_area)",
+      "-shipment_scheduled(shipping_dock)",
+      "-packaging_active(filling_machine)",
+      "-quality_passed(active_ingredient)"
+    ],
+    "natural_expressions": [
+      "If the reactor vessel contains the active ingredient, then the batch of active ingredient is complete.",
+      "Provided that the reactor vessel contains the active ingredient, the finished product is ready.",
+      "Either contamination is detected in the active ingredient, or the active ingredient passes quality checks, or the finished product is ready.",
+      "Whenever purification of the active ingredient is complete, contamination is not detected in the active ingredient.",
+      "If the filtration system is engaged, then purification of the active ingredient is complete.",
+      "Under the condition that the filtration system is engaged, solvent is added to the solvent tank.",
+      "Provided that the filtration system is engaged, solvent is removed from the active ingredient.",
+      "If solvent is added to the solvent tank, then purification of the active ingredient is complete.",
+      "Whenever solvent is added to the solvent tank, the agitator motor is actively mixing.",
+      "If the agitator motor is actively mixing, then purification of the active ingredient is complete.",
+      "Under the condition that the agitator motor has sufficient power, if the agitator motor is actively mixing, then purification of the active ingredient is complete.",
+      "If the transfer pump is ready for transport, then the finished product is ready.",
+      "Provided that the transfer line is clear, the transfer pump is ready for transport.",
+      "If a blockage is detected in the transfer line, then the transfer line has high pressure.",
+      "Whenever a blockage is detected in the transfer line, flow is stopped in the transfer line.",
+      "Either a blockage is detected in the transfer line, or the transfer line is clear.",
+      "Under the condition that the reactor vessel is heated to the standard temperature, if the reactor vessel contains the active ingredient, then the finished product is ready.",
+      "Either the reactor vessel is heated to the standard temperature, or it is cooled to the standard temperature.",
+      "If the filling machine is ready for packaging, then the finished product is ready.",
+      "Either the filling machine is ready for packaging, or the label printer is ready for labeling.",
+      "Provided that the label printer is ready for labeling, the finished product is ready.",
+      "If the container hopper supplies containers, then the filling machine is ready for packaging.",
+      "Either the container hopper supplies containers, or the label roll supplies labels.",
+      "Under the condition that the label roll supplies labels, the label printer is ready for labeling.",
+      "Whenever the label roll supplies labels, the product label is printed.",
+      "Either labeling is delayed at the label printer, or if it is not the case that the label roll supplying labels leads to the label printer being ready for labeling, then packaging is delayed at the filling machine.",
+      "If the batch of active ingredient is complete, then the finished product is ready.",
+      "Provided that the batch of active ingredient is released, if it is not the case that the batch being complete leads to the finished product being ready, then the batch of active ingredient has failed.",
+      "If an inspection is scheduled at the quality lab, then the inspection at the quality lab is complete.",
+      "Either an inspection is scheduled at the quality lab, or if the batch of active ingredient is released, then if it is not the case that the batch being complete leads to the finished product being ready, the batch of active ingredient has failed.",
+      "Under the condition that the reactor vessel is cooled to the standard temperature, if the reactor vessel contains the active ingredient, then the finished product is ready.",
+      "Provided that the temperature probe is functional, if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, then the reactor vessel temperature is safe.",
+      "If the temperature probe has current calibration, then if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe.",
+      "Whenever the temperature probe has current calibration, the temperature probe reading is accurate.",
+      "Provided that the temperature probe has current calibration, the temperature probe connection is secure.",
+      "Under the condition that the temperature probe has current calibration, the temperature probe has adequate power.",
+      "If the temperature probe has current calibration, then the temperature probe signal is clear.",
+      "Either the temperature probe has current calibration, or it has overdue calibration.",
+      "Whenever the temperature probe has overdue calibration, if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe.",
+      "Provided that the temperature probe reading is accurate, if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe.",
+      "If the temperature probe connection is secure, then the temperature probe reading is accurate.",
+      "Under the condition that the temperature probe has adequate power, the temperature probe connection is secure.",
+      "Whenever the temperature probe signal is clear, the temperature probe has adequate power.",
+      "If solvent is removed from the active ingredient, then purification of the active ingredient is complete.",
+      "Provided that the heating system has an active heat source, the reactor vessel is heated to the standard temperature.",
+      "Either the heating system has an active heat source, or the cooling system is active in the cooling unit.",
+      "Under the condition that the drain valve is open, if the filtration system is engaged, then solvent is removed from the active ingredient.",
+      "If the drain valve has adequate pressure, then if the drain valve is open, then if the filtration system is engaged, solvent is removed from the active ingredient.",
+      "Either the drain valve has adequate pressure, or it has low pressure.",
+      "Provided that the drain valve has low pressure, if the drain valve is open, then if the filtration system is engaged, solvent is removed from the active ingredient.",
+      "If the drain valve is clogged, then the drain valve has restricted flow.",
+      "Whenever the drain valve seal is leaking, the drain valve is clogged.",
+      "Under the condition that maintenance is performed on the transfer line, a blockage is not detected in the transfer line.",
+      "Either maintenance is performed on the transfer line, or maintenance is overdue on the transfer line.",
+      "If maintenance is overdue on the transfer line, then a blockage is not detected in the transfer line.",
+      "Provided that the transfer line passes inspection, if maintenance is performed on the transfer line, then a blockage is not detected in the transfer line.",
+      "If the transfer line passes inspection, then the transfer line integrity is confirmed.",
+      "Under the condition that the transfer line integrity is confirmed, if maintenance is performed on the transfer line, then a blockage is not detected in the transfer line.",
+      "Whenever the cooling system is active in the cooling unit, the reactor vessel is cooled to the standard temperature.",
+      "If testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed.",
+      "Either testing is completed on the transfer line, or testing is pending on the transfer line.",
+      "Provided that testing is pending on the transfer line, if the transfer line passes inspection, then the transfer line integrity is confirmed.",
+      "Under the condition that the transfer line pressure test is okay, if testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed.",
+      "Either the transfer line pressure test is okay, or the transfer line visual inspection is okay.",
+      "If the transfer line visual inspection is okay, then if testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed.",
+      "Either the transfer line certification is valid, or the transfer line pressure test is okay, or the transfer line visual inspection is okay.",
+      "Provided that the transfer line needs recertification, recertification is scheduled for the transfer line.",
+      "If the transfer line needs recertification, then it is not the case that recertification is scheduled for the transfer line.",
+      "Either the transfer system has an emergency shutdown, or if a blockage is detected in the transfer line, then flow is stopped in the transfer line.",
+      "Under the condition that the transfer pump is primed, the transfer pump is ready for transport.",
+      "Whenever the transfer pump is primed, the transfer pump has adequate suction.",
+      "Either the transfer pump is primed, or it is dry.",
+      "If the transfer pump is dry, then the transfer pump is ready for transport.",
+      "Provided that the transfer pump has adequate suction, the transfer pump is ready for transport.",
+      "If the solvent tank reservoir is full, then if the transfer pump has adequate suction, the transfer pump is ready for transport.",
+      "Either the solvent tank reservoir is full, or it is low.",
+      "Under the condition that the solvent tank reservoir is low, if the transfer pump has adequate suction, then the transfer pump is ready for transport.",
+      "Provided that the solvent tank level sensor is okay, if the solvent tank reservoir is full, then if the transfer pump has adequate suction, the transfer pump is ready for transport.",
+      "If the product label is printed, then the label printer is ready for labeling.",
+      "Whenever the product label is printed, the product label is applied to the container.",
+      "Under the condition that the product label is applied to the container, the label printer is ready for labeling.",
+      "If the label printer is ready, then if the product label is printed, the product label is applied to the container.",
+      "Either the label printer is ready, or it is offline.",
+      "Provided that the label printer is offline, if the product label is printed, then the product label is applied to the container.",
+      "If the reactor vessel temperature is safe, then it is not the case that the reactor vessel temperature is critical.",
+      "Either packaging of the product batch is complete, or if the label printer is offline, then if the product label is printed, the product label is applied to the container.",
+      "Either labeling of the product batch is complete, or packaging of the product batch is not complete.",
+      "Whenever a pallet is ready in the shipping area, a shipment is scheduled at the shipping dock.",
+      "Either a pallet is ready in the shipping area, or labeling of the product batch is not complete.",
+      "If boxes are supplied to the packaging line, then the filling machine is ready for packaging.",
+      "Either boxes are supplied to the packaging line, or cartons are supplied to the packaging line.",
+      "Provided that cartons are supplied to the packaging line, the label printer is ready for labeling.",
+      "Either the filling machine is actively packaging, or if boxes are supplied to the packaging line, then the filling machine is ready for packaging.",
+      "Under the condition that the packaging line conveyor is running, the filling machine is actively packaging.",
+      "Either the packaging line conveyor is running, or it is stopped.",
+      "If the packaging line conveyor is stopped, then if boxes are supplied to the packaging line, the filling machine is ready for packaging.",
+      "Whenever the conveyor motor is operational, the packaging line conveyor is running.",
+      "Either the conveyor motor is operational, or it has failed.",
+      "Provided that the reactor vessel temperature is stable, the reactor vessel temperature is safe.",
+      "If the conveyor motor has failed, then the packaging line conveyor is stopped.",
+      "Either the active ingredient passes quality checks, or the finished product is ready.",
+      "If it is not the case that the label roll supplying labels leads to the label printer being ready for labeling, then packaging is delayed at the filling machine.",
+      "Under the condition that it is not the case that the batch being complete leads to the finished product being ready, the batch of active ingredient has failed.",
+      "Whenever it is not the case that the batch being complete leads to the finished product being ready, it is not the case that the batch of active ingredient has failed.",
+      "If it is not the case that the temperature probe signal being clear leads to the temperature probe having adequate power, then the temperature probe reading is faulty.",
+      "Provided that it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, the drain valve has restricted flow.",
+      "Under the condition that it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, the drain valve is clogged.",
+      "If it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, then the drain valve seal is leaking.",
+      "Whenever it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is critical.",
+      "Provided that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe.",
+      "If it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, then the reactor vessel temperature is stable.",
+      "Under the condition that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, it is not the case that the reactor vessel temperature is critical.",
+      "If it is not the case that either the transfer line certification is valid or the transfer line pressure test is okay or the transfer line visual inspection is okay, then the transfer line needs recertification.",
+      "Provided that the solvent tank level sensor is not okay, the solvent tank level sensor is faulty.",
+      "If the solvent tank level sensor is not okay, then it is not the case that the solvent tank level sensor is faulty.",
+      "The reactor vessel contains the active ingredient.",
+      "Purification of the active ingredient is complete.",
+      "The filtration system is engaged.",
+      "The agitator motor has sufficient power.",
+      "The transfer pump is ready for transport.",
+      "The transfer line is clear.",
+      "The batch of active ingredient is released.",
+      "The temperature probe is functional.",
+      "The drain valve is open.",
+      "The transfer line passes inspection.",
+      "The solvent tank level sensor is okay.",
+      "The finished product is ready.",
+      "It is not the case that contamination is detected in the active ingredient.",
+      "It is not the case that a blockage is detected in the transfer line.",
+      "It is not the case that the transfer line has high pressure.",
+      "It is not the case that packaging is delayed at the filling machine.",
+      "It is not the case that labeling is delayed at the label printer.",
+      "It is not the case that an inspection is scheduled at the quality lab.",
+      "It is not the case that the inspection at the quality lab is complete.",
+      "It is not the case that the temperature probe reading is faulty.",
+      "It is not the case that the drain valve has restricted flow.",
+      "It is not the case that the transfer line certification is valid.",
+      "It is not the case that the transfer line needs recertification.",
+      "It is not the case that flow is stopped in the transfer line.",
+      "It is not the case that the transfer system has an emergency shutdown.",
+      "It is not the case that packaging of the product batch is complete.",
+      "It is not the case that labeling of the product batch is complete.",
+      "It is not the case that a pallet is ready in the shipping area.",
+      "It is not the case that a shipment is scheduled at the shipping dock.",
+      "It is not the case that the filling machine is actively packaging.",
+      "It is not the case that the active ingredient passes quality checks."
+    ],
+    "node_mappings": {
+      "(A1 → A26)": {
+        "formal": "(A1 → A26)",
+        "prover9": "(A1 -> A26)",
+        "prover9_expression": "(contains(reactor_vessel, active_ingredient) -> batch_complete(active_ingredient))",
+        "natural": "If the reactor vessel contains the active ingredient, then the batch of active ingredient is complete."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(contains(reactor_vessel, active_ingredient) -> product_ready(finished_product))",
+        "natural": "Provided that the reactor vessel contains the active ingredient, the finished product is ready."
+      },
+      "(A10 ∨ (A9 ∨ G))": {
+        "formal": "(A10 ∨ (A9 ∨ G))",
+        "prover9": "(A10 | (A9 | G))",
+        "prover9_expression": "(contamination_detected(active_ingredient) | (quality_passed(active_ingredient) | product_ready(finished_product)))",
+        "natural": "Either contamination is detected in the active ingredient, or the active ingredient passes quality checks, or the finished product is ready."
+      },
+      "(A11 → ¬A10)": {
+        "formal": "(A11 → ¬A10)",
+        "prover9": "(A11 -> -A10)",
+        "prover9_expression": "(purification_complete(active_ingredient) -> -contamination_detected(active_ingredient))",
+        "natural": "Whenever purification of the active ingredient is complete, contamination is not detected in the active ingredient."
+      },
+      "(A12 → A11)": {
+        "formal": "(A12 → A11)",
+        "prover9": "(A12 -> A11)",
+        "prover9_expression": "(filter_engaged(filtration_system) -> purification_complete(active_ingredient))",
+        "natural": "If the filtration system is engaged, then purification of the active ingredient is complete."
+      },
+      "(A12 → A13)": {
+        "formal": "(A12 → A13)",
+        "prover9": "(A12 -> A13)",
+        "prover9_expression": "(filter_engaged(filtration_system) -> solvent_added(solvent_tank))",
+        "natural": "Under the condition that the filtration system is engaged, solvent is added to the solvent tank."
+      },
+      "(A12 → A39)": {
+        "formal": "(A12 → A39)",
+        "prover9": "(A12 -> A39)",
+        "prover9_expression": "(filter_engaged(filtration_system) -> solvent_removed(active_ingredient))",
+        "natural": "Provided that the filtration system is engaged, solvent is removed from the active ingredient."
+      },
+      "(A13 → A11)": {
+        "formal": "(A13 → A11)",
+        "prover9": "(A13 -> A11)",
+        "prover9_expression": "(solvent_added(solvent_tank) -> purification_complete(active_ingredient))",
+        "natural": "If solvent is added to the solvent tank, then purification of the active ingredient is complete."
+      },
+      "(A13 → A14)": {
+        "formal": "(A13 → A14)",
+        "prover9": "(A13 -> A14)",
+        "prover9_expression": "(solvent_added(solvent_tank) -> mixing_active(agitator_motor))",
+        "natural": "Whenever solvent is added to the solvent tank, the agitator motor is actively mixing."
+      },
+      "(A14 → A11)": {
+        "formal": "(A14 → A11)",
+        "prover9": "(A14 -> A11)",
+        "prover9_expression": "(mixing_active(agitator_motor) -> purification_complete(active_ingredient))",
+        "natural": "If the agitator motor is actively mixing, then purification of the active ingredient is complete."
+      },
+      "(A15 → (A14 → A11))": {
+        "formal": "(A15 → (A14 → A11))",
+        "prover9": "(A15 -> (A14 -> A11))",
+        "prover9_expression": "(power_sufficient(agitator_motor) -> (mixing_active(agitator_motor) -> purification_complete(active_ingredient)))",
+        "natural": "Under the condition that the agitator motor has sufficient power, if the agitator motor is actively mixing, then purification of the active ingredient is complete."
+      },
+      "(A16 → G)": {
+        "formal": "(A16 → G)",
+        "prover9": "(A16 -> G)",
+        "prover9_expression": "(transport_ready(transfer_pump) -> product_ready(finished_product))",
+        "natural": "If the transfer pump is ready for transport, then the finished product is ready."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(line_clear(transfer_line) -> transport_ready(transfer_pump))",
+        "natural": "Provided that the transfer line is clear, the transfer pump is ready for transport."
+      },
+      "(A18 → A19)": {
+        "formal": "(A18 → A19)",
+        "prover9": "(A18 -> A19)",
+        "prover9_expression": "(blockage_detected(transfer_line) -> pressure_high(transfer_line))",
+        "natural": "If a blockage is detected in the transfer line, then the transfer line has high pressure."
+      },
+      "(A18 → A57)": {
+        "formal": "(A18 → A57)",
+        "prover9": "(A18 -> A57)",
+        "prover9_expression": "(blockage_detected(transfer_line) -> flow_stopped(transfer_line))",
+        "natural": "Whenever a blockage is detected in the transfer line, flow is stopped in the transfer line."
+      },
+      "(A18 ∨ A17)": {
+        "formal": "(A18 ∨ A17)",
+        "prover9": "(A18 | A17)",
+        "prover9_expression": "(blockage_detected(transfer_line) | line_clear(transfer_line))",
+        "natural": "Either a blockage is detected in the transfer line, or the transfer line is clear."
+      },
+      "(A2 → (A1 → G))": {
+        "formal": "(A2 → (A1 → G))",
+        "prover9": "(A2 -> (A1 -> G))",
+        "prover9_expression": "(heated(reactor_vessel, temperature_standard) -> (contains(reactor_vessel, active_ingredient) -> product_ready(finished_product)))",
+        "natural": "Under the condition that the reactor vessel is heated to the standard temperature, if the reactor vessel contains the active ingredient, then the finished product is ready."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(heated(reactor_vessel, temperature_standard) | cooled(reactor_vessel, temperature_standard))",
+        "natural": "Either the reactor vessel is heated to the standard temperature, or it is cooled to the standard temperature."
+      },
+      "(A20 → G)": {
+        "formal": "(A20 → G)",
+        "prover9": "(A20 -> G)",
+        "prover9_expression": "(packaging_ready(filling_machine) -> product_ready(finished_product))",
+        "natural": "If the filling machine is ready for packaging, then the finished product is ready."
+      },
+      "(A20 ∨ A21)": {
+        "formal": "(A20 ∨ A21)",
+        "prover9": "(A20 | A21)",
+        "prover9_expression": "(packaging_ready(filling_machine) | labeling_ready(label_printer))",
+        "natural": "Either the filling machine is ready for packaging, or the label printer is ready for labeling."
+      },
+      "(A21 → G)": {
+        "formal": "(A21 → G)",
+        "prover9": "(A21 -> G)",
+        "prover9_expression": "(labeling_ready(label_printer) -> product_ready(finished_product))",
+        "natural": "Provided that the label printer is ready for labeling, the finished product is ready."
+      },
+      "(A22 → A20)": {
+        "formal": "(A22 → A20)",
+        "prover9": "(A22 -> A20)",
+        "prover9_expression": "(container_supplied(container_hopper) -> packaging_ready(filling_machine))",
+        "natural": "If the container hopper supplies containers, then the filling machine is ready for packaging."
+      },
+      "(A22 ∨ A23)": {
+        "formal": "(A22 ∨ A23)",
+        "prover9": "(A22 | A23)",
+        "prover9_expression": "(container_supplied(container_hopper) | label_supplied(label_roll))",
+        "natural": "Either the container hopper supplies containers, or the label roll supplies labels."
+      },
+      "(A23 → A21)": {
+        "formal": "(A23 → A21)",
+        "prover9": "(A23 -> A21)",
+        "prover9_expression": "(label_supplied(label_roll) -> labeling_ready(label_printer))",
+        "natural": "Under the condition that the label roll supplies labels, the label printer is ready for labeling."
+      },
+      "(A23 → A66)": {
+        "formal": "(A23 → A66)",
+        "prover9": "(A23 -> A66)",
+        "prover9_expression": "(label_supplied(label_roll) -> label_printed(product_label))",
+        "natural": "Whenever the label roll supplies labels, the product label is printed."
+      },
+      "(A25 ∨ (¬(A23 → A21) → A24))": {
+        "formal": "(A25 ∨ (¬(A23 → A21) → A24))",
+        "prover9": "(A25 | (-(A23 -> A21) -> A24))",
+        "prover9_expression": "(labeling_delayed(label_printer) | (-(label_supplied(label_roll) -> labeling_ready(label_printer)) -> packaging_delayed(filling_machine)))",
+        "natural": "Either labeling is delayed at the label printer, or if it is not the case that the label roll supplying labels leads to the label printer being ready for labeling, then packaging is delayed at the filling machine."
+      },
+      "(A26 → G)": {
+        "formal": "(A26 → G)",
+        "prover9": "(A26 -> G)",
+        "prover9_expression": "(batch_complete(active_ingredient) -> product_ready(finished_product))",
+        "natural": "If the batch of active ingredient is complete, then the finished product is ready."
+      },
+      "(A28 → (¬(A26 → G) → A27))": {
+        "formal": "(A28 → (¬(A26 → G) → A27))",
+        "prover9": "(A28 -> (-(A26 -> G) -> A27))",
+        "prover9_expression": "(batch_released(active_ingredient) -> (-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient)))",
+        "natural": "Provided that the batch of active ingredient is released, if it is not the case that the batch being complete leads to the finished product being ready, then the batch of active ingredient has failed."
+      },
+      "(A29 → A30)": {
+        "formal": "(A29 → A30)",
+        "prover9": "(A29 -> A30)",
+        "prover9_expression": "(inspection_scheduled(quality_lab) -> inspection_complete(quality_lab))",
+        "natural": "If an inspection is scheduled at the quality lab, then the inspection at the quality lab is complete."
+      },
+      "(A29 ∨ (A28 → (¬(A26 → G) → A27)))": {
+        "formal": "(A29 ∨ (A28 → (¬(A26 → G) → A27)))",
+        "prover9": "(A29 | (A28 -> (-(A26 -> G) -> A27)))",
+        "prover9_expression": "(inspection_scheduled(quality_lab) | (batch_released(active_ingredient) -> (-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient))))",
+        "natural": "Either an inspection is scheduled at the quality lab, or if the batch of active ingredient is released, then if it is not the case that the batch being complete leads to the finished product being ready, the batch of active ingredient has failed."
+      },
+      "(A3 → (A1 → G))": {
+        "formal": "(A3 → (A1 → G))",
+        "prover9": "(A3 -> (A1 -> G))",
+        "prover9_expression": "(cooled(reactor_vessel, temperature_standard) -> (contains(reactor_vessel, active_ingredient) -> product_ready(finished_product)))",
+        "natural": "Under the condition that the reactor vessel is cooled to the standard temperature, if the reactor vessel contains the active ingredient, then the finished product is ready."
+      },
+      "(A31 → (¬(A5 → A3) → A7))": {
+        "formal": "(A31 → (¬(A5 → A3) → A7))",
+        "prover9": "(A31 -> (-(A5 -> A3) -> A7))",
+        "prover9_expression": "(sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel)))",
+        "natural": "Provided that the temperature probe is functional, if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, then the reactor vessel temperature is safe."
+      },
+      "(A32 → (A31 → (¬(A5 → A3) → A7)))": {
+        "formal": "(A32 → (A31 → (¬(A5 → A3) → A7)))",
+        "prover9": "(A32 -> (A31 -> (-(A5 -> A3) -> A7)))",
+        "prover9_expression": "(calibration_current(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+        "natural": "If the temperature probe has current calibration, then if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+      },
+      "(A32 → A34)": {
+        "formal": "(A32 → A34)",
+        "prover9": "(A32 -> A34)",
+        "prover9_expression": "(calibration_current(temperature_probe) -> reading_accurate(temperature_probe))",
+        "natural": "Whenever the temperature probe has current calibration, the temperature probe reading is accurate."
+      },
+      "(A32 → A35)": {
+        "formal": "(A32 → A35)",
+        "prover9": "(A32 -> A35)",
+        "prover9_expression": "(calibration_current(temperature_probe) -> connection_secure(temperature_probe))",
+        "natural": "Provided that the temperature probe has current calibration, the temperature probe connection is secure."
+      },
+      "(A32 → A36)": {
+        "formal": "(A32 → A36)",
+        "prover9": "(A32 -> A36)",
+        "prover9_expression": "(calibration_current(temperature_probe) -> power_adequate(temperature_probe))",
+        "natural": "Under the condition that the temperature probe has current calibration, the temperature probe has adequate power."
+      },
+      "(A32 → A37)": {
+        "formal": "(A32 → A37)",
+        "prover9": "(A32 -> A37)",
+        "prover9_expression": "(calibration_current(temperature_probe) -> signal_clear(temperature_probe))",
+        "natural": "If the temperature probe has current calibration, then the temperature probe signal is clear."
+      },
+      "(A32 ∨ A33)": {
+        "formal": "(A32 ∨ A33)",
+        "prover9": "(A32 | A33)",
+        "prover9_expression": "(calibration_current(temperature_probe) | calibration_overdue(temperature_probe))",
+        "natural": "Either the temperature probe has current calibration, or it has overdue calibration."
+      },
+      "(A33 → (A31 → (¬(A5 → A3) → A7)))": {
+        "formal": "(A33 → (A31 → (¬(A5 → A3) → A7)))",
+        "prover9": "(A33 -> (A31 -> (-(A5 -> A3) -> A7)))",
+        "prover9_expression": "(calibration_overdue(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+        "natural": "Whenever the temperature probe has overdue calibration, if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+      },
+      "(A34 → (A31 → (¬(A5 → A3) → A7)))": {
+        "formal": "(A34 → (A31 → (¬(A5 → A3) → A7)))",
+        "prover9": "(A34 -> (A31 -> (-(A5 -> A3) -> A7)))",
+        "prover9_expression": "(reading_accurate(temperature_probe) -> (sensor_functional(temperature_probe) -> (-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))))",
+        "natural": "Provided that the temperature probe reading is accurate, if the temperature probe is functional, then if it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+      },
+      "(A35 → A34)": {
+        "formal": "(A35 → A34)",
+        "prover9": "(A35 -> A34)",
+        "prover9_expression": "(connection_secure(temperature_probe) -> reading_accurate(temperature_probe))",
+        "natural": "If the temperature probe connection is secure, then the temperature probe reading is accurate."
+      },
+      "(A36 → A35)": {
+        "formal": "(A36 → A35)",
+        "prover9": "(A36 -> A35)",
+        "prover9_expression": "(power_adequate(temperature_probe) -> connection_secure(temperature_probe))",
+        "natural": "Under the condition that the temperature probe has adequate power, the temperature probe connection is secure."
+      },
+      "(A37 → A36)": {
+        "formal": "(A37 → A36)",
+        "prover9": "(A37 -> A36)",
+        "prover9_expression": "(signal_clear(temperature_probe) -> power_adequate(temperature_probe))",
+        "natural": "Whenever the temperature probe signal is clear, the temperature probe has adequate power."
+      },
+      "(A39 → A11)": {
+        "formal": "(A39 → A11)",
+        "prover9": "(A39 -> A11)",
+        "prover9_expression": "(solvent_removed(active_ingredient) -> purification_complete(active_ingredient))",
+        "natural": "If solvent is removed from the active ingredient, then purification of the active ingredient is complete."
+      },
+      "(A4 → A2)": {
+        "formal": "(A4 → A2)",
+        "prover9": "(A4 -> A2)",
+        "prover9_expression": "(heat_source_active(heating_system) -> heated(reactor_vessel, temperature_standard))",
+        "natural": "Provided that the heating system has an active heat source, the reactor vessel is heated to the standard temperature."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(heat_source_active(heating_system) | cooling_system_active(cooling_unit))",
+        "natural": "Either the heating system has an active heat source, or the cooling system is active in the cooling unit."
+      },
+      "(A40 → (A12 → A39))": {
+        "formal": "(A40 → (A12 → A39))",
+        "prover9": "(A40 -> (A12 -> A39))",
+        "prover9_expression": "(valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))",
+        "natural": "Under the condition that the drain valve is open, if the filtration system is engaged, then solvent is removed from the active ingredient."
+      },
+      "(A41 → (A40 → (A12 → A39)))": {
+        "formal": "(A41 → (A40 → (A12 → A39)))",
+        "prover9": "(A41 -> (A40 -> (A12 -> A39)))",
+        "prover9_expression": "(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient))))",
+        "natural": "If the drain valve has adequate pressure, then if the drain valve is open, then if the filtration system is engaged, solvent is removed from the active ingredient."
+      },
+      "(A41 ∨ A42)": {
+        "formal": "(A41 ∨ A42)",
+        "prover9": "(A41 | A42)",
+        "prover9_expression": "(pressure_adequate(drain_valve) | pressure_low(drain_valve))",
+        "natural": "Either the drain valve has adequate pressure, or it has low pressure."
+      },
+      "(A42 → (A40 → (A12 → A39)))": {
+        "formal": "(A42 → (A40 → (A12 → A39)))",
+        "prover9": "(A42 -> (A40 -> (A12 -> A39)))",
+        "prover9_expression": "(pressure_low(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient))))",
+        "natural": "Provided that the drain valve has low pressure, if the drain valve is open, then if the filtration system is engaged, solvent is removed from the active ingredient."
+      },
+      "(A44 → A43)": {
+        "formal": "(A44 → A43)",
+        "prover9": "(A44 -> A43)",
+        "prover9_expression": "(valve_clogged(drain_valve) -> flow_restricted(drain_valve))",
+        "natural": "If the drain valve is clogged, then the drain valve has restricted flow."
+      },
+      "(A45 → A44)": {
+        "formal": "(A45 → A44)",
+        "prover9": "(A45 -> A44)",
+        "prover9_expression": "(seal_leaking(drain_valve) -> valve_clogged(drain_valve))",
+        "natural": "Whenever the drain valve seal is leaking, the drain valve is clogged."
+      },
+      "(A46 → ¬A18)": {
+        "formal": "(A46 → ¬A18)",
+        "prover9": "(A46 -> -A18)",
+        "prover9_expression": "(maintenance_performed(transfer_line) -> -blockage_detected(transfer_line))",
+        "natural": "Under the condition that maintenance is performed on the transfer line, a blockage is not detected in the transfer line."
+      },
+      "(A46 ∨ A47)": {
+        "formal": "(A46 ∨ A47)",
+        "prover9": "(A46 | A47)",
+        "prover9_expression": "(maintenance_performed(transfer_line) | maintenance_overdue(transfer_line))",
+        "natural": "Either maintenance is performed on the transfer line, or maintenance is overdue on the transfer line."
+      },
+      "(A47 → ¬A18)": {
+        "formal": "(A47 → ¬A18)",
+        "prover9": "(A47 -> -A18)",
+        "prover9_expression": "(maintenance_overdue(transfer_line) -> -blockage_detected(transfer_line))",
+        "natural": "If maintenance is overdue on the transfer line, then a blockage is not detected in the transfer line."
+      },
+      "(A48 → (A46 → ¬A18))": {
+        "formal": "(A48 → (A46 → ¬A18))",
+        "prover9": "(A48 -> (A46 -> -A18))",
+        "prover9_expression": "(inspection_passed(transfer_line) -> (maintenance_performed(transfer_line) -> -blockage_detected(transfer_line)))",
+        "natural": "Provided that the transfer line passes inspection, if maintenance is performed on the transfer line, then a blockage is not detected in the transfer line."
+      },
+      "(A48 → A49)": {
+        "formal": "(A48 → A49)",
+        "prover9": "(A48 -> A49)",
+        "prover9_expression": "(inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))",
+        "natural": "If the transfer line passes inspection, then the transfer line integrity is confirmed."
+      },
+      "(A49 → (A46 → ¬A18))": {
+        "formal": "(A49 → (A46 → ¬A18))",
+        "prover9": "(A49 -> (A46 -> -A18))",
+        "prover9_expression": "(integrity_confirmed(transfer_line) -> (maintenance_performed(transfer_line) -> -blockage_detected(transfer_line)))",
+        "natural": "Under the condition that the transfer line integrity is confirmed, if maintenance is performed on the transfer line, then a blockage is not detected in the transfer line."
+      },
+      "(A5 → A3)": {
+        "formal": "(A5 → A3)",
+        "prover9": "(A5 -> A3)",
+        "prover9_expression": "(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard))",
+        "natural": "Whenever the cooling system is active in the cooling unit, the reactor vessel is cooled to the standard temperature."
+      },
+      "(A50 → (A48 → A49))": {
+        "formal": "(A50 → (A48 → A49))",
+        "prover9": "(A50 -> (A48 -> A49))",
+        "prover9_expression": "(test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line)))",
+        "natural": "If testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed."
+      },
+      "(A50 ∨ A51)": {
+        "formal": "(A50 ∨ A51)",
+        "prover9": "(A50 | A51)",
+        "prover9_expression": "(test_completed(transfer_line) | test_pending(transfer_line))",
+        "natural": "Either testing is completed on the transfer line, or testing is pending on the transfer line."
+      },
+      "(A51 → (A48 → A49))": {
+        "formal": "(A51 → (A48 → A49))",
+        "prover9": "(A51 -> (A48 -> A49))",
+        "prover9_expression": "(test_pending(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line)))",
+        "natural": "Provided that testing is pending on the transfer line, if the transfer line passes inspection, then the transfer line integrity is confirmed."
+      },
+      "(A52 → (A50 → (A48 → A49)))": {
+        "formal": "(A52 → (A50 → (A48 → A49)))",
+        "prover9": "(A52 -> (A50 -> (A48 -> A49)))",
+        "prover9_expression": "(pressure_test_ok(transfer_line) -> (test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))))",
+        "natural": "Under the condition that the transfer line pressure test is okay, if testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed."
+      },
+      "(A52 ∨ A53)": {
+        "formal": "(A52 ∨ A53)",
+        "prover9": "(A52 | A53)",
+        "prover9_expression": "(pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line))",
+        "natural": "Either the transfer line pressure test is okay, or the transfer line visual inspection is okay."
+      },
+      "(A53 → (A50 → (A48 → A49)))": {
+        "formal": "(A53 → (A50 → (A48 → A49)))",
+        "prover9": "(A53 -> (A50 -> (A48 -> A49)))",
+        "prover9_expression": "(visual_inspection_ok(transfer_line) -> (test_completed(transfer_line) -> (inspection_passed(transfer_line) -> integrity_confirmed(transfer_line))))",
+        "natural": "If the transfer line visual inspection is okay, then if testing is completed on the transfer line, then if the transfer line passes inspection, the transfer line integrity is confirmed."
+      },
+      "(A54 ∨ (A52 ∨ A53))": {
+        "formal": "(A54 ∨ (A52 ∨ A53))",
+        "prover9": "(A54 | (A52 | A53))",
+        "prover9_expression": "(certification_valid(transfer_line) | (pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line)))",
+        "natural": "Either the transfer line certification is valid, or the transfer line pressure test is okay, or the transfer line visual inspection is okay."
+      },
+      "(A55 → A56)": {
+        "formal": "(A55 → A56)",
+        "prover9": "(A55 -> A56)",
+        "prover9_expression": "(needs_recertification(transfer_line) -> recertification_scheduled(transfer_line))",
+        "natural": "Provided that the transfer line needs recertification, recertification is scheduled for the transfer line."
+      },
+      "(A55 → ¬A56)": {
+        "formal": "(A55 → ¬A56)",
+        "prover9": "(A55 -> -A56)",
+        "prover9_expression": "(needs_recertification(transfer_line) -> -recertification_scheduled(transfer_line))",
+        "natural": "If the transfer line needs recertification, then it is not the case that recertification is scheduled for the transfer line."
+      },
+      "(A58 ∨ (A18 → A57))": {
+        "formal": "(A58 ∨ (A18 → A57))",
+        "prover9": "(A58 | (A18 -> A57))",
+        "prover9_expression": "(emergency_shutdown(transfer_system) | (blockage_detected(transfer_line) -> flow_stopped(transfer_line)))",
+        "natural": "Either the transfer system has an emergency shutdown, or if a blockage is detected in the transfer line, then flow is stopped in the transfer line."
+      },
+      "(A59 → A16)": {
+        "formal": "(A59 → A16)",
+        "prover9": "(A59 -> A16)",
+        "prover9_expression": "(pump_primed(transfer_pump) -> transport_ready(transfer_pump))",
+        "natural": "Under the condition that the transfer pump is primed, the transfer pump is ready for transport."
+      },
+      "(A59 → A61)": {
+        "formal": "(A59 → A61)",
+        "prover9": "(A59 -> A61)",
+        "prover9_expression": "(pump_primed(transfer_pump) -> suction_adequate(transfer_pump))",
+        "natural": "Whenever the transfer pump is primed, the transfer pump has adequate suction."
+      },
+      "(A59 ∨ A60)": {
+        "formal": "(A59 ∨ A60)",
+        "prover9": "(A59 | A60)",
+        "prover9_expression": "(pump_primed(transfer_pump) | pump_dry(transfer_pump))",
+        "natural": "Either the transfer pump is primed, or it is dry."
+      },
+      "(A60 → A16)": {
+        "formal": "(A60 → A16)",
+        "prover9": "(A60 -> A16)",
+        "prover9_expression": "(pump_dry(transfer_pump) -> transport_ready(transfer_pump))",
+        "natural": "If the transfer pump is dry, then the transfer pump is ready for transport."
+      },
+      "(A61 → A16)": {
+        "formal": "(A61 → A16)",
+        "prover9": "(A61 -> A16)",
+        "prover9_expression": "(suction_adequate(transfer_pump) -> transport_ready(transfer_pump))",
+        "natural": "Provided that the transfer pump has adequate suction, the transfer pump is ready for transport."
+      },
+      "(A62 → (A61 → A16))": {
+        "formal": "(A62 → (A61 → A16))",
+        "prover9": "(A62 -> (A61 -> A16))",
+        "prover9_expression": "(reservoir_full(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump)))",
+        "natural": "If the solvent tank reservoir is full, then if the transfer pump has adequate suction, the transfer pump is ready for transport."
+      },
+      "(A62 ∨ A63)": {
+        "formal": "(A62 ∨ A63)",
+        "prover9": "(A62 | A63)",
+        "prover9_expression": "(reservoir_full(solvent_tank) | reservoir_low(solvent_tank))",
+        "natural": "Either the solvent tank reservoir is full, or it is low."
+      },
+      "(A63 → (A61 → A16))": {
+        "formal": "(A63 → (A61 → A16))",
+        "prover9": "(A63 -> (A61 -> A16))",
+        "prover9_expression": "(reservoir_low(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump)))",
+        "natural": "Under the condition that the solvent tank reservoir is low, if the transfer pump has adequate suction, then the transfer pump is ready for transport."
+      },
+      "(A64 → (A62 → (A61 → A16)))": {
+        "formal": "(A64 → (A62 → (A61 → A16)))",
+        "prover9": "(A64 -> (A62 -> (A61 -> A16)))",
+        "prover9_expression": "(level_sensor_ok(solvent_tank) -> (reservoir_full(solvent_tank) -> (suction_adequate(transfer_pump) -> transport_ready(transfer_pump))))",
+        "natural": "Provided that the solvent tank level sensor is okay, if the solvent tank reservoir is full, then if the transfer pump has adequate suction, the transfer pump is ready for transport."
+      },
+      "(A66 → A21)": {
+        "formal": "(A66 → A21)",
+        "prover9": "(A66 -> A21)",
+        "prover9_expression": "(label_printed(product_label) -> labeling_ready(label_printer))",
+        "natural": "If the product label is printed, then the label printer is ready for labeling."
+      },
+      "(A66 → A67)": {
+        "formal": "(A66 → A67)",
+        "prover9": "(A66 -> A67)",
+        "prover9_expression": "(label_printed(product_label) -> label_applied(product_container))",
+        "natural": "Whenever the product label is printed, the product label is applied to the container."
+      },
+      "(A67 → A21)": {
+        "formal": "(A67 → A21)",
+        "prover9": "(A67 -> A21)",
+        "prover9_expression": "(label_applied(product_container) -> labeling_ready(label_printer))",
+        "natural": "Under the condition that the product label is applied to the container, the label printer is ready for labeling."
+      },
+      "(A68 → (A66 → A67))": {
+        "formal": "(A68 → (A66 → A67))",
+        "prover9": "(A68 -> (A66 -> A67))",
+        "prover9_expression": "(printer_ready(label_printer) -> (label_printed(product_label) -> label_applied(product_container)))",
+        "natural": "If the label printer is ready, then if the product label is printed, the product label is applied to the container."
+      },
+      "(A68 ∨ A69)": {
+        "formal": "(A68 ∨ A69)",
+        "prover9": "(A68 | A69)",
+        "prover9_expression": "(printer_ready(label_printer) | printer_offline(label_printer))",
+        "natural": "Either the label printer is ready, or it is offline."
+      },
+      "(A69 → (A66 → A67))": {
+        "formal": "(A69 → (A66 → A67))",
+        "prover9": "(A69 -> (A66 -> A67))",
+        "prover9_expression": "(printer_offline(label_printer) -> (label_printed(product_label) -> label_applied(product_container)))",
+        "natural": "Provided that the label printer is offline, if the product label is printed, then the product label is applied to the container."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(temperature_safe(reactor_vessel) -> -temperature_critical(reactor_vessel))",
+        "natural": "If the reactor vessel temperature is safe, then it is not the case that the reactor vessel temperature is critical."
+      },
+      "(A70 ∨ (A69 → (A66 → A67)))": {
+        "formal": "(A70 ∨ (A69 → (A66 → A67)))",
+        "prover9": "(A70 | (A69 -> (A66 -> A67)))",
+        "prover9_expression": "(packaging_complete(product_batch) | (printer_offline(label_printer) -> (label_printed(product_label) -> label_applied(product_container))))",
+        "natural": "Either packaging of the product batch is complete, or if the label printer is offline, then if the product label is printed, the product label is applied to the container."
+      },
+      "(A71 ∨ ¬A70)": {
+        "formal": "(A71 ∨ ¬A70)",
+        "prover9": "(A71 | -A70)",
+        "prover9_expression": "(labeling_complete(product_batch) | -packaging_complete(product_batch))",
+        "natural": "Either labeling of the product batch is complete, or packaging of the product batch is not complete."
+      },
+      "(A72 → A73)": {
+        "formal": "(A72 → A73)",
+        "prover9": "(A72 -> A73)",
+        "prover9_expression": "(pallet_ready(shipping_area) -> shipment_scheduled(shipping_dock))",
+        "natural": "Whenever a pallet is ready in the shipping area, a shipment is scheduled at the shipping dock."
+      },
+      "(A72 ∨ ¬A71)": {
+        "formal": "(A72 ∨ ¬A71)",
+        "prover9": "(A72 | -A71)",
+        "prover9_expression": "(pallet_ready(shipping_area) | -labeling_complete(product_batch))",
+        "natural": "Either a pallet is ready in the shipping area, or labeling of the product batch is not complete."
+      },
+      "(A74 → A20)": {
+        "formal": "(A74 → A20)",
+        "prover9": "(A74 -> A20)",
+        "prover9_expression": "(box_supplied(packaging_line) -> packaging_ready(filling_machine))",
+        "natural": "If boxes are supplied to the packaging line, then the filling machine is ready for packaging."
+      },
+      "(A74 ∨ A75)": {
+        "formal": "(A74 ∨ A75)",
+        "prover9": "(A74 | A75)",
+        "prover9_expression": "(box_supplied(packaging_line) | carton_supplied(packaging_line))",
+        "natural": "Either boxes are supplied to the packaging line, or cartons are supplied to the packaging line."
+      },
+      "(A75 → A21)": {
+        "formal": "(A75 → A21)",
+        "prover9": "(A75 -> A21)",
+        "prover9_expression": "(carton_supplied(packaging_line) -> labeling_ready(label_printer))",
+        "natural": "Provided that cartons are supplied to the packaging line, the label printer is ready for labeling."
+      },
+      "(A76 ∨ (A74 → A20))": {
+        "formal": "(A76 ∨ (A74 → A20))",
+        "prover9": "(A76 | (A74 -> A20))",
+        "prover9_expression": "(packaging_active(filling_machine) | (box_supplied(packaging_line) -> packaging_ready(filling_machine)))",
+        "natural": "Either the filling machine is actively packaging, or if boxes are supplied to the packaging line, then the filling machine is ready for packaging."
+      },
+      "(A77 → A76)": {
+        "formal": "(A77 → A76)",
+        "prover9": "(A77 -> A76)",
+        "prover9_expression": "(conveyor_running(packaging_line) -> packaging_active(filling_machine))",
+        "natural": "Under the condition that the packaging line conveyor is running, the filling machine is actively packaging."
+      },
+      "(A77 ∨ A78)": {
+        "formal": "(A77 ∨ A78)",
+        "prover9": "(A77 | A78)",
+        "prover9_expression": "(conveyor_running(packaging_line) | conveyor_stopped(packaging_line))",
+        "natural": "Either the packaging line conveyor is running, or it is stopped."
+      },
+      "(A78 → (A74 → A20))": {
+        "formal": "(A78 → (A74 → A20))",
+        "prover9": "(A78 -> (A74 -> A20))",
+        "prover9_expression": "(conveyor_stopped(packaging_line) -> (box_supplied(packaging_line) -> packaging_ready(filling_machine)))",
+        "natural": "If the packaging line conveyor is stopped, then if boxes are supplied to the packaging line, the filling machine is ready for packaging."
+      },
+      "(A79 → A77)": {
+        "formal": "(A79 → A77)",
+        "prover9": "(A79 -> A77)",
+        "prover9_expression": "(motor_operational(conveyor_motor) -> conveyor_running(packaging_line))",
+        "natural": "Whenever the conveyor motor is operational, the packaging line conveyor is running."
+      },
+      "(A79 ∨ A80)": {
+        "formal": "(A79 ∨ A80)",
+        "prover9": "(A79 | A80)",
+        "prover9_expression": "(motor_operational(conveyor_motor) | motor_failed(conveyor_motor))",
+        "natural": "Either the conveyor motor is operational, or it has failed."
+      },
+      "(A8 → A7)": {
+        "formal": "(A8 → A7)",
+        "prover9": "(A8 -> A7)",
+        "prover9_expression": "(temperature_stable(reactor_vessel) -> temperature_safe(reactor_vessel))",
+        "natural": "Provided that the reactor vessel temperature is stable, the reactor vessel temperature is safe."
+      },
+      "(A80 → A78)": {
+        "formal": "(A80 → A78)",
+        "prover9": "(A80 -> A78)",
+        "prover9_expression": "(motor_failed(conveyor_motor) -> conveyor_stopped(packaging_line))",
+        "natural": "If the conveyor motor has failed, then the packaging line conveyor is stopped."
+      },
+      "(A9 ∨ G)": {
+        "formal": "(A9 ∨ G)",
+        "prover9": "(A9 | G)",
+        "prover9_expression": "(quality_passed(active_ingredient) | product_ready(finished_product))",
+        "natural": "Either the active ingredient passes quality checks, or the finished product is ready."
+      },
+      "(¬(A23 → A21) → A24)": {
+        "formal": "(¬(A23 → A21) → A24)",
+        "prover9": "(-(A23 -> A21) -> A24)",
+        "prover9_expression": "(-(label_supplied(label_roll) -> labeling_ready(label_printer)) -> packaging_delayed(filling_machine))",
+        "natural": "If it is not the case that the label roll supplying labels leads to the label printer being ready for labeling, then packaging is delayed at the filling machine."
+      },
+      "(¬(A26 → G) → A27)": {
+        "formal": "(¬(A26 → G) → A27)",
+        "prover9": "(-(A26 -> G) -> A27)",
+        "prover9_expression": "(-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> batch_failed(active_ingredient))",
+        "natural": "Under the condition that it is not the case that the batch being complete leads to the finished product being ready, the batch of active ingredient has failed."
+      },
+      "(¬(A26 → G) → ¬A27)": {
+        "formal": "(¬(A26 → G) → ¬A27)",
+        "prover9": "(-(A26 -> G) -> -A27)",
+        "prover9_expression": "(-(batch_complete(active_ingredient) -> product_ready(finished_product)) -> -batch_failed(active_ingredient))",
+        "natural": "Whenever it is not the case that the batch being complete leads to the finished product being ready, it is not the case that the batch of active ingredient has failed."
+      },
+      "(¬(A37 → A36) → A38)": {
+        "formal": "(¬(A37 → A36) → A38)",
+        "prover9": "(-(A37 -> A36) -> A38)",
+        "prover9_expression": "(-(signal_clear(temperature_probe) -> power_adequate(temperature_probe)) -> reading_faulty(temperature_probe))",
+        "natural": "If it is not the case that the temperature probe signal being clear leads to the temperature probe having adequate power, then the temperature probe reading is faulty."
+      },
+      "(¬(A41 → (A40 → (A12 → A39))) → A43)": {
+        "formal": "(¬(A41 → (A40 → (A12 → A39))) → A43)",
+        "prover9": "(-(A41 -> (A40 -> (A12 -> A39))) -> A43)",
+        "prover9_expression": "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> flow_restricted(drain_valve))",
+        "natural": "Provided that it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, the drain valve has restricted flow."
+      },
+      "(¬(A41 → (A40 → (A12 → A39))) → A44)": {
+        "formal": "(¬(A41 → (A40 → (A12 → A39))) → A44)",
+        "prover9": "(-(A41 -> (A40 -> (A12 -> A39))) -> A44)",
+        "prover9_expression": "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> valve_clogged(drain_valve))",
+        "natural": "Under the condition that it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, the drain valve is clogged."
+      },
+      "(¬(A41 → (A40 → (A12 → A39))) → A45)": {
+        "formal": "(¬(A41 → (A40 → (A12 → A39))) → A45)",
+        "prover9": "(-(A41 -> (A40 -> (A12 -> A39))) -> A45)",
+        "prover9_expression": "(-(pressure_adequate(drain_valve) -> (valve_open(drain_valve) -> (filter_engaged(filtration_system) -> solvent_removed(active_ingredient)))) -> seal_leaking(drain_valve))",
+        "natural": "If it is not the case that the drain valve having adequate pressure leads to if the drain valve is open then if the filtration system is engaged solvent is removed from the active ingredient, then the drain valve seal is leaking."
+      },
+      "(¬(A5 → A3) → A6)": {
+        "formal": "(¬(A5 → A3) → A6)",
+        "prover9": "(-(A5 -> A3) -> A6)",
+        "prover9_expression": "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_critical(reactor_vessel))",
+        "natural": "Whenever it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is critical."
+      },
+      "(¬(A5 → A3) → A7)": {
+        "formal": "(¬(A5 → A3) → A7)",
+        "prover9": "(-(A5 -> A3) -> A7)",
+        "prover9_expression": "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_safe(reactor_vessel))",
+        "natural": "Provided that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, the reactor vessel temperature is safe."
+      },
+      "(¬(A5 → A3) → A8)": {
+        "formal": "(¬(A5 → A3) → A8)",
+        "prover9": "(-(A5 -> A3) -> A8)",
+        "prover9_expression": "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> temperature_stable(reactor_vessel))",
+        "natural": "If it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, then the reactor vessel temperature is stable."
+      },
+      "(¬(A5 → A3) → ¬A6)": {
+        "formal": "(¬(A5 → A3) → ¬A6)",
+        "prover9": "(-(A5 -> A3) -> -A6)",
+        "prover9_expression": "(-(cooling_system_active(cooling_unit) -> cooled(reactor_vessel, temperature_standard)) -> -temperature_critical(reactor_vessel))",
+        "natural": "Under the condition that it is not the case that the cooling system being active leads to the reactor vessel being cooled to the standard temperature, it is not the case that the reactor vessel temperature is critical."
+      },
+      "(¬(A54 ∨ (A52 ∨ A53)) → A55)": {
+        "formal": "(¬(A54 ∨ (A52 ∨ A53)) → A55)",
+        "prover9": "(-(A54 | (A52 | A53)) -> A55)",
+        "prover9_expression": "(-(certification_valid(transfer_line) | (pressure_test_ok(transfer_line) | visual_inspection_ok(transfer_line))) -> needs_recertification(transfer_line))",
+        "natural": "If it is not the case that either the transfer line certification is valid or the transfer line pressure test is okay or the transfer line visual inspection is okay, then the transfer line needs recertification."
+      },
+      "(¬A64 → A65)": {
+        "formal": "(¬A64 → A65)",
+        "prover9": "(-A64 -> A65)",
+        "prover9_expression": "(-level_sensor_ok(solvent_tank) -> level_sensor_faulty(solvent_tank))",
+        "natural": "Provided that the solvent tank level sensor is not okay, the solvent tank level sensor is faulty."
+      },
+      "(¬A64 → ¬A65)": {
+        "formal": "(¬A64 → ¬A65)",
+        "prover9": "(-A64 -> -A65)",
+        "prover9_expression": "(-level_sensor_ok(solvent_tank) -> -level_sensor_faulty(solvent_tank))",
+        "natural": "If the solvent tank level sensor is not okay, then it is not the case that the solvent tank level sensor is faulty."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "contains(reactor_vessel, active_ingredient)",
+        "natural": "The reactor vessel contains the active ingredient."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "purification_complete(active_ingredient)",
+        "natural": "Purification of the active ingredient is complete."
+      },
+      "A12": {
+        "formal": "A12",
+        "prover9": "A12",
+        "prover9_expression": "filter_engaged(filtration_system)",
+        "natural": "The filtration system is engaged."
+      },
+      "A15": {
+        "formal": "A15",
+        "prover9": "A15",
+        "prover9_expression": "power_sufficient(agitator_motor)",
+        "natural": "The agitator motor has sufficient power."
+      },
+      "A16": {
+        "formal": "A16",
+        "prover9": "A16",
+        "prover9_expression": "transport_ready(transfer_pump)",
+        "natural": "The transfer pump is ready for transport."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "line_clear(transfer_line)",
+        "natural": "The transfer line is clear."
+      },
+      "A28": {
+        "formal": "A28",
+        "prover9": "A28",
+        "prover9_expression": "batch_released(active_ingredient)",
+        "natural": "The batch of active ingredient is released."
+      },
+      "A31": {
+        "formal": "A31",
+        "prover9": "A31",
+        "prover9_expression": "sensor_functional(temperature_probe)",
+        "natural": "The temperature probe is functional."
+      },
+      "A40": {
+        "formal": "A40",
+        "prover9": "A40",
+        "prover9_expression": "valve_open(drain_valve)",
+        "natural": "The drain valve is open."
+      },
+      "A48": {
+        "formal": "A48",
+        "prover9": "A48",
+        "prover9_expression": "inspection_passed(transfer_line)",
+        "natural": "The transfer line passes inspection."
+      },
+      "A64": {
+        "formal": "A64",
+        "prover9": "A64",
+        "prover9_expression": "level_sensor_ok(solvent_tank)",
+        "natural": "The solvent tank level sensor is okay."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "product_ready(finished_product)",
+        "natural": "The finished product is ready."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-contamination_detected(active_ingredient)",
+        "natural": "It is not the case that contamination is detected in the active ingredient."
+      },
+      "¬A18": {
+        "formal": "¬A18",
+        "prover9": "-A18",
+        "prover9_expression": "-blockage_detected(transfer_line)",
+        "natural": "It is not the case that a blockage is detected in the transfer line."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-pressure_high(transfer_line)",
+        "natural": "It is not the case that the transfer line has high pressure."
+      },
+      "¬A24": {
+        "formal": "¬A24",
+        "prover9": "-A24",
+        "prover9_expression": "-packaging_delayed(filling_machine)",
+        "natural": "It is not the case that packaging is delayed at the filling machine."
+      },
+      "¬A25": {
+        "formal": "¬A25",
+        "prover9": "-A25",
+        "prover9_expression": "-labeling_delayed(label_printer)",
+        "natural": "It is not the case that labeling is delayed at the label printer."
+      },
+      "¬A29": {
+        "formal": "¬A29",
+        "prover9": "-A29",
+        "prover9_expression": "-inspection_scheduled(quality_lab)",
+        "natural": "It is not the case that an inspection is scheduled at the quality lab."
+      },
+      "¬A30": {
+        "formal": "¬A30",
+        "prover9": "-A30",
+        "prover9_expression": "-inspection_complete(quality_lab)",
+        "natural": "It is not the case that the inspection at the quality lab is complete."
+      },
+      "¬A38": {
+        "formal": "¬A38",
+        "prover9": "-A38",
+        "prover9_expression": "-reading_faulty(temperature_probe)",
+        "natural": "It is not the case that the temperature probe reading is faulty."
+      },
+      "¬A43": {
+        "formal": "¬A43",
+        "prover9": "-A43",
+        "prover9_expression": "-flow_restricted(drain_valve)",
+        "natural": "It is not the case that the drain valve has restricted flow."
+      },
+      "¬A54": {
+        "formal": "¬A54",
+        "prover9": "-A54",
+        "prover9_expression": "-certification_valid(transfer_line)",
+        "natural": "It is not the case that the transfer line certification is valid."
+      },
+      "¬A55": {
+        "formal": "¬A55",
+        "prover9": "-A55",
+        "prover9_expression": "-needs_recertification(transfer_line)",
+        "natural": "It is not the case that the transfer line needs recertification."
+      },
+      "¬A57": {
+        "formal": "¬A57",
+        "prover9": "-A57",
+        "prover9_expression": "-flow_stopped(transfer_line)",
+        "natural": "It is not the case that flow is stopped in the transfer line."
+      },
+      "¬A58": {
+        "formal": "¬A58",
+        "prover9": "-A58",
+        "prover9_expression": "-emergency_shutdown(transfer_system)",
+        "natural": "It is not the case that the transfer system has an emergency shutdown."
+      },
+      "¬A70": {
+        "formal": "¬A70",
+        "prover9": "-A70",
+        "prover9_expression": "-packaging_complete(product_batch)",
+        "natural": "It is not the case that packaging of the product batch is complete."
+      },
+      "¬A71": {
+        "formal": "¬A71",
+        "prover9": "-A71",
+        "prover9_expression": "-labeling_complete(product_batch)",
+        "natural": "It is not the case that labeling of the product batch is complete."
+      },
+      "¬A72": {
+        "formal": "¬A72",
+        "prover9": "-A72",
+        "prover9_expression": "-pallet_ready(shipping_area)",
+        "natural": "It is not the case that a pallet is ready in the shipping area."
+      },
+      "¬A73": {
+        "formal": "¬A73",
+        "prover9": "-A73",
+        "prover9_expression": "-shipment_scheduled(shipping_dock)",
+        "natural": "It is not the case that a shipment is scheduled at the shipping dock."
+      },
+      "¬A76": {
+        "formal": "¬A76",
+        "prover9": "-A76",
+        "prover9_expression": "-packaging_active(filling_machine)",
+        "natural": "It is not the case that the filling machine is actively packaging."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-quality_passed(active_ingredient)",
+        "natural": "It is not the case that the active ingredient passes quality checks."
+      }
+    }
+  }
+}

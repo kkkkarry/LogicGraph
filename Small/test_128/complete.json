@@ -1,0 +1,352 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A3 → ¬A2)",
+        "prover9_expression": "(receives_funding(research_project, government_grant) -> -uses_platform(clinical_trial, digital_monitoring))",
+        "natural": "If the research project receives government grant funding, then the clinical trial does not use the digital monitoring platform."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A5 ∨ (A4 → A3))",
+        "prover9_expression": "(acquires_company(pharma_corp, research_team) | (develops_device(research_team, portable_dispenser) -> receives_funding(research_project, government_grant)))",
+        "natural": "Either the pharmaceutical corporation acquires the research team, or if the research team develops a portable drug dispenser device, then the research project receives government grant funding."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A6 → G)",
+        "prover9_expression": "(publishes_results(research_team, peer_review_journal) -> completes_development(experimental_drug))",
+        "natural": "If the research team publishes results in a peer-reviewed journal, then the experimental drug completes development."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 → G)",
+        "prover9_expression": "(presents_findings(research_team, medical_conference) -> completes_development(experimental_drug))",
+        "natural": "If the research team presents findings at a medical conference, then the experimental drug completes development."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A8 → A6)",
+        "prover9_expression": "(secures_patent(research_team, drug_formula) -> publishes_results(research_team, peer_review_journal))",
+        "natural": "If the research team secures a patent for the drug formula, then the research team publishes results in a peer-reviewed journal."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(secures_patent(research_team, drug_formula) | forms_partnership(research_team, university_lab))",
+        "natural": "Either the research team secures a patent for the drug formula, or the research team forms a partnership with a university laboratory."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A9 → A7)",
+        "prover9_expression": "(forms_partnership(research_team, university_lab) -> presents_findings(research_team, medical_conference))",
+        "natural": "If the research team forms a partnership with a university laboratory, then the research team presents findings at a medical conference."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A1 → G) → A2)",
+        "prover9_expression": "(-(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug)) -> uses_platform(clinical_trial, digital_monitoring))",
+        "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the clinical trial uses the digital monitoring platform."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A1 → G) → A4)",
+        "prover9_expression": "(-(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug)) -> develops_device(research_team, portable_dispenser))",
+        "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the research team develops a portable drug dispenser device."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "has_approval(research_team, fda_authorization)",
+        "natural": "The research team has FDA authorization approval."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A5",
+        "prover9_expression": "-acquires_company(pharma_corp, research_team)",
+        "natural": "The pharmaceutical corporation does not acquire the research team."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "completes_development(experimental_drug)",
+    "natural": "The experimental drug completes development."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A5 | (A4 -> A3))",
+            "-A5"
+          ],
+          "conclusion": "(A4 -> A3)",
+          "natural": "If the research team develops a portable drug dispenser device, then the research project receives government grant funding."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the research project receives government grant funding."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(A3 -> -A2)"
+          ],
+          "conclusion": "(-(A1 -> G) -> -A2)",
+          "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the clinical trial does not use the digital monitoring platform."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A2)",
+            "(-(A1 -> G) -> -A2)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the research team has FDA authorization approval, then the experimental drug completes development."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The experimental drug completes development."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A6)",
+            "(A9 -> A7)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A6 | A7)",
+          "natural": "Either the research team publishes results in a peer-reviewed journal, or the research team presents findings at a medical conference."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> G)",
+            "(A7 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The experimental drug completes development."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "has_approval(research_team, fda_authorization)",
+      "A2": "uses_platform(clinical_trial, digital_monitoring)",
+      "A3": "receives_funding(research_project, government_grant)",
+      "A4": "develops_device(research_team, portable_dispenser)",
+      "A5": "acquires_company(pharma_corp, research_team)",
+      "A6": "publishes_results(research_team, peer_review_journal)",
+      "A7": "presents_findings(research_team, medical_conference)",
+      "A8": "secures_patent(research_team, drug_formula)",
+      "A9": "forms_partnership(research_team, university_lab)",
+      "G": "completes_development(experimental_drug)"
+    },
+    "natural_facts": {
+      "A1": "The research team has FDA authorization approval.",
+      "A2": "The clinical trial uses a digital monitoring platform.",
+      "A3": "The research project receives government grant funding.",
+      "A4": "The research team develops a portable drug dispenser device.",
+      "A5": "The pharmaceutical corporation acquires the research team.",
+      "A6": "The research team publishes results in a peer-reviewed journal.",
+      "A7": "The research team presents findings at a medical conference.",
+      "A8": "The research team secures a patent for the drug formula.",
+      "A9": "The research team forms a partnership with a university laboratory.",
+      "G": "The experimental drug completes development."
+    },
+    "prover9_expressions": [
+      "(has_approval(research_team, fda_authorization) → completes_development(experimental_drug))",
+      "(receives_funding(research_project, government_grant) → ¬uses_platform(clinical_trial, digital_monitoring))",
+      "(develops_device(research_team, portable_dispenser) → receives_funding(research_project, government_grant))",
+      "(acquires_company(pharma_corp, research_team) ∨ (develops_device(research_team, portable_dispenser) → receives_funding(research_project, government_grant)))",
+      "(publishes_results(research_team, peer_review_journal) → completes_development(experimental_drug))",
+      "(publishes_results(research_team, peer_review_journal) ∨ presents_findings(research_team, medical_conference))",
+      "(presents_findings(research_team, medical_conference) → completes_development(experimental_drug))",
+      "(secures_patent(research_team, drug_formula) → publishes_results(research_team, peer_review_journal))",
+      "(secures_patent(research_team, drug_formula) ∨ forms_partnership(research_team, university_lab))",
+      "(forms_partnership(research_team, university_lab) → presents_findings(research_team, medical_conference))",
+      "(¬(has_approval(research_team, fda_authorization) → completes_development(experimental_drug)) → uses_platform(clinical_trial, digital_monitoring))",
+      "(¬(has_approval(research_team, fda_authorization) → completes_development(experimental_drug)) → receives_funding(research_project, government_grant))",
+      "(¬(has_approval(research_team, fda_authorization) → completes_development(experimental_drug)) → develops_device(research_team, portable_dispenser))",
+      "(¬(has_approval(research_team, fda_authorization) → completes_development(experimental_drug)) → ¬uses_platform(clinical_trial, digital_monitoring))",
+      "has_approval(research_team, fda_authorization)",
+      "completes_development(experimental_drug)",
+      "¬acquires_company(pharma_corp, research_team)"
+    ],
+    "natural_expressions": [
+      "If the research team has FDA authorization approval, then the experimental drug completes development.",
+      "If the research project receives government grant funding, then the clinical trial does not use the digital monitoring platform.",
+      "If the research team develops a portable drug dispenser device, then the research project receives government grant funding.",
+      "Either the pharmaceutical corporation acquires the research team, or if the research team develops a portable drug dispenser device, then the research project receives government grant funding.",
+      "If the research team publishes results in a peer-reviewed journal, then the experimental drug completes development.",
+      "Either the research team publishes results in a peer-reviewed journal, or the research team presents findings at a medical conference.",
+      "If the research team presents findings at a medical conference, then the experimental drug completes development.",
+      "If the research team secures a patent for the drug formula, then the research team publishes results in a peer-reviewed journal.",
+      "Either the research team secures a patent for the drug formula, or the research team forms a partnership with a university laboratory.",
+      "If the research team forms a partnership with a university laboratory, then the research team presents findings at a medical conference.",
+      "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the clinical trial uses the digital monitoring platform.",
+      "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the research project receives government grant funding.",
+      "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the research team develops a portable drug dispenser device.",
+      "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the clinical trial does not use the digital monitoring platform.",
+      "The research team has FDA authorization approval.",
+      "The experimental drug completes development.",
+      "The pharmaceutical corporation does not acquire the research team."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug))",
+        "natural": "If the research team has FDA authorization approval, then the experimental drug completes development."
+      },
+      "(A3 → ¬A2)": {
+        "formal": "(A3 → ¬A2)",
+        "prover9": "(A3 -> -A2)",
+        "prover9_expression": "(receives_funding(research_project, government_grant) -> -uses_platform(clinical_trial, digital_monitoring))",
+        "natural": "If the research project receives government grant funding, then the clinical trial does not use the digital monitoring platform."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(develops_device(research_team, portable_dispenser) -> receives_funding(research_project, government_grant))",
+        "natural": "If the research team develops a portable drug dispenser device, then the research project receives government grant funding."
+      },
+      "(A5 ∨ (A4 → A3))": {
+        "formal": "(A5 ∨ (A4 → A3))",
+        "prover9": "(A5 | (A4 -> A3))",
+        "prover9_expression": "(acquires_company(pharma_corp, research_team) | (develops_device(research_team, portable_dispenser) -> receives_funding(research_project, government_grant)))",
+        "natural": "Either the pharmaceutical corporation acquires the research team, or if the research team develops a portable drug dispenser device, then the research project receives government grant funding."
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(publishes_results(research_team, peer_review_journal) -> completes_development(experimental_drug))",
+        "natural": "If the research team publishes results in a peer-reviewed journal, then the experimental drug completes development."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(publishes_results(research_team, peer_review_journal) | presents_findings(research_team, medical_conference))",
+        "natural": "Either the research team publishes results in a peer-reviewed journal, or the research team presents findings at a medical conference."
+      },
+      "(A7 → G)": {
+        "formal": "(A7 → G)",
+        "prover9": "(A7 -> G)",
+        "prover9_expression": "(presents_findings(research_team, medical_conference) -> completes_development(experimental_drug))",
+        "natural": "If the research team presents findings at a medical conference, then the experimental drug completes development."
+      },
+      "(A8 → A6)": {
+        "formal": "(A8 → A6)",
+        "prover9": "(A8 -> A6)",
+        "prover9_expression": "(secures_patent(research_team, drug_formula) -> publishes_results(research_team, peer_review_journal))",
+        "natural": "If the research team secures a patent for the drug formula, then the research team publishes results in a peer-reviewed journal."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(secures_patent(research_team, drug_formula) | forms_partnership(research_team, university_lab))",
+        "natural": "Either the research team secures a patent for the drug formula, or the research team forms a partnership with a university laboratory."
+      },
+      "(A9 → A7)": {
+        "formal": "(A9 → A7)",
+        "prover9": "(A9 -> A7)",
+        "prover9_expression": "(forms_partnership(research_team, university_lab) -> presents_findings(research_team, medical_conference))",
+        "natural": "If the research team forms a partnership with a university laboratory, then the research team presents findings at a medical conference."
+      },
+      "(¬(A1 → G) → A2)": {
+        "formal": "(¬(A1 → G) → A2)",
+        "prover9": "(-(A1 -> G) -> A2)",
+        "prover9_expression": "(-(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug)) -> uses_platform(clinical_trial, digital_monitoring))",
+        "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the clinical trial uses the digital monitoring platform."
+      },
+      "(¬(A1 → G) → A3)": {
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9": "(-(A1 -> G) -> A3)",
+        "prover9_expression": "(-(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug)) -> receives_funding(research_project, government_grant))",
+        "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the research project receives government grant funding."
+      },
+      "(¬(A1 → G) → A4)": {
+        "formal": "(¬(A1 → G) → A4)",
+        "prover9": "(-(A1 -> G) -> A4)",
+        "prover9_expression": "(-(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug)) -> develops_device(research_team, portable_dispenser))",
+        "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the research team develops a portable drug dispenser device."
+      },
+      "(¬(A1 → G) → ¬A2)": {
+        "formal": "(¬(A1 → G) → ¬A2)",
+        "prover9": "(-(A1 -> G) -> -A2)",
+        "prover9_expression": "(-(has_approval(research_team, fda_authorization) -> completes_development(experimental_drug)) -> -uses_platform(clinical_trial, digital_monitoring))",
+        "natural": "If it is not the case that having FDA authorization approval leads to the experimental drug completing development, then the clinical trial does not use the digital monitoring platform."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_approval(research_team, fda_authorization)",
+        "natural": "The research team has FDA authorization approval."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "completes_development(experimental_drug)",
+        "natural": "The experimental drug completes development."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-acquires_company(pharma_corp, research_team)",
+        "natural": "The pharmaceutical corporation does not acquire the research team."
+      }
+    }
+  }
+}

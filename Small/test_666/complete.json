@@ -1,0 +1,540 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → (¬G → ¬A9))",
+        "prover9_expression": "(compliant_with(artwork, legislation) -> (-general_approval(exhibition, legislation) -> -contains_alcohol(artwork)))",
+        "natural": "Provided that the artwork is compliant with the legislation, if the exhibition lacks general approval under the legislation, then the artwork does not contain alcohol."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → A13)",
+        "prover9_expression": "(appealed_decision(exhibition, authority) -> filed_appeal(exhibition, authority))",
+        "natural": "Under the condition that the exhibition appeals the decision to the authority, the exhibition files an appeal with the authority."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A14 ∨ (A13 → A12))",
+        "prover9_expression": "(resolved_amicably(exhibition, authority) | (filed_appeal(exhibition, authority) -> hearing_scheduled(authority, exhibition)))",
+        "natural": "Either the exhibition and the authority resolve the matter amicably, or whenever the exhibition files an appeal with the authority, the authority schedules a hearing for the exhibition."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → (A5 → (A4 → ¬A3)))",
+        "prover9_expression": "(reported_violation(authority, exhibition) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))))",
+        "natural": "Provided that the authority reports a violation at the exhibition, if the exhibition is inspected by the authority, then whenever the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(reported_violation(authority, exhibition) | discovered_issue(authority, artwork))",
+        "natural": "The authority reports a violation at the exhibition or the authority discovers an issue with the artwork."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A2 ∨ ¬A1) → A3)",
+        "prover9_expression": "(-(approved(exhibition, artwork) | -prohibited(artwork, alcohol)) -> requires_permit(artwork, alcohol))",
+        "natural": "If it is not the case that the exhibition approves the artwork or the artwork is not prohibited from containing alcohol, then the artwork requires a permit for alcohol."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A7 → (A5 → (A4 → ¬A3))) → A8)",
+        "prover9_expression": "(-(discovered_issue(authority, artwork) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol)))) -> issued_fine(authority, exhibition))",
+        "natural": "Whenever it is not the case that if the authority discovers an issue with the artwork, then under the condition that the exhibition is inspected by the authority, provided that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol, the authority issues a fine to the exhibition."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬A10 → A11)",
+        "prover9_expression": "(-compliant_with(artwork, legislation) -> appealed_decision(exhibition, authority))",
+        "natural": "If the artwork is not compliant with the legislation, then the exhibition appeals the decision to the authority."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-general_approval(exhibition, legislation) -> prohibited(artwork, alcohol))",
+        "natural": "Under the condition that the exhibition lacks general approval under the legislation, it is prohibited for the artwork to contain alcohol."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬G → A9)",
+        "prover9_expression": "(-general_approval(exhibition, legislation) -> contains_alcohol(artwork))",
+        "natural": "Whenever the exhibition lacks general approval under the legislation, the artwork contains alcohol."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A4",
+        "prover9_expression": "violates_regulation(artwork, legislation)",
+        "natural": "The artwork violates the legislation's regulation."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A5",
+        "prover9_expression": "inspected_by(exhibition, authority)",
+        "natural": "The exhibition is inspected by the authority."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A12",
+        "prover9_expression": "-hearing_scheduled(authority, exhibition)",
+        "natural": "The authority does not schedule a hearing for the exhibition."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A14",
+        "prover9_expression": "-resolved_amicably(exhibition, authority)",
+        "natural": "The exhibition and the authority do not resolve the matter amicably."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A2",
+        "prover9_expression": "-approved(exhibition, artwork)",
+        "natural": "The exhibition does not approve the artwork."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A8",
+        "prover9_expression": "-issued_fine(authority, exhibition)",
+        "natural": "The authority does not issue a fine to the exhibition."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "general_approval(exhibition, legislation)",
+    "natural": "The exhibition has general approval under the legislation."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 -> (A5 -> (A4 -> -A3))) -> A8)",
+            "-A8"
+          ],
+          "conclusion": "(A7 -> (A5 -> (A4 -> -A3)))",
+          "natural": "Under the condition that the authority discovers an issue with the artwork, if the exhibition is inspected by the authority, then provided that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> (A5 -> (A4 -> -A3)))",
+            "(A7 -> (A5 -> (A4 -> -A3)))"
+          ],
+          "conclusion": "(A5 -> (A4 -> -A3))",
+          "natural": "If the exhibition is inspected by the authority, then under the condition that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> (A4 -> -A3))",
+            "A5"
+          ],
+          "conclusion": "(A4 -> -A3)",
+          "natural": "Whenever the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> -A3)",
+            "A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "The artwork does not require a permit for alcohol."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 | -A1) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A2 | -A1)",
+          "natural": "The exhibition approves the artwork or the artwork is not prohibited from containing alcohol."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that it is prohibited for the artwork to contain alcohol."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The exhibition has general approval under the legislation."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A14 | (A13 -> A12))",
+            "-A14"
+          ],
+          "conclusion": "(A13 -> A12)",
+          "natural": "If the exhibition files an appeal with the authority, then the authority schedules a hearing for the exhibition."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A13)",
+            "(A13 -> A12)"
+          ],
+          "conclusion": "(A11 -> A12)",
+          "natural": "Whenever the exhibition appeals the decision to the authority, the authority schedules a hearing for the exhibition."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A11 -> A12)",
+            "-A12"
+          ],
+          "conclusion": "-A11",
+          "natural": "The exhibition does not appeal the decision to the authority."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A10 -> A11)",
+            "-A11"
+          ],
+          "conclusion": "A10",
+          "natural": "The artwork is compliant with the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (-G -> -A9))",
+            "A10"
+          ],
+          "conclusion": "(-G -> -A9)",
+          "natural": "Provided that the exhibition lacks general approval under the legislation, the artwork does not contain alcohol."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A9)",
+            "(-G -> -A9)"
+          ],
+          "conclusion": "G",
+          "natural": "The exhibition has general approval under the legislation."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Regulatory Art Exhibition",
+    "atomic_facts": {
+      "A1": "prohibited(artwork, alcohol)",
+      "A2": "approved(exhibition, artwork)",
+      "A3": "requires_permit(artwork, alcohol)",
+      "A4": "violates_regulation(artwork, legislation)",
+      "A5": "inspected_by(exhibition, authority)",
+      "A6": "reported_violation(authority, exhibition)",
+      "A7": "discovered_issue(authority, artwork)",
+      "A8": "issued_fine(authority, exhibition)",
+      "A9": "contains_alcohol(artwork)",
+      "A10": "compliant_with(artwork, legislation)",
+      "A11": "appealed_decision(exhibition, authority)",
+      "A12": "hearing_scheduled(authority, exhibition)",
+      "A13": "filed_appeal(exhibition, authority)",
+      "A14": "resolved_amicably(exhibition, authority)",
+      "G": "general_approval(exhibition, legislation)"
+    },
+    "natural_facts": {
+      "A1": "It is prohibited for the artwork to contain alcohol.",
+      "A2": "The exhibition has approved the artwork.",
+      "A3": "The artwork requires a permit for alcohol.",
+      "A4": "The artwork violates the legislation's regulation.",
+      "A5": "The exhibition is inspected by the authority.",
+      "A6": "The authority reported a violation at the exhibition.",
+      "A7": "The authority discovered an issue with the artwork.",
+      "A8": "The authority issued a fine to the exhibition.",
+      "A9": "The artwork contains alcohol.",
+      "A10": "The artwork is compliant with the legislation.",
+      "A11": "The exhibition appealed the decision to the authority.",
+      "A12": "The authority scheduled a hearing for the exhibition.",
+      "A13": "The exhibition filed an appeal with the authority.",
+      "A14": "The exhibition and the authority resolved the matter amicably.",
+      "G": "The exhibition has general approval under the legislation."
+    },
+    "prover9_expressions": [
+      "(compliant_with(artwork, legislation) -> (-general_approval(exhibition, legislation) -> -contains_alcohol(artwork)))",
+      "(appealed_decision(exhibition, authority) -> hearing_scheduled(authority, exhibition))",
+      "(appealed_decision(exhibition, authority) -> filed_appeal(exhibition, authority))",
+      "(filed_appeal(exhibition, authority) -> hearing_scheduled(authority, exhibition))",
+      "(resolved_amicably(exhibition, authority) | (filed_appeal(exhibition, authority) -> hearing_scheduled(authority, exhibition)))",
+      "(approved(exhibition, artwork) | -prohibited(artwork, alcohol))",
+      "(violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))",
+      "(inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol)))",
+      "(reported_violation(authority, exhibition) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))))",
+      "(reported_violation(authority, exhibition) | discovered_issue(authority, artwork))",
+      "(discovered_issue(authority, artwork) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))))",
+      "(-(approved(exhibition, artwork) | -prohibited(artwork, alcohol)) -> requires_permit(artwork, alcohol))",
+      "(-(discovered_issue(authority, artwork) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol)))) -> issued_fine(authority, exhibition))",
+      "(-compliant_with(artwork, legislation) -> appealed_decision(exhibition, authority))",
+      "(-general_approval(exhibition, legislation) -> prohibited(artwork, alcohol))",
+      "(-general_approval(exhibition, legislation) -> contains_alcohol(artwork))",
+      "(-general_approval(exhibition, legislation) -> -contains_alcohol(artwork))",
+      "compliant_with(artwork, legislation)",
+      "violates_regulation(artwork, legislation)",
+      "inspected_by(exhibition, authority)",
+      "general_approval(exhibition, legislation)",
+      "-prohibited(artwork, alcohol)",
+      "-appealed_decision(exhibition, authority)",
+      "-hearing_scheduled(authority, exhibition)",
+      "-resolved_amicably(exhibition, authority)",
+      "-approved(exhibition, artwork)",
+      "-requires_permit(artwork, alcohol)",
+      "-issued_fine(authority, exhibition)"
+    ],
+    "natural_expressions": [
+      "Provided that the artwork is compliant with the legislation, if the exhibition lacks general approval under the legislation, then the artwork does not contain alcohol.",
+      "Whenever the exhibition appeals the decision to the authority, the authority schedules a hearing for the exhibition.",
+      "Under the condition that the exhibition appeals the decision to the authority, the exhibition files an appeal with the authority.",
+      "If the exhibition files an appeal with the authority, then the authority schedules a hearing for the exhibition.",
+      "Either the exhibition and the authority resolve the matter amicably, or whenever the exhibition files an appeal with the authority, the authority schedules a hearing for the exhibition.",
+      "The exhibition approves the artwork or the artwork is not prohibited from containing alcohol.",
+      "Whenever the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol.",
+      "If the exhibition is inspected by the authority, then under the condition that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol.",
+      "Provided that the authority reports a violation at the exhibition, if the exhibition is inspected by the authority, then whenever the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol.",
+      "The authority reports a violation at the exhibition or the authority discovers an issue with the artwork.",
+      "Under the condition that the authority discovers an issue with the artwork, if the exhibition is inspected by the authority, then provided that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol.",
+      "If it is not the case that the exhibition approves the artwork or the artwork is not prohibited from containing alcohol, then the artwork requires a permit for alcohol.",
+      "Whenever it is not the case that if the authority discovers an issue with the artwork, then under the condition that the exhibition is inspected by the authority, provided that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol, the authority issues a fine to the exhibition.",
+      "If the artwork is not compliant with the legislation, then the exhibition appeals the decision to the authority.",
+      "Under the condition that the exhibition lacks general approval under the legislation, it is prohibited for the artwork to contain alcohol.",
+      "Whenever the exhibition lacks general approval under the legislation, the artwork contains alcohol.",
+      "Provided that the exhibition lacks general approval under the legislation, the artwork does not contain alcohol.",
+      "The artwork is compliant with the legislation.",
+      "The artwork violates the legislation's regulation.",
+      "The exhibition is inspected by the authority.",
+      "The exhibition has general approval under the legislation.",
+      "It is not the case that it is prohibited for the artwork to contain alcohol.",
+      "The exhibition does not appeal the decision to the authority.",
+      "The authority does not schedule a hearing for the exhibition.",
+      "The exhibition and the authority do not resolve the matter amicably.",
+      "The exhibition does not approve the artwork.",
+      "The artwork does not require a permit for alcohol.",
+      "The authority does not issue a fine to the exhibition."
+    ],
+    "node_mappings": {
+      "(A10 → (¬G → ¬A9))": {
+        "formal": "(A10 → (¬G → ¬A9))",
+        "prover9": "(A10 -> (-G -> -A9))",
+        "prover9_expression": "(compliant_with(artwork, legislation) -> (-general_approval(exhibition, legislation) -> -contains_alcohol(artwork)))",
+        "natural": "Provided that the artwork is compliant with the legislation, if the exhibition lacks general approval under the legislation, then the artwork does not contain alcohol."
+      },
+      "(A11 → A12)": {
+        "formal": "(A11 → A12)",
+        "prover9": "(A11 -> A12)",
+        "prover9_expression": "(appealed_decision(exhibition, authority) -> hearing_scheduled(authority, exhibition))",
+        "natural": "Whenever the exhibition appeals the decision to the authority, the authority schedules a hearing for the exhibition."
+      },
+      "(A11 → A13)": {
+        "formal": "(A11 → A13)",
+        "prover9": "(A11 -> A13)",
+        "prover9_expression": "(appealed_decision(exhibition, authority) -> filed_appeal(exhibition, authority))",
+        "natural": "Under the condition that the exhibition appeals the decision to the authority, the exhibition files an appeal with the authority."
+      },
+      "(A13 → A12)": {
+        "formal": "(A13 → A12)",
+        "prover9": "(A13 -> A12)",
+        "prover9_expression": "(filed_appeal(exhibition, authority) -> hearing_scheduled(authority, exhibition))",
+        "natural": "If the exhibition files an appeal with the authority, then the authority schedules a hearing for the exhibition."
+      },
+      "(A14 ∨ (A13 → A12))": {
+        "formal": "(A14 ∨ (A13 → A12))",
+        "prover9": "(A14 | (A13 -> A12))",
+        "prover9_expression": "(resolved_amicably(exhibition, authority) | (filed_appeal(exhibition, authority) -> hearing_scheduled(authority, exhibition)))",
+        "natural": "Either the exhibition and the authority resolve the matter amicably, or whenever the exhibition files an appeal with the authority, the authority schedules a hearing for the exhibition."
+      },
+      "(A2 ∨ ¬A1)": {
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9": "(A2 | -A1)",
+        "prover9_expression": "(approved(exhibition, artwork) | -prohibited(artwork, alcohol))",
+        "natural": "The exhibition approves the artwork or the artwork is not prohibited from containing alcohol."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))",
+        "natural": "Whenever the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+      },
+      "(A5 → (A4 → ¬A3))": {
+        "formal": "(A5 → (A4 → ¬A3))",
+        "prover9": "(A5 -> (A4 -> -A3))",
+        "prover9_expression": "(inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol)))",
+        "natural": "If the exhibition is inspected by the authority, then under the condition that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+      },
+      "(A6 → (A5 → (A4 → ¬A3)))": {
+        "formal": "(A6 → (A5 → (A4 → ¬A3)))",
+        "prover9": "(A6 -> (A5 -> (A4 -> -A3)))",
+        "prover9_expression": "(reported_violation(authority, exhibition) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))))",
+        "natural": "Provided that the authority reports a violation at the exhibition, if the exhibition is inspected by the authority, then whenever the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(reported_violation(authority, exhibition) | discovered_issue(authority, artwork))",
+        "natural": "The authority reports a violation at the exhibition or the authority discovers an issue with the artwork."
+      },
+      "(A7 → (A5 → (A4 → ¬A3)))": {
+        "formal": "(A7 → (A5 → (A4 → ¬A3)))",
+        "prover9": "(A7 -> (A5 -> (A4 -> -A3)))",
+        "prover9_expression": "(discovered_issue(authority, artwork) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol))))",
+        "natural": "Under the condition that the authority discovers an issue with the artwork, if the exhibition is inspected by the authority, then provided that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol."
+      },
+      "(¬(A2 ∨ ¬A1) → A3)": {
+        "formal": "(¬(A2 ∨ ¬A1) → A3)",
+        "prover9": "(-(A2 | -A1) -> A3)",
+        "prover9_expression": "(-(approved(exhibition, artwork) | -prohibited(artwork, alcohol)) -> requires_permit(artwork, alcohol))",
+        "natural": "If it is not the case that the exhibition approves the artwork or the artwork is not prohibited from containing alcohol, then the artwork requires a permit for alcohol."
+      },
+      "(¬(A7 → (A5 → (A4 → ¬A3))) → A8)": {
+        "formal": "(¬(A7 → (A5 → (A4 → ¬A3))) → A8)",
+        "prover9": "(-(A7 -> (A5 -> (A4 -> -A3))) -> A8)",
+        "prover9_expression": "(-(discovered_issue(authority, artwork) -> (inspected_by(exhibition, authority) -> (violates_regulation(artwork, legislation) -> -requires_permit(artwork, alcohol)))) -> issued_fine(authority, exhibition))",
+        "natural": "Whenever it is not the case that if the authority discovers an issue with the artwork, then under the condition that the exhibition is inspected by the authority, provided that the artwork violates the legislation's regulation, the artwork does not require a permit for alcohol, the authority issues a fine to the exhibition."
+      },
+      "(¬A10 → A11)": {
+        "formal": "(¬A10 → A11)",
+        "prover9": "(-A10 -> A11)",
+        "prover9_expression": "(-compliant_with(artwork, legislation) -> appealed_decision(exhibition, authority))",
+        "natural": "If the artwork is not compliant with the legislation, then the exhibition appeals the decision to the authority."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-general_approval(exhibition, legislation) -> prohibited(artwork, alcohol))",
+        "natural": "Under the condition that the exhibition lacks general approval under the legislation, it is prohibited for the artwork to contain alcohol."
+      },
+      "(¬G → A9)": {
+        "formal": "(¬G → A9)",
+        "prover9": "(-G -> A9)",
+        "prover9_expression": "(-general_approval(exhibition, legislation) -> contains_alcohol(artwork))",
+        "natural": "Whenever the exhibition lacks general approval under the legislation, the artwork contains alcohol."
+      },
+      "(¬G → ¬A9)": {
+        "formal": "(¬G → ¬A9)",
+        "prover9": "(-G -> -A9)",
+        "prover9_expression": "(-general_approval(exhibition, legislation) -> -contains_alcohol(artwork))",
+        "natural": "Provided that the exhibition lacks general approval under the legislation, the artwork does not contain alcohol."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "compliant_with(artwork, legislation)",
+        "natural": "The artwork is compliant with the legislation."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "violates_regulation(artwork, legislation)",
+        "natural": "The artwork violates the legislation's regulation."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "inspected_by(exhibition, authority)",
+        "natural": "The exhibition is inspected by the authority."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "general_approval(exhibition, legislation)",
+        "natural": "The exhibition has general approval under the legislation."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-prohibited(artwork, alcohol)",
+        "natural": "It is not the case that it is prohibited for the artwork to contain alcohol."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-appealed_decision(exhibition, authority)",
+        "natural": "The exhibition does not appeal the decision to the authority."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-hearing_scheduled(authority, exhibition)",
+        "natural": "The authority does not schedule a hearing for the exhibition."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-resolved_amicably(exhibition, authority)",
+        "natural": "The exhibition and the authority do not resolve the matter amicably."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-approved(exhibition, artwork)",
+        "natural": "The exhibition does not approve the artwork."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-requires_permit(artwork, alcohol)",
+        "natural": "The artwork does not require a permit for alcohol."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-issued_fine(authority, exhibition)",
+        "natural": "The authority does not issue a fine to the exhibition."
+      }
+    }
+  }
+}

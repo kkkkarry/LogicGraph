@@ -1,0 +1,1690 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 10,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      },
+      "3": {
+        "core": 1,
+        "branch": 1
+      },
+      "4": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(has_order(customer, restaurant) -> delivery_successful(order))",
+        "natural": "If the customer has placed an order with the restaurant, then the delivery of the order is successful."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A15 → G)",
+        "prover9_expression": "(gps_functional(driver) -> delivery_successful(order))",
+        "natural": "Assuming the driver's GPS is functional, the delivery of the order is successful."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A18 → A17)",
+        "prover9_expression": "(customer_home(customer) -> delivery_completed(order))",
+        "natural": "If the customer is at home, then the delivery of the order has been completed."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A18 ∨ A19)",
+        "prover9_expression": "(customer_home(customer) | customer_contacted(driver))",
+        "natural": "Either the customer is at home or the driver has contacted the customer."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A19 → (¬(A14 → A15) → ¬A16))",
+        "prover9_expression": "(customer_contacted(driver) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+        "natural": "Should the driver have contacted the customer, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A21 → A20)",
+        "prover9_expression": "(traffic_avoided(driver) -> route_optimized(driver))",
+        "natural": "The driver has avoided traffic only if the driver's route has been optimized."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A22 → (A3 ∨ (¬A1 → A2)))",
+        "prover9_expression": "(delivery_started(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+        "natural": "When the driver has started the delivery for the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A23 → A22)",
+        "prover9_expression": "(en_route(driver) -> delivery_started(driver, order))",
+        "natural": "The driver being en route implies that the driver has started the delivery for the order."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A24 → A23)",
+        "prover9_expression": "(approaching_destination(driver) -> en_route(driver))",
+        "natural": "The driver approaching the destination necessitates that the driver is en route."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A25 → (A4 → A24))",
+        "prover9_expression": "(weather_good(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+        "natural": "Given that the weather in the area is good, if a driver has been assigned to the order, then the driver is approaching the destination."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A25 ∨ A26)",
+        "prover9_expression": "(weather_good(area) | weather_bad(area))",
+        "natural": "Either the weather in the area is good or the weather in the area is bad."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A26 → (A4 → A24))",
+        "prover9_expression": "(weather_bad(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+        "natural": "In cases where the weather in the area is bad, if a driver has been assigned to the order, the driver is approaching the destination."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A27 → A28)",
+        "prover9_expression": "(temperature_maintained(order) -> insulated_bag_used(driver))",
+        "natural": "Whenever the temperature of the order has been maintained, the driver has used an insulated bag."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A28 → (¬(A7 ∨ G) → ¬A8))",
+        "prover9_expression": "(insulated_bag_used(driver) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+        "natural": "The driver having used an insulated bag implies that, if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A30 → A29)",
+        "prover9_expression": "(license_suspended(restaurant) -> license_valid(restaurant))",
+        "natural": "The restaurant's license being suspended implies that the restaurant's license is valid."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A32 → (¬(¬(A12 → (A11 ∨ G)) → A30) → A31))",
+        "prover9_expression": "(inspection_passed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+        "natural": "If the restaurant has passed inspection, then provided that it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A32 ∨ A33)",
+        "prover9_expression": "(inspection_passed(restaurant) | inspection_failed(restaurant))",
+        "natural": "Either the restaurant has passed inspection or the restaurant has failed inspection."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A33 → (¬(¬(A12 → (A11 ∨ G)) → A30) → A31))",
+        "prover9_expression": "(inspection_failed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+        "natural": "Should the restaurant have failed inspection, then if it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A34 → A17)",
+        "prover9_expression": "(customer_satisfied(customer) -> delivery_completed(order))",
+        "natural": "The customer being satisfied implies that the delivery of the order has been completed."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A35 → (¬(A14 → A15) → ¬A16))",
+        "prover9_expression": "(customer_complained(customer) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+        "natural": "In the event that the customer has complained, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A36 → (A34 ∨ A35))",
+        "prover9_expression": "(rating_submitted(customer) -> (customer_satisfied(customer) | customer_complained(customer)))",
+        "natural": "The customer having submitted a rating implies that either the customer is satisfied or the customer has complained."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A39 → (¬(A14 → G) → A38))",
+        "prover9_expression": "(backup_device(driver) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+        "natural": "The driver having a backup device implies that, if it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(delivery_assigned(driver, order) -> driver_available(driver))",
+        "natural": "A driver being assigned to the order implies that the driver is available."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A40 → (¬(A14 → G) → A38))",
+        "prover9_expression": "(charging_station_nearby(area) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+        "natural": "If there is a charging station nearby in the area, then provided that it is not the case that the driver's device being charged implies the delivery of the order is successful, the driver's battery is low."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(driver_available(driver) -> vehicle_operational(driver))",
+        "natural": "The driver being available implies that the driver's vehicle is operational."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A6 → (A3 ∨ (¬A1 → A2)))",
+        "prover9_expression": "(vehicle_operational(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+        "natural": "The driver's vehicle being operational implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(¬(A12 → (A11 ∨ G)) → A13)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> legal_violation(restaurant))",
+        "natural": "If it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has committed a legal violation."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(¬(A12 → (A11 ∨ G)) → ¬A13)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -legal_violation(restaurant))",
+        "natural": "Provided it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has not committed a legal violation."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(¬(A12 → (A11 ∨ G)) → ¬A29)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -license_valid(restaurant))",
+        "natural": "Assuming it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is not valid."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(¬(A14 → A15) → A16)",
+        "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> navigation_error(driver))",
+        "natural": "If it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has made a navigation error."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(¬(A14 → G) → ¬A38)",
+        "prover9_expression": "(-(device_charged(driver) -> delivery_successful(order)) -> -battery_low(driver))",
+        "natural": "Provided it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is not low."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(¬(A39 ∨ A40) → A41)",
+        "prover9_expression": "(-(backup_device(driver) | charging_station_nearby(area)) -> delivery_paused(order))",
+        "natural": "If it is not the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is paused."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(¬(A39 ∨ A40) → ¬A41)",
+        "prover9_expression": "(-(backup_device(driver) | charging_station_nearby(area)) -> -delivery_paused(order))",
+        "natural": "Should it not be the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is not paused."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(¬(A5 → (A3 ∨ (¬A1 → A2))) → A21)",
+        "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> traffic_avoided(driver))",
+        "natural": "In the event that it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver has avoided traffic."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(¬(A5 → (A3 ∨ (¬A1 → A2))) → ¬A20)",
+        "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> -route_optimized(driver))",
+        "natural": "Provided it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has not been optimized."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(¬(A7 ∨ G) → A8)",
+        "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> delivery_delayed(order))",
+        "natural": "If it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is delayed."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(¬(¬(A7 ∨ G) → ¬A8) → A9)",
+        "prover9_expression": "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> customer_refunded(customer))",
+        "natural": "In the event that it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has been refunded."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬(¬(¬(A7 ∨ G) → ¬A8) → ¬A9) → A10)",
+        "prover9_expression": "(-(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer)) -> complaint_filed(customer))",
+        "natural": "If it is not the case that the failure of the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed to imply the customer not being refunded leads to the customer not being refunded, then the customer has filed a complaint."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(¬A1 → ¬A2)",
+        "prover9_expression": "(-has_order(customer, restaurant) -> -order_cancelled(customer))",
+        "natural": "Should the customer not have placed an order with the restaurant, then the customer has not cancelled the order."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(¬A36 → A37)",
+        "prover9_expression": "(-rating_submitted(customer) -> rating_skipped(customer))",
+        "natural": "In cases where the customer has not submitted a rating, then the customer has skipped the rating."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A12",
+        "prover9_expression": "age_verified(customer)",
+        "natural": "The customer's age has been verified."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A14",
+        "prover9_expression": "device_charged(driver)",
+        "natural": "The driver's device is charged."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A27",
+        "prover9_expression": "temperature_maintained(order)",
+        "natural": "The temperature of the order has been maintained."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A4",
+        "prover9_expression": "delivery_assigned(driver, order)",
+        "natural": "A driver has been assigned to the order."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A10",
+        "prover9_expression": "-complaint_filed(customer)",
+        "natural": "It is not the case that the customer has filed a complaint."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A11",
+        "prover9_expression": "-alcohol_included(order)",
+        "natural": "It is not the case that the order includes alcohol."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A17",
+        "prover9_expression": "-delivery_completed(order)",
+        "natural": "It is not the case that the delivery of the order has been completed."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A3",
+        "prover9_expression": "-payment_processed(customer)",
+        "natural": "It is not the case that payment has been processed for the customer."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A31",
+        "prover9_expression": "-fine_issued(restaurant)",
+        "natural": "It is not the case that a fine has been issued to the restaurant."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A37",
+        "prover9_expression": "-rating_skipped(customer)",
+        "natural": "It is not the case that the customer has skipped the rating."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A7",
+        "prover9_expression": "-food_prepared(restaurant)",
+        "natural": "It is not the case that the restaurant has prepared the food."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "delivery_successful(order)",
+    "natural": "The delivery of the order is successful."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A6)",
+            "(A6 -> (A3 | (-A1 -> A2)))"
+          ],
+          "conclusion": "(A5 -> (A3 | (-A1 -> A2)))",
+          "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A3 | (-A1 -> A2)))"
+          ],
+          "conclusion": "(A4 -> (A3 | (-A1 -> A2)))",
+          "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 | (-A1 -> A2)))",
+            "A4"
+          ],
+          "conclusion": "(A3 | (-A1 -> A2))",
+          "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (-A1 -> A2))",
+            "-A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "The customer has placed an order with the restaurant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(-(A7 | G) -> -A8) -> -A9) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(-(-(A7 | G) -> -A8) -> -A9)",
+          "natural": "Provided it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has not been refunded."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A7 | G) -> -A8) -> A9)",
+            "(-(-(A7 | G) -> -A8) -> -A9)"
+          ],
+          "conclusion": "(-(A7 | G) -> -A8)",
+          "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A7 | G) -> A8)",
+            "(-(A7 | G) -> -A8)"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A12 -> (A11 | G)) -> A13)",
+            "(-(A12 -> (A11 | G)) -> -A13)"
+          ],
+          "conclusion": "(A12 -> (A11 | G))",
+          "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> (A11 | G))",
+            "A12"
+          ],
+          "conclusion": "(A11 | G)",
+          "natural": "Either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | G)",
+            "-A11"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A18 -> A17)",
+            "(A19 -> (-(A14 -> A15) -> -A16))",
+            "(A18 | A19)"
+          ],
+          "conclusion": "(A17 | (-(A14 -> A15) -> -A16))",
+          "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A17 | (-(A14 -> A15) -> -A16))",
+            "-A17"
+          ],
+          "conclusion": "(-(A14 -> A15) -> -A16)",
+          "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> A15) -> A16)",
+            "(-(A14 -> A15) -> -A16)"
+          ],
+          "conclusion": "(A14 -> A15)",
+          "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A15)",
+            "(A15 -> G)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> G)",
+            "A14"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A5 -> (A3 | (-A1 -> A2))) -> A21)",
+            "(A21 -> A20)"
+          ],
+          "conclusion": "(-(A5 -> (A3 | (-A1 -> A2))) -> A20)",
+          "natural": "If it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has been optimized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A5 -> (A3 | (-A1 -> A2))) -> A20)",
+            "(-(A5 -> (A3 | (-A1 -> A2))) -> -A20)"
+          ],
+          "conclusion": "(A5 -> (A3 | (-A1 -> A2)))",
+          "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A3 | (-A1 -> A2)))"
+          ],
+          "conclusion": "(A4 -> (A3 | (-A1 -> A2)))",
+          "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 | (-A1 -> A2)))",
+            "A4"
+          ],
+          "conclusion": "(A3 | (-A1 -> A2))",
+          "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (-A1 -> A2))",
+            "-A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "The customer has placed an order with the restaurant."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A25 | A26)",
+            "(A25 -> (A4 -> A24))",
+            "(A26 -> (A4 -> A24))"
+          ],
+          "conclusion": "(A4 -> A24)",
+          "natural": "A driver being assigned to the order implies that the driver is approaching the destination."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A24)",
+            "(A24 -> A23)"
+          ],
+          "conclusion": "(A4 -> A23)",
+          "natural": "A driver being assigned to the order implies that the driver is en route."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A23)",
+            "(A23 -> A22)"
+          ],
+          "conclusion": "(A4 -> A22)",
+          "natural": "A driver being assigned to the order implies that the driver has started the delivery for the order."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A22)",
+            "(A22 -> (A3 | (-A1 -> A2)))"
+          ],
+          "conclusion": "(A4 -> (A3 | (-A1 -> A2)))",
+          "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 | (-A1 -> A2)))",
+            "A4"
+          ],
+          "conclusion": "(A3 | (-A1 -> A2))",
+          "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (-A1 -> A2))",
+            "-A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "The customer has placed an order with the restaurant."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A27 -> A28)",
+            "(A28 -> (-(A7 | G) -> -A8))"
+          ],
+          "conclusion": "(A27 -> (-(A7 | G) -> -A8))",
+          "natural": "Provided the temperature of the order has been maintained, then if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, the delivery of the order is not delayed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A27 -> (-(A7 | G) -> -A8))",
+            "A27"
+          ],
+          "conclusion": "(-(A7 | G) -> -A8)",
+          "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A7 | G) -> A8)",
+            "(-(A7 | G) -> -A8)"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A32 | A33)",
+            "(A32 -> (-(-(A12 -> (A11 | G)) -> A30) -> A31))",
+            "(A33 -> (-(-(A12 -> (A11 | G)) -> A30) -> A31))"
+          ],
+          "conclusion": "(-(-(A12 -> (A11 | G)) -> A30) -> A31)",
+          "natural": "If it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, then a fine has been issued to the restaurant."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A12 -> (A11 | G)) -> A30) -> A31)",
+            "-A31"
+          ],
+          "conclusion": "(-(A12 -> (A11 | G)) -> A30)",
+          "natural": "In the event that it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is suspended."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A12 -> (A11 | G)) -> A30)",
+            "(A30 -> A29)"
+          ],
+          "conclusion": "(-(A12 -> (A11 | G)) -> A29)",
+          "natural": "Should it not be the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is valid."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A12 -> (A11 | G)) -> A29)",
+            "(-(A12 -> (A11 | G)) -> -A29)"
+          ],
+          "conclusion": "(A12 -> (A11 | G))",
+          "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> (A11 | G))",
+            "A12"
+          ],
+          "conclusion": "(A11 | G)",
+          "natural": "Either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | G)",
+            "-A11"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A36 -> A37)",
+            "-A37"
+          ],
+          "conclusion": "A36",
+          "natural": "The customer has submitted a rating."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A36 -> (A34 | A35))",
+            "A36"
+          ],
+          "conclusion": "(A34 | A35)",
+          "natural": "Either the customer is satisfied or the customer has complained."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A34 -> A17)",
+            "(A35 -> (-(A14 -> A15) -> -A16))",
+            "(A34 | A35)"
+          ],
+          "conclusion": "(A17 | (-(A14 -> A15) -> -A16))",
+          "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A17 | (-(A14 -> A15) -> -A16))",
+            "-A17"
+          ],
+          "conclusion": "(-(A14 -> A15) -> -A16)",
+          "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> A15) -> A16)",
+            "(-(A14 -> A15) -> -A16)"
+          ],
+          "conclusion": "(A14 -> A15)",
+          "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A15)",
+            "(A15 -> G)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> G)",
+            "A14"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A39 | A40) -> A41)",
+            "(-(A39 | A40) -> -A41)"
+          ],
+          "conclusion": "(A39 | A40)",
+          "natural": "Either the driver has a backup device or there is a charging station nearby in the area."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A39 | A40)",
+            "(A39 -> (-(A14 -> G) -> A38))",
+            "(A40 -> (-(A14 -> G) -> A38))"
+          ],
+          "conclusion": "(-(A14 -> G) -> A38)",
+          "natural": "In cases where it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> G) -> A38)",
+            "(-(A14 -> G) -> -A38)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> G)",
+            "A14"
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Food Delivery Service",
+    "atomic_facts": {
+      "A1": "has_order(customer, restaurant)",
+      "A2": "order_cancelled(customer)",
+      "A3": "payment_processed(customer)",
+      "A4": "delivery_assigned(driver, order)",
+      "A5": "driver_available(driver)",
+      "A6": "vehicle_operational(driver)",
+      "A7": "food_prepared(restaurant)",
+      "A8": "delivery_delayed(order)",
+      "A9": "customer_refunded(customer)",
+      "A10": "complaint_filed(customer)",
+      "A11": "alcohol_included(order)",
+      "A12": "age_verified(customer)",
+      "A13": "legal_violation(restaurant)",
+      "A14": "device_charged(driver)",
+      "A15": "gps_functional(driver)",
+      "A16": "navigation_error(driver)",
+      "A17": "delivery_completed(order)",
+      "A18": "customer_home(customer)",
+      "A19": "customer_contacted(driver)",
+      "A20": "route_optimized(driver)",
+      "A21": "traffic_avoided(driver)",
+      "A22": "delivery_started(driver, order)",
+      "A23": "en_route(driver)",
+      "A24": "approaching_destination(driver)",
+      "A25": "weather_good(area)",
+      "A26": "weather_bad(area)",
+      "A27": "temperature_maintained(order)",
+      "A28": "insulated_bag_used(driver)",
+      "A29": "license_valid(restaurant)",
+      "A30": "license_suspended(restaurant)",
+      "A31": "fine_issued(restaurant)",
+      "A32": "inspection_passed(restaurant)",
+      "A33": "inspection_failed(restaurant)",
+      "A34": "customer_satisfied(customer)",
+      "A35": "customer_complained(customer)",
+      "A36": "rating_submitted(customer)",
+      "A37": "rating_skipped(customer)",
+      "A38": "battery_low(driver)",
+      "A39": "backup_device(driver)",
+      "A40": "charging_station_nearby(area)",
+      "A41": "delivery_paused(order)",
+      "G": "delivery_successful(order)"
+    },
+    "natural_facts": {
+      "A1": "The customer has placed an order with the restaurant.",
+      "A2": "The customer has cancelled the order.",
+      "A3": "Payment has been processed for the customer.",
+      "A4": "A driver has been assigned to the order.",
+      "A5": "The driver is available.",
+      "A6": "The driver's vehicle is operational.",
+      "A7": "The restaurant has prepared the food.",
+      "A8": "The delivery of the order is delayed.",
+      "A9": "The customer has been refunded.",
+      "A10": "The customer has filed a complaint.",
+      "A11": "The order includes alcohol.",
+      "A12": "The customer's age has been verified.",
+      "A13": "The restaurant has committed a legal violation.",
+      "A14": "The driver's device is charged.",
+      "A15": "The driver's GPS is functional.",
+      "A16": "The driver has made a navigation error.",
+      "A17": "The delivery of the order has been completed.",
+      "A18": "The customer is at home.",
+      "A19": "The driver has contacted the customer.",
+      "A20": "The driver's route has been optimized.",
+      "A21": "The driver has avoided traffic.",
+      "A22": "The driver has started the delivery for the order.",
+      "A23": "The driver is en route.",
+      "A24": "The driver is approaching the destination.",
+      "A25": "The weather in the area is good.",
+      "A26": "The weather in the area is bad.",
+      "A27": "The temperature of the order has been maintained.",
+      "A28": "The driver has used an insulated bag.",
+      "A29": "The restaurant's license is valid.",
+      "A30": "The restaurant's license is suspended.",
+      "A31": "A fine has been issued to the restaurant.",
+      "A32": "The restaurant has passed inspection.",
+      "A33": "The restaurant has failed inspection.",
+      "A34": "The customer is satisfied.",
+      "A35": "The customer has complained.",
+      "A36": "The customer has submitted a rating.",
+      "A37": "The customer has skipped the rating.",
+      "A38": "The driver's battery is low.",
+      "A39": "The driver has a backup device.",
+      "A40": "There is a charging station nearby in the area.",
+      "A41": "The delivery of the order is paused.",
+      "G": "The delivery of the order is successful."
+    },
+    "prover9_expressions": [
+      "(has_order(customer, restaurant) -> delivery_successful(order))",
+      "(alcohol_included(order) | delivery_successful(order))",
+      "(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order)))",
+      "(device_charged(driver) -> gps_functional(driver))",
+      "(device_charged(driver) -> delivery_successful(order))",
+      "(gps_functional(driver) -> delivery_successful(order))",
+      "(delivery_completed(order) | (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+      "(customer_home(customer) -> delivery_completed(order))",
+      "(customer_home(customer) | customer_contacted(driver))",
+      "(customer_contacted(driver) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+      "(traffic_avoided(driver) -> route_optimized(driver))",
+      "(delivery_started(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+      "(en_route(driver) -> delivery_started(driver, order))",
+      "(approaching_destination(driver) -> en_route(driver))",
+      "(weather_good(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+      "(weather_good(area) | weather_bad(area))",
+      "(weather_bad(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+      "(temperature_maintained(order) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+      "(temperature_maintained(order) -> insulated_bag_used(driver))",
+      "(insulated_bag_used(driver) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+      "(payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))",
+      "(license_suspended(restaurant) -> license_valid(restaurant))",
+      "(inspection_passed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+      "(inspection_passed(restaurant) | inspection_failed(restaurant))",
+      "(inspection_failed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+      "(customer_satisfied(customer) -> delivery_completed(order))",
+      "(customer_satisfied(customer) | customer_complained(customer))",
+      "(customer_complained(customer) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+      "(rating_submitted(customer) -> (customer_satisfied(customer) | customer_complained(customer)))",
+      "(backup_device(driver) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+      "(backup_device(driver) | charging_station_nearby(area))",
+      "(delivery_assigned(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+      "(delivery_assigned(driver, order) -> delivery_started(driver, order))",
+      "(delivery_assigned(driver, order) -> en_route(driver))",
+      "(delivery_assigned(driver, order) -> approaching_destination(driver))",
+      "(delivery_assigned(driver, order) -> driver_available(driver))",
+      "(charging_station_nearby(area) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+      "(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+      "(driver_available(driver) -> vehicle_operational(driver))",
+      "(vehicle_operational(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+      "(food_prepared(restaurant) | delivery_successful(order))",
+      "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> legal_violation(restaurant))",
+      "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_valid(restaurant))",
+      "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant))",
+      "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -legal_violation(restaurant))",
+      "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -license_valid(restaurant))",
+      "(-(device_charged(driver) -> gps_functional(driver)) -> navigation_error(driver))",
+      "(-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver))",
+      "(-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver))",
+      "(-(device_charged(driver) -> delivery_successful(order)) -> -battery_low(driver))",
+      "(-(backup_device(driver) | charging_station_nearby(area)) -> delivery_paused(order))",
+      "(-(backup_device(driver) | charging_station_nearby(area)) -> -delivery_paused(order))",
+      "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> route_optimized(driver))",
+      "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> traffic_avoided(driver))",
+      "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> -route_optimized(driver))",
+      "(-(food_prepared(restaurant) | delivery_successful(order)) -> delivery_delayed(order))",
+      "(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order))",
+      "(-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant))",
+      "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> customer_refunded(customer))",
+      "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer))",
+      "(-(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer)) -> complaint_filed(customer))",
+      "(-has_order(customer, restaurant) -> order_cancelled(customer))",
+      "(-has_order(customer, restaurant) -> -order_cancelled(customer))",
+      "(-rating_submitted(customer) -> rating_skipped(customer))",
+      "has_order(customer, restaurant)",
+      "age_verified(customer)",
+      "device_charged(driver)",
+      "temperature_maintained(order)",
+      "rating_submitted(customer)",
+      "delivery_assigned(driver, order)",
+      "delivery_successful(order)",
+      "-complaint_filed(customer)",
+      "-alcohol_included(order)",
+      "-delivery_completed(order)",
+      "-payment_processed(customer)",
+      "-fine_issued(restaurant)",
+      "-rating_skipped(customer)",
+      "-food_prepared(restaurant)"
+    ],
+    "natural_expressions": [
+      "If the customer has placed an order with the restaurant, then the delivery of the order is successful.",
+      "Either the order includes alcohol or the delivery of the order is successful.",
+      "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful.",
+      "Whenever the driver's device is charged, the driver's GPS is functional.",
+      "In the event that the driver's device is charged, the delivery of the order is successful.",
+      "Assuming the driver's GPS is functional, the delivery of the order is successful.",
+      "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error.",
+      "If the customer is at home, then the delivery of the order has been completed.",
+      "Either the customer is at home or the driver has contacted the customer.",
+      "Should the driver have contacted the customer, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error.",
+      "The driver has avoided traffic only if the driver's route has been optimized.",
+      "When the driver has started the delivery for the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order.",
+      "The driver being en route implies that the driver has started the delivery for the order.",
+      "The driver approaching the destination necessitates that the driver is en route.",
+      "Given that the weather in the area is good, if a driver has been assigned to the order, then the driver is approaching the destination.",
+      "Either the weather in the area is good or the weather in the area is bad.",
+      "In cases where the weather in the area is bad, if a driver has been assigned to the order, the driver is approaching the destination.",
+      "Provided the temperature of the order has been maintained, then if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, the delivery of the order is not delayed.",
+      "Whenever the temperature of the order has been maintained, the driver has used an insulated bag.",
+      "The driver having used an insulated bag implies that, if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed.",
+      "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order.",
+      "The restaurant's license being suspended implies that the restaurant's license is valid.",
+      "If the restaurant has passed inspection, then provided that it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant.",
+      "Either the restaurant has passed inspection or the restaurant has failed inspection.",
+      "Should the restaurant have failed inspection, then if it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant.",
+      "The customer being satisfied implies that the delivery of the order has been completed.",
+      "Either the customer is satisfied or the customer has complained.",
+      "In the event that the customer has complained, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error.",
+      "The customer having submitted a rating implies that either the customer is satisfied or the customer has complained.",
+      "The driver having a backup device implies that, if it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low.",
+      "Either the driver has a backup device or there is a charging station nearby in the area.",
+      "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order.",
+      "A driver being assigned to the order implies that the driver has started the delivery for the order.",
+      "A driver being assigned to the order implies that the driver is en route.",
+      "A driver being assigned to the order implies that the driver is approaching the destination.",
+      "A driver being assigned to the order implies that the driver is available.",
+      "If there is a charging station nearby in the area, then provided that it is not the case that the driver's device being charged implies the delivery of the order is successful, the driver's battery is low.",
+      "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order.",
+      "The driver being available implies that the driver's vehicle is operational.",
+      "The driver's vehicle being operational implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order.",
+      "Either the restaurant has prepared the food or the delivery of the order is successful.",
+      "If it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has committed a legal violation.",
+      "Should it not be the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is valid.",
+      "In the event that it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is suspended.",
+      "Provided it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has not committed a legal violation.",
+      "Assuming it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is not valid.",
+      "If it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has made a navigation error.",
+      "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error.",
+      "In cases where it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low.",
+      "Provided it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is not low.",
+      "If it is not the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is paused.",
+      "Should it not be the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is not paused.",
+      "If it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has been optimized.",
+      "In the event that it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver has avoided traffic.",
+      "Provided it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has not been optimized.",
+      "If it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is delayed.",
+      "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed.",
+      "If it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, then a fine has been issued to the restaurant.",
+      "In the event that it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has been refunded.",
+      "Provided it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has not been refunded.",
+      "If it is not the case that the failure of the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed to imply the customer not being refunded leads to the customer not being refunded, then the customer has filed a complaint.",
+      "If the customer has not placed an order with the restaurant, then the customer has cancelled the order.",
+      "Should the customer not have placed an order with the restaurant, then the customer has not cancelled the order.",
+      "In cases where the customer has not submitted a rating, then the customer has skipped the rating.",
+      "The customer has placed an order with the restaurant.",
+      "The customer's age has been verified.",
+      "The driver's device is charged.",
+      "The temperature of the order has been maintained.",
+      "The customer has submitted a rating.",
+      "A driver has been assigned to the order.",
+      "The delivery of the order is successful.",
+      "It is not the case that the customer has filed a complaint.",
+      "It is not the case that the order includes alcohol.",
+      "It is not the case that the delivery of the order has been completed.",
+      "It is not the case that payment has been processed for the customer.",
+      "It is not the case that a fine has been issued to the restaurant.",
+      "It is not the case that the customer has skipped the rating.",
+      "It is not the case that the restaurant has prepared the food."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_order(customer, restaurant) -> delivery_successful(order))",
+        "natural": "If the customer has placed an order with the restaurant, then the delivery of the order is successful."
+      },
+      "(A11 ∨ G)": {
+        "formal": "(A11 ∨ G)",
+        "prover9": "(A11 | G)",
+        "prover9_expression": "(alcohol_included(order) | delivery_successful(order))",
+        "natural": "Either the order includes alcohol or the delivery of the order is successful."
+      },
+      "(A12 → (A11 ∨ G))": {
+        "formal": "(A12 → (A11 ∨ G))",
+        "prover9": "(A12 -> (A11 | G))",
+        "prover9_expression": "(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order)))",
+        "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+      },
+      "(A14 → A15)": {
+        "formal": "(A14 → A15)",
+        "prover9": "(A14 -> A15)",
+        "prover9_expression": "(device_charged(driver) -> gps_functional(driver))",
+        "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+      },
+      "(A14 → G)": {
+        "formal": "(A14 → G)",
+        "prover9": "(A14 -> G)",
+        "prover9_expression": "(device_charged(driver) -> delivery_successful(order))",
+        "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+      },
+      "(A15 → G)": {
+        "formal": "(A15 → G)",
+        "prover9": "(A15 -> G)",
+        "prover9_expression": "(gps_functional(driver) -> delivery_successful(order))",
+        "natural": "Assuming the driver's GPS is functional, the delivery of the order is successful."
+      },
+      "(A17 ∨ (¬(A14 → A15) → ¬A16))": {
+        "formal": "(A17 ∨ (¬(A14 → A15) → ¬A16))",
+        "prover9": "(A17 | (-(A14 -> A15) -> -A16))",
+        "prover9_expression": "(delivery_completed(order) | (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+        "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+      },
+      "(A18 → A17)": {
+        "formal": "(A18 → A17)",
+        "prover9": "(A18 -> A17)",
+        "prover9_expression": "(customer_home(customer) -> delivery_completed(order))",
+        "natural": "If the customer is at home, then the delivery of the order has been completed."
+      },
+      "(A18 ∨ A19)": {
+        "formal": "(A18 ∨ A19)",
+        "prover9": "(A18 | A19)",
+        "prover9_expression": "(customer_home(customer) | customer_contacted(driver))",
+        "natural": "Either the customer is at home or the driver has contacted the customer."
+      },
+      "(A19 → (¬(A14 → A15) → ¬A16))": {
+        "formal": "(A19 → (¬(A14 → A15) → ¬A16))",
+        "prover9": "(A19 -> (-(A14 -> A15) -> -A16))",
+        "prover9_expression": "(customer_contacted(driver) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+        "natural": "Should the driver have contacted the customer, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error."
+      },
+      "(A21 → A20)": {
+        "formal": "(A21 → A20)",
+        "prover9": "(A21 -> A20)",
+        "prover9_expression": "(traffic_avoided(driver) -> route_optimized(driver))",
+        "natural": "The driver has avoided traffic only if the driver's route has been optimized."
+      },
+      "(A22 → (A3 ∨ (¬A1 → A2)))": {
+        "formal": "(A22 → (A3 ∨ (¬A1 → A2)))",
+        "prover9": "(A22 -> (A3 | (-A1 -> A2)))",
+        "prover9_expression": "(delivery_started(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+        "natural": "When the driver has started the delivery for the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      "(A23 → A22)": {
+        "formal": "(A23 → A22)",
+        "prover9": "(A23 -> A22)",
+        "prover9_expression": "(en_route(driver) -> delivery_started(driver, order))",
+        "natural": "The driver being en route implies that the driver has started the delivery for the order."
+      },
+      "(A24 → A23)": {
+        "formal": "(A24 → A23)",
+        "prover9": "(A24 -> A23)",
+        "prover9_expression": "(approaching_destination(driver) -> en_route(driver))",
+        "natural": "The driver approaching the destination necessitates that the driver is en route."
+      },
+      "(A25 → (A4 → A24))": {
+        "formal": "(A25 → (A4 → A24))",
+        "prover9": "(A25 -> (A4 -> A24))",
+        "prover9_expression": "(weather_good(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+        "natural": "Given that the weather in the area is good, if a driver has been assigned to the order, then the driver is approaching the destination."
+      },
+      "(A25 ∨ A26)": {
+        "formal": "(A25 ∨ A26)",
+        "prover9": "(A25 | A26)",
+        "prover9_expression": "(weather_good(area) | weather_bad(area))",
+        "natural": "Either the weather in the area is good or the weather in the area is bad."
+      },
+      "(A26 → (A4 → A24))": {
+        "formal": "(A26 → (A4 → A24))",
+        "prover9": "(A26 -> (A4 -> A24))",
+        "prover9_expression": "(weather_bad(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+        "natural": "In cases where the weather in the area is bad, if a driver has been assigned to the order, the driver is approaching the destination."
+      },
+      "(A27 → (¬(A7 ∨ G) → ¬A8))": {
+        "formal": "(A27 → (¬(A7 ∨ G) → ¬A8))",
+        "prover9": "(A27 -> (-(A7 | G) -> -A8))",
+        "prover9_expression": "(temperature_maintained(order) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+        "natural": "Provided the temperature of the order has been maintained, then if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, the delivery of the order is not delayed."
+      },
+      "(A27 → A28)": {
+        "formal": "(A27 → A28)",
+        "prover9": "(A27 -> A28)",
+        "prover9_expression": "(temperature_maintained(order) -> insulated_bag_used(driver))",
+        "natural": "Whenever the temperature of the order has been maintained, the driver has used an insulated bag."
+      },
+      "(A28 → (¬(A7 ∨ G) → ¬A8))": {
+        "formal": "(A28 → (¬(A7 ∨ G) → ¬A8))",
+        "prover9": "(A28 -> (-(A7 | G) -> -A8))",
+        "prover9_expression": "(insulated_bag_used(driver) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+        "natural": "The driver having used an insulated bag implies that, if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+      },
+      "(A3 ∨ (¬A1 → A2))": {
+        "formal": "(A3 ∨ (¬A1 → A2))",
+        "prover9": "(A3 | (-A1 -> A2))",
+        "prover9_expression": "(payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))",
+        "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      "(A30 → A29)": {
+        "formal": "(A30 → A29)",
+        "prover9": "(A30 -> A29)",
+        "prover9_expression": "(license_suspended(restaurant) -> license_valid(restaurant))",
+        "natural": "The restaurant's license being suspended implies that the restaurant's license is valid."
+      },
+      "(A32 → (¬(¬(A12 → (A11 ∨ G)) → A30) → A31))": {
+        "formal": "(A32 → (¬(¬(A12 → (A11 ∨ G)) → A30) → A31))",
+        "prover9": "(A32 -> (-(-(A12 -> (A11 | G)) -> A30) -> A31))",
+        "prover9_expression": "(inspection_passed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+        "natural": "If the restaurant has passed inspection, then provided that it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant."
+      },
+      "(A32 ∨ A33)": {
+        "formal": "(A32 ∨ A33)",
+        "prover9": "(A32 | A33)",
+        "prover9_expression": "(inspection_passed(restaurant) | inspection_failed(restaurant))",
+        "natural": "Either the restaurant has passed inspection or the restaurant has failed inspection."
+      },
+      "(A33 → (¬(¬(A12 → (A11 ∨ G)) → A30) → A31))": {
+        "formal": "(A33 → (¬(¬(A12 → (A11 ∨ G)) → A30) → A31))",
+        "prover9": "(A33 -> (-(-(A12 -> (A11 | G)) -> A30) -> A31))",
+        "prover9_expression": "(inspection_failed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+        "natural": "Should the restaurant have failed inspection, then if it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant."
+      },
+      "(A34 → A17)": {
+        "formal": "(A34 → A17)",
+        "prover9": "(A34 -> A17)",
+        "prover9_expression": "(customer_satisfied(customer) -> delivery_completed(order))",
+        "natural": "The customer being satisfied implies that the delivery of the order has been completed."
+      },
+      "(A34 ∨ A35)": {
+        "formal": "(A34 ∨ A35)",
+        "prover9": "(A34 | A35)",
+        "prover9_expression": "(customer_satisfied(customer) | customer_complained(customer))",
+        "natural": "Either the customer is satisfied or the customer has complained."
+      },
+      "(A35 → (¬(A14 → A15) → ¬A16))": {
+        "formal": "(A35 → (¬(A14 → A15) → ¬A16))",
+        "prover9": "(A35 -> (-(A14 -> A15) -> -A16))",
+        "prover9_expression": "(customer_complained(customer) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+        "natural": "In the event that the customer has complained, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error."
+      },
+      "(A36 → (A34 ∨ A35))": {
+        "formal": "(A36 → (A34 ∨ A35))",
+        "prover9": "(A36 -> (A34 | A35))",
+        "prover9_expression": "(rating_submitted(customer) -> (customer_satisfied(customer) | customer_complained(customer)))",
+        "natural": "The customer having submitted a rating implies that either the customer is satisfied or the customer has complained."
+      },
+      "(A39 → (¬(A14 → G) → A38))": {
+        "formal": "(A39 → (¬(A14 → G) → A38))",
+        "prover9": "(A39 -> (-(A14 -> G) -> A38))",
+        "prover9_expression": "(backup_device(driver) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+        "natural": "The driver having a backup device implies that, if it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+      },
+      "(A39 ∨ A40)": {
+        "formal": "(A39 ∨ A40)",
+        "prover9": "(A39 | A40)",
+        "prover9_expression": "(backup_device(driver) | charging_station_nearby(area))",
+        "natural": "Either the driver has a backup device or there is a charging station nearby in the area."
+      },
+      "(A4 → (A3 ∨ (¬A1 → A2)))": {
+        "formal": "(A4 → (A3 ∨ (¬A1 → A2)))",
+        "prover9": "(A4 -> (A3 | (-A1 -> A2)))",
+        "prover9_expression": "(delivery_assigned(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+        "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      "(A4 → A22)": {
+        "formal": "(A4 → A22)",
+        "prover9": "(A4 -> A22)",
+        "prover9_expression": "(delivery_assigned(driver, order) -> delivery_started(driver, order))",
+        "natural": "A driver being assigned to the order implies that the driver has started the delivery for the order."
+      },
+      "(A4 → A23)": {
+        "formal": "(A4 → A23)",
+        "prover9": "(A4 -> A23)",
+        "prover9_expression": "(delivery_assigned(driver, order) -> en_route(driver))",
+        "natural": "A driver being assigned to the order implies that the driver is en route."
+      },
+      "(A4 → A24)": {
+        "formal": "(A4 → A24)",
+        "prover9": "(A4 -> A24)",
+        "prover9_expression": "(delivery_assigned(driver, order) -> approaching_destination(driver))",
+        "natural": "A driver being assigned to the order implies that the driver is approaching the destination."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(delivery_assigned(driver, order) -> driver_available(driver))",
+        "natural": "A driver being assigned to the order implies that the driver is available."
+      },
+      "(A40 → (¬(A14 → G) → A38))": {
+        "formal": "(A40 → (¬(A14 → G) → A38))",
+        "prover9": "(A40 -> (-(A14 -> G) -> A38))",
+        "prover9_expression": "(charging_station_nearby(area) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+        "natural": "If there is a charging station nearby in the area, then provided that it is not the case that the driver's device being charged implies the delivery of the order is successful, the driver's battery is low."
+      },
+      "(A5 → (A3 ∨ (¬A1 → A2)))": {
+        "formal": "(A5 → (A3 ∨ (¬A1 → A2)))",
+        "prover9": "(A5 -> (A3 | (-A1 -> A2)))",
+        "prover9_expression": "(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+        "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(driver_available(driver) -> vehicle_operational(driver))",
+        "natural": "The driver being available implies that the driver's vehicle is operational."
+      },
+      "(A6 → (A3 ∨ (¬A1 → A2)))": {
+        "formal": "(A6 → (A3 ∨ (¬A1 → A2)))",
+        "prover9": "(A6 -> (A3 | (-A1 -> A2)))",
+        "prover9_expression": "(vehicle_operational(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+        "natural": "The driver's vehicle being operational implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+      },
+      "(A7 ∨ G)": {
+        "formal": "(A7 ∨ G)",
+        "prover9": "(A7 | G)",
+        "prover9_expression": "(food_prepared(restaurant) | delivery_successful(order))",
+        "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+      },
+      "(¬(A12 → (A11 ∨ G)) → A13)": {
+        "formal": "(¬(A12 → (A11 ∨ G)) → A13)",
+        "prover9": "(-(A12 -> (A11 | G)) -> A13)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> legal_violation(restaurant))",
+        "natural": "If it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has committed a legal violation."
+      },
+      "(¬(A12 → (A11 ∨ G)) → A29)": {
+        "formal": "(¬(A12 → (A11 ∨ G)) → A29)",
+        "prover9": "(-(A12 -> (A11 | G)) -> A29)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_valid(restaurant))",
+        "natural": "Should it not be the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is valid."
+      },
+      "(¬(A12 → (A11 ∨ G)) → A30)": {
+        "formal": "(¬(A12 → (A11 ∨ G)) → A30)",
+        "prover9": "(-(A12 -> (A11 | G)) -> A30)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant))",
+        "natural": "In the event that it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is suspended."
+      },
+      "(¬(A12 → (A11 ∨ G)) → ¬A13)": {
+        "formal": "(¬(A12 → (A11 ∨ G)) → ¬A13)",
+        "prover9": "(-(A12 -> (A11 | G)) -> -A13)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -legal_violation(restaurant))",
+        "natural": "Provided it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has not committed a legal violation."
+      },
+      "(¬(A12 → (A11 ∨ G)) → ¬A29)": {
+        "formal": "(¬(A12 → (A11 ∨ G)) → ¬A29)",
+        "prover9": "(-(A12 -> (A11 | G)) -> -A29)",
+        "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -license_valid(restaurant))",
+        "natural": "Assuming it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is not valid."
+      },
+      "(¬(A14 → A15) → A16)": {
+        "formal": "(¬(A14 → A15) → A16)",
+        "prover9": "(-(A14 -> A15) -> A16)",
+        "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> navigation_error(driver))",
+        "natural": "If it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has made a navigation error."
+      },
+      "(¬(A14 → A15) → ¬A16)": {
+        "formal": "(¬(A14 → A15) → ¬A16)",
+        "prover9": "(-(A14 -> A15) -> -A16)",
+        "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver))",
+        "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+      },
+      "(¬(A14 → G) → A38)": {
+        "formal": "(¬(A14 → G) → A38)",
+        "prover9": "(-(A14 -> G) -> A38)",
+        "prover9_expression": "(-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver))",
+        "natural": "In cases where it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+      },
+      "(¬(A14 → G) → ¬A38)": {
+        "formal": "(¬(A14 → G) → ¬A38)",
+        "prover9": "(-(A14 -> G) -> -A38)",
+        "prover9_expression": "(-(device_charged(driver) -> delivery_successful(order)) -> -battery_low(driver))",
+        "natural": "Provided it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is not low."
+      },
+      "(¬(A39 ∨ A40) → A41)": {
+        "formal": "(¬(A39 ∨ A40) → A41)",
+        "prover9": "(-(A39 | A40) -> A41)",
+        "prover9_expression": "(-(backup_device(driver) | charging_station_nearby(area)) -> delivery_paused(order))",
+        "natural": "If it is not the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is paused."
+      },
+      "(¬(A39 ∨ A40) → ¬A41)": {
+        "formal": "(¬(A39 ∨ A40) → ¬A41)",
+        "prover9": "(-(A39 | A40) -> -A41)",
+        "prover9_expression": "(-(backup_device(driver) | charging_station_nearby(area)) -> -delivery_paused(order))",
+        "natural": "Should it not be the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is not paused."
+      },
+      "(¬(A5 → (A3 ∨ (¬A1 → A2))) → A20)": {
+        "formal": "(¬(A5 → (A3 ∨ (¬A1 → A2))) → A20)",
+        "prover9": "(-(A5 -> (A3 | (-A1 -> A2))) -> A20)",
+        "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> route_optimized(driver))",
+        "natural": "If it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has been optimized."
+      },
+      "(¬(A5 → (A3 ∨ (¬A1 → A2))) → A21)": {
+        "formal": "(¬(A5 → (A3 ∨ (¬A1 → A2))) → A21)",
+        "prover9": "(-(A5 -> (A3 | (-A1 -> A2))) -> A21)",
+        "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> traffic_avoided(driver))",
+        "natural": "In the event that it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver has avoided traffic."
+      },
+      "(¬(A5 → (A3 ∨ (¬A1 → A2))) → ¬A20)": {
+        "formal": "(¬(A5 → (A3 ∨ (¬A1 → A2))) → ¬A20)",
+        "prover9": "(-(A5 -> (A3 | (-A1 -> A2))) -> -A20)",
+        "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> -route_optimized(driver))",
+        "natural": "Provided it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has not been optimized."
+      },
+      "(¬(A7 ∨ G) → A8)": {
+        "formal": "(¬(A7 ∨ G) → A8)",
+        "prover9": "(-(A7 | G) -> A8)",
+        "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> delivery_delayed(order))",
+        "natural": "If it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is delayed."
+      },
+      "(¬(A7 ∨ G) → ¬A8)": {
+        "formal": "(¬(A7 ∨ G) → ¬A8)",
+        "prover9": "(-(A7 | G) -> -A8)",
+        "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order))",
+        "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+      },
+      "(¬(¬(A12 → (A11 ∨ G)) → A30) → A31)": {
+        "formal": "(¬(¬(A12 → (A11 ∨ G)) → A30) → A31)",
+        "prover9": "(-(-(A12 -> (A11 | G)) -> A30) -> A31)",
+        "prover9_expression": "(-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant))",
+        "natural": "If it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, then a fine has been issued to the restaurant."
+      },
+      "(¬(¬(A7 ∨ G) → ¬A8) → A9)": {
+        "formal": "(¬(¬(A7 ∨ G) → ¬A8) → A9)",
+        "prover9": "(-(-(A7 | G) -> -A8) -> A9)",
+        "prover9_expression": "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> customer_refunded(customer))",
+        "natural": "In the event that it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has been refunded."
+      },
+      "(¬(¬(A7 ∨ G) → ¬A8) → ¬A9)": {
+        "formal": "(¬(¬(A7 ∨ G) → ¬A8) → ¬A9)",
+        "prover9": "(-(-(A7 | G) -> -A8) -> -A9)",
+        "prover9_expression": "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer))",
+        "natural": "Provided it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has not been refunded."
+      },
+      "(¬(¬(¬(A7 ∨ G) → ¬A8) → ¬A9) → A10)": {
+        "formal": "(¬(¬(¬(A7 ∨ G) → ¬A8) → ¬A9) → A10)",
+        "prover9": "(-(-(-(A7 | G) -> -A8) -> -A9) -> A10)",
+        "prover9_expression": "(-(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer)) -> complaint_filed(customer))",
+        "natural": "If it is not the case that the failure of the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed to imply the customer not being refunded leads to the customer not being refunded, then the customer has filed a complaint."
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-has_order(customer, restaurant) -> order_cancelled(customer))",
+        "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+      },
+      "(¬A1 → ¬A2)": {
+        "formal": "(¬A1 → ¬A2)",
+        "prover9": "(-A1 -> -A2)",
+        "prover9_expression": "(-has_order(customer, restaurant) -> -order_cancelled(customer))",
+        "natural": "Should the customer not have placed an order with the restaurant, then the customer has not cancelled the order."
+      },
+      "(¬A36 → A37)": {
+        "formal": "(¬A36 → A37)",
+        "prover9": "(-A36 -> A37)",
+        "prover9_expression": "(-rating_submitted(customer) -> rating_skipped(customer))",
+        "natural": "In cases where the customer has not submitted a rating, then the customer has skipped the rating."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_order(customer, restaurant)",
+        "natural": "The customer has placed an order with the restaurant."
+      },
+      "A12": {
+        "formal": "A12",
+        "prover9": "A12",
+        "prover9_expression": "age_verified(customer)",
+        "natural": "The customer's age has been verified."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "device_charged(driver)",
+        "natural": "The driver's device is charged."
+      },
+      "A27": {
+        "formal": "A27",
+        "prover9": "A27",
+        "prover9_expression": "temperature_maintained(order)",
+        "natural": "The temperature of the order has been maintained."
+      },
+      "A36": {
+        "formal": "A36",
+        "prover9": "A36",
+        "prover9_expression": "rating_submitted(customer)",
+        "natural": "The customer has submitted a rating."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "delivery_assigned(driver, order)",
+        "natural": "A driver has been assigned to the order."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "delivery_successful(order)",
+        "natural": "The delivery of the order is successful."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-complaint_filed(customer)",
+        "natural": "It is not the case that the customer has filed a complaint."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-alcohol_included(order)",
+        "natural": "It is not the case that the order includes alcohol."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-delivery_completed(order)",
+        "natural": "It is not the case that the delivery of the order has been completed."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-payment_processed(customer)",
+        "natural": "It is not the case that payment has been processed for the customer."
+      },
+      "¬A31": {
+        "formal": "¬A31",
+        "prover9": "-A31",
+        "prover9_expression": "-fine_issued(restaurant)",
+        "natural": "It is not the case that a fine has been issued to the restaurant."
+      },
+      "¬A37": {
+        "formal": "¬A37",
+        "prover9": "-A37",
+        "prover9_expression": "-rating_skipped(customer)",
+        "natural": "It is not the case that the customer has skipped the rating."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-food_prepared(restaurant)",
+        "natural": "It is not the case that the restaurant has prepared the food."
+      }
+    }
+  }
+}

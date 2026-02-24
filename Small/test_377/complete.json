@@ -1,0 +1,477 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(has_funding(researcher, grant) -> received_award(researcher, prize))",
+        "natural": "If the researcher has funding from the grant, then the researcher receives the award of the prize."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A4 → A8)",
+        "prover9_expression": "(approved_ethics(lab, committee) -> received_clearance(lab, biosafety))",
+        "natural": "Should the lab receive ethics approval from the committee, the lab obtains clearance from biosafety."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A6 → (A3 → A2))",
+        "prover9_expression": "(passed_review(experiment, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+        "natural": "Given that the experiment passes the review by the committee, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 ∨ (A4 → A6))",
+        "prover9_expression": "(used_alternative_method(researcher, technique) | (approved_ethics(lab, committee) -> passed_review(experiment, committee)))",
+        "natural": "Either the researcher uses an alternative method involving the technique, or if the lab receives ethics approval from the committee, then the experiment passes the review by the committee."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A8 → A9)",
+        "prover9_expression": "(received_clearance(lab, biosafety) -> met_standards(experiment, protocol))",
+        "natural": "On the condition that the lab receives clearance from biosafety, the experiment meets the standards of the protocol."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A9 → (A3 → A2))",
+        "prover9_expression": "(met_standards(experiment, protocol) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+        "natural": "Provided that the experiment meets the standards of the protocol, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A4 → (A3 → A2)) → A5)",
+        "prover9_expression": "(-(approved_ethics(lab, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal))) -> terminated_project(researcher, experiment))",
+        "natural": "If it is not the case that when the lab receives ethics approval from the committee, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal, then the researcher terminates the project related to the experiment."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬A1 → A3)",
+        "prover9_expression": "(-has_funding(researcher, grant) -> completed_study(researcher, experiment))",
+        "natural": "Whenever the researcher lacks funding from the grant, the researcher completes the study involving the experiment."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A4",
+        "prover9_expression": "approved_ethics(lab, committee)",
+        "natural": "The lab received ethics approval from the committee."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A2",
+        "prover9_expression": "-published_paper(researcher, journal)",
+        "natural": "It is not the case that the researcher published a paper in the journal."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A5",
+        "prover9_expression": "-terminated_project(researcher, experiment)",
+        "natural": "The researcher did not terminate the project related to the experiment."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A7",
+        "prover9_expression": "-used_alternative_method(researcher, technique)",
+        "natural": "The researcher did not use an alternative method involving the technique."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "received_award(researcher, prize)",
+    "natural": "The researcher received the award of the prize."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 -> (A3 -> A2)) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Whenever the lab receives ethics approval from the committee, it follows that if the researcher completes the study involving the experiment, then the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 -> A2))",
+            "A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that the researcher completed the study involving the experiment, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A1 -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "In case the researcher does not have funding from the grant, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The researcher has funding from the grant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The researcher received the award of the prize."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (A4 -> A6))",
+            "-A7"
+          ],
+          "conclusion": "(A4 -> A6)",
+          "natural": "In the event that the lab receives ethics approval from the committee, the experiment passes the review by the committee."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A6)",
+            "(A6 -> (A3 -> A2))"
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Whenever the lab receives ethics approval from the committee, it follows that if the researcher completes the study involving the experiment, then the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 -> A2))",
+            "A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that the researcher completed the study involving the experiment, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A1 -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "In case the researcher does not have funding from the grant, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The researcher has funding from the grant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The researcher received the award of the prize."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A9)",
+            "(A9 -> (A3 -> A2))"
+          ],
+          "conclusion": "(A8 -> (A3 -> A2))",
+          "natural": "Assuming the lab receives clearance from biosafety, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A8)",
+            "(A8 -> (A3 -> A2))"
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Whenever the lab receives ethics approval from the committee, it follows that if the researcher completes the study involving the experiment, then the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 -> A2))",
+            "A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that the researcher completed the study involving the experiment, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A1 -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "In case the researcher does not have funding from the grant, the researcher publishes a paper in the journal."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The researcher has funding from the grant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The researcher received the award of the prize."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Scientific Research",
+    "atomic_facts": {
+      "A1": "has_funding(researcher, grant)",
+      "A2": "published_paper(researcher, journal)",
+      "A3": "completed_study(researcher, experiment)",
+      "A4": "approved_ethics(lab, committee)",
+      "A5": "terminated_project(researcher, experiment)",
+      "A6": "passed_review(experiment, committee)",
+      "A7": "used_alternative_method(researcher, technique)",
+      "A8": "received_clearance(lab, biosafety)",
+      "A9": "met_standards(experiment, protocol)",
+      "G": "received_award(researcher, prize)"
+    },
+    "natural_facts": {
+      "A1": "The researcher has funding from the grant.",
+      "A2": "The researcher published a paper in the journal.",
+      "A3": "The researcher completed the study involving the experiment.",
+      "A4": "The lab received ethics approval from the committee.",
+      "A5": "The researcher terminated the project related to the experiment.",
+      "A6": "The experiment passed the review by the committee.",
+      "A7": "The researcher used an alternative method involving the technique.",
+      "A8": "The lab received clearance from biosafety.",
+      "A9": "The experiment met the standards of the protocol.",
+      "G": "The researcher received the award of the prize."
+    },
+    "prover9_expressions": [
+      "(has_funding(researcher, grant) -> received_award(researcher, prize))",
+      "(completed_study(researcher, experiment) -> published_paper(researcher, journal))",
+      "(approved_ethics(lab, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+      "(approved_ethics(lab, committee) -> passed_review(experiment, committee))",
+      "(approved_ethics(lab, committee) -> received_clearance(lab, biosafety))",
+      "(passed_review(experiment, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+      "(used_alternative_method(researcher, technique) | (approved_ethics(lab, committee) -> passed_review(experiment, committee)))",
+      "(received_clearance(lab, biosafety) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+      "(received_clearance(lab, biosafety) -> met_standards(experiment, protocol))",
+      "(met_standards(experiment, protocol) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+      "(-(approved_ethics(lab, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal))) -> terminated_project(researcher, experiment))",
+      "(-has_funding(researcher, grant) -> published_paper(researcher, journal))",
+      "(-has_funding(researcher, grant) -> completed_study(researcher, experiment))",
+      "has_funding(researcher, grant)",
+      "approved_ethics(lab, committee)",
+      "received_award(researcher, prize)",
+      "-published_paper(researcher, journal)",
+      "-terminated_project(researcher, experiment)",
+      "-used_alternative_method(researcher, technique)"
+    ],
+    "natural_expressions": [
+      "If the researcher has funding from the grant, then the researcher receives the award of the prize.",
+      "Provided that the researcher completed the study involving the experiment, the researcher publishes a paper in the journal.",
+      "Whenever the lab receives ethics approval from the committee, it follows that if the researcher completes the study involving the experiment, then the researcher publishes a paper in the journal.",
+      "In the event that the lab receives ethics approval from the committee, the experiment passes the review by the committee.",
+      "Should the lab receive ethics approval from the committee, the lab obtains clearance from biosafety.",
+      "Given that the experiment passes the review by the committee, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal.",
+      "Either the researcher uses an alternative method involving the technique, or if the lab receives ethics approval from the committee, then the experiment passes the review by the committee.",
+      "Assuming the lab receives clearance from biosafety, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal.",
+      "On the condition that the lab receives clearance from biosafety, the experiment meets the standards of the protocol.",
+      "Provided that the experiment meets the standards of the protocol, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal.",
+      "If it is not the case that when the lab receives ethics approval from the committee, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal, then the researcher terminates the project related to the experiment.",
+      "In case the researcher does not have funding from the grant, the researcher publishes a paper in the journal.",
+      "Whenever the researcher lacks funding from the grant, the researcher completes the study involving the experiment.",
+      "The researcher has funding from the grant.",
+      "The lab received ethics approval from the committee.",
+      "The researcher received the award of the prize.",
+      "It is not the case that the researcher published a paper in the journal.",
+      "The researcher did not terminate the project related to the experiment.",
+      "The researcher did not use an alternative method involving the technique."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_funding(researcher, grant) -> received_award(researcher, prize))",
+        "natural": "If the researcher has funding from the grant, then the researcher receives the award of the prize."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(completed_study(researcher, experiment) -> published_paper(researcher, journal))",
+        "natural": "Provided that the researcher completed the study involving the experiment, the researcher publishes a paper in the journal."
+      },
+      "(A4 → (A3 → A2))": {
+        "formal": "(A4 → (A3 → A2))",
+        "prover9": "(A4 -> (A3 -> A2))",
+        "prover9_expression": "(approved_ethics(lab, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+        "natural": "Whenever the lab receives ethics approval from the committee, it follows that if the researcher completes the study involving the experiment, then the researcher publishes a paper in the journal."
+      },
+      "(A4 → A6)": {
+        "formal": "(A4 → A6)",
+        "prover9": "(A4 -> A6)",
+        "prover9_expression": "(approved_ethics(lab, committee) -> passed_review(experiment, committee))",
+        "natural": "In the event that the lab receives ethics approval from the committee, the experiment passes the review by the committee."
+      },
+      "(A4 → A8)": {
+        "formal": "(A4 → A8)",
+        "prover9": "(A4 -> A8)",
+        "prover9_expression": "(approved_ethics(lab, committee) -> received_clearance(lab, biosafety))",
+        "natural": "Should the lab receive ethics approval from the committee, the lab obtains clearance from biosafety."
+      },
+      "(A6 → (A3 → A2))": {
+        "formal": "(A6 → (A3 → A2))",
+        "prover9": "(A6 -> (A3 -> A2))",
+        "prover9_expression": "(passed_review(experiment, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+        "natural": "Given that the experiment passes the review by the committee, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal."
+      },
+      "(A7 ∨ (A4 → A6))": {
+        "formal": "(A7 ∨ (A4 → A6))",
+        "prover9": "(A7 | (A4 -> A6))",
+        "prover9_expression": "(used_alternative_method(researcher, technique) | (approved_ethics(lab, committee) -> passed_review(experiment, committee)))",
+        "natural": "Either the researcher uses an alternative method involving the technique, or if the lab receives ethics approval from the committee, then the experiment passes the review by the committee."
+      },
+      "(A8 → (A3 → A2))": {
+        "formal": "(A8 → (A3 → A2))",
+        "prover9": "(A8 -> (A3 -> A2))",
+        "prover9_expression": "(received_clearance(lab, biosafety) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+        "natural": "Assuming the lab receives clearance from biosafety, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(received_clearance(lab, biosafety) -> met_standards(experiment, protocol))",
+        "natural": "On the condition that the lab receives clearance from biosafety, the experiment meets the standards of the protocol."
+      },
+      "(A9 → (A3 → A2))": {
+        "formal": "(A9 → (A3 → A2))",
+        "prover9": "(A9 -> (A3 -> A2))",
+        "prover9_expression": "(met_standards(experiment, protocol) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal)))",
+        "natural": "Provided that the experiment meets the standards of the protocol, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal."
+      },
+      "(¬(A4 → (A3 → A2)) → A5)": {
+        "formal": "(¬(A4 → (A3 → A2)) → A5)",
+        "prover9": "(-(A4 -> (A3 -> A2)) -> A5)",
+        "prover9_expression": "(-(approved_ethics(lab, committee) -> (completed_study(researcher, experiment) -> published_paper(researcher, journal))) -> terminated_project(researcher, experiment))",
+        "natural": "If it is not the case that when the lab receives ethics approval from the committee, then if the researcher completes the study involving the experiment, the researcher publishes a paper in the journal, then the researcher terminates the project related to the experiment."
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-has_funding(researcher, grant) -> published_paper(researcher, journal))",
+        "natural": "In case the researcher does not have funding from the grant, the researcher publishes a paper in the journal."
+      },
+      "(¬A1 → A3)": {
+        "formal": "(¬A1 → A3)",
+        "prover9": "(-A1 -> A3)",
+        "prover9_expression": "(-has_funding(researcher, grant) -> completed_study(researcher, experiment))",
+        "natural": "Whenever the researcher lacks funding from the grant, the researcher completes the study involving the experiment."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_funding(researcher, grant)",
+        "natural": "The researcher has funding from the grant."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "approved_ethics(lab, committee)",
+        "natural": "The lab received ethics approval from the committee."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "received_award(researcher, prize)",
+        "natural": "The researcher received the award of the prize."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-published_paper(researcher, journal)",
+        "natural": "It is not the case that the researcher published a paper in the journal."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-terminated_project(researcher, experiment)",
+        "natural": "The researcher did not terminate the project related to the experiment."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-used_alternative_method(researcher, technique)",
+        "natural": "The researcher did not use an alternative method involving the technique."
+      }
+    }
+  }
+}

@@ -1,0 +1,1595 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 6,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 5
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(authorized(researcher, clinical_trial) | authorized(researcher, lab_access))",
+        "natural": "Either the researcher is authorized for clinical trials or the researcher is authorized for lab access."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → A3)",
+        "prover9_expression": "(mechanism_understood(compound) -> approved(compound, human_trials))",
+        "natural": "Provided that the mechanism of the compound is understood, the compound is approved for human trials."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A12 → (A11 ∨ (A9 → A10)))",
+        "prover9_expression": "(review_complete(internal_committee) -> (side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound))))",
+        "natural": "Whenever the internal committee review is complete, either the side effects of the compound are known or, in the event that the compound treats the target disease, the mechanism of the compound is understood."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A13 → (A11 ∨ (A9 → A10)))",
+        "prover9_expression": "(review_complete(external_committee) -> (side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound))))",
+        "natural": "Under the condition that the external committee review is complete, either the side effects of the compound are known or, if the compound treats the target disease, then the mechanism of the compound is understood."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A14 → A12)",
+        "prover9_expression": "(committee_met(internal) -> review_complete(internal_committee))",
+        "natural": "If the internal committee has met, then the internal committee review is complete."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(committee_met(internal) | committee_met(external))",
+        "natural": "Either the internal committee has met or the external committee has met."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A15 → A16)",
+        "prover9_expression": "(committee_met(external) -> findings_submitted(external_committee))",
+        "natural": "If the external committee has met, then findings have been submitted by the external committee."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A16 → A13)",
+        "prover9_expression": "(findings_submitted(external_committee) -> review_complete(external_committee))",
+        "natural": "Whenever findings have been submitted by the external committee, the external committee review is complete."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A19 → A18)",
+        "prover9_expression": "(patient_advocacy_support(compound) -> public_hearing_scheduled(compound))",
+        "natural": "Given that there is patient advocacy support for the compound, a public hearing is scheduled for the compound."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(authorized(researcher, lab_access) -> research_approved(compound))",
+        "natural": "If the researcher is authorized for lab access, then the compound is research approved."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A20 → (¬(A1 → G) → ¬A17))",
+        "prover9_expression": "(physician_support(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound)))",
+        "natural": "Under the condition that there is physician support for the compound, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A22 → (¬(A19 ∨ A20) → A21))",
+        "prover9_expression": "(safety_data_collected(compound) -> (-(patient_advocacy_support(compound) | physician_support(compound)) -> regulatory_meeting_scheduled(compound)))",
+        "natural": "Provided that safety data has been collected for the compound, if it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, then a regulatory meeting is scheduled for the compound."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A23 ∨ A24)",
+        "prover9_expression": "(preclinical_trials_complete(compound) | manufacturing_standards_met(compound))",
+        "natural": "Either preclinical trials are complete for the compound or manufacturing standards have been met for the compound."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A24 → A22)",
+        "prover9_expression": "(manufacturing_standards_met(compound) -> safety_data_collected(compound))",
+        "natural": "Whenever manufacturing standards have been met for the compound, safety data has been collected for the compound."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A26 → (¬(A1 → G) → A4))",
+        "prover9_expression": "(efficacy_data_submitted(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Given that efficacy data has been submitted for the compound, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A27 ∨ (A6 → A26))",
+        "prover9_expression": "(adverse_events_reported(compound) | (protocol_approved(researcher, efficacy_study) -> efficacy_data_submitted(compound)))",
+        "natural": "Either adverse events have been reported for the compound, or if the researcher's efficacy study protocol is approved, then efficacy data has been submitted for the compound."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A30 → ¬A29)",
+        "prover9_expression": "(quality_control_passed(compound) -> -trial_suspended(compound))",
+        "natural": "Provided that quality control has been passed for the compound, the trial is not suspended for the compound."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A31 ∨ A32)",
+        "prover9_expression": "(purity_verified(compound) | stability_confirmed(compound))",
+        "natural": "Either the purity of the compound is verified or the stability of the compound is confirmed."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A32 → A30)",
+        "prover9_expression": "(stability_confirmed(compound) -> quality_control_passed(compound))",
+        "natural": "Under the condition that the stability of the compound is confirmed, quality control has been passed for the compound."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A34 → (A6 → (¬(A1 → G) → A4)))",
+        "prover9_expression": "(regulatory_filing_submitted(compound) -> (protocol_approved(researcher, efficacy_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing))))",
+        "natural": "Whenever a regulatory filing has been submitted for the compound, if the researcher's efficacy study protocol is approved, then if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A35 → A34)",
+        "prover9_expression": "(preclinical_data_complete(compound) -> regulatory_filing_submitted(compound))",
+        "natural": "If preclinical data is complete for the compound, then a regulatory filing has been submitted for the compound."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A36 → A34)",
+        "prover9_expression": "(clinical_data_complete(compound) -> regulatory_filing_submitted(compound))",
+        "natural": "Provided that clinical data is complete for the compound, a regulatory filing has been submitted for the compound."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A38 → (¬(A1 → G) → A3))",
+        "prover9_expression": "(patent_protected(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, human_trials)))",
+        "natural": "Whenever the compound is patent protected, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for human trials."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A39 → A40)",
+        "prover9_expression": "(patent_expired(compound) -> generic_competition(compound))",
+        "natural": "If the patent for the compound has expired, then there is generic competition for the compound."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A4 → A3)",
+        "prover9_expression": "(approved(compound, animal_testing) -> approved(compound, human_trials))",
+        "natural": "Under the condition that the compound is approved for animal testing, the compound is approved for human trials."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A40 → A41)",
+        "prover9_expression": "(generic_competition(compound) -> market_exclusivity(compound))",
+        "natural": "Given that there is generic competition for the compound, there is market exclusivity for the compound."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A41 → A42)",
+        "prover9_expression": "(market_exclusivity(compound) -> price_regulated(compound))",
+        "natural": "If there is market exclusivity for the compound, then the price of the compound is regulated."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A41 → A43)",
+        "prover9_expression": "(market_exclusivity(compound) -> premium_pricing(compound))",
+        "natural": "Provided that there is market exclusivity for the compound, the compound has premium pricing."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A43 → ¬A42)",
+        "prover9_expression": "(premium_pricing(compound) -> -price_regulated(compound))",
+        "natural": "If the compound has premium pricing, then the price of the compound is not regulated."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A5 → (¬(A1 → G) → A4))",
+        "prover9_expression": "(protocol_approved(researcher, safety_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Under the condition that the researcher's safety study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(protocol_approved(researcher, safety_study) | protocol_approved(researcher, efficacy_study))",
+        "natural": "Either the researcher's safety study protocol is approved or the researcher's efficacy study protocol is approved."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A7 → (¬(A1 → G) → A4))",
+        "prover9_expression": "(protocol_approved(researcher, toxicity_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Given that the researcher's toxicity study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(¬(A1 → G) → A17)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> emergency_approval_granted(compound))",
+        "natural": "If it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has been granted for the compound."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(¬(A1 → G) → A9)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> disease_treated(compound, target_disease))",
+        "natural": "Given that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound treats the target disease."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(¬(A1 → G) → ¬A3)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -approved(compound, human_trials))",
+        "natural": "Provided that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is not approved for human trials."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(¬(A19 ∨ A20) → ¬A21)",
+        "prover9_expression": "(-(patient_advocacy_support(compound) | physician_support(compound)) -> -regulatory_meeting_scheduled(compound))",
+        "natural": "Under the condition that it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, a regulatory meeting is not scheduled for the compound."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(¬(A23 → A22) → A25)",
+        "prover9_expression": "(-(preclinical_trials_complete(compound) -> safety_data_collected(compound)) -> manufacturing_issues(compound))",
+        "natural": "If it is not the case that if preclinical trials are complete for the compound, then safety data has been collected for the compound, then there are manufacturing issues with the compound."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬(A23 → A22) → ¬A25)",
+        "prover9_expression": "(-(preclinical_trials_complete(compound) -> safety_data_collected(compound)) -> -manufacturing_issues(compound))",
+        "natural": "Whenever it is not the case that if preclinical trials are complete for the compound, then safety data has been collected for the compound, there are no manufacturing issues with the compound."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(¬(A28 ∨ ¬A27) → A29)",
+        "prover9_expression": "(-(clinical_hold_issued(compound) | -adverse_events_reported(compound)) -> trial_suspended(compound))",
+        "natural": "Provided that it is not the case that either a clinical hold has been issued for the compound or adverse events have not been reported for the compound, the trial is suspended for the compound."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(¬(A31 → A30) → A33)",
+        "prover9_expression": "(-(purity_verified(compound) -> quality_control_passed(compound)) -> quality_issues(compound))",
+        "natural": "If it is not the case that if the purity of the compound is verified, then quality control has been passed for the compound, then there are quality issues with the compound."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(¬(A35 ∨ A36) → A37)",
+        "prover9_expression": "(-(preclinical_data_complete(compound) | clinical_data_complete(compound)) -> filing_incomplete(compound))",
+        "natural": "Under the condition that it is not the case that either preclinical data is complete for the compound or clinical data is complete for the compound, the filing is incomplete for the compound."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(¬(A35 ∨ A36) → ¬A37)",
+        "prover9_expression": "(-(preclinical_data_complete(compound) | clinical_data_complete(compound)) -> -filing_incomplete(compound))",
+        "natural": "Whenever it is not the case that either preclinical data is complete for the compound or clinical data is complete for the compound, the filing is not incomplete for the compound."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(¬(A6 → A7) → A8)",
+        "prover9_expression": "(-(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study)) -> protocol_approved(researcher, bioavailability_study))",
+        "natural": "If it is not the case that if the researcher's efficacy study protocol is approved, then the researcher's toxicity study protocol is approved, then the researcher's bioavailability study protocol is approved."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(¬(A6 → A7) → ¬A8)",
+        "prover9_expression": "(-(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study)) -> -protocol_approved(researcher, bioavailability_study))",
+        "natural": "Provided that it is not the case that if the researcher's efficacy study protocol is approved, then the researcher's toxicity study protocol is approved, the researcher's bioavailability study protocol is not approved."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(¬A38 → A39)",
+        "prover9_expression": "(-patent_protected(compound) -> patent_expired(compound))",
+        "natural": "If the compound is not patent protected, then the patent for the compound has expired."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A11",
+        "prover9_expression": "-side_effects_known(compound)",
+        "natural": "The side effects of the compound are not known."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A18",
+        "prover9_expression": "-public_hearing_scheduled(compound)",
+        "natural": "A public hearing is not scheduled for the compound."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A28",
+        "prover9_expression": "-clinical_hold_issued(compound)",
+        "natural": "A clinical hold has not been issued for the compound."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A33",
+        "prover9_expression": "-quality_issues(compound)",
+        "natural": "There are no quality issues with the compound."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "research_approved(compound)",
+    "natural": "The compound is research approved."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A6 -> A7) -> A8)",
+            "(-(A6 -> A7) -> -A8)"
+          ],
+          "conclusion": "(A6 -> A7)",
+          "natural": "Whenever the researcher's efficacy study protocol is approved, the researcher's toxicity study protocol is approved."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A7)",
+            "(A7 -> (-(A1 -> G) -> A4))"
+          ],
+          "conclusion": "(A6 -> (-(A1 -> G) -> A4))",
+          "natural": "Provided that the researcher's efficacy study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (-(A1 -> G) -> A4))",
+            "(A6 -> (-(A1 -> G) -> A4))"
+          ],
+          "conclusion": "(-(A1 -> G) -> A4)",
+          "natural": "Whenever it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The compound is research approved."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A15 -> A16)",
+            "(A16 -> A13)"
+          ],
+          "conclusion": "(A15 -> A13)",
+          "natural": "Provided that the external committee has met, the external committee review is complete."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A14 -> A12)",
+            "(A15 -> A13)",
+            "(A14 | A15)"
+          ],
+          "conclusion": "(A12 | A13)",
+          "natural": "Either the internal committee review is complete or the external committee review is complete."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> (A11 | (A9 -> A10)))",
+            "(A13 -> (A11 | (A9 -> A10)))"
+          ],
+          "conclusion": "(A11 | (A9 -> A10))",
+          "natural": "Either the side effects of the compound are known, or if the compound treats the target disease, then the mechanism of the compound is understood."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | (A9 -> A10))",
+            "-A11"
+          ],
+          "conclusion": "(A9 -> A10)",
+          "natural": "If the compound treats the target disease, then the mechanism of the compound is understood."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A9 -> A10)",
+            "(A10 -> A3)"
+          ],
+          "conclusion": "(A9 -> A3)",
+          "natural": "Provided that the compound treats the target disease, the compound is approved for human trials."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A9)",
+            "(A9 -> A3)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The compound is research approved."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A23 -> A22) -> A25)",
+            "(-(A23 -> A22) -> -A25)"
+          ],
+          "conclusion": "(A23 -> A22)",
+          "natural": "If preclinical trials are complete for the compound, then safety data has been collected for the compound."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A23 | A24)",
+            "(A23 -> A22)",
+            "(A24 -> A22)"
+          ],
+          "conclusion": "A22",
+          "natural": "Safety data has been collected for the compound."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A22 -> (-(A19 | A20) -> A21))",
+            "A22"
+          ],
+          "conclusion": "(-(A19 | A20) -> A21)",
+          "natural": "If it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, then a regulatory meeting is scheduled for the compound."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A19 | A20) -> A21)",
+            "(-(A19 | A20) -> -A21)"
+          ],
+          "conclusion": "(A19 | A20)",
+          "natural": "Either there is patient advocacy support for the compound or there is physician support for the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A19 -> A18)",
+            "(A20 -> (-(A1 -> G) -> -A17))",
+            "(A19 | A20)"
+          ],
+          "conclusion": "(A18 | (-(A1 -> G) -> -A17))",
+          "natural": "Either a public hearing is scheduled for the compound, or if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A18 | (-(A1 -> G) -> -A17))",
+            "-A18"
+          ],
+          "conclusion": "(-(A1 -> G) -> -A17)",
+          "natural": "If it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A17)",
+            "(-(A1 -> G) -> -A17)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The compound is research approved."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A31 -> A30) -> A33)",
+            "-A33"
+          ],
+          "conclusion": "(A31 -> A30)",
+          "natural": "If the purity of the compound is verified, then quality control has been passed for the compound."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A31 | A32)",
+            "(A31 -> A30)",
+            "(A32 -> A30)"
+          ],
+          "conclusion": "A30",
+          "natural": "Quality control has been passed for the compound."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A30 -> -A29)",
+            "A30"
+          ],
+          "conclusion": "-A29",
+          "natural": "The trial is not suspended for the compound."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A28 | -A27) -> A29)",
+            "-A29"
+          ],
+          "conclusion": "(A28 | -A27)",
+          "natural": "Either a clinical hold has been issued for the compound or adverse events have not been reported for the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A28 | -A27)",
+            "-A28"
+          ],
+          "conclusion": "-A27",
+          "natural": "Adverse events have not been reported for the compound."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A27 | (A6 -> A26))",
+            "-A27"
+          ],
+          "conclusion": "(A6 -> A26)",
+          "natural": "If the researcher's efficacy study protocol is approved, then efficacy data has been submitted for the compound."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A26)",
+            "(A26 -> (-(A1 -> G) -> A4))"
+          ],
+          "conclusion": "(A6 -> (-(A1 -> G) -> A4))",
+          "natural": "Provided that the researcher's efficacy study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (-(A1 -> G) -> A4))",
+            "(A6 -> (-(A1 -> G) -> A4))"
+          ],
+          "conclusion": "(-(A1 -> G) -> A4)",
+          "natural": "Whenever it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The compound is research approved."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A35 | A36) -> A37)",
+            "(-(A35 | A36) -> -A37)"
+          ],
+          "conclusion": "(A35 | A36)",
+          "natural": "Either preclinical data is complete for the compound or clinical data is complete for the compound."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A35 | A36)",
+            "(A35 -> A34)",
+            "(A36 -> A34)"
+          ],
+          "conclusion": "A34",
+          "natural": "A regulatory filing has been submitted for the compound."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A34 -> (A6 -> (-(A1 -> G) -> A4)))",
+            "A34"
+          ],
+          "conclusion": "(A6 -> (-(A1 -> G) -> A4))",
+          "natural": "Provided that the researcher's efficacy study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (-(A1 -> G) -> A4))",
+            "(A6 -> (-(A1 -> G) -> A4))"
+          ],
+          "conclusion": "(-(A1 -> G) -> A4)",
+          "natural": "Whenever it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The compound is research approved."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A41 -> A43)",
+            "(A43 -> -A42)"
+          ],
+          "conclusion": "(A41 -> -A42)",
+          "natural": "Whenever there is market exclusivity for the compound, the price of the compound is not regulated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A41 -> A42)",
+            "(A41 -> -A42)"
+          ],
+          "conclusion": "-A41",
+          "natural": "There is no market exclusivity for the compound."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A40 -> A41)",
+            "-A41"
+          ],
+          "conclusion": "-A40",
+          "natural": "There is no generic competition for the compound."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A39 -> A40)",
+            "-A40"
+          ],
+          "conclusion": "-A39",
+          "natural": "The patent for the compound has not expired."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A38 -> A39)",
+            "-A39"
+          ],
+          "conclusion": "A38",
+          "natural": "The compound is patent protected."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A38 -> (-(A1 -> G) -> A3))",
+            "A38"
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The compound is research approved."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Regulatory Compliance",
+    "atomic_facts": {
+      "A1": "authorized(researcher, clinical_trial)",
+      "A2": "authorized(researcher, lab_access)",
+      "A3": "approved(compound, human_trials)",
+      "A4": "approved(compound, animal_testing)",
+      "A5": "protocol_approved(researcher, safety_study)",
+      "A6": "protocol_approved(researcher, efficacy_study)",
+      "A7": "protocol_approved(researcher, toxicity_study)",
+      "A8": "protocol_approved(researcher, bioavailability_study)",
+      "A9": "disease_treated(compound, target_disease)",
+      "A10": "mechanism_understood(compound)",
+      "A11": "side_effects_known(compound)",
+      "A12": "review_complete(internal_committee)",
+      "A13": "review_complete(external_committee)",
+      "A14": "committee_met(internal)",
+      "A15": "committee_met(external)",
+      "A16": "findings_submitted(external_committee)",
+      "A17": "emergency_approval_granted(compound)",
+      "A18": "public_hearing_scheduled(compound)",
+      "A19": "patient_advocacy_support(compound)",
+      "A20": "physician_support(compound)",
+      "A21": "regulatory_meeting_scheduled(compound)",
+      "A22": "safety_data_collected(compound)",
+      "A23": "preclinical_trials_complete(compound)",
+      "A24": "manufacturing_standards_met(compound)",
+      "A25": "manufacturing_issues(compound)",
+      "A26": "efficacy_data_submitted(compound)",
+      "A27": "adverse_events_reported(compound)",
+      "A28": "clinical_hold_issued(compound)",
+      "A29": "trial_suspended(compound)",
+      "A30": "quality_control_passed(compound)",
+      "A31": "purity_verified(compound)",
+      "A32": "stability_confirmed(compound)",
+      "A33": "quality_issues(compound)",
+      "A34": "regulatory_filing_submitted(compound)",
+      "A35": "preclinical_data_complete(compound)",
+      "A36": "clinical_data_complete(compound)",
+      "A37": "filing_incomplete(compound)",
+      "A38": "patent_protected(compound)",
+      "A39": "patent_expired(compound)",
+      "A40": "generic_competition(compound)",
+      "A41": "market_exclusivity(compound)",
+      "A42": "price_regulated(compound)",
+      "A43": "premium_pricing(compound)",
+      "G": "research_approved(compound)"
+    },
+    "natural_facts": {
+      "A1": "The researcher is authorized for clinical trials.",
+      "A2": "The researcher is authorized for lab access.",
+      "A3": "The compound is approved for human trials.",
+      "A4": "The compound is approved for animal testing.",
+      "A5": "The researcher's safety study protocol is approved.",
+      "A6": "The researcher's efficacy study protocol is approved.",
+      "A7": "The researcher's toxicity study protocol is approved.",
+      "A8": "The researcher's bioavailability study protocol is approved.",
+      "A9": "The compound treats the target disease.",
+      "A10": "The mechanism of the compound is understood.",
+      "A11": "The side effects of the compound are known.",
+      "A12": "The internal committee review is complete.",
+      "A13": "The external committee review is complete.",
+      "A14": "The internal committee has met.",
+      "A15": "The external committee has met.",
+      "A16": "Findings have been submitted by the external committee.",
+      "A17": "Emergency approval has been granted for the compound.",
+      "A18": "A public hearing is scheduled for the compound.",
+      "A19": "There is patient advocacy support for the compound.",
+      "A20": "There is physician support for the compound.",
+      "A21": "A regulatory meeting is scheduled for the compound.",
+      "A22": "Safety data has been collected for the compound.",
+      "A23": "Preclinical trials are complete for the compound.",
+      "A24": "Manufacturing standards have been met for the compound.",
+      "A25": "There are manufacturing issues with the compound.",
+      "A26": "Efficacy data has been submitted for the compound.",
+      "A27": "Adverse events have been reported for the compound.",
+      "A28": "A clinical hold has been issued for the compound.",
+      "A29": "The trial is suspended for the compound.",
+      "A30": "Quality control has been passed for the compound.",
+      "A31": "The purity of the compound is verified.",
+      "A32": "The stability of the compound is confirmed.",
+      "A33": "There are quality issues with the compound.",
+      "A34": "A regulatory filing has been submitted for the compound.",
+      "A35": "Preclinical data is complete for the compound.",
+      "A36": "Clinical data is complete for the compound.",
+      "A37": "The filing is incomplete for the compound.",
+      "A38": "The compound is patent protected.",
+      "A39": "The patent for the compound has expired.",
+      "A40": "There is generic competition for the compound.",
+      "A41": "There is market exclusivity for the compound.",
+      "A42": "The price of the compound is regulated.",
+      "A43": "The compound has premium pricing."
+    },
+    "prover9_expressions": [
+      "(authorized(researcher, clinical_trial) -> research_approved(compound))",
+      "(authorized(researcher, clinical_trial) | authorized(researcher, lab_access))",
+      "(mechanism_understood(compound) -> approved(compound, human_trials))",
+      "(side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound)))",
+      "(review_complete(internal_committee) -> (side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound))))",
+      "(review_complete(internal_committee) | review_complete(external_committee))",
+      "(review_complete(external_committee) -> (side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound))))",
+      "(committee_met(internal) -> review_complete(internal_committee))",
+      "(committee_met(internal) | committee_met(external))",
+      "(committee_met(external) -> review_complete(external_committee))",
+      "(committee_met(external) -> findings_submitted(external_committee))",
+      "(findings_submitted(external_committee) -> review_complete(external_committee))",
+      "(public_hearing_scheduled(compound) | (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound)))",
+      "(patient_advocacy_support(compound) -> public_hearing_scheduled(compound))",
+      "(patient_advocacy_support(compound) | physician_support(compound))",
+      "(authorized(researcher, lab_access) -> research_approved(compound))",
+      "(physician_support(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound)))",
+      "(safety_data_collected(compound) -> (-(patient_advocacy_support(compound) | physician_support(compound)) -> regulatory_meeting_scheduled(compound)))",
+      "(preclinical_trials_complete(compound) -> safety_data_collected(compound))",
+      "(preclinical_trials_complete(compound) | manufacturing_standards_met(compound))",
+      "(manufacturing_standards_met(compound) -> safety_data_collected(compound))",
+      "(efficacy_data_submitted(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+      "(adverse_events_reported(compound) | (protocol_approved(researcher, efficacy_study) -> efficacy_data_submitted(compound)))",
+      "(clinical_hold_issued(compound) | -adverse_events_reported(compound))",
+      "(quality_control_passed(compound) -> -trial_suspended(compound))",
+      "(purity_verified(compound) -> quality_control_passed(compound))",
+      "(purity_verified(compound) | stability_confirmed(compound))",
+      "(stability_confirmed(compound) -> quality_control_passed(compound))",
+      "(regulatory_filing_submitted(compound) -> (protocol_approved(researcher, efficacy_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing))))",
+      "(preclinical_data_complete(compound) -> regulatory_filing_submitted(compound))",
+      "(preclinical_data_complete(compound) | clinical_data_complete(compound))",
+      "(clinical_data_complete(compound) -> regulatory_filing_submitted(compound))",
+      "(patent_protected(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, human_trials)))",
+      "(patent_expired(compound) -> generic_competition(compound))",
+      "(approved(compound, animal_testing) -> approved(compound, human_trials))",
+      "(generic_competition(compound) -> market_exclusivity(compound))",
+      "(market_exclusivity(compound) -> price_regulated(compound))",
+      "(market_exclusivity(compound) -> premium_pricing(compound))",
+      "(market_exclusivity(compound) -> -price_regulated(compound))",
+      "(premium_pricing(compound) -> -price_regulated(compound))",
+      "(protocol_approved(researcher, safety_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+      "(protocol_approved(researcher, safety_study) | protocol_approved(researcher, efficacy_study))",
+      "(protocol_approved(researcher, efficacy_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+      "(protocol_approved(researcher, efficacy_study) -> efficacy_data_submitted(compound))",
+      "(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study))",
+      "(protocol_approved(researcher, toxicity_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+      "(disease_treated(compound, target_disease) -> mechanism_understood(compound))",
+      "(disease_treated(compound, target_disease) -> approved(compound, human_trials))",
+      "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> emergency_approval_granted(compound))",
+      "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, human_trials))",
+      "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing))",
+      "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> disease_treated(compound, target_disease))",
+      "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound))",
+      "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -approved(compound, human_trials))",
+      "(-(patient_advocacy_support(compound) | physician_support(compound)) -> regulatory_meeting_scheduled(compound))",
+      "(-(patient_advocacy_support(compound) | physician_support(compound)) -> -regulatory_meeting_scheduled(compound))",
+      "(-(preclinical_trials_complete(compound) -> safety_data_collected(compound)) -> manufacturing_issues(compound))",
+      "(-(preclinical_trials_complete(compound) -> safety_data_collected(compound)) -> -manufacturing_issues(compound))",
+      "(-(clinical_hold_issued(compound) | -adverse_events_reported(compound)) -> trial_suspended(compound))",
+      "(-(purity_verified(compound) -> quality_control_passed(compound)) -> quality_issues(compound))",
+      "(-(preclinical_data_complete(compound) | clinical_data_complete(compound)) -> filing_incomplete(compound))",
+      "(-(preclinical_data_complete(compound) | clinical_data_complete(compound)) -> -filing_incomplete(compound))",
+      "(-(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study)) -> protocol_approved(researcher, bioavailability_study))",
+      "(-(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study)) -> -protocol_approved(researcher, bioavailability_study))",
+      "(-patent_protected(compound) -> patent_expired(compound))",
+      "safety_data_collected(compound)",
+      "quality_control_passed(compound)",
+      "regulatory_filing_submitted(compound)",
+      "patent_protected(compound)",
+      "research_approved(compound)",
+      "-side_effects_known(compound)",
+      "-public_hearing_scheduled(compound)",
+      "-adverse_events_reported(compound)",
+      "-clinical_hold_issued(compound)",
+      "-trial_suspended(compound)",
+      "-quality_issues(compound)",
+      "-patent_expired(compound)",
+      "-generic_competition(compound)",
+      "-market_exclusivity(compound)"
+    ],
+    "natural_expressions": [
+      "If the researcher is authorized for clinical trials, then the compound is research approved.",
+      "Either the researcher is authorized for clinical trials or the researcher is authorized for lab access.",
+      "Provided that the mechanism of the compound is understood, the compound is approved for human trials.",
+      "Either the side effects of the compound are known, or if the compound treats the target disease, then the mechanism of the compound is understood.",
+      "Whenever the internal committee review is complete, either the side effects of the compound are known or, in the event that the compound treats the target disease, the mechanism of the compound is understood.",
+      "Either the internal committee review is complete or the external committee review is complete.",
+      "Under the condition that the external committee review is complete, either the side effects of the compound are known or, if the compound treats the target disease, then the mechanism of the compound is understood.",
+      "If the internal committee has met, then the internal committee review is complete.",
+      "Either the internal committee has met or the external committee has met.",
+      "Provided that the external committee has met, the external committee review is complete.",
+      "If the external committee has met, then findings have been submitted by the external committee.",
+      "Whenever findings have been submitted by the external committee, the external committee review is complete.",
+      "Either a public hearing is scheduled for the compound, or if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound.",
+      "Given that there is patient advocacy support for the compound, a public hearing is scheduled for the compound.",
+      "Either there is patient advocacy support for the compound or there is physician support for the compound.",
+      "If the researcher is authorized for lab access, then the compound is research approved.",
+      "Under the condition that there is physician support for the compound, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound.",
+      "Provided that safety data has been collected for the compound, if it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, then a regulatory meeting is scheduled for the compound.",
+      "If preclinical trials are complete for the compound, then safety data has been collected for the compound.",
+      "Either preclinical trials are complete for the compound or manufacturing standards have been met for the compound.",
+      "Whenever manufacturing standards have been met for the compound, safety data has been collected for the compound.",
+      "Given that efficacy data has been submitted for the compound, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing.",
+      "Either adverse events have been reported for the compound, or if the researcher's efficacy study protocol is approved, then efficacy data has been submitted for the compound.",
+      "Either a clinical hold has been issued for the compound or adverse events have not been reported for the compound.",
+      "Provided that quality control has been passed for the compound, the trial is not suspended for the compound.",
+      "If the purity of the compound is verified, then quality control has been passed for the compound.",
+      "Either the purity of the compound is verified or the stability of the compound is confirmed.",
+      "Under the condition that the stability of the compound is confirmed, quality control has been passed for the compound.",
+      "Whenever a regulatory filing has been submitted for the compound, if the researcher's efficacy study protocol is approved, then if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing.",
+      "If preclinical data is complete for the compound, then a regulatory filing has been submitted for the compound.",
+      "Either preclinical data is complete for the compound or clinical data is complete for the compound.",
+      "Provided that clinical data is complete for the compound, a regulatory filing has been submitted for the compound.",
+      "Whenever the compound is patent protected, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for human trials.",
+      "If the patent for the compound has expired, then there is generic competition for the compound.",
+      "Under the condition that the compound is approved for animal testing, the compound is approved for human trials.",
+      "Given that there is generic competition for the compound, there is market exclusivity for the compound.",
+      "If there is market exclusivity for the compound, then the price of the compound is regulated.",
+      "Provided that there is market exclusivity for the compound, the compound has premium pricing.",
+      "Whenever there is market exclusivity for the compound, the price of the compound is not regulated.",
+      "If the compound has premium pricing, then the price of the compound is not regulated.",
+      "Under the condition that the researcher's safety study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing.",
+      "Either the researcher's safety study protocol is approved or the researcher's efficacy study protocol is approved.",
+      "Provided that the researcher's efficacy study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing.",
+      "If the researcher's efficacy study protocol is approved, then efficacy data has been submitted for the compound.",
+      "Whenever the researcher's efficacy study protocol is approved, the researcher's toxicity study protocol is approved.",
+      "Given that the researcher's toxicity study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing.",
+      "If the compound treats the target disease, then the mechanism of the compound is understood.",
+      "Provided that the compound treats the target disease, the compound is approved for human trials.",
+      "If it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has been granted for the compound.",
+      "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials.",
+      "Whenever it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing.",
+      "Given that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound treats the target disease.",
+      "If it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound.",
+      "Provided that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is not approved for human trials.",
+      "If it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, then a regulatory meeting is scheduled for the compound.",
+      "Under the condition that it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, a regulatory meeting is not scheduled for the compound.",
+      "If it is not the case that if preclinical trials are complete for the compound, then safety data has been collected for the compound, then there are manufacturing issues with the compound.",
+      "Whenever it is not the case that if preclinical trials are complete for the compound, then safety data has been collected for the compound, there are no manufacturing issues with the compound.",
+      "Provided that it is not the case that either a clinical hold has been issued for the compound or adverse events have not been reported for the compound, the trial is suspended for the compound.",
+      "If it is not the case that if the purity of the compound is verified, then quality control has been passed for the compound, then there are quality issues with the compound.",
+      "Under the condition that it is not the case that either preclinical data is complete for the compound or clinical data is complete for the compound, the filing is incomplete for the compound.",
+      "Whenever it is not the case that either preclinical data is complete for the compound or clinical data is complete for the compound, the filing is not incomplete for the compound.",
+      "If it is not the case that if the researcher's efficacy study protocol is approved, then the researcher's toxicity study protocol is approved, then the researcher's bioavailability study protocol is approved.",
+      "Provided that it is not the case that if the researcher's efficacy study protocol is approved, then the researcher's toxicity study protocol is approved, the researcher's bioavailability study protocol is not approved.",
+      "If the compound is not patent protected, then the patent for the compound has expired.",
+      "Safety data has been collected for the compound.",
+      "Quality control has been passed for the compound.",
+      "A regulatory filing has been submitted for the compound.",
+      "The compound is patent protected.",
+      "The compound is research approved.",
+      "The side effects of the compound are not known.",
+      "A public hearing is not scheduled for the compound.",
+      "Adverse events have not been reported for the compound.",
+      "A clinical hold has not been issued for the compound.",
+      "The trial is not suspended for the compound.",
+      "There are no quality issues with the compound.",
+      "The patent for the compound has not expired.",
+      "There is no generic competition for the compound.",
+      "There is no market exclusivity for the compound."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(authorized(researcher, clinical_trial) -> research_approved(compound))",
+        "natural": "If the researcher is authorized for clinical trials, then the compound is research approved."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(authorized(researcher, clinical_trial) | authorized(researcher, lab_access))",
+        "natural": "Either the researcher is authorized for clinical trials or the researcher is authorized for lab access."
+      },
+      "(A10 → A3)": {
+        "formal": "(A10 → A3)",
+        "prover9": "(A10 -> A3)",
+        "prover9_expression": "(mechanism_understood(compound) -> approved(compound, human_trials))",
+        "natural": "Provided that the mechanism of the compound is understood, the compound is approved for human trials."
+      },
+      "(A11 ∨ (A9 → A10))": {
+        "formal": "(A11 ∨ (A9 → A10))",
+        "prover9": "(A11 | (A9 -> A10))",
+        "prover9_expression": "(side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound)))",
+        "natural": "Either the side effects of the compound are known, or if the compound treats the target disease, then the mechanism of the compound is understood."
+      },
+      "(A12 → (A11 ∨ (A9 → A10)))": {
+        "formal": "(A12 → (A11 ∨ (A9 → A10)))",
+        "prover9": "(A12 -> (A11 | (A9 -> A10)))",
+        "prover9_expression": "(review_complete(internal_committee) -> (side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound))))",
+        "natural": "Whenever the internal committee review is complete, either the side effects of the compound are known or, in the event that the compound treats the target disease, the mechanism of the compound is understood."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(review_complete(internal_committee) | review_complete(external_committee))",
+        "natural": "Either the internal committee review is complete or the external committee review is complete."
+      },
+      "(A13 → (A11 ∨ (A9 → A10)))": {
+        "formal": "(A13 → (A11 ∨ (A9 → A10)))",
+        "prover9": "(A13 -> (A11 | (A9 -> A10)))",
+        "prover9_expression": "(review_complete(external_committee) -> (side_effects_known(compound) | (disease_treated(compound, target_disease) -> mechanism_understood(compound))))",
+        "natural": "Under the condition that the external committee review is complete, either the side effects of the compound are known or, if the compound treats the target disease, then the mechanism of the compound is understood."
+      },
+      "(A14 → A12)": {
+        "formal": "(A14 → A12)",
+        "prover9": "(A14 -> A12)",
+        "prover9_expression": "(committee_met(internal) -> review_complete(internal_committee))",
+        "natural": "If the internal committee has met, then the internal committee review is complete."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(committee_met(internal) | committee_met(external))",
+        "natural": "Either the internal committee has met or the external committee has met."
+      },
+      "(A15 → A13)": {
+        "formal": "(A15 → A13)",
+        "prover9": "(A15 -> A13)",
+        "prover9_expression": "(committee_met(external) -> review_complete(external_committee))",
+        "natural": "Provided that the external committee has met, the external committee review is complete."
+      },
+      "(A15 → A16)": {
+        "formal": "(A15 → A16)",
+        "prover9": "(A15 -> A16)",
+        "prover9_expression": "(committee_met(external) -> findings_submitted(external_committee))",
+        "natural": "If the external committee has met, then findings have been submitted by the external committee."
+      },
+      "(A16 → A13)": {
+        "formal": "(A16 → A13)",
+        "prover9": "(A16 -> A13)",
+        "prover9_expression": "(findings_submitted(external_committee) -> review_complete(external_committee))",
+        "natural": "Whenever findings have been submitted by the external committee, the external committee review is complete."
+      },
+      "(A18 ∨ (¬(A1 → G) → ¬A17))": {
+        "formal": "(A18 ∨ (¬(A1 → G) → ¬A17))",
+        "prover9": "(A18 | (-(A1 -> G) -> -A17))",
+        "prover9_expression": "(public_hearing_scheduled(compound) | (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound)))",
+        "natural": "Either a public hearing is scheduled for the compound, or if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound."
+      },
+      "(A19 → A18)": {
+        "formal": "(A19 → A18)",
+        "prover9": "(A19 -> A18)",
+        "prover9_expression": "(patient_advocacy_support(compound) -> public_hearing_scheduled(compound))",
+        "natural": "Given that there is patient advocacy support for the compound, a public hearing is scheduled for the compound."
+      },
+      "(A19 ∨ A20)": {
+        "formal": "(A19 ∨ A20)",
+        "prover9": "(A19 | A20)",
+        "prover9_expression": "(patient_advocacy_support(compound) | physician_support(compound))",
+        "natural": "Either there is patient advocacy support for the compound or there is physician support for the compound."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(authorized(researcher, lab_access) -> research_approved(compound))",
+        "natural": "If the researcher is authorized for lab access, then the compound is research approved."
+      },
+      "(A20 → (¬(A1 → G) → ¬A17))": {
+        "formal": "(A20 → (¬(A1 → G) → ¬A17))",
+        "prover9": "(A20 -> (-(A1 -> G) -> -A17))",
+        "prover9_expression": "(physician_support(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound)))",
+        "natural": "Under the condition that there is physician support for the compound, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound."
+      },
+      "(A22 → (¬(A19 ∨ A20) → A21))": {
+        "formal": "(A22 → (¬(A19 ∨ A20) → A21))",
+        "prover9": "(A22 -> (-(A19 | A20) -> A21))",
+        "prover9_expression": "(safety_data_collected(compound) -> (-(patient_advocacy_support(compound) | physician_support(compound)) -> regulatory_meeting_scheduled(compound)))",
+        "natural": "Provided that safety data has been collected for the compound, if it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, then a regulatory meeting is scheduled for the compound."
+      },
+      "(A23 → A22)": {
+        "formal": "(A23 → A22)",
+        "prover9": "(A23 -> A22)",
+        "prover9_expression": "(preclinical_trials_complete(compound) -> safety_data_collected(compound))",
+        "natural": "If preclinical trials are complete for the compound, then safety data has been collected for the compound."
+      },
+      "(A23 ∨ A24)": {
+        "formal": "(A23 ∨ A24)",
+        "prover9": "(A23 | A24)",
+        "prover9_expression": "(preclinical_trials_complete(compound) | manufacturing_standards_met(compound))",
+        "natural": "Either preclinical trials are complete for the compound or manufacturing standards have been met for the compound."
+      },
+      "(A24 → A22)": {
+        "formal": "(A24 → A22)",
+        "prover9": "(A24 -> A22)",
+        "prover9_expression": "(manufacturing_standards_met(compound) -> safety_data_collected(compound))",
+        "natural": "Whenever manufacturing standards have been met for the compound, safety data has been collected for the compound."
+      },
+      "(A26 → (¬(A1 → G) → A4))": {
+        "formal": "(A26 → (¬(A1 → G) → A4))",
+        "prover9": "(A26 -> (-(A1 -> G) -> A4))",
+        "prover9_expression": "(efficacy_data_submitted(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Given that efficacy data has been submitted for the compound, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      "(A27 ∨ (A6 → A26))": {
+        "formal": "(A27 ∨ (A6 → A26))",
+        "prover9": "(A27 | (A6 -> A26))",
+        "prover9_expression": "(adverse_events_reported(compound) | (protocol_approved(researcher, efficacy_study) -> efficacy_data_submitted(compound)))",
+        "natural": "Either adverse events have been reported for the compound, or if the researcher's efficacy study protocol is approved, then efficacy data has been submitted for the compound."
+      },
+      "(A28 ∨ ¬A27)": {
+        "formal": "(A28 ∨ ¬A27)",
+        "prover9": "(A28 | -A27)",
+        "prover9_expression": "(clinical_hold_issued(compound) | -adverse_events_reported(compound))",
+        "natural": "Either a clinical hold has been issued for the compound or adverse events have not been reported for the compound."
+      },
+      "(A30 → ¬A29)": {
+        "formal": "(A30 → ¬A29)",
+        "prover9": "(A30 -> -A29)",
+        "prover9_expression": "(quality_control_passed(compound) -> -trial_suspended(compound))",
+        "natural": "Provided that quality control has been passed for the compound, the trial is not suspended for the compound."
+      },
+      "(A31 → A30)": {
+        "formal": "(A31 → A30)",
+        "prover9": "(A31 -> A30)",
+        "prover9_expression": "(purity_verified(compound) -> quality_control_passed(compound))",
+        "natural": "If the purity of the compound is verified, then quality control has been passed for the compound."
+      },
+      "(A31 ∨ A32)": {
+        "formal": "(A31 ∨ A32)",
+        "prover9": "(A31 | A32)",
+        "prover9_expression": "(purity_verified(compound) | stability_confirmed(compound))",
+        "natural": "Either the purity of the compound is verified or the stability of the compound is confirmed."
+      },
+      "(A32 → A30)": {
+        "formal": "(A32 → A30)",
+        "prover9": "(A32 -> A30)",
+        "prover9_expression": "(stability_confirmed(compound) -> quality_control_passed(compound))",
+        "natural": "Under the condition that the stability of the compound is confirmed, quality control has been passed for the compound."
+      },
+      "(A34 → (A6 → (¬(A1 → G) → A4)))": {
+        "formal": "(A34 → (A6 → (¬(A1 → G) → A4)))",
+        "prover9": "(A34 -> (A6 -> (-(A1 -> G) -> A4)))",
+        "prover9_expression": "(regulatory_filing_submitted(compound) -> (protocol_approved(researcher, efficacy_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing))))",
+        "natural": "Whenever a regulatory filing has been submitted for the compound, if the researcher's efficacy study protocol is approved, then if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing."
+      },
+      "(A35 → A34)": {
+        "formal": "(A35 → A34)",
+        "prover9": "(A35 -> A34)",
+        "prover9_expression": "(preclinical_data_complete(compound) -> regulatory_filing_submitted(compound))",
+        "natural": "If preclinical data is complete for the compound, then a regulatory filing has been submitted for the compound."
+      },
+      "(A35 ∨ A36)": {
+        "formal": "(A35 ∨ A36)",
+        "prover9": "(A35 | A36)",
+        "prover9_expression": "(preclinical_data_complete(compound) | clinical_data_complete(compound))",
+        "natural": "Either preclinical data is complete for the compound or clinical data is complete for the compound."
+      },
+      "(A36 → A34)": {
+        "formal": "(A36 → A34)",
+        "prover9": "(A36 -> A34)",
+        "prover9_expression": "(clinical_data_complete(compound) -> regulatory_filing_submitted(compound))",
+        "natural": "Provided that clinical data is complete for the compound, a regulatory filing has been submitted for the compound."
+      },
+      "(A38 → (¬(A1 → G) → A3))": {
+        "formal": "(A38 → (¬(A1 → G) → A3))",
+        "prover9": "(A38 -> (-(A1 -> G) -> A3))",
+        "prover9_expression": "(patent_protected(compound) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, human_trials)))",
+        "natural": "Whenever the compound is patent protected, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for human trials."
+      },
+      "(A39 → A40)": {
+        "formal": "(A39 → A40)",
+        "prover9": "(A39 -> A40)",
+        "prover9_expression": "(patent_expired(compound) -> generic_competition(compound))",
+        "natural": "If the patent for the compound has expired, then there is generic competition for the compound."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(approved(compound, animal_testing) -> approved(compound, human_trials))",
+        "natural": "Under the condition that the compound is approved for animal testing, the compound is approved for human trials."
+      },
+      "(A40 → A41)": {
+        "formal": "(A40 → A41)",
+        "prover9": "(A40 -> A41)",
+        "prover9_expression": "(generic_competition(compound) -> market_exclusivity(compound))",
+        "natural": "Given that there is generic competition for the compound, there is market exclusivity for the compound."
+      },
+      "(A41 → A42)": {
+        "formal": "(A41 → A42)",
+        "prover9": "(A41 -> A42)",
+        "prover9_expression": "(market_exclusivity(compound) -> price_regulated(compound))",
+        "natural": "If there is market exclusivity for the compound, then the price of the compound is regulated."
+      },
+      "(A41 → A43)": {
+        "formal": "(A41 → A43)",
+        "prover9": "(A41 -> A43)",
+        "prover9_expression": "(market_exclusivity(compound) -> premium_pricing(compound))",
+        "natural": "Provided that there is market exclusivity for the compound, the compound has premium pricing."
+      },
+      "(A41 → ¬A42)": {
+        "formal": "(A41 → ¬A42)",
+        "prover9": "(A41 -> -A42)",
+        "prover9_expression": "(market_exclusivity(compound) -> -price_regulated(compound))",
+        "natural": "Whenever there is market exclusivity for the compound, the price of the compound is not regulated."
+      },
+      "(A43 → ¬A42)": {
+        "formal": "(A43 → ¬A42)",
+        "prover9": "(A43 -> -A42)",
+        "prover9_expression": "(premium_pricing(compound) -> -price_regulated(compound))",
+        "natural": "If the compound has premium pricing, then the price of the compound is not regulated."
+      },
+      "(A5 → (¬(A1 → G) → A4))": {
+        "formal": "(A5 → (¬(A1 → G) → A4))",
+        "prover9": "(A5 -> (-(A1 -> G) -> A4))",
+        "prover9_expression": "(protocol_approved(researcher, safety_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Under the condition that the researcher's safety study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(protocol_approved(researcher, safety_study) | protocol_approved(researcher, efficacy_study))",
+        "natural": "Either the researcher's safety study protocol is approved or the researcher's efficacy study protocol is approved."
+      },
+      "(A6 → (¬(A1 → G) → A4))": {
+        "formal": "(A6 → (¬(A1 → G) → A4))",
+        "prover9": "(A6 -> (-(A1 -> G) -> A4))",
+        "prover9_expression": "(protocol_approved(researcher, efficacy_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Provided that the researcher's efficacy study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      "(A6 → A26)": {
+        "formal": "(A6 → A26)",
+        "prover9": "(A6 -> A26)",
+        "prover9_expression": "(protocol_approved(researcher, efficacy_study) -> efficacy_data_submitted(compound))",
+        "natural": "If the researcher's efficacy study protocol is approved, then efficacy data has been submitted for the compound."
+      },
+      "(A6 → A7)": {
+        "formal": "(A6 → A7)",
+        "prover9": "(A6 -> A7)",
+        "prover9_expression": "(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study))",
+        "natural": "Whenever the researcher's efficacy study protocol is approved, the researcher's toxicity study protocol is approved."
+      },
+      "(A7 → (¬(A1 → G) → A4))": {
+        "formal": "(A7 → (¬(A1 → G) → A4))",
+        "prover9": "(A7 -> (-(A1 -> G) -> A4))",
+        "prover9_expression": "(protocol_approved(researcher, toxicity_study) -> (-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing)))",
+        "natural": "Given that the researcher's toxicity study protocol is approved, if it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then the compound is approved for animal testing."
+      },
+      "(A9 → A10)": {
+        "formal": "(A9 → A10)",
+        "prover9": "(A9 -> A10)",
+        "prover9_expression": "(disease_treated(compound, target_disease) -> mechanism_understood(compound))",
+        "natural": "If the compound treats the target disease, then the mechanism of the compound is understood."
+      },
+      "(A9 → A3)": {
+        "formal": "(A9 → A3)",
+        "prover9": "(A9 -> A3)",
+        "prover9_expression": "(disease_treated(compound, target_disease) -> approved(compound, human_trials))",
+        "natural": "Provided that the compound treats the target disease, the compound is approved for human trials."
+      },
+      "(¬(A1 → G) → A17)": {
+        "formal": "(¬(A1 → G) → A17)",
+        "prover9": "(-(A1 -> G) -> A17)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> emergency_approval_granted(compound))",
+        "natural": "If it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has been granted for the compound."
+      },
+      "(¬(A1 → G) → A3)": {
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9": "(-(A1 -> G) -> A3)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, human_trials))",
+        "natural": "Under the condition that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for human trials."
+      },
+      "(¬(A1 → G) → A4)": {
+        "formal": "(¬(A1 → G) → A4)",
+        "prover9": "(-(A1 -> G) -> A4)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> approved(compound, animal_testing))",
+        "natural": "Whenever it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is approved for animal testing."
+      },
+      "(¬(A1 → G) → A9)": {
+        "formal": "(¬(A1 → G) → A9)",
+        "prover9": "(-(A1 -> G) -> A9)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> disease_treated(compound, target_disease))",
+        "natural": "Given that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound treats the target disease."
+      },
+      "(¬(A1 → G) → ¬A17)": {
+        "formal": "(¬(A1 → G) → ¬A17)",
+        "prover9": "(-(A1 -> G) -> -A17)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -emergency_approval_granted(compound))",
+        "natural": "If it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, then emergency approval has not been granted for the compound."
+      },
+      "(¬(A1 → G) → ¬A3)": {
+        "formal": "(¬(A1 → G) → ¬A3)",
+        "prover9": "(-(A1 -> G) -> -A3)",
+        "prover9_expression": "(-(authorized(researcher, clinical_trial) -> research_approved(compound)) -> -approved(compound, human_trials))",
+        "natural": "Provided that it is not the case that if the researcher is authorized for clinical trials, then the compound is research approved, the compound is not approved for human trials."
+      },
+      "(¬(A19 ∨ A20) → A21)": {
+        "formal": "(¬(A19 ∨ A20) → A21)",
+        "prover9": "(-(A19 | A20) -> A21)",
+        "prover9_expression": "(-(patient_advocacy_support(compound) | physician_support(compound)) -> regulatory_meeting_scheduled(compound))",
+        "natural": "If it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, then a regulatory meeting is scheduled for the compound."
+      },
+      "(¬(A19 ∨ A20) → ¬A21)": {
+        "formal": "(¬(A19 ∨ A20) → ¬A21)",
+        "prover9": "(-(A19 | A20) -> -A21)",
+        "prover9_expression": "(-(patient_advocacy_support(compound) | physician_support(compound)) -> -regulatory_meeting_scheduled(compound))",
+        "natural": "Under the condition that it is not the case that either there is patient advocacy support for the compound or there is physician support for the compound, a regulatory meeting is not scheduled for the compound."
+      },
+      "(¬(A23 → A22) → A25)": {
+        "formal": "(¬(A23 → A22) → A25)",
+        "prover9": "(-(A23 -> A22) -> A25)",
+        "prover9_expression": "(-(preclinical_trials_complete(compound) -> safety_data_collected(compound)) -> manufacturing_issues(compound))",
+        "natural": "If it is not the case that if preclinical trials are complete for the compound, then safety data has been collected for the compound, then there are manufacturing issues with the compound."
+      },
+      "(¬(A23 → A22) → ¬A25)": {
+        "formal": "(¬(A23 → A22) → ¬A25)",
+        "prover9": "(-(A23 -> A22) -> -A25)",
+        "prover9_expression": "(-(preclinical_trials_complete(compound) -> safety_data_collected(compound)) -> -manufacturing_issues(compound))",
+        "natural": "Whenever it is not the case that if preclinical trials are complete for the compound, then safety data has been collected for the compound, there are no manufacturing issues with the compound."
+      },
+      "(¬(A28 ∨ ¬A27) → A29)": {
+        "formal": "(¬(A28 ∨ ¬A27) → A29)",
+        "prover9": "(-(A28 | -A27) -> A29)",
+        "prover9_expression": "(-(clinical_hold_issued(compound) | -adverse_events_reported(compound)) -> trial_suspended(compound))",
+        "natural": "Provided that it is not the case that either a clinical hold has been issued for the compound or adverse events have not been reported for the compound, the trial is suspended for the compound."
+      },
+      "(¬(A31 → A30) → A33)": {
+        "formal": "(¬(A31 → A30) → A33)",
+        "prover9": "(-(A31 -> A30) -> A33)",
+        "prover9_expression": "(-(purity_verified(compound) -> quality_control_passed(compound)) -> quality_issues(compound))",
+        "natural": "If it is not the case that if the purity of the compound is verified, then quality control has been passed for the compound, then there are quality issues with the compound."
+      },
+      "(¬(A35 ∨ A36) → A37)": {
+        "formal": "(¬(A35 ∨ A36) → A37)",
+        "prover9": "(-(A35 | A36) -> A37)",
+        "prover9_expression": "(-(preclinical_data_complete(compound) | clinical_data_complete(compound)) -> filing_incomplete(compound))",
+        "natural": "Under the condition that it is not the case that either preclinical data is complete for the compound or clinical data is complete for the compound, the filing is incomplete for the compound."
+      },
+      "(¬(A35 ∨ A36) → ¬A37)": {
+        "formal": "(¬(A35 ∨ A36) → ¬A37)",
+        "prover9": "(-(A35 | A36) -> -A37)",
+        "prover9_expression": "(-(preclinical_data_complete(compound) | clinical_data_complete(compound)) -> -filing_incomplete(compound))",
+        "natural": "Whenever it is not the case that either preclinical data is complete for the compound or clinical data is complete for the compound, the filing is not incomplete for the compound."
+      },
+      "(¬(A6 → A7) → A8)": {
+        "formal": "(¬(A6 → A7) → A8)",
+        "prover9": "(-(A6 -> A7) -> A8)",
+        "prover9_expression": "(-(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study)) -> protocol_approved(researcher, bioavailability_study))",
+        "natural": "If it is not the case that if the researcher's efficacy study protocol is approved, then the researcher's toxicity study protocol is approved, then the researcher's bioavailability study protocol is approved."
+      },
+      "(¬(A6 → A7) → ¬A8)": {
+        "formal": "(¬(A6 → A7) → ¬A8)",
+        "prover9": "(-(A6 -> A7) -> -A8)",
+        "prover9_expression": "(-(protocol_approved(researcher, efficacy_study) -> protocol_approved(researcher, toxicity_study)) -> -protocol_approved(researcher, bioavailability_study))",
+        "natural": "Provided that it is not the case that if the researcher's efficacy study protocol is approved, then the researcher's toxicity study protocol is approved, the researcher's bioavailability study protocol is not approved."
+      },
+      "(¬A38 → A39)": {
+        "formal": "(¬A38 → A39)",
+        "prover9": "(-A38 -> A39)",
+        "prover9_expression": "(-patent_protected(compound) -> patent_expired(compound))",
+        "natural": "If the compound is not patent protected, then the patent for the compound has expired."
+      },
+      "A22": {
+        "formal": "A22",
+        "prover9": "A22",
+        "prover9_expression": "safety_data_collected(compound)",
+        "natural": "Safety data has been collected for the compound."
+      },
+      "A30": {
+        "formal": "A30",
+        "prover9": "A30",
+        "prover9_expression": "quality_control_passed(compound)",
+        "natural": "Quality control has been passed for the compound."
+      },
+      "A34": {
+        "formal": "A34",
+        "prover9": "A34",
+        "prover9_expression": "regulatory_filing_submitted(compound)",
+        "natural": "A regulatory filing has been submitted for the compound."
+      },
+      "A38": {
+        "formal": "A38",
+        "prover9": "A38",
+        "prover9_expression": "patent_protected(compound)",
+        "natural": "The compound is patent protected."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "research_approved(compound)",
+        "natural": "The compound is research approved."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-side_effects_known(compound)",
+        "natural": "The side effects of the compound are not known."
+      },
+      "¬A18": {
+        "formal": "¬A18",
+        "prover9": "-A18",
+        "prover9_expression": "-public_hearing_scheduled(compound)",
+        "natural": "A public hearing is not scheduled for the compound."
+      },
+      "¬A27": {
+        "formal": "¬A27",
+        "prover9": "-A27",
+        "prover9_expression": "-adverse_events_reported(compound)",
+        "natural": "Adverse events have not been reported for the compound."
+      },
+      "¬A28": {
+        "formal": "¬A28",
+        "prover9": "-A28",
+        "prover9_expression": "-clinical_hold_issued(compound)",
+        "natural": "A clinical hold has not been issued for the compound."
+      },
+      "¬A29": {
+        "formal": "¬A29",
+        "prover9": "-A29",
+        "prover9_expression": "-trial_suspended(compound)",
+        "natural": "The trial is not suspended for the compound."
+      },
+      "¬A33": {
+        "formal": "¬A33",
+        "prover9": "-A33",
+        "prover9_expression": "-quality_issues(compound)",
+        "natural": "There are no quality issues with the compound."
+      },
+      "¬A39": {
+        "formal": "¬A39",
+        "prover9": "-A39",
+        "prover9_expression": "-patent_expired(compound)",
+        "natural": "The patent for the compound has not expired."
+      },
+      "¬A40": {
+        "formal": "¬A40",
+        "prover9": "-A40",
+        "prover9_expression": "-generic_competition(compound)",
+        "natural": "There is no generic competition for the compound."
+      },
+      "¬A41": {
+        "formal": "¬A41",
+        "prover9": "-A41",
+        "prover9_expression": "-market_exclusivity(compound)",
+        "natural": "There is no market exclusivity for the compound."
+      }
+    }
+  }
+}

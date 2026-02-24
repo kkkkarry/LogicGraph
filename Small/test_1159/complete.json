@@ -1,0 +1,325 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 → A3)",
+        "prover9_expression": "(oil_spill_occurs(river) -> ecological_damage(river))",
+        "natural": "If an oil spill occurs in the river, then ecological damage follows in the river."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(ecological_damage(river) -> water_contamination(river))",
+        "natural": "Whenever ecological damage occurs in the river, water contamination follows in the river."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A4 → ¬A1)",
+        "prover9_expression": "(water_contamination(river) -> -pollution_occurs(river))",
+        "natural": "If water contamination occurs in the river, then pollution does not happen in the river."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A5 → ¬A1)",
+        "prover9_expression": "(public_protest_occurs(river) -> -pollution_occurs(river))",
+        "natural": "Provided that a public protest occurs regarding the river, pollution does not occur in the river."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 ∨ A5)",
+        "prover9_expression": "(government_approves_development(river) | public_protest_occurs(river))",
+        "natural": "Either the government approves development related to the river or a public protest occurs regarding the river."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A7 ∨ ¬A6)",
+        "prover9_expression": "(cleanup_operation_conducted(river) | -government_approves_development(river))",
+        "natural": "A cleanup operation is conducted in the river, or it is not the case that the government approves development related to the river."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-protected_status(river) -> pollution_occurs(river))",
+        "natural": "If the river does not have protected status, then pollution occurs in the river."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A2",
+        "prover9_expression": "oil_spill_occurs(river)",
+        "natural": "An oil spill occurs in the river."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A7",
+        "prover9_expression": "-cleanup_operation_conducted(river)",
+        "natural": "A cleanup operation is not conducted in the river."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "protected_status(river)",
+    "natural": "The river has protected status."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> -A1)"
+          ],
+          "conclusion": "(A3 -> -A1)",
+          "natural": "Under the condition that ecological damage occurs in the river, pollution does not occur in the river."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "Provided that an oil spill occurs in the river, it is not the case that pollution occurs in the river."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "Pollution does not occur in the river."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The river has protected status."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | -A6)",
+            "-A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "The government does not approve development related to the river."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | A5)",
+            "-A6"
+          ],
+          "conclusion": "A5",
+          "natural": "A public protest occurs regarding the river."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> -A1)",
+            "A5"
+          ],
+          "conclusion": "-A1",
+          "natural": "Pollution does not occur in the river."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The river has protected status."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Environmental Protection",
+    "atomic_facts": {
+      "A1": "pollution_occurs(river)",
+      "A2": "oil_spill_occurs(river)",
+      "A3": "ecological_damage(river)",
+      "A4": "water_contamination(river)",
+      "A5": "public_protest_occurs(river)",
+      "A6": "government_approves_development(river)",
+      "A7": "cleanup_operation_conducted(river)",
+      "G": "protected_status(river)"
+    },
+    "natural_facts": {
+      "A1": "Pollution occurs in the river.",
+      "A2": "An oil spill occurs in the river.",
+      "A3": "Ecological damage occurs in the river.",
+      "A4": "Water contamination occurs in the river.",
+      "A5": "A public protest occurs regarding the river.",
+      "A6": "The government approves development related to the river.",
+      "A7": "A cleanup operation is conducted in the river.",
+      "G": "The river has protected status."
+    },
+    "prover9_expressions": [
+      "(oil_spill_occurs(river) -> ecological_damage(river))",
+      "(oil_spill_occurs(river) -> -pollution_occurs(river))",
+      "(ecological_damage(river) -> water_contamination(river))",
+      "(ecological_damage(river) -> -pollution_occurs(river))",
+      "(water_contamination(river) -> -pollution_occurs(river))",
+      "(public_protest_occurs(river) -> -pollution_occurs(river))",
+      "(government_approves_development(river) | public_protest_occurs(river))",
+      "(cleanup_operation_conducted(river) | -government_approves_development(river))",
+      "(-protected_status(river) -> pollution_occurs(river))",
+      "oil_spill_occurs(river)",
+      "public_protest_occurs(river)",
+      "protected_status(river)",
+      "-pollution_occurs(river)",
+      "-government_approves_development(river)",
+      "-cleanup_operation_conducted(river)"
+    ],
+    "natural_expressions": [
+      "If an oil spill occurs in the river, then ecological damage follows in the river.",
+      "Provided that an oil spill occurs in the river, it is not the case that pollution occurs in the river.",
+      "Whenever ecological damage occurs in the river, water contamination follows in the river.",
+      "Under the condition that ecological damage occurs in the river, pollution does not occur in the river.",
+      "If water contamination occurs in the river, then pollution does not happen in the river.",
+      "Provided that a public protest occurs regarding the river, pollution does not occur in the river.",
+      "Either the government approves development related to the river or a public protest occurs regarding the river.",
+      "A cleanup operation is conducted in the river, or it is not the case that the government approves development related to the river.",
+      "If the river does not have protected status, then pollution occurs in the river.",
+      "An oil spill occurs in the river.",
+      "A public protest occurs regarding the river.",
+      "The river has protected status.",
+      "Pollution does not occur in the river.",
+      "The government does not approve development related to the river.",
+      "A cleanup operation is not conducted in the river."
+    ],
+    "node_mappings": {
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(oil_spill_occurs(river) -> ecological_damage(river))",
+        "natural": "If an oil spill occurs in the river, then ecological damage follows in the river."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(oil_spill_occurs(river) -> -pollution_occurs(river))",
+        "natural": "Provided that an oil spill occurs in the river, it is not the case that pollution occurs in the river."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(ecological_damage(river) -> water_contamination(river))",
+        "natural": "Whenever ecological damage occurs in the river, water contamination follows in the river."
+      },
+      "(A3 → ¬A1)": {
+        "formal": "(A3 → ¬A1)",
+        "prover9": "(A3 -> -A1)",
+        "prover9_expression": "(ecological_damage(river) -> -pollution_occurs(river))",
+        "natural": "Under the condition that ecological damage occurs in the river, pollution does not occur in the river."
+      },
+      "(A4 → ¬A1)": {
+        "formal": "(A4 → ¬A1)",
+        "prover9": "(A4 -> -A1)",
+        "prover9_expression": "(water_contamination(river) -> -pollution_occurs(river))",
+        "natural": "If water contamination occurs in the river, then pollution does not happen in the river."
+      },
+      "(A5 → ¬A1)": {
+        "formal": "(A5 → ¬A1)",
+        "prover9": "(A5 -> -A1)",
+        "prover9_expression": "(public_protest_occurs(river) -> -pollution_occurs(river))",
+        "natural": "Provided that a public protest occurs regarding the river, pollution does not occur in the river."
+      },
+      "(A6 ∨ A5)": {
+        "formal": "(A6 ∨ A5)",
+        "prover9": "(A6 | A5)",
+        "prover9_expression": "(government_approves_development(river) | public_protest_occurs(river))",
+        "natural": "Either the government approves development related to the river or a public protest occurs regarding the river."
+      },
+      "(A7 ∨ ¬A6)": {
+        "formal": "(A7 ∨ ¬A6)",
+        "prover9": "(A7 | -A6)",
+        "prover9_expression": "(cleanup_operation_conducted(river) | -government_approves_development(river))",
+        "natural": "A cleanup operation is conducted in the river, or it is not the case that the government approves development related to the river."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-protected_status(river) -> pollution_occurs(river))",
+        "natural": "If the river does not have protected status, then pollution occurs in the river."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "oil_spill_occurs(river)",
+        "natural": "An oil spill occurs in the river."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "public_protest_occurs(river)",
+        "natural": "A public protest occurs regarding the river."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "protected_status(river)",
+        "natural": "The river has protected status."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-pollution_occurs(river)",
+        "natural": "Pollution does not occur in the river."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-government_approves_development(river)",
+        "natural": "The government does not approve development related to the river."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-cleanup_operation_conducted(river)",
+        "natural": "A cleanup operation is not conducted in the river."
+      }
+    }
+  }
+}

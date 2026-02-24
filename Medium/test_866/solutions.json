@@ -1,0 +1,747 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(approved(producers, final_cut) -> approved(network, final_cut))",
+              "natural": "If the producers approve the final cut, then the network also approves the final cut."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A4 -> -A5)",
+              "prover9_expression": "(approved(producers, final_cut) -> -approved(network, final_cut))",
+              "natural": "Should the producers approve the final cut, then it is not the case that the network approves the final cut."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "The producers did not approve the final cut."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A4 | (A3 | -A2))",
+              "prover9_expression": "(approved(producers, final_cut) | (ready(script, filming) | -scheduled(filming, studio_time)))",
+              "natural": "Either the producers approve the final cut, or the script is ready for filming, or filming is not scheduled for studio time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-approved(producers, final_cut)",
+              "natural": "The producers did not approve the final cut."
+            }
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "Either the script is ready for filming, or filming is not scheduled for studio time."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | -A2)",
+              "prover9_expression": "(ready(script, filming) | -scheduled(filming, studio_time))",
+              "natural": "Either the script is ready for filming, or filming is not scheduled for studio time."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A3",
+              "prover9_expression": "-ready(script, filming)",
+              "natural": "The script was not ready for filming."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "Filming was not scheduled for studio time."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-greenlit(show, production) -> approved(budget_committee, pilot_episode)) -> scheduled(filming, studio_time))",
+              "natural": "If it is not true that the show not being greenlit implies the budget committee did not approve the pilot episode, then filming is scheduled for studio time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-scheduled(filming, studio_time)",
+              "natural": "Filming was not scheduled for studio time."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-greenlit(show, production) -> approved(budget_committee, pilot_episode))",
+              "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(budget_committee, pilot_episode)",
+              "natural": "The budget committee did not approve the pilot episode."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show is greenlit for production."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(submitted(producers, renewal_proposal) -> reviewed(network, renewal_proposal))",
+              "natural": "Whenever the producers submit a renewal proposal, the network reviews it."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A9 -> -A7)",
+              "prover9_expression": "(reviewed(network, renewal_proposal) -> -renewed(show, next_season))",
+              "natural": "Provided that the network reviews the renewal proposal, the show is not renewed for the next season."
+            }
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "If the producers submit a renewal proposal, then the show is not renewed for the next season."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-(-G -> -A6) -> A8)",
+              "prover9_expression": "(-(-greenlit(show, production) -> -compliant(show, broadcasting_standards)) -> submitted(producers, renewal_proposal))",
+              "natural": "Under the condition that the show not being greenlit does not imply non-compliance, the producers submit a renewal proposal."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(submitted(producers, renewal_proposal) -> -renewed(show, next_season))",
+              "natural": "If the producers submit a renewal proposal, then the show is not renewed for the next season."
+            }
+          ],
+          "conclusion": "(-(-G -> -A6) -> -A7)",
+          "natural": "Whenever it is not the case that non-greenlighting implies non-compliance, the show is not renewed for the next season."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(-G -> -A6) -> A7)",
+              "prover9_expression": "(-(-greenlit(show, production) -> -compliant(show, broadcasting_standards)) -> renewed(show, next_season))",
+              "natural": "Provided that it is false that the show not being greenlit leads to non-compliance with broadcasting standards, the show is renewed for the next season."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A6) -> -A7)",
+              "prover9_expression": "(-(-greenlit(show, production) -> -compliant(show, broadcasting_standards)) -> -renewed(show, next_season))",
+              "natural": "Whenever it is not the case that non-greenlighting implies non-compliance, the show is not renewed for the next season."
+            }
+          ],
+          "conclusion": "(-G -> -A6)",
+          "natural": "If the show is not greenlit for production, then it is not compliant with broadcasting standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> A6)",
+              "prover9_expression": "(-greenlit(show, production) -> compliant(show, broadcasting_standards))",
+              "natural": "Should the show not be greenlit for production, then it is compliant with broadcasting standards."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A6)",
+              "prover9_expression": "(-greenlit(show, production) -> -compliant(show, broadcasting_standards))",
+              "natural": "If the show is not greenlit for production, then it is not compliant with broadcasting standards."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show is greenlit for production."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(-(A13 -> A11) -> A14)",
+              "prover9_expression": "(-(tested(lighting_equipment, proper_functioning) -> available(sound_equipment, filming)) -> approved(producers, alternative_lighting))",
+              "natural": "If it is not true that testing the lighting equipment for proper functioning implies sound equipment availability, then the producers approve alternative lighting."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(-(A13 -> A11) -> -A14)",
+              "prover9_expression": "(-(tested(lighting_equipment, proper_functioning) -> available(sound_equipment, filming)) -> -approved(producers, alternative_lighting))",
+              "natural": "Under the condition that testing the lighting equipment for proper functioning does not necessitate sound equipment availability, the producers do not approve alternative lighting."
+            }
+          ],
+          "conclusion": "(A13 -> A11)",
+          "natural": "Under the condition that lighting equipment is tested for proper functioning, sound equipment becomes available for filming."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> A13)",
+              "prover9_expression": "(available(lighting_equipment, filming) -> tested(lighting_equipment, proper_functioning))",
+              "natural": "Whenever lighting equipment is available for filming, it has been tested for proper functioning."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(tested(lighting_equipment, proper_functioning) -> available(sound_equipment, filming))",
+              "natural": "Under the condition that lighting equipment is tested for proper functioning, sound equipment becomes available for filming."
+            }
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "Provided that lighting equipment is available for filming, sound equipment is also available."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A2 -> A12)",
+              "prover9_expression": "(scheduled(filming, studio_time) -> available(lighting_equipment, filming))",
+              "natural": "When filming is scheduled for studio time, lighting equipment is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(available(lighting_equipment, filming) -> available(sound_equipment, filming))",
+              "natural": "Provided that lighting equipment is available for filming, sound equipment is also available."
+            }
+          ],
+          "conclusion": "(A2 -> A11)",
+          "natural": "Filming being scheduled for studio time implies that sound equipment is available."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A11)",
+              "prover9_expression": "(scheduled(filming, studio_time) -> available(sound_equipment, filming))",
+              "natural": "Filming being scheduled for studio time implies that sound equipment is available."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> -A10)",
+              "prover9_expression": "(available(sound_equipment, filming) -> -available(camera_equipment, filming))",
+              "natural": "If sound equipment is available for filming, then camera equipment is not available for filming."
+            }
+          ],
+          "conclusion": "(A2 -> -A10)",
+          "natural": "If filming is scheduled for studio time, then camera equipment is not available."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> A10)",
+              "prover9_expression": "(scheduled(filming, studio_time) -> available(camera_equipment, filming))",
+              "natural": "For filming to be scheduled for studio time, camera equipment must be available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> -A10)",
+              "prover9_expression": "(scheduled(filming, studio_time) -> -available(camera_equipment, filming))",
+              "natural": "If filming is scheduled for studio time, then camera equipment is not available."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "Filming was not scheduled for studio time."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-greenlit(show, production) -> approved(budget_committee, pilot_episode)) -> scheduled(filming, studio_time))",
+              "natural": "If it is not true that the show not being greenlit implies the budget committee did not approve the pilot episode, then filming is scheduled for studio time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-scheduled(filming, studio_time)",
+              "natural": "Filming was not scheduled for studio time."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-greenlit(show, production) -> approved(budget_committee, pilot_episode))",
+              "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(budget_committee, pilot_episode)",
+              "natural": "The budget committee did not approve the pilot episode."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show is greenlit for production."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A18 | A19)",
+              "prover9_expression": "(authorized(producers, overtime_budget) | authorized(network_executive, overtime_budget))",
+              "natural": "Either the producers authorized the overtime budget, or the network executive authorized the overtime budget."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A18 -> (-(A3 | -A2) -> A17))",
+              "prover9_expression": "(authorized(producers, overtime_budget) -> (-(ready(script, filming) | -scheduled(filming, studio_time)) -> delivered(final_episode, network)))",
+              "natural": "Given that the producers authorized the overtime budget, if either the script is not ready for filming or filming is not scheduled for studio time, then the final episode is delivered to the network."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A19 -> (-(A3 | -A2) -> A17))",
+              "prover9_expression": "(authorized(network_executive, overtime_budget) -> (-(ready(script, filming) | -scheduled(filming, studio_time)) -> delivered(final_episode, network)))",
+              "natural": "Should the network executive authorize the overtime budget, then if the script is not ready for filming or filming is not scheduled for studio time, the final episode is delivered to the network."
+            }
+          ],
+          "conclusion": "(-(A3 | -A2) -> A17)",
+          "natural": "Under the condition that the script is not ready or filming is not scheduled, the final episode is delivered to the network."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 | -A2) -> A17)",
+              "prover9_expression": "(-(ready(script, filming) | -scheduled(filming, studio_time)) -> delivered(final_episode, network))",
+              "natural": "Under the condition that the script is not ready or filming is not scheduled, the final episode is delivered to the network."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A17 -> A16)",
+              "prover9_expression": "(delivered(final_episode, network) -> completed(editing, deadline))",
+              "natural": "Delivery of the final episode to the network occurs only if editing is completed by the deadline."
+            }
+          ],
+          "conclusion": "(-(A3 | -A2) -> A16)",
+          "natural": "Whenever the script is not ready or filming is not scheduled, editing is completed by the deadline."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 | -A2) -> A16)",
+              "prover9_expression": "(-(ready(script, filming) | -scheduled(filming, studio_time)) -> completed(editing, deadline))",
+              "natural": "Whenever the script is not ready or filming is not scheduled, editing is completed by the deadline."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A16 -> -A15)",
+              "prover9_expression": "(completed(editing, deadline) -> -completed(post_production, schedule))",
+              "natural": "If editing is completed by the deadline, then post-production is not completed on schedule."
+            }
+          ],
+          "conclusion": "(-(A3 | -A2) -> -A15)",
+          "natural": "If the script is not ready for filming or filming is not scheduled for studio time, then post-production is not completed on schedule."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(A3 | -A2) -> A15)",
+              "prover9_expression": "(-(ready(script, filming) | -scheduled(filming, studio_time)) -> completed(post_production, schedule))",
+              "natural": "If the script is not ready for filming or filming is not scheduled for studio time, then post-production is completed on schedule."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 | -A2) -> -A15)",
+              "prover9_expression": "(-(ready(script, filming) | -scheduled(filming, studio_time)) -> -completed(post_production, schedule))",
+              "natural": "If the script is not ready for filming or filming is not scheduled for studio time, then post-production is not completed on schedule."
+            }
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "Either the script is ready for filming, or filming is not scheduled for studio time."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | -A2)",
+              "prover9_expression": "(ready(script, filming) | -scheduled(filming, studio_time))",
+              "natural": "Either the script is ready for filming, or filming is not scheduled for studio time."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A3",
+              "prover9_expression": "-ready(script, filming)",
+              "natural": "The script was not ready for filming."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "Filming was not scheduled for studio time."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-greenlit(show, production) -> approved(budget_committee, pilot_episode)) -> scheduled(filming, studio_time))",
+              "natural": "If it is not true that the show not being greenlit implies the budget committee did not approve the pilot episode, then filming is scheduled for studio time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-scheduled(filming, studio_time)",
+              "natural": "Filming was not scheduled for studio time."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-greenlit(show, production) -> approved(budget_committee, pilot_episode))",
+              "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(budget_committee, pilot_episode)",
+              "natural": "The budget committee did not approve the pilot episode."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show is greenlit for production."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A22 | (-(A20 | (A3 | -A2)) -> -A21))",
+              "prover9_expression": "(resolved(grievance, production_crew) | (-(approved(union, extended_filming_hours) | (ready(script, filming) | -scheduled(filming, studio_time))) -> -filed(grievance, production_crew)))",
+              "natural": "Either the grievance with the production crew is resolved, or if the union does not approve extended filming hours and either the script is not ready or filming is not scheduled, then no grievance is filed by the production crew."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A22",
+              "prover9_expression": "-resolved(grievance, production_crew)",
+              "natural": "The grievance was not resolved with the production crew."
+            }
+          ],
+          "conclusion": "(-(A20 | (A3 | -A2)) -> -A21)",
+          "natural": "Whenever the union does not approve extended filming hours and either the script is not ready or filming is not scheduled, the production crew does not file a grievance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(A20 | (A3 | -A2)) -> A21)",
+              "prover9_expression": "(-(approved(union, extended_filming_hours) | (ready(script, filming) | -scheduled(filming, studio_time))) -> filed(grievance, production_crew))",
+              "natural": "If the union does not approve extended filming hours and either the script is not ready or filming is not scheduled, then the production crew files a grievance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A20 | (A3 | -A2)) -> -A21)",
+              "prover9_expression": "(-(approved(union, extended_filming_hours) | (ready(script, filming) | -scheduled(filming, studio_time))) -> -filed(grievance, production_crew))",
+              "natural": "Whenever the union does not approve extended filming hours and either the script is not ready or filming is not scheduled, the production crew does not file a grievance."
+            }
+          ],
+          "conclusion": "(A20 | (A3 | -A2))",
+          "natural": "Either the union approves extended filming hours, or the script is ready for filming, or filming is not scheduled for studio time."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | (A3 | -A2))",
+              "prover9_expression": "(approved(union, extended_filming_hours) | (ready(script, filming) | -scheduled(filming, studio_time)))",
+              "natural": "Either the union approves extended filming hours, or the script is ready for filming, or filming is not scheduled for studio time."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A20",
+              "prover9_expression": "-approved(union, extended_filming_hours)",
+              "natural": "The union did not approve extended filming hours."
+            }
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "Either the script is ready for filming, or filming is not scheduled for studio time."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | -A2)",
+              "prover9_expression": "(ready(script, filming) | -scheduled(filming, studio_time))",
+              "natural": "Either the script is ready for filming, or filming is not scheduled for studio time."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A3",
+              "prover9_expression": "-ready(script, filming)",
+              "natural": "The script was not ready for filming."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "Filming was not scheduled for studio time."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-greenlit(show, production) -> approved(budget_committee, pilot_episode)) -> scheduled(filming, studio_time))",
+              "natural": "If it is not true that the show not being greenlit implies the budget committee did not approve the pilot episode, then filming is scheduled for studio time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-scheduled(filming, studio_time)",
+              "natural": "Filming was not scheduled for studio time."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-greenlit(show, production) -> approved(budget_committee, pilot_episode))",
+              "natural": "If the show is not greenlit for production, then the budget committee approved the pilot episode."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(budget_committee, pilot_episode)",
+              "natural": "The budget committee did not approve the pilot episode."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show is greenlit for production."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A24 | (-G -> A23)) -> A25)",
+              "prover9_expression": "(-(submitted(producers, appeal_decision) | (-greenlit(show, production) -> violated(show, content_guidelines))) -> upheld(appeal, review_board))",
+              "natural": "If it is not the case that either the producers submit an appeal decision or the show not being greenlit implies a content violation, then the appeal is upheld by the review board."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(-(A24 | (-G -> A23)) -> -A25)",
+              "prover9_expression": "(-(submitted(producers, appeal_decision) | (-greenlit(show, production) -> violated(show, content_guidelines))) -> -upheld(appeal, review_board))",
+              "natural": "Provided that it is false that either the producers submit an appeal decision or non-greenlighting leads to a content violation, the appeal is not upheld by the review board."
+            }
+          ],
+          "conclusion": "(A24 | (-G -> A23))",
+          "natural": "Either the producers submit an appeal decision, or if the show is not greenlit for production, then the show violates content guidelines."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 | (-G -> A23))",
+              "prover9_expression": "(submitted(producers, appeal_decision) | (-greenlit(show, production) -> violated(show, content_guidelines)))",
+              "natural": "Either the producers submit an appeal decision, or if the show is not greenlit for production, then the show violates content guidelines."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A24",
+              "prover9_expression": "-submitted(producers, appeal_decision)",
+              "natural": "The producers did not submit an appeal decision."
+            }
+          ],
+          "conclusion": "(-G -> A23)",
+          "natural": "Provided that the show is not greenlit for production, it violates content guidelines."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A23)",
+              "prover9_expression": "(-greenlit(show, production) -> violated(show, content_guidelines))",
+              "natural": "Provided that the show is not greenlit for production, it violates content guidelines."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A23 -> -A6)",
+              "prover9_expression": "(violated(show, content_guidelines) -> -compliant(show, broadcasting_standards))",
+              "natural": "Whenever the show violates content guidelines, it is not compliant with broadcasting standards."
+            }
+          ],
+          "conclusion": "(-G -> -A6)",
+          "natural": "If the show is not greenlit for production, then it is not compliant with broadcasting standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> A6)",
+              "prover9_expression": "(-greenlit(show, production) -> compliant(show, broadcasting_standards))",
+              "natural": "Should the show not be greenlit for production, then it is compliant with broadcasting standards."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A6)",
+              "prover9_expression": "(-greenlit(show, production) -> -compliant(show, broadcasting_standards))",
+              "natural": "If the show is not greenlit for production, then it is not compliant with broadcasting standards."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show is greenlit for production."
+        }
+      ]
+    }
+  ]
+}

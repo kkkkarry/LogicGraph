@@ -1,0 +1,1515 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 7,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 5
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(supports(person, legislation) | has_access(person, platform))",
+        "natural": "A person supports the legislation or a person has access to a platform."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → (A9 ∨ G))",
+        "prover9_expression": "(complies(platform, legislation) -> (authorized(person, platform) | has_access(person, platform)))",
+        "natural": "Provided that a platform complies with the legislation, a person is authorized on a platform or a person has access to a platform."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → A28)",
+        "prover9_expression": "(violates(person, legislation) -> subject_to_fine(person, legislation))",
+        "natural": "Whenever a person violates the legislation, that person is subject to a fine under the legislation."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 ∨ A10)",
+        "prover9_expression": "(violates(person, legislation) | complies(platform, legislation))",
+        "natural": "A person violates the legislation or a platform complies with the legislation."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 → (¬(A13 → (A12 ∨ ¬A11)) → A14))",
+        "prover9_expression": "(detected_violation(platform, person) -> (-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform)))",
+        "natural": "Under the condition that a platform has detected a violation by a person, if it is not the case that the person being verified on the platform implies they are registered or do not violate the legislation, then the person is suspended from the platform."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A15 ∨ A16)",
+        "prover9_expression": "(detected_violation(platform, person) | reported_violation(platform, person))",
+        "natural": "A platform has detected a violation by a person or a platform has reported a violation by a person."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 → (¬(A13 → (A12 ∨ ¬A11)) → A14))",
+        "prover9_expression": "(reported_violation(platform, person) -> (-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform)))",
+        "natural": "Whenever a platform has reported a violation by a person, and it is not the case that the person being verified on the platform implies they are registered or do not violate the legislation, then the person is suspended from the platform."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → (¬(A9 ∨ G) → A17))",
+        "prover9_expression": "(reviewed_access(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))",
+        "natural": "Provided that a platform has reviewed the access of a person, if it is not the case that the person is authorized on the platform or has access to the platform, then the person is blocked from the platform."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A18 ∨ A19)",
+        "prover9_expression": "(reviewed_access(platform, person) | monitored_activity(platform, person))",
+        "natural": "A platform has reviewed the access of a person or a platform has monitored the activity of a person."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A23 ∨ (A22 → A21))",
+        "prover9_expression": "(lost_appeal(person, platform) | (won_appeal(person, platform) -> reinstated(person, platform)))",
+        "natural": "A person has lost an appeal on a platform or, if they have won an appeal, they are reinstated."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A26 → (A25 → (A24 → ¬A11)))",
+        "prover9_expression": "(settled_case(person, legislation) -> (acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation))))",
+        "natural": "Under the condition that a person has settled a case under the legislation, if they have acknowledged a violation and ceased activity, then they do not violate the legislation."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A26 ∨ A27)",
+        "prover9_expression": "(settled_case(person, legislation) | contested_case(person, legislation))",
+        "natural": "A person has settled a case under the legislation or a person has contested a case under the legislation."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A27 → (A25 → (A24 → ¬A11)))",
+        "prover9_expression": "(contested_case(person, legislation) -> (acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation))))",
+        "natural": "Whenever a person has contested a case under the legislation, if they have acknowledged a violation and ceased activity, then they do not violate the legislation."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A29 → ¬A28)",
+        "prover9_expression": "(appealed_fine(person, legislation) -> -subject_to_fine(person, legislation))",
+        "natural": "If a person has appealed a fine under the legislation, then that person is not subject to a fine under the legislation."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A3 → A2)",
+        "prover9_expression": "(campaigns_against(person, legislation) -> opposes(person, legislation))",
+        "natural": "Whenever a person campaigns against the legislation, that person opposes the legislation."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A31 ∨ (A30 → ¬A11))",
+        "prover9_expression": "(disputed_fine(person, legislation) | (paid_fine(person, legislation) -> -violates(person, legislation)))",
+        "natural": "A person has disputed a fine under the legislation or, if they have paid a fine, they do not violate the legislation."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A32 → A33)",
+        "prover9_expression": "(appealed_suspension(person, platform) -> hearing_scheduled(person, platform))",
+        "natural": "Whenever a person has appealed a suspension on a platform, a hearing is scheduled for that person on the platform."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A33 → A34)",
+        "prover9_expression": "(hearing_scheduled(person, platform) -> decision_pending(person, platform))",
+        "natural": "Provided that a hearing is scheduled for a person on a platform, a decision is pending for that person on the platform."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A36 → A35)",
+        "prover9_expression": "(access_restored(person, platform) -> suspension_upheld(person, platform))",
+        "natural": "Whenever access is restored for a person on a platform, the suspension of that person on the platform is upheld."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A38 → A37)",
+        "prover9_expression": "(further_review(person, platform) -> case_closed(person, platform))",
+        "natural": "If further review is required for a person on a platform, then the case is closed for that person on the platform."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A4 → ¬A1)",
+        "prover9_expression": "(lobbies_for(person, legislation) -> -supports(person, legislation))",
+        "natural": "Provided that a person lobbies for the legislation, that person does not support the legislation."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A6 → A5)",
+        "prover9_expression": "(spoke_publicly(person, legislation) -> influenced_legislation(person, legislation))",
+        "natural": "Under the condition that a person has spoken publicly about the legislation, that person has influenced the legislation."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A7 → A8)",
+        "prover9_expression": "(organized_protest(person, legislation) -> wrote_article(person, legislation))",
+        "natural": "If a person has organized a protest against the legislation, then that person has written an article about the legislation."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A8 → A6)",
+        "prover9_expression": "(wrote_article(person, legislation) -> spoke_publicly(person, legislation))",
+        "natural": "Provided that a person has written an article about the legislation, that person has spoken publicly about the legislation."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(¬(A20 ∨ (A19 → (¬(A9 ∨ G) → A17))) → A22)",
+        "prover9_expression": "(-(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))) -> won_appeal(person, platform))",
+        "natural": "Whenever it is not the case that a person has appealed to a platform or, if the platform has monitored their activity and it is not the case that they are authorized or have access, then they are blocked, the person has won an appeal on the platform."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(¬(A3 ∨ A4) → A7)",
+        "prover9_expression": "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> organized_protest(person, legislation))",
+        "natural": "If it is not the case that a person campaigns against or lobbies for the legislation, then that person has organized a protest against the legislation."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(¬(A34 → (A12 ∨ ¬A11)) → ¬A35)",
+        "prover9_expression": "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> -suspension_upheld(person, platform))",
+        "natural": "Under the condition that it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, the suspension of that person on the platform is not upheld."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(¬(¬(A34 → (A12 ∨ ¬A11)) → A36) → A38)",
+        "prover9_expression": "(-(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform)) -> further_review(person, platform))",
+        "natural": "Provided that it is not the case that the negation of a decision pending for a person on a platform implying they are registered or do not violate the legislation leads to access being restored for that person on the platform, further review is required for that person on the platform."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A13",
+        "prover9_expression": "verified(person, platform)",
+        "natural": "A person is verified on a platform."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A24",
+        "prover9_expression": "ceased_activity(person, platform)",
+        "natural": "A person has ceased activity on a platform."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A25",
+        "prover9_expression": "acknowledged_violation(person, legislation)",
+        "natural": "A person has acknowledged a violation of the legislation."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A29",
+        "prover9_expression": "appealed_fine(person, legislation)",
+        "natural": "A person has appealed a fine under the legislation."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A30",
+        "prover9_expression": "paid_fine(person, legislation)",
+        "natural": "A person has paid a fine under the legislation."
+      },
+      {
+        "id": "Fact6",
+        "formal": "A32",
+        "prover9_expression": "appealed_suspension(person, platform)",
+        "natural": "A person has appealed a suspension on a platform."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A12",
+        "prover9_expression": "-registered(person, platform)",
+        "natural": "It is not the case that a person is registered on a platform."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A14",
+        "prover9_expression": "-suspended(person, platform)",
+        "natural": "It is not the case that a person is suspended from a platform."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A17",
+        "prover9_expression": "-blocked(person, platform)",
+        "natural": "It is not the case that a person is blocked from a platform."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A2",
+        "prover9_expression": "-opposes(person, legislation)",
+        "natural": "It is not the case that a person opposes the legislation."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A20",
+        "prover9_expression": "-appealed(person, platform)",
+        "natural": "It is not the case that a person has appealed to a platform."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A21",
+        "prover9_expression": "-reinstated(person, platform)",
+        "natural": "It is not the case that a person has been reinstated on a platform."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A23",
+        "prover9_expression": "-lost_appeal(person, platform)",
+        "natural": "It is not the case that a person has lost an appeal on a platform."
+      },
+      {
+        "id": "Fact14",
+        "formal": "¬A31",
+        "prover9_expression": "-disputed_fine(person, legislation)",
+        "natural": "It is not the case that a person has disputed a fine under the legislation."
+      },
+      {
+        "id": "Fact15",
+        "formal": "¬A37",
+        "prover9_expression": "-case_closed(person, platform)",
+        "natural": "It is not the case that the case is closed for a person on a platform."
+      },
+      {
+        "id": "Fact16",
+        "formal": "¬A5",
+        "prover9_expression": "-influenced_legislation(person, legislation)",
+        "natural": "It is not the case that a person has influenced the legislation."
+      },
+      {
+        "id": "Fact17",
+        "formal": "¬A9",
+        "prover9_expression": "-authorized(person, platform)",
+        "natural": "It is not the case that a person is authorized on a platform."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "has_access(person, platform)",
+    "natural": "A person has access to a platform."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A8)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "(A7 -> A6)",
+          "natural": "Whenever a person has organized a protest against the legislation, that person has spoken publicly about the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A3 | A4) -> A7)",
+            "(A7 -> A6)"
+          ],
+          "conclusion": "(-(A3 | A4) -> A6)",
+          "natural": "Under the condition that it is not the case that a person campaigns against or lobbies for the legislation, that person has spoken publicly about the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A3 | A4) -> A6)",
+            "(A6 -> A5)"
+          ],
+          "conclusion": "(-(A3 | A4) -> A5)",
+          "natural": "Provided that it is not the case that a person campaigns against or lobbies for the legislation, that person has influenced the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 | A4) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "A person campaigns against the legislation or a person lobbies for the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A3 -> A2)",
+            "(A4 -> -A1)",
+            "(A3 | A4)"
+          ],
+          "conclusion": "(A2 | -A1)",
+          "natural": "A person opposes the legislation or it is not the case that the person supports the legislation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that a person supports the legislation."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A15 | A16)",
+            "(A15 -> (-(A13 -> (A12 | -A11)) -> A14))",
+            "(A16 -> (-(A13 -> (A12 | -A11)) -> A14))"
+          ],
+          "conclusion": "(-(A13 -> (A12 | -A11)) -> A14)",
+          "natural": "If it is not the case that a person being verified on a platform implies they are registered or do not violate the legislation, then the person is suspended from the platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A13 -> (A12 | -A11)) -> A14)",
+            "-A14"
+          ],
+          "conclusion": "(A13 -> (A12 | -A11))",
+          "natural": "If a person is verified on a platform, then that person is registered on the platform or does not violate the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> (A12 | -A11))",
+            "A13"
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "A person is registered on a platform or it is not the case that the person violates the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | -A11)",
+            "-A12"
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that a person violates the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | A10)",
+            "-A11"
+          ],
+          "conclusion": "A10",
+          "natural": "A platform complies with the legislation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 | G))",
+            "A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "A person is authorized on a platform or a person has access to a platform."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A23 | (A22 -> A21))",
+            "-A23"
+          ],
+          "conclusion": "(A22 -> A21)",
+          "natural": "If a person has won an appeal on a platform, then that person is reinstated on the platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A20 | (A19 -> (-(A9 | G) -> A17))) -> A22)",
+            "(A22 -> A21)"
+          ],
+          "conclusion": "(-(A20 | (A19 -> (-(A9 | G) -> A17))) -> A21)",
+          "natural": "Under the condition that it is not the case that a person has appealed to a platform or, if the platform has monitored their activity and it is not the case that they are authorized or have access, then they are blocked, the person is reinstated on the platform."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A20 | (A19 -> (-(A9 | G) -> A17))) -> A21)",
+            "-A21"
+          ],
+          "conclusion": "(A20 | (A19 -> (-(A9 | G) -> A17)))",
+          "natural": "A person has appealed to a platform or, if the platform has monitored the person's activity and it is not the case that the person is authorized or has access, then the person is blocked."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A20 | (A19 -> (-(A9 | G) -> A17)))",
+            "-A20"
+          ],
+          "conclusion": "(A19 -> (-(A9 | G) -> A17))",
+          "natural": "Under the condition that a platform has monitored the activity of a person, if it is not the case that the person is authorized on the platform or has access to the platform, then the person is blocked from the platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A18 | A19)",
+            "(A18 -> (-(A9 | G) -> A17))",
+            "(A19 -> (-(A9 | G) -> A17))"
+          ],
+          "conclusion": "(-(A9 | G) -> A17)",
+          "natural": "If it is not the case that a person is authorized on a platform or has access to the platform, then the person is blocked from the platform."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 | G) -> A17)",
+            "-A17"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "A person is authorized on a platform or a person has access to a platform."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A26 | A27)",
+            "(A26 -> (A25 -> (A24 -> -A11)))",
+            "(A27 -> (A25 -> (A24 -> -A11)))"
+          ],
+          "conclusion": "(A25 -> (A24 -> -A11))",
+          "natural": "Provided that a person has acknowledged a violation of the legislation, if they have ceased activity on a platform, then they do not violate the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A25 -> (A24 -> -A11))",
+            "A25"
+          ],
+          "conclusion": "(A24 -> -A11)",
+          "natural": "Whenever a person has ceased activity on a platform, that person does not violate the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A24 -> -A11)",
+            "A24"
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that a person violates the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | A10)",
+            "-A11"
+          ],
+          "conclusion": "A10",
+          "natural": "A platform complies with the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 | G))",
+            "A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "A person is authorized on a platform or a person has access to a platform."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> -A28)",
+            "A29"
+          ],
+          "conclusion": "-A28",
+          "natural": "It is not the case that a person is subject to a fine under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A11 -> A28)",
+            "-A28"
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that a person violates the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | A10)",
+            "-A11"
+          ],
+          "conclusion": "A10",
+          "natural": "A platform complies with the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 | G))",
+            "A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "A person is authorized on a platform or a person has access to a platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A31 | (A30 -> -A11))",
+            "-A31"
+          ],
+          "conclusion": "(A30 -> -A11)",
+          "natural": "Provided that a person has paid a fine under the legislation, that person does not violate the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A30 -> -A11)",
+            "A30"
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that a person violates the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | A10)",
+            "-A11"
+          ],
+          "conclusion": "A10",
+          "natural": "A platform complies with the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 | G))",
+            "A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "A person is authorized on a platform or a person has access to a platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(A34 -> (A12 | -A11)) -> A36) -> A38)",
+            "(A38 -> A37)"
+          ],
+          "conclusion": "(-(-(A34 -> (A12 | -A11)) -> A36) -> A37)",
+          "natural": "Whenever it is not the case that the negation of a decision pending for a person on a platform implying they are registered or do not violate the legislation leads to access being restored for that person on the platform, the case is closed for that person on the platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A34 -> (A12 | -A11)) -> A36) -> A37)",
+            "-A37"
+          ],
+          "conclusion": "(-(A34 -> (A12 | -A11)) -> A36)",
+          "natural": "Provided that it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, access is restored for that person on the platform."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A34 -> (A12 | -A11)) -> A36)",
+            "(A36 -> A35)"
+          ],
+          "conclusion": "(-(A34 -> (A12 | -A11)) -> A35)",
+          "natural": "Whenever it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, the suspension of that person on the platform is upheld."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A34 -> (A12 | -A11)) -> A35)",
+            "(-(A34 -> (A12 | -A11)) -> -A35)"
+          ],
+          "conclusion": "(A34 -> (A12 | -A11))",
+          "natural": "Under the condition that a decision is pending for a person on a platform, that person is registered on the platform or does not violate the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A33 -> A34)",
+            "(A34 -> (A12 | -A11))"
+          ],
+          "conclusion": "(A33 -> (A12 | -A11))",
+          "natural": "If a hearing is scheduled for a person on a platform, then that person is registered on the platform or does not violate the legislation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A33)",
+            "(A33 -> (A12 | -A11))"
+          ],
+          "conclusion": "(A32 -> (A12 | -A11))",
+          "natural": "Under the condition that a person has appealed a suspension on a platform, that person is registered on the platform or does not violate the legislation."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A32 -> (A12 | -A11))",
+            "A32"
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "A person is registered on a platform or it is not the case that the person violates the legislation."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | -A11)",
+            "-A12"
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that a person violates the legislation."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | A10)",
+            "-A11"
+          ],
+          "conclusion": "A10",
+          "natural": "A platform complies with the legislation."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 | G))",
+            "A10"
+          ],
+          "conclusion": "(A9 | G)",
+          "natural": "A person is authorized on a platform or a person has access to a platform."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "A person has access to a platform."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Digital Rights Management",
+    "atomic_facts": {
+      "A1": "supports(person, legislation)",
+      "G": "has_access(person, platform)",
+      "A10": "complies(platform, legislation)",
+      "A9": "authorized(person, platform)",
+      "A11": "violates(person, legislation)",
+      "A28": "subject_to_fine(person, legislation)",
+      "A12": "registered(person, platform)",
+      "A13": "verified(person, platform)",
+      "A14": "suspended(person, platform)",
+      "A15": "detected_violation(platform, person)",
+      "A16": "reported_violation(platform, person)",
+      "A17": "blocked(person, platform)",
+      "A18": "reviewed_access(platform, person)",
+      "A19": "monitored_activity(platform, person)",
+      "A2": "opposes(person, legislation)",
+      "A20": "appealed(person, platform)",
+      "A21": "reinstated(person, platform)",
+      "A22": "won_appeal(person, platform)",
+      "A23": "lost_appeal(person, platform)",
+      "A24": "ceased_activity(person, platform)",
+      "A25": "acknowledged_violation(person, legislation)",
+      "A26": "settled_case(person, legislation)",
+      "A27": "contested_case(person, legislation)",
+      "A29": "appealed_fine(person, legislation)",
+      "A3": "campaigns_against(person, legislation)",
+      "A4": "lobbies_for(person, legislation)",
+      "A30": "paid_fine(person, legislation)",
+      "A31": "disputed_fine(person, legislation)",
+      "A32": "appealed_suspension(person, platform)",
+      "A33": "hearing_scheduled(person, platform)",
+      "A34": "decision_pending(person, platform)",
+      "A35": "suspension_upheld(person, platform)",
+      "A36": "access_restored(person, platform)",
+      "A37": "case_closed(person, platform)",
+      "A38": "further_review(person, platform)",
+      "A5": "influenced_legislation(person, legislation)",
+      "A6": "spoke_publicly(person, legislation)",
+      "A7": "organized_protest(person, legislation)",
+      "A8": "wrote_article(person, legislation)"
+    },
+    "natural_facts": {
+      "A1": "A person supports the legislation.",
+      "G": "A person has access to a platform.",
+      "A10": "A platform complies with the legislation.",
+      "A9": "A person is authorized on a platform.",
+      "A11": "A person violates the legislation.",
+      "A28": "A person is subject to a fine under the legislation.",
+      "A12": "A person is registered on a platform.",
+      "A13": "A person is verified on a platform.",
+      "A14": "A person is suspended from a platform.",
+      "A15": "A platform has detected a violation by a person.",
+      "A16": "A platform has reported a violation by a person.",
+      "A17": "A person is blocked from a platform.",
+      "A18": "A platform has reviewed the access of a person.",
+      "A19": "A platform has monitored the activity of a person.",
+      "A2": "A person opposes the legislation.",
+      "A20": "A person has appealed to a platform.",
+      "A21": "A person has been reinstated on a platform.",
+      "A22": "A person has won an appeal on a platform.",
+      "A23": "A person has lost an appeal on a platform.",
+      "A24": "A person has ceased activity on a platform.",
+      "A25": "A person has acknowledged a violation of the legislation.",
+      "A26": "A person has settled a case under the legislation.",
+      "A27": "A person has contested a case under the legislation.",
+      "A29": "A person has appealed a fine under the legislation.",
+      "A3": "A person campaigns against the legislation.",
+      "A4": "A person lobbies for the legislation.",
+      "A30": "A person has paid a fine under the legislation.",
+      "A31": "A person has disputed a fine under the legislation.",
+      "A32": "A person has appealed a suspension on a platform.",
+      "A33": "A hearing is scheduled for a person on a platform.",
+      "A34": "A decision is pending for a person on a platform.",
+      "A35": "The suspension of a person on a platform is upheld.",
+      "A36": "Access is restored for a person on a platform.",
+      "A37": "The case is closed for a person on a platform.",
+      "A38": "Further review is required for a person on a platform.",
+      "A5": "A person has influenced the legislation.",
+      "A6": "A person has spoken publicly about the legislation.",
+      "A7": "A person has organized a protest against the legislation.",
+      "A8": "A person has written an article about the legislation."
+    },
+    "prover9_expressions": [
+      "(supports(person, legislation) | has_access(person, platform))",
+      "(complies(platform, legislation) -> (authorized(person, platform) | has_access(person, platform)))",
+      "(violates(person, legislation) -> subject_to_fine(person, legislation))",
+      "(violates(person, legislation) | complies(platform, legislation))",
+      "(registered(person, platform) | -violates(person, legislation))",
+      "(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+      "(detected_violation(platform, person) -> (-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform)))",
+      "(detected_violation(platform, person) | reported_violation(platform, person))",
+      "(reported_violation(platform, person) -> (-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform)))",
+      "(reviewed_access(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))",
+      "(reviewed_access(platform, person) | monitored_activity(platform, person))",
+      "(monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))",
+      "(opposes(person, legislation) | -supports(person, legislation))",
+      "(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform))))",
+      "(won_appeal(person, platform) -> reinstated(person, platform))",
+      "(lost_appeal(person, platform) | (won_appeal(person, platform) -> reinstated(person, platform)))",
+      "(ceased_activity(person, platform) -> -violates(person, legislation))",
+      "(acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation)))",
+      "(settled_case(person, legislation) -> (acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation))))",
+      "(settled_case(person, legislation) | contested_case(person, legislation))",
+      "(contested_case(person, legislation) -> (acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation))))",
+      "(appealed_fine(person, legislation) -> -subject_to_fine(person, legislation))",
+      "(campaigns_against(person, legislation) -> opposes(person, legislation))",
+      "(campaigns_against(person, legislation) | lobbies_for(person, legislation))",
+      "(paid_fine(person, legislation) -> -violates(person, legislation))",
+      "(disputed_fine(person, legislation) | (paid_fine(person, legislation) -> -violates(person, legislation)))",
+      "(appealed_suspension(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+      "(appealed_suspension(person, platform) -> hearing_scheduled(person, platform))",
+      "(hearing_scheduled(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+      "(hearing_scheduled(person, platform) -> decision_pending(person, platform))",
+      "(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+      "(access_restored(person, platform) -> suspension_upheld(person, platform))",
+      "(further_review(person, platform) -> case_closed(person, platform))",
+      "(lobbies_for(person, legislation) -> -supports(person, legislation))",
+      "(spoke_publicly(person, legislation) -> influenced_legislation(person, legislation))",
+      "(organized_protest(person, legislation) -> spoke_publicly(person, legislation))",
+      "(organized_protest(person, legislation) -> wrote_article(person, legislation))",
+      "(wrote_article(person, legislation) -> spoke_publicly(person, legislation))",
+      "(authorized(person, platform) | has_access(person, platform))",
+      "(-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform))",
+      "(-(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))) -> reinstated(person, platform))",
+      "(-(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))) -> won_appeal(person, platform))",
+      "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> influenced_legislation(person, legislation))",
+      "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> spoke_publicly(person, legislation))",
+      "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> organized_protest(person, legislation))",
+      "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspension_upheld(person, platform))",
+      "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform))",
+      "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> -suspension_upheld(person, platform))",
+      "(-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform))",
+      "(-(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform)) -> case_closed(person, platform))",
+      "(-(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform)) -> further_review(person, platform))",
+      "complies(platform, legislation)",
+      "verified(person, platform)",
+      "ceased_activity(person, platform)",
+      "acknowledged_violation(person, legislation)",
+      "appealed_fine(person, legislation)",
+      "paid_fine(person, legislation)",
+      "appealed_suspension(person, platform)",
+      "has_access(person, platform)",
+      "-supports(person, legislation)",
+      "-violates(person, legislation)",
+      "-registered(person, platform)",
+      "-suspended(person, platform)",
+      "-blocked(person, platform)",
+      "-opposes(person, legislation)",
+      "-appealed(person, platform)",
+      "-reinstated(person, platform)",
+      "-lost_appeal(person, platform)",
+      "-subject_to_fine(person, legislation)",
+      "-disputed_fine(person, legislation)",
+      "-case_closed(person, platform)",
+      "-influenced_legislation(person, legislation)",
+      "-authorized(person, platform)"
+    ],
+    "natural_expressions": [
+      "A person supports the legislation or a person has access to a platform.",
+      "Provided that a platform complies with the legislation, a person is authorized on a platform or a person has access to a platform.",
+      "Whenever a person violates the legislation, that person is subject to a fine under the legislation.",
+      "A person violates the legislation or a platform complies with the legislation.",
+      "A person is registered on a platform or it is not the case that the person violates the legislation.",
+      "If a person is verified on a platform, then that person is registered on the platform or does not violate the legislation.",
+      "Under the condition that a platform has detected a violation by a person, if it is not the case that the person being verified on the platform implies they are registered or do not violate the legislation, then the person is suspended from the platform.",
+      "A platform has detected a violation by a person or a platform has reported a violation by a person.",
+      "Whenever a platform has reported a violation by a person, and it is not the case that the person being verified on the platform implies they are registered or do not violate the legislation, then the person is suspended from the platform.",
+      "Provided that a platform has reviewed the access of a person, if it is not the case that the person is authorized on the platform or has access to the platform, then the person is blocked from the platform.",
+      "A platform has reviewed the access of a person or a platform has monitored the activity of a person.",
+      "Under the condition that a platform has monitored the activity of a person, if it is not the case that the person is authorized on the platform or has access to the platform, then the person is blocked from the platform.",
+      "A person opposes the legislation or it is not the case that the person supports the legislation.",
+      "A person has appealed to a platform or, if the platform has monitored the person's activity and it is not the case that the person is authorized or has access, then the person is blocked.",
+      "If a person has won an appeal on a platform, then that person is reinstated on the platform.",
+      "A person has lost an appeal on a platform or, if they have won an appeal, they are reinstated.",
+      "Whenever a person has ceased activity on a platform, that person does not violate the legislation.",
+      "Provided that a person has acknowledged a violation of the legislation, if they have ceased activity on a platform, then they do not violate the legislation.",
+      "Under the condition that a person has settled a case under the legislation, if they have acknowledged a violation and ceased activity, then they do not violate the legislation.",
+      "A person has settled a case under the legislation or a person has contested a case under the legislation.",
+      "Whenever a person has contested a case under the legislation, if they have acknowledged a violation and ceased activity, then they do not violate the legislation.",
+      "If a person has appealed a fine under the legislation, then that person is not subject to a fine under the legislation.",
+      "Whenever a person campaigns against the legislation, that person opposes the legislation.",
+      "A person campaigns against the legislation or a person lobbies for the legislation.",
+      "Provided that a person has paid a fine under the legislation, that person does not violate the legislation.",
+      "A person has disputed a fine under the legislation or, if they have paid a fine, they do not violate the legislation.",
+      "Under the condition that a person has appealed a suspension on a platform, that person is registered on the platform or does not violate the legislation.",
+      "Whenever a person has appealed a suspension on a platform, a hearing is scheduled for that person on the platform.",
+      "If a hearing is scheduled for a person on a platform, then that person is registered on the platform or does not violate the legislation.",
+      "Provided that a hearing is scheduled for a person on a platform, a decision is pending for that person on the platform.",
+      "Under the condition that a decision is pending for a person on a platform, that person is registered on the platform or does not violate the legislation.",
+      "Whenever access is restored for a person on a platform, the suspension of that person on the platform is upheld.",
+      "If further review is required for a person on a platform, then the case is closed for that person on the platform.",
+      "Provided that a person lobbies for the legislation, that person does not support the legislation.",
+      "Under the condition that a person has spoken publicly about the legislation, that person has influenced the legislation.",
+      "Whenever a person has organized a protest against the legislation, that person has spoken publicly about the legislation.",
+      "If a person has organized a protest against the legislation, then that person has written an article about the legislation.",
+      "Provided that a person has written an article about the legislation, that person has spoken publicly about the legislation.",
+      "A person is authorized on a platform or a person has access to a platform.",
+      "If it is not the case that a person being verified on a platform implies they are registered or do not violate the legislation, then the person is suspended from the platform.",
+      "Under the condition that it is not the case that a person has appealed to a platform or, if the platform has monitored their activity and it is not the case that they are authorized or have access, then they are blocked, the person is reinstated on the platform.",
+      "Whenever it is not the case that a person has appealed to a platform or, if the platform has monitored their activity and it is not the case that they are authorized or have access, then they are blocked, the person has won an appeal on the platform.",
+      "Provided that it is not the case that a person campaigns against or lobbies for the legislation, that person has influenced the legislation.",
+      "Under the condition that it is not the case that a person campaigns against or lobbies for the legislation, that person has spoken publicly about the legislation.",
+      "If it is not the case that a person campaigns against or lobbies for the legislation, then that person has organized a protest against the legislation.",
+      "Whenever it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, the suspension of that person on the platform is upheld.",
+      "Provided that it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, access is restored for that person on the platform.",
+      "Under the condition that it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, the suspension of that person on the platform is not upheld.",
+      "If it is not the case that a person is authorized on a platform or has access to the platform, then the person is blocked from the platform.",
+      "Whenever it is not the case that the negation of a decision pending for a person on a platform implying they are registered or do not violate the legislation leads to access being restored for that person on the platform, the case is closed for that person on the platform.",
+      "Provided that it is not the case that the negation of a decision pending for a person on a platform implying they are registered or do not violate the legislation leads to access being restored for that person on the platform, further review is required for that person on the platform.",
+      "A platform complies with the legislation.",
+      "A person is verified on a platform.",
+      "A person has ceased activity on a platform.",
+      "A person has acknowledged a violation of the legislation.",
+      "A person has appealed a fine under the legislation.",
+      "A person has paid a fine under the legislation.",
+      "A person has appealed a suspension on a platform.",
+      "A person has access to a platform.",
+      "It is not the case that a person supports the legislation.",
+      "It is not the case that a person violates the legislation.",
+      "It is not the case that a person is registered on a platform.",
+      "It is not the case that a person is suspended from a platform.",
+      "It is not the case that a person is blocked from a platform.",
+      "It is not the case that a person opposes the legislation.",
+      "It is not the case that a person has appealed to a platform.",
+      "It is not the case that a person has been reinstated on a platform.",
+      "It is not the case that a person has lost an appeal on a platform.",
+      "It is not the case that a person is subject to a fine under the legislation.",
+      "It is not the case that a person has disputed a fine under the legislation.",
+      "It is not the case that the case is closed for a person on a platform.",
+      "It is not the case that a person has influenced the legislation.",
+      "It is not the case that a person is authorized on a platform."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(supports(person, legislation) | has_access(person, platform))",
+        "natural": "A person supports the legislation or a person has access to a platform."
+      },
+      "(A10 → (A9 ∨ G))": {
+        "formal": "(A10 → (A9 ∨ G))",
+        "prover9": "(A10 -> (A9 | G))",
+        "prover9_expression": "(complies(platform, legislation) -> (authorized(person, platform) | has_access(person, platform)))",
+        "natural": "Provided that a platform complies with the legislation, a person is authorized on a platform or a person has access to a platform."
+      },
+      "(A11 → A28)": {
+        "formal": "(A11 → A28)",
+        "prover9": "(A11 -> A28)",
+        "prover9_expression": "(violates(person, legislation) -> subject_to_fine(person, legislation))",
+        "natural": "Whenever a person violates the legislation, that person is subject to a fine under the legislation."
+      },
+      "(A11 ∨ A10)": {
+        "formal": "(A11 ∨ A10)",
+        "prover9": "(A11 | A10)",
+        "prover9_expression": "(violates(person, legislation) | complies(platform, legislation))",
+        "natural": "A person violates the legislation or a platform complies with the legislation."
+      },
+      "(A12 ∨ ¬A11)": {
+        "formal": "(A12 ∨ ¬A11)",
+        "prover9": "(A12 | -A11)",
+        "prover9_expression": "(registered(person, platform) | -violates(person, legislation))",
+        "natural": "A person is registered on a platform or it is not the case that the person violates the legislation."
+      },
+      "(A13 → (A12 ∨ ¬A11))": {
+        "formal": "(A13 → (A12 ∨ ¬A11))",
+        "prover9": "(A13 -> (A12 | -A11))",
+        "prover9_expression": "(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+        "natural": "If a person is verified on a platform, then that person is registered on the platform or does not violate the legislation."
+      },
+      "(A15 → (¬(A13 → (A12 ∨ ¬A11)) → A14))": {
+        "formal": "(A15 → (¬(A13 → (A12 ∨ ¬A11)) → A14))",
+        "prover9": "(A15 -> (-(A13 -> (A12 | -A11)) -> A14))",
+        "prover9_expression": "(detected_violation(platform, person) -> (-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform)))",
+        "natural": "Under the condition that a platform has detected a violation by a person, if it is not the case that the person being verified on the platform implies they are registered or do not violate the legislation, then the person is suspended from the platform."
+      },
+      "(A15 ∨ A16)": {
+        "formal": "(A15 ∨ A16)",
+        "prover9": "(A15 | A16)",
+        "prover9_expression": "(detected_violation(platform, person) | reported_violation(platform, person))",
+        "natural": "A platform has detected a violation by a person or a platform has reported a violation by a person."
+      },
+      "(A16 → (¬(A13 → (A12 ∨ ¬A11)) → A14))": {
+        "formal": "(A16 → (¬(A13 → (A12 ∨ ¬A11)) → A14))",
+        "prover9": "(A16 -> (-(A13 -> (A12 | -A11)) -> A14))",
+        "prover9_expression": "(reported_violation(platform, person) -> (-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform)))",
+        "natural": "Whenever a platform has reported a violation by a person, and it is not the case that the person being verified on the platform implies they are registered or do not violate the legislation, then the person is suspended from the platform."
+      },
+      "(A18 → (¬(A9 ∨ G) → A17))": {
+        "formal": "(A18 → (¬(A9 ∨ G) → A17))",
+        "prover9": "(A18 -> (-(A9 | G) -> A17))",
+        "prover9_expression": "(reviewed_access(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))",
+        "natural": "Provided that a platform has reviewed the access of a person, if it is not the case that the person is authorized on the platform or has access to the platform, then the person is blocked from the platform."
+      },
+      "(A18 ∨ A19)": {
+        "formal": "(A18 ∨ A19)",
+        "prover9": "(A18 | A19)",
+        "prover9_expression": "(reviewed_access(platform, person) | monitored_activity(platform, person))",
+        "natural": "A platform has reviewed the access of a person or a platform has monitored the activity of a person."
+      },
+      "(A19 → (¬(A9 ∨ G) → A17))": {
+        "formal": "(A19 → (¬(A9 ∨ G) → A17))",
+        "prover9": "(A19 -> (-(A9 | G) -> A17))",
+        "prover9_expression": "(monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))",
+        "natural": "Under the condition that a platform has monitored the activity of a person, if it is not the case that the person is authorized on the platform or has access to the platform, then the person is blocked from the platform."
+      },
+      "(A2 ∨ ¬A1)": {
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9": "(A2 | -A1)",
+        "prover9_expression": "(opposes(person, legislation) | -supports(person, legislation))",
+        "natural": "A person opposes the legislation or it is not the case that the person supports the legislation."
+      },
+      "(A20 ∨ (A19 → (¬(A9 ∨ G) → A17)))": {
+        "formal": "(A20 ∨ (A19 → (¬(A9 ∨ G) → A17)))",
+        "prover9": "(A20 | (A19 -> (-(A9 | G) -> A17)))",
+        "prover9_expression": "(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform))))",
+        "natural": "A person has appealed to a platform or, if the platform has monitored the person's activity and it is not the case that the person is authorized or has access, then the person is blocked."
+      },
+      "(A22 → A21)": {
+        "formal": "(A22 → A21)",
+        "prover9": "(A22 -> A21)",
+        "prover9_expression": "(won_appeal(person, platform) -> reinstated(person, platform))",
+        "natural": "If a person has won an appeal on a platform, then that person is reinstated on the platform."
+      },
+      "(A23 ∨ (A22 → A21))": {
+        "formal": "(A23 ∨ (A22 → A21))",
+        "prover9": "(A23 | (A22 -> A21))",
+        "prover9_expression": "(lost_appeal(person, platform) | (won_appeal(person, platform) -> reinstated(person, platform)))",
+        "natural": "A person has lost an appeal on a platform or, if they have won an appeal, they are reinstated."
+      },
+      "(A24 → ¬A11)": {
+        "formal": "(A24 → ¬A11)",
+        "prover9": "(A24 -> -A11)",
+        "prover9_expression": "(ceased_activity(person, platform) -> -violates(person, legislation))",
+        "natural": "Whenever a person has ceased activity on a platform, that person does not violate the legislation."
+      },
+      "(A25 → (A24 → ¬A11))": {
+        "formal": "(A25 → (A24 → ¬A11))",
+        "prover9": "(A25 -> (A24 -> -A11))",
+        "prover9_expression": "(acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation)))",
+        "natural": "Provided that a person has acknowledged a violation of the legislation, if they have ceased activity on a platform, then they do not violate the legislation."
+      },
+      "(A26 → (A25 → (A24 → ¬A11)))": {
+        "formal": "(A26 → (A25 → (A24 → ¬A11)))",
+        "prover9": "(A26 -> (A25 -> (A24 -> -A11)))",
+        "prover9_expression": "(settled_case(person, legislation) -> (acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation))))",
+        "natural": "Under the condition that a person has settled a case under the legislation, if they have acknowledged a violation and ceased activity, then they do not violate the legislation."
+      },
+      "(A26 ∨ A27)": {
+        "formal": "(A26 ∨ A27)",
+        "prover9": "(A26 | A27)",
+        "prover9_expression": "(settled_case(person, legislation) | contested_case(person, legislation))",
+        "natural": "A person has settled a case under the legislation or a person has contested a case under the legislation."
+      },
+      "(A27 → (A25 → (A24 → ¬A11)))": {
+        "formal": "(A27 → (A25 → (A24 → ¬A11)))",
+        "prover9": "(A27 -> (A25 -> (A24 -> -A11)))",
+        "prover9_expression": "(contested_case(person, legislation) -> (acknowledged_violation(person, legislation) -> (ceased_activity(person, platform) -> -violates(person, legislation))))",
+        "natural": "Whenever a person has contested a case under the legislation, if they have acknowledged a violation and ceased activity, then they do not violate the legislation."
+      },
+      "(A29 → ¬A28)": {
+        "formal": "(A29 → ¬A28)",
+        "prover9": "(A29 -> -A28)",
+        "prover9_expression": "(appealed_fine(person, legislation) -> -subject_to_fine(person, legislation))",
+        "natural": "If a person has appealed a fine under the legislation, then that person is not subject to a fine under the legislation."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(campaigns_against(person, legislation) -> opposes(person, legislation))",
+        "natural": "Whenever a person campaigns against the legislation, that person opposes the legislation."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(campaigns_against(person, legislation) | lobbies_for(person, legislation))",
+        "natural": "A person campaigns against the legislation or a person lobbies for the legislation."
+      },
+      "(A30 → ¬A11)": {
+        "formal": "(A30 → ¬A11)",
+        "prover9": "(A30 -> -A11)",
+        "prover9_expression": "(paid_fine(person, legislation) -> -violates(person, legislation))",
+        "natural": "Provided that a person has paid a fine under the legislation, that person does not violate the legislation."
+      },
+      "(A31 ∨ (A30 → ¬A11))": {
+        "formal": "(A31 ∨ (A30 → ¬A11))",
+        "prover9": "(A31 | (A30 -> -A11))",
+        "prover9_expression": "(disputed_fine(person, legislation) | (paid_fine(person, legislation) -> -violates(person, legislation)))",
+        "natural": "A person has disputed a fine under the legislation or, if they have paid a fine, they do not violate the legislation."
+      },
+      "(A32 → (A12 ∨ ¬A11))": {
+        "formal": "(A32 → (A12 ∨ ¬A11))",
+        "prover9": "(A32 -> (A12 | -A11))",
+        "prover9_expression": "(appealed_suspension(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+        "natural": "Under the condition that a person has appealed a suspension on a platform, that person is registered on the platform or does not violate the legislation."
+      },
+      "(A32 → A33)": {
+        "formal": "(A32 → A33)",
+        "prover9": "(A32 -> A33)",
+        "prover9_expression": "(appealed_suspension(person, platform) -> hearing_scheduled(person, platform))",
+        "natural": "Whenever a person has appealed a suspension on a platform, a hearing is scheduled for that person on the platform."
+      },
+      "(A33 → (A12 ∨ ¬A11))": {
+        "formal": "(A33 → (A12 ∨ ¬A11))",
+        "prover9": "(A33 -> (A12 | -A11))",
+        "prover9_expression": "(hearing_scheduled(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+        "natural": "If a hearing is scheduled for a person on a platform, then that person is registered on the platform or does not violate the legislation."
+      },
+      "(A33 → A34)": {
+        "formal": "(A33 → A34)",
+        "prover9": "(A33 -> A34)",
+        "prover9_expression": "(hearing_scheduled(person, platform) -> decision_pending(person, platform))",
+        "natural": "Provided that a hearing is scheduled for a person on a platform, a decision is pending for that person on the platform."
+      },
+      "(A34 → (A12 ∨ ¬A11))": {
+        "formal": "(A34 → (A12 ∨ ¬A11))",
+        "prover9": "(A34 -> (A12 | -A11))",
+        "prover9_expression": "(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation)))",
+        "natural": "Under the condition that a decision is pending for a person on a platform, that person is registered on the platform or does not violate the legislation."
+      },
+      "(A36 → A35)": {
+        "formal": "(A36 → A35)",
+        "prover9": "(A36 -> A35)",
+        "prover9_expression": "(access_restored(person, platform) -> suspension_upheld(person, platform))",
+        "natural": "Whenever access is restored for a person on a platform, the suspension of that person on the platform is upheld."
+      },
+      "(A38 → A37)": {
+        "formal": "(A38 → A37)",
+        "prover9": "(A38 -> A37)",
+        "prover9_expression": "(further_review(person, platform) -> case_closed(person, platform))",
+        "natural": "If further review is required for a person on a platform, then the case is closed for that person on the platform."
+      },
+      "(A4 → ¬A1)": {
+        "formal": "(A4 → ¬A1)",
+        "prover9": "(A4 -> -A1)",
+        "prover9_expression": "(lobbies_for(person, legislation) -> -supports(person, legislation))",
+        "natural": "Provided that a person lobbies for the legislation, that person does not support the legislation."
+      },
+      "(A6 → A5)": {
+        "formal": "(A6 → A5)",
+        "prover9": "(A6 -> A5)",
+        "prover9_expression": "(spoke_publicly(person, legislation) -> influenced_legislation(person, legislation))",
+        "natural": "Under the condition that a person has spoken publicly about the legislation, that person has influenced the legislation."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(organized_protest(person, legislation) -> spoke_publicly(person, legislation))",
+        "natural": "Whenever a person has organized a protest against the legislation, that person has spoken publicly about the legislation."
+      },
+      "(A7 → A8)": {
+        "formal": "(A7 → A8)",
+        "prover9": "(A7 -> A8)",
+        "prover9_expression": "(organized_protest(person, legislation) -> wrote_article(person, legislation))",
+        "natural": "If a person has organized a protest against the legislation, then that person has written an article about the legislation."
+      },
+      "(A8 → A6)": {
+        "formal": "(A8 → A6)",
+        "prover9": "(A8 -> A6)",
+        "prover9_expression": "(wrote_article(person, legislation) -> spoke_publicly(person, legislation))",
+        "natural": "Provided that a person has written an article about the legislation, that person has spoken publicly about the legislation."
+      },
+      "(A9 ∨ G)": {
+        "formal": "(A9 ∨ G)",
+        "prover9": "(A9 | G)",
+        "prover9_expression": "(authorized(person, platform) | has_access(person, platform))",
+        "natural": "A person is authorized on a platform or a person has access to a platform."
+      },
+      "(¬(A13 → (A12 ∨ ¬A11)) → A14)": {
+        "formal": "(¬(A13 → (A12 ∨ ¬A11)) → A14)",
+        "prover9": "(-(A13 -> (A12 | -A11)) -> A14)",
+        "prover9_expression": "(-(verified(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspended(person, platform))",
+        "natural": "If it is not the case that a person being verified on a platform implies they are registered or do not violate the legislation, then the person is suspended from the platform."
+      },
+      "(¬(A20 ∨ (A19 → (¬(A9 ∨ G) → A17))) → A21)": {
+        "formal": "(¬(A20 ∨ (A19 → (¬(A9 ∨ G) → A17))) → A21)",
+        "prover9": "(-(A20 | (A19 -> (-(A9 | G) -> A17))) -> A21)",
+        "prover9_expression": "(-(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))) -> reinstated(person, platform))",
+        "natural": "Under the condition that it is not the case that a person has appealed to a platform or, if the platform has monitored their activity and it is not the case that they are authorized or have access, then they are blocked, the person is reinstated on the platform."
+      },
+      "(¬(A20 ∨ (A19 → (¬(A9 ∨ G) → A17))) → A22)": {
+        "formal": "(¬(A20 ∨ (A19 → (¬(A9 ∨ G) → A17))) → A22)",
+        "prover9": "(-(A20 | (A19 -> (-(A9 | G) -> A17))) -> A22)",
+        "prover9_expression": "(-(appealed(person, platform) | (monitored_activity(platform, person) -> (-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform)))) -> won_appeal(person, platform))",
+        "natural": "Whenever it is not the case that a person has appealed to a platform or, if the platform has monitored their activity and it is not the case that they are authorized or have access, then they are blocked, the person has won an appeal on the platform."
+      },
+      "(¬(A3 ∨ A4) → A5)": {
+        "formal": "(¬(A3 ∨ A4) → A5)",
+        "prover9": "(-(A3 | A4) -> A5)",
+        "prover9_expression": "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> influenced_legislation(person, legislation))",
+        "natural": "Provided that it is not the case that a person campaigns against or lobbies for the legislation, that person has influenced the legislation."
+      },
+      "(¬(A3 ∨ A4) → A6)": {
+        "formal": "(¬(A3 ∨ A4) → A6)",
+        "prover9": "(-(A3 | A4) -> A6)",
+        "prover9_expression": "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> spoke_publicly(person, legislation))",
+        "natural": "Under the condition that it is not the case that a person campaigns against or lobbies for the legislation, that person has spoken publicly about the legislation."
+      },
+      "(¬(A3 ∨ A4) → A7)": {
+        "formal": "(¬(A3 ∨ A4) → A7)",
+        "prover9": "(-(A3 | A4) -> A7)",
+        "prover9_expression": "(-(campaigns_against(person, legislation) | lobbies_for(person, legislation)) -> organized_protest(person, legislation))",
+        "natural": "If it is not the case that a person campaigns against or lobbies for the legislation, then that person has organized a protest against the legislation."
+      },
+      "(¬(A34 → (A12 ∨ ¬A11)) → A35)": {
+        "formal": "(¬(A34 → (A12 ∨ ¬A11)) → A35)",
+        "prover9": "(-(A34 -> (A12 | -A11)) -> A35)",
+        "prover9_expression": "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> suspension_upheld(person, platform))",
+        "natural": "Whenever it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, the suspension of that person on the platform is upheld."
+      },
+      "(¬(A34 → (A12 ∨ ¬A11)) → A36)": {
+        "formal": "(¬(A34 → (A12 ∨ ¬A11)) → A36)",
+        "prover9": "(-(A34 -> (A12 | -A11)) -> A36)",
+        "prover9_expression": "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform))",
+        "natural": "Provided that it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, access is restored for that person on the platform."
+      },
+      "(¬(A34 → (A12 ∨ ¬A11)) → ¬A35)": {
+        "formal": "(¬(A34 → (A12 ∨ ¬A11)) → ¬A35)",
+        "prover9": "(-(A34 -> (A12 | -A11)) -> -A35)",
+        "prover9_expression": "(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> -suspension_upheld(person, platform))",
+        "natural": "Under the condition that it is not the case that a decision pending for a person on a platform implies they are registered or do not violate the legislation, the suspension of that person on the platform is not upheld."
+      },
+      "(¬(A9 ∨ G) → A17)": {
+        "formal": "(¬(A9 ∨ G) → A17)",
+        "prover9": "(-(A9 | G) -> A17)",
+        "prover9_expression": "(-(authorized(person, platform) | has_access(person, platform)) -> blocked(person, platform))",
+        "natural": "If it is not the case that a person is authorized on a platform or has access to the platform, then the person is blocked from the platform."
+      },
+      "(¬(¬(A34 → (A12 ∨ ¬A11)) → A36) → A37)": {
+        "formal": "(¬(¬(A34 → (A12 ∨ ¬A11)) → A36) → A37)",
+        "prover9": "(-(-(A34 -> (A12 | -A11)) -> A36) -> A37)",
+        "prover9_expression": "(-(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform)) -> case_closed(person, platform))",
+        "natural": "Whenever it is not the case that the negation of a decision pending for a person on a platform implying they are registered or do not violate the legislation leads to access being restored for that person on the platform, the case is closed for that person on the platform."
+      },
+      "(¬(¬(A34 → (A12 ∨ ¬A11)) → A36) → A38)": {
+        "formal": "(¬(¬(A34 → (A12 ∨ ¬A11)) → A36) → A38)",
+        "prover9": "(-(-(A34 -> (A12 | -A11)) -> A36) -> A38)",
+        "prover9_expression": "(-(-(decision_pending(person, platform) -> (registered(person, platform) | -violates(person, legislation))) -> access_restored(person, platform)) -> further_review(person, platform))",
+        "natural": "Provided that it is not the case that the negation of a decision pending for a person on a platform implying they are registered or do not violate the legislation leads to access being restored for that person on the platform, further review is required for that person on the platform."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "complies(platform, legislation)",
+        "natural": "A platform complies with the legislation."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "verified(person, platform)",
+        "natural": "A person is verified on a platform."
+      },
+      "A24": {
+        "formal": "A24",
+        "prover9": "A24",
+        "prover9_expression": "ceased_activity(person, platform)",
+        "natural": "A person has ceased activity on a platform."
+      },
+      "A25": {
+        "formal": "A25",
+        "prover9": "A25",
+        "prover9_expression": "acknowledged_violation(person, legislation)",
+        "natural": "A person has acknowledged a violation of the legislation."
+      },
+      "A29": {
+        "formal": "A29",
+        "prover9": "A29",
+        "prover9_expression": "appealed_fine(person, legislation)",
+        "natural": "A person has appealed a fine under the legislation."
+      },
+      "A30": {
+        "formal": "A30",
+        "prover9": "A30",
+        "prover9_expression": "paid_fine(person, legislation)",
+        "natural": "A person has paid a fine under the legislation."
+      },
+      "A32": {
+        "formal": "A32",
+        "prover9": "A32",
+        "prover9_expression": "appealed_suspension(person, platform)",
+        "natural": "A person has appealed a suspension on a platform."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "has_access(person, platform)",
+        "natural": "A person has access to a platform."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-supports(person, legislation)",
+        "natural": "It is not the case that a person supports the legislation."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-violates(person, legislation)",
+        "natural": "It is not the case that a person violates the legislation."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-registered(person, platform)",
+        "natural": "It is not the case that a person is registered on a platform."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-suspended(person, platform)",
+        "natural": "It is not the case that a person is suspended from a platform."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-blocked(person, platform)",
+        "natural": "It is not the case that a person is blocked from a platform."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-opposes(person, legislation)",
+        "natural": "It is not the case that a person opposes the legislation."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-appealed(person, platform)",
+        "natural": "It is not the case that a person has appealed to a platform."
+      },
+      "¬A21": {
+        "formal": "¬A21",
+        "prover9": "-A21",
+        "prover9_expression": "-reinstated(person, platform)",
+        "natural": "It is not the case that a person has been reinstated on a platform."
+      },
+      "¬A23": {
+        "formal": "¬A23",
+        "prover9": "-A23",
+        "prover9_expression": "-lost_appeal(person, platform)",
+        "natural": "It is not the case that a person has lost an appeal on a platform."
+      },
+      "¬A28": {
+        "formal": "¬A28",
+        "prover9": "-A28",
+        "prover9_expression": "-subject_to_fine(person, legislation)",
+        "natural": "It is not the case that a person is subject to a fine under the legislation."
+      },
+      "¬A31": {
+        "formal": "¬A31",
+        "prover9": "-A31",
+        "prover9_expression": "-disputed_fine(person, legislation)",
+        "natural": "It is not the case that a person has disputed a fine under the legislation."
+      },
+      "¬A37": {
+        "formal": "¬A37",
+        "prover9": "-A37",
+        "prover9_expression": "-case_closed(person, platform)",
+        "natural": "It is not the case that the case is closed for a person on a platform."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-influenced_legislation(person, legislation)",
+        "natural": "It is not the case that a person has influenced the legislation."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-authorized(person, platform)",
+        "natural": "It is not the case that a person is authorized on a platform."
+      }
+    }
+  }
+}

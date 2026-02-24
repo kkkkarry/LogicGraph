@@ -1,0 +1,2755 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 12,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 4
+      },
+      "2": {
+        "core": 1,
+        "branch": 2
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 0
+      },
+      "5": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A38)",
+        "prover9_expression": "(requires(drug_development, fda_approval) -> discovers(compound, therapeutic))",
+        "natural": "Whenever drug development requires FDA approval, compound discovers therapeutic."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(requires(drug_development, fda_approval) | requires(drug_development, clinical_trial))",
+        "natural": "Either drug development requires FDA approval or drug development requires clinical trial."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 → ¬A9)",
+        "prover9_expression": "(rejected(drug, fda) -> -approved(drug, market))",
+        "natural": "If drug is rejected by FDA, then it is not the case that drug is approved for market."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A10 ∨ A11)",
+        "prover9_expression": "(rejected(drug, fda) | recalled(drug, market))",
+        "natural": "Either drug is rejected by FDA or drug is recalled from market."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A17 ∨ (A16 → ¬A15))",
+        "prover9_expression": "(banned(drug, country) | (contraindicated(drug, patients) -> -prescribed(drug, doctors)))",
+        "natural": "Either drug is banned in country, or if drug is contraindicated for patients, then drug is not prescribed by doctors."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A18 ∨ A19)",
+        "prover9_expression": "(meets(supplier, gmp_standards) | fails(supplier, audit))",
+        "natural": "Supplier meets GMP standards or supplier fails audit."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A19 → G)",
+        "prover9_expression": "(fails(supplier, audit) -> profitable(company, business))",
+        "natural": "If supplier fails audit, then company is profitable in business."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(requires(drug_development, clinical_trial) -> profitable(company, business))",
+        "natural": "Whenever drug development requires clinical trial, company is profitable in business."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A23 → (A22 → (¬(¬(A18 → G) → ¬A20) → A21)))",
+        "prover9_expression": "(passes(raw_material, purity_test) -> (requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))))",
+        "natural": "Provided raw material passes purity test, then if raw material requires certificate and it is not the case that whenever supplier meets GMP standards then company is profitable in business leads to supplier not qualifying for contract, then supplier is disqualified from bidding."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A23 ∨ A24)",
+        "prover9_expression": "(passes(raw_material, purity_test) | fails(raw_material, impurity_test))",
+        "natural": "Either raw material passes purity test or raw material fails impurity test."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A24 → (A22 → (¬(¬(A18 → G) → ¬A20) → A21)))",
+        "prover9_expression": "(fails(raw_material, impurity_test) -> (requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))))",
+        "natural": "If raw material fails impurity test, then provided raw material requires certificate and under the condition that it is not true that supplier meeting GMP standards implies company profitability leads to supplier not qualifying for contract, then supplier is disqualified from bidding."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A25 → G)",
+        "prover9_expression": "(requires(manufacturing, clean_room) -> profitable(company, business))",
+        "natural": "In case manufacturing requires clean room, company is profitable in business."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A29 ∨ (A28 → (¬(¬A25 → ¬A26) → A27)))",
+        "prover9_expression": "(schedules(maintenance, preventive) | (reports(equipment, malfunction) -> (-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line))))",
+        "natural": "Either maintenance schedules preventive, or if equipment reports malfunction and provided it is not the case that manufacturing not requiring clean room leads to manufacturing not requiring sterilization, then production halts line."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(contains(formulation, active_ingredient) -> contains(formulation, excipient))",
+        "natural": "Formulation containing active ingredient implies formulation contains excipient."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A32 → ¬A33)",
+        "prover9_expression": "(exceeds(batch, yield_target) -> -meets(batch, quality_standards))",
+        "natural": "Under the condition that batch exceeds yield target, batch does not meet quality standards."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A32 ∨ ¬A31)",
+        "prover9_expression": "(exceeds(batch, yield_target) | -accelerates(production, timeline))",
+        "natural": "Either batch exceeds yield target or production does not accelerate timeline."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A34 → (A32 → A33))",
+        "prover9_expression": "(passes(batch, release_test) -> (exceeds(batch, yield_target) -> meets(batch, quality_standards)))",
+        "natural": "If batch passes release test, then whenever batch exceeds yield target, batch meets quality standards."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A34 ∨ A35)",
+        "prover9_expression": "(passes(batch, release_test) | fails(batch, potency_test))",
+        "natural": "Batch passes release test or batch fails potency test."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A35 → (A32 → A33))",
+        "prover9_expression": "(fails(batch, potency_test) -> (exceeds(batch, yield_target) -> meets(batch, quality_standards)))",
+        "natural": "In case batch fails potency test, then if batch exceeds yield target, batch meets quality standards."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A36 → G)",
+        "prover9_expression": "(completes(drug, development) -> profitable(company, business))",
+        "natural": "Given drug completes development, company is profitable in business."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A37 → A36)",
+        "prover9_expression": "(files(drug, patent) -> completes(drug, development))",
+        "natural": "If drug files patent, then drug completes development."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A38 → A39)",
+        "prover9_expression": "(discovers(compound, therapeutic) -> synthesizes(compound, laboratory))",
+        "natural": "Whenever compound discovers therapeutic, compound synthesizes in laboratory."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(contains(formulation, excipient) -> contains(formulation, stabilizer))",
+        "natural": "Formulation containing excipient implies formulation contains stabilizer."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A4 → A52)",
+        "prover9_expression": "(contains(formulation, excipient) -> scales(drug, production))",
+        "natural": "If formulation contains excipient, then drug scales production."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A40 ∨ (A39 → A37))",
+        "prover9_expression": "(imports(raw_material, international) | (synthesizes(compound, laboratory) -> files(drug, patent)))",
+        "natural": "Either raw material imports internationally, or if compound synthesizes in laboratory, then drug files patent."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A41 → ¬A40)",
+        "prover9_expression": "(complies(supplier, regulations) -> -imports(raw_material, international))",
+        "natural": "Supplier complying with regulations implies raw material does not import internationally."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A42 → A41)",
+        "prover9_expression": "(certified(supplier, iso) -> complies(supplier, regulations))",
+        "natural": "If supplier is certified for ISO, then supplier complies with regulations."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A42 ∨ A43)",
+        "prover9_expression": "(certified(supplier, iso) | accredited(supplier, fda))",
+        "natural": "Supplier is certified for ISO or supplier is accredited by FDA."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A43 → A41)",
+        "prover9_expression": "(accredited(supplier, fda) -> complies(supplier, regulations))",
+        "natural": "Provided supplier is accredited by FDA, supplier complies with regulations."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A44 → (A1 → G))",
+        "prover9_expression": "(maintains(formulation, stability) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "In case formulation maintains stability, then whenever drug development requires FDA approval, company is profitable in business."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A45 → A46)",
+        "prover9_expression": "(adds(formulation, preservative) -> controls(formulation, ph_level))",
+        "natural": "Under the condition that formulation adds preservative, formulation controls pH level."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A47 ∨ A48)",
+        "prover9_expression": "(tests(formulation, compatibility) | validates(formulation, method))",
+        "natural": "Either formulation tests compatibility or formulation validates method."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A48 → (A46 → A44))",
+        "prover9_expression": "(validates(formulation, method) -> (controls(formulation, ph_level) -> maintains(formulation, stability)))",
+        "natural": "In case formulation validates method, then if formulation controls pH level, formulation maintains stability."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A5 → A45)",
+        "prover9_expression": "(contains(formulation, stabilizer) -> adds(formulation, preservative))",
+        "natural": "Under the condition that formulation contains stabilizer, formulation adds preservative."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A50 → (A1 → G))",
+        "prover9_expression": "(develops(drug, formulation) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "Whenever drug develops formulation, then if drug development requires FDA approval, company is profitable in business."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A51 → A50)",
+        "prover9_expression": "(optimizes(drug, dosage) -> develops(drug, formulation))",
+        "natural": "Provided drug optimizes dosage, drug develops formulation."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A52 → A51)",
+        "prover9_expression": "(scales(drug, production) -> optimizes(drug, dosage))",
+        "natural": "If drug scales production, then drug optimizes dosage."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A55 → A56)",
+        "prover9_expression": "(protects(intellectual_property, patent) -> files(patent, application))",
+        "natural": "In case intellectual property protects by patent, patent files application."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A57 → (A56 → ¬A54))",
+        "prover9_expression": "(grants(patent, protection) -> (files(patent, application) -> -infringes(patent, rights)))",
+        "natural": "Provided patent grants protection, then if patent files application, patent does not infringe rights."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A58 → A57)",
+        "prover9_expression": "(registers(patent, office) -> grants(patent, protection))",
+        "natural": "If patent registers at office, then patent grants protection."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A60 → ¬A59)",
+        "prover9_expression": "(challenges(patent, validity) -> -approves(generic, fda))",
+        "natural": "Whenever patent challenges validity, generic is not approved by FDA."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A60 ∨ A61)",
+        "prover9_expression": "(challenges(patent, validity) | licenses(patent, generic))",
+        "natural": "Either patent challenges validity or patent licenses to generic."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A62 → A64)",
+        "prover9_expression": "(violates(patent, law) -> settles(dispute, court))",
+        "natural": "If patent violates law, then dispute settles in court."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A62 ∨ (A61 → ¬A59))",
+        "prover9_expression": "(violates(patent, law) | (licenses(patent, generic) -> -approves(generic, fda)))",
+        "natural": "Either patent violates law, or if patent licenses to generic, generic is not approved by FDA."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A65 → A66)",
+        "prover9_expression": "(pays(company, damages) -> loses(company, case))",
+        "natural": "Under the condition that company pays damages, company loses case."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A67 → A69)",
+        "prover9_expression": "(operates(facility, gmp) -> upgrades(facility, equipment))",
+        "natural": "Provided facility operates under GMP, facility upgrades equipment."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A67 → ¬A68)",
+        "prover9_expression": "(operates(facility, gmp) -> -passes(facility, inspection))",
+        "natural": "In case facility operates under GMP, facility does not pass inspection."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A67 ∨ A25)",
+        "prover9_expression": "(operates(facility, gmp) | requires(manufacturing, clean_room))",
+        "natural": "Either facility operates under GMP or manufacturing requires clean room."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A7 → (¬(A5 → (A1 → G)) → ¬A6))",
+        "prover9_expression": "(fails(batch, quality_check) -> (-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test)))",
+        "natural": "Whenever batch fails quality check, then if it is not true that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, then formulation does not pass stability test."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(fails(batch, quality_check) | fails(batch, contamination_test))",
+        "natural": "Either batch fails quality check or batch fails contamination test."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(A70 → (A69 → A68))",
+        "prover9_expression": "(maintains(facility, compliance) -> (upgrades(facility, equipment) -> passes(facility, inspection)))",
+        "natural": "Under the condition that facility maintains compliance, then if facility upgrades equipment, facility passes inspection."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(A71 → A73)",
+        "prover9_expression": "(trains(staff, procedures) -> implements(system, quality))",
+        "natural": "If staff trains in procedures, then system implements quality."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(A71 ∨ A72)",
+        "prover9_expression": "(trains(staff, procedures) | documents(processes, properly))",
+        "natural": "Either staff trains in procedures or processes document properly."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(A72 → A70)",
+        "prover9_expression": "(documents(processes, properly) -> maintains(facility, compliance))",
+        "natural": "In case processes document properly, facility maintains compliance."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(A73 → A74)",
+        "prover9_expression": "(implements(system, quality) -> reviews(system, regularly))",
+        "natural": "Provided system implements quality, system reviews regularly."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(A74 → A70)",
+        "prover9_expression": "(reviews(system, regularly) -> maintains(facility, compliance))",
+        "natural": "If system reviews regularly, then facility maintains compliance."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(A8 → (¬(A5 → (A1 → G)) → ¬A6))",
+        "prover9_expression": "(fails(batch, contamination_test) -> (-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test)))",
+        "natural": "Under the condition that batch fails contamination test, then if it is not the case that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, then formulation does not pass stability test."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(A9 ∨ G)",
+        "prover9_expression": "(approved(drug, market) | profitable(company, business))",
+        "natural": "Either drug is approved for market or company is profitable in business."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬(A11 → ¬A9) → A12)",
+        "prover9_expression": "(-(recalled(drug, market) -> -approved(drug, market)) -> approved(generic, market))",
+        "natural": "If it is not the case that drug recalled from market implies drug not approved for market, then generic is approved for market."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬(A11 → ¬A9) → A59)",
+        "prover9_expression": "(-(recalled(drug, market) -> -approved(drug, market)) -> approves(generic, fda))",
+        "natural": "Provided it is not true that drug recalled from market leads to drug not approved for market, generic is approved by FDA."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬(A18 → G) → A20)",
+        "prover9_expression": "(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> qualifies(supplier, contract))",
+        "natural": "Whenever it is not true that supplier meeting GMP standards leads to company profitability, supplier qualifies for contract."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(¬(A47 → (A46 → A44)) → A49)",
+        "prover9_expression": "(-(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability))) -> approves(formulation, specification))",
+        "natural": "Provided it is not the case that formulation testing compatibility implies that formulation controlling pH level leads to formulation maintaining stability, formulation approves specification."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(¬(A47 → (A46 → A44)) → ¬A49)",
+        "prover9_expression": "(-(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability))) -> -approves(formulation, specification))",
+        "natural": "If it is not true that formulation tests compatibility implies that formulation controls pH level and formulation maintains stability, then formulation does not approve specification."
+      },
+      {
+        "id": "Rule64",
+        "formal": "(¬(A5 → (A1 → G)) → A6)",
+        "prover9_expression": "(-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> passes(formulation, stability_test))",
+        "natural": "Whenever it is not the case that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, formulation passes stability test."
+      },
+      {
+        "id": "Rule65",
+        "formal": "(¬(A64 → A63) → A65)",
+        "prover9_expression": "(-(settles(dispute, court) -> faces(company, lawsuit)) -> pays(company, damages))",
+        "natural": "Provided it is not the case that dispute settling in court implies company facing lawsuit, company pays damages."
+      },
+      {
+        "id": "Rule66",
+        "formal": "(¬(¬(A11 → ¬A9) → ¬A12) → A13)",
+        "prover9_expression": "(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> approved(biosimilar, market))",
+        "natural": "If it is not true that whenever drug recalled from market implies drug not approved for market leads to generic not approved for market, then biosimilar is approved for market."
+      },
+      {
+        "id": "Rule67",
+        "formal": "(¬(¬(A18 → G) → ¬A20) → ¬A21)",
+        "prover9_expression": "(-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> -disqualified(supplier, bidding))",
+        "natural": "Provided it is not the case that supplier meets GMP standards and company is profitable in business implies supplier does not qualify for contract, then supplier is not disqualified from bidding."
+      },
+      {
+        "id": "Rule68",
+        "formal": "(¬(¬(A4 → (A1 → G)) → A30) → A31)",
+        "prover9_expression": "(-(-(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> delays(production, schedule)) -> accelerates(production, timeline))",
+        "natural": "If it is not true that formulation containing excipient implying drug development requiring FDA approval and company profitability leads to production delaying schedule, production accelerates timeline."
+      },
+      {
+        "id": "Rule69",
+        "formal": "(¬(¬(¬(A11 → ¬A9) → ¬A12) → A53) → A54)",
+        "prover9_expression": "(-(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> licenses(technology, partner)) -> infringes(patent, rights))",
+        "natural": "Whenever it is not the case that drug recalled from market implying drug not approved for market leading to generic not approved for market implies technology licensing to partner, patent infringes rights."
+      },
+      {
+        "id": "Rule70",
+        "formal": "(¬(¬G → ¬A14) → A15)",
+        "prover9_expression": "(-(-profitable(company, business) -> -available(drug, patients)) -> prescribed(drug, doctors))",
+        "natural": "Under the condition that it is not the case that company not profitable in business implies drug not available to patients, drug is prescribed by doctors."
+      },
+      {
+        "id": "Rule71",
+        "formal": "(¬(¬G → ¬A14) → A16)",
+        "prover9_expression": "(-(-profitable(company, business) -> -available(drug, patients)) -> contraindicated(drug, patients))",
+        "natural": "If it is not true that company not being profitable in business leads to drug not available to patients, then drug is contraindicated for patients."
+      },
+      {
+        "id": "Rule72",
+        "formal": "(¬A25 → A26)",
+        "prover9_expression": "(-requires(manufacturing, clean_room) -> requires(manufacturing, sterilization))",
+        "natural": "Whenever manufacturing does not require clean room, manufacturing requires sterilization."
+      },
+      {
+        "id": "Rule73",
+        "formal": "(¬G → A14)",
+        "prover9_expression": "(-profitable(company, business) -> available(drug, patients))",
+        "natural": "If company is not profitable in business, drug is available to patients."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A22",
+        "prover9_expression": "requires(raw_material, certificate)",
+        "natural": "Raw material requires certificate."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A28",
+        "prover9_expression": "reports(equipment, malfunction)",
+        "natural": "Equipment reports malfunction."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A3",
+        "prover9_expression": "contains(formulation, active_ingredient)",
+        "natural": "Formulation contains active ingredient."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A55",
+        "prover9_expression": "protects(intellectual_property, patent)",
+        "natural": "Intellectual property protects by patent."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A58",
+        "prover9_expression": "registers(patent, office)",
+        "natural": "Patent registers at office."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A13",
+        "prover9_expression": "-approved(biosimilar, market)",
+        "natural": "It is not the case that biosimilar is approved for market."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A17",
+        "prover9_expression": "-banned(drug, country)",
+        "natural": "Drug is not banned in country."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A27",
+        "prover9_expression": "-halts(production, line)",
+        "natural": "Production does not halt line."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A29",
+        "prover9_expression": "-schedules(maintenance, preventive)",
+        "natural": "Maintenance does not schedule preventive."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A30",
+        "prover9_expression": "-delays(production, schedule)",
+        "natural": "Production does not delay schedule."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A53",
+        "prover9_expression": "-licenses(technology, partner)",
+        "natural": "Technology does not license to partner."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A63",
+        "prover9_expression": "-faces(company, lawsuit)",
+        "natural": "Company does not face lawsuit."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A66",
+        "prover9_expression": "-loses(company, case)",
+        "natural": "Company does not lose case."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "profitable(company, business)",
+    "natural": "Company is profitable in business."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> (-(A5 -> (A1 -> G)) -> -A6))",
+            "(A8 -> (-(A5 -> (A1 -> G)) -> -A6))"
+          ],
+          "conclusion": "(-(A5 -> (A1 -> G)) -> -A6)",
+          "natural": "Under the condition that it is not true that formulation contains stabilizer implies that drug development requires FDA approval and company is profitable in business, formulation does not pass stability test."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A5 -> (A1 -> G)) -> A6)",
+            "(-(A5 -> (A1 -> G)) -> -A6)"
+          ],
+          "conclusion": "(A5 -> (A1 -> G))",
+          "natural": "Given formulation contains stabilizer, then provided drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A1 -> G))"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Under the condition that formulation contains excipient, then if drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> (A1 -> G))"
+          ],
+          "conclusion": "(A3 -> (A1 -> G))",
+          "natural": "If formulation contains active ingredient, then whenever drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (A1 -> G))",
+            "A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A11 -> -A9) -> -A12) -> A13)",
+            "-A13"
+          ],
+          "conclusion": "(-(A11 -> -A9) -> -A12)",
+          "natural": "In case it is not the case that drug recalled from market implies drug not approved for market, then generic is not approved for market."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A11 -> -A9) -> A12)",
+            "(-(A11 -> -A9) -> -A12)"
+          ],
+          "conclusion": "(A11 -> -A9)",
+          "natural": "In case drug is recalled from market, then drug is not approved for market."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> -A9)",
+            "(A11 -> -A9)"
+          ],
+          "conclusion": "-A9",
+          "natural": "Drug is not approved for market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A17 | (A16 -> -A15))",
+            "-A17"
+          ],
+          "conclusion": "(A16 -> -A15)",
+          "natural": "Given that drug is contraindicated for patients, then drug is not prescribed by doctors."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-G -> -A14) -> A16)",
+            "(A16 -> -A15)"
+          ],
+          "conclusion": "(-(-G -> -A14) -> -A15)",
+          "natural": "In case it is not the case that company not profitable in business implies drug not available to patients, then drug is not prescribed by doctors."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> -A14) -> A15)",
+            "(-(-G -> -A14) -> -A15)"
+          ],
+          "conclusion": "(-G -> -A14)",
+          "natural": "Under the condition that company is not profitable in business, drug is not available to patients."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A14)",
+            "(-G -> -A14)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A23 | A24)",
+            "(A23 -> (A22 -> (-(-(A18 -> G) -> -A20) -> A21)))",
+            "(A24 -> (A22 -> (-(-(A18 -> G) -> -A20) -> A21)))"
+          ],
+          "conclusion": "(A22 -> (-(-(A18 -> G) -> -A20) -> A21))",
+          "natural": "If raw material requires certificate, then in case it is not true that if supplier meets GMP standards then company is profitable in business implies supplier does not qualify for contract, then supplier is disqualified from bidding."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A22 -> (-(-(A18 -> G) -> -A20) -> A21))",
+            "A22"
+          ],
+          "conclusion": "(-(-(A18 -> G) -> -A20) -> A21)",
+          "natural": "Under the condition that it is not true that supplier meeting GMP standards implying company profitability leads to supplier not qualifying for contract, supplier is disqualified from bidding."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A18 -> G) -> -A20) -> A21)",
+            "(-(-(A18 -> G) -> -A20) -> -A21)"
+          ],
+          "conclusion": "(-(A18 -> G) -> -A20)",
+          "natural": "If it is not the case that supplier meets GMP standards implies company is profitable in business, then supplier does not qualify for contract."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A18 -> G) -> A20)",
+            "(-(A18 -> G) -> -A20)"
+          ],
+          "conclusion": "(A18 -> G)",
+          "natural": "Provided supplier meets GMP standards, company is profitable in business."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A18 | A19)",
+            "(A18 -> G)",
+            "(A19 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A29 | (A28 -> (-(-A25 -> -A26) -> A27)))",
+            "-A29"
+          ],
+          "conclusion": "(A28 -> (-(-A25 -> -A26) -> A27))",
+          "natural": "If equipment reports malfunction, then whenever it is not true that manufacturing does not require clean room implies manufacturing does not require sterilization, production halts line."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> (-(-A25 -> -A26) -> A27))",
+            "A28"
+          ],
+          "conclusion": "(-(-A25 -> -A26) -> A27)",
+          "natural": "Provided it is not true that manufacturing not requiring clean room implies manufacturing not requiring sterilization, production halts line."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A25 -> -A26) -> A27)",
+            "-A27"
+          ],
+          "conclusion": "(-A25 -> -A26)",
+          "natural": "Provided manufacturing does not require clean room, manufacturing does not require sterilization."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A25 -> A26)",
+            "(-A25 -> -A26)"
+          ],
+          "conclusion": "A25",
+          "natural": "Manufacturing requires clean room."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A25 -> G)",
+            "A25"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A34 | A35)",
+            "(A34 -> (A32 -> A33))",
+            "(A35 -> (A32 -> A33))"
+          ],
+          "conclusion": "(A32 -> A33)",
+          "natural": "Provided batch exceeds yield target, batch meets quality standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A32 -> A33)",
+            "(A32 -> -A33)"
+          ],
+          "conclusion": "-A32",
+          "natural": "Batch does not exceed yield target."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A32 | -A31)",
+            "-A32"
+          ],
+          "conclusion": "-A31",
+          "natural": "Production does not accelerate timeline."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A4 -> (A1 -> G)) -> A30) -> A31)",
+            "-A31"
+          ],
+          "conclusion": "(-(A4 -> (A1 -> G)) -> A30)",
+          "natural": "Under the condition that it is not true that formulation containing excipient implies that drug development requiring FDA approval leads to company profitability, production delays schedule."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 -> (A1 -> G)) -> A30)",
+            "-A30"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Under the condition that formulation contains excipient, then if drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> (A1 -> G))"
+          ],
+          "conclusion": "(A3 -> (A1 -> G))",
+          "natural": "If formulation contains active ingredient, then whenever drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (A1 -> G))",
+            "A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A42 | A43)",
+            "(A42 -> A41)",
+            "(A43 -> A41)"
+          ],
+          "conclusion": "A41",
+          "natural": "Supplier complies with regulations."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A41 -> -A40)",
+            "A41"
+          ],
+          "conclusion": "-A40",
+          "natural": "Raw material does not import internationally."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A40 | (A39 -> A37))",
+            "-A40"
+          ],
+          "conclusion": "(A39 -> A37)",
+          "natural": "If compound synthesizes in laboratory, then drug files patent."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A38 -> A39)",
+            "(A39 -> A37)"
+          ],
+          "conclusion": "(A38 -> A37)",
+          "natural": "Provided compound discovers therapeutic, drug files patent."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A38)",
+            "(A38 -> A37)"
+          ],
+          "conclusion": "(A1 -> A37)",
+          "natural": "Provided that drug development requires FDA approval, drug files patent."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A37)",
+            "(A37 -> A36)"
+          ],
+          "conclusion": "(A1 -> A36)",
+          "natural": "If drug development requires FDA approval, then drug completes development."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A36)",
+            "(A36 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A47 -> (A46 -> A44)) -> A49)",
+            "(-(A47 -> (A46 -> A44)) -> -A49)"
+          ],
+          "conclusion": "(A47 -> (A46 -> A44))",
+          "natural": "If formulation tests compatibility, then whenever formulation controls pH level, formulation maintains stability."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A47 | A48)",
+            "(A47 -> (A46 -> A44))",
+            "(A48 -> (A46 -> A44))"
+          ],
+          "conclusion": "(A46 -> A44)",
+          "natural": "Provided formulation controls pH level, formulation maintains stability."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A45 -> A46)",
+            "(A46 -> A44)"
+          ],
+          "conclusion": "(A45 -> A44)",
+          "natural": "If formulation adds preservative, then formulation maintains stability."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A45)",
+            "(A45 -> A44)"
+          ],
+          "conclusion": "(A5 -> A44)",
+          "natural": "If formulation contains stabilizer, then formulation maintains stability."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A44)",
+            "(A44 -> (A1 -> G))"
+          ],
+          "conclusion": "(A5 -> (A1 -> G))",
+          "natural": "Given formulation contains stabilizer, then provided drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A1 -> G))"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Under the condition that formulation contains excipient, then if drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> (A1 -> G))"
+          ],
+          "conclusion": "(A3 -> (A1 -> G))",
+          "natural": "If formulation contains active ingredient, then whenever drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (A1 -> G))",
+            "A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A52)",
+            "(A52 -> A51)"
+          ],
+          "conclusion": "(A4 -> A51)",
+          "natural": "In case formulation contains excipient, drug optimizes dosage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A51)",
+            "(A51 -> A50)"
+          ],
+          "conclusion": "(A4 -> A50)",
+          "natural": "Provided formulation contains excipient, drug develops formulation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A50)",
+            "(A50 -> (A1 -> G))"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Under the condition that formulation contains excipient, then if drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> (A1 -> G))"
+          ],
+          "conclusion": "(A3 -> (A1 -> G))",
+          "natural": "If formulation contains active ingredient, then whenever drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (A1 -> G))",
+            "A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that drug development requires FDA approval, company is profitable in business."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A58 -> A57)",
+            "A58"
+          ],
+          "conclusion": "A57",
+          "natural": "Patent grants protection."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A57 -> (A56 -> -A54))",
+            "A57"
+          ],
+          "conclusion": "(A56 -> -A54)",
+          "natural": "If patent files application, then patent does not infringe rights."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A55 -> A56)",
+            "(A56 -> -A54)"
+          ],
+          "conclusion": "(A55 -> -A54)",
+          "natural": "Under the condition that intellectual property protects by patent, patent does not infringe rights."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A55 -> -A54)",
+            "A55"
+          ],
+          "conclusion": "-A54",
+          "natural": "Patent does not infringe rights."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(-(A11 -> -A9) -> -A12) -> A53) -> A54)",
+            "-A54"
+          ],
+          "conclusion": "(-(-(A11 -> -A9) -> -A12) -> A53)",
+          "natural": "In case it is not the case that drug recalled from market implying drug not approved for market leads to generic not approved for market, technology licenses to partner."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A11 -> -A9) -> -A12) -> A53)",
+            "-A53"
+          ],
+          "conclusion": "(-(A11 -> -A9) -> -A12)",
+          "natural": "In case it is not the case that drug recalled from market implies drug not approved for market, then generic is not approved for market."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A11 -> -A9) -> A12)",
+            "(-(A11 -> -A9) -> -A12)"
+          ],
+          "conclusion": "(A11 -> -A9)",
+          "natural": "In case drug is recalled from market, then drug is not approved for market."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> -A9)",
+            "(A11 -> -A9)"
+          ],
+          "conclusion": "-A9",
+          "natural": "Drug is not approved for market."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A65 -> A66)",
+            "-A66"
+          ],
+          "conclusion": "-A65",
+          "natural": "Company does not pay damages."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A64 -> A63) -> A65)",
+            "-A65"
+          ],
+          "conclusion": "(A64 -> A63)",
+          "natural": "Whenever dispute settles in court, company faces lawsuit."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A62 -> A64)",
+            "(A64 -> A63)"
+          ],
+          "conclusion": "(A62 -> A63)",
+          "natural": "Provided patent violates law, company faces lawsuit."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A62 -> A63)",
+            "-A63"
+          ],
+          "conclusion": "-A62",
+          "natural": "Patent does not violate law."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A62 | (A61 -> -A59))",
+            "-A62"
+          ],
+          "conclusion": "(A61 -> -A59)",
+          "natural": "In case patent licenses to generic, then generic is not approved by FDA."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A60 | A61)",
+            "(A60 -> -A59)",
+            "(A61 -> -A59)"
+          ],
+          "conclusion": "-A59",
+          "natural": "Generic is not approved by FDA."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A11 -> -A9) -> A59)",
+            "-A59"
+          ],
+          "conclusion": "(A11 -> -A9)",
+          "natural": "In case drug is recalled from market, then drug is not approved for market."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> -A9)",
+            "(A11 -> -A9)"
+          ],
+          "conclusion": "-A9",
+          "natural": "Drug is not approved for market."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | G)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A73 -> A74)",
+            "(A74 -> A70)"
+          ],
+          "conclusion": "(A73 -> A70)",
+          "natural": "Whenever system implements quality, facility maintains compliance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A71 -> A73)",
+            "(A73 -> A70)"
+          ],
+          "conclusion": "(A71 -> A70)",
+          "natural": "Provided staff trains in procedures, facility maintains compliance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A71 | A72)",
+            "(A71 -> A70)",
+            "(A72 -> A70)"
+          ],
+          "conclusion": "A70",
+          "natural": "Facility maintains compliance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A70 -> (A69 -> A68))",
+            "A70"
+          ],
+          "conclusion": "(A69 -> A68)",
+          "natural": "If facility upgrades equipment, then facility passes inspection."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A67 -> A69)",
+            "(A69 -> A68)"
+          ],
+          "conclusion": "(A67 -> A68)",
+          "natural": "If facility operates under GMP, then facility passes inspection."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A67 -> A68)",
+            "(A67 -> -A68)"
+          ],
+          "conclusion": "-A67",
+          "natural": "Facility does not operate under GMP."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A67 | A25)",
+            "-A67"
+          ],
+          "conclusion": "A25",
+          "natural": "Manufacturing requires clean room."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A25 -> G)",
+            "A25"
+          ],
+          "conclusion": "G",
+          "natural": "Company is profitable in business."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "requires(drug_development, fda_approval)",
+      "A2": "requires(drug_development, clinical_trial)",
+      "A3": "contains(formulation, active_ingredient)",
+      "A4": "contains(formulation, excipient)",
+      "A5": "contains(formulation, stabilizer)",
+      "A6": "passes(formulation, stability_test)",
+      "A7": "fails(batch, quality_check)",
+      "A8": "fails(batch, contamination_test)",
+      "A9": "approved(drug, market)",
+      "A10": "rejected(drug, fda)",
+      "A11": "recalled(drug, market)",
+      "A12": "approved(generic, market)",
+      "A13": "approved(biosimilar, market)",
+      "A14": "available(drug, patients)",
+      "A15": "prescribed(drug, doctors)",
+      "A16": "contraindicated(drug, patients)",
+      "A17": "banned(drug, country)",
+      "A18": "meets(supplier, gmp_standards)",
+      "A19": "fails(supplier, audit)",
+      "A20": "qualifies(supplier, contract)",
+      "A21": "disqualified(supplier, bidding)",
+      "A22": "requires(raw_material, certificate)",
+      "A23": "passes(raw_material, purity_test)",
+      "A24": "fails(raw_material, impurity_test)",
+      "A25": "requires(manufacturing, clean_room)",
+      "A26": "requires(manufacturing, sterilization)",
+      "A27": "halts(production, line)",
+      "A28": "reports(equipment, malfunction)",
+      "A29": "schedules(maintenance, preventive)",
+      "A30": "delays(production, schedule)",
+      "A31": "accelerates(production, timeline)",
+      "A32": "exceeds(batch, yield_target)",
+      "A33": "meets(batch, quality_standards)",
+      "A34": "passes(batch, release_test)",
+      "A35": "fails(batch, potency_test)",
+      "A36": "completes(drug, development)",
+      "A37": "files(drug, patent)",
+      "A38": "discovers(compound, therapeutic)",
+      "A39": "synthesizes(compound, laboratory)",
+      "A40": "imports(raw_material, international)",
+      "A41": "complies(supplier, regulations)",
+      "A42": "certified(supplier, iso)",
+      "A43": "accredited(supplier, fda)",
+      "A44": "maintains(formulation, stability)",
+      "A45": "adds(formulation, preservative)",
+      "A46": "controls(formulation, ph_level)",
+      "A47": "tests(formulation, compatibility)",
+      "A48": "validates(formulation, method)",
+      "A49": "approves(formulation, specification)",
+      "A50": "develops(drug, formulation)",
+      "A51": "optimizes(drug, dosage)",
+      "A52": "scales(drug, production)",
+      "A53": "licenses(technology, partner)",
+      "A54": "infringes(patent, rights)",
+      "A55": "protects(intellectual_property, patent)",
+      "A56": "files(patent, application)",
+      "A57": "grants(patent, protection)",
+      "A58": "registers(patent, office)",
+      "A59": "approves(generic, fda)",
+      "A60": "challenges(patent, validity)",
+      "A61": "licenses(patent, generic)",
+      "A62": "violates(patent, law)",
+      "A63": "faces(company, lawsuit)",
+      "A64": "settles(dispute, court)",
+      "A65": "pays(company, damages)",
+      "A66": "loses(company, case)",
+      "A67": "operates(facility, gmp)",
+      "A68": "passes(facility, inspection)",
+      "A69": "upgrades(facility, equipment)",
+      "A70": "maintains(facility, compliance)",
+      "A71": "trains(staff, procedures)",
+      "A72": "documents(processes, properly)",
+      "A73": "implements(system, quality)",
+      "A74": "reviews(system, regularly)",
+      "G": "profitable(company, business)"
+    },
+    "natural_facts": {
+      "A1": "Drug development requires FDA approval.",
+      "A2": "Drug development requires clinical trial.",
+      "A3": "Formulation contains active ingredient.",
+      "A4": "Formulation contains excipient.",
+      "A5": "Formulation contains stabilizer.",
+      "A6": "Formulation passes stability test.",
+      "A7": "Batch fails quality check.",
+      "A8": "Batch fails contamination test.",
+      "A9": "Drug is approved for market.",
+      "A10": "Drug is rejected by FDA.",
+      "A11": "Drug is recalled from market.",
+      "A12": "Generic is approved for market.",
+      "A13": "Biosimilar is approved for market.",
+      "A14": "Drug is available to patients.",
+      "A15": "Drug is prescribed by doctors.",
+      "A16": "Drug is contraindicated for patients.",
+      "A17": "Drug is banned in country.",
+      "A18": "Supplier meets GMP standards.",
+      "A19": "Supplier fails audit.",
+      "A20": "Supplier qualifies for contract.",
+      "A21": "Supplier is disqualified from bidding.",
+      "A22": "Raw material requires certificate.",
+      "A23": "Raw material passes purity test.",
+      "A24": "Raw material fails impurity test.",
+      "A25": "Manufacturing requires clean room.",
+      "A26": "Manufacturing requires sterilization.",
+      "A27": "Production halts line.",
+      "A28": "Equipment reports malfunction.",
+      "A29": "Maintenance schedules preventive.",
+      "A30": "Production delays schedule.",
+      "A31": "Production accelerates timeline.",
+      "A32": "Batch exceeds yield target.",
+      "A33": "Batch meets quality standards.",
+      "A34": "Batch passes release test.",
+      "A35": "Batch fails potency test.",
+      "A36": "Drug completes development.",
+      "A37": "Drug files patent.",
+      "A38": "Compound discovers therapeutic.",
+      "A39": "Compound synthesizes in laboratory.",
+      "A40": "Raw material imports internationally.",
+      "A41": "Supplier complies with regulations.",
+      "A42": "Supplier is certified for ISO.",
+      "A43": "Supplier is accredited by FDA.",
+      "A44": "Formulation maintains stability.",
+      "A45": "Formulation adds preservative.",
+      "A46": "Formulation controls pH level.",
+      "A47": "Formulation tests compatibility.",
+      "A48": "Formulation validates method.",
+      "A49": "Formulation approves specification.",
+      "A50": "Drug develops formulation.",
+      "A51": "Drug optimizes dosage.",
+      "A52": "Drug scales production.",
+      "A53": "Technology licenses to partner.",
+      "A54": "Patent infringes rights.",
+      "A55": "Intellectual property protects by patent.",
+      "A56": "Patent files application.",
+      "A57": "Patent grants protection.",
+      "A58": "Patent registers at office.",
+      "A59": "Generic is approved by FDA.",
+      "A60": "Patent challenges validity.",
+      "A61": "Patent licenses to generic.",
+      "A62": "Patent violates law.",
+      "A63": "Company faces lawsuit.",
+      "A64": "Dispute settles in court.",
+      "A65": "Company pays damages.",
+      "A66": "Company loses case.",
+      "A67": "Facility operates under GMP.",
+      "A68": "Facility passes inspection.",
+      "A69": "Facility upgrades equipment.",
+      "A70": "Facility maintains compliance.",
+      "A71": "Staff trains in procedures.",
+      "A72": "Processes document properly.",
+      "A73": "System implements quality.",
+      "A74": "System reviews regularly.",
+      "G": "Company is profitable in business."
+    },
+    "prover9_expressions": [
+      "(requires(drug_development, fda_approval) -> completes(drug, development))",
+      "(requires(drug_development, fda_approval) -> files(drug, patent))",
+      "(requires(drug_development, fda_approval) -> discovers(compound, therapeutic))",
+      "(requires(drug_development, fda_approval) -> profitable(company, business))",
+      "(requires(drug_development, fda_approval) | requires(drug_development, clinical_trial))",
+      "(rejected(drug, fda) -> -approved(drug, market))",
+      "(rejected(drug, fda) | recalled(drug, market))",
+      "(recalled(drug, market) -> -approved(drug, market))",
+      "(contraindicated(drug, patients) -> -prescribed(drug, doctors))",
+      "(banned(drug, country) | (contraindicated(drug, patients) -> -prescribed(drug, doctors)))",
+      "(meets(supplier, gmp_standards) -> profitable(company, business))",
+      "(meets(supplier, gmp_standards) | fails(supplier, audit))",
+      "(fails(supplier, audit) -> profitable(company, business))",
+      "(requires(drug_development, clinical_trial) -> profitable(company, business))",
+      "(requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding)))",
+      "(passes(raw_material, purity_test) -> (requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))))",
+      "(passes(raw_material, purity_test) | fails(raw_material, impurity_test))",
+      "(fails(raw_material, impurity_test) -> (requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))))",
+      "(requires(manufacturing, clean_room) -> profitable(company, business))",
+      "(reports(equipment, malfunction) -> (-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line)))",
+      "(schedules(maintenance, preventive) | (reports(equipment, malfunction) -> (-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line))))",
+      "(contains(formulation, active_ingredient) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+      "(contains(formulation, active_ingredient) -> contains(formulation, excipient))",
+      "(exceeds(batch, yield_target) -> meets(batch, quality_standards))",
+      "(exceeds(batch, yield_target) -> -meets(batch, quality_standards))",
+      "(exceeds(batch, yield_target) | -accelerates(production, timeline))",
+      "(passes(batch, release_test) -> (exceeds(batch, yield_target) -> meets(batch, quality_standards)))",
+      "(passes(batch, release_test) | fails(batch, potency_test))",
+      "(fails(batch, potency_test) -> (exceeds(batch, yield_target) -> meets(batch, quality_standards)))",
+      "(completes(drug, development) -> profitable(company, business))",
+      "(files(drug, patent) -> completes(drug, development))",
+      "(discovers(compound, therapeutic) -> files(drug, patent))",
+      "(discovers(compound, therapeutic) -> synthesizes(compound, laboratory))",
+      "(synthesizes(compound, laboratory) -> files(drug, patent))",
+      "(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+      "(contains(formulation, excipient) -> contains(formulation, stabilizer))",
+      "(contains(formulation, excipient) -> develops(drug, formulation))",
+      "(contains(formulation, excipient) -> optimizes(drug, dosage))",
+      "(contains(formulation, excipient) -> scales(drug, production))",
+      "(imports(raw_material, international) | (synthesizes(compound, laboratory) -> files(drug, patent)))",
+      "(complies(supplier, regulations) -> -imports(raw_material, international))",
+      "(certified(supplier, iso) -> complies(supplier, regulations))",
+      "(certified(supplier, iso) | accredited(supplier, fda))",
+      "(accredited(supplier, fda) -> complies(supplier, regulations))",
+      "(maintains(formulation, stability) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+      "(adds(formulation, preservative) -> maintains(formulation, stability))",
+      "(adds(formulation, preservative) -> controls(formulation, ph_level))",
+      "(controls(formulation, ph_level) -> maintains(formulation, stability))",
+      "(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability)))",
+      "(tests(formulation, compatibility) | validates(formulation, method))",
+      "(validates(formulation, method) -> (controls(formulation, ph_level) -> maintains(formulation, stability)))",
+      "(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+      "(contains(formulation, stabilizer) -> maintains(formulation, stability))",
+      "(contains(formulation, stabilizer) -> adds(formulation, preservative))",
+      "(develops(drug, formulation) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+      "(optimizes(drug, dosage) -> develops(drug, formulation))",
+      "(scales(drug, production) -> optimizes(drug, dosage))",
+      "(protects(intellectual_property, patent) -> files(patent, application))",
+      "(protects(intellectual_property, patent) -> -infringes(patent, rights))",
+      "(files(patent, application) -> -infringes(patent, rights))",
+      "(grants(patent, protection) -> (files(patent, application) -> -infringes(patent, rights)))",
+      "(registers(patent, office) -> grants(patent, protection))",
+      "(challenges(patent, validity) -> -approves(generic, fda))",
+      "(challenges(patent, validity) | licenses(patent, generic))",
+      "(licenses(patent, generic) -> -approves(generic, fda))",
+      "(violates(patent, law) -> faces(company, lawsuit))",
+      "(violates(patent, law) -> settles(dispute, court))",
+      "(violates(patent, law) | (licenses(patent, generic) -> -approves(generic, fda)))",
+      "(settles(dispute, court) -> faces(company, lawsuit))",
+      "(pays(company, damages) -> loses(company, case))",
+      "(operates(facility, gmp) -> passes(facility, inspection))",
+      "(operates(facility, gmp) -> upgrades(facility, equipment))",
+      "(operates(facility, gmp) -> -passes(facility, inspection))",
+      "(operates(facility, gmp) | requires(manufacturing, clean_room))",
+      "(upgrades(facility, equipment) -> passes(facility, inspection))",
+      "(fails(batch, quality_check) -> (-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test)))",
+      "(fails(batch, quality_check) | fails(batch, contamination_test))",
+      "(maintains(facility, compliance) -> (upgrades(facility, equipment) -> passes(facility, inspection)))",
+      "(trains(staff, procedures) -> maintains(facility, compliance))",
+      "(trains(staff, procedures) -> implements(system, quality))",
+      "(trains(staff, procedures) | documents(processes, properly))",
+      "(documents(processes, properly) -> maintains(facility, compliance))",
+      "(implements(system, quality) -> maintains(facility, compliance))",
+      "(implements(system, quality) -> reviews(system, regularly))",
+      "(reviews(system, regularly) -> maintains(facility, compliance))",
+      "(fails(batch, contamination_test) -> (-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test)))",
+      "(approved(drug, market) | profitable(company, business))",
+      "(-(recalled(drug, market) -> -approved(drug, market)) -> approved(generic, market))",
+      "(-(recalled(drug, market) -> -approved(drug, market)) -> approves(generic, fda))",
+      "(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market))",
+      "(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> qualifies(supplier, contract))",
+      "(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract))",
+      "(-(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> delays(production, schedule))",
+      "(-(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability))) -> approves(formulation, specification))",
+      "(-(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability))) -> -approves(formulation, specification))",
+      "(-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> passes(formulation, stability_test))",
+      "(-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test))",
+      "(-(settles(dispute, court) -> faces(company, lawsuit)) -> pays(company, damages))",
+      "(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> approved(biosimilar, market))",
+      "(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> licenses(technology, partner))",
+      "(-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))",
+      "(-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> -disqualified(supplier, bidding))",
+      "(-(-(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> delays(production, schedule)) -> accelerates(production, timeline))",
+      "(-(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> licenses(technology, partner)) -> infringes(patent, rights))",
+      "(-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line))",
+      "(-(-profitable(company, business) -> -available(drug, patients)) -> prescribed(drug, doctors))",
+      "(-(-profitable(company, business) -> -available(drug, patients)) -> contraindicated(drug, patients))",
+      "(-(-profitable(company, business) -> -available(drug, patients)) -> -prescribed(drug, doctors))",
+      "(-requires(manufacturing, clean_room) -> requires(manufacturing, sterilization))",
+      "(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization))",
+      "(-profitable(company, business) -> available(drug, patients))",
+      "(-profitable(company, business) -> -available(drug, patients))",
+      "requires(raw_material, certificate)",
+      "requires(manufacturing, clean_room)",
+      "reports(equipment, malfunction)",
+      "contains(formulation, active_ingredient)",
+      "complies(supplier, regulations)",
+      "protects(intellectual_property, patent)",
+      "grants(patent, protection)",
+      "registers(patent, office)",
+      "maintains(facility, compliance)",
+      "profitable(company, business)",
+      "-approved(biosimilar, market)",
+      "-banned(drug, country)",
+      "-halts(production, line)",
+      "-schedules(maintenance, preventive)",
+      "-delays(production, schedule)",
+      "-accelerates(production, timeline)",
+      "-exceeds(batch, yield_target)",
+      "-imports(raw_material, international)",
+      "-licenses(technology, partner)",
+      "-infringes(patent, rights)",
+      "-approves(generic, fda)",
+      "-violates(patent, law)",
+      "-faces(company, lawsuit)",
+      "-pays(company, damages)",
+      "-loses(company, case)",
+      "-operates(facility, gmp)",
+      "-approved(drug, market)"
+    ],
+    "natural_expressions": [
+      "If drug development requires FDA approval, then drug completes development.",
+      "Provided that drug development requires FDA approval, drug files patent.",
+      "Whenever drug development requires FDA approval, compound discovers therapeutic.",
+      "Under the condition that drug development requires FDA approval, company is profitable in business.",
+      "Either drug development requires FDA approval or drug development requires clinical trial.",
+      "If drug is rejected by FDA, then it is not the case that drug is approved for market.",
+      "Either drug is rejected by FDA or drug is recalled from market.",
+      "In case drug is recalled from market, then drug is not approved for market.",
+      "Given that drug is contraindicated for patients, then drug is not prescribed by doctors.",
+      "Either drug is banned in country, or if drug is contraindicated for patients, then drug is not prescribed by doctors.",
+      "Provided supplier meets GMP standards, company is profitable in business.",
+      "Supplier meets GMP standards or supplier fails audit.",
+      "If supplier fails audit, then company is profitable in business.",
+      "Whenever drug development requires clinical trial, company is profitable in business.",
+      "If raw material requires certificate, then in case it is not true that if supplier meets GMP standards then company is profitable in business implies supplier does not qualify for contract, then supplier is disqualified from bidding.",
+      "Provided raw material passes purity test, then if raw material requires certificate and it is not the case that whenever supplier meets GMP standards then company is profitable in business leads to supplier not qualifying for contract, then supplier is disqualified from bidding.",
+      "Either raw material passes purity test or raw material fails impurity test.",
+      "If raw material fails impurity test, then provided raw material requires certificate and under the condition that it is not true that supplier meeting GMP standards implies company profitability leads to supplier not qualifying for contract, then supplier is disqualified from bidding.",
+      "In case manufacturing requires clean room, company is profitable in business.",
+      "If equipment reports malfunction, then whenever it is not true that manufacturing does not require clean room implies manufacturing does not require sterilization, production halts line.",
+      "Either maintenance schedules preventive, or if equipment reports malfunction and provided it is not the case that manufacturing not requiring clean room leads to manufacturing not requiring sterilization, then production halts line.",
+      "If formulation contains active ingredient, then whenever drug development requires FDA approval, company is profitable in business.",
+      "Formulation containing active ingredient implies formulation contains excipient.",
+      "Provided batch exceeds yield target, batch meets quality standards.",
+      "Under the condition that batch exceeds yield target, batch does not meet quality standards.",
+      "Either batch exceeds yield target or production does not accelerate timeline.",
+      "If batch passes release test, then whenever batch exceeds yield target, batch meets quality standards.",
+      "Batch passes release test or batch fails potency test.",
+      "In case batch fails potency test, then if batch exceeds yield target, batch meets quality standards.",
+      "Given drug completes development, company is profitable in business.",
+      "If drug files patent, then drug completes development.",
+      "Provided compound discovers therapeutic, drug files patent.",
+      "Whenever compound discovers therapeutic, compound synthesizes in laboratory.",
+      "If compound synthesizes in laboratory, then drug files patent.",
+      "Under the condition that formulation contains excipient, then if drug development requires FDA approval, company is profitable in business.",
+      "Formulation containing excipient implies formulation contains stabilizer.",
+      "Provided formulation contains excipient, drug develops formulation.",
+      "In case formulation contains excipient, drug optimizes dosage.",
+      "If formulation contains excipient, then drug scales production.",
+      "Either raw material imports internationally, or if compound synthesizes in laboratory, then drug files patent.",
+      "Supplier complying with regulations implies raw material does not import internationally.",
+      "If supplier is certified for ISO, then supplier complies with regulations.",
+      "Supplier is certified for ISO or supplier is accredited by FDA.",
+      "Provided supplier is accredited by FDA, supplier complies with regulations.",
+      "In case formulation maintains stability, then whenever drug development requires FDA approval, company is profitable in business.",
+      "If formulation adds preservative, then formulation maintains stability.",
+      "Under the condition that formulation adds preservative, formulation controls pH level.",
+      "Provided formulation controls pH level, formulation maintains stability.",
+      "If formulation tests compatibility, then whenever formulation controls pH level, formulation maintains stability.",
+      "Either formulation tests compatibility or formulation validates method.",
+      "In case formulation validates method, then if formulation controls pH level, formulation maintains stability.",
+      "Given formulation contains stabilizer, then provided drug development requires FDA approval, company is profitable in business.",
+      "If formulation contains stabilizer, then formulation maintains stability.",
+      "Under the condition that formulation contains stabilizer, formulation adds preservative.",
+      "Whenever drug develops formulation, then if drug development requires FDA approval, company is profitable in business.",
+      "Provided drug optimizes dosage, drug develops formulation.",
+      "If drug scales production, then drug optimizes dosage.",
+      "In case intellectual property protects by patent, patent files application.",
+      "Under the condition that intellectual property protects by patent, patent does not infringe rights.",
+      "If patent files application, then patent does not infringe rights.",
+      "Provided patent grants protection, then if patent files application, patent does not infringe rights.",
+      "If patent registers at office, then patent grants protection.",
+      "Whenever patent challenges validity, generic is not approved by FDA.",
+      "Either patent challenges validity or patent licenses to generic.",
+      "In case patent licenses to generic, then generic is not approved by FDA.",
+      "Provided patent violates law, company faces lawsuit.",
+      "If patent violates law, then dispute settles in court.",
+      "Either patent violates law, or if patent licenses to generic, generic is not approved by FDA.",
+      "Whenever dispute settles in court, company faces lawsuit.",
+      "Under the condition that company pays damages, company loses case.",
+      "If facility operates under GMP, then facility passes inspection.",
+      "Provided facility operates under GMP, facility upgrades equipment.",
+      "In case facility operates under GMP, facility does not pass inspection.",
+      "Either facility operates under GMP or manufacturing requires clean room.",
+      "If facility upgrades equipment, then facility passes inspection.",
+      "Whenever batch fails quality check, then if it is not true that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, then formulation does not pass stability test.",
+      "Either batch fails quality check or batch fails contamination test.",
+      "Under the condition that facility maintains compliance, then if facility upgrades equipment, facility passes inspection.",
+      "Provided staff trains in procedures, facility maintains compliance.",
+      "If staff trains in procedures, then system implements quality.",
+      "Either staff trains in procedures or processes document properly.",
+      "In case processes document properly, facility maintains compliance.",
+      "Whenever system implements quality, facility maintains compliance.",
+      "Provided system implements quality, system reviews regularly.",
+      "If system reviews regularly, then facility maintains compliance.",
+      "Under the condition that batch fails contamination test, then if it is not the case that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, then formulation does not pass stability test.",
+      "Either drug is approved for market or company is profitable in business.",
+      "If it is not the case that drug recalled from market implies drug not approved for market, then generic is approved for market.",
+      "Provided it is not true that drug recalled from market leads to drug not approved for market, generic is approved by FDA.",
+      "In case it is not the case that drug recalled from market implies drug not approved for market, then generic is not approved for market.",
+      "Whenever it is not true that supplier meeting GMP standards leads to company profitability, supplier qualifies for contract.",
+      "If it is not the case that supplier meets GMP standards implies company is profitable in business, then supplier does not qualify for contract.",
+      "Under the condition that it is not true that formulation containing excipient implies that drug development requiring FDA approval leads to company profitability, production delays schedule.",
+      "Provided it is not the case that formulation testing compatibility implies that formulation controlling pH level leads to formulation maintaining stability, formulation approves specification.",
+      "If it is not true that formulation tests compatibility implies that formulation controls pH level and formulation maintains stability, then formulation does not approve specification.",
+      "Whenever it is not the case that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, formulation passes stability test.",
+      "Under the condition that it is not true that formulation contains stabilizer implies that drug development requires FDA approval and company is profitable in business, formulation does not pass stability test.",
+      "Provided it is not the case that dispute settling in court implies company facing lawsuit, company pays damages.",
+      "If it is not true that whenever drug recalled from market implies drug not approved for market leads to generic not approved for market, then biosimilar is approved for market.",
+      "In case it is not the case that drug recalled from market implying drug not approved for market leads to generic not approved for market, technology licenses to partner.",
+      "Under the condition that it is not true that supplier meeting GMP standards implying company profitability leads to supplier not qualifying for contract, supplier is disqualified from bidding.",
+      "Provided it is not the case that supplier meets GMP standards and company is profitable in business implies supplier does not qualify for contract, then supplier is not disqualified from bidding.",
+      "If it is not true that formulation containing excipient implying drug development requiring FDA approval and company profitability leads to production delaying schedule, production accelerates timeline.",
+      "Whenever it is not the case that drug recalled from market implying drug not approved for market leading to generic not approved for market implies technology licensing to partner, patent infringes rights.",
+      "Provided it is not true that manufacturing not requiring clean room implies manufacturing not requiring sterilization, production halts line.",
+      "Under the condition that it is not the case that company not profitable in business implies drug not available to patients, drug is prescribed by doctors.",
+      "If it is not true that company not being profitable in business leads to drug not available to patients, then drug is contraindicated for patients.",
+      "In case it is not the case that company not profitable in business implies drug not available to patients, then drug is not prescribed by doctors.",
+      "Whenever manufacturing does not require clean room, manufacturing requires sterilization.",
+      "Provided manufacturing does not require clean room, manufacturing does not require sterilization.",
+      "If company is not profitable in business, drug is available to patients.",
+      "Under the condition that company is not profitable in business, drug is not available to patients.",
+      "Raw material requires certificate.",
+      "Manufacturing requires clean room.",
+      "Equipment reports malfunction.",
+      "Formulation contains active ingredient.",
+      "Supplier complies with regulations.",
+      "Intellectual property protects by patent.",
+      "Patent grants protection.",
+      "Patent registers at office.",
+      "Facility maintains compliance.",
+      "Company is profitable in business.",
+      "It is not the case that biosimilar is approved for market.",
+      "Drug is not banned in country.",
+      "Production does not halt line.",
+      "Maintenance does not schedule preventive.",
+      "Production does not delay schedule.",
+      "Production does not accelerate timeline.",
+      "Batch does not exceed yield target.",
+      "Raw material does not import internationally.",
+      "Technology does not license to partner.",
+      "Patent does not infringe rights.",
+      "Generic is not approved by FDA.",
+      "Patent does not violate law.",
+      "Company does not face lawsuit.",
+      "Company does not pay damages.",
+      "Company does not lose case.",
+      "Facility does not operate under GMP.",
+      "Drug is not approved for market."
+    ],
+    "node_mappings": {
+      "(A1 → A36)": {
+        "formal": "(A1 → A36)",
+        "prover9": "(A1 -> A36)",
+        "prover9_expression": "(requires(drug_development, fda_approval) -> completes(drug, development))",
+        "natural": "If drug development requires FDA approval, then drug completes development."
+      },
+      "(A1 → A37)": {
+        "formal": "(A1 → A37)",
+        "prover9": "(A1 -> A37)",
+        "prover9_expression": "(requires(drug_development, fda_approval) -> files(drug, patent))",
+        "natural": "Provided that drug development requires FDA approval, drug files patent."
+      },
+      "(A1 → A38)": {
+        "formal": "(A1 → A38)",
+        "prover9": "(A1 -> A38)",
+        "prover9_expression": "(requires(drug_development, fda_approval) -> discovers(compound, therapeutic))",
+        "natural": "Whenever drug development requires FDA approval, compound discovers therapeutic."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(requires(drug_development, fda_approval) -> profitable(company, business))",
+        "natural": "Under the condition that drug development requires FDA approval, company is profitable in business."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(requires(drug_development, fda_approval) | requires(drug_development, clinical_trial))",
+        "natural": "Either drug development requires FDA approval or drug development requires clinical trial."
+      },
+      "(A10 → ¬A9)": {
+        "formal": "(A10 → ¬A9)",
+        "prover9": "(A10 -> -A9)",
+        "prover9_expression": "(rejected(drug, fda) -> -approved(drug, market))",
+        "natural": "If drug is rejected by FDA, then it is not the case that drug is approved for market."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(rejected(drug, fda) | recalled(drug, market))",
+        "natural": "Either drug is rejected by FDA or drug is recalled from market."
+      },
+      "(A11 → ¬A9)": {
+        "formal": "(A11 → ¬A9)",
+        "prover9": "(A11 -> -A9)",
+        "prover9_expression": "(recalled(drug, market) -> -approved(drug, market))",
+        "natural": "In case drug is recalled from market, then drug is not approved for market."
+      },
+      "(A16 → ¬A15)": {
+        "formal": "(A16 → ¬A15)",
+        "prover9": "(A16 -> -A15)",
+        "prover9_expression": "(contraindicated(drug, patients) -> -prescribed(drug, doctors))",
+        "natural": "Given that drug is contraindicated for patients, then drug is not prescribed by doctors."
+      },
+      "(A17 ∨ (A16 → ¬A15))": {
+        "formal": "(A17 ∨ (A16 → ¬A15))",
+        "prover9": "(A17 | (A16 -> -A15))",
+        "prover9_expression": "(banned(drug, country) | (contraindicated(drug, patients) -> -prescribed(drug, doctors)))",
+        "natural": "Either drug is banned in country, or if drug is contraindicated for patients, then drug is not prescribed by doctors."
+      },
+      "(A18 → G)": {
+        "formal": "(A18 → G)",
+        "prover9": "(A18 -> G)",
+        "prover9_expression": "(meets(supplier, gmp_standards) -> profitable(company, business))",
+        "natural": "Provided supplier meets GMP standards, company is profitable in business."
+      },
+      "(A18 ∨ A19)": {
+        "formal": "(A18 ∨ A19)",
+        "prover9": "(A18 | A19)",
+        "prover9_expression": "(meets(supplier, gmp_standards) | fails(supplier, audit))",
+        "natural": "Supplier meets GMP standards or supplier fails audit."
+      },
+      "(A19 → G)": {
+        "formal": "(A19 → G)",
+        "prover9": "(A19 -> G)",
+        "prover9_expression": "(fails(supplier, audit) -> profitable(company, business))",
+        "natural": "If supplier fails audit, then company is profitable in business."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(requires(drug_development, clinical_trial) -> profitable(company, business))",
+        "natural": "Whenever drug development requires clinical trial, company is profitable in business."
+      },
+      "(A22 → (¬(¬(A18 → G) → ¬A20) → A21))": {
+        "formal": "(A22 → (¬(¬(A18 → G) → ¬A20) → A21))",
+        "prover9": "(A22 -> (-(-(A18 -> G) -> -A20) -> A21))",
+        "prover9_expression": "(requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding)))",
+        "natural": "If raw material requires certificate, then in case it is not true that if supplier meets GMP standards then company is profitable in business implies supplier does not qualify for contract, then supplier is disqualified from bidding."
+      },
+      "(A23 → (A22 → (¬(¬(A18 → G) → ¬A20) → A21)))": {
+        "formal": "(A23 → (A22 → (¬(¬(A18 → G) → ¬A20) → A21)))",
+        "prover9": "(A23 -> (A22 -> (-(-(A18 -> G) -> -A20) -> A21)))",
+        "prover9_expression": "(passes(raw_material, purity_test) -> (requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))))",
+        "natural": "Provided raw material passes purity test, then if raw material requires certificate and it is not the case that whenever supplier meets GMP standards then company is profitable in business leads to supplier not qualifying for contract, then supplier is disqualified from bidding."
+      },
+      "(A23 ∨ A24)": {
+        "formal": "(A23 ∨ A24)",
+        "prover9": "(A23 | A24)",
+        "prover9_expression": "(passes(raw_material, purity_test) | fails(raw_material, impurity_test))",
+        "natural": "Either raw material passes purity test or raw material fails impurity test."
+      },
+      "(A24 → (A22 → (¬(¬(A18 → G) → ¬A20) → A21)))": {
+        "formal": "(A24 → (A22 → (¬(¬(A18 → G) → ¬A20) → A21)))",
+        "prover9": "(A24 -> (A22 -> (-(-(A18 -> G) -> -A20) -> A21)))",
+        "prover9_expression": "(fails(raw_material, impurity_test) -> (requires(raw_material, certificate) -> (-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))))",
+        "natural": "If raw material fails impurity test, then provided raw material requires certificate and under the condition that it is not true that supplier meeting GMP standards implies company profitability leads to supplier not qualifying for contract, then supplier is disqualified from bidding."
+      },
+      "(A25 → G)": {
+        "formal": "(A25 → G)",
+        "prover9": "(A25 -> G)",
+        "prover9_expression": "(requires(manufacturing, clean_room) -> profitable(company, business))",
+        "natural": "In case manufacturing requires clean room, company is profitable in business."
+      },
+      "(A28 → (¬(¬A25 → ¬A26) → A27))": {
+        "formal": "(A28 → (¬(¬A25 → ¬A26) → A27))",
+        "prover9": "(A28 -> (-(-A25 -> -A26) -> A27))",
+        "prover9_expression": "(reports(equipment, malfunction) -> (-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line)))",
+        "natural": "If equipment reports malfunction, then whenever it is not true that manufacturing does not require clean room implies manufacturing does not require sterilization, production halts line."
+      },
+      "(A29 ∨ (A28 → (¬(¬A25 → ¬A26) → A27)))": {
+        "formal": "(A29 ∨ (A28 → (¬(¬A25 → ¬A26) → A27)))",
+        "prover9": "(A29 | (A28 -> (-(-A25 -> -A26) -> A27)))",
+        "prover9_expression": "(schedules(maintenance, preventive) | (reports(equipment, malfunction) -> (-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line))))",
+        "natural": "Either maintenance schedules preventive, or if equipment reports malfunction and provided it is not the case that manufacturing not requiring clean room leads to manufacturing not requiring sterilization, then production halts line."
+      },
+      "(A3 → (A1 → G))": {
+        "formal": "(A3 → (A1 → G))",
+        "prover9": "(A3 -> (A1 -> G))",
+        "prover9_expression": "(contains(formulation, active_ingredient) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "If formulation contains active ingredient, then whenever drug development requires FDA approval, company is profitable in business."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(contains(formulation, active_ingredient) -> contains(formulation, excipient))",
+        "natural": "Formulation containing active ingredient implies formulation contains excipient."
+      },
+      "(A32 → A33)": {
+        "formal": "(A32 → A33)",
+        "prover9": "(A32 -> A33)",
+        "prover9_expression": "(exceeds(batch, yield_target) -> meets(batch, quality_standards))",
+        "natural": "Provided batch exceeds yield target, batch meets quality standards."
+      },
+      "(A32 → ¬A33)": {
+        "formal": "(A32 → ¬A33)",
+        "prover9": "(A32 -> -A33)",
+        "prover9_expression": "(exceeds(batch, yield_target) -> -meets(batch, quality_standards))",
+        "natural": "Under the condition that batch exceeds yield target, batch does not meet quality standards."
+      },
+      "(A32 ∨ ¬A31)": {
+        "formal": "(A32 ∨ ¬A31)",
+        "prover9": "(A32 | -A31)",
+        "prover9_expression": "(exceeds(batch, yield_target) | -accelerates(production, timeline))",
+        "natural": "Either batch exceeds yield target or production does not accelerate timeline."
+      },
+      "(A34 → (A32 → A33))": {
+        "formal": "(A34 → (A32 → A33))",
+        "prover9": "(A34 -> (A32 -> A33))",
+        "prover9_expression": "(passes(batch, release_test) -> (exceeds(batch, yield_target) -> meets(batch, quality_standards)))",
+        "natural": "If batch passes release test, then whenever batch exceeds yield target, batch meets quality standards."
+      },
+      "(A34 ∨ A35)": {
+        "formal": "(A34 ∨ A35)",
+        "prover9": "(A34 | A35)",
+        "prover9_expression": "(passes(batch, release_test) | fails(batch, potency_test))",
+        "natural": "Batch passes release test or batch fails potency test."
+      },
+      "(A35 → (A32 → A33))": {
+        "formal": "(A35 → (A32 → A33))",
+        "prover9": "(A35 -> (A32 -> A33))",
+        "prover9_expression": "(fails(batch, potency_test) -> (exceeds(batch, yield_target) -> meets(batch, quality_standards)))",
+        "natural": "In case batch fails potency test, then if batch exceeds yield target, batch meets quality standards."
+      },
+      "(A36 → G)": {
+        "formal": "(A36 → G)",
+        "prover9": "(A36 -> G)",
+        "prover9_expression": "(completes(drug, development) -> profitable(company, business))",
+        "natural": "Given drug completes development, company is profitable in business."
+      },
+      "(A37 → A36)": {
+        "formal": "(A37 → A36)",
+        "prover9": "(A37 -> A36)",
+        "prover9_expression": "(files(drug, patent) -> completes(drug, development))",
+        "natural": "If drug files patent, then drug completes development."
+      },
+      "(A38 → A37)": {
+        "formal": "(A38 → A37)",
+        "prover9": "(A38 -> A37)",
+        "prover9_expression": "(discovers(compound, therapeutic) -> files(drug, patent))",
+        "natural": "Provided compound discovers therapeutic, drug files patent."
+      },
+      "(A38 → A39)": {
+        "formal": "(A38 → A39)",
+        "prover9": "(A38 -> A39)",
+        "prover9_expression": "(discovers(compound, therapeutic) -> synthesizes(compound, laboratory))",
+        "natural": "Whenever compound discovers therapeutic, compound synthesizes in laboratory."
+      },
+      "(A39 → A37)": {
+        "formal": "(A39 → A37)",
+        "prover9": "(A39 -> A37)",
+        "prover9_expression": "(synthesizes(compound, laboratory) -> files(drug, patent))",
+        "natural": "If compound synthesizes in laboratory, then drug files patent."
+      },
+      "(A4 → (A1 → G))": {
+        "formal": "(A4 → (A1 → G))",
+        "prover9": "(A4 -> (A1 -> G))",
+        "prover9_expression": "(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "Under the condition that formulation contains excipient, then if drug development requires FDA approval, company is profitable in business."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(contains(formulation, excipient) -> contains(formulation, stabilizer))",
+        "natural": "Formulation containing excipient implies formulation contains stabilizer."
+      },
+      "(A4 → A50)": {
+        "formal": "(A4 → A50)",
+        "prover9": "(A4 -> A50)",
+        "prover9_expression": "(contains(formulation, excipient) -> develops(drug, formulation))",
+        "natural": "Provided formulation contains excipient, drug develops formulation."
+      },
+      "(A4 → A51)": {
+        "formal": "(A4 → A51)",
+        "prover9": "(A4 -> A51)",
+        "prover9_expression": "(contains(formulation, excipient) -> optimizes(drug, dosage))",
+        "natural": "In case formulation contains excipient, drug optimizes dosage."
+      },
+      "(A4 → A52)": {
+        "formal": "(A4 → A52)",
+        "prover9": "(A4 -> A52)",
+        "prover9_expression": "(contains(formulation, excipient) -> scales(drug, production))",
+        "natural": "If formulation contains excipient, then drug scales production."
+      },
+      "(A40 ∨ (A39 → A37))": {
+        "formal": "(A40 ∨ (A39 → A37))",
+        "prover9": "(A40 | (A39 -> A37))",
+        "prover9_expression": "(imports(raw_material, international) | (synthesizes(compound, laboratory) -> files(drug, patent)))",
+        "natural": "Either raw material imports internationally, or if compound synthesizes in laboratory, then drug files patent."
+      },
+      "(A41 → ¬A40)": {
+        "formal": "(A41 → ¬A40)",
+        "prover9": "(A41 -> -A40)",
+        "prover9_expression": "(complies(supplier, regulations) -> -imports(raw_material, international))",
+        "natural": "Supplier complying with regulations implies raw material does not import internationally."
+      },
+      "(A42 → A41)": {
+        "formal": "(A42 → A41)",
+        "prover9": "(A42 -> A41)",
+        "prover9_expression": "(certified(supplier, iso) -> complies(supplier, regulations))",
+        "natural": "If supplier is certified for ISO, then supplier complies with regulations."
+      },
+      "(A42 ∨ A43)": {
+        "formal": "(A42 ∨ A43)",
+        "prover9": "(A42 | A43)",
+        "prover9_expression": "(certified(supplier, iso) | accredited(supplier, fda))",
+        "natural": "Supplier is certified for ISO or supplier is accredited by FDA."
+      },
+      "(A43 → A41)": {
+        "formal": "(A43 → A41)",
+        "prover9": "(A43 -> A41)",
+        "prover9_expression": "(accredited(supplier, fda) -> complies(supplier, regulations))",
+        "natural": "Provided supplier is accredited by FDA, supplier complies with regulations."
+      },
+      "(A44 → (A1 → G))": {
+        "formal": "(A44 → (A1 → G))",
+        "prover9": "(A44 -> (A1 -> G))",
+        "prover9_expression": "(maintains(formulation, stability) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "In case formulation maintains stability, then whenever drug development requires FDA approval, company is profitable in business."
+      },
+      "(A45 → A44)": {
+        "formal": "(A45 → A44)",
+        "prover9": "(A45 -> A44)",
+        "prover9_expression": "(adds(formulation, preservative) -> maintains(formulation, stability))",
+        "natural": "If formulation adds preservative, then formulation maintains stability."
+      },
+      "(A45 → A46)": {
+        "formal": "(A45 → A46)",
+        "prover9": "(A45 -> A46)",
+        "prover9_expression": "(adds(formulation, preservative) -> controls(formulation, ph_level))",
+        "natural": "Under the condition that formulation adds preservative, formulation controls pH level."
+      },
+      "(A46 → A44)": {
+        "formal": "(A46 → A44)",
+        "prover9": "(A46 -> A44)",
+        "prover9_expression": "(controls(formulation, ph_level) -> maintains(formulation, stability))",
+        "natural": "Provided formulation controls pH level, formulation maintains stability."
+      },
+      "(A47 → (A46 → A44))": {
+        "formal": "(A47 → (A46 → A44))",
+        "prover9": "(A47 -> (A46 -> A44))",
+        "prover9_expression": "(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability)))",
+        "natural": "If formulation tests compatibility, then whenever formulation controls pH level, formulation maintains stability."
+      },
+      "(A47 ∨ A48)": {
+        "formal": "(A47 ∨ A48)",
+        "prover9": "(A47 | A48)",
+        "prover9_expression": "(tests(formulation, compatibility) | validates(formulation, method))",
+        "natural": "Either formulation tests compatibility or formulation validates method."
+      },
+      "(A48 → (A46 → A44))": {
+        "formal": "(A48 → (A46 → A44))",
+        "prover9": "(A48 -> (A46 -> A44))",
+        "prover9_expression": "(validates(formulation, method) -> (controls(formulation, ph_level) -> maintains(formulation, stability)))",
+        "natural": "In case formulation validates method, then if formulation controls pH level, formulation maintains stability."
+      },
+      "(A5 → (A1 → G))": {
+        "formal": "(A5 → (A1 → G))",
+        "prover9": "(A5 -> (A1 -> G))",
+        "prover9_expression": "(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "Given formulation contains stabilizer, then provided drug development requires FDA approval, company is profitable in business."
+      },
+      "(A5 → A44)": {
+        "formal": "(A5 → A44)",
+        "prover9": "(A5 -> A44)",
+        "prover9_expression": "(contains(formulation, stabilizer) -> maintains(formulation, stability))",
+        "natural": "If formulation contains stabilizer, then formulation maintains stability."
+      },
+      "(A5 → A45)": {
+        "formal": "(A5 → A45)",
+        "prover9": "(A5 -> A45)",
+        "prover9_expression": "(contains(formulation, stabilizer) -> adds(formulation, preservative))",
+        "natural": "Under the condition that formulation contains stabilizer, formulation adds preservative."
+      },
+      "(A50 → (A1 → G))": {
+        "formal": "(A50 → (A1 → G))",
+        "prover9": "(A50 -> (A1 -> G))",
+        "prover9_expression": "(develops(drug, formulation) -> (requires(drug_development, fda_approval) -> profitable(company, business)))",
+        "natural": "Whenever drug develops formulation, then if drug development requires FDA approval, company is profitable in business."
+      },
+      "(A51 → A50)": {
+        "formal": "(A51 → A50)",
+        "prover9": "(A51 -> A50)",
+        "prover9_expression": "(optimizes(drug, dosage) -> develops(drug, formulation))",
+        "natural": "Provided drug optimizes dosage, drug develops formulation."
+      },
+      "(A52 → A51)": {
+        "formal": "(A52 → A51)",
+        "prover9": "(A52 -> A51)",
+        "prover9_expression": "(scales(drug, production) -> optimizes(drug, dosage))",
+        "natural": "If drug scales production, then drug optimizes dosage."
+      },
+      "(A55 → A56)": {
+        "formal": "(A55 → A56)",
+        "prover9": "(A55 -> A56)",
+        "prover9_expression": "(protects(intellectual_property, patent) -> files(patent, application))",
+        "natural": "In case intellectual property protects by patent, patent files application."
+      },
+      "(A55 → ¬A54)": {
+        "formal": "(A55 → ¬A54)",
+        "prover9": "(A55 -> -A54)",
+        "prover9_expression": "(protects(intellectual_property, patent) -> -infringes(patent, rights))",
+        "natural": "Under the condition that intellectual property protects by patent, patent does not infringe rights."
+      },
+      "(A56 → ¬A54)": {
+        "formal": "(A56 → ¬A54)",
+        "prover9": "(A56 -> -A54)",
+        "prover9_expression": "(files(patent, application) -> -infringes(patent, rights))",
+        "natural": "If patent files application, then patent does not infringe rights."
+      },
+      "(A57 → (A56 → ¬A54))": {
+        "formal": "(A57 → (A56 → ¬A54))",
+        "prover9": "(A57 -> (A56 -> -A54))",
+        "prover9_expression": "(grants(patent, protection) -> (files(patent, application) -> -infringes(patent, rights)))",
+        "natural": "Provided patent grants protection, then if patent files application, patent does not infringe rights."
+      },
+      "(A58 → A57)": {
+        "formal": "(A58 → A57)",
+        "prover9": "(A58 -> A57)",
+        "prover9_expression": "(registers(patent, office) -> grants(patent, protection))",
+        "natural": "If patent registers at office, then patent grants protection."
+      },
+      "(A60 → ¬A59)": {
+        "formal": "(A60 → ¬A59)",
+        "prover9": "(A60 -> -A59)",
+        "prover9_expression": "(challenges(patent, validity) -> -approves(generic, fda))",
+        "natural": "Whenever patent challenges validity, generic is not approved by FDA."
+      },
+      "(A60 ∨ A61)": {
+        "formal": "(A60 ∨ A61)",
+        "prover9": "(A60 | A61)",
+        "prover9_expression": "(challenges(patent, validity) | licenses(patent, generic))",
+        "natural": "Either patent challenges validity or patent licenses to generic."
+      },
+      "(A61 → ¬A59)": {
+        "formal": "(A61 → ¬A59)",
+        "prover9": "(A61 -> -A59)",
+        "prover9_expression": "(licenses(patent, generic) -> -approves(generic, fda))",
+        "natural": "In case patent licenses to generic, then generic is not approved by FDA."
+      },
+      "(A62 → A63)": {
+        "formal": "(A62 → A63)",
+        "prover9": "(A62 -> A63)",
+        "prover9_expression": "(violates(patent, law) -> faces(company, lawsuit))",
+        "natural": "Provided patent violates law, company faces lawsuit."
+      },
+      "(A62 → A64)": {
+        "formal": "(A62 → A64)",
+        "prover9": "(A62 -> A64)",
+        "prover9_expression": "(violates(patent, law) -> settles(dispute, court))",
+        "natural": "If patent violates law, then dispute settles in court."
+      },
+      "(A62 ∨ (A61 → ¬A59))": {
+        "formal": "(A62 ∨ (A61 → ¬A59))",
+        "prover9": "(A62 | (A61 -> -A59))",
+        "prover9_expression": "(violates(patent, law) | (licenses(patent, generic) -> -approves(generic, fda)))",
+        "natural": "Either patent violates law, or if patent licenses to generic, generic is not approved by FDA."
+      },
+      "(A64 → A63)": {
+        "formal": "(A64 → A63)",
+        "prover9": "(A64 -> A63)",
+        "prover9_expression": "(settles(dispute, court) -> faces(company, lawsuit))",
+        "natural": "Whenever dispute settles in court, company faces lawsuit."
+      },
+      "(A65 → A66)": {
+        "formal": "(A65 → A66)",
+        "prover9": "(A65 -> A66)",
+        "prover9_expression": "(pays(company, damages) -> loses(company, case))",
+        "natural": "Under the condition that company pays damages, company loses case."
+      },
+      "(A67 → A68)": {
+        "formal": "(A67 → A68)",
+        "prover9": "(A67 -> A68)",
+        "prover9_expression": "(operates(facility, gmp) -> passes(facility, inspection))",
+        "natural": "If facility operates under GMP, then facility passes inspection."
+      },
+      "(A67 → A69)": {
+        "formal": "(A67 → A69)",
+        "prover9": "(A67 -> A69)",
+        "prover9_expression": "(operates(facility, gmp) -> upgrades(facility, equipment))",
+        "natural": "Provided facility operates under GMP, facility upgrades equipment."
+      },
+      "(A67 → ¬A68)": {
+        "formal": "(A67 → ¬A68)",
+        "prover9": "(A67 -> -A68)",
+        "prover9_expression": "(operates(facility, gmp) -> -passes(facility, inspection))",
+        "natural": "In case facility operates under GMP, facility does not pass inspection."
+      },
+      "(A67 ∨ A25)": {
+        "formal": "(A67 ∨ A25)",
+        "prover9": "(A67 | A25)",
+        "prover9_expression": "(operates(facility, gmp) | requires(manufacturing, clean_room))",
+        "natural": "Either facility operates under GMP or manufacturing requires clean room."
+      },
+      "(A69 → A68)": {
+        "formal": "(A69 → A68)",
+        "prover9": "(A69 -> A68)",
+        "prover9_expression": "(upgrades(facility, equipment) -> passes(facility, inspection))",
+        "natural": "If facility upgrades equipment, then facility passes inspection."
+      },
+      "(A7 → (¬(A5 → (A1 → G)) → ¬A6))": {
+        "formal": "(A7 → (¬(A5 → (A1 → G)) → ¬A6))",
+        "prover9": "(A7 -> (-(A5 -> (A1 -> G)) -> -A6))",
+        "prover9_expression": "(fails(batch, quality_check) -> (-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test)))",
+        "natural": "Whenever batch fails quality check, then if it is not true that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, then formulation does not pass stability test."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(fails(batch, quality_check) | fails(batch, contamination_test))",
+        "natural": "Either batch fails quality check or batch fails contamination test."
+      },
+      "(A70 → (A69 → A68))": {
+        "formal": "(A70 → (A69 → A68))",
+        "prover9": "(A70 -> (A69 -> A68))",
+        "prover9_expression": "(maintains(facility, compliance) -> (upgrades(facility, equipment) -> passes(facility, inspection)))",
+        "natural": "Under the condition that facility maintains compliance, then if facility upgrades equipment, facility passes inspection."
+      },
+      "(A71 → A70)": {
+        "formal": "(A71 → A70)",
+        "prover9": "(A71 -> A70)",
+        "prover9_expression": "(trains(staff, procedures) -> maintains(facility, compliance))",
+        "natural": "Provided staff trains in procedures, facility maintains compliance."
+      },
+      "(A71 → A73)": {
+        "formal": "(A71 → A73)",
+        "prover9": "(A71 -> A73)",
+        "prover9_expression": "(trains(staff, procedures) -> implements(system, quality))",
+        "natural": "If staff trains in procedures, then system implements quality."
+      },
+      "(A71 ∨ A72)": {
+        "formal": "(A71 ∨ A72)",
+        "prover9": "(A71 | A72)",
+        "prover9_expression": "(trains(staff, procedures) | documents(processes, properly))",
+        "natural": "Either staff trains in procedures or processes document properly."
+      },
+      "(A72 → A70)": {
+        "formal": "(A72 → A70)",
+        "prover9": "(A72 -> A70)",
+        "prover9_expression": "(documents(processes, properly) -> maintains(facility, compliance))",
+        "natural": "In case processes document properly, facility maintains compliance."
+      },
+      "(A73 → A70)": {
+        "formal": "(A73 → A70)",
+        "prover9": "(A73 -> A70)",
+        "prover9_expression": "(implements(system, quality) -> maintains(facility, compliance))",
+        "natural": "Whenever system implements quality, facility maintains compliance."
+      },
+      "(A73 → A74)": {
+        "formal": "(A73 → A74)",
+        "prover9": "(A73 -> A74)",
+        "prover9_expression": "(implements(system, quality) -> reviews(system, regularly))",
+        "natural": "Provided system implements quality, system reviews regularly."
+      },
+      "(A74 → A70)": {
+        "formal": "(A74 → A70)",
+        "prover9": "(A74 -> A70)",
+        "prover9_expression": "(reviews(system, regularly) -> maintains(facility, compliance))",
+        "natural": "If system reviews regularly, then facility maintains compliance."
+      },
+      "(A8 → (¬(A5 → (A1 → G)) → ¬A6))": {
+        "formal": "(A8 → (¬(A5 → (A1 → G)) → ¬A6))",
+        "prover9": "(A8 -> (-(A5 -> (A1 -> G)) -> -A6))",
+        "prover9_expression": "(fails(batch, contamination_test) -> (-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test)))",
+        "natural": "Under the condition that batch fails contamination test, then if it is not the case that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, then formulation does not pass stability test."
+      },
+      "(A9 ∨ G)": {
+        "formal": "(A9 ∨ G)",
+        "prover9": "(A9 | G)",
+        "prover9_expression": "(approved(drug, market) | profitable(company, business))",
+        "natural": "Either drug is approved for market or company is profitable in business."
+      },
+      "(¬(A11 → ¬A9) → A12)": {
+        "formal": "(¬(A11 → ¬A9) → A12)",
+        "prover9": "(-(A11 -> -A9) -> A12)",
+        "prover9_expression": "(-(recalled(drug, market) -> -approved(drug, market)) -> approved(generic, market))",
+        "natural": "If it is not the case that drug recalled from market implies drug not approved for market, then generic is approved for market."
+      },
+      "(¬(A11 → ¬A9) → A59)": {
+        "formal": "(¬(A11 → ¬A9) → A59)",
+        "prover9": "(-(A11 -> -A9) -> A59)",
+        "prover9_expression": "(-(recalled(drug, market) -> -approved(drug, market)) -> approves(generic, fda))",
+        "natural": "Provided it is not true that drug recalled from market leads to drug not approved for market, generic is approved by FDA."
+      },
+      "(¬(A11 → ¬A9) → ¬A12)": {
+        "formal": "(¬(A11 → ¬A9) → ¬A12)",
+        "prover9": "(-(A11 -> -A9) -> -A12)",
+        "prover9_expression": "(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market))",
+        "natural": "In case it is not the case that drug recalled from market implies drug not approved for market, then generic is not approved for market."
+      },
+      "(¬(A18 → G) → A20)": {
+        "formal": "(¬(A18 → G) → A20)",
+        "prover9": "(-(A18 -> G) -> A20)",
+        "prover9_expression": "(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> qualifies(supplier, contract))",
+        "natural": "Whenever it is not true that supplier meeting GMP standards leads to company profitability, supplier qualifies for contract."
+      },
+      "(¬(A18 → G) → ¬A20)": {
+        "formal": "(¬(A18 → G) → ¬A20)",
+        "prover9": "(-(A18 -> G) -> -A20)",
+        "prover9_expression": "(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract))",
+        "natural": "If it is not the case that supplier meets GMP standards implies company is profitable in business, then supplier does not qualify for contract."
+      },
+      "(¬(A4 → (A1 → G)) → A30)": {
+        "formal": "(¬(A4 → (A1 → G)) → A30)",
+        "prover9": "(-(A4 -> (A1 -> G)) -> A30)",
+        "prover9_expression": "(-(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> delays(production, schedule))",
+        "natural": "Under the condition that it is not true that formulation containing excipient implies that drug development requiring FDA approval leads to company profitability, production delays schedule."
+      },
+      "(¬(A47 → (A46 → A44)) → A49)": {
+        "formal": "(¬(A47 → (A46 → A44)) → A49)",
+        "prover9": "(-(A47 -> (A46 -> A44)) -> A49)",
+        "prover9_expression": "(-(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability))) -> approves(formulation, specification))",
+        "natural": "Provided it is not the case that formulation testing compatibility implies that formulation controlling pH level leads to formulation maintaining stability, formulation approves specification."
+      },
+      "(¬(A47 → (A46 → A44)) → ¬A49)": {
+        "formal": "(¬(A47 → (A46 → A44)) → ¬A49)",
+        "prover9": "(-(A47 -> (A46 -> A44)) -> -A49)",
+        "prover9_expression": "(-(tests(formulation, compatibility) -> (controls(formulation, ph_level) -> maintains(formulation, stability))) -> -approves(formulation, specification))",
+        "natural": "If it is not true that formulation tests compatibility implies that formulation controls pH level and formulation maintains stability, then formulation does not approve specification."
+      },
+      "(¬(A5 → (A1 → G)) → A6)": {
+        "formal": "(¬(A5 → (A1 → G)) → A6)",
+        "prover9": "(-(A5 -> (A1 -> G)) -> A6)",
+        "prover9_expression": "(-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> passes(formulation, stability_test))",
+        "natural": "Whenever it is not the case that formulation containing stabilizer implies that drug development requiring FDA approval leads to company profitability, formulation passes stability test."
+      },
+      "(¬(A5 → (A1 → G)) → ¬A6)": {
+        "formal": "(¬(A5 → (A1 → G)) → ¬A6)",
+        "prover9": "(-(A5 -> (A1 -> G)) -> -A6)",
+        "prover9_expression": "(-(contains(formulation, stabilizer) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> -passes(formulation, stability_test))",
+        "natural": "Under the condition that it is not true that formulation contains stabilizer implies that drug development requires FDA approval and company is profitable in business, formulation does not pass stability test."
+      },
+      "(¬(A64 → A63) → A65)": {
+        "formal": "(¬(A64 → A63) → A65)",
+        "prover9": "(-(A64 -> A63) -> A65)",
+        "prover9_expression": "(-(settles(dispute, court) -> faces(company, lawsuit)) -> pays(company, damages))",
+        "natural": "Provided it is not the case that dispute settling in court implies company facing lawsuit, company pays damages."
+      },
+      "(¬(¬(A11 → ¬A9) → ¬A12) → A13)": {
+        "formal": "(¬(¬(A11 → ¬A9) → ¬A12) → A13)",
+        "prover9": "(-(-(A11 -> -A9) -> -A12) -> A13)",
+        "prover9_expression": "(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> approved(biosimilar, market))",
+        "natural": "If it is not true that whenever drug recalled from market implies drug not approved for market leads to generic not approved for market, then biosimilar is approved for market."
+      },
+      "(¬(¬(A11 → ¬A9) → ¬A12) → A53)": {
+        "formal": "(¬(¬(A11 → ¬A9) → ¬A12) → A53)",
+        "prover9": "(-(-(A11 -> -A9) -> -A12) -> A53)",
+        "prover9_expression": "(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> licenses(technology, partner))",
+        "natural": "In case it is not the case that drug recalled from market implying drug not approved for market leads to generic not approved for market, technology licenses to partner."
+      },
+      "(¬(¬(A18 → G) → ¬A20) → A21)": {
+        "formal": "(¬(¬(A18 → G) → ¬A20) → A21)",
+        "prover9": "(-(-(A18 -> G) -> -A20) -> A21)",
+        "prover9_expression": "(-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> disqualified(supplier, bidding))",
+        "natural": "Under the condition that it is not true that supplier meeting GMP standards implying company profitability leads to supplier not qualifying for contract, supplier is disqualified from bidding."
+      },
+      "(¬(¬(A18 → G) → ¬A20) → ¬A21)": {
+        "formal": "(¬(¬(A18 → G) → ¬A20) → ¬A21)",
+        "prover9": "(-(-(A18 -> G) -> -A20) -> -A21)",
+        "prover9_expression": "(-(-(meets(supplier, gmp_standards) -> profitable(company, business)) -> -qualifies(supplier, contract)) -> -disqualified(supplier, bidding))",
+        "natural": "Provided it is not the case that supplier meets GMP standards and company is profitable in business implies supplier does not qualify for contract, then supplier is not disqualified from bidding."
+      },
+      "(¬(¬(A4 → (A1 → G)) → A30) → A31)": {
+        "formal": "(¬(¬(A4 → (A1 → G)) → A30) → A31)",
+        "prover9": "(-(-(A4 -> (A1 -> G)) -> A30) -> A31)",
+        "prover9_expression": "(-(-(contains(formulation, excipient) -> (requires(drug_development, fda_approval) -> profitable(company, business))) -> delays(production, schedule)) -> accelerates(production, timeline))",
+        "natural": "If it is not true that formulation containing excipient implying drug development requiring FDA approval and company profitability leads to production delaying schedule, production accelerates timeline."
+      },
+      "(¬(¬(¬(A11 → ¬A9) → ¬A12) → A53) → A54)": {
+        "formal": "(¬(¬(¬(A11 → ¬A9) → ¬A12) → A53) → A54)",
+        "prover9": "(-(-(-(A11 -> -A9) -> -A12) -> A53) -> A54)",
+        "prover9_expression": "(-(-(-(recalled(drug, market) -> -approved(drug, market)) -> -approved(generic, market)) -> licenses(technology, partner)) -> infringes(patent, rights))",
+        "natural": "Whenever it is not the case that drug recalled from market implying drug not approved for market leading to generic not approved for market implies technology licensing to partner, patent infringes rights."
+      },
+      "(¬(¬A25 → ¬A26) → A27)": {
+        "formal": "(¬(¬A25 → ¬A26) → A27)",
+        "prover9": "(-(-A25 -> -A26) -> A27)",
+        "prover9_expression": "(-(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization)) -> halts(production, line))",
+        "natural": "Provided it is not true that manufacturing not requiring clean room implies manufacturing not requiring sterilization, production halts line."
+      },
+      "(¬(¬G → ¬A14) → A15)": {
+        "formal": "(¬(¬G → ¬A14) → A15)",
+        "prover9": "(-(-G -> -A14) -> A15)",
+        "prover9_expression": "(-(-profitable(company, business) -> -available(drug, patients)) -> prescribed(drug, doctors))",
+        "natural": "Under the condition that it is not the case that company not profitable in business implies drug not available to patients, drug is prescribed by doctors."
+      },
+      "(¬(¬G → ¬A14) → A16)": {
+        "formal": "(¬(¬G → ¬A14) → A16)",
+        "prover9": "(-(-G -> -A14) -> A16)",
+        "prover9_expression": "(-(-profitable(company, business) -> -available(drug, patients)) -> contraindicated(drug, patients))",
+        "natural": "If it is not true that company not being profitable in business leads to drug not available to patients, then drug is contraindicated for patients."
+      },
+      "(¬(¬G → ¬A14) → ¬A15)": {
+        "formal": "(¬(¬G → ¬A14) → ¬A15)",
+        "prover9": "(-(-G -> -A14) -> -A15)",
+        "prover9_expression": "(-(-profitable(company, business) -> -available(drug, patients)) -> -prescribed(drug, doctors))",
+        "natural": "In case it is not the case that company not profitable in business implies drug not available to patients, then drug is not prescribed by doctors."
+      },
+      "(¬A25 → A26)": {
+        "formal": "(¬A25 → A26)",
+        "prover9": "(-A25 -> A26)",
+        "prover9_expression": "(-requires(manufacturing, clean_room) -> requires(manufacturing, sterilization))",
+        "natural": "Whenever manufacturing does not require clean room, manufacturing requires sterilization."
+      },
+      "(¬A25 → ¬A26)": {
+        "formal": "(¬A25 → ¬A26)",
+        "prover9": "(-A25 -> -A26)",
+        "prover9_expression": "(-requires(manufacturing, clean_room) -> -requires(manufacturing, sterilization))",
+        "natural": "Provided manufacturing does not require clean room, manufacturing does not require sterilization."
+      },
+      "(¬G → A14)": {
+        "formal": "(¬G → A14)",
+        "prover9": "(-G -> A14)",
+        "prover9_expression": "(-profitable(company, business) -> available(drug, patients))",
+        "natural": "If company is not profitable in business, drug is available to patients."
+      },
+      "(¬G → ¬A14)": {
+        "formal": "(¬G → ¬A14)",
+        "prover9": "(-G -> -A14)",
+        "prover9_expression": "(-profitable(company, business) -> -available(drug, patients))",
+        "natural": "Under the condition that company is not profitable in business, drug is not available to patients."
+      },
+      "A22": {
+        "formal": "A22",
+        "prover9": "A22",
+        "prover9_expression": "requires(raw_material, certificate)",
+        "natural": "Raw material requires certificate."
+      },
+      "A25": {
+        "formal": "A25",
+        "prover9": "A25",
+        "prover9_expression": "requires(manufacturing, clean_room)",
+        "natural": "Manufacturing requires clean room."
+      },
+      "A28": {
+        "formal": "A28",
+        "prover9": "A28",
+        "prover9_expression": "reports(equipment, malfunction)",
+        "natural": "Equipment reports malfunction."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "contains(formulation, active_ingredient)",
+        "natural": "Formulation contains active ingredient."
+      },
+      "A41": {
+        "formal": "A41",
+        "prover9": "A41",
+        "prover9_expression": "complies(supplier, regulations)",
+        "natural": "Supplier complies with regulations."
+      },
+      "A55": {
+        "formal": "A55",
+        "prover9": "A55",
+        "prover9_expression": "protects(intellectual_property, patent)",
+        "natural": "Intellectual property protects by patent."
+      },
+      "A57": {
+        "formal": "A57",
+        "prover9": "A57",
+        "prover9_expression": "grants(patent, protection)",
+        "natural": "Patent grants protection."
+      },
+      "A58": {
+        "formal": "A58",
+        "prover9": "A58",
+        "prover9_expression": "registers(patent, office)",
+        "natural": "Patent registers at office."
+      },
+      "A70": {
+        "formal": "A70",
+        "prover9": "A70",
+        "prover9_expression": "maintains(facility, compliance)",
+        "natural": "Facility maintains compliance."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "profitable(company, business)",
+        "natural": "Company is profitable in business."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-approved(biosimilar, market)",
+        "natural": "It is not the case that biosimilar is approved for market."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-banned(drug, country)",
+        "natural": "Drug is not banned in country."
+      },
+      "¬A27": {
+        "formal": "¬A27",
+        "prover9": "-A27",
+        "prover9_expression": "-halts(production, line)",
+        "natural": "Production does not halt line."
+      },
+      "¬A29": {
+        "formal": "¬A29",
+        "prover9": "-A29",
+        "prover9_expression": "-schedules(maintenance, preventive)",
+        "natural": "Maintenance does not schedule preventive."
+      },
+      "¬A30": {
+        "formal": "¬A30",
+        "prover9": "-A30",
+        "prover9_expression": "-delays(production, schedule)",
+        "natural": "Production does not delay schedule."
+      },
+      "¬A31": {
+        "formal": "¬A31",
+        "prover9": "-A31",
+        "prover9_expression": "-accelerates(production, timeline)",
+        "natural": "Production does not accelerate timeline."
+      },
+      "¬A32": {
+        "formal": "¬A32",
+        "prover9": "-A32",
+        "prover9_expression": "-exceeds(batch, yield_target)",
+        "natural": "Batch does not exceed yield target."
+      },
+      "¬A40": {
+        "formal": "¬A40",
+        "prover9": "-A40",
+        "prover9_expression": "-imports(raw_material, international)",
+        "natural": "Raw material does not import internationally."
+      },
+      "¬A53": {
+        "formal": "¬A53",
+        "prover9": "-A53",
+        "prover9_expression": "-licenses(technology, partner)",
+        "natural": "Technology does not license to partner."
+      },
+      "¬A54": {
+        "formal": "¬A54",
+        "prover9": "-A54",
+        "prover9_expression": "-infringes(patent, rights)",
+        "natural": "Patent does not infringe rights."
+      },
+      "¬A59": {
+        "formal": "¬A59",
+        "prover9": "-A59",
+        "prover9_expression": "-approves(generic, fda)",
+        "natural": "Generic is not approved by FDA."
+      },
+      "¬A62": {
+        "formal": "¬A62",
+        "prover9": "-A62",
+        "prover9_expression": "-violates(patent, law)",
+        "natural": "Patent does not violate law."
+      },
+      "¬A63": {
+        "formal": "¬A63",
+        "prover9": "-A63",
+        "prover9_expression": "-faces(company, lawsuit)",
+        "natural": "Company does not face lawsuit."
+      },
+      "¬A65": {
+        "formal": "¬A65",
+        "prover9": "-A65",
+        "prover9_expression": "-pays(company, damages)",
+        "natural": "Company does not pay damages."
+      },
+      "¬A66": {
+        "formal": "¬A66",
+        "prover9": "-A66",
+        "prover9_expression": "-loses(company, case)",
+        "natural": "Company does not lose case."
+      },
+      "¬A67": {
+        "formal": "¬A67",
+        "prover9": "-A67",
+        "prover9_expression": "-operates(facility, gmp)",
+        "natural": "Facility does not operate under GMP."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-approved(drug, market)",
+        "natural": "Drug is not approved for market."
+      }
+    }
+  }
+}

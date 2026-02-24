@@ -1,0 +1,981 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 3
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(approved(DrugX, RegionAlpha) -> profitable(DrugX, RegionAlpha))",
+        "natural": "Provided that DrugX is approved in RegionAlpha, it follows that DrugX is profitable in RegionAlpha."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → (¬A8 → A9))",
+        "prover9_expression": "(violationMinor(DrugX, RegionAlpha) -> (-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha)))",
+        "natural": "Whenever DrugX has a minor violation in RegionAlpha, if DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → (¬A8 → A9))",
+        "prover9_expression": "(violationMajor(DrugX, RegionAlpha) -> (-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha)))",
+        "natural": "Under the condition that DrugX has a major violation in RegionAlpha, if DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 ∨ (A10 ∨ A11))",
+        "prover9_expression": "(exemption(DrugX, RegionAlpha) | (violationMinor(DrugX, RegionAlpha) | violationMajor(DrugX, RegionAlpha)))",
+        "natural": "DrugX has an exemption in RegionAlpha, or DrugX has a minor violation in RegionAlpha, or DrugX has a major violation in RegionAlpha."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → A1)",
+        "prover9_expression": "(fastTracked(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+        "natural": "If DrugX is fast-tracked in RegionAlpha, then DrugX is approved in RegionAlpha."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A13 ∨ A14)",
+        "prover9_expression": "(fastTracked(DrugX, RegionAlpha) | standardReview(DrugX, RegionAlpha))",
+        "natural": "DrugX is fast-tracked in RegionAlpha, or DrugX is under standard review in RegionAlpha."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 → ¬A15)",
+        "prover9_expression": "(unsafe(DrugX, RegionAlpha) -> -safe(DrugX, RegionAlpha))",
+        "natural": "Under the condition that DrugX is unsafe in RegionAlpha, DrugX is not safe in RegionAlpha."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → (A17 → A16))",
+        "prover9_expression": "(inspected(FactoryA, RegionAlpha) -> (banned(DrugX, RegionAlpha) -> unsafe(DrugX, RegionAlpha)))",
+        "natural": "Whenever FactoryA is inspected in RegionAlpha, if DrugX is banned in RegionAlpha, then DrugX is unsafe in RegionAlpha."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A20 → ¬A19)",
+        "prover9_expression": "(failed(FactoryA, RegionAlpha) -> -passed(FactoryA, RegionAlpha))",
+        "natural": "Provided that FactoryA fails inspection in RegionAlpha, FactoryA does not pass inspection in RegionAlpha."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A23 → (A22 → (¬(A3 → A4) → A21)))",
+        "prover9_expression": "(preliminaryReport(DrugX, ConditionZ) -> (reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))))",
+        "natural": "Under the condition that a preliminary report exists for DrugX regarding ConditionZ, if a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A24 → (A22 → (¬(A3 → A4) → A21)))",
+        "prover9_expression": "(finalReport(DrugX, ConditionZ) -> (reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))))",
+        "natural": "Provided that a final report exists for DrugX regarding ConditionZ, if a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A25 ∨ (A23 ∨ A24))",
+        "prover9_expression": "(inconclusive(DrugX, ConditionZ) | (preliminaryReport(DrugX, ConditionZ) | finalReport(DrugX, ConditionZ)))",
+        "natural": "The findings for DrugX regarding ConditionZ are inconclusive, or a preliminary report exists for DrugX regarding ConditionZ, or a final report exists for DrugX regarding ConditionZ."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A26 ∨ ¬A25)",
+        "prover9_expression": "(conclusive(DrugX, ConditionZ) | -inconclusive(DrugX, ConditionZ))",
+        "natural": "The findings for DrugX regarding ConditionZ are conclusive, or it is not the case that the findings for DrugX regarding ConditionZ are inconclusive."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A5 → A7)",
+        "prover9_expression": "(required(DrugX, ConditionZ) -> documented(DrugX, ConditionZ))",
+        "natural": "Under the condition that a study for ConditionZ is required for DrugX, a study for ConditionZ is documented for DrugX."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(required(DrugX, ConditionZ) | optional(DrugX, ConditionZ))",
+        "natural": "A study for ConditionZ is required for DrugX, or a study for ConditionZ is optional for DrugX."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A6 → (A3 → A4))",
+        "prover9_expression": "(optional(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+        "natural": "Provided that a study for ConditionZ is optional for DrugX, if DrugX has been studied for ConditionZ, then DrugX is effective for ConditionZ."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A7 → (A3 → A4))",
+        "prover9_expression": "(documented(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+        "natural": "If a study for ConditionZ is documented for DrugX, then whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A8 → A1)",
+        "prover9_expression": "(marketed(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+        "natural": "Whenever DrugX is marketed in RegionAlpha, DrugX is approved in RegionAlpha."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(¬(A14 → A1) → A15)",
+        "prover9_expression": "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> safe(DrugX, RegionAlpha))",
+        "natural": "If it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, then DrugX is safe in RegionAlpha."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(¬(A14 → A1) → A17)",
+        "prover9_expression": "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> banned(DrugX, RegionAlpha))",
+        "natural": "Under the condition that it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, DrugX is banned in RegionAlpha."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(¬(A3 → A4) → ¬A21)",
+        "prover9_expression": "(-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> -controversial(DrugX, ConditionZ))",
+        "natural": "Provided that it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is not controversial for ConditionZ."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(¬(¬A1 → A2) → A3)",
+        "prover9_expression": "(-(-approved(DrugX, RegionAlpha) -> compliant(DrugX, RegionAlpha)) -> studied(DrugX, ConditionZ))",
+        "natural": "If it is not the case that if DrugX is not approved in RegionAlpha then DrugX is compliant in RegionAlpha, then DrugX has been studied for ConditionZ."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(¬A1 → ¬A2)",
+        "prover9_expression": "(-approved(DrugX, RegionAlpha) -> -compliant(DrugX, RegionAlpha))",
+        "natural": "Under the condition that DrugX is not approved in RegionAlpha, DrugX is not compliant in RegionAlpha."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(¬A18 → A19)",
+        "prover9_expression": "(-inspected(FactoryA, RegionAlpha) -> passed(FactoryA, RegionAlpha))",
+        "natural": "Provided that FactoryA is not inspected in RegionAlpha, FactoryA passes inspection in RegionAlpha."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(¬A18 → A20)",
+        "prover9_expression": "(-inspected(FactoryA, RegionAlpha) -> failed(FactoryA, RegionAlpha))",
+        "natural": "If FactoryA is not inspected in RegionAlpha, then FactoryA fails inspection in RegionAlpha."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A22",
+        "prover9_expression": "reported(DrugX, ConditionZ)",
+        "natural": "A report exists for DrugX regarding ConditionZ."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A12",
+        "prover9_expression": "-exemption(DrugX, RegionAlpha)",
+        "natural": "It is not the case that DrugX has an exemption in RegionAlpha."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A26",
+        "prover9_expression": "-conclusive(DrugX, ConditionZ)",
+        "natural": "The findings for DrugX regarding ConditionZ are not conclusive."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A4",
+        "prover9_expression": "-effective(DrugX, ConditionZ)",
+        "natural": "DrugX is not effective for ConditionZ."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A9",
+        "prover9_expression": "-recalled(DrugX, RegionAlpha)",
+        "natural": "DrugX is not recalled in RegionAlpha."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "profitable(DrugX, RegionAlpha)",
+    "natural": "DrugX is profitable in RegionAlpha."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A7)",
+            "(A7 -> (A3 -> A4))"
+          ],
+          "conclusion": "(A5 -> (A3 -> A4))",
+          "natural": "If a study for ConditionZ is required for DrugX, then whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (A3 -> A4))",
+            "(A6 -> (A3 -> A4))"
+          ],
+          "conclusion": "(A3 -> A4)",
+          "natural": "Whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A3 -> A4)",
+            "-A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "DrugX has not been studied for ConditionZ."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A1 -> A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "Whenever DrugX is not approved in RegionAlpha, DrugX is compliant in RegionAlpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "DrugX is approved in RegionAlpha."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "DrugX is profitable in RegionAlpha."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | (A10 | A11))",
+            "-A12"
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "Either DrugX has a minor violation in RegionAlpha, or DrugX has a major violation in RegionAlpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> (-A8 -> A9))",
+            "(A11 -> (-A8 -> A9))"
+          ],
+          "conclusion": "(-A8 -> A9)",
+          "natural": "If DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A8 -> A9)",
+            "-A9"
+          ],
+          "conclusion": "A8",
+          "natural": "DrugX is marketed in RegionAlpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> A1)",
+            "A8"
+          ],
+          "conclusion": "A1",
+          "natural": "DrugX is approved in RegionAlpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "DrugX is profitable in RegionAlpha."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A18 -> A20)",
+            "(A20 -> -A19)"
+          ],
+          "conclusion": "(-A18 -> -A19)",
+          "natural": "Whenever FactoryA is not inspected in RegionAlpha, FactoryA does not pass inspection in RegionAlpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "(-A18 -> -A19)"
+          ],
+          "conclusion": "A18",
+          "natural": "FactoryA is inspected in RegionAlpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> (A17 -> A16))",
+            "A18"
+          ],
+          "conclusion": "(A17 -> A16)",
+          "natural": "If DrugX is banned in RegionAlpha, then DrugX is unsafe in RegionAlpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A14 -> A1) -> A17)",
+            "(A17 -> A16)"
+          ],
+          "conclusion": "(-(A14 -> A1) -> A16)",
+          "natural": "Provided that it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, DrugX is unsafe in RegionAlpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A14 -> A1) -> A16)",
+            "(A16 -> -A15)"
+          ],
+          "conclusion": "(-(A14 -> A1) -> -A15)",
+          "natural": "If it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, then DrugX is not safe in RegionAlpha."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> A1) -> A15)",
+            "(-(A14 -> A1) -> -A15)"
+          ],
+          "conclusion": "(A14 -> A1)",
+          "natural": "Provided that DrugX is under standard review in RegionAlpha, it follows that DrugX is approved in RegionAlpha."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> A1)",
+            "(A14 -> A1)"
+          ],
+          "conclusion": "A1",
+          "natural": "DrugX is approved in RegionAlpha."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "DrugX is profitable in RegionAlpha."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A26 | -A25)",
+            "-A26"
+          ],
+          "conclusion": "-A25",
+          "natural": "The findings for DrugX regarding ConditionZ are not inconclusive."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A25 | (A23 | A24))",
+            "-A25"
+          ],
+          "conclusion": "(A23 | A24)",
+          "natural": "A preliminary report exists for DrugX regarding ConditionZ, or a final report exists for DrugX regarding ConditionZ."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A23 | A24)",
+            "(A23 -> (A22 -> (-(A3 -> A4) -> A21)))",
+            "(A24 -> (A22 -> (-(A3 -> A4) -> A21)))"
+          ],
+          "conclusion": "(A22 -> (-(A3 -> A4) -> A21))",
+          "natural": "If a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A22 -> (-(A3 -> A4) -> A21))",
+            "A22"
+          ],
+          "conclusion": "(-(A3 -> A4) -> A21)",
+          "natural": "Whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 -> A4) -> A21)",
+            "(-(A3 -> A4) -> -A21)"
+          ],
+          "conclusion": "(A3 -> A4)",
+          "natural": "Whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A3 -> A4)",
+            "-A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "DrugX has not been studied for ConditionZ."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A1 -> A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "Whenever DrugX is not approved in RegionAlpha, DrugX is compliant in RegionAlpha."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "DrugX is approved in RegionAlpha."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "DrugX is profitable in RegionAlpha."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Regulatory Compliance",
+    "atomic_facts": {
+      "A1": "approved(DrugX, RegionAlpha)",
+      "A2": "compliant(DrugX, RegionAlpha)",
+      "A3": "studied(DrugX, ConditionZ)",
+      "A4": "effective(DrugX, ConditionZ)",
+      "A5": "required(DrugX, ConditionZ)",
+      "A6": "optional(DrugX, ConditionZ)",
+      "A7": "documented(DrugX, ConditionZ)",
+      "A8": "marketed(DrugX, RegionAlpha)",
+      "A9": "recalled(DrugX, RegionAlpha)",
+      "A10": "violationMinor(DrugX, RegionAlpha)",
+      "A11": "violationMajor(DrugX, RegionAlpha)",
+      "A12": "exemption(DrugX, RegionAlpha)",
+      "A13": "fastTracked(DrugX, RegionAlpha)",
+      "A14": "standardReview(DrugX, RegionAlpha)",
+      "A15": "safe(DrugX, RegionAlpha)",
+      "A16": "unsafe(DrugX, RegionAlpha)",
+      "A17": "banned(DrugX, RegionAlpha)",
+      "A18": "inspected(FactoryA, RegionAlpha)",
+      "A19": "passed(FactoryA, RegionAlpha)",
+      "A20": "failed(FactoryA, RegionAlpha)",
+      "A21": "controversial(DrugX, ConditionZ)",
+      "A22": "reported(DrugX, ConditionZ)",
+      "A23": "preliminaryReport(DrugX, ConditionZ)",
+      "A24": "finalReport(DrugX, ConditionZ)",
+      "A25": "inconclusive(DrugX, ConditionZ)",
+      "A26": "conclusive(DrugX, ConditionZ)",
+      "G": "profitable(DrugX, RegionAlpha)"
+    },
+    "natural_facts": {
+      "A1": "DrugX is approved in RegionAlpha.",
+      "A2": "DrugX is compliant in RegionAlpha.",
+      "A3": "DrugX has been studied for ConditionZ.",
+      "A4": "DrugX is effective for ConditionZ.",
+      "A5": "A study for ConditionZ is required for DrugX.",
+      "A6": "A study for ConditionZ is optional for DrugX.",
+      "A7": "A study for ConditionZ is documented for DrugX.",
+      "A8": "DrugX is marketed in RegionAlpha.",
+      "A9": "DrugX is recalled in RegionAlpha.",
+      "A10": "DrugX has a minor violation in RegionAlpha.",
+      "A11": "DrugX has a major violation in RegionAlpha.",
+      "A12": "DrugX has an exemption in RegionAlpha.",
+      "A13": "DrugX is fast-tracked in RegionAlpha.",
+      "A14": "DrugX is under standard review in RegionAlpha.",
+      "A15": "DrugX is safe in RegionAlpha.",
+      "A16": "DrugX is unsafe in RegionAlpha.",
+      "A17": "DrugX is banned in RegionAlpha.",
+      "A18": "FactoryA is inspected in RegionAlpha.",
+      "A19": "FactoryA passes inspection in RegionAlpha.",
+      "A20": "FactoryA fails inspection in RegionAlpha.",
+      "A21": "DrugX is controversial for ConditionZ.",
+      "A22": "A report exists for DrugX regarding ConditionZ.",
+      "A23": "A preliminary report exists for DrugX regarding ConditionZ.",
+      "A24": "A final report exists for DrugX regarding ConditionZ.",
+      "A25": "The findings for DrugX regarding ConditionZ are inconclusive.",
+      "A26": "The findings for DrugX regarding ConditionZ are conclusive.",
+      "G": "DrugX is profitable in RegionAlpha."
+    },
+    "prover9_expressions": [
+      "(approved(DrugX, RegionAlpha) -> profitable(DrugX, RegionAlpha))",
+      "(violationMinor(DrugX, RegionAlpha) -> (-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha)))",
+      "(violationMinor(DrugX, RegionAlpha) | violationMajor(DrugX, RegionAlpha))",
+      "(violationMajor(DrugX, RegionAlpha) -> (-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha)))",
+      "(exemption(DrugX, RegionAlpha) | (violationMinor(DrugX, RegionAlpha) | violationMajor(DrugX, RegionAlpha)))",
+      "(fastTracked(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+      "(fastTracked(DrugX, RegionAlpha) | standardReview(DrugX, RegionAlpha))",
+      "(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+      "(unsafe(DrugX, RegionAlpha) -> -safe(DrugX, RegionAlpha))",
+      "(banned(DrugX, RegionAlpha) -> unsafe(DrugX, RegionAlpha))",
+      "(inspected(FactoryA, RegionAlpha) -> (banned(DrugX, RegionAlpha) -> unsafe(DrugX, RegionAlpha)))",
+      "(failed(FactoryA, RegionAlpha) -> -passed(FactoryA, RegionAlpha))",
+      "(reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ)))",
+      "(preliminaryReport(DrugX, ConditionZ) -> (reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))))",
+      "(preliminaryReport(DrugX, ConditionZ) | finalReport(DrugX, ConditionZ))",
+      "(finalReport(DrugX, ConditionZ) -> (reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))))",
+      "(inconclusive(DrugX, ConditionZ) | (preliminaryReport(DrugX, ConditionZ) | finalReport(DrugX, ConditionZ)))",
+      "(conclusive(DrugX, ConditionZ) | -inconclusive(DrugX, ConditionZ))",
+      "(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ))",
+      "(required(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+      "(required(DrugX, ConditionZ) -> documented(DrugX, ConditionZ))",
+      "(required(DrugX, ConditionZ) | optional(DrugX, ConditionZ))",
+      "(optional(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+      "(documented(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+      "(marketed(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+      "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> safe(DrugX, RegionAlpha))",
+      "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> unsafe(DrugX, RegionAlpha))",
+      "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> banned(DrugX, RegionAlpha))",
+      "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> -safe(DrugX, RegionAlpha))",
+      "(-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))",
+      "(-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> -controversial(DrugX, ConditionZ))",
+      "(-(-approved(DrugX, RegionAlpha) -> compliant(DrugX, RegionAlpha)) -> studied(DrugX, ConditionZ))",
+      "(-approved(DrugX, RegionAlpha) -> compliant(DrugX, RegionAlpha))",
+      "(-approved(DrugX, RegionAlpha) -> -compliant(DrugX, RegionAlpha))",
+      "(-inspected(FactoryA, RegionAlpha) -> passed(FactoryA, RegionAlpha))",
+      "(-inspected(FactoryA, RegionAlpha) -> failed(FactoryA, RegionAlpha))",
+      "(-inspected(FactoryA, RegionAlpha) -> -passed(FactoryA, RegionAlpha))",
+      "(-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha))",
+      "approved(DrugX, RegionAlpha)",
+      "inspected(FactoryA, RegionAlpha)",
+      "reported(DrugX, ConditionZ)",
+      "marketed(DrugX, RegionAlpha)",
+      "profitable(DrugX, RegionAlpha)",
+      "-exemption(DrugX, RegionAlpha)",
+      "-inconclusive(DrugX, ConditionZ)",
+      "-conclusive(DrugX, ConditionZ)",
+      "-studied(DrugX, ConditionZ)",
+      "-effective(DrugX, ConditionZ)",
+      "-recalled(DrugX, RegionAlpha)"
+    ],
+    "natural_expressions": [
+      "Provided that DrugX is approved in RegionAlpha, it follows that DrugX is profitable in RegionAlpha.",
+      "Whenever DrugX has a minor violation in RegionAlpha, if DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha.",
+      "Either DrugX has a minor violation in RegionAlpha, or DrugX has a major violation in RegionAlpha.",
+      "Under the condition that DrugX has a major violation in RegionAlpha, if DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha.",
+      "DrugX has an exemption in RegionAlpha, or DrugX has a minor violation in RegionAlpha, or DrugX has a major violation in RegionAlpha.",
+      "If DrugX is fast-tracked in RegionAlpha, then DrugX is approved in RegionAlpha.",
+      "DrugX is fast-tracked in RegionAlpha, or DrugX is under standard review in RegionAlpha.",
+      "Provided that DrugX is under standard review in RegionAlpha, it follows that DrugX is approved in RegionAlpha.",
+      "Under the condition that DrugX is unsafe in RegionAlpha, DrugX is not safe in RegionAlpha.",
+      "If DrugX is banned in RegionAlpha, then DrugX is unsafe in RegionAlpha.",
+      "Whenever FactoryA is inspected in RegionAlpha, if DrugX is banned in RegionAlpha, then DrugX is unsafe in RegionAlpha.",
+      "Provided that FactoryA fails inspection in RegionAlpha, FactoryA does not pass inspection in RegionAlpha.",
+      "If a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ.",
+      "Under the condition that a preliminary report exists for DrugX regarding ConditionZ, if a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ.",
+      "A preliminary report exists for DrugX regarding ConditionZ, or a final report exists for DrugX regarding ConditionZ.",
+      "Provided that a final report exists for DrugX regarding ConditionZ, if a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ.",
+      "The findings for DrugX regarding ConditionZ are inconclusive, or a preliminary report exists for DrugX regarding ConditionZ, or a final report exists for DrugX regarding ConditionZ.",
+      "The findings for DrugX regarding ConditionZ are conclusive, or it is not the case that the findings for DrugX regarding ConditionZ are inconclusive.",
+      "Whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ.",
+      "If a study for ConditionZ is required for DrugX, then whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ.",
+      "Under the condition that a study for ConditionZ is required for DrugX, a study for ConditionZ is documented for DrugX.",
+      "A study for ConditionZ is required for DrugX, or a study for ConditionZ is optional for DrugX.",
+      "Provided that a study for ConditionZ is optional for DrugX, if DrugX has been studied for ConditionZ, then DrugX is effective for ConditionZ.",
+      "If a study for ConditionZ is documented for DrugX, then whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ.",
+      "Whenever DrugX is marketed in RegionAlpha, DrugX is approved in RegionAlpha.",
+      "If it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, then DrugX is safe in RegionAlpha.",
+      "Provided that it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, DrugX is unsafe in RegionAlpha.",
+      "Under the condition that it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, DrugX is banned in RegionAlpha.",
+      "If it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, then DrugX is not safe in RegionAlpha.",
+      "Whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ.",
+      "Provided that it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is not controversial for ConditionZ.",
+      "If it is not the case that if DrugX is not approved in RegionAlpha then DrugX is compliant in RegionAlpha, then DrugX has been studied for ConditionZ.",
+      "Whenever DrugX is not approved in RegionAlpha, DrugX is compliant in RegionAlpha.",
+      "Under the condition that DrugX is not approved in RegionAlpha, DrugX is not compliant in RegionAlpha.",
+      "Provided that FactoryA is not inspected in RegionAlpha, FactoryA passes inspection in RegionAlpha.",
+      "If FactoryA is not inspected in RegionAlpha, then FactoryA fails inspection in RegionAlpha.",
+      "Whenever FactoryA is not inspected in RegionAlpha, FactoryA does not pass inspection in RegionAlpha.",
+      "If DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha.",
+      "DrugX is approved in RegionAlpha.",
+      "FactoryA is inspected in RegionAlpha.",
+      "A report exists for DrugX regarding ConditionZ.",
+      "DrugX is marketed in RegionAlpha.",
+      "DrugX is profitable in RegionAlpha.",
+      "It is not the case that DrugX has an exemption in RegionAlpha.",
+      "The findings for DrugX regarding ConditionZ are not inconclusive.",
+      "The findings for DrugX regarding ConditionZ are not conclusive.",
+      "DrugX has not been studied for ConditionZ.",
+      "DrugX is not effective for ConditionZ.",
+      "DrugX is not recalled in RegionAlpha."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(approved(DrugX, RegionAlpha) -> profitable(DrugX, RegionAlpha))",
+        "natural": "Provided that DrugX is approved in RegionAlpha, it follows that DrugX is profitable in RegionAlpha."
+      },
+      "(A10 → (¬A8 → A9))": {
+        "formal": "(A10 → (¬A8 → A9))",
+        "prover9": "(A10 -> (-A8 -> A9))",
+        "prover9_expression": "(violationMinor(DrugX, RegionAlpha) -> (-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha)))",
+        "natural": "Whenever DrugX has a minor violation in RegionAlpha, if DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(violationMinor(DrugX, RegionAlpha) | violationMajor(DrugX, RegionAlpha))",
+        "natural": "Either DrugX has a minor violation in RegionAlpha, or DrugX has a major violation in RegionAlpha."
+      },
+      "(A11 → (¬A8 → A9))": {
+        "formal": "(A11 → (¬A8 → A9))",
+        "prover9": "(A11 -> (-A8 -> A9))",
+        "prover9_expression": "(violationMajor(DrugX, RegionAlpha) -> (-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha)))",
+        "natural": "Under the condition that DrugX has a major violation in RegionAlpha, if DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha."
+      },
+      "(A12 ∨ (A10 ∨ A11))": {
+        "formal": "(A12 ∨ (A10 ∨ A11))",
+        "prover9": "(A12 | (A10 | A11))",
+        "prover9_expression": "(exemption(DrugX, RegionAlpha) | (violationMinor(DrugX, RegionAlpha) | violationMajor(DrugX, RegionAlpha)))",
+        "natural": "DrugX has an exemption in RegionAlpha, or DrugX has a minor violation in RegionAlpha, or DrugX has a major violation in RegionAlpha."
+      },
+      "(A13 → A1)": {
+        "formal": "(A13 → A1)",
+        "prover9": "(A13 -> A1)",
+        "prover9_expression": "(fastTracked(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+        "natural": "If DrugX is fast-tracked in RegionAlpha, then DrugX is approved in RegionAlpha."
+      },
+      "(A13 ∨ A14)": {
+        "formal": "(A13 ∨ A14)",
+        "prover9": "(A13 | A14)",
+        "prover9_expression": "(fastTracked(DrugX, RegionAlpha) | standardReview(DrugX, RegionAlpha))",
+        "natural": "DrugX is fast-tracked in RegionAlpha, or DrugX is under standard review in RegionAlpha."
+      },
+      "(A14 → A1)": {
+        "formal": "(A14 → A1)",
+        "prover9": "(A14 -> A1)",
+        "prover9_expression": "(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+        "natural": "Provided that DrugX is under standard review in RegionAlpha, it follows that DrugX is approved in RegionAlpha."
+      },
+      "(A16 → ¬A15)": {
+        "formal": "(A16 → ¬A15)",
+        "prover9": "(A16 -> -A15)",
+        "prover9_expression": "(unsafe(DrugX, RegionAlpha) -> -safe(DrugX, RegionAlpha))",
+        "natural": "Under the condition that DrugX is unsafe in RegionAlpha, DrugX is not safe in RegionAlpha."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(banned(DrugX, RegionAlpha) -> unsafe(DrugX, RegionAlpha))",
+        "natural": "If DrugX is banned in RegionAlpha, then DrugX is unsafe in RegionAlpha."
+      },
+      "(A18 → (A17 → A16))": {
+        "formal": "(A18 → (A17 → A16))",
+        "prover9": "(A18 -> (A17 -> A16))",
+        "prover9_expression": "(inspected(FactoryA, RegionAlpha) -> (banned(DrugX, RegionAlpha) -> unsafe(DrugX, RegionAlpha)))",
+        "natural": "Whenever FactoryA is inspected in RegionAlpha, if DrugX is banned in RegionAlpha, then DrugX is unsafe in RegionAlpha."
+      },
+      "(A20 → ¬A19)": {
+        "formal": "(A20 → ¬A19)",
+        "prover9": "(A20 -> -A19)",
+        "prover9_expression": "(failed(FactoryA, RegionAlpha) -> -passed(FactoryA, RegionAlpha))",
+        "natural": "Provided that FactoryA fails inspection in RegionAlpha, FactoryA does not pass inspection in RegionAlpha."
+      },
+      "(A22 → (¬(A3 → A4) → A21))": {
+        "formal": "(A22 → (¬(A3 → A4) → A21))",
+        "prover9": "(A22 -> (-(A3 -> A4) -> A21))",
+        "prover9_expression": "(reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ)))",
+        "natural": "If a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+      },
+      "(A23 → (A22 → (¬(A3 → A4) → A21)))": {
+        "formal": "(A23 → (A22 → (¬(A3 → A4) → A21)))",
+        "prover9": "(A23 -> (A22 -> (-(A3 -> A4) -> A21)))",
+        "prover9_expression": "(preliminaryReport(DrugX, ConditionZ) -> (reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))))",
+        "natural": "Under the condition that a preliminary report exists for DrugX regarding ConditionZ, if a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+      },
+      "(A23 ∨ A24)": {
+        "formal": "(A23 ∨ A24)",
+        "prover9": "(A23 | A24)",
+        "prover9_expression": "(preliminaryReport(DrugX, ConditionZ) | finalReport(DrugX, ConditionZ))",
+        "natural": "A preliminary report exists for DrugX regarding ConditionZ, or a final report exists for DrugX regarding ConditionZ."
+      },
+      "(A24 → (A22 → (¬(A3 → A4) → A21)))": {
+        "formal": "(A24 → (A22 → (¬(A3 → A4) → A21)))",
+        "prover9": "(A24 -> (A22 -> (-(A3 -> A4) -> A21)))",
+        "prover9_expression": "(finalReport(DrugX, ConditionZ) -> (reported(DrugX, ConditionZ) -> (-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))))",
+        "natural": "Provided that a final report exists for DrugX regarding ConditionZ, if a report exists for DrugX regarding ConditionZ, then whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+      },
+      "(A25 ∨ (A23 ∨ A24))": {
+        "formal": "(A25 ∨ (A23 ∨ A24))",
+        "prover9": "(A25 | (A23 | A24))",
+        "prover9_expression": "(inconclusive(DrugX, ConditionZ) | (preliminaryReport(DrugX, ConditionZ) | finalReport(DrugX, ConditionZ)))",
+        "natural": "The findings for DrugX regarding ConditionZ are inconclusive, or a preliminary report exists for DrugX regarding ConditionZ, or a final report exists for DrugX regarding ConditionZ."
+      },
+      "(A26 ∨ ¬A25)": {
+        "formal": "(A26 ∨ ¬A25)",
+        "prover9": "(A26 | -A25)",
+        "prover9_expression": "(conclusive(DrugX, ConditionZ) | -inconclusive(DrugX, ConditionZ))",
+        "natural": "The findings for DrugX regarding ConditionZ are conclusive, or it is not the case that the findings for DrugX regarding ConditionZ are inconclusive."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ))",
+        "natural": "Whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+      },
+      "(A5 → (A3 → A4))": {
+        "formal": "(A5 → (A3 → A4))",
+        "prover9": "(A5 -> (A3 -> A4))",
+        "prover9_expression": "(required(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+        "natural": "If a study for ConditionZ is required for DrugX, then whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+      },
+      "(A5 → A7)": {
+        "formal": "(A5 → A7)",
+        "prover9": "(A5 -> A7)",
+        "prover9_expression": "(required(DrugX, ConditionZ) -> documented(DrugX, ConditionZ))",
+        "natural": "Under the condition that a study for ConditionZ is required for DrugX, a study for ConditionZ is documented for DrugX."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(required(DrugX, ConditionZ) | optional(DrugX, ConditionZ))",
+        "natural": "A study for ConditionZ is required for DrugX, or a study for ConditionZ is optional for DrugX."
+      },
+      "(A6 → (A3 → A4))": {
+        "formal": "(A6 → (A3 → A4))",
+        "prover9": "(A6 -> (A3 -> A4))",
+        "prover9_expression": "(optional(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+        "natural": "Provided that a study for ConditionZ is optional for DrugX, if DrugX has been studied for ConditionZ, then DrugX is effective for ConditionZ."
+      },
+      "(A7 → (A3 → A4))": {
+        "formal": "(A7 → (A3 → A4))",
+        "prover9": "(A7 -> (A3 -> A4))",
+        "prover9_expression": "(documented(DrugX, ConditionZ) -> (studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)))",
+        "natural": "If a study for ConditionZ is documented for DrugX, then whenever DrugX has been studied for ConditionZ, DrugX is effective for ConditionZ."
+      },
+      "(A8 → A1)": {
+        "formal": "(A8 → A1)",
+        "prover9": "(A8 -> A1)",
+        "prover9_expression": "(marketed(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha))",
+        "natural": "Whenever DrugX is marketed in RegionAlpha, DrugX is approved in RegionAlpha."
+      },
+      "(¬(A14 → A1) → A15)": {
+        "formal": "(¬(A14 → A1) → A15)",
+        "prover9": "(-(A14 -> A1) -> A15)",
+        "prover9_expression": "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> safe(DrugX, RegionAlpha))",
+        "natural": "If it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, then DrugX is safe in RegionAlpha."
+      },
+      "(¬(A14 → A1) → A16)": {
+        "formal": "(¬(A14 → A1) → A16)",
+        "prover9": "(-(A14 -> A1) -> A16)",
+        "prover9_expression": "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> unsafe(DrugX, RegionAlpha))",
+        "natural": "Provided that it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, DrugX is unsafe in RegionAlpha."
+      },
+      "(¬(A14 → A1) → A17)": {
+        "formal": "(¬(A14 → A1) → A17)",
+        "prover9": "(-(A14 -> A1) -> A17)",
+        "prover9_expression": "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> banned(DrugX, RegionAlpha))",
+        "natural": "Under the condition that it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, DrugX is banned in RegionAlpha."
+      },
+      "(¬(A14 → A1) → ¬A15)": {
+        "formal": "(¬(A14 → A1) → ¬A15)",
+        "prover9": "(-(A14 -> A1) -> -A15)",
+        "prover9_expression": "(-(standardReview(DrugX, RegionAlpha) -> approved(DrugX, RegionAlpha)) -> -safe(DrugX, RegionAlpha))",
+        "natural": "If it is not the case that if DrugX is under standard review in RegionAlpha then DrugX is approved in RegionAlpha, then DrugX is not safe in RegionAlpha."
+      },
+      "(¬(A3 → A4) → A21)": {
+        "formal": "(¬(A3 → A4) → A21)",
+        "prover9": "(-(A3 -> A4) -> A21)",
+        "prover9_expression": "(-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> controversial(DrugX, ConditionZ))",
+        "natural": "Whenever it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is controversial for ConditionZ."
+      },
+      "(¬(A3 → A4) → ¬A21)": {
+        "formal": "(¬(A3 → A4) → ¬A21)",
+        "prover9": "(-(A3 -> A4) -> -A21)",
+        "prover9_expression": "(-(studied(DrugX, ConditionZ) -> effective(DrugX, ConditionZ)) -> -controversial(DrugX, ConditionZ))",
+        "natural": "Provided that it is not the case that if DrugX has been studied for ConditionZ then DrugX is effective for ConditionZ, DrugX is not controversial for ConditionZ."
+      },
+      "(¬(¬A1 → A2) → A3)": {
+        "formal": "(¬(¬A1 → A2) → A3)",
+        "prover9": "(-(-A1 -> A2) -> A3)",
+        "prover9_expression": "(-(-approved(DrugX, RegionAlpha) -> compliant(DrugX, RegionAlpha)) -> studied(DrugX, ConditionZ))",
+        "natural": "If it is not the case that if DrugX is not approved in RegionAlpha then DrugX is compliant in RegionAlpha, then DrugX has been studied for ConditionZ."
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-approved(DrugX, RegionAlpha) -> compliant(DrugX, RegionAlpha))",
+        "natural": "Whenever DrugX is not approved in RegionAlpha, DrugX is compliant in RegionAlpha."
+      },
+      "(¬A1 → ¬A2)": {
+        "formal": "(¬A1 → ¬A2)",
+        "prover9": "(-A1 -> -A2)",
+        "prover9_expression": "(-approved(DrugX, RegionAlpha) -> -compliant(DrugX, RegionAlpha))",
+        "natural": "Under the condition that DrugX is not approved in RegionAlpha, DrugX is not compliant in RegionAlpha."
+      },
+      "(¬A18 → A19)": {
+        "formal": "(¬A18 → A19)",
+        "prover9": "(-A18 -> A19)",
+        "prover9_expression": "(-inspected(FactoryA, RegionAlpha) -> passed(FactoryA, RegionAlpha))",
+        "natural": "Provided that FactoryA is not inspected in RegionAlpha, FactoryA passes inspection in RegionAlpha."
+      },
+      "(¬A18 → A20)": {
+        "formal": "(¬A18 → A20)",
+        "prover9": "(-A18 -> A20)",
+        "prover9_expression": "(-inspected(FactoryA, RegionAlpha) -> failed(FactoryA, RegionAlpha))",
+        "natural": "If FactoryA is not inspected in RegionAlpha, then FactoryA fails inspection in RegionAlpha."
+      },
+      "(¬A18 → ¬A19)": {
+        "formal": "(¬A18 → ¬A19)",
+        "prover9": "(-A18 -> -A19)",
+        "prover9_expression": "(-inspected(FactoryA, RegionAlpha) -> -passed(FactoryA, RegionAlpha))",
+        "natural": "Whenever FactoryA is not inspected in RegionAlpha, FactoryA does not pass inspection in RegionAlpha."
+      },
+      "(¬A8 → A9)": {
+        "formal": "(¬A8 → A9)",
+        "prover9": "(-A8 -> A9)",
+        "prover9_expression": "(-marketed(DrugX, RegionAlpha) -> recalled(DrugX, RegionAlpha))",
+        "natural": "If DrugX is not marketed in RegionAlpha, then DrugX is recalled in RegionAlpha."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "approved(DrugX, RegionAlpha)",
+        "natural": "DrugX is approved in RegionAlpha."
+      },
+      "A18": {
+        "formal": "A18",
+        "prover9": "A18",
+        "prover9_expression": "inspected(FactoryA, RegionAlpha)",
+        "natural": "FactoryA is inspected in RegionAlpha."
+      },
+      "A22": {
+        "formal": "A22",
+        "prover9": "A22",
+        "prover9_expression": "reported(DrugX, ConditionZ)",
+        "natural": "A report exists for DrugX regarding ConditionZ."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "marketed(DrugX, RegionAlpha)",
+        "natural": "DrugX is marketed in RegionAlpha."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "profitable(DrugX, RegionAlpha)",
+        "natural": "DrugX is profitable in RegionAlpha."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-exemption(DrugX, RegionAlpha)",
+        "natural": "It is not the case that DrugX has an exemption in RegionAlpha."
+      },
+      "¬A25": {
+        "formal": "¬A25",
+        "prover9": "-A25",
+        "prover9_expression": "-inconclusive(DrugX, ConditionZ)",
+        "natural": "The findings for DrugX regarding ConditionZ are not inconclusive."
+      },
+      "¬A26": {
+        "formal": "¬A26",
+        "prover9": "-A26",
+        "prover9_expression": "-conclusive(DrugX, ConditionZ)",
+        "natural": "The findings for DrugX regarding ConditionZ are not conclusive."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-studied(DrugX, ConditionZ)",
+        "natural": "DrugX has not been studied for ConditionZ."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-effective(DrugX, ConditionZ)",
+        "natural": "DrugX is not effective for ConditionZ."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-recalled(DrugX, RegionAlpha)",
+        "natural": "DrugX is not recalled in RegionAlpha."
+      }
+    }
+  }
+}

@@ -1,0 +1,515 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A9)",
+        "prover9_expression": "(published(Results, JournalK) -> meets(Endpoints, TrialY))",
+        "natural": "Whenever the Results are published in JournalK, it follows that TrialY meets the Endpoints."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → A13)",
+        "prover9_expression": "(submitted(Application, AgencyR) -> reviewed(Application, AgencyR))",
+        "natural": "Under the condition that the Application was submitted to AgencyR, it follows that the Application was reviewed by AgencyR."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(submitted(Application, AgencyR) | rejected(Application, AgencyR))",
+        "natural": "Either the Application was submitted to AgencyR, or the Application was rejected by AgencyR."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → A10)",
+        "prover9_expression": "(rejected(Application, AgencyR) -> published(Results, JournalK))",
+        "natural": "In case the Application was rejected by AgencyR, the Results were published in JournalK."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → A10)",
+        "prover9_expression": "(reviewed(Application, AgencyR) -> published(Results, JournalK))",
+        "natural": "If the Application was reviewed by AgencyR, the Results were published in JournalK."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A2 → (A1 → G))",
+        "prover9_expression": "(funding(GameCompany, TrialY) -> (approved(Legislation, DrugX) -> marketed(DrugX)))",
+        "natural": "If GameCompany funded TrialY, then the scenario where Legislation approved DrugX leads to DrugX being marketed."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A3 ∨ A2)",
+        "prover9_expression": "(outbreak(DiseaseZ, RegionA) | funding(GameCompany, TrialY))",
+        "natural": "Either an outbreak of DiseaseZ occurred in RegionA, or GameCompany funded TrialY."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(deployed(TechnologyW, ClinicB) | resolved(ConditionC, PatientD))",
+        "natural": "TechnologyW was deployed at ClinicB, or ConditionC was resolved for PatientD."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A5 → ¬A3)",
+        "prover9_expression": "(resolved(ConditionC, PatientD) -> -outbreak(DiseaseZ, RegionA))",
+        "natural": "Provided that ConditionC was resolved for PatientD, an outbreak of DiseaseZ did not occur in RegionA."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A8 ∨ ¬A3)",
+        "prover9_expression": "(violates(EthicsGuidelines) | -outbreak(DiseaseZ, RegionA))",
+        "natural": "Either EthicsGuidelines were violated, or there was no outbreak of DiseaseZ in RegionA."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A9 → ¬A8)",
+        "prover9_expression": "(meets(Endpoints, TrialY) -> -violates(EthicsGuidelines))",
+        "natural": "Assuming TrialY meets the Endpoints, EthicsGuidelines were not violated."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬(A4 → ¬A3) → ¬A6)",
+        "prover9_expression": "(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> -halted(TrialY))",
+        "natural": "If it is not the case that the deployment of TechnologyW at ClinicB implies no outbreak of DiseaseZ in RegionA, then it is not true that TrialY was halted."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬(¬(A4 → ¬A3) → A6) → A7)",
+        "prover9_expression": "(-(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> halted(TrialY)) -> expedited(ApprovalProcess))",
+        "natural": "If it is not the case that the failure of \"if TechnologyW was deployed at ClinicB, then there was no DiseaseZ outbreak in RegionA\" leads to TrialY being halted, then the ApprovalProcess was expedited."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "approved(Legislation, DrugX)",
+        "natural": "Legislation approved DrugX."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A7",
+        "prover9_expression": "-expedited(ApprovalProcess)",
+        "natural": "The ApprovalProcess was not expedited."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "marketed(DrugX)",
+    "natural": "DrugX was marketed."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A4 -> -A3) -> A6) -> A7)",
+            "-A7"
+          ],
+          "conclusion": "(-(A4 -> -A3) -> A6)",
+          "natural": "If it is not true that the deployment of TechnologyW at ClinicB implies no outbreak of DiseaseZ in RegionA, then TrialY was halted."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> -A3) -> A6)",
+            "(-(A4 -> -A3) -> -A6)"
+          ],
+          "conclusion": "(A4 -> -A3)",
+          "natural": "If TechnologyW was deployed at ClinicB, then it is not the case that an outbreak of DiseaseZ occurred in RegionA."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> -A3)",
+            "(A5 -> -A3)"
+          ],
+          "conclusion": "-A3",
+          "natural": "It is not the case that an outbreak of DiseaseZ occurred in RegionA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | A2)",
+            "-A3"
+          ],
+          "conclusion": "A2",
+          "natural": "GameCompany funded TrialY."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> (A1 -> G))",
+            "A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that Legislation approved DrugX, DrugX was marketed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "DrugX was marketed."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A13)",
+            "(A13 -> A10)"
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "If the Application was submitted to AgencyR, then the Results were published in JournalK."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> A10)",
+            "(A12 -> A10)"
+          ],
+          "conclusion": "A10",
+          "natural": "The Results were published in JournalK."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> A9)",
+            "A10"
+          ],
+          "conclusion": "A9",
+          "natural": "TrialY meets the Endpoints."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> -A8)",
+            "A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "EthicsGuidelines were not violated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A8 | -A3)",
+            "-A8"
+          ],
+          "conclusion": "-A3",
+          "natural": "It is not the case that an outbreak of DiseaseZ occurred in RegionA."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | A2)",
+            "-A3"
+          ],
+          "conclusion": "A2",
+          "natural": "GameCompany funded TrialY."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> (A1 -> G))",
+            "A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that Legislation approved DrugX, DrugX was marketed."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "DrugX was marketed."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Regulation and Clinical Trials",
+    "atomic_facts": {
+      "A1": "approved(Legislation, DrugX)",
+      "A2": "funding(GameCompany, TrialY)",
+      "A3": "outbreak(DiseaseZ, RegionA)",
+      "A4": "deployed(TechnologyW, ClinicB)",
+      "A5": "resolved(ConditionC, PatientD)",
+      "A6": "halted(TrialY)",
+      "A7": "expedited(ApprovalProcess)",
+      "A8": "violates(EthicsGuidelines)",
+      "A9": "meets(Endpoints, TrialY)",
+      "A10": "published(Results, JournalK)",
+      "A11": "submitted(Application, AgencyR)",
+      "A12": "rejected(Application, AgencyR)",
+      "A13": "reviewed(Application, AgencyR)",
+      "G": "marketed(DrugX)"
+    },
+    "natural_facts": {
+      "A1": "Legislation approved DrugX.",
+      "A2": "GameCompany funded TrialY.",
+      "A3": "An outbreak of DiseaseZ occurred in RegionA.",
+      "A4": "TechnologyW was deployed at ClinicB.",
+      "A5": "ConditionC was resolved for PatientD.",
+      "A6": "TrialY was halted.",
+      "A7": "The ApprovalProcess was expedited.",
+      "A8": "EthicsGuidelines were violated.",
+      "A9": "TrialY meets the Endpoints.",
+      "A10": "The Results were published in JournalK.",
+      "A11": "The Application was submitted to AgencyR.",
+      "A12": "The Application was rejected by AgencyR.",
+      "A13": "The Application was reviewed by AgencyR.",
+      "G": "DrugX was marketed."
+    },
+    "prover9_expressions": [
+      "(approved(Legislation, DrugX) -> marketed(DrugX))",
+      "(published(Results, JournalK) -> meets(Endpoints, TrialY))",
+      "(submitted(Application, AgencyR) -> published(Results, JournalK))",
+      "(submitted(Application, AgencyR) -> reviewed(Application, AgencyR))",
+      "(submitted(Application, AgencyR) | rejected(Application, AgencyR))",
+      "(rejected(Application, AgencyR) -> published(Results, JournalK))",
+      "(reviewed(Application, AgencyR) -> published(Results, JournalK))",
+      "(funding(GameCompany, TrialY) -> (approved(Legislation, DrugX) -> marketed(DrugX)))",
+      "(outbreak(DiseaseZ, RegionA) | funding(GameCompany, TrialY))",
+      "(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA))",
+      "(deployed(TechnologyW, ClinicB) | resolved(ConditionC, PatientD))",
+      "(resolved(ConditionC, PatientD) -> -outbreak(DiseaseZ, RegionA))",
+      "(violates(EthicsGuidelines) | -outbreak(DiseaseZ, RegionA))",
+      "(meets(Endpoints, TrialY) -> -violates(EthicsGuidelines))",
+      "(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> halted(TrialY))",
+      "(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> -halted(TrialY))",
+      "(-(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> halted(TrialY)) -> expedited(ApprovalProcess))",
+      "approved(Legislation, DrugX)",
+      "published(Results, JournalK)",
+      "funding(GameCompany, TrialY)",
+      "meets(Endpoints, TrialY)",
+      "marketed(DrugX)",
+      "-outbreak(DiseaseZ, RegionA)",
+      "-expedited(ApprovalProcess)",
+      "-violates(EthicsGuidelines)"
+    ],
+    "natural_expressions": [
+      "Provided that Legislation approved DrugX, DrugX was marketed.",
+      "Whenever the Results are published in JournalK, it follows that TrialY meets the Endpoints.",
+      "If the Application was submitted to AgencyR, then the Results were published in JournalK.",
+      "Under the condition that the Application was submitted to AgencyR, it follows that the Application was reviewed by AgencyR.",
+      "Either the Application was submitted to AgencyR, or the Application was rejected by AgencyR.",
+      "In case the Application was rejected by AgencyR, the Results were published in JournalK.",
+      "If the Application was reviewed by AgencyR, the Results were published in JournalK.",
+      "If GameCompany funded TrialY, then the scenario where Legislation approved DrugX leads to DrugX being marketed.",
+      "Either an outbreak of DiseaseZ occurred in RegionA, or GameCompany funded TrialY.",
+      "If TechnologyW was deployed at ClinicB, then it is not the case that an outbreak of DiseaseZ occurred in RegionA.",
+      "TechnologyW was deployed at ClinicB, or ConditionC was resolved for PatientD.",
+      "Provided that ConditionC was resolved for PatientD, an outbreak of DiseaseZ did not occur in RegionA.",
+      "Either EthicsGuidelines were violated, or there was no outbreak of DiseaseZ in RegionA.",
+      "Assuming TrialY meets the Endpoints, EthicsGuidelines were not violated.",
+      "If it is not true that the deployment of TechnologyW at ClinicB implies no outbreak of DiseaseZ in RegionA, then TrialY was halted.",
+      "If it is not the case that the deployment of TechnologyW at ClinicB implies no outbreak of DiseaseZ in RegionA, then it is not true that TrialY was halted.",
+      "If it is not the case that the failure of \"if TechnologyW was deployed at ClinicB, then there was no DiseaseZ outbreak in RegionA\" leads to TrialY being halted, then the ApprovalProcess was expedited.",
+      "Legislation approved DrugX.",
+      "The Results were published in JournalK.",
+      "GameCompany funded TrialY.",
+      "TrialY meets the Endpoints.",
+      "DrugX was marketed.",
+      "It is not the case that an outbreak of DiseaseZ occurred in RegionA.",
+      "The ApprovalProcess was not expedited.",
+      "EthicsGuidelines were not violated."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(approved(Legislation, DrugX) -> marketed(DrugX))",
+        "natural": "Provided that Legislation approved DrugX, DrugX was marketed."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(published(Results, JournalK) -> meets(Endpoints, TrialY))",
+        "natural": "Whenever the Results are published in JournalK, it follows that TrialY meets the Endpoints."
+      },
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(submitted(Application, AgencyR) -> published(Results, JournalK))",
+        "natural": "If the Application was submitted to AgencyR, then the Results were published in JournalK."
+      },
+      "(A11 → A13)": {
+        "formal": "(A11 → A13)",
+        "prover9": "(A11 -> A13)",
+        "prover9_expression": "(submitted(Application, AgencyR) -> reviewed(Application, AgencyR))",
+        "natural": "Under the condition that the Application was submitted to AgencyR, it follows that the Application was reviewed by AgencyR."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(submitted(Application, AgencyR) | rejected(Application, AgencyR))",
+        "natural": "Either the Application was submitted to AgencyR, or the Application was rejected by AgencyR."
+      },
+      "(A12 → A10)": {
+        "formal": "(A12 → A10)",
+        "prover9": "(A12 -> A10)",
+        "prover9_expression": "(rejected(Application, AgencyR) -> published(Results, JournalK))",
+        "natural": "In case the Application was rejected by AgencyR, the Results were published in JournalK."
+      },
+      "(A13 → A10)": {
+        "formal": "(A13 → A10)",
+        "prover9": "(A13 -> A10)",
+        "prover9_expression": "(reviewed(Application, AgencyR) -> published(Results, JournalK))",
+        "natural": "If the Application was reviewed by AgencyR, the Results were published in JournalK."
+      },
+      "(A2 → (A1 → G))": {
+        "formal": "(A2 → (A1 → G))",
+        "prover9": "(A2 -> (A1 -> G))",
+        "prover9_expression": "(funding(GameCompany, TrialY) -> (approved(Legislation, DrugX) -> marketed(DrugX)))",
+        "natural": "If GameCompany funded TrialY, then the scenario where Legislation approved DrugX leads to DrugX being marketed."
+      },
+      "(A3 ∨ A2)": {
+        "formal": "(A3 ∨ A2)",
+        "prover9": "(A3 | A2)",
+        "prover9_expression": "(outbreak(DiseaseZ, RegionA) | funding(GameCompany, TrialY))",
+        "natural": "Either an outbreak of DiseaseZ occurred in RegionA, or GameCompany funded TrialY."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA))",
+        "natural": "If TechnologyW was deployed at ClinicB, then it is not the case that an outbreak of DiseaseZ occurred in RegionA."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(deployed(TechnologyW, ClinicB) | resolved(ConditionC, PatientD))",
+        "natural": "TechnologyW was deployed at ClinicB, or ConditionC was resolved for PatientD."
+      },
+      "(A5 → ¬A3)": {
+        "formal": "(A5 → ¬A3)",
+        "prover9": "(A5 -> -A3)",
+        "prover9_expression": "(resolved(ConditionC, PatientD) -> -outbreak(DiseaseZ, RegionA))",
+        "natural": "Provided that ConditionC was resolved for PatientD, an outbreak of DiseaseZ did not occur in RegionA."
+      },
+      "(A8 ∨ ¬A3)": {
+        "formal": "(A8 ∨ ¬A3)",
+        "prover9": "(A8 | -A3)",
+        "prover9_expression": "(violates(EthicsGuidelines) | -outbreak(DiseaseZ, RegionA))",
+        "natural": "Either EthicsGuidelines were violated, or there was no outbreak of DiseaseZ in RegionA."
+      },
+      "(A9 → ¬A8)": {
+        "formal": "(A9 → ¬A8)",
+        "prover9": "(A9 -> -A8)",
+        "prover9_expression": "(meets(Endpoints, TrialY) -> -violates(EthicsGuidelines))",
+        "natural": "Assuming TrialY meets the Endpoints, EthicsGuidelines were not violated."
+      },
+      "(¬(A4 → ¬A3) → A6)": {
+        "formal": "(¬(A4 → ¬A3) → A6)",
+        "prover9": "(-(A4 -> -A3) -> A6)",
+        "prover9_expression": "(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> halted(TrialY))",
+        "natural": "If it is not true that the deployment of TechnologyW at ClinicB implies no outbreak of DiseaseZ in RegionA, then TrialY was halted."
+      },
+      "(¬(A4 → ¬A3) → ¬A6)": {
+        "formal": "(¬(A4 → ¬A3) → ¬A6)",
+        "prover9": "(-(A4 -> -A3) -> -A6)",
+        "prover9_expression": "(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> -halted(TrialY))",
+        "natural": "If it is not the case that the deployment of TechnologyW at ClinicB implies no outbreak of DiseaseZ in RegionA, then it is not true that TrialY was halted."
+      },
+      "(¬(¬(A4 → ¬A3) → A6) → A7)": {
+        "formal": "(¬(¬(A4 → ¬A3) → A6) → A7)",
+        "prover9": "(-(-(A4 -> -A3) -> A6) -> A7)",
+        "prover9_expression": "(-(-(deployed(TechnologyW, ClinicB) -> -outbreak(DiseaseZ, RegionA)) -> halted(TrialY)) -> expedited(ApprovalProcess))",
+        "natural": "If it is not the case that the failure of \"if TechnologyW was deployed at ClinicB, then there was no DiseaseZ outbreak in RegionA\" leads to TrialY being halted, then the ApprovalProcess was expedited."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "approved(Legislation, DrugX)",
+        "natural": "Legislation approved DrugX."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "published(Results, JournalK)",
+        "natural": "The Results were published in JournalK."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "funding(GameCompany, TrialY)",
+        "natural": "GameCompany funded TrialY."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "meets(Endpoints, TrialY)",
+        "natural": "TrialY meets the Endpoints."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "marketed(DrugX)",
+        "natural": "DrugX was marketed."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-outbreak(DiseaseZ, RegionA)",
+        "natural": "It is not the case that an outbreak of DiseaseZ occurred in RegionA."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-expedited(ApprovalProcess)",
+        "natural": "The ApprovalProcess was not expedited."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-violates(EthicsGuidelines)",
+        "natural": "EthicsGuidelines were not violated."
+      }
+    }
+  }
+}

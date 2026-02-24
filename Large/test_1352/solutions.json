@@ -1,0 +1,1097 @@
+{
+  "solution_stats": {
+    "total_solutions": 9,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(appeals_decision(facility, legislation) -> wins_appeal(facility, legislation))",
+              "natural": "Under the condition that the facility appeals a decision under the legislation, it wins an appeal under the legislation."
+            },
+            {
+              "id": "Fact13",
+              "prover9": "-A9",
+              "prover9_expression": "-wins_appeal(facility, legislation)",
+              "natural": "It is not the case that the facility wins an appeal under the legislation."
+            }
+          ],
+          "conclusion": "-A8",
+          "natural": "The facility does not appeal a decision under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A8 | (A6 -> (A4 | A5)))",
+              "prover9_expression": "(appeals_decision(facility, legislation) | (gets_fine(facility, legislation) -> (violates_regulation(facility, legislation) | receives_warning(facility, legislation))))",
+              "natural": "The facility appeals a decision under the legislation, or, if it gets a fine under the legislation, then it either violates a regulation under the legislation or receives a warning under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A8",
+              "prover9_expression": "-appeals_decision(facility, legislation)",
+              "natural": "The facility does not appeal a decision under the legislation."
+            }
+          ],
+          "conclusion": "(A6 -> (A4 | A5))",
+          "natural": "If the facility gets a fine under the legislation, then it either violates a regulation under the legislation or receives a warning under the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(gets_fine(facility, legislation) | gets_suspension(facility, legislation))",
+              "natural": "The facility gets a fine under the legislation, or it gets a suspension under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (A4 | A5))",
+              "prover9_expression": "(gets_fine(facility, legislation) -> (violates_regulation(facility, legislation) | receives_warning(facility, legislation)))",
+              "natural": "If the facility gets a fine under the legislation, then it either violates a regulation under the legislation or receives a warning under the legislation."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(A7 -> (A4 | A5))",
+              "prover9_expression": "(gets_suspension(facility, legislation) -> (violates_regulation(facility, legislation) | receives_warning(facility, legislation)))",
+              "natural": "Provided that the facility gets a suspension under the legislation, it either violates a regulation under the legislation or receives a warning under the legislation."
+            }
+          ],
+          "conclusion": "(A4 | A5)",
+          "natural": "The facility violates a regulation under the legislation, or it receives a warning under the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A4 -> A3)",
+              "prover9_expression": "(violates_regulation(facility, legislation) -> has_license_revoked(facility, time_period))",
+              "natural": "If the facility violates a regulation under the legislation, then it has its license revoked during the time period."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A5 -> A2)",
+              "prover9_expression": "(receives_warning(facility, legislation) -> fails_inspection(facility, time_period))",
+              "natural": "Provided that the facility receives a warning under the legislation, it fails an inspection during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(violates_regulation(facility, legislation) | receives_warning(facility, legislation))",
+              "natural": "The facility violates a regulation under the legislation, or it receives a warning under the legislation."
+            }
+          ],
+          "conclusion": "(A3 | A2)",
+          "natural": "The facility has its license revoked during the time period, or it fails an inspection during the time period."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A2)",
+              "prover9_expression": "(has_license_revoked(facility, time_period) | fails_inspection(facility, time_period))",
+              "natural": "The facility has its license revoked during the time period, or it fails an inspection during the time period."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A3",
+              "prover9_expression": "-has_license_revoked(facility, time_period)",
+              "natural": "It is not the case that the facility has its license revoked during the time period."
+            }
+          ],
+          "conclusion": "A2",
+          "natural": "The facility fails an inspection during the time period."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(fails_inspection(facility, time_period) -> (has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)))",
+              "natural": "Provided that the facility fails an inspection during the time period, it either has a contaminated ingredient in the food or passes all checks during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A2",
+              "prover9_expression": "fails_inspection(facility, time_period)",
+              "natural": "The facility fails an inspection during the time period."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period))",
+              "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A1",
+              "prover9_expression": "-has_contaminated_ingredient(facility, food)",
+              "natural": "It is not the case that the facility has a contaminated ingredient in the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(passes_inspection(facility, time_period) -> gets_certification(facility, time_period))",
+              "natural": "Provided that the facility passes an inspection during the time period, it gets a certification during the time period."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A14 -> -A15)",
+              "prover9_expression": "(passes_inspection(facility, time_period) -> -gets_certification(facility, time_period))",
+              "natural": "If the facility passes an inspection during the time period, then it is not the case that it gets a certification during the time period."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "The facility does not pass an inspection during the time period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A14 | (A13 -> A11))",
+              "prover9_expression": "(passes_inspection(facility, time_period) | (has_mold_problem(facility, time_period) -> fails_equipment_check(facility, time_period)))",
+              "natural": "The facility passes an inspection during the time period, or, if it has a mold problem during the time period, then it fails an equipment check during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-passes_inspection(facility, time_period)",
+              "natural": "The facility does not pass an inspection during the time period."
+            }
+          ],
+          "conclusion": "(A13 -> A11)",
+          "natural": "Whenever the facility has a mold problem during the time period, it fails an equipment check during the time period."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> A10)",
+              "prover9_expression": "(has_rodent_infestation(facility, time_period) -> fails_hygiene_audit(facility, time_period))",
+              "natural": "If the facility has a rodent infestation during the time period, then it fails a hygiene audit during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(has_mold_problem(facility, time_period) -> fails_equipment_check(facility, time_period))",
+              "natural": "Whenever the facility has a mold problem during the time period, it fails an equipment check during the time period."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(has_rodent_infestation(facility, time_period) | has_mold_problem(facility, time_period))",
+              "natural": "The facility has a rodent infestation during the time period, or it has a mold problem during the time period."
+            }
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "The facility fails a hygiene audit during the time period, or it fails an equipment check during the time period."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(fails_hygiene_audit(facility, time_period) | fails_equipment_check(facility, time_period))",
+              "natural": "The facility fails a hygiene audit during the time period, or it fails an equipment check during the time period."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(fails_hygiene_audit(facility, time_period) -> passes_all_checks(facility, time_period))",
+              "natural": "Provided that the facility fails a hygiene audit during the time period, it passes all checks during the time period."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> G)",
+              "prover9_expression": "(fails_equipment_check(facility, time_period) -> passes_all_checks(facility, time_period))",
+              "natural": "Under the condition that the facility fails an equipment check during the time period, it passes all checks during the time period."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A20 | A21)",
+              "prover9_expression": "(implements_new_protocols(facility, time_period) | hires_consultant(facility, time_period))",
+              "natural": "The facility implements new protocols during the time period, or it hires a consultant during the time period."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A20 -> (A19 | (A18 -> -A17)))",
+              "prover9_expression": "(implements_new_protocols(facility, time_period) -> (receives_award(facility, legislation) | (complies_with_standards(facility, legislation) -> -faces_lawsuit(facility, legislation))))",
+              "natural": "If the facility implements new protocols during the time period, then it either receives an award under the legislation, or, under the condition that it complies with standards under the legislation, it does not face a lawsuit under the legislation."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A21 -> (A19 | (A18 -> -A17)))",
+              "prover9_expression": "(hires_consultant(facility, time_period) -> (receives_award(facility, legislation) | (complies_with_standards(facility, legislation) -> -faces_lawsuit(facility, legislation))))",
+              "natural": "Whenever the facility hires a consultant during the time period, it either receives an award under the legislation, or, provided that it complies with standards under the legislation, it does not face a lawsuit under the legislation."
+            }
+          ],
+          "conclusion": "(A19 | (A18 -> -A17))",
+          "natural": "The facility receives an award under the legislation, or, if it complies with standards under the legislation, then it does not face a lawsuit under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 | (A18 -> -A17))",
+              "prover9_expression": "(receives_award(facility, legislation) | (complies_with_standards(facility, legislation) -> -faces_lawsuit(facility, legislation)))",
+              "natural": "The facility receives an award under the legislation, or, if it complies with standards under the legislation, then it does not face a lawsuit under the legislation."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A19",
+              "prover9_expression": "-receives_award(facility, legislation)",
+              "natural": "It is not the case that the facility receives an award under the legislation."
+            }
+          ],
+          "conclusion": "(A18 -> -A17)",
+          "natural": "Under the condition that the facility complies with standards under the legislation, it does not face a lawsuit under the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> -A17)",
+              "prover9_expression": "(complies_with_standards(facility, legislation) -> -faces_lawsuit(facility, legislation))",
+              "natural": "Under the condition that the facility complies with standards under the legislation, it does not face a lawsuit under the legislation."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A18",
+              "prover9_expression": "complies_with_standards(facility, legislation)",
+              "natural": "The facility complies with standards under the legislation."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The facility does not face a lawsuit under the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 | -A16)",
+              "prover9_expression": "(faces_lawsuit(facility, legislation) | -reports_incident(facility, legislation))",
+              "natural": "The facility faces a lawsuit under the legislation, or it is not the case that it reports an incident under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-faces_lawsuit(facility, legislation)",
+              "natural": "The facility does not face a lawsuit under the legislation."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "It is not the case that the facility reports an incident under the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A16 | G)",
+              "prover9_expression": "(reports_incident(facility, legislation) | passes_all_checks(facility, time_period))",
+              "natural": "The facility reports an incident under the legislation, or it passes all checks during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-reports_incident(facility, legislation)",
+              "natural": "It is not the case that the facility reports an incident under the legislation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A23 -> (A22 | (A4 | A5)))",
+              "prover9_expression": "(completes_training(facility, legislation) -> (corrects_violation(facility, legislation) | (violates_regulation(facility, legislation) | receives_warning(facility, legislation))))",
+              "natural": "Under the condition that the facility completes training under the legislation, it either corrects a violation under the legislation, or it violates a regulation under the legislation, or it receives a warning under the legislation."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A23",
+              "prover9_expression": "completes_training(facility, legislation)",
+              "natural": "The facility completes training under the legislation."
+            }
+          ],
+          "conclusion": "(A22 | (A4 | A5))",
+          "natural": "The facility corrects a violation under the legislation, or it either violates a regulation under the legislation or receives a warning under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | (A4 | A5))",
+              "prover9_expression": "(corrects_violation(facility, legislation) | (violates_regulation(facility, legislation) | receives_warning(facility, legislation)))",
+              "natural": "The facility corrects a violation under the legislation, or it either violates a regulation under the legislation or receives a warning under the legislation."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A22",
+              "prover9_expression": "-corrects_violation(facility, legislation)",
+              "natural": "The facility does not correct a violation under the legislation."
+            }
+          ],
+          "conclusion": "(A4 | A5)",
+          "natural": "The facility violates a regulation under the legislation, or it receives a warning under the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A4 -> A3)",
+              "prover9_expression": "(violates_regulation(facility, legislation) -> has_license_revoked(facility, time_period))",
+              "natural": "If the facility violates a regulation under the legislation, then it has its license revoked during the time period."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A5 -> A2)",
+              "prover9_expression": "(receives_warning(facility, legislation) -> fails_inspection(facility, time_period))",
+              "natural": "Provided that the facility receives a warning under the legislation, it fails an inspection during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(violates_regulation(facility, legislation) | receives_warning(facility, legislation))",
+              "natural": "The facility violates a regulation under the legislation, or it receives a warning under the legislation."
+            }
+          ],
+          "conclusion": "(A3 | A2)",
+          "natural": "The facility has its license revoked during the time period, or it fails an inspection during the time period."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A2)",
+              "prover9_expression": "(has_license_revoked(facility, time_period) | fails_inspection(facility, time_period))",
+              "natural": "The facility has its license revoked during the time period, or it fails an inspection during the time period."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A3",
+              "prover9_expression": "-has_license_revoked(facility, time_period)",
+              "natural": "It is not the case that the facility has its license revoked during the time period."
+            }
+          ],
+          "conclusion": "A2",
+          "natural": "The facility fails an inspection during the time period."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(fails_inspection(facility, time_period) -> (has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)))",
+              "natural": "Provided that the facility fails an inspection during the time period, it either has a contaminated ingredient in the food or passes all checks during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A2",
+              "prover9_expression": "fails_inspection(facility, time_period)",
+              "natural": "The facility fails an inspection during the time period."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period))",
+              "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A1",
+              "prover9_expression": "-has_contaminated_ingredient(facility, food)",
+              "natural": "It is not the case that the facility has a contaminated ingredient in the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(-(A24 | A25) -> A26)",
+              "prover9_expression": "(-(improves_rating(facility, time_period) | maintains_rating(facility, time_period)) -> rating_drops(facility, time_period))",
+              "natural": "Under the condition that it is not the case that the facility either improves its rating during the time period or maintains its rating during the time period, its rating drops during the time period."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A26",
+              "prover9_expression": "-rating_drops(facility, time_period)",
+              "natural": "It is not the case that the facility’s rating drops during the time period."
+            }
+          ],
+          "conclusion": "(A24 | A25)",
+          "natural": "The facility improves its rating during the time period, or it maintains its rating during the time period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 | A25)",
+              "prover9_expression": "(improves_rating(facility, time_period) | maintains_rating(facility, time_period))",
+              "natural": "The facility improves its rating during the time period, or it maintains its rating during the time period."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A24 -> (A3 | A2))",
+              "prover9_expression": "(improves_rating(facility, time_period) -> (has_license_revoked(facility, time_period) | fails_inspection(facility, time_period)))",
+              "natural": "Provided that the facility improves its rating during the time period, it either has its license revoked during the time period or fails an inspection during the time period."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A25 -> (A3 | A2))",
+              "prover9_expression": "(maintains_rating(facility, time_period) -> (has_license_revoked(facility, time_period) | fails_inspection(facility, time_period)))",
+              "natural": "If the facility maintains its rating during the time period, then it either has its license revoked during the time period or fails an inspection during the time period."
+            }
+          ],
+          "conclusion": "(A3 | A2)",
+          "natural": "The facility has its license revoked during the time period, or it fails an inspection during the time period."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A2)",
+              "prover9_expression": "(has_license_revoked(facility, time_period) | fails_inspection(facility, time_period))",
+              "natural": "The facility has its license revoked during the time period, or it fails an inspection during the time period."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A3",
+              "prover9_expression": "-has_license_revoked(facility, time_period)",
+              "natural": "It is not the case that the facility has its license revoked during the time period."
+            }
+          ],
+          "conclusion": "A2",
+          "natural": "The facility fails an inspection during the time period."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(fails_inspection(facility, time_period) -> (has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)))",
+              "natural": "Provided that the facility fails an inspection during the time period, it either has a contaminated ingredient in the food or passes all checks during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A2",
+              "prover9_expression": "fails_inspection(facility, time_period)",
+              "natural": "The facility fails an inspection during the time period."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period))",
+              "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A1",
+              "prover9_expression": "-has_contaminated_ingredient(facility, food)",
+              "natural": "It is not the case that the facility has a contaminated ingredient in the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A30 -> A31)",
+              "prover9_expression": "(submits_documentation(facility, legislation) -> gets_approval(facility, legislation))",
+              "natural": "If the facility submits documentation under the legislation, then it gets approval under the legislation."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A31",
+              "prover9_expression": "-gets_approval(facility, legislation)",
+              "natural": "It is not the case that the facility gets approval under the legislation."
+            }
+          ],
+          "conclusion": "-A30",
+          "natural": "The facility does not submit documentation under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A30 | (A28 | A29))",
+              "prover9_expression": "(submits_documentation(facility, legislation) | (requests_review(facility, legislation) | accepts_penalty(facility, legislation)))",
+              "natural": "The facility submits documentation under the legislation, or it requests a review under the legislation, or it accepts a penalty under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A30",
+              "prover9_expression": "-submits_documentation(facility, legislation)",
+              "natural": "The facility does not submit documentation under the legislation."
+            }
+          ],
+          "conclusion": "(A28 | A29)",
+          "natural": "The facility requests a review under the legislation, or it accepts a penalty under the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A28 | A29)",
+              "prover9_expression": "(requests_review(facility, legislation) | accepts_penalty(facility, legislation))",
+              "natural": "The facility requests a review under the legislation, or it accepts a penalty under the legislation."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A28 -> (-A2 -> A27))",
+              "prover9_expression": "(requests_review(facility, legislation) -> (-fails_inspection(facility, time_period) -> gets_grace_period(facility, time_period)))",
+              "natural": "Under the condition that the facility requests a review under the legislation, if it does not fail an inspection during the time period, then it gets a grace period during the time period."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A29 -> (-A2 -> A27))",
+              "prover9_expression": "(accepts_penalty(facility, legislation) -> (-fails_inspection(facility, time_period) -> gets_grace_period(facility, time_period)))",
+              "natural": "Provided that the facility accepts a penalty under the legislation, if it does not fail an inspection during the time period, then it gets a grace period during the time period."
+            }
+          ],
+          "conclusion": "(-A2 -> A27)",
+          "natural": "If the facility does not fail an inspection during the time period, then it gets a grace period during the time period."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A2 -> A27)",
+              "prover9_expression": "(-fails_inspection(facility, time_period) -> gets_grace_period(facility, time_period))",
+              "natural": "If the facility does not fail an inspection during the time period, then it gets a grace period during the time period."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A27",
+              "prover9_expression": "-gets_grace_period(facility, time_period)",
+              "natural": "The facility does not get a grace period during the time period."
+            }
+          ],
+          "conclusion": "A2",
+          "natural": "The facility fails an inspection during the time period."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(fails_inspection(facility, time_period) -> (has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)))",
+              "natural": "Provided that the facility fails an inspection during the time period, it either has a contaminated ingredient in the food or passes all checks during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A2",
+              "prover9_expression": "fails_inspection(facility, time_period)",
+              "natural": "The facility fails an inspection during the time period."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period))",
+              "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A1",
+              "prover9_expression": "-has_contaminated_ingredient(facility, food)",
+              "natural": "It is not the case that the facility has a contaminated ingredient in the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A33 -> (-(A1 | G) -> A32))",
+              "prover9_expression": "(requests_hearing(facility, legislation) -> (-(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)) -> shut_down_temporarily(facility, time_period)))",
+              "natural": "Provided that the facility requests a hearing under the legislation, if it is not the case that it either has a contaminated ingredient in the food or passes all checks during the time period, then it is shut down temporarily during the time period."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A33",
+              "prover9_expression": "requests_hearing(facility, legislation)",
+              "natural": "The facility requests a hearing under the legislation."
+            }
+          ],
+          "conclusion": "(-(A1 | G) -> A32)",
+          "natural": "If it is not the case that the facility either has a contaminated ingredient in the food or passes all checks during the time period, then it is shut down temporarily during the time period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | G) -> A32)",
+              "prover9_expression": "(-(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)) -> shut_down_temporarily(facility, time_period))",
+              "natural": "If it is not the case that the facility either has a contaminated ingredient in the food or passes all checks during the time period, then it is shut down temporarily during the time period."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-(A1 | G) -> -A32)",
+              "prover9_expression": "(-(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period)) -> -shut_down_temporarily(facility, time_period))",
+              "natural": "Provided that it is not the case that the facility either has a contaminated ingredient in the food or passes all checks during the time period, it is not the case that it is shut down temporarily during the time period."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_contaminated_ingredient(facility, food) | passes_all_checks(facility, time_period))",
+              "natural": "The facility either has a contaminated ingredient in the food, or it passes all checks during the time period."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A1",
+              "prover9_expression": "-has_contaminated_ingredient(facility, food)",
+              "natural": "It is not the case that the facility has a contaminated ingredient in the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A36 -> A35)",
+              "prover9_expression": "(calls_witness(facility, legislation) -> provides_evidence(facility, legislation))",
+              "natural": "Under the condition that the facility calls a witness under the legislation, it provides evidence under the legislation."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A37 -> -A34)",
+              "prover9_expression": "(presents_records(facility, legislation) -> -disputes_findings(facility, legislation))",
+              "natural": "If the facility presents records under the legislation, then it does not dispute findings under the legislation."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A36 | A37)",
+              "prover9_expression": "(calls_witness(facility, legislation) | presents_records(facility, legislation))",
+              "natural": "The facility calls a witness under the legislation, or it presents records under the legislation."
+            }
+          ],
+          "conclusion": "(A35 | -A34)",
+          "natural": "The facility provides evidence under the legislation, or it is not the case that it disputes findings under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A35 | -A34)",
+              "prover9_expression": "(provides_evidence(facility, legislation) | -disputes_findings(facility, legislation))",
+              "natural": "The facility provides evidence under the legislation, or it is not the case that it disputes findings under the legislation."
+            },
+            {
+              "id": "Fact12",
+              "prover9": "-A35",
+              "prover9_expression": "-provides_evidence(facility, legislation)",
+              "natural": "It is not the case that the facility provides evidence under the legislation."
+            }
+          ],
+          "conclusion": "-A34",
+          "natural": "The facility does not dispute findings under the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A34 | (A10 | A11))",
+              "prover9_expression": "(disputes_findings(facility, legislation) | (fails_hygiene_audit(facility, time_period) | fails_equipment_check(facility, time_period)))",
+              "natural": "The facility disputes findings under the legislation, or it fails a hygiene audit during the time period, or it fails an equipment check during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A34",
+              "prover9_expression": "-disputes_findings(facility, legislation)",
+              "natural": "The facility does not dispute findings under the legislation."
+            }
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "The facility fails a hygiene audit during the time period, or it fails an equipment check during the time period."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(fails_hygiene_audit(facility, time_period) | fails_equipment_check(facility, time_period))",
+              "natural": "The facility fails a hygiene audit during the time period, or it fails an equipment check during the time period."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(fails_hygiene_audit(facility, time_period) -> passes_all_checks(facility, time_period))",
+              "natural": "Provided that the facility fails a hygiene audit during the time period, it passes all checks during the time period."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> G)",
+              "prover9_expression": "(fails_equipment_check(facility, time_period) -> passes_all_checks(facility, time_period))",
+              "natural": "Under the condition that the facility fails an equipment check during the time period, it passes all checks during the time period."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(-A40 -> A41)",
+              "prover9_expression": "(-admits_violation(facility, legislation) -> pays_settlement(facility, legislation))",
+              "natural": "Provided that the facility does not admit a violation under the legislation, it pays a settlement under the legislation."
+            },
+            {
+              "id": "Rule37",
+              "prover9": "(-A40 -> -A41)",
+              "prover9_expression": "(-admits_violation(facility, legislation) -> -pays_settlement(facility, legislation))",
+              "natural": "Under the condition that the facility does not admit a violation under the legislation, it is not the case that it pays a settlement under the legislation."
+            }
+          ],
+          "conclusion": "A40",
+          "natural": "The facility admits a violation under the legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(A40 -> A39)",
+              "prover9_expression": "(admits_violation(facility, legislation) -> receives_leniency(facility, legislation))",
+              "natural": "Under the condition that the facility admits a violation under the legislation, it receives leniency under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A40",
+              "prover9_expression": "admits_violation(facility, legislation)",
+              "natural": "The facility admits a violation under the legislation."
+            }
+          ],
+          "conclusion": "A39",
+          "natural": "The facility receives leniency under the legislation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A39 -> (A38 -> -A17))",
+              "prover9_expression": "(receives_leniency(facility, legislation) -> (cooperates_with_investigation(facility, legislation) -> -faces_lawsuit(facility, legislation)))",
+              "natural": "Whenever the facility receives leniency under the legislation, if it cooperates with an investigation under the legislation, then it does not face a lawsuit under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A39",
+              "prover9_expression": "receives_leniency(facility, legislation)",
+              "natural": "The facility receives leniency under the legislation."
+            }
+          ],
+          "conclusion": "(A38 -> -A17)",
+          "natural": "Provided that the facility cooperates with an investigation under the legislation, it does not face a lawsuit under the legislation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> -A17)",
+              "prover9_expression": "(cooperates_with_investigation(facility, legislation) -> -faces_lawsuit(facility, legislation))",
+              "natural": "Provided that the facility cooperates with an investigation under the legislation, it does not face a lawsuit under the legislation."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A38",
+              "prover9_expression": "cooperates_with_investigation(facility, legislation)",
+              "natural": "The facility cooperates with an investigation under the legislation."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The facility does not face a lawsuit under the legislation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 | -A16)",
+              "prover9_expression": "(faces_lawsuit(facility, legislation) | -reports_incident(facility, legislation))",
+              "natural": "The facility faces a lawsuit under the legislation, or it is not the case that it reports an incident under the legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-faces_lawsuit(facility, legislation)",
+              "natural": "The facility does not face a lawsuit under the legislation."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "It is not the case that the facility reports an incident under the legislation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A16 | G)",
+              "prover9_expression": "(reports_incident(facility, legislation) | passes_all_checks(facility, time_period))",
+              "natural": "The facility reports an incident under the legislation, or it passes all checks during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-reports_incident(facility, legislation)",
+              "natural": "It is not the case that the facility reports an incident under the legislation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The facility passes all checks during the time period."
+        }
+      ]
+    }
+  ]
+}

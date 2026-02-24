@@ -1,0 +1,598 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A3)",
+        "prover9_expression": "(published(research_team, clinical_trial) -> peer_reviewed(journal, study))",
+        "natural": "Whenever the research team published the clinical trial, the journal peer-reviewed the study."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → A10)",
+        "prover9_expression": "(investigated(ethics_board, misconduct) -> retracted(journal, paper))",
+        "natural": "Under the condition that the ethics board investigated misconduct, the journal retracted the paper."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A14 → (A12 → (A5 → G)))",
+        "prover9_expression": "(certified(irb, protocol) -> (valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x))))",
+        "natural": "In the event the IRB certified the protocol, then if the protocol is valid, manufacturing drug X by the company leads to drug X being available on the market."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → A8)",
+        "prover9_expression": "(funded(nih, research) -> completed(research_team, phase_3_trial))",
+        "natural": "Provided the NIH funded the research, the research team completed the phase 3 trial."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(funded(nih, research) | funded(pharma_company, research))",
+        "natural": "Either the NIH funded the research, or the pharma company funded the research."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A7 → (A5 → G))",
+        "prover9_expression": "(funded(pharma_company, research) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+        "natural": "Under the condition that the pharma company funded the research, then manufacturing drug X by the company results in drug X being available on the market."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A13 → A14) → A15)",
+        "prover9_expression": "(-(compliant(team, regulations) -> certified(irb, protocol)) -> penalized(fda, company))",
+        "natural": "If it is not the case that team compliance with regulations leads to IRB certification of the protocol, then the FDA penalized the company."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A13 → A14) → ¬A15)",
+        "prover9_expression": "(-(compliant(team, regulations) -> certified(irb, protocol)) -> -penalized(fda, company))",
+        "natural": "Should it not hold that team compliance with regulations implies IRB certification of the protocol, then the FDA did not penalize the company."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A3 → A2) → A4)",
+        "prover9_expression": "(-(peer_reviewed(journal, study) -> approved(fda, drug_x)) -> rejected(fda, drug_x))",
+        "natural": "Provided that peer review by the journal does not imply FDA approval of drug X, then the FDA rejected drug X."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A8 → (A5 → G)) → ¬A9)",
+        "prover9_expression": "(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> -suspended(fda, trial))",
+        "natural": "If it is not the case that completing the phase 3 trial by the research team implies drug X availability upon manufacturing, then the FDA did not suspend the trial."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(¬(A8 → (A5 → G)) → A9) → A11)",
+        "prover9_expression": "(-(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial)) -> investigated(ethics_board, misconduct))",
+        "natural": "Provided that the negation of phase 3 trial completion implying drug X availability does not result in FDA trial suspension, then the ethics board investigated misconduct."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-available(market, drug_x) -> published(research_team, clinical_trial))",
+        "natural": "If drug X is not available on the market, then the research team published the clinical trial."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A12",
+        "prover9_expression": "valid(protocol)",
+        "natural": "The protocol is valid."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A13",
+        "prover9_expression": "compliant(team, regulations)",
+        "natural": "The team is compliant with regulations."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A5",
+        "prover9_expression": "manufactured(company, drug_x)",
+        "natural": "The company manufactured drug X."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A10",
+        "prover9_expression": "-retracted(journal, paper)",
+        "natural": "The journal did not retract the paper."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A2",
+        "prover9_expression": "-approved(fda, drug_x)",
+        "natural": "The FDA did not approve drug X."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A4",
+        "prover9_expression": "-rejected(fda, drug_x)",
+        "natural": "The FDA did not reject drug X."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "available(market, drug_x)",
+    "natural": "Drug X is available on the market."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 -> A2) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "If the journal peer-reviewed the study, then the FDA approved drug X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "Provided the research team published the clinical trial, the FDA approved drug X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the research team published the clinical trial."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is available on the market."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(A8 -> (A5 -> G)) -> A9) -> A11)",
+            "(A11 -> A10)"
+          ],
+          "conclusion": "(-(-(A8 -> (A5 -> G)) -> A9) -> A10)",
+          "natural": "Should it not hold that the negation of phase 3 trial completion leading to drug X availability implies FDA trial suspension, then the journal retracted the paper."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A8 -> (A5 -> G)) -> A9) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(-(A8 -> (A5 -> G)) -> A9)",
+          "natural": "In the event that completion of the phase 3 trial by the research team does not lead to drug X being available on the market if the company manufactured it, then the FDA suspended the trial."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A8 -> (A5 -> G)) -> A9)",
+            "(-(A8 -> (A5 -> G)) -> -A9)"
+          ],
+          "conclusion": "(A8 -> (A5 -> G))",
+          "natural": "If the research team completed the phase 3 trial, then the company manufacturing drug X implies drug X is available on the market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A8)",
+            "(A8 -> (A5 -> G))"
+          ],
+          "conclusion": "(A6 -> (A5 -> G))",
+          "natural": "Assuming the NIH funded the research, then if the company manufactured drug X, drug X becomes available on the market."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> (A5 -> G))",
+            "(A7 -> (A5 -> G))"
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "Should the company manufacture drug X, then drug X is available on the market."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> G)",
+            "A5"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is available on the market."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A13 -> A14) -> A15)",
+            "(-(A13 -> A14) -> -A15)"
+          ],
+          "conclusion": "(A13 -> A14)",
+          "natural": "Provided the team is compliant with regulations, the IRB certified the protocol."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A13 -> A14)",
+            "(A14 -> (A12 -> (A5 -> G)))"
+          ],
+          "conclusion": "(A13 -> (A12 -> (A5 -> G)))",
+          "natural": "Given that the team is compliant with regulations, then if the protocol is valid, the company manufacturing drug X implies drug X is available on the market."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> (A12 -> (A5 -> G)))",
+            "A13"
+          ],
+          "conclusion": "(A12 -> (A5 -> G))",
+          "natural": "If the protocol is valid, then whenever the company manufactured drug X, drug X becomes available on the market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> (A5 -> G))",
+            "A12"
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "Should the company manufacture drug X, then drug X is available on the market."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> G)",
+            "A5"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is available on the market."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Research",
+    "atomic_facts": {
+      "A1": "published(research_team, clinical_trial)",
+      "A2": "approved(fda, drug_x)",
+      "A3": "peer_reviewed(journal, study)",
+      "A4": "rejected(fda, drug_x)",
+      "A5": "manufactured(company, drug_x)",
+      "A6": "funded(nih, research)",
+      "A7": "funded(pharma_company, research)",
+      "A8": "completed(research_team, phase_3_trial)",
+      "A9": "suspended(fda, trial)",
+      "A10": "retracted(journal, paper)",
+      "A11": "investigated(ethics_board, misconduct)",
+      "A12": "valid(protocol)",
+      "A13": "compliant(team, regulations)",
+      "A14": "certified(irb, protocol)",
+      "A15": "penalized(fda, company)",
+      "G": "available(market, drug_x)"
+    },
+    "natural_facts": {
+      "A1": "The research team published the clinical trial.",
+      "A2": "The FDA approved drug X.",
+      "A3": "The journal peer-reviewed the study.",
+      "A4": "The FDA rejected drug X.",
+      "A5": "The company manufactured drug X.",
+      "A6": "The NIH funded the research.",
+      "A7": "The pharma company funded the research.",
+      "A8": "The research team completed the phase 3 trial.",
+      "A9": "The FDA suspended the trial.",
+      "A10": "The journal retracted the paper.",
+      "A11": "The ethics board investigated misconduct.",
+      "A12": "The protocol is valid.",
+      "A13": "The team is compliant with regulations.",
+      "A14": "The IRB certified the protocol.",
+      "A15": "The FDA penalized the company.",
+      "G": "Drug X is available on the market."
+    },
+    "prover9_expressions": [
+      "(published(research_team, clinical_trial) -> approved(fda, drug_x))",
+      "(published(research_team, clinical_trial) -> peer_reviewed(journal, study))",
+      "(investigated(ethics_board, misconduct) -> retracted(journal, paper))",
+      "(valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+      "(compliant(team, regulations) -> (valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x))))",
+      "(compliant(team, regulations) -> certified(irb, protocol))",
+      "(certified(irb, protocol) -> (valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x))))",
+      "(peer_reviewed(journal, study) -> approved(fda, drug_x))",
+      "(manufactured(company, drug_x) -> available(market, drug_x))",
+      "(funded(nih, research) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+      "(funded(nih, research) -> completed(research_team, phase_3_trial))",
+      "(funded(nih, research) | funded(pharma_company, research))",
+      "(funded(pharma_company, research) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+      "(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+      "(-(compliant(team, regulations) -> certified(irb, protocol)) -> penalized(fda, company))",
+      "(-(compliant(team, regulations) -> certified(irb, protocol)) -> -penalized(fda, company))",
+      "(-(peer_reviewed(journal, study) -> approved(fda, drug_x)) -> rejected(fda, drug_x))",
+      "(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial))",
+      "(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> -suspended(fda, trial))",
+      "(-(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial)) -> retracted(journal, paper))",
+      "(-(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial)) -> investigated(ethics_board, misconduct))",
+      "(-available(market, drug_x) -> published(research_team, clinical_trial))",
+      "valid(protocol)",
+      "compliant(team, regulations)",
+      "manufactured(company, drug_x)",
+      "available(market, drug_x)",
+      "-published(research_team, clinical_trial)",
+      "-retracted(journal, paper)",
+      "-approved(fda, drug_x)",
+      "-rejected(fda, drug_x)"
+    ],
+    "natural_expressions": [
+      "Provided the research team published the clinical trial, the FDA approved drug X.",
+      "Whenever the research team published the clinical trial, the journal peer-reviewed the study.",
+      "Under the condition that the ethics board investigated misconduct, the journal retracted the paper.",
+      "If the protocol is valid, then whenever the company manufactured drug X, drug X becomes available on the market.",
+      "Given that the team is compliant with regulations, then if the protocol is valid, the company manufacturing drug X implies drug X is available on the market.",
+      "Provided the team is compliant with regulations, the IRB certified the protocol.",
+      "In the event the IRB certified the protocol, then if the protocol is valid, manufacturing drug X by the company leads to drug X being available on the market.",
+      "If the journal peer-reviewed the study, then the FDA approved drug X.",
+      "Should the company manufacture drug X, then drug X is available on the market.",
+      "Assuming the NIH funded the research, then if the company manufactured drug X, drug X becomes available on the market.",
+      "Provided the NIH funded the research, the research team completed the phase 3 trial.",
+      "Either the NIH funded the research, or the pharma company funded the research.",
+      "Under the condition that the pharma company funded the research, then manufacturing drug X by the company results in drug X being available on the market.",
+      "If the research team completed the phase 3 trial, then the company manufacturing drug X implies drug X is available on the market.",
+      "If it is not the case that team compliance with regulations leads to IRB certification of the protocol, then the FDA penalized the company.",
+      "Should it not hold that team compliance with regulations implies IRB certification of the protocol, then the FDA did not penalize the company.",
+      "Provided that peer review by the journal does not imply FDA approval of drug X, then the FDA rejected drug X.",
+      "In the event that completion of the phase 3 trial by the research team does not lead to drug X being available on the market if the company manufactured it, then the FDA suspended the trial.",
+      "If it is not the case that completing the phase 3 trial by the research team implies drug X availability upon manufacturing, then the FDA did not suspend the trial.",
+      "Should it not hold that the negation of phase 3 trial completion leading to drug X availability implies FDA trial suspension, then the journal retracted the paper.",
+      "Provided that the negation of phase 3 trial completion implying drug X availability does not result in FDA trial suspension, then the ethics board investigated misconduct.",
+      "If drug X is not available on the market, then the research team published the clinical trial.",
+      "The protocol is valid.",
+      "The team is compliant with regulations.",
+      "The company manufactured drug X.",
+      "Drug X is available on the market.",
+      "It is not the case that the research team published the clinical trial.",
+      "The journal did not retract the paper.",
+      "The FDA did not approve drug X.",
+      "The FDA did not reject drug X."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(published(research_team, clinical_trial) -> approved(fda, drug_x))",
+        "natural": "Provided the research team published the clinical trial, the FDA approved drug X."
+      },
+      "(A1 → A3)": {
+        "formal": "(A1 → A3)",
+        "prover9": "(A1 -> A3)",
+        "prover9_expression": "(published(research_team, clinical_trial) -> peer_reviewed(journal, study))",
+        "natural": "Whenever the research team published the clinical trial, the journal peer-reviewed the study."
+      },
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(investigated(ethics_board, misconduct) -> retracted(journal, paper))",
+        "natural": "Under the condition that the ethics board investigated misconduct, the journal retracted the paper."
+      },
+      "(A12 → (A5 → G))": {
+        "formal": "(A12 → (A5 → G))",
+        "prover9": "(A12 -> (A5 -> G))",
+        "prover9_expression": "(valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+        "natural": "If the protocol is valid, then whenever the company manufactured drug X, drug X becomes available on the market."
+      },
+      "(A13 → (A12 → (A5 → G)))": {
+        "formal": "(A13 → (A12 → (A5 → G)))",
+        "prover9": "(A13 -> (A12 -> (A5 -> G)))",
+        "prover9_expression": "(compliant(team, regulations) -> (valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x))))",
+        "natural": "Given that the team is compliant with regulations, then if the protocol is valid, the company manufacturing drug X implies drug X is available on the market."
+      },
+      "(A13 → A14)": {
+        "formal": "(A13 → A14)",
+        "prover9": "(A13 -> A14)",
+        "prover9_expression": "(compliant(team, regulations) -> certified(irb, protocol))",
+        "natural": "Provided the team is compliant with regulations, the IRB certified the protocol."
+      },
+      "(A14 → (A12 → (A5 → G)))": {
+        "formal": "(A14 → (A12 → (A5 → G)))",
+        "prover9": "(A14 -> (A12 -> (A5 -> G)))",
+        "prover9_expression": "(certified(irb, protocol) -> (valid(protocol) -> (manufactured(company, drug_x) -> available(market, drug_x))))",
+        "natural": "In the event the IRB certified the protocol, then if the protocol is valid, manufacturing drug X by the company leads to drug X being available on the market."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(peer_reviewed(journal, study) -> approved(fda, drug_x))",
+        "natural": "If the journal peer-reviewed the study, then the FDA approved drug X."
+      },
+      "(A5 → G)": {
+        "formal": "(A5 → G)",
+        "prover9": "(A5 -> G)",
+        "prover9_expression": "(manufactured(company, drug_x) -> available(market, drug_x))",
+        "natural": "Should the company manufacture drug X, then drug X is available on the market."
+      },
+      "(A6 → (A5 → G))": {
+        "formal": "(A6 → (A5 → G))",
+        "prover9": "(A6 -> (A5 -> G))",
+        "prover9_expression": "(funded(nih, research) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+        "natural": "Assuming the NIH funded the research, then if the company manufactured drug X, drug X becomes available on the market."
+      },
+      "(A6 → A8)": {
+        "formal": "(A6 → A8)",
+        "prover9": "(A6 -> A8)",
+        "prover9_expression": "(funded(nih, research) -> completed(research_team, phase_3_trial))",
+        "natural": "Provided the NIH funded the research, the research team completed the phase 3 trial."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(funded(nih, research) | funded(pharma_company, research))",
+        "natural": "Either the NIH funded the research, or the pharma company funded the research."
+      },
+      "(A7 → (A5 → G))": {
+        "formal": "(A7 → (A5 → G))",
+        "prover9": "(A7 -> (A5 -> G))",
+        "prover9_expression": "(funded(pharma_company, research) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+        "natural": "Under the condition that the pharma company funded the research, then manufacturing drug X by the company results in drug X being available on the market."
+      },
+      "(A8 → (A5 → G))": {
+        "formal": "(A8 → (A5 → G))",
+        "prover9": "(A8 -> (A5 -> G))",
+        "prover9_expression": "(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x)))",
+        "natural": "If the research team completed the phase 3 trial, then the company manufacturing drug X implies drug X is available on the market."
+      },
+      "(¬(A13 → A14) → A15)": {
+        "formal": "(¬(A13 → A14) → A15)",
+        "prover9": "(-(A13 -> A14) -> A15)",
+        "prover9_expression": "(-(compliant(team, regulations) -> certified(irb, protocol)) -> penalized(fda, company))",
+        "natural": "If it is not the case that team compliance with regulations leads to IRB certification of the protocol, then the FDA penalized the company."
+      },
+      "(¬(A13 → A14) → ¬A15)": {
+        "formal": "(¬(A13 → A14) → ¬A15)",
+        "prover9": "(-(A13 -> A14) -> -A15)",
+        "prover9_expression": "(-(compliant(team, regulations) -> certified(irb, protocol)) -> -penalized(fda, company))",
+        "natural": "Should it not hold that team compliance with regulations implies IRB certification of the protocol, then the FDA did not penalize the company."
+      },
+      "(¬(A3 → A2) → A4)": {
+        "formal": "(¬(A3 → A2) → A4)",
+        "prover9": "(-(A3 -> A2) -> A4)",
+        "prover9_expression": "(-(peer_reviewed(journal, study) -> approved(fda, drug_x)) -> rejected(fda, drug_x))",
+        "natural": "Provided that peer review by the journal does not imply FDA approval of drug X, then the FDA rejected drug X."
+      },
+      "(¬(A8 → (A5 → G)) → A9)": {
+        "formal": "(¬(A8 → (A5 → G)) → A9)",
+        "prover9": "(-(A8 -> (A5 -> G)) -> A9)",
+        "prover9_expression": "(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial))",
+        "natural": "In the event that completion of the phase 3 trial by the research team does not lead to drug X being available on the market if the company manufactured it, then the FDA suspended the trial."
+      },
+      "(¬(A8 → (A5 → G)) → ¬A9)": {
+        "formal": "(¬(A8 → (A5 → G)) → ¬A9)",
+        "prover9": "(-(A8 -> (A5 -> G)) -> -A9)",
+        "prover9_expression": "(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> -suspended(fda, trial))",
+        "natural": "If it is not the case that completing the phase 3 trial by the research team implies drug X availability upon manufacturing, then the FDA did not suspend the trial."
+      },
+      "(¬(¬(A8 → (A5 → G)) → A9) → A10)": {
+        "formal": "(¬(¬(A8 → (A5 → G)) → A9) → A10)",
+        "prover9": "(-(-(A8 -> (A5 -> G)) -> A9) -> A10)",
+        "prover9_expression": "(-(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial)) -> retracted(journal, paper))",
+        "natural": "Should it not hold that the negation of phase 3 trial completion leading to drug X availability implies FDA trial suspension, then the journal retracted the paper."
+      },
+      "(¬(¬(A8 → (A5 → G)) → A9) → A11)": {
+        "formal": "(¬(¬(A8 → (A5 → G)) → A9) → A11)",
+        "prover9": "(-(-(A8 -> (A5 -> G)) -> A9) -> A11)",
+        "prover9_expression": "(-(-(completed(research_team, phase_3_trial) -> (manufactured(company, drug_x) -> available(market, drug_x))) -> suspended(fda, trial)) -> investigated(ethics_board, misconduct))",
+        "natural": "Provided that the negation of phase 3 trial completion implying drug X availability does not result in FDA trial suspension, then the ethics board investigated misconduct."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-available(market, drug_x) -> published(research_team, clinical_trial))",
+        "natural": "If drug X is not available on the market, then the research team published the clinical trial."
+      },
+      "A12": {
+        "formal": "A12",
+        "prover9": "A12",
+        "prover9_expression": "valid(protocol)",
+        "natural": "The protocol is valid."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "compliant(team, regulations)",
+        "natural": "The team is compliant with regulations."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "manufactured(company, drug_x)",
+        "natural": "The company manufactured drug X."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "available(market, drug_x)",
+        "natural": "Drug X is available on the market."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-published(research_team, clinical_trial)",
+        "natural": "It is not the case that the research team published the clinical trial."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-retracted(journal, paper)",
+        "natural": "The journal did not retract the paper."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-approved(fda, drug_x)",
+        "natural": "The FDA did not approve drug X."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-rejected(fda, drug_x)",
+        "natural": "The FDA did not reject drug X."
+      }
+    }
+  }
+}

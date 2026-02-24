@@ -1,0 +1,472 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → ¬A11)",
+        "prover9_expression": "(obtains_evidence_illegally(agent) -> -evidence_admissible(court))",
+        "natural": "Whenever the agent obtains evidence illegally, it follows that the court does not admit evidence."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(intends_to_test(agent, suspect) -> conducts_test(agent, suspect))",
+        "natural": "Whenever the agent intends to test the suspect, the agent conducts a test on the suspect."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A7 → (¬(A5 → (A3 → (A2 → ¬A1))) → A6))",
+        "prover9_expression": "(has_warrant(agent) -> (-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect)))",
+        "natural": "Under the condition that the agent has a warrant, if it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, then the agent makes an arrest of the suspect."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(has_warrant(agent) | has_probable_cause(agent))",
+        "natural": "Either the agent has a warrant or the agent has probable cause."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A8 → (¬(A5 → (A3 → (A2 → ¬A1))) → A6))",
+        "prover9_expression": "(has_probable_cause(agent) -> (-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect)))",
+        "natural": "If the agent has probable cause, then, provided that it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, the agent makes an arrest of the suspect."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A9 → G)",
+        "prover9_expression": "(follows_procedure(agent) -> conviction_upheld(court))",
+        "natural": "If the agent follows procedure, then the court upholds the conviction."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A10 → A11) → A12)",
+        "prover9_expression": "(-(obtains_evidence_illegally(agent) -> evidence_admissible(court)) -> case_dismissed(court))",
+        "natural": "Whenever it is not the case that obtaining evidence illegally by the agent implies the court admits evidence, the court dismisses the case."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A5 → (A3 → (A2 → ¬A1))) → ¬A6)",
+        "prover9_expression": "(-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> -makes_arrest(agent, suspect))",
+        "natural": "If it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, then the agent does not make an arrest of the suspect."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬A9 → A10)",
+        "prover9_expression": "(-follows_procedure(agent) -> obtains_evidence_illegally(agent))",
+        "natural": "Provided that the agent does not follow procedure, the agent obtains evidence illegally."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-conviction_upheld(court) -> possesses(agent, alcohol))",
+        "natural": "Whenever the court does not uphold the conviction, the agent possesses alcohol."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A2",
+        "prover9_expression": "is_person(suspect)",
+        "natural": "The suspect is a person."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A3",
+        "prover9_expression": "has_tool(agent, breathalyzer)",
+        "natural": "The agent has a breathalyzer tool."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A4",
+        "prover9_expression": "intends_to_test(agent, suspect)",
+        "natural": "The agent intends to test the suspect."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A12",
+        "prover9_expression": "-case_dismissed(court)",
+        "natural": "The court does not dismiss the case."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "conviction_upheld(court)",
+    "natural": "The court upholds the conviction."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> (-(A5 -> (A3 -> (A2 -> -A1))) -> A6))",
+            "(A8 -> (-(A5 -> (A3 -> (A2 -> -A1))) -> A6))"
+          ],
+          "conclusion": "(-(A5 -> (A3 -> (A2 -> -A1))) -> A6)",
+          "natural": "Under the condition that it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, the agent makes an arrest of the suspect."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A5 -> (A3 -> (A2 -> -A1))) -> A6)",
+            "(-(A5 -> (A3 -> (A2 -> -A1))) -> -A6)"
+          ],
+          "conclusion": "(A5 -> (A3 -> (A2 -> -A1)))",
+          "natural": "If the agent conducts a test on the suspect, then, provided that the agent has a breathalyzer tool, whenever the suspect is a person, the agent does not possess alcohol."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A3 -> (A2 -> -A1)))"
+          ],
+          "conclusion": "(A4 -> (A3 -> (A2 -> -A1)))",
+          "natural": "If the agent intends to test the suspect, then, whenever the agent has a breathalyzer tool, under the condition that the suspect is a person, the agent does not possess alcohol."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 -> (A2 -> -A1)))",
+            "A4"
+          ],
+          "conclusion": "(A3 -> (A2 -> -A1))",
+          "natural": "Under the condition that the agent has a breathalyzer tool, if the suspect is a person, then the agent does not possess alcohol."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (A2 -> -A1))",
+            "A3"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "Provided that the suspect is a person, the agent does not possess alcohol."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The agent does not possess alcohol."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The court upholds the conviction."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A10 -> A11) -> A12)",
+            "-A12"
+          ],
+          "conclusion": "(A10 -> A11)",
+          "natural": "If the agent obtains evidence illegally, then the court admits evidence."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A10 -> -A11)"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the agent obtains evidence illegally."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A9 -> A10)",
+            "-A10"
+          ],
+          "conclusion": "A9",
+          "natural": "The agent follows procedure."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> G)",
+            "A9"
+          ],
+          "conclusion": "G",
+          "natural": "The court upholds the conviction."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Prohibition Era Law Enforcement",
+    "atomic_facts": {
+      "A1": "possesses(agent, alcohol)",
+      "A2": "is_person(suspect)",
+      "A3": "has_tool(agent, breathalyzer)",
+      "A4": "intends_to_test(agent, suspect)",
+      "A5": "conducts_test(agent, suspect)",
+      "A6": "makes_arrest(agent, suspect)",
+      "A7": "has_warrant(agent)",
+      "A8": "has_probable_cause(agent)",
+      "A9": "follows_procedure(agent)",
+      "A10": "obtains_evidence_illegally(agent)",
+      "A11": "evidence_admissible(court)",
+      "A12": "case_dismissed(court)",
+      "G": "conviction_upheld(court)"
+    },
+    "natural_facts": {
+      "A1": "The agent possesses alcohol.",
+      "A2": "The suspect is a person.",
+      "A3": "The agent has a breathalyzer tool.",
+      "A4": "The agent intends to test the suspect.",
+      "A5": "The agent conducts a test on the suspect.",
+      "A6": "The agent makes an arrest of the suspect.",
+      "A7": "The agent has a warrant.",
+      "A8": "The agent has probable cause.",
+      "A9": "The agent follows procedure.",
+      "A10": "The agent obtains evidence illegally.",
+      "A11": "The court admits evidence.",
+      "A12": "The court dismisses the case.",
+      "G": "The court upholds the conviction."
+    },
+    "prover9_expressions": [
+      "(obtains_evidence_illegally(agent) -> evidence_admissible(court))",
+      "(obtains_evidence_illegally(agent) -> -evidence_admissible(court))",
+      "(is_person(suspect) -> -possesses(agent, alcohol))",
+      "(has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))",
+      "(intends_to_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol))))",
+      "(intends_to_test(agent, suspect) -> conducts_test(agent, suspect))",
+      "(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol))))",
+      "(has_warrant(agent) -> (-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect)))",
+      "(has_warrant(agent) | has_probable_cause(agent))",
+      "(has_probable_cause(agent) -> (-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect)))",
+      "(follows_procedure(agent) -> conviction_upheld(court))",
+      "(-(obtains_evidence_illegally(agent) -> evidence_admissible(court)) -> case_dismissed(court))",
+      "(-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect))",
+      "(-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> -makes_arrest(agent, suspect))",
+      "(-follows_procedure(agent) -> obtains_evidence_illegally(agent))",
+      "(-conviction_upheld(court) -> possesses(agent, alcohol))",
+      "is_person(suspect)",
+      "has_tool(agent, breathalyzer)",
+      "intends_to_test(agent, suspect)",
+      "follows_procedure(agent)",
+      "conviction_upheld(court)",
+      "-possesses(agent, alcohol)",
+      "-obtains_evidence_illegally(agent)",
+      "-case_dismissed(court)"
+    ],
+    "natural_expressions": [
+      "If the agent obtains evidence illegally, then the court admits evidence.",
+      "Whenever the agent obtains evidence illegally, it follows that the court does not admit evidence.",
+      "Provided that the suspect is a person, the agent does not possess alcohol.",
+      "Under the condition that the agent has a breathalyzer tool, if the suspect is a person, then the agent does not possess alcohol.",
+      "If the agent intends to test the suspect, then, whenever the agent has a breathalyzer tool, under the condition that the suspect is a person, the agent does not possess alcohol.",
+      "Whenever the agent intends to test the suspect, the agent conducts a test on the suspect.",
+      "If the agent conducts a test on the suspect, then, provided that the agent has a breathalyzer tool, whenever the suspect is a person, the agent does not possess alcohol.",
+      "Under the condition that the agent has a warrant, if it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, then the agent makes an arrest of the suspect.",
+      "Either the agent has a warrant or the agent has probable cause.",
+      "If the agent has probable cause, then, provided that it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, the agent makes an arrest of the suspect.",
+      "If the agent follows procedure, then the court upholds the conviction.",
+      "Whenever it is not the case that obtaining evidence illegally by the agent implies the court admits evidence, the court dismisses the case.",
+      "Under the condition that it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, the agent makes an arrest of the suspect.",
+      "If it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, then the agent does not make an arrest of the suspect.",
+      "Provided that the agent does not follow procedure, the agent obtains evidence illegally.",
+      "Whenever the court does not uphold the conviction, the agent possesses alcohol.",
+      "The suspect is a person.",
+      "The agent has a breathalyzer tool.",
+      "The agent intends to test the suspect.",
+      "The agent follows procedure.",
+      "The court upholds the conviction.",
+      "The agent does not possess alcohol.",
+      "It is not the case that the agent obtains evidence illegally.",
+      "The court does not dismiss the case."
+    ],
+    "node_mappings": {
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(obtains_evidence_illegally(agent) -> evidence_admissible(court))",
+        "natural": "If the agent obtains evidence illegally, then the court admits evidence."
+      },
+      "(A10 → ¬A11)": {
+        "formal": "(A10 → ¬A11)",
+        "prover9": "(A10 -> -A11)",
+        "prover9_expression": "(obtains_evidence_illegally(agent) -> -evidence_admissible(court))",
+        "natural": "Whenever the agent obtains evidence illegally, it follows that the court does not admit evidence."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(is_person(suspect) -> -possesses(agent, alcohol))",
+        "natural": "Provided that the suspect is a person, the agent does not possess alcohol."
+      },
+      "(A3 → (A2 → ¬A1))": {
+        "formal": "(A3 → (A2 → ¬A1))",
+        "prover9": "(A3 -> (A2 -> -A1))",
+        "prover9_expression": "(has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))",
+        "natural": "Under the condition that the agent has a breathalyzer tool, if the suspect is a person, then the agent does not possess alcohol."
+      },
+      "(A4 → (A3 → (A2 → ¬A1)))": {
+        "formal": "(A4 → (A3 → (A2 → ¬A1)))",
+        "prover9": "(A4 -> (A3 -> (A2 -> -A1)))",
+        "prover9_expression": "(intends_to_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol))))",
+        "natural": "If the agent intends to test the suspect, then, whenever the agent has a breathalyzer tool, under the condition that the suspect is a person, the agent does not possess alcohol."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(intends_to_test(agent, suspect) -> conducts_test(agent, suspect))",
+        "natural": "Whenever the agent intends to test the suspect, the agent conducts a test on the suspect."
+      },
+      "(A5 → (A3 → (A2 → ¬A1)))": {
+        "formal": "(A5 → (A3 → (A2 → ¬A1)))",
+        "prover9": "(A5 -> (A3 -> (A2 -> -A1)))",
+        "prover9_expression": "(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol))))",
+        "natural": "If the agent conducts a test on the suspect, then, provided that the agent has a breathalyzer tool, whenever the suspect is a person, the agent does not possess alcohol."
+      },
+      "(A7 → (¬(A5 → (A3 → (A2 → ¬A1))) → A6))": {
+        "formal": "(A7 → (¬(A5 → (A3 → (A2 → ¬A1))) → A6))",
+        "prover9": "(A7 -> (-(A5 -> (A3 -> (A2 -> -A1))) -> A6))",
+        "prover9_expression": "(has_warrant(agent) -> (-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect)))",
+        "natural": "Under the condition that the agent has a warrant, if it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, then the agent makes an arrest of the suspect."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(has_warrant(agent) | has_probable_cause(agent))",
+        "natural": "Either the agent has a warrant or the agent has probable cause."
+      },
+      "(A8 → (¬(A5 → (A3 → (A2 → ¬A1))) → A6))": {
+        "formal": "(A8 → (¬(A5 → (A3 → (A2 → ¬A1))) → A6))",
+        "prover9": "(A8 -> (-(A5 -> (A3 -> (A2 -> -A1))) -> A6))",
+        "prover9_expression": "(has_probable_cause(agent) -> (-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect)))",
+        "natural": "If the agent has probable cause, then, provided that it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, the agent makes an arrest of the suspect."
+      },
+      "(A9 → G)": {
+        "formal": "(A9 → G)",
+        "prover9": "(A9 -> G)",
+        "prover9_expression": "(follows_procedure(agent) -> conviction_upheld(court))",
+        "natural": "If the agent follows procedure, then the court upholds the conviction."
+      },
+      "(¬(A10 → A11) → A12)": {
+        "formal": "(¬(A10 → A11) → A12)",
+        "prover9": "(-(A10 -> A11) -> A12)",
+        "prover9_expression": "(-(obtains_evidence_illegally(agent) -> evidence_admissible(court)) -> case_dismissed(court))",
+        "natural": "Whenever it is not the case that obtaining evidence illegally by the agent implies the court admits evidence, the court dismisses the case."
+      },
+      "(¬(A5 → (A3 → (A2 → ¬A1))) → A6)": {
+        "formal": "(¬(A5 → (A3 → (A2 → ¬A1))) → A6)",
+        "prover9": "(-(A5 -> (A3 -> (A2 -> -A1))) -> A6)",
+        "prover9_expression": "(-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> makes_arrest(agent, suspect))",
+        "natural": "Under the condition that it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, the agent makes an arrest of the suspect."
+      },
+      "(¬(A5 → (A3 → (A2 → ¬A1))) → ¬A6)": {
+        "formal": "(¬(A5 → (A3 → (A2 → ¬A1))) → ¬A6)",
+        "prover9": "(-(A5 -> (A3 -> (A2 -> -A1))) -> -A6)",
+        "prover9_expression": "(-(conducts_test(agent, suspect) -> (has_tool(agent, breathalyzer) -> (is_person(suspect) -> -possesses(agent, alcohol)))) -> -makes_arrest(agent, suspect))",
+        "natural": "If it is not the case that conducting a test on the suspect implies that having a breathalyzer tool leads to the suspect being a person implying the agent does not possess alcohol, then the agent does not make an arrest of the suspect."
+      },
+      "(¬A9 → A10)": {
+        "formal": "(¬A9 → A10)",
+        "prover9": "(-A9 -> A10)",
+        "prover9_expression": "(-follows_procedure(agent) -> obtains_evidence_illegally(agent))",
+        "natural": "Provided that the agent does not follow procedure, the agent obtains evidence illegally."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-conviction_upheld(court) -> possesses(agent, alcohol))",
+        "natural": "Whenever the court does not uphold the conviction, the agent possesses alcohol."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "is_person(suspect)",
+        "natural": "The suspect is a person."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "has_tool(agent, breathalyzer)",
+        "natural": "The agent has a breathalyzer tool."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "intends_to_test(agent, suspect)",
+        "natural": "The agent intends to test the suspect."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "follows_procedure(agent)",
+        "natural": "The agent follows procedure."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "conviction_upheld(court)",
+        "natural": "The court upholds the conviction."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-possesses(agent, alcohol)",
+        "natural": "The agent does not possess alcohol."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-obtains_evidence_illegally(agent)",
+        "natural": "It is not the case that the agent obtains evidence illegally."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-case_dismissed(court)",
+        "natural": "The court does not dismiss the case."
+      }
+    }
+  }
+}

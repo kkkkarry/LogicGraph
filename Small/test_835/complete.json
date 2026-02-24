@@ -1,0 +1,328 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(has_driver(delivery_van, bob) -> delivery_complete(order_123))",
+        "natural": "If delivery_van has driver Bob, then order_123 becomes delivery_complete"
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → (¬A1 → A2))",
+        "prover9_expression": "(has_order(delivery_van, order_123) -> (-has_driver(delivery_van, bob) -> has_driver(delivery_van, alice)))",
+        "natural": "Provided that delivery_van has order_123, if delivery_van does not have driver Bob, then delivery_van has driver Alice"
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A5 → A3)",
+        "prover9_expression": "(ready_for_pickup(order_123) -> has_order(delivery_van, order_123))",
+        "natural": "Whenever order_123 is ready for pickup, delivery_van has order_123"
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → A3)",
+        "prover9_expression": "(ready_for_pickup(order_456) -> has_order(delivery_van, order_123))",
+        "natural": "Under the condition that order_456 is ready for pickup, delivery_van has order_123"
+      },
+      {
+        "id": "Rule5",
+        "formal": "(¬(A5 ∨ A6) → A7)",
+        "prover9_expression": "(-(ready_for_pickup(order_123) | ready_for_pickup(order_456)) -> vehicle_broken(delivery_van))",
+        "natural": "If it is not the case that either order_123 is ready for pickup or order_456 is ready for pickup, then delivery_van is vehicle_broken"
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬A1 → ¬A2)",
+        "prover9_expression": "(-has_driver(delivery_van, bob) -> -has_driver(delivery_van, alice))",
+        "natural": "If delivery_van does not have driver Bob, then delivery_van does not have driver Alice"
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬A3 → A4)",
+        "prover9_expression": "(-has_order(delivery_van, order_123) -> has_order(delivery_van, order_456))",
+        "natural": "Under the condition that delivery_van does not have order_123, delivery_van has order_456"
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬A3 → ¬A4)",
+        "prover9_expression": "(-has_order(delivery_van, order_123) -> -has_order(delivery_van, order_456))",
+        "natural": "Whenever delivery_van does not have order_123, delivery_van does not have order_456"
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A7",
+        "prover9_expression": "-vehicle_broken(delivery_van)",
+        "natural": "It is not the case that delivery_van is vehicle_broken"
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "delivery_complete(order_123)",
+    "natural": "Order_123 is delivery_complete"
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A3 -> A4)",
+            "(-A3 -> -A4)"
+          ],
+          "conclusion": "A3",
+          "natural": "Delivery_van has order_123"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (-A1 -> A2))",
+            "A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "Provided that delivery_van does not have driver Bob, delivery_van has driver Alice"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "Delivery_van has driver Bob"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Order_123 is delivery_complete"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A5 | A6) -> A7)",
+            "-A7"
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either order_123 is ready for pickup or order_456 is ready for pickup"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> A3)",
+            "(A6 -> A3)"
+          ],
+          "conclusion": "A3",
+          "natural": "Delivery_van has order_123"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (-A1 -> A2))",
+            "A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "Provided that delivery_van does not have driver Bob, delivery_van has driver Alice"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "Delivery_van has driver Bob"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Order_123 is delivery_complete"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Food Delivery Service",
+    "atomic_facts": {
+      "A1": "has_driver(delivery_van, bob)",
+      "A2": "has_driver(delivery_van, alice)",
+      "A3": "has_order(delivery_van, order_123)",
+      "A4": "has_order(delivery_van, order_456)",
+      "A5": "ready_for_pickup(order_123)",
+      "A6": "ready_for_pickup(order_456)",
+      "A7": "vehicle_broken(delivery_van)",
+      "G": "delivery_complete(order_123)"
+    },
+    "natural_facts": {
+      "A1": "Delivery_van has driver Bob",
+      "A2": "Delivery_van has driver Alice",
+      "A3": "Delivery_van has order_123",
+      "A4": "Delivery_van has order_456",
+      "A5": "Order_123 is ready for pickup",
+      "A6": "Order_456 is ready for pickup",
+      "A7": "Delivery_van is vehicle_broken",
+      "G": "Order_123 is delivery_complete"
+    },
+    "prover9_expressions": [
+      "(has_driver(delivery_van, bob) -> delivery_complete(order_123))",
+      "(has_order(delivery_van, order_123) -> (-has_driver(delivery_van, bob) -> has_driver(delivery_van, alice)))",
+      "(ready_for_pickup(order_123) -> has_order(delivery_van, order_123))",
+      "(ready_for_pickup(order_123) | ready_for_pickup(order_456))",
+      "(ready_for_pickup(order_456) -> has_order(delivery_van, order_123))",
+      "(-(ready_for_pickup(order_123) | ready_for_pickup(order_456)) -> vehicle_broken(delivery_van))",
+      "(-has_driver(delivery_van, bob) -> has_driver(delivery_van, alice))",
+      "(-has_driver(delivery_van, bob) -> -has_driver(delivery_van, alice))",
+      "(-has_order(delivery_van, order_123) -> has_order(delivery_van, order_456))",
+      "(-has_order(delivery_van, order_123) -> -has_order(delivery_van, order_456))",
+      "has_driver(delivery_van, bob)",
+      "has_order(delivery_van, order_123)",
+      "delivery_complete(order_123)",
+      "-vehicle_broken(delivery_van)"
+    ],
+    "natural_expressions": [
+      "If delivery_van has driver Bob, then order_123 becomes delivery_complete",
+      "Provided that delivery_van has order_123, if delivery_van does not have driver Bob, then delivery_van has driver Alice",
+      "Whenever order_123 is ready for pickup, delivery_van has order_123",
+      "Either order_123 is ready for pickup or order_456 is ready for pickup",
+      "Under the condition that order_456 is ready for pickup, delivery_van has order_123",
+      "If it is not the case that either order_123 is ready for pickup or order_456 is ready for pickup, then delivery_van is vehicle_broken",
+      "Provided that delivery_van does not have driver Bob, delivery_van has driver Alice",
+      "If delivery_van does not have driver Bob, then delivery_van does not have driver Alice",
+      "Under the condition that delivery_van does not have order_123, delivery_van has order_456",
+      "Whenever delivery_van does not have order_123, delivery_van does not have order_456",
+      "Delivery_van has driver Bob",
+      "Delivery_van has order_123",
+      "Order_123 is delivery_complete",
+      "It is not the case that delivery_van is vehicle_broken"
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_driver(delivery_van, bob) -> delivery_complete(order_123))",
+        "natural": "If delivery_van has driver Bob, then order_123 becomes delivery_complete"
+      },
+      "(A3 → (¬A1 → A2))": {
+        "formal": "(A3 → (¬A1 → A2))",
+        "prover9": "(A3 -> (-A1 -> A2))",
+        "prover9_expression": "(has_order(delivery_van, order_123) -> (-has_driver(delivery_van, bob) -> has_driver(delivery_van, alice)))",
+        "natural": "Provided that delivery_van has order_123, if delivery_van does not have driver Bob, then delivery_van has driver Alice"
+      },
+      "(A5 → A3)": {
+        "formal": "(A5 → A3)",
+        "prover9": "(A5 -> A3)",
+        "prover9_expression": "(ready_for_pickup(order_123) -> has_order(delivery_van, order_123))",
+        "natural": "Whenever order_123 is ready for pickup, delivery_van has order_123"
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(ready_for_pickup(order_123) | ready_for_pickup(order_456))",
+        "natural": "Either order_123 is ready for pickup or order_456 is ready for pickup"
+      },
+      "(A6 → A3)": {
+        "formal": "(A6 → A3)",
+        "prover9": "(A6 -> A3)",
+        "prover9_expression": "(ready_for_pickup(order_456) -> has_order(delivery_van, order_123))",
+        "natural": "Under the condition that order_456 is ready for pickup, delivery_van has order_123"
+      },
+      "(¬(A5 ∨ A6) → A7)": {
+        "formal": "(¬(A5 ∨ A6) → A7)",
+        "prover9": "(-(A5 | A6) -> A7)",
+        "prover9_expression": "(-(ready_for_pickup(order_123) | ready_for_pickup(order_456)) -> vehicle_broken(delivery_van))",
+        "natural": "If it is not the case that either order_123 is ready for pickup or order_456 is ready for pickup, then delivery_van is vehicle_broken"
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-has_driver(delivery_van, bob) -> has_driver(delivery_van, alice))",
+        "natural": "Provided that delivery_van does not have driver Bob, delivery_van has driver Alice"
+      },
+      "(¬A1 → ¬A2)": {
+        "formal": "(¬A1 → ¬A2)",
+        "prover9": "(-A1 -> -A2)",
+        "prover9_expression": "(-has_driver(delivery_van, bob) -> -has_driver(delivery_van, alice))",
+        "natural": "If delivery_van does not have driver Bob, then delivery_van does not have driver Alice"
+      },
+      "(¬A3 → A4)": {
+        "formal": "(¬A3 → A4)",
+        "prover9": "(-A3 -> A4)",
+        "prover9_expression": "(-has_order(delivery_van, order_123) -> has_order(delivery_van, order_456))",
+        "natural": "Under the condition that delivery_van does not have order_123, delivery_van has order_456"
+      },
+      "(¬A3 → ¬A4)": {
+        "formal": "(¬A3 → ¬A4)",
+        "prover9": "(-A3 -> -A4)",
+        "prover9_expression": "(-has_order(delivery_van, order_123) -> -has_order(delivery_van, order_456))",
+        "natural": "Whenever delivery_van does not have order_123, delivery_van does not have order_456"
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_driver(delivery_van, bob)",
+        "natural": "Delivery_van has driver Bob"
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "has_order(delivery_van, order_123)",
+        "natural": "Delivery_van has order_123"
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "delivery_complete(order_123)",
+        "natural": "Order_123 is delivery_complete"
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-vehicle_broken(delivery_van)",
+        "natural": "It is not the case that delivery_van is vehicle_broken"
+      }
+    }
+  }
+}

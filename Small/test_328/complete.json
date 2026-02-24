@@ -1,0 +1,562 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(has_license(artist, artwork) | is_public_domain(artwork))",
+        "natural": "Either the artist has a license for the artwork or the artwork is in the public domain."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (A3 ∨ (A1 → G)))",
+        "prover9_expression": "(automated_screening_enabled(platform) -> (has_virus_scan(artwork) | (has_license(artist, artwork) -> approved_for_platform(artwork))))",
+        "natural": "Provided that automated screening is enabled on the platform, either the artwork has a virus scan or, if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A12 → A13)",
+        "prover9_expression": "(manual_screening_required(artwork) -> automated_screening_bypassed(artwork))",
+        "natural": "Whenever manual screening is required for the artwork, automated screening is bypassed for the artwork."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → ¬A13)",
+        "prover9_expression": "(manual_screening_required(artwork) -> -automated_screening_bypassed(artwork))",
+        "natural": "In the event that manual screening is required for the artwork, it is not the case that automated screening is bypassed for the artwork."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(is_public_domain(artwork) -> approved_for_platform(artwork))",
+        "natural": "Should the artwork be in the public domain, then it is approved for the platform."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A4 → A3)",
+        "prover9_expression": "(flagged_suspicious(artwork) -> has_virus_scan(artwork))",
+        "natural": "If the artwork is flagged as suspicious, then it has a virus scan."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(flagged_suspicious(artwork) | manual_review_complete(artwork))",
+        "natural": "Either the artwork is flagged as suspicious or a manual review of the artwork is complete."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(manual_review_complete(artwork) -> curator_approved(artwork))",
+        "natural": "Whenever a manual review of the artwork is complete, the curator approved the artwork."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A6 → A7)",
+        "prover9_expression": "(curator_approved(artwork) -> technical_check_passed(artwork))",
+        "natural": "If the curator approved the artwork, then it passed the technical check."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A6 → A8)",
+        "prover9_expression": "(curator_approved(artwork) -> aesthetic_review_passed(artwork))",
+        "natural": "Should the curator approve the artwork, then it passed the aesthetic review."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A7 → (A1 → G))",
+        "prover9_expression": "(technical_check_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+        "natural": "In the case that the artwork passed the technical check, if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A9 → A10)",
+        "prover9_expression": "(appeal_submitted(artist) -> appeal_granted(artist))",
+        "natural": "If the artist submitted an appeal, then the appeal was granted to the artist."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A9 → ¬A10)",
+        "prover9_expression": "(appeal_submitted(artist) -> -appeal_granted(artist))",
+        "natural": "Whenever the artist submits an appeal, it is not the case that the appeal is granted to the artist."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(¬(A8 → (A1 → G)) → A9)",
+        "prover9_expression": "(-(aesthetic_review_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork))) -> appeal_submitted(artist))",
+        "natural": "If it is not the case that, when the artwork passed the aesthetic review, then if the artist has a license for the artwork, the artwork is approved for the platform, then the artist submitted an appeal."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬A11 → A12)",
+        "prover9_expression": "(-automated_screening_enabled(platform) -> manual_screening_required(artwork))",
+        "natural": "In the event that automated screening is not enabled on the platform, manual screening is required for the artwork."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A3",
+        "prover9_expression": "-has_virus_scan(artwork)",
+        "natural": "The artwork does not have a virus scan."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "approved_for_platform(artwork)",
+    "natural": "The artwork is approved for the platform."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A7)",
+            "(A7 -> (A1 -> G))"
+          ],
+          "conclusion": "(A6 -> (A1 -> G))",
+          "natural": "Provided that the curator approved the artwork, if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A6)",
+            "(A6 -> (A1 -> G))"
+          ],
+          "conclusion": "(A5 -> (A1 -> G))",
+          "natural": "Given that a manual review of the artwork is complete, if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A4 -> A3)",
+            "(A5 -> (A1 -> G))",
+            "(A4 | A5)"
+          ],
+          "conclusion": "(A3 | (A1 -> G))",
+          "natural": "The artwork has a virus scan, or if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A1 -> G))",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The artwork is approved for the platform."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A9 -> A10)",
+            "(A9 -> -A10)"
+          ],
+          "conclusion": "-A9",
+          "natural": "The artist did not submit an appeal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A8 -> (A1 -> G)) -> A9)",
+            "-A9"
+          ],
+          "conclusion": "(A8 -> (A1 -> G))",
+          "natural": "If the artwork passed the aesthetic review, then, provided the artist has a license for the artwork, the artwork is approved for the platform."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A8)",
+            "(A8 -> (A1 -> G))"
+          ],
+          "conclusion": "(A6 -> (A1 -> G))",
+          "natural": "Provided that the curator approved the artwork, if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A6)",
+            "(A6 -> (A1 -> G))"
+          ],
+          "conclusion": "(A5 -> (A1 -> G))",
+          "natural": "Given that a manual review of the artwork is complete, if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A4 -> A3)",
+            "(A5 -> (A1 -> G))",
+            "(A4 | A5)"
+          ],
+          "conclusion": "(A3 | (A1 -> G))",
+          "natural": "The artwork has a virus scan, or if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A1 -> G))",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The artwork is approved for the platform."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A12 -> A13)",
+            "(A12 -> -A13)"
+          ],
+          "conclusion": "-A12",
+          "natural": "It is not the case that manual screening is required for the artwork."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A11 -> A12)",
+            "-A12"
+          ],
+          "conclusion": "A11",
+          "natural": "Automated screening is enabled on the platform."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> (A3 | (A1 -> G)))",
+            "A11"
+          ],
+          "conclusion": "(A3 | (A1 -> G))",
+          "natural": "The artwork has a virus scan, or if the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A1 -> G))",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the artist has a license for the artwork, then the artwork is approved for the platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The artwork is approved for the platform."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Digital Art Curation Platform",
+    "atomic_facts": {
+      "A1": "has_license(artist, artwork)",
+      "A2": "is_public_domain(artwork)",
+      "A3": "has_virus_scan(artwork)",
+      "A4": "flagged_suspicious(artwork)",
+      "A5": "manual_review_complete(artwork)",
+      "A6": "curator_approved(artwork)",
+      "A7": "technical_check_passed(artwork)",
+      "A8": "aesthetic_review_passed(artwork)",
+      "A9": "appeal_submitted(artist)",
+      "A10": "appeal_granted(artist)",
+      "A11": "automated_screening_enabled(platform)",
+      "A12": "manual_screening_required(artwork)",
+      "A13": "automated_screening_bypassed(artwork)",
+      "G": "approved_for_platform(artwork)"
+    },
+    "natural_facts": {
+      "A1": "The artist has a license for the artwork.",
+      "A2": "The artwork is in the public domain.",
+      "A3": "The artwork has a virus scan.",
+      "A4": "The artwork is flagged as suspicious.",
+      "A5": "A manual review of the artwork is complete.",
+      "A6": "The curator approved the artwork.",
+      "A7": "The artwork passed the technical check.",
+      "A8": "The artwork passed the aesthetic review.",
+      "A9": "The artist submitted an appeal.",
+      "A10": "The appeal was granted to the artist.",
+      "A11": "Automated screening is enabled on the platform.",
+      "A12": "Manual screening is required for the artwork.",
+      "A13": "Automated screening is bypassed for the artwork.",
+      "G": "The artwork is approved for the platform."
+    },
+    "prover9_expressions": [
+      "(has_license(artist, artwork) -> approved_for_platform(artwork))",
+      "(has_license(artist, artwork) | is_public_domain(artwork))",
+      "(automated_screening_enabled(platform) -> (has_virus_scan(artwork) | (has_license(artist, artwork) -> approved_for_platform(artwork))))",
+      "(manual_screening_required(artwork) -> automated_screening_bypassed(artwork))",
+      "(manual_screening_required(artwork) -> -automated_screening_bypassed(artwork))",
+      "(is_public_domain(artwork) -> approved_for_platform(artwork))",
+      "(has_virus_scan(artwork) | (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+      "(flagged_suspicious(artwork) -> has_virus_scan(artwork))",
+      "(flagged_suspicious(artwork) | manual_review_complete(artwork))",
+      "(manual_review_complete(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+      "(manual_review_complete(artwork) -> curator_approved(artwork))",
+      "(curator_approved(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+      "(curator_approved(artwork) -> technical_check_passed(artwork))",
+      "(curator_approved(artwork) -> aesthetic_review_passed(artwork))",
+      "(technical_check_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+      "(aesthetic_review_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+      "(appeal_submitted(artist) -> appeal_granted(artist))",
+      "(appeal_submitted(artist) -> -appeal_granted(artist))",
+      "(-(aesthetic_review_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork))) -> appeal_submitted(artist))",
+      "(-automated_screening_enabled(platform) -> manual_screening_required(artwork))",
+      "automated_screening_enabled(platform)",
+      "approved_for_platform(artwork)",
+      "-manual_screening_required(artwork)",
+      "-has_virus_scan(artwork)",
+      "-appeal_submitted(artist)"
+    ],
+    "natural_expressions": [
+      "If the artist has a license for the artwork, then the artwork is approved for the platform.",
+      "Either the artist has a license for the artwork or the artwork is in the public domain.",
+      "Provided that automated screening is enabled on the platform, either the artwork has a virus scan or, if the artist has a license for the artwork, then the artwork is approved for the platform.",
+      "Whenever manual screening is required for the artwork, automated screening is bypassed for the artwork.",
+      "In the event that manual screening is required for the artwork, it is not the case that automated screening is bypassed for the artwork.",
+      "Should the artwork be in the public domain, then it is approved for the platform.",
+      "The artwork has a virus scan, or if the artist has a license for the artwork, then the artwork is approved for the platform.",
+      "If the artwork is flagged as suspicious, then it has a virus scan.",
+      "Either the artwork is flagged as suspicious or a manual review of the artwork is complete.",
+      "Given that a manual review of the artwork is complete, if the artist has a license for the artwork, then the artwork is approved for the platform.",
+      "Whenever a manual review of the artwork is complete, the curator approved the artwork.",
+      "Provided that the curator approved the artwork, if the artist has a license for the artwork, then the artwork is approved for the platform.",
+      "If the curator approved the artwork, then it passed the technical check.",
+      "Should the curator approve the artwork, then it passed the aesthetic review.",
+      "In the case that the artwork passed the technical check, if the artist has a license for the artwork, then the artwork is approved for the platform.",
+      "If the artwork passed the aesthetic review, then, provided the artist has a license for the artwork, the artwork is approved for the platform.",
+      "If the artist submitted an appeal, then the appeal was granted to the artist.",
+      "Whenever the artist submits an appeal, it is not the case that the appeal is granted to the artist.",
+      "If it is not the case that, when the artwork passed the aesthetic review, then if the artist has a license for the artwork, the artwork is approved for the platform, then the artist submitted an appeal.",
+      "In the event that automated screening is not enabled on the platform, manual screening is required for the artwork.",
+      "Automated screening is enabled on the platform.",
+      "The artwork is approved for the platform.",
+      "It is not the case that manual screening is required for the artwork.",
+      "The artwork does not have a virus scan.",
+      "The artist did not submit an appeal."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_license(artist, artwork) -> approved_for_platform(artwork))",
+        "natural": "If the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(has_license(artist, artwork) | is_public_domain(artwork))",
+        "natural": "Either the artist has a license for the artwork or the artwork is in the public domain."
+      },
+      "(A11 → (A3 ∨ (A1 → G)))": {
+        "formal": "(A11 → (A3 ∨ (A1 → G)))",
+        "prover9": "(A11 -> (A3 | (A1 -> G)))",
+        "prover9_expression": "(automated_screening_enabled(platform) -> (has_virus_scan(artwork) | (has_license(artist, artwork) -> approved_for_platform(artwork))))",
+        "natural": "Provided that automated screening is enabled on the platform, either the artwork has a virus scan or, if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      "(A12 → A13)": {
+        "formal": "(A12 → A13)",
+        "prover9": "(A12 -> A13)",
+        "prover9_expression": "(manual_screening_required(artwork) -> automated_screening_bypassed(artwork))",
+        "natural": "Whenever manual screening is required for the artwork, automated screening is bypassed for the artwork."
+      },
+      "(A12 → ¬A13)": {
+        "formal": "(A12 → ¬A13)",
+        "prover9": "(A12 -> -A13)",
+        "prover9_expression": "(manual_screening_required(artwork) -> -automated_screening_bypassed(artwork))",
+        "natural": "In the event that manual screening is required for the artwork, it is not the case that automated screening is bypassed for the artwork."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(is_public_domain(artwork) -> approved_for_platform(artwork))",
+        "natural": "Should the artwork be in the public domain, then it is approved for the platform."
+      },
+      "(A3 ∨ (A1 → G))": {
+        "formal": "(A3 ∨ (A1 → G))",
+        "prover9": "(A3 | (A1 -> G))",
+        "prover9_expression": "(has_virus_scan(artwork) | (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+        "natural": "The artwork has a virus scan, or if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(flagged_suspicious(artwork) -> has_virus_scan(artwork))",
+        "natural": "If the artwork is flagged as suspicious, then it has a virus scan."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(flagged_suspicious(artwork) | manual_review_complete(artwork))",
+        "natural": "Either the artwork is flagged as suspicious or a manual review of the artwork is complete."
+      },
+      "(A5 → (A1 → G))": {
+        "formal": "(A5 → (A1 → G))",
+        "prover9": "(A5 -> (A1 -> G))",
+        "prover9_expression": "(manual_review_complete(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+        "natural": "Given that a manual review of the artwork is complete, if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(manual_review_complete(artwork) -> curator_approved(artwork))",
+        "natural": "Whenever a manual review of the artwork is complete, the curator approved the artwork."
+      },
+      "(A6 → (A1 → G))": {
+        "formal": "(A6 → (A1 → G))",
+        "prover9": "(A6 -> (A1 -> G))",
+        "prover9_expression": "(curator_approved(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+        "natural": "Provided that the curator approved the artwork, if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      "(A6 → A7)": {
+        "formal": "(A6 → A7)",
+        "prover9": "(A6 -> A7)",
+        "prover9_expression": "(curator_approved(artwork) -> technical_check_passed(artwork))",
+        "natural": "If the curator approved the artwork, then it passed the technical check."
+      },
+      "(A6 → A8)": {
+        "formal": "(A6 → A8)",
+        "prover9": "(A6 -> A8)",
+        "prover9_expression": "(curator_approved(artwork) -> aesthetic_review_passed(artwork))",
+        "natural": "Should the curator approve the artwork, then it passed the aesthetic review."
+      },
+      "(A7 → (A1 → G))": {
+        "formal": "(A7 → (A1 → G))",
+        "prover9": "(A7 -> (A1 -> G))",
+        "prover9_expression": "(technical_check_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+        "natural": "In the case that the artwork passed the technical check, if the artist has a license for the artwork, then the artwork is approved for the platform."
+      },
+      "(A8 → (A1 → G))": {
+        "formal": "(A8 → (A1 → G))",
+        "prover9": "(A8 -> (A1 -> G))",
+        "prover9_expression": "(aesthetic_review_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork)))",
+        "natural": "If the artwork passed the aesthetic review, then, provided the artist has a license for the artwork, the artwork is approved for the platform."
+      },
+      "(A9 → A10)": {
+        "formal": "(A9 → A10)",
+        "prover9": "(A9 -> A10)",
+        "prover9_expression": "(appeal_submitted(artist) -> appeal_granted(artist))",
+        "natural": "If the artist submitted an appeal, then the appeal was granted to the artist."
+      },
+      "(A9 → ¬A10)": {
+        "formal": "(A9 → ¬A10)",
+        "prover9": "(A9 -> -A10)",
+        "prover9_expression": "(appeal_submitted(artist) -> -appeal_granted(artist))",
+        "natural": "Whenever the artist submits an appeal, it is not the case that the appeal is granted to the artist."
+      },
+      "(¬(A8 → (A1 → G)) → A9)": {
+        "formal": "(¬(A8 → (A1 → G)) → A9)",
+        "prover9": "(-(A8 -> (A1 -> G)) -> A9)",
+        "prover9_expression": "(-(aesthetic_review_passed(artwork) -> (has_license(artist, artwork) -> approved_for_platform(artwork))) -> appeal_submitted(artist))",
+        "natural": "If it is not the case that, when the artwork passed the aesthetic review, then if the artist has a license for the artwork, the artwork is approved for the platform, then the artist submitted an appeal."
+      },
+      "(¬A11 → A12)": {
+        "formal": "(¬A11 → A12)",
+        "prover9": "(-A11 -> A12)",
+        "prover9_expression": "(-automated_screening_enabled(platform) -> manual_screening_required(artwork))",
+        "natural": "In the event that automated screening is not enabled on the platform, manual screening is required for the artwork."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "automated_screening_enabled(platform)",
+        "natural": "Automated screening is enabled on the platform."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "approved_for_platform(artwork)",
+        "natural": "The artwork is approved for the platform."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-manual_screening_required(artwork)",
+        "natural": "It is not the case that manual screening is required for the artwork."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-has_virus_scan(artwork)",
+        "natural": "The artwork does not have a virus scan."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-appeal_submitted(artist)",
+        "natural": "The artist did not submit an appeal."
+      }
+    }
+  }
+}

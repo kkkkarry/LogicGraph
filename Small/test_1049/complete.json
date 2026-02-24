@@ -1,0 +1,489 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(develops_cure(disease1, lab1) -> cures(disease1, substance1))",
+        "natural": "If lab1 develops a cure for disease1, then substance1 cures disease1."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(develops_cure(disease1, lab1) | researches(disease1, lab1))",
+        "natural": "Either lab1 develops a cure for disease1 or lab1 researches disease1."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(submits_manuscript(disease1, lab1) -> receives_reviews(disease1, lab1))",
+        "natural": "Provided that lab1 submits a manuscript on disease1, lab1 receives reviews on disease1."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 → A12)",
+        "prover9_expression": "(receives_reviews(disease1, lab1) -> revises_manuscript(disease1, lab1))",
+        "natural": "Under the condition that lab1 receives reviews on disease1, lab1 revises the manuscript on disease1."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 → A9)",
+        "prover9_expression": "(revises_manuscript(disease1, lab1) -> obtains_patent(disease1, lab1))",
+        "natural": "Whenever lab1 revises the manuscript on disease1, lab1 obtains a patent for disease1."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A2 → A6)",
+        "prover9_expression": "(researches(disease1, lab1) -> synthesizes(substance1, lab1))",
+        "natural": "Under the condition that lab1 researches disease1, lab1 synthesizes substance1."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A3 → G)",
+        "prover9_expression": "(treats(disease1, substance1) -> cures(disease1, substance1))",
+        "natural": "If substance1 treats disease1, then substance1 cures disease1."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A8 ∨ (A7 → (A6 → A3)))",
+        "prover9_expression": "(publishes_findings(disease1, lab1) | (has_equipment(substance1, lab1) -> (synthesizes(substance1, lab1) -> treats(disease1, substance1))))",
+        "natural": "Either lab1 publishes findings on disease1 or, if lab1 has equipment for substance1, then the synthesis of substance1 by lab1 results in substance1 treating disease1."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A9 → ¬A8)",
+        "prover9_expression": "(obtains_patent(disease1, lab1) -> -publishes_findings(disease1, lab1))",
+        "natural": "If lab1 obtains a patent for disease1, then lab1 does not publish findings on disease1."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(¬(A2 → A3) → A4) → A5)",
+        "prover9_expression": "(-(-(researches(disease1, lab1) -> treats(disease1, substance1)) -> halts_research(disease1, lab1)) -> loses_funding(disease1, lab1))",
+        "natural": "If it is not the case that the failure of lab1 researching disease1 to imply substance1 treating disease1 leads to lab1 halting research on disease1, then lab1 loses funding for disease1."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A10",
+        "prover9_expression": "submits_manuscript(disease1, lab1)",
+        "natural": "Lab1 submits a manuscript on disease1."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A7",
+        "prover9_expression": "has_equipment(substance1, lab1)",
+        "natural": "Lab1 has equipment for substance1."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A4",
+        "prover9_expression": "-halts_research(disease1, lab1)",
+        "natural": "Lab1 does not halt research on disease1."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A5",
+        "prover9_expression": "-loses_funding(disease1, lab1)",
+        "natural": "Lab1 does not lose funding for disease1."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "cures(disease1, substance1)",
+    "natural": "Substance1 cures disease1."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A2 -> A3) -> A4) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(-(A2 -> A3) -> A4)",
+          "natural": "If it is not the case that lab1 researching disease1 implies substance1 treating disease1, then lab1 halts research on disease1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> A3) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "If lab1 researches disease1, then substance1 treats disease1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Provided that lab1 researches disease1, substance1 cures disease1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Substance1 cures disease1."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A12)",
+            "(A12 -> A9)"
+          ],
+          "conclusion": "(A11 -> A9)",
+          "natural": "If lab1 receives reviews on disease1, then lab1 obtains a patent for disease1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A11 -> A9)"
+          ],
+          "conclusion": "(A10 -> A9)",
+          "natural": "Whenever lab1 submits a manuscript on disease1, lab1 obtains a patent for disease1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> A9)",
+            "A10"
+          ],
+          "conclusion": "A9",
+          "natural": "Lab1 obtains a patent for disease1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> -A8)",
+            "A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "Lab1 does not publish findings on disease1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A8 | (A7 -> (A6 -> A3)))",
+            "-A8"
+          ],
+          "conclusion": "(A7 -> (A6 -> A3))",
+          "natural": "If lab1 has equipment for substance1, then the synthesis of substance1 by lab1 leads to substance1 treating disease1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> (A6 -> A3))",
+            "A7"
+          ],
+          "conclusion": "(A6 -> A3)",
+          "natural": "Provided that lab1 synthesizes substance1, substance1 treats disease1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A6)",
+            "(A6 -> A3)"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "If lab1 researches disease1, then substance1 treats disease1."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Provided that lab1 researches disease1, substance1 cures disease1."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Substance1 cures disease1."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Scientific Research",
+    "atomic_facts": {
+      "A1": "develops_cure(disease1, lab1)",
+      "A2": "researches(disease1, lab1)",
+      "A3": "treats(disease1, substance1)",
+      "A4": "halts_research(disease1, lab1)",
+      "A5": "loses_funding(disease1, lab1)",
+      "A6": "synthesizes(substance1, lab1)",
+      "A7": "has_equipment(substance1, lab1)",
+      "A8": "publishes_findings(disease1, lab1)",
+      "A9": "obtains_patent(disease1, lab1)",
+      "A10": "submits_manuscript(disease1, lab1)",
+      "A11": "receives_reviews(disease1, lab1)",
+      "A12": "revises_manuscript(disease1, lab1)",
+      "G": "cures(disease1, substance1)"
+    },
+    "natural_facts": {
+      "A1": "Lab1 develops a cure for disease1.",
+      "A2": "Lab1 researches disease1.",
+      "A3": "Substance1 treats disease1.",
+      "A4": "Lab1 halts research on disease1.",
+      "A5": "Lab1 loses funding for disease1.",
+      "A6": "Lab1 synthesizes substance1.",
+      "A7": "Lab1 has equipment for substance1.",
+      "A8": "Lab1 publishes findings on disease1.",
+      "A9": "Lab1 obtains a patent for disease1.",
+      "A10": "Lab1 submits a manuscript on disease1.",
+      "A11": "Lab1 receives reviews on disease1.",
+      "A12": "Lab1 revises the manuscript on disease1.",
+      "G": "Substance1 cures disease1."
+    },
+    "prover9_expressions": [
+      "(develops_cure(disease1, lab1) -> cures(disease1, substance1))",
+      "(develops_cure(disease1, lab1) | researches(disease1, lab1))",
+      "(submits_manuscript(disease1, lab1) -> receives_reviews(disease1, lab1))",
+      "(submits_manuscript(disease1, lab1) -> obtains_patent(disease1, lab1))",
+      "(receives_reviews(disease1, lab1) -> revises_manuscript(disease1, lab1))",
+      "(receives_reviews(disease1, lab1) -> obtains_patent(disease1, lab1))",
+      "(revises_manuscript(disease1, lab1) -> obtains_patent(disease1, lab1))",
+      "(researches(disease1, lab1) -> treats(disease1, substance1))",
+      "(researches(disease1, lab1) -> synthesizes(substance1, lab1))",
+      "(researches(disease1, lab1) -> cures(disease1, substance1))",
+      "(treats(disease1, substance1) -> cures(disease1, substance1))",
+      "(synthesizes(substance1, lab1) -> treats(disease1, substance1))",
+      "(has_equipment(substance1, lab1) -> (synthesizes(substance1, lab1) -> treats(disease1, substance1)))",
+      "(publishes_findings(disease1, lab1) | (has_equipment(substance1, lab1) -> (synthesizes(substance1, lab1) -> treats(disease1, substance1))))",
+      "(obtains_patent(disease1, lab1) -> -publishes_findings(disease1, lab1))",
+      "(-(researches(disease1, lab1) -> treats(disease1, substance1)) -> halts_research(disease1, lab1))",
+      "(-(-(researches(disease1, lab1) -> treats(disease1, substance1)) -> halts_research(disease1, lab1)) -> loses_funding(disease1, lab1))",
+      "submits_manuscript(disease1, lab1)",
+      "has_equipment(substance1, lab1)",
+      "obtains_patent(disease1, lab1)",
+      "cures(disease1, substance1)",
+      "-halts_research(disease1, lab1)",
+      "-loses_funding(disease1, lab1)",
+      "-publishes_findings(disease1, lab1)"
+    ],
+    "natural_expressions": [
+      "If lab1 develops a cure for disease1, then substance1 cures disease1.",
+      "Either lab1 develops a cure for disease1 or lab1 researches disease1.",
+      "Provided that lab1 submits a manuscript on disease1, lab1 receives reviews on disease1.",
+      "Whenever lab1 submits a manuscript on disease1, lab1 obtains a patent for disease1.",
+      "Under the condition that lab1 receives reviews on disease1, lab1 revises the manuscript on disease1.",
+      "If lab1 receives reviews on disease1, then lab1 obtains a patent for disease1.",
+      "Whenever lab1 revises the manuscript on disease1, lab1 obtains a patent for disease1.",
+      "If lab1 researches disease1, then substance1 treats disease1.",
+      "Under the condition that lab1 researches disease1, lab1 synthesizes substance1.",
+      "Provided that lab1 researches disease1, substance1 cures disease1.",
+      "If substance1 treats disease1, then substance1 cures disease1.",
+      "Provided that lab1 synthesizes substance1, substance1 treats disease1.",
+      "If lab1 has equipment for substance1, then the synthesis of substance1 by lab1 leads to substance1 treating disease1.",
+      "Either lab1 publishes findings on disease1 or, if lab1 has equipment for substance1, then the synthesis of substance1 by lab1 results in substance1 treating disease1.",
+      "If lab1 obtains a patent for disease1, then lab1 does not publish findings on disease1.",
+      "If it is not the case that lab1 researching disease1 implies substance1 treating disease1, then lab1 halts research on disease1.",
+      "If it is not the case that the failure of lab1 researching disease1 to imply substance1 treating disease1 leads to lab1 halting research on disease1, then lab1 loses funding for disease1.",
+      "Lab1 submits a manuscript on disease1.",
+      "Lab1 has equipment for substance1.",
+      "Lab1 obtains a patent for disease1.",
+      "Substance1 cures disease1.",
+      "Lab1 does not halt research on disease1.",
+      "Lab1 does not lose funding for disease1.",
+      "Lab1 does not publish findings on disease1."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(develops_cure(disease1, lab1) -> cures(disease1, substance1))",
+        "natural": "If lab1 develops a cure for disease1, then substance1 cures disease1."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(develops_cure(disease1, lab1) | researches(disease1, lab1))",
+        "natural": "Either lab1 develops a cure for disease1 or lab1 researches disease1."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(submits_manuscript(disease1, lab1) -> receives_reviews(disease1, lab1))",
+        "natural": "Provided that lab1 submits a manuscript on disease1, lab1 receives reviews on disease1."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(submits_manuscript(disease1, lab1) -> obtains_patent(disease1, lab1))",
+        "natural": "Whenever lab1 submits a manuscript on disease1, lab1 obtains a patent for disease1."
+      },
+      "(A11 → A12)": {
+        "formal": "(A11 → A12)",
+        "prover9": "(A11 -> A12)",
+        "prover9_expression": "(receives_reviews(disease1, lab1) -> revises_manuscript(disease1, lab1))",
+        "natural": "Under the condition that lab1 receives reviews on disease1, lab1 revises the manuscript on disease1."
+      },
+      "(A11 → A9)": {
+        "formal": "(A11 → A9)",
+        "prover9": "(A11 -> A9)",
+        "prover9_expression": "(receives_reviews(disease1, lab1) -> obtains_patent(disease1, lab1))",
+        "natural": "If lab1 receives reviews on disease1, then lab1 obtains a patent for disease1."
+      },
+      "(A12 → A9)": {
+        "formal": "(A12 → A9)",
+        "prover9": "(A12 -> A9)",
+        "prover9_expression": "(revises_manuscript(disease1, lab1) -> obtains_patent(disease1, lab1))",
+        "natural": "Whenever lab1 revises the manuscript on disease1, lab1 obtains a patent for disease1."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(researches(disease1, lab1) -> treats(disease1, substance1))",
+        "natural": "If lab1 researches disease1, then substance1 treats disease1."
+      },
+      "(A2 → A6)": {
+        "formal": "(A2 → A6)",
+        "prover9": "(A2 -> A6)",
+        "prover9_expression": "(researches(disease1, lab1) -> synthesizes(substance1, lab1))",
+        "natural": "Under the condition that lab1 researches disease1, lab1 synthesizes substance1."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(researches(disease1, lab1) -> cures(disease1, substance1))",
+        "natural": "Provided that lab1 researches disease1, substance1 cures disease1."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(treats(disease1, substance1) -> cures(disease1, substance1))",
+        "natural": "If substance1 treats disease1, then substance1 cures disease1."
+      },
+      "(A6 → A3)": {
+        "formal": "(A6 → A3)",
+        "prover9": "(A6 -> A3)",
+        "prover9_expression": "(synthesizes(substance1, lab1) -> treats(disease1, substance1))",
+        "natural": "Provided that lab1 synthesizes substance1, substance1 treats disease1."
+      },
+      "(A7 → (A6 → A3))": {
+        "formal": "(A7 → (A6 → A3))",
+        "prover9": "(A7 -> (A6 -> A3))",
+        "prover9_expression": "(has_equipment(substance1, lab1) -> (synthesizes(substance1, lab1) -> treats(disease1, substance1)))",
+        "natural": "If lab1 has equipment for substance1, then the synthesis of substance1 by lab1 leads to substance1 treating disease1."
+      },
+      "(A8 ∨ (A7 → (A6 → A3)))": {
+        "formal": "(A8 ∨ (A7 → (A6 → A3)))",
+        "prover9": "(A8 | (A7 -> (A6 -> A3)))",
+        "prover9_expression": "(publishes_findings(disease1, lab1) | (has_equipment(substance1, lab1) -> (synthesizes(substance1, lab1) -> treats(disease1, substance1))))",
+        "natural": "Either lab1 publishes findings on disease1 or, if lab1 has equipment for substance1, then the synthesis of substance1 by lab1 results in substance1 treating disease1."
+      },
+      "(A9 → ¬A8)": {
+        "formal": "(A9 → ¬A8)",
+        "prover9": "(A9 -> -A8)",
+        "prover9_expression": "(obtains_patent(disease1, lab1) -> -publishes_findings(disease1, lab1))",
+        "natural": "If lab1 obtains a patent for disease1, then lab1 does not publish findings on disease1."
+      },
+      "(¬(A2 → A3) → A4)": {
+        "formal": "(¬(A2 → A3) → A4)",
+        "prover9": "(-(A2 -> A3) -> A4)",
+        "prover9_expression": "(-(researches(disease1, lab1) -> treats(disease1, substance1)) -> halts_research(disease1, lab1))",
+        "natural": "If it is not the case that lab1 researching disease1 implies substance1 treating disease1, then lab1 halts research on disease1."
+      },
+      "(¬(¬(A2 → A3) → A4) → A5)": {
+        "formal": "(¬(¬(A2 → A3) → A4) → A5)",
+        "prover9": "(-(-(A2 -> A3) -> A4) -> A5)",
+        "prover9_expression": "(-(-(researches(disease1, lab1) -> treats(disease1, substance1)) -> halts_research(disease1, lab1)) -> loses_funding(disease1, lab1))",
+        "natural": "If it is not the case that the failure of lab1 researching disease1 to imply substance1 treating disease1 leads to lab1 halting research on disease1, then lab1 loses funding for disease1."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "submits_manuscript(disease1, lab1)",
+        "natural": "Lab1 submits a manuscript on disease1."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "has_equipment(substance1, lab1)",
+        "natural": "Lab1 has equipment for substance1."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "obtains_patent(disease1, lab1)",
+        "natural": "Lab1 obtains a patent for disease1."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "cures(disease1, substance1)",
+        "natural": "Substance1 cures disease1."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-halts_research(disease1, lab1)",
+        "natural": "Lab1 does not halt research on disease1."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-loses_funding(disease1, lab1)",
+        "natural": "Lab1 does not lose funding for disease1."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-publishes_findings(disease1, lab1)",
+        "natural": "Lab1 does not publish findings on disease1."
+      }
+    }
+  }
+}

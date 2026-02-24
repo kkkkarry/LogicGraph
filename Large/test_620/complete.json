@@ -1,0 +1,2215 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 10,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 2
+      },
+      "3": {
+        "core": 1,
+        "branch": 2
+      },
+      "4": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(has_authorization(person1, submit_manuscript) | has_authorization(person2, submit_manuscript))",
+        "natural": "Person1 has the authorization to submit the manuscript or person2 has the authorization to submit the manuscript."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → A9)",
+        "prover9_expression": "(reviewer_invited(reviewer1, publication1) -> editor_assigned(publication1, editor1))",
+        "natural": "Provided that reviewer1 is invited to review publication1, editor1 is assigned to publication1."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → A9)",
+        "prover9_expression": "(reviewer_invited(reviewer2, publication1) -> editor_assigned(publication1, editor1))",
+        "natural": "Whenever reviewer2 is invited to review publication1, editor1 is assigned to publication1."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → A10)",
+        "prover9_expression": "(reviewer_accepts(reviewer1, publication1) -> reviewer_invited(reviewer1, publication1))",
+        "natural": "If reviewer1 accepts to review publication1, then reviewer1 has been invited to review publication1."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 ∨ A13)",
+        "prover9_expression": "(reviewer_accepts(reviewer1, publication1) | reviewer_accepts(reviewer2, publication1))",
+        "natural": "Reviewer1 accepts to review publication1 or reviewer2 accepts to review publication1."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A13 → A11)",
+        "prover9_expression": "(reviewer_accepts(reviewer2, publication1) -> reviewer_invited(reviewer2, publication1))",
+        "natural": "Under the condition that reviewer2 accepts to review publication1, reviewer2 has been invited to review publication1."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A14 → A17)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> payment_processed(person2, publication_fee))",
+        "natural": "If person1 agrees to the copyright transfer, then payment of the publication fee is processed for person2."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) | author_agrees(person2, copyright_transfer))",
+        "natural": "Person1 agrees to the copyright transfer or person2 agrees to the copyright transfer."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A15 → G)",
+        "prover9_expression": "(author_agrees(person2, copyright_transfer) -> publication_successful(publication1))",
+        "natural": "Under the condition that person2 agrees to the copyright transfer, publication1 is successful."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A16 → G)",
+        "prover9_expression": "(payment_processed(person1, publication_fee) -> publication_successful(publication1))",
+        "natural": "Whenever payment of the publication fee is processed for person1, publication1 is successful."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A18 ∨ (A17 → A16))",
+        "prover9_expression": "(payment_disputed(person1, publication_fee) | (payment_processed(person2, publication_fee) -> payment_processed(person1, publication_fee)))",
+        "natural": "The payment of the publication fee is disputed by person1 or, if payment is processed for person2, then it is processed for person1."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A19 ∨ ¬A18)",
+        "prover9_expression": "(payment_disputed(person2, publication_fee) | -payment_disputed(person1, publication_fee))",
+        "natural": "Payment of the publication fee is disputed by person2 or it is not the case that payment is disputed by person1."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(has_authorization(person2, submit_manuscript) -> publication_successful(publication1))",
+        "natural": "Provided that person2 has the authorization to submit the manuscript, publication1 is successful."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A20 → A21)",
+        "prover9_expression": "(legal_action_threatened(person1) -> legal_action_threatened(person2))",
+        "natural": "If legal action is threatened by person1, then legal action is threatened by person2."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A22 ∨ A23)",
+        "prover9_expression": "(settlement_offered(person1, person2) | settlement_offered(person2, person1))",
+        "natural": "A settlement is offered by person1 to person2 or a settlement is offered by person2 to person1."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A23 → ¬A21)",
+        "prover9_expression": "(settlement_offered(person2, person1) -> -legal_action_threatened(person2))",
+        "natural": "Whenever a settlement is offered by person2 to person1, legal action is not threatened by person2."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A24 → (A22 → ¬A21))",
+        "prover9_expression": "(settlement_accepted(person1, person2) -> (settlement_offered(person1, person2) -> -legal_action_threatened(person2)))",
+        "natural": "If the settlement from person1 to person2 is accepted, then, provided that a settlement is offered by person1 to person2, legal action is not threatened by person2."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A25 → (A22 → ¬A21))",
+        "prover9_expression": "(settlement_accepted(person2, person1) -> (settlement_offered(person1, person2) -> -legal_action_threatened(person2)))",
+        "natural": "Provided that the settlement from person2 to person1 is accepted, then, if a settlement is offered by person1 to person2, legal action is not threatened by person2."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A26 → A29)",
+        "prover9_expression": "(conflict_resolved(publication1) -> publication_delayed(publication1))",
+        "natural": "Under the condition that the conflict regarding publication1 is resolved, publication1 is delayed."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A26 ∨ A27)",
+        "prover9_expression": "(conflict_resolved(publication1) | conflict_escalated(publication1))",
+        "natural": "The conflict regarding publication1 is resolved or the conflict regarding publication1 has escalated."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A27 → (A24 ∨ A25))",
+        "prover9_expression": "(conflict_escalated(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+        "natural": "Provided that the conflict regarding publication1 has escalated, the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A28 → (A24 ∨ A25))",
+        "prover9_expression": "(publication_proceeds(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+        "natural": "If publication1 proceeds, then the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A29 → A28)",
+        "prover9_expression": "(publication_delayed(publication1) -> publication_proceeds(publication1))",
+        "natural": "Whenever publication1 is delayed, publication1 proceeds."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A31 ∨ A32)",
+        "prover9_expression": "(funding_secured(publication1) | funding_lost(publication1))",
+        "natural": "Funding for publication1 is secured or funding for publication1 is lost."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A32 → (A30 → ¬A3))",
+        "prover9_expression": "(funding_lost(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1)))",
+        "natural": "If funding for publication1 is lost, then, whenever the manuscript is approved, it is not rejected."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A34 → A33)",
+        "prover9_expression": "(ethics_committee_approves(publication1) -> ethical_approval(publication1))",
+        "natural": "Whenever the ethics committee approves publication1, publication1 has obtained ethical approval."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A34 ∨ A35)",
+        "prover9_expression": "(ethics_committee_approves(publication1) | ethics_committee_rejects(publication1))",
+        "natural": "The ethics committee approves publication1 or the ethics committee rejects publication1."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A35 → (A31 → (A30 → ¬A3)))",
+        "prover9_expression": "(ethics_committee_rejects(publication1) -> (funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1))))",
+        "natural": "Provided that the ethics committee rejects publication1, then, if funding is secured, whenever the manuscript is approved, it is not rejected."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A37 ∨ (A36 → A8))",
+        "prover9_expression": "(manuscript_withdrawn(publication1) | (manuscript_revised(publication1) -> manuscript_published(publication1)))",
+        "natural": "The manuscript for publication1 is withdrawn or, if the manuscript is revised, then it is published."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A38 → A8)",
+        "prover9_expression": "(final_version_submitted(publication1) -> manuscript_published(publication1))",
+        "natural": "Under the condition that the final version of the manuscript for publication1 is submitted, the manuscript for publication1 is published."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A39 → A40)",
+        "prover9_expression": "(plagiarism_detected(publication1) -> plagiarism_confirmed(publication1))",
+        "natural": "Whenever plagiarism is detected in publication1, plagiarism in publication1 is confirmed."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A42 → A43)",
+        "prover9_expression": "(investigation_concluded(publication1) -> sanctions_imposed(publication1))",
+        "natural": "If the investigation into publication1 is concluded, then sanctions are imposed on publication1."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A44 → (A43 → A41))",
+        "prover9_expression": "(author_cleared(person1, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1)))",
+        "natural": "Whenever person1 is cleared regarding publication1, then, if sanctions are imposed, an investigation has been opened."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A44 ∨ A45)",
+        "prover9_expression": "(author_cleared(person1, publication1) | author_cleared(person2, publication1))",
+        "natural": "Person1 is cleared regarding publication1 or person2 is cleared regarding publication1."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A46 → (A45 → (A43 → A41)))",
+        "prover9_expression": "(reputation_restored(person1) -> (author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1))))",
+        "natural": "If the reputation of person1 is restored, then, under the condition that person2 is cleared, if sanctions are imposed, an investigation has been opened."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A46 ∨ A47)",
+        "prover9_expression": "(reputation_restored(person1) | reputation_restored(person2))",
+        "natural": "The reputation of person1 is restored or the reputation of person2 is restored."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A47 → (A45 → (A43 → A41)))",
+        "prover9_expression": "(reputation_restored(person2) -> (author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1))))",
+        "natural": "Whenever the reputation of person2 is restored, then, provided that person2 is cleared, if sanctions are imposed, an investigation has been opened."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A48 → A16)",
+        "prover9_expression": "(invoice_sent(person1, publication_fee) -> payment_processed(person1, publication_fee))",
+        "natural": "Under the condition that an invoice for the publication fee is sent to person1, payment of the publication fee is processed for person1."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A49 ∨ (A14 → A48))",
+        "prover9_expression": "(invoice_disputed(person1, publication_fee) | (author_agrees(person1, copyright_transfer) -> invoice_sent(person1, publication_fee)))",
+        "natural": "The invoice for the publication fee is disputed by person1 or, if person1 agrees to the copyright transfer, an invoice is sent to person1."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A5 → A4)",
+        "prover9_expression": "(receives_funding(person1, grant1) -> manuscript_accepted(publication1))",
+        "natural": "Provided that person1 receives funding from grant1, the manuscript for publication1 is accepted."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(receives_funding(person1, grant1) | receives_funding(person2, grant1))",
+        "natural": "Person1 receives funding from grant1 or person2 receives funding from grant1."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A50 → A16)",
+        "prover9_expression": "(payment_received(person1, publication_fee) -> payment_processed(person1, publication_fee))",
+        "natural": "If payment of the publication fee is received from person1, then payment of the publication fee is processed for person1."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A51 → A50)",
+        "prover9_expression": "(receipt_issued(person1, publication_fee) -> payment_received(person1, publication_fee))",
+        "natural": "Whenever a receipt for the publication fee is issued to person1, payment of the publication fee has been received from person1."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A52 → A54)",
+        "prover9_expression": "(financial_records_updated(publication1) -> accounting_complete(publication1))",
+        "natural": "If the financial records for publication1 are updated, then accounting for publication1 is complete."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A52 ∨ A53)",
+        "prover9_expression": "(financial_records_updated(publication1) | financial_records_pending(publication1))",
+        "natural": "The financial records for publication1 are updated or the financial records for publication1 are pending."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A53 → (A14 → A51))",
+        "prover9_expression": "(financial_records_pending(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+        "natural": "Provided that the financial records for publication1 are pending, then, whenever person1 agrees to the copyright transfer, a receipt is issued to person1."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A55 → (A14 → A51))",
+        "prover9_expression": "(audit_ready(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+        "natural": "Provided that publication1 is ready for audit, then, if person1 agrees to the copyright transfer, a receipt is issued to person1."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A56 ∨ (A54 → A55))",
+        "prover9_expression": "(financial_discrepancy(publication1) | (accounting_complete(publication1) -> audit_ready(publication1)))",
+        "natural": "There is a financial discrepancy in publication1 or, if accounting is complete, then publication1 is ready for audit."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A57 → ¬A56)",
+        "prover9_expression": "(financial_audit_passed(publication1) -> -financial_discrepancy(publication1))",
+        "natural": "Under the condition that publication1 has passed the financial audit, there is no financial discrepancy in publication1."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(A58 ∨ A59)",
+        "prover9_expression": "(negotiation_successful(person1, person2) | negotiation_successful(person2, person1))",
+        "natural": "Negotiation between person1 and person2 is successful or negotiation between person2 and person1 is successful."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(A59 → A25)",
+        "prover9_expression": "(negotiation_successful(person2, person1) -> settlement_accepted(person2, person1))",
+        "natural": "Provided that negotiation between person2 and person1 is successful, the settlement from person2 to person1 is accepted."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(A6 → ¬A3)",
+        "prover9_expression": "(receives_funding(person2, grant1) -> -manuscript_rejected(publication1))",
+        "natural": "Whenever person2 receives funding from grant1, the manuscript for publication1 is not rejected."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(A60 → (A58 → A24))",
+        "prover9_expression": "(agreement_signed(person1, person2) -> (negotiation_successful(person1, person2) -> settlement_accepted(person1, person2)))",
+        "natural": "Under the condition that an agreement has been signed by person1 and person2, then, if negotiation is successful, the settlement is accepted."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(A62 ∨ (¬A60 → A61))",
+        "prover9_expression": "(legal_mediation_initiated(publication1) | (-agreement_signed(person1, person2) -> agreement_signed(person2, person1)))",
+        "natural": "Legal mediation has been initiated for publication1 or, if an agreement is not signed by person1 and person2, then an agreement is signed by person2 and person1."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(A7 → G)",
+        "prover9_expression": "(manuscript_submitted(publication1) -> publication_successful(publication1))",
+        "natural": "If the manuscript for publication1 has been submitted, then publication1 is successful."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(A9 → (¬A7 → A8))",
+        "prover9_expression": "(editor_assigned(publication1, editor1) -> (-manuscript_submitted(publication1) -> manuscript_published(publication1)))",
+        "natural": "Provided that editor1 is assigned to publication1, then, if the manuscript is not submitted, the manuscript is published."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9_expression": "(-(has_authorization(person1, submit_manuscript) -> publication_successful(publication1)) -> manuscript_rejected(publication1))",
+        "natural": "If it is not the case that if person1 has authorization then publication1 is successful, then the manuscript is rejected."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(¬(A39 → ¬A40) → A42)",
+        "prover9_expression": "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> investigation_concluded(publication1))",
+        "natural": "If it is not the case that if plagiarism is detected then plagiarism is not confirmed, then the investigation is concluded."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬(A39 → ¬A40) → ¬A41)",
+        "prover9_expression": "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> -investigation_opened(publication1))",
+        "natural": "Provided that it is not the case that if plagiarism is detected then plagiarism is not confirmed, it is not the case that an investigation is opened."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬(¬A7 → A38) → A39)",
+        "prover9_expression": "(-(-manuscript_submitted(publication1) -> final_version_submitted(publication1)) -> plagiarism_detected(publication1))",
+        "natural": "Under the condition that it is not the case that if the manuscript is not submitted then the final version is submitted, plagiarism is detected."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬A60 → ¬A61)",
+        "prover9_expression": "(-agreement_signed(person1, person2) -> -agreement_signed(person2, person1))",
+        "natural": "Provided that an agreement is not signed by person1 and person2, then it is not the case that an agreement is signed by person2 and person1."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(¬A7 → A36)",
+        "prover9_expression": "(-manuscript_submitted(publication1) -> manuscript_revised(publication1))",
+        "natural": "Whenever the manuscript for publication1 is not submitted, the manuscript for publication1 is revised."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(¬G → A20)",
+        "prover9_expression": "(-publication_successful(publication1) -> legal_action_threatened(person1))",
+        "natural": "Provided that publication1 is not successful, legal action is threatened by person1."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A30",
+        "prover9_expression": "manuscript_approved(publication1)",
+        "natural": "The manuscript for publication1 is approved."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A57",
+        "prover9_expression": "financial_audit_passed(publication1)",
+        "natural": "Publication1 has passed the financial audit."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A19",
+        "prover9_expression": "-payment_disputed(person2, publication_fee)",
+        "natural": "It is not the case that the payment of the publication fee is disputed by person2."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A33",
+        "prover9_expression": "-ethical_approval(publication1)",
+        "natural": "Publication1 does not have ethical approval."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A37",
+        "prover9_expression": "-manuscript_withdrawn(publication1)",
+        "natural": "The manuscript for publication1 is not withdrawn."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A4",
+        "prover9_expression": "-manuscript_accepted(publication1)",
+        "natural": "The manuscript for publication1 is not accepted."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A49",
+        "prover9_expression": "-invoice_disputed(person1, publication_fee)",
+        "natural": "The invoice for the publication fee is not disputed by person1."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A62",
+        "prover9_expression": "-legal_mediation_initiated(publication1)",
+        "natural": "Legal mediation is not initiated for publication1."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A8",
+        "prover9_expression": "-manuscript_published(publication1)",
+        "natural": "The manuscript for publication1 is not published."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "publication_successful(publication1)",
+    "natural": "Publication1 is successful."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A5 -> A4)",
+            "(A6 -> -A3)",
+            "(A5 | A6)"
+          ],
+          "conclusion": "(A4 | -A3)",
+          "natural": "The manuscript for publication1 is accepted or the manuscript for publication1 is not rejected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | -A3)",
+            "-A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "The manuscript for publication1 is not rejected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If person1 has the authorization to submit the manuscript, then publication1 is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A12 -> A10)",
+            "(A13 -> A11)",
+            "(A12 | A13)"
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "Either reviewer1 is invited to review publication1 or reviewer2 is invited to review publication1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> A9)",
+            "(A11 -> A9)"
+          ],
+          "conclusion": "A9",
+          "natural": "Editor1 has been assigned to publication1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> (-A7 -> A8))",
+            "A9"
+          ],
+          "conclusion": "(-A7 -> A8)",
+          "natural": "Under the condition that the manuscript for publication1 is not submitted, the manuscript for publication1 is published."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "A7",
+          "natural": "The manuscript for publication1 has been submitted."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> G)",
+            "A7"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | -A18)",
+            "-A19"
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that the payment of the publication fee is disputed by person1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A18 | (A17 -> A16))",
+            "-A18"
+          ],
+          "conclusion": "(A17 -> A16)",
+          "natural": "If payment of the publication fee is processed for person2, then payment of the publication fee is processed for person1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A17)",
+            "(A17 -> A16)"
+          ],
+          "conclusion": "(A14 -> A16)",
+          "natural": "Provided that person1 agrees to the copyright transfer, payment of the publication fee is processed for person1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A16)",
+            "(A16 -> G)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "If person1 agrees to the copyright transfer, then publication1 is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> G)",
+            "(A15 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A29)",
+            "(A29 -> A28)"
+          ],
+          "conclusion": "(A26 -> A28)",
+          "natural": "If the conflict regarding publication1 is resolved, then publication1 proceeds."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A28)",
+            "(A28 -> (A24 | A25))"
+          ],
+          "conclusion": "(A26 -> (A24 | A25))",
+          "natural": "Whenever the conflict regarding publication1 is resolved, the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A26 | A27)",
+            "(A26 -> (A24 | A25))",
+            "(A27 -> (A24 | A25))"
+          ],
+          "conclusion": "(A24 | A25)",
+          "natural": "The settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> (A22 -> -A21))",
+            "(A25 -> (A22 -> -A21))"
+          ],
+          "conclusion": "(A22 -> -A21)",
+          "natural": "Under the condition that a settlement is offered by person1 to person2, legal action is not threatened by person2."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A22 | A23)",
+            "(A22 -> -A21)",
+            "(A23 -> -A21)"
+          ],
+          "conclusion": "-A21",
+          "natural": "Legal action is not threatened by person2."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A20 -> A21)",
+            "-A21"
+          ],
+          "conclusion": "-A20",
+          "natural": "Legal action is not threatened by person1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A20)",
+            "-A20"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A34 -> A33)",
+            "(A35 -> (A31 -> (A30 -> -A3)))",
+            "(A34 | A35)"
+          ],
+          "conclusion": "(A33 | (A31 -> (A30 -> -A3)))",
+          "natural": "Publication1 has obtained ethical approval or, if funding is secured, then, under the condition that the manuscript is approved, it is not rejected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A33 | (A31 -> (A30 -> -A3)))",
+            "-A33"
+          ],
+          "conclusion": "(A31 -> (A30 -> -A3))",
+          "natural": "Provided that funding for publication1 is secured, then, if the manuscript is approved, it is not rejected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A31 | A32)",
+            "(A31 -> (A30 -> -A3))",
+            "(A32 -> (A30 -> -A3))"
+          ],
+          "conclusion": "(A30 -> -A3)",
+          "natural": "Under the condition that the manuscript for publication1 is approved, the manuscript for publication1 is not rejected."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A30 -> -A3)",
+            "A30"
+          ],
+          "conclusion": "-A3",
+          "natural": "The manuscript for publication1 is not rejected."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If person1 has the authorization to submit the manuscript, then publication1 is successful."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A37 | (A36 -> A8))",
+            "-A37"
+          ],
+          "conclusion": "(A36 -> A8)",
+          "natural": "If the manuscript for publication1 is revised, then the manuscript for publication1 is published."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A7 -> A36)",
+            "(A36 -> A8)"
+          ],
+          "conclusion": "(-A7 -> A8)",
+          "natural": "Under the condition that the manuscript for publication1 is not submitted, the manuscript for publication1 is published."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "A7",
+          "natural": "The manuscript for publication1 has been submitted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> G)",
+            "A7"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A46 | A47)",
+            "(A46 -> (A45 -> (A43 -> A41)))",
+            "(A47 -> (A45 -> (A43 -> A41)))"
+          ],
+          "conclusion": "(A45 -> (A43 -> A41))",
+          "natural": "Provided that person2 is cleared regarding publication1, then, whenever sanctions are imposed, an investigation has been opened."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A44 | A45)",
+            "(A44 -> (A43 -> A41))",
+            "(A45 -> (A43 -> A41))"
+          ],
+          "conclusion": "(A43 -> A41)",
+          "natural": "Under the condition that sanctions are imposed on publication1, an investigation into publication1 has been opened."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A42 -> A43)",
+            "(A43 -> A41)"
+          ],
+          "conclusion": "(A42 -> A41)",
+          "natural": "Provided that the investigation into publication1 is concluded, an investigation into publication1 has been opened."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A39 -> -A40) -> A42)",
+            "(A42 -> A41)"
+          ],
+          "conclusion": "(-(A39 -> -A40) -> A41)",
+          "natural": "Whenever it is not the case that if plagiarism is detected then plagiarism is not confirmed, an investigation is opened."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A39 -> -A40) -> A41)",
+            "(-(A39 -> -A40) -> -A41)"
+          ],
+          "conclusion": "(A39 -> -A40)",
+          "natural": "If plagiarism is detected in publication1, then plagiarism in publication1 is not confirmed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A39 -> A40)",
+            "(A39 -> -A40)"
+          ],
+          "conclusion": "-A39",
+          "natural": "Plagiarism is not detected in publication1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A7 -> A38) -> A39)",
+            "-A39"
+          ],
+          "conclusion": "(-A7 -> A38)",
+          "natural": "If the manuscript for publication1 is not submitted, then the final version of the manuscript for publication1 is submitted."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A7 -> A38)",
+            "(A38 -> A8)"
+          ],
+          "conclusion": "(-A7 -> A8)",
+          "natural": "Under the condition that the manuscript for publication1 is not submitted, the manuscript for publication1 is published."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "A7",
+          "natural": "The manuscript for publication1 has been submitted."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> G)",
+            "A7"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A49 | (A14 -> A48))",
+            "-A49"
+          ],
+          "conclusion": "(A14 -> A48)",
+          "natural": "Whenever person1 agrees to the copyright transfer, an invoice for the publication fee is sent to person1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A48)",
+            "(A48 -> A16)"
+          ],
+          "conclusion": "(A14 -> A16)",
+          "natural": "Provided that person1 agrees to the copyright transfer, payment of the publication fee is processed for person1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A16)",
+            "(A16 -> G)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "If person1 agrees to the copyright transfer, then publication1 is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> G)",
+            "(A15 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A57 -> -A56)",
+            "A57"
+          ],
+          "conclusion": "-A56",
+          "natural": "There is no financial discrepancy in publication1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A56 | (A54 -> A55))",
+            "-A56"
+          ],
+          "conclusion": "(A54 -> A55)",
+          "natural": "Whenever accounting for publication1 is complete, publication1 is ready for audit."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A54 -> A55)",
+            "(A55 -> (A14 -> A51))"
+          ],
+          "conclusion": "(A54 -> (A14 -> A51))",
+          "natural": "If accounting for publication1 is complete, then, under the condition that person1 agrees to the copyright transfer, a receipt is issued to person1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A52 -> A54)",
+            "(A54 -> (A14 -> A51))"
+          ],
+          "conclusion": "(A52 -> (A14 -> A51))",
+          "natural": "Under the condition that the financial records for publication1 are updated, then, if person1 agrees to the copyright transfer, a receipt is issued to person1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A52 | A53)",
+            "(A52 -> (A14 -> A51))",
+            "(A53 -> (A14 -> A51))"
+          ],
+          "conclusion": "(A14 -> A51)",
+          "natural": "Provided that person1 agrees to the copyright transfer, a receipt for the publication fee is issued to person1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A51)",
+            "(A51 -> A50)"
+          ],
+          "conclusion": "(A14 -> A50)",
+          "natural": "Under the condition that person1 agrees to the copyright transfer, payment of the publication fee is received from person1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A50)",
+            "(A50 -> A16)"
+          ],
+          "conclusion": "(A14 -> A16)",
+          "natural": "Provided that person1 agrees to the copyright transfer, payment of the publication fee is processed for person1."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A16)",
+            "(A16 -> G)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "If person1 agrees to the copyright transfer, then publication1 is successful."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> G)",
+            "(A15 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A62 | (-A60 -> A61))",
+            "-A62"
+          ],
+          "conclusion": "(-A60 -> A61)",
+          "natural": "If an agreement is not signed by person1 and person2, then an agreement is signed by person2 and person1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A60 -> A61)",
+            "(-A60 -> -A61)"
+          ],
+          "conclusion": "A60",
+          "natural": "An agreement has been signed by person1 and person2."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A60 -> (A58 -> A24))",
+            "A60"
+          ],
+          "conclusion": "(A58 -> A24)",
+          "natural": "If negotiation between person1 and person2 is successful, then the settlement from person1 to person2 is accepted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A58 -> A24)",
+            "(A59 -> A25)",
+            "(A58 | A59)"
+          ],
+          "conclusion": "(A24 | A25)",
+          "natural": "The settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> (A22 -> -A21))",
+            "(A25 -> (A22 -> -A21))"
+          ],
+          "conclusion": "(A22 -> -A21)",
+          "natural": "Under the condition that a settlement is offered by person1 to person2, legal action is not threatened by person2."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A22 | A23)",
+            "(A22 -> -A21)",
+            "(A23 -> -A21)"
+          ],
+          "conclusion": "-A21",
+          "natural": "Legal action is not threatened by person2."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A20 -> A21)",
+            "-A21"
+          ],
+          "conclusion": "-A20",
+          "natural": "Legal action is not threatened by person1."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A20)",
+            "-A20"
+          ],
+          "conclusion": "G",
+          "natural": "Publication1 is successful."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Academic Publishing",
+    "atomic_facts": {
+      "A1": "has_authorization(person1, submit_manuscript)",
+      "A2": "has_authorization(person2, submit_manuscript)",
+      "A3": "manuscript_rejected(publication1)",
+      "A4": "manuscript_accepted(publication1)",
+      "A5": "receives_funding(person1, grant1)",
+      "A6": "receives_funding(person2, grant1)",
+      "A7": "manuscript_submitted(publication1)",
+      "A8": "manuscript_published(publication1)",
+      "A9": "editor_assigned(publication1, editor1)",
+      "A10": "reviewer_invited(reviewer1, publication1)",
+      "A11": "reviewer_invited(reviewer2, publication1)",
+      "A12": "reviewer_accepts(reviewer1, publication1)",
+      "A13": "reviewer_accepts(reviewer2, publication1)",
+      "A14": "author_agrees(person1, copyright_transfer)",
+      "A15": "author_agrees(person2, copyright_transfer)",
+      "A16": "payment_processed(person1, publication_fee)",
+      "A17": "payment_processed(person2, publication_fee)",
+      "A18": "payment_disputed(person1, publication_fee)",
+      "A19": "payment_disputed(person2, publication_fee)",
+      "A20": "legal_action_threatened(person1)",
+      "A21": "legal_action_threatened(person2)",
+      "A22": "settlement_offered(person1, person2)",
+      "A23": "settlement_offered(person2, person1)",
+      "A24": "settlement_accepted(person1, person2)",
+      "A25": "settlement_accepted(person2, person1)",
+      "A26": "conflict_resolved(publication1)",
+      "A27": "conflict_escalated(publication1)",
+      "A28": "publication_proceeds(publication1)",
+      "A29": "publication_delayed(publication1)",
+      "A30": "manuscript_approved(publication1)",
+      "A31": "funding_secured(publication1)",
+      "A32": "funding_lost(publication1)",
+      "A33": "ethical_approval(publication1)",
+      "A34": "ethics_committee_approves(publication1)",
+      "A35": "ethics_committee_rejects(publication1)",
+      "A36": "manuscript_revised(publication1)",
+      "A37": "manuscript_withdrawn(publication1)",
+      "A38": "final_version_submitted(publication1)",
+      "A39": "plagiarism_detected(publication1)",
+      "A40": "plagiarism_confirmed(publication1)",
+      "A41": "investigation_opened(publication1)",
+      "A42": "investigation_concluded(publication1)",
+      "A43": "sanctions_imposed(publication1)",
+      "A44": "author_cleared(person1, publication1)",
+      "A45": "author_cleared(person2, publication1)",
+      "A46": "reputation_restored(person1)",
+      "A47": "reputation_restored(person2)",
+      "A48": "invoice_sent(person1, publication_fee)",
+      "A49": "invoice_disputed(person1, publication_fee)",
+      "A50": "payment_received(person1, publication_fee)",
+      "A51": "receipt_issued(person1, publication_fee)",
+      "A52": "financial_records_updated(publication1)",
+      "A53": "financial_records_pending(publication1)",
+      "A54": "accounting_complete(publication1)",
+      "A55": "audit_ready(publication1)",
+      "A56": "financial_discrepancy(publication1)",
+      "A57": "financial_audit_passed(publication1)",
+      "A58": "negotiation_successful(person1, person2)",
+      "A59": "negotiation_successful(person2, person1)",
+      "A60": "agreement_signed(person1, person2)",
+      "A61": "agreement_signed(person2, person1)",
+      "A62": "legal_mediation_initiated(publication1)",
+      "G": "publication_successful(publication1)"
+    },
+    "natural_facts": {
+      "A1": "Person1 has the authorization to submit the manuscript.",
+      "A2": "Person2 has the authorization to submit the manuscript.",
+      "A3": "The manuscript for publication1 has been rejected.",
+      "A4": "The manuscript for publication1 has been accepted.",
+      "A5": "Person1 receives funding from grant1.",
+      "A6": "Person2 receives funding from grant1.",
+      "A7": "The manuscript for publication1 has been submitted.",
+      "A8": "The manuscript for publication1 has been published.",
+      "A9": "Editor1 has been assigned to publication1.",
+      "A10": "Reviewer1 has been invited to review publication1.",
+      "A11": "Reviewer2 has been invited to review publication1.",
+      "A12": "Reviewer1 accepts to review publication1.",
+      "A13": "Reviewer2 accepts to review publication1.",
+      "A14": "Person1 agrees to the copyright transfer.",
+      "A15": "Person2 agrees to the copyright transfer.",
+      "A16": "Payment of the publication fee has been processed for person1.",
+      "A17": "Payment of the publication fee has been processed for person2.",
+      "A18": "The payment of the publication fee is disputed by person1.",
+      "A19": "The payment of the publication fee is disputed by person2.",
+      "A20": "Legal action has been threatened by person1.",
+      "A21": "Legal action has been threatened by person2.",
+      "A22": "A settlement has been offered by person1 to person2.",
+      "A23": "A settlement has been offered by person2 to person1.",
+      "A24": "The settlement from person1 to person2 has been accepted.",
+      "A25": "The settlement from person2 to person1 has been accepted.",
+      "A26": "The conflict regarding publication1 has been resolved.",
+      "A27": "The conflict regarding publication1 has escalated.",
+      "A28": "Publication1 proceeds.",
+      "A29": "Publication1 is delayed.",
+      "A30": "The manuscript for publication1 has been approved.",
+      "A31": "Funding for publication1 has been secured.",
+      "A32": "Funding for publication1 has been lost.",
+      "A33": "Publication1 has obtained ethical approval.",
+      "A34": "The ethics committee approves publication1.",
+      "A35": "The ethics committee rejects publication1.",
+      "A36": "The manuscript for publication1 has been revised.",
+      "A37": "The manuscript for publication1 has been withdrawn.",
+      "A38": "The final version of the manuscript for publication1 has been submitted.",
+      "A39": "Plagiarism has been detected in publication1.",
+      "A40": "Plagiarism in publication1 has been confirmed.",
+      "A41": "An investigation into publication1 has been opened.",
+      "A42": "The investigation into publication1 has been concluded.",
+      "A43": "Sanctions have been imposed on publication1.",
+      "A44": "Person1 has been cleared regarding publication1.",
+      "A45": "Person2 has been cleared regarding publication1.",
+      "A46": "The reputation of person1 has been restored.",
+      "A47": "The reputation of person2 has been restored.",
+      "A48": "An invoice for the publication fee has been sent to person1.",
+      "A49": "The invoice for the publication fee is disputed by person1.",
+      "A50": "Payment of the publication fee has been received from person1.",
+      "A51": "A receipt for the publication fee has been issued to person1.",
+      "A52": "The financial records for publication1 have been updated.",
+      "A53": "The financial records for publication1 are pending.",
+      "A54": "Accounting for publication1 is complete.",
+      "A55": "Publication1 is ready for audit.",
+      "A56": "There is a financial discrepancy in publication1.",
+      "A57": "Publication1 has passed the financial audit.",
+      "A58": "Negotiation between person1 and person2 is successful.",
+      "A59": "Negotiation between person2 and person1 is successful.",
+      "A60": "An agreement has been signed by person1 and person2.",
+      "A61": "An agreement has been signed by person2 and person1.",
+      "A62": "Legal mediation has been initiated for publication1."
+    },
+    "prover9_expressions": [
+      "(has_authorization(person1, submit_manuscript) -> publication_successful(publication1))",
+      "(has_authorization(person1, submit_manuscript) | has_authorization(person2, submit_manuscript))",
+      "(reviewer_invited(reviewer1, publication1) -> editor_assigned(publication1, editor1))",
+      "(reviewer_invited(reviewer1, publication1) | reviewer_invited(reviewer2, publication1))",
+      "(reviewer_invited(reviewer2, publication1) -> editor_assigned(publication1, editor1))",
+      "(reviewer_accepts(reviewer1, publication1) -> reviewer_invited(reviewer1, publication1))",
+      "(reviewer_accepts(reviewer1, publication1) | reviewer_accepts(reviewer2, publication1))",
+      "(reviewer_accepts(reviewer2, publication1) -> reviewer_invited(reviewer2, publication1))",
+      "(author_agrees(person1, copyright_transfer) -> payment_processed(person1, publication_fee))",
+      "(author_agrees(person1, copyright_transfer) -> payment_processed(person2, publication_fee))",
+      "(author_agrees(person1, copyright_transfer) -> invoice_sent(person1, publication_fee))",
+      "(author_agrees(person1, copyright_transfer) -> payment_received(person1, publication_fee))",
+      "(author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee))",
+      "(author_agrees(person1, copyright_transfer) -> publication_successful(publication1))",
+      "(author_agrees(person1, copyright_transfer) | author_agrees(person2, copyright_transfer))",
+      "(author_agrees(person2, copyright_transfer) -> publication_successful(publication1))",
+      "(payment_processed(person1, publication_fee) -> publication_successful(publication1))",
+      "(payment_processed(person2, publication_fee) -> payment_processed(person1, publication_fee))",
+      "(payment_disputed(person1, publication_fee) | (payment_processed(person2, publication_fee) -> payment_processed(person1, publication_fee)))",
+      "(payment_disputed(person2, publication_fee) | -payment_disputed(person1, publication_fee))",
+      "(has_authorization(person2, submit_manuscript) -> publication_successful(publication1))",
+      "(legal_action_threatened(person1) -> legal_action_threatened(person2))",
+      "(settlement_offered(person1, person2) -> -legal_action_threatened(person2))",
+      "(settlement_offered(person1, person2) | settlement_offered(person2, person1))",
+      "(settlement_offered(person2, person1) -> -legal_action_threatened(person2))",
+      "(settlement_accepted(person1, person2) -> (settlement_offered(person1, person2) -> -legal_action_threatened(person2)))",
+      "(settlement_accepted(person1, person2) | settlement_accepted(person2, person1))",
+      "(settlement_accepted(person2, person1) -> (settlement_offered(person1, person2) -> -legal_action_threatened(person2)))",
+      "(conflict_resolved(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+      "(conflict_resolved(publication1) -> publication_proceeds(publication1))",
+      "(conflict_resolved(publication1) -> publication_delayed(publication1))",
+      "(conflict_resolved(publication1) | conflict_escalated(publication1))",
+      "(conflict_escalated(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+      "(publication_proceeds(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+      "(publication_delayed(publication1) -> publication_proceeds(publication1))",
+      "(manuscript_approved(publication1) -> -manuscript_rejected(publication1))",
+      "(funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1)))",
+      "(funding_secured(publication1) | funding_lost(publication1))",
+      "(funding_lost(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1)))",
+      "(ethical_approval(publication1) | (funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1))))",
+      "(ethics_committee_approves(publication1) -> ethical_approval(publication1))",
+      "(ethics_committee_approves(publication1) | ethics_committee_rejects(publication1))",
+      "(ethics_committee_rejects(publication1) -> (funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1))))",
+      "(manuscript_revised(publication1) -> manuscript_published(publication1))",
+      "(manuscript_withdrawn(publication1) | (manuscript_revised(publication1) -> manuscript_published(publication1)))",
+      "(final_version_submitted(publication1) -> manuscript_published(publication1))",
+      "(plagiarism_detected(publication1) -> plagiarism_confirmed(publication1))",
+      "(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1))",
+      "(manuscript_accepted(publication1) | -manuscript_rejected(publication1))",
+      "(investigation_concluded(publication1) -> investigation_opened(publication1))",
+      "(investigation_concluded(publication1) -> sanctions_imposed(publication1))",
+      "(sanctions_imposed(publication1) -> investigation_opened(publication1))",
+      "(author_cleared(person1, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1)))",
+      "(author_cleared(person1, publication1) | author_cleared(person2, publication1))",
+      "(author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1)))",
+      "(reputation_restored(person1) -> (author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1))))",
+      "(reputation_restored(person1) | reputation_restored(person2))",
+      "(reputation_restored(person2) -> (author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1))))",
+      "(invoice_sent(person1, publication_fee) -> payment_processed(person1, publication_fee))",
+      "(invoice_disputed(person1, publication_fee) | (author_agrees(person1, copyright_transfer) -> invoice_sent(person1, publication_fee)))",
+      "(receives_funding(person1, grant1) -> manuscript_accepted(publication1))",
+      "(receives_funding(person1, grant1) | receives_funding(person2, grant1))",
+      "(payment_received(person1, publication_fee) -> payment_processed(person1, publication_fee))",
+      "(receipt_issued(person1, publication_fee) -> payment_received(person1, publication_fee))",
+      "(financial_records_updated(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+      "(financial_records_updated(publication1) -> accounting_complete(publication1))",
+      "(financial_records_updated(publication1) | financial_records_pending(publication1))",
+      "(financial_records_pending(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+      "(accounting_complete(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+      "(accounting_complete(publication1) -> audit_ready(publication1))",
+      "(audit_ready(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+      "(financial_discrepancy(publication1) | (accounting_complete(publication1) -> audit_ready(publication1)))",
+      "(financial_audit_passed(publication1) -> -financial_discrepancy(publication1))",
+      "(negotiation_successful(person1, person2) -> settlement_accepted(person1, person2))",
+      "(negotiation_successful(person1, person2) | negotiation_successful(person2, person1))",
+      "(negotiation_successful(person2, person1) -> settlement_accepted(person2, person1))",
+      "(receives_funding(person2, grant1) -> -manuscript_rejected(publication1))",
+      "(agreement_signed(person1, person2) -> (negotiation_successful(person1, person2) -> settlement_accepted(person1, person2)))",
+      "(legal_mediation_initiated(publication1) | (-agreement_signed(person1, person2) -> agreement_signed(person2, person1)))",
+      "(manuscript_submitted(publication1) -> publication_successful(publication1))",
+      "(editor_assigned(publication1, editor1) -> (-manuscript_submitted(publication1) -> manuscript_published(publication1)))",
+      "(-(has_authorization(person1, submit_manuscript) -> publication_successful(publication1)) -> manuscript_rejected(publication1))",
+      "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> investigation_opened(publication1))",
+      "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> investigation_concluded(publication1))",
+      "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> -investigation_opened(publication1))",
+      "(-(-manuscript_submitted(publication1) -> final_version_submitted(publication1)) -> plagiarism_detected(publication1))",
+      "(-agreement_signed(person1, person2) -> agreement_signed(person2, person1))",
+      "(-agreement_signed(person1, person2) -> -agreement_signed(person2, person1))",
+      "(-manuscript_submitted(publication1) -> manuscript_revised(publication1))",
+      "(-manuscript_submitted(publication1) -> final_version_submitted(publication1))",
+      "(-manuscript_submitted(publication1) -> manuscript_published(publication1))",
+      "(-publication_successful(publication1) -> legal_action_threatened(person1))",
+      "manuscript_approved(publication1)",
+      "financial_audit_passed(publication1)",
+      "agreement_signed(person1, person2)",
+      "manuscript_submitted(publication1)",
+      "editor_assigned(publication1, editor1)",
+      "publication_successful(publication1)",
+      "-payment_disputed(person1, publication_fee)",
+      "-payment_disputed(person2, publication_fee)",
+      "-legal_action_threatened(person1)",
+      "-legal_action_threatened(person2)",
+      "-manuscript_rejected(publication1)",
+      "-ethical_approval(publication1)",
+      "-manuscript_withdrawn(publication1)",
+      "-plagiarism_detected(publication1)",
+      "-manuscript_accepted(publication1)",
+      "-invoice_disputed(person1, publication_fee)",
+      "-financial_discrepancy(publication1)",
+      "-legal_mediation_initiated(publication1)",
+      "-manuscript_published(publication1)"
+    ],
+    "natural_expressions": [
+      "If person1 has the authorization to submit the manuscript, then publication1 is successful.",
+      "Person1 has the authorization to submit the manuscript or person2 has the authorization to submit the manuscript.",
+      "Provided that reviewer1 is invited to review publication1, editor1 is assigned to publication1.",
+      "Either reviewer1 is invited to review publication1 or reviewer2 is invited to review publication1.",
+      "Whenever reviewer2 is invited to review publication1, editor1 is assigned to publication1.",
+      "If reviewer1 accepts to review publication1, then reviewer1 has been invited to review publication1.",
+      "Reviewer1 accepts to review publication1 or reviewer2 accepts to review publication1.",
+      "Under the condition that reviewer2 accepts to review publication1, reviewer2 has been invited to review publication1.",
+      "Provided that person1 agrees to the copyright transfer, payment of the publication fee is processed for person1.",
+      "If person1 agrees to the copyright transfer, then payment of the publication fee is processed for person2.",
+      "Whenever person1 agrees to the copyright transfer, an invoice for the publication fee is sent to person1.",
+      "Under the condition that person1 agrees to the copyright transfer, payment of the publication fee is received from person1.",
+      "Provided that person1 agrees to the copyright transfer, a receipt for the publication fee is issued to person1.",
+      "If person1 agrees to the copyright transfer, then publication1 is successful.",
+      "Person1 agrees to the copyright transfer or person2 agrees to the copyright transfer.",
+      "Under the condition that person2 agrees to the copyright transfer, publication1 is successful.",
+      "Whenever payment of the publication fee is processed for person1, publication1 is successful.",
+      "If payment of the publication fee is processed for person2, then payment of the publication fee is processed for person1.",
+      "The payment of the publication fee is disputed by person1 or, if payment is processed for person2, then it is processed for person1.",
+      "Payment of the publication fee is disputed by person2 or it is not the case that payment is disputed by person1.",
+      "Provided that person2 has the authorization to submit the manuscript, publication1 is successful.",
+      "If legal action is threatened by person1, then legal action is threatened by person2.",
+      "Under the condition that a settlement is offered by person1 to person2, legal action is not threatened by person2.",
+      "A settlement is offered by person1 to person2 or a settlement is offered by person2 to person1.",
+      "Whenever a settlement is offered by person2 to person1, legal action is not threatened by person2.",
+      "If the settlement from person1 to person2 is accepted, then, provided that a settlement is offered by person1 to person2, legal action is not threatened by person2.",
+      "The settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted.",
+      "Provided that the settlement from person2 to person1 is accepted, then, if a settlement is offered by person1 to person2, legal action is not threatened by person2.",
+      "Whenever the conflict regarding publication1 is resolved, the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted.",
+      "If the conflict regarding publication1 is resolved, then publication1 proceeds.",
+      "Under the condition that the conflict regarding publication1 is resolved, publication1 is delayed.",
+      "The conflict regarding publication1 is resolved or the conflict regarding publication1 has escalated.",
+      "Provided that the conflict regarding publication1 has escalated, the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted.",
+      "If publication1 proceeds, then the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted.",
+      "Whenever publication1 is delayed, publication1 proceeds.",
+      "Under the condition that the manuscript for publication1 is approved, the manuscript for publication1 is not rejected.",
+      "Provided that funding for publication1 is secured, then, if the manuscript is approved, it is not rejected.",
+      "Funding for publication1 is secured or funding for publication1 is lost.",
+      "If funding for publication1 is lost, then, whenever the manuscript is approved, it is not rejected.",
+      "Publication1 has obtained ethical approval or, if funding is secured, then, under the condition that the manuscript is approved, it is not rejected.",
+      "Whenever the ethics committee approves publication1, publication1 has obtained ethical approval.",
+      "The ethics committee approves publication1 or the ethics committee rejects publication1.",
+      "Provided that the ethics committee rejects publication1, then, if funding is secured, whenever the manuscript is approved, it is not rejected.",
+      "If the manuscript for publication1 is revised, then the manuscript for publication1 is published.",
+      "The manuscript for publication1 is withdrawn or, if the manuscript is revised, then it is published.",
+      "Under the condition that the final version of the manuscript for publication1 is submitted, the manuscript for publication1 is published.",
+      "Whenever plagiarism is detected in publication1, plagiarism in publication1 is confirmed.",
+      "If plagiarism is detected in publication1, then plagiarism in publication1 is not confirmed.",
+      "The manuscript for publication1 is accepted or the manuscript for publication1 is not rejected.",
+      "Provided that the investigation into publication1 is concluded, an investigation into publication1 has been opened.",
+      "If the investigation into publication1 is concluded, then sanctions are imposed on publication1.",
+      "Under the condition that sanctions are imposed on publication1, an investigation into publication1 has been opened.",
+      "Whenever person1 is cleared regarding publication1, then, if sanctions are imposed, an investigation has been opened.",
+      "Person1 is cleared regarding publication1 or person2 is cleared regarding publication1.",
+      "Provided that person2 is cleared regarding publication1, then, whenever sanctions are imposed, an investigation has been opened.",
+      "If the reputation of person1 is restored, then, under the condition that person2 is cleared, if sanctions are imposed, an investigation has been opened.",
+      "The reputation of person1 is restored or the reputation of person2 is restored.",
+      "Whenever the reputation of person2 is restored, then, provided that person2 is cleared, if sanctions are imposed, an investigation has been opened.",
+      "Under the condition that an invoice for the publication fee is sent to person1, payment of the publication fee is processed for person1.",
+      "The invoice for the publication fee is disputed by person1 or, if person1 agrees to the copyright transfer, an invoice is sent to person1.",
+      "Provided that person1 receives funding from grant1, the manuscript for publication1 is accepted.",
+      "Person1 receives funding from grant1 or person2 receives funding from grant1.",
+      "If payment of the publication fee is received from person1, then payment of the publication fee is processed for person1.",
+      "Whenever a receipt for the publication fee is issued to person1, payment of the publication fee has been received from person1.",
+      "Under the condition that the financial records for publication1 are updated, then, if person1 agrees to the copyright transfer, a receipt is issued to person1.",
+      "If the financial records for publication1 are updated, then accounting for publication1 is complete.",
+      "The financial records for publication1 are updated or the financial records for publication1 are pending.",
+      "Provided that the financial records for publication1 are pending, then, whenever person1 agrees to the copyright transfer, a receipt is issued to person1.",
+      "If accounting for publication1 is complete, then, under the condition that person1 agrees to the copyright transfer, a receipt is issued to person1.",
+      "Whenever accounting for publication1 is complete, publication1 is ready for audit.",
+      "Provided that publication1 is ready for audit, then, if person1 agrees to the copyright transfer, a receipt is issued to person1.",
+      "There is a financial discrepancy in publication1 or, if accounting is complete, then publication1 is ready for audit.",
+      "Under the condition that publication1 has passed the financial audit, there is no financial discrepancy in publication1.",
+      "If negotiation between person1 and person2 is successful, then the settlement from person1 to person2 is accepted.",
+      "Negotiation between person1 and person2 is successful or negotiation between person2 and person1 is successful.",
+      "Provided that negotiation between person2 and person1 is successful, the settlement from person2 to person1 is accepted.",
+      "Whenever person2 receives funding from grant1, the manuscript for publication1 is not rejected.",
+      "Under the condition that an agreement has been signed by person1 and person2, then, if negotiation is successful, the settlement is accepted.",
+      "Legal mediation has been initiated for publication1 or, if an agreement is not signed by person1 and person2, then an agreement is signed by person2 and person1.",
+      "If the manuscript for publication1 has been submitted, then publication1 is successful.",
+      "Provided that editor1 is assigned to publication1, then, if the manuscript is not submitted, the manuscript is published.",
+      "If it is not the case that if person1 has authorization then publication1 is successful, then the manuscript is rejected.",
+      "Whenever it is not the case that if plagiarism is detected then plagiarism is not confirmed, an investigation is opened.",
+      "If it is not the case that if plagiarism is detected then plagiarism is not confirmed, then the investigation is concluded.",
+      "Provided that it is not the case that if plagiarism is detected then plagiarism is not confirmed, it is not the case that an investigation is opened.",
+      "Under the condition that it is not the case that if the manuscript is not submitted then the final version is submitted, plagiarism is detected.",
+      "If an agreement is not signed by person1 and person2, then an agreement is signed by person2 and person1.",
+      "Provided that an agreement is not signed by person1 and person2, then it is not the case that an agreement is signed by person2 and person1.",
+      "Whenever the manuscript for publication1 is not submitted, the manuscript for publication1 is revised.",
+      "If the manuscript for publication1 is not submitted, then the final version of the manuscript for publication1 is submitted.",
+      "Under the condition that the manuscript for publication1 is not submitted, the manuscript for publication1 is published.",
+      "Provided that publication1 is not successful, legal action is threatened by person1.",
+      "The manuscript for publication1 is approved.",
+      "Publication1 has passed the financial audit.",
+      "An agreement has been signed by person1 and person2.",
+      "The manuscript for publication1 has been submitted.",
+      "Editor1 has been assigned to publication1.",
+      "Publication1 is successful.",
+      "It is not the case that the payment of the publication fee is disputed by person1.",
+      "It is not the case that the payment of the publication fee is disputed by person2.",
+      "Legal action is not threatened by person1.",
+      "Legal action is not threatened by person2.",
+      "The manuscript for publication1 is not rejected.",
+      "Publication1 does not have ethical approval.",
+      "The manuscript for publication1 is not withdrawn.",
+      "Plagiarism is not detected in publication1.",
+      "The manuscript for publication1 is not accepted.",
+      "The invoice for the publication fee is not disputed by person1.",
+      "There is no financial discrepancy in publication1.",
+      "Legal mediation is not initiated for publication1.",
+      "The manuscript for publication1 is not published."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_authorization(person1, submit_manuscript) -> publication_successful(publication1))",
+        "natural": "If person1 has the authorization to submit the manuscript, then publication1 is successful."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(has_authorization(person1, submit_manuscript) | has_authorization(person2, submit_manuscript))",
+        "natural": "Person1 has the authorization to submit the manuscript or person2 has the authorization to submit the manuscript."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(reviewer_invited(reviewer1, publication1) -> editor_assigned(publication1, editor1))",
+        "natural": "Provided that reviewer1 is invited to review publication1, editor1 is assigned to publication1."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(reviewer_invited(reviewer1, publication1) | reviewer_invited(reviewer2, publication1))",
+        "natural": "Either reviewer1 is invited to review publication1 or reviewer2 is invited to review publication1."
+      },
+      "(A11 → A9)": {
+        "formal": "(A11 → A9)",
+        "prover9": "(A11 -> A9)",
+        "prover9_expression": "(reviewer_invited(reviewer2, publication1) -> editor_assigned(publication1, editor1))",
+        "natural": "Whenever reviewer2 is invited to review publication1, editor1 is assigned to publication1."
+      },
+      "(A12 → A10)": {
+        "formal": "(A12 → A10)",
+        "prover9": "(A12 -> A10)",
+        "prover9_expression": "(reviewer_accepts(reviewer1, publication1) -> reviewer_invited(reviewer1, publication1))",
+        "natural": "If reviewer1 accepts to review publication1, then reviewer1 has been invited to review publication1."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(reviewer_accepts(reviewer1, publication1) | reviewer_accepts(reviewer2, publication1))",
+        "natural": "Reviewer1 accepts to review publication1 or reviewer2 accepts to review publication1."
+      },
+      "(A13 → A11)": {
+        "formal": "(A13 → A11)",
+        "prover9": "(A13 -> A11)",
+        "prover9_expression": "(reviewer_accepts(reviewer2, publication1) -> reviewer_invited(reviewer2, publication1))",
+        "natural": "Under the condition that reviewer2 accepts to review publication1, reviewer2 has been invited to review publication1."
+      },
+      "(A14 → A16)": {
+        "formal": "(A14 → A16)",
+        "prover9": "(A14 -> A16)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> payment_processed(person1, publication_fee))",
+        "natural": "Provided that person1 agrees to the copyright transfer, payment of the publication fee is processed for person1."
+      },
+      "(A14 → A17)": {
+        "formal": "(A14 → A17)",
+        "prover9": "(A14 -> A17)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> payment_processed(person2, publication_fee))",
+        "natural": "If person1 agrees to the copyright transfer, then payment of the publication fee is processed for person2."
+      },
+      "(A14 → A48)": {
+        "formal": "(A14 → A48)",
+        "prover9": "(A14 -> A48)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> invoice_sent(person1, publication_fee))",
+        "natural": "Whenever person1 agrees to the copyright transfer, an invoice for the publication fee is sent to person1."
+      },
+      "(A14 → A50)": {
+        "formal": "(A14 → A50)",
+        "prover9": "(A14 -> A50)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> payment_received(person1, publication_fee))",
+        "natural": "Under the condition that person1 agrees to the copyright transfer, payment of the publication fee is received from person1."
+      },
+      "(A14 → A51)": {
+        "formal": "(A14 → A51)",
+        "prover9": "(A14 -> A51)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee))",
+        "natural": "Provided that person1 agrees to the copyright transfer, a receipt for the publication fee is issued to person1."
+      },
+      "(A14 → G)": {
+        "formal": "(A14 → G)",
+        "prover9": "(A14 -> G)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) -> publication_successful(publication1))",
+        "natural": "If person1 agrees to the copyright transfer, then publication1 is successful."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(author_agrees(person1, copyright_transfer) | author_agrees(person2, copyright_transfer))",
+        "natural": "Person1 agrees to the copyright transfer or person2 agrees to the copyright transfer."
+      },
+      "(A15 → G)": {
+        "formal": "(A15 → G)",
+        "prover9": "(A15 -> G)",
+        "prover9_expression": "(author_agrees(person2, copyright_transfer) -> publication_successful(publication1))",
+        "natural": "Under the condition that person2 agrees to the copyright transfer, publication1 is successful."
+      },
+      "(A16 → G)": {
+        "formal": "(A16 → G)",
+        "prover9": "(A16 -> G)",
+        "prover9_expression": "(payment_processed(person1, publication_fee) -> publication_successful(publication1))",
+        "natural": "Whenever payment of the publication fee is processed for person1, publication1 is successful."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(payment_processed(person2, publication_fee) -> payment_processed(person1, publication_fee))",
+        "natural": "If payment of the publication fee is processed for person2, then payment of the publication fee is processed for person1."
+      },
+      "(A18 ∨ (A17 → A16))": {
+        "formal": "(A18 ∨ (A17 → A16))",
+        "prover9": "(A18 | (A17 -> A16))",
+        "prover9_expression": "(payment_disputed(person1, publication_fee) | (payment_processed(person2, publication_fee) -> payment_processed(person1, publication_fee)))",
+        "natural": "The payment of the publication fee is disputed by person1 or, if payment is processed for person2, then it is processed for person1."
+      },
+      "(A19 ∨ ¬A18)": {
+        "formal": "(A19 ∨ ¬A18)",
+        "prover9": "(A19 | -A18)",
+        "prover9_expression": "(payment_disputed(person2, publication_fee) | -payment_disputed(person1, publication_fee))",
+        "natural": "Payment of the publication fee is disputed by person2 or it is not the case that payment is disputed by person1."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(has_authorization(person2, submit_manuscript) -> publication_successful(publication1))",
+        "natural": "Provided that person2 has the authorization to submit the manuscript, publication1 is successful."
+      },
+      "(A20 → A21)": {
+        "formal": "(A20 → A21)",
+        "prover9": "(A20 -> A21)",
+        "prover9_expression": "(legal_action_threatened(person1) -> legal_action_threatened(person2))",
+        "natural": "If legal action is threatened by person1, then legal action is threatened by person2."
+      },
+      "(A22 → ¬A21)": {
+        "formal": "(A22 → ¬A21)",
+        "prover9": "(A22 -> -A21)",
+        "prover9_expression": "(settlement_offered(person1, person2) -> -legal_action_threatened(person2))",
+        "natural": "Under the condition that a settlement is offered by person1 to person2, legal action is not threatened by person2."
+      },
+      "(A22 ∨ A23)": {
+        "formal": "(A22 ∨ A23)",
+        "prover9": "(A22 | A23)",
+        "prover9_expression": "(settlement_offered(person1, person2) | settlement_offered(person2, person1))",
+        "natural": "A settlement is offered by person1 to person2 or a settlement is offered by person2 to person1."
+      },
+      "(A23 → ¬A21)": {
+        "formal": "(A23 → ¬A21)",
+        "prover9": "(A23 -> -A21)",
+        "prover9_expression": "(settlement_offered(person2, person1) -> -legal_action_threatened(person2))",
+        "natural": "Whenever a settlement is offered by person2 to person1, legal action is not threatened by person2."
+      },
+      "(A24 → (A22 → ¬A21))": {
+        "formal": "(A24 → (A22 → ¬A21))",
+        "prover9": "(A24 -> (A22 -> -A21))",
+        "prover9_expression": "(settlement_accepted(person1, person2) -> (settlement_offered(person1, person2) -> -legal_action_threatened(person2)))",
+        "natural": "If the settlement from person1 to person2 is accepted, then, provided that a settlement is offered by person1 to person2, legal action is not threatened by person2."
+      },
+      "(A24 ∨ A25)": {
+        "formal": "(A24 ∨ A25)",
+        "prover9": "(A24 | A25)",
+        "prover9_expression": "(settlement_accepted(person1, person2) | settlement_accepted(person2, person1))",
+        "natural": "The settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+      },
+      "(A25 → (A22 → ¬A21))": {
+        "formal": "(A25 → (A22 → ¬A21))",
+        "prover9": "(A25 -> (A22 -> -A21))",
+        "prover9_expression": "(settlement_accepted(person2, person1) -> (settlement_offered(person1, person2) -> -legal_action_threatened(person2)))",
+        "natural": "Provided that the settlement from person2 to person1 is accepted, then, if a settlement is offered by person1 to person2, legal action is not threatened by person2."
+      },
+      "(A26 → (A24 ∨ A25))": {
+        "formal": "(A26 → (A24 ∨ A25))",
+        "prover9": "(A26 -> (A24 | A25))",
+        "prover9_expression": "(conflict_resolved(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+        "natural": "Whenever the conflict regarding publication1 is resolved, the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+      },
+      "(A26 → A28)": {
+        "formal": "(A26 → A28)",
+        "prover9": "(A26 -> A28)",
+        "prover9_expression": "(conflict_resolved(publication1) -> publication_proceeds(publication1))",
+        "natural": "If the conflict regarding publication1 is resolved, then publication1 proceeds."
+      },
+      "(A26 → A29)": {
+        "formal": "(A26 → A29)",
+        "prover9": "(A26 -> A29)",
+        "prover9_expression": "(conflict_resolved(publication1) -> publication_delayed(publication1))",
+        "natural": "Under the condition that the conflict regarding publication1 is resolved, publication1 is delayed."
+      },
+      "(A26 ∨ A27)": {
+        "formal": "(A26 ∨ A27)",
+        "prover9": "(A26 | A27)",
+        "prover9_expression": "(conflict_resolved(publication1) | conflict_escalated(publication1))",
+        "natural": "The conflict regarding publication1 is resolved or the conflict regarding publication1 has escalated."
+      },
+      "(A27 → (A24 ∨ A25))": {
+        "formal": "(A27 → (A24 ∨ A25))",
+        "prover9": "(A27 -> (A24 | A25))",
+        "prover9_expression": "(conflict_escalated(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+        "natural": "Provided that the conflict regarding publication1 has escalated, the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+      },
+      "(A28 → (A24 ∨ A25))": {
+        "formal": "(A28 → (A24 ∨ A25))",
+        "prover9": "(A28 -> (A24 | A25))",
+        "prover9_expression": "(publication_proceeds(publication1) -> (settlement_accepted(person1, person2) | settlement_accepted(person2, person1)))",
+        "natural": "If publication1 proceeds, then the settlement from person1 to person2 is accepted or the settlement from person2 to person1 is accepted."
+      },
+      "(A29 → A28)": {
+        "formal": "(A29 → A28)",
+        "prover9": "(A29 -> A28)",
+        "prover9_expression": "(publication_delayed(publication1) -> publication_proceeds(publication1))",
+        "natural": "Whenever publication1 is delayed, publication1 proceeds."
+      },
+      "(A30 → ¬A3)": {
+        "formal": "(A30 → ¬A3)",
+        "prover9": "(A30 -> -A3)",
+        "prover9_expression": "(manuscript_approved(publication1) -> -manuscript_rejected(publication1))",
+        "natural": "Under the condition that the manuscript for publication1 is approved, the manuscript for publication1 is not rejected."
+      },
+      "(A31 → (A30 → ¬A3))": {
+        "formal": "(A31 → (A30 → ¬A3))",
+        "prover9": "(A31 -> (A30 -> -A3))",
+        "prover9_expression": "(funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1)))",
+        "natural": "Provided that funding for publication1 is secured, then, if the manuscript is approved, it is not rejected."
+      },
+      "(A31 ∨ A32)": {
+        "formal": "(A31 ∨ A32)",
+        "prover9": "(A31 | A32)",
+        "prover9_expression": "(funding_secured(publication1) | funding_lost(publication1))",
+        "natural": "Funding for publication1 is secured or funding for publication1 is lost."
+      },
+      "(A32 → (A30 → ¬A3))": {
+        "formal": "(A32 → (A30 → ¬A3))",
+        "prover9": "(A32 -> (A30 -> -A3))",
+        "prover9_expression": "(funding_lost(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1)))",
+        "natural": "If funding for publication1 is lost, then, whenever the manuscript is approved, it is not rejected."
+      },
+      "(A33 ∨ (A31 → (A30 → ¬A3)))": {
+        "formal": "(A33 ∨ (A31 → (A30 → ¬A3)))",
+        "prover9": "(A33 | (A31 -> (A30 -> -A3)))",
+        "prover9_expression": "(ethical_approval(publication1) | (funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1))))",
+        "natural": "Publication1 has obtained ethical approval or, if funding is secured, then, under the condition that the manuscript is approved, it is not rejected."
+      },
+      "(A34 → A33)": {
+        "formal": "(A34 → A33)",
+        "prover9": "(A34 -> A33)",
+        "prover9_expression": "(ethics_committee_approves(publication1) -> ethical_approval(publication1))",
+        "natural": "Whenever the ethics committee approves publication1, publication1 has obtained ethical approval."
+      },
+      "(A34 ∨ A35)": {
+        "formal": "(A34 ∨ A35)",
+        "prover9": "(A34 | A35)",
+        "prover9_expression": "(ethics_committee_approves(publication1) | ethics_committee_rejects(publication1))",
+        "natural": "The ethics committee approves publication1 or the ethics committee rejects publication1."
+      },
+      "(A35 → (A31 → (A30 → ¬A3)))": {
+        "formal": "(A35 → (A31 → (A30 → ¬A3)))",
+        "prover9": "(A35 -> (A31 -> (A30 -> -A3)))",
+        "prover9_expression": "(ethics_committee_rejects(publication1) -> (funding_secured(publication1) -> (manuscript_approved(publication1) -> -manuscript_rejected(publication1))))",
+        "natural": "Provided that the ethics committee rejects publication1, then, if funding is secured, whenever the manuscript is approved, it is not rejected."
+      },
+      "(A36 → A8)": {
+        "formal": "(A36 → A8)",
+        "prover9": "(A36 -> A8)",
+        "prover9_expression": "(manuscript_revised(publication1) -> manuscript_published(publication1))",
+        "natural": "If the manuscript for publication1 is revised, then the manuscript for publication1 is published."
+      },
+      "(A37 ∨ (A36 → A8))": {
+        "formal": "(A37 ∨ (A36 → A8))",
+        "prover9": "(A37 | (A36 -> A8))",
+        "prover9_expression": "(manuscript_withdrawn(publication1) | (manuscript_revised(publication1) -> manuscript_published(publication1)))",
+        "natural": "The manuscript for publication1 is withdrawn or, if the manuscript is revised, then it is published."
+      },
+      "(A38 → A8)": {
+        "formal": "(A38 → A8)",
+        "prover9": "(A38 -> A8)",
+        "prover9_expression": "(final_version_submitted(publication1) -> manuscript_published(publication1))",
+        "natural": "Under the condition that the final version of the manuscript for publication1 is submitted, the manuscript for publication1 is published."
+      },
+      "(A39 → A40)": {
+        "formal": "(A39 → A40)",
+        "prover9": "(A39 -> A40)",
+        "prover9_expression": "(plagiarism_detected(publication1) -> plagiarism_confirmed(publication1))",
+        "natural": "Whenever plagiarism is detected in publication1, plagiarism in publication1 is confirmed."
+      },
+      "(A39 → ¬A40)": {
+        "formal": "(A39 → ¬A40)",
+        "prover9": "(A39 -> -A40)",
+        "prover9_expression": "(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1))",
+        "natural": "If plagiarism is detected in publication1, then plagiarism in publication1 is not confirmed."
+      },
+      "(A4 ∨ ¬A3)": {
+        "formal": "(A4 ∨ ¬A3)",
+        "prover9": "(A4 | -A3)",
+        "prover9_expression": "(manuscript_accepted(publication1) | -manuscript_rejected(publication1))",
+        "natural": "The manuscript for publication1 is accepted or the manuscript for publication1 is not rejected."
+      },
+      "(A42 → A41)": {
+        "formal": "(A42 → A41)",
+        "prover9": "(A42 -> A41)",
+        "prover9_expression": "(investigation_concluded(publication1) -> investigation_opened(publication1))",
+        "natural": "Provided that the investigation into publication1 is concluded, an investigation into publication1 has been opened."
+      },
+      "(A42 → A43)": {
+        "formal": "(A42 → A43)",
+        "prover9": "(A42 -> A43)",
+        "prover9_expression": "(investigation_concluded(publication1) -> sanctions_imposed(publication1))",
+        "natural": "If the investigation into publication1 is concluded, then sanctions are imposed on publication1."
+      },
+      "(A43 → A41)": {
+        "formal": "(A43 → A41)",
+        "prover9": "(A43 -> A41)",
+        "prover9_expression": "(sanctions_imposed(publication1) -> investigation_opened(publication1))",
+        "natural": "Under the condition that sanctions are imposed on publication1, an investigation into publication1 has been opened."
+      },
+      "(A44 → (A43 → A41))": {
+        "formal": "(A44 → (A43 → A41))",
+        "prover9": "(A44 -> (A43 -> A41))",
+        "prover9_expression": "(author_cleared(person1, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1)))",
+        "natural": "Whenever person1 is cleared regarding publication1, then, if sanctions are imposed, an investigation has been opened."
+      },
+      "(A44 ∨ A45)": {
+        "formal": "(A44 ∨ A45)",
+        "prover9": "(A44 | A45)",
+        "prover9_expression": "(author_cleared(person1, publication1) | author_cleared(person2, publication1))",
+        "natural": "Person1 is cleared regarding publication1 or person2 is cleared regarding publication1."
+      },
+      "(A45 → (A43 → A41))": {
+        "formal": "(A45 → (A43 → A41))",
+        "prover9": "(A45 -> (A43 -> A41))",
+        "prover9_expression": "(author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1)))",
+        "natural": "Provided that person2 is cleared regarding publication1, then, whenever sanctions are imposed, an investigation has been opened."
+      },
+      "(A46 → (A45 → (A43 → A41)))": {
+        "formal": "(A46 → (A45 → (A43 → A41)))",
+        "prover9": "(A46 -> (A45 -> (A43 -> A41)))",
+        "prover9_expression": "(reputation_restored(person1) -> (author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1))))",
+        "natural": "If the reputation of person1 is restored, then, under the condition that person2 is cleared, if sanctions are imposed, an investigation has been opened."
+      },
+      "(A46 ∨ A47)": {
+        "formal": "(A46 ∨ A47)",
+        "prover9": "(A46 | A47)",
+        "prover9_expression": "(reputation_restored(person1) | reputation_restored(person2))",
+        "natural": "The reputation of person1 is restored or the reputation of person2 is restored."
+      },
+      "(A47 → (A45 → (A43 → A41)))": {
+        "formal": "(A47 → (A45 → (A43 → A41)))",
+        "prover9": "(A47 -> (A45 -> (A43 -> A41)))",
+        "prover9_expression": "(reputation_restored(person2) -> (author_cleared(person2, publication1) -> (sanctions_imposed(publication1) -> investigation_opened(publication1))))",
+        "natural": "Whenever the reputation of person2 is restored, then, provided that person2 is cleared, if sanctions are imposed, an investigation has been opened."
+      },
+      "(A48 → A16)": {
+        "formal": "(A48 → A16)",
+        "prover9": "(A48 -> A16)",
+        "prover9_expression": "(invoice_sent(person1, publication_fee) -> payment_processed(person1, publication_fee))",
+        "natural": "Under the condition that an invoice for the publication fee is sent to person1, payment of the publication fee is processed for person1."
+      },
+      "(A49 ∨ (A14 → A48))": {
+        "formal": "(A49 ∨ (A14 → A48))",
+        "prover9": "(A49 | (A14 -> A48))",
+        "prover9_expression": "(invoice_disputed(person1, publication_fee) | (author_agrees(person1, copyright_transfer) -> invoice_sent(person1, publication_fee)))",
+        "natural": "The invoice for the publication fee is disputed by person1 or, if person1 agrees to the copyright transfer, an invoice is sent to person1."
+      },
+      "(A5 → A4)": {
+        "formal": "(A5 → A4)",
+        "prover9": "(A5 -> A4)",
+        "prover9_expression": "(receives_funding(person1, grant1) -> manuscript_accepted(publication1))",
+        "natural": "Provided that person1 receives funding from grant1, the manuscript for publication1 is accepted."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(receives_funding(person1, grant1) | receives_funding(person2, grant1))",
+        "natural": "Person1 receives funding from grant1 or person2 receives funding from grant1."
+      },
+      "(A50 → A16)": {
+        "formal": "(A50 → A16)",
+        "prover9": "(A50 -> A16)",
+        "prover9_expression": "(payment_received(person1, publication_fee) -> payment_processed(person1, publication_fee))",
+        "natural": "If payment of the publication fee is received from person1, then payment of the publication fee is processed for person1."
+      },
+      "(A51 → A50)": {
+        "formal": "(A51 → A50)",
+        "prover9": "(A51 -> A50)",
+        "prover9_expression": "(receipt_issued(person1, publication_fee) -> payment_received(person1, publication_fee))",
+        "natural": "Whenever a receipt for the publication fee is issued to person1, payment of the publication fee has been received from person1."
+      },
+      "(A52 → (A14 → A51))": {
+        "formal": "(A52 → (A14 → A51))",
+        "prover9": "(A52 -> (A14 -> A51))",
+        "prover9_expression": "(financial_records_updated(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+        "natural": "Under the condition that the financial records for publication1 are updated, then, if person1 agrees to the copyright transfer, a receipt is issued to person1."
+      },
+      "(A52 → A54)": {
+        "formal": "(A52 → A54)",
+        "prover9": "(A52 -> A54)",
+        "prover9_expression": "(financial_records_updated(publication1) -> accounting_complete(publication1))",
+        "natural": "If the financial records for publication1 are updated, then accounting for publication1 is complete."
+      },
+      "(A52 ∨ A53)": {
+        "formal": "(A52 ∨ A53)",
+        "prover9": "(A52 | A53)",
+        "prover9_expression": "(financial_records_updated(publication1) | financial_records_pending(publication1))",
+        "natural": "The financial records for publication1 are updated or the financial records for publication1 are pending."
+      },
+      "(A53 → (A14 → A51))": {
+        "formal": "(A53 → (A14 → A51))",
+        "prover9": "(A53 -> (A14 -> A51))",
+        "prover9_expression": "(financial_records_pending(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+        "natural": "Provided that the financial records for publication1 are pending, then, whenever person1 agrees to the copyright transfer, a receipt is issued to person1."
+      },
+      "(A54 → (A14 → A51))": {
+        "formal": "(A54 → (A14 → A51))",
+        "prover9": "(A54 -> (A14 -> A51))",
+        "prover9_expression": "(accounting_complete(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+        "natural": "If accounting for publication1 is complete, then, under the condition that person1 agrees to the copyright transfer, a receipt is issued to person1."
+      },
+      "(A54 → A55)": {
+        "formal": "(A54 → A55)",
+        "prover9": "(A54 -> A55)",
+        "prover9_expression": "(accounting_complete(publication1) -> audit_ready(publication1))",
+        "natural": "Whenever accounting for publication1 is complete, publication1 is ready for audit."
+      },
+      "(A55 → (A14 → A51))": {
+        "formal": "(A55 → (A14 → A51))",
+        "prover9": "(A55 -> (A14 -> A51))",
+        "prover9_expression": "(audit_ready(publication1) -> (author_agrees(person1, copyright_transfer) -> receipt_issued(person1, publication_fee)))",
+        "natural": "Provided that publication1 is ready for audit, then, if person1 agrees to the copyright transfer, a receipt is issued to person1."
+      },
+      "(A56 ∨ (A54 → A55))": {
+        "formal": "(A56 ∨ (A54 → A55))",
+        "prover9": "(A56 | (A54 -> A55))",
+        "prover9_expression": "(financial_discrepancy(publication1) | (accounting_complete(publication1) -> audit_ready(publication1)))",
+        "natural": "There is a financial discrepancy in publication1 or, if accounting is complete, then publication1 is ready for audit."
+      },
+      "(A57 → ¬A56)": {
+        "formal": "(A57 → ¬A56)",
+        "prover9": "(A57 -> -A56)",
+        "prover9_expression": "(financial_audit_passed(publication1) -> -financial_discrepancy(publication1))",
+        "natural": "Under the condition that publication1 has passed the financial audit, there is no financial discrepancy in publication1."
+      },
+      "(A58 → A24)": {
+        "formal": "(A58 → A24)",
+        "prover9": "(A58 -> A24)",
+        "prover9_expression": "(negotiation_successful(person1, person2) -> settlement_accepted(person1, person2))",
+        "natural": "If negotiation between person1 and person2 is successful, then the settlement from person1 to person2 is accepted."
+      },
+      "(A58 ∨ A59)": {
+        "formal": "(A58 ∨ A59)",
+        "prover9": "(A58 | A59)",
+        "prover9_expression": "(negotiation_successful(person1, person2) | negotiation_successful(person2, person1))",
+        "natural": "Negotiation between person1 and person2 is successful or negotiation between person2 and person1 is successful."
+      },
+      "(A59 → A25)": {
+        "formal": "(A59 → A25)",
+        "prover9": "(A59 -> A25)",
+        "prover9_expression": "(negotiation_successful(person2, person1) -> settlement_accepted(person2, person1))",
+        "natural": "Provided that negotiation between person2 and person1 is successful, the settlement from person2 to person1 is accepted."
+      },
+      "(A6 → ¬A3)": {
+        "formal": "(A6 → ¬A3)",
+        "prover9": "(A6 -> -A3)",
+        "prover9_expression": "(receives_funding(person2, grant1) -> -manuscript_rejected(publication1))",
+        "natural": "Whenever person2 receives funding from grant1, the manuscript for publication1 is not rejected."
+      },
+      "(A60 → (A58 → A24))": {
+        "formal": "(A60 → (A58 → A24))",
+        "prover9": "(A60 -> (A58 -> A24))",
+        "prover9_expression": "(agreement_signed(person1, person2) -> (negotiation_successful(person1, person2) -> settlement_accepted(person1, person2)))",
+        "natural": "Under the condition that an agreement has been signed by person1 and person2, then, if negotiation is successful, the settlement is accepted."
+      },
+      "(A62 ∨ (¬A60 → A61))": {
+        "formal": "(A62 ∨ (¬A60 → A61))",
+        "prover9": "(A62 | (-A60 -> A61))",
+        "prover9_expression": "(legal_mediation_initiated(publication1) | (-agreement_signed(person1, person2) -> agreement_signed(person2, person1)))",
+        "natural": "Legal mediation has been initiated for publication1 or, if an agreement is not signed by person1 and person2, then an agreement is signed by person2 and person1."
+      },
+      "(A7 → G)": {
+        "formal": "(A7 → G)",
+        "prover9": "(A7 -> G)",
+        "prover9_expression": "(manuscript_submitted(publication1) -> publication_successful(publication1))",
+        "natural": "If the manuscript for publication1 has been submitted, then publication1 is successful."
+      },
+      "(A9 → (¬A7 → A8))": {
+        "formal": "(A9 → (¬A7 → A8))",
+        "prover9": "(A9 -> (-A7 -> A8))",
+        "prover9_expression": "(editor_assigned(publication1, editor1) -> (-manuscript_submitted(publication1) -> manuscript_published(publication1)))",
+        "natural": "Provided that editor1 is assigned to publication1, then, if the manuscript is not submitted, the manuscript is published."
+      },
+      "(¬(A1 → G) → A3)": {
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9": "(-(A1 -> G) -> A3)",
+        "prover9_expression": "(-(has_authorization(person1, submit_manuscript) -> publication_successful(publication1)) -> manuscript_rejected(publication1))",
+        "natural": "If it is not the case that if person1 has authorization then publication1 is successful, then the manuscript is rejected."
+      },
+      "(¬(A39 → ¬A40) → A41)": {
+        "formal": "(¬(A39 → ¬A40) → A41)",
+        "prover9": "(-(A39 -> -A40) -> A41)",
+        "prover9_expression": "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> investigation_opened(publication1))",
+        "natural": "Whenever it is not the case that if plagiarism is detected then plagiarism is not confirmed, an investigation is opened."
+      },
+      "(¬(A39 → ¬A40) → A42)": {
+        "formal": "(¬(A39 → ¬A40) → A42)",
+        "prover9": "(-(A39 -> -A40) -> A42)",
+        "prover9_expression": "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> investigation_concluded(publication1))",
+        "natural": "If it is not the case that if plagiarism is detected then plagiarism is not confirmed, then the investigation is concluded."
+      },
+      "(¬(A39 → ¬A40) → ¬A41)": {
+        "formal": "(¬(A39 → ¬A40) → ¬A41)",
+        "prover9": "(-(A39 -> -A40) -> -A41)",
+        "prover9_expression": "(-(plagiarism_detected(publication1) -> -plagiarism_confirmed(publication1)) -> -investigation_opened(publication1))",
+        "natural": "Provided that it is not the case that if plagiarism is detected then plagiarism is not confirmed, it is not the case that an investigation is opened."
+      },
+      "(¬(¬A7 → A38) → A39)": {
+        "formal": "(¬(¬A7 → A38) → A39)",
+        "prover9": "(-(-A7 -> A38) -> A39)",
+        "prover9_expression": "(-(-manuscript_submitted(publication1) -> final_version_submitted(publication1)) -> plagiarism_detected(publication1))",
+        "natural": "Under the condition that it is not the case that if the manuscript is not submitted then the final version is submitted, plagiarism is detected."
+      },
+      "(¬A60 → A61)": {
+        "formal": "(¬A60 → A61)",
+        "prover9": "(-A60 -> A61)",
+        "prover9_expression": "(-agreement_signed(person1, person2) -> agreement_signed(person2, person1))",
+        "natural": "If an agreement is not signed by person1 and person2, then an agreement is signed by person2 and person1."
+      },
+      "(¬A60 → ¬A61)": {
+        "formal": "(¬A60 → ¬A61)",
+        "prover9": "(-A60 -> -A61)",
+        "prover9_expression": "(-agreement_signed(person1, person2) -> -agreement_signed(person2, person1))",
+        "natural": "Provided that an agreement is not signed by person1 and person2, then it is not the case that an agreement is signed by person2 and person1."
+      },
+      "(¬A7 → A36)": {
+        "formal": "(¬A7 → A36)",
+        "prover9": "(-A7 -> A36)",
+        "prover9_expression": "(-manuscript_submitted(publication1) -> manuscript_revised(publication1))",
+        "natural": "Whenever the manuscript for publication1 is not submitted, the manuscript for publication1 is revised."
+      },
+      "(¬A7 → A38)": {
+        "formal": "(¬A7 → A38)",
+        "prover9": "(-A7 -> A38)",
+        "prover9_expression": "(-manuscript_submitted(publication1) -> final_version_submitted(publication1))",
+        "natural": "If the manuscript for publication1 is not submitted, then the final version of the manuscript for publication1 is submitted."
+      },
+      "(¬A7 → A8)": {
+        "formal": "(¬A7 → A8)",
+        "prover9": "(-A7 -> A8)",
+        "prover9_expression": "(-manuscript_submitted(publication1) -> manuscript_published(publication1))",
+        "natural": "Under the condition that the manuscript for publication1 is not submitted, the manuscript for publication1 is published."
+      },
+      "(¬G → A20)": {
+        "formal": "(¬G → A20)",
+        "prover9": "(-G -> A20)",
+        "prover9_expression": "(-publication_successful(publication1) -> legal_action_threatened(person1))",
+        "natural": "Provided that publication1 is not successful, legal action is threatened by person1."
+      },
+      "A30": {
+        "formal": "A30",
+        "prover9": "A30",
+        "prover9_expression": "manuscript_approved(publication1)",
+        "natural": "The manuscript for publication1 is approved."
+      },
+      "A57": {
+        "formal": "A57",
+        "prover9": "A57",
+        "prover9_expression": "financial_audit_passed(publication1)",
+        "natural": "Publication1 has passed the financial audit."
+      },
+      "A60": {
+        "formal": "A60",
+        "prover9": "A60",
+        "prover9_expression": "agreement_signed(person1, person2)",
+        "natural": "An agreement has been signed by person1 and person2."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "manuscript_submitted(publication1)",
+        "natural": "The manuscript for publication1 has been submitted."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "editor_assigned(publication1, editor1)",
+        "natural": "Editor1 has been assigned to publication1."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "publication_successful(publication1)",
+        "natural": "Publication1 is successful."
+      },
+      "¬A18": {
+        "formal": "¬A18",
+        "prover9": "-A18",
+        "prover9_expression": "-payment_disputed(person1, publication_fee)",
+        "natural": "It is not the case that the payment of the publication fee is disputed by person1."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-payment_disputed(person2, publication_fee)",
+        "natural": "It is not the case that the payment of the publication fee is disputed by person2."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-legal_action_threatened(person1)",
+        "natural": "Legal action is not threatened by person1."
+      },
+      "¬A21": {
+        "formal": "¬A21",
+        "prover9": "-A21",
+        "prover9_expression": "-legal_action_threatened(person2)",
+        "natural": "Legal action is not threatened by person2."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-manuscript_rejected(publication1)",
+        "natural": "The manuscript for publication1 is not rejected."
+      },
+      "¬A33": {
+        "formal": "¬A33",
+        "prover9": "-A33",
+        "prover9_expression": "-ethical_approval(publication1)",
+        "natural": "Publication1 does not have ethical approval."
+      },
+      "¬A37": {
+        "formal": "¬A37",
+        "prover9": "-A37",
+        "prover9_expression": "-manuscript_withdrawn(publication1)",
+        "natural": "The manuscript for publication1 is not withdrawn."
+      },
+      "¬A39": {
+        "formal": "¬A39",
+        "prover9": "-A39",
+        "prover9_expression": "-plagiarism_detected(publication1)",
+        "natural": "Plagiarism is not detected in publication1."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-manuscript_accepted(publication1)",
+        "natural": "The manuscript for publication1 is not accepted."
+      },
+      "¬A49": {
+        "formal": "¬A49",
+        "prover9": "-A49",
+        "prover9_expression": "-invoice_disputed(person1, publication_fee)",
+        "natural": "The invoice for the publication fee is not disputed by person1."
+      },
+      "¬A56": {
+        "formal": "¬A56",
+        "prover9": "-A56",
+        "prover9_expression": "-financial_discrepancy(publication1)",
+        "natural": "There is no financial discrepancy in publication1."
+      },
+      "¬A62": {
+        "formal": "¬A62",
+        "prover9": "-A62",
+        "prover9_expression": "-legal_mediation_initiated(publication1)",
+        "natural": "Legal mediation is not initiated for publication1."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-manuscript_published(publication1)",
+        "natural": "The manuscript for publication1 is not published."
+      }
+    }
+  }
+}

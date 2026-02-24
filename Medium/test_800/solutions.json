@@ -1,0 +1,825 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 9
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A3 -> A4)",
+              "prover9_expression": "(scheduled(production_line) -> operational(production_line))",
+              "natural": "Under the condition that the production line is scheduled, the production line is operational."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A3 -> -A4)",
+              "prover9_expression": "(scheduled(production_line) -> -operational(production_line))",
+              "natural": "If the production line is scheduled, then it is not the case that the production line is operational."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "The production line is not scheduled."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A3 | (-G -> A2))",
+              "prover9_expression": "(scheduled(production_line) | (-compliant(regulatory_standards) -> approved(quality_check)))",
+              "natural": "Either the production line is scheduled or, under the condition that regulatory standards are not compliant, the quality check is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-scheduled(production_line)",
+              "natural": "The production line is not scheduled."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "If regulatory standards are not compliant, then the quality check is approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-compliant(regulatory_standards) -> approved(quality_check))",
+              "natural": "If regulatory standards are not compliant, then the quality check is approved."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(approved(quality_check) -> -contaminated(chemical_batch))",
+              "natural": "If the quality check is approved, then it is not the case that the chemical batch is contaminated."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Provided that regulatory standards are not compliant, the chemical batch is not contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule39",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-compliant(regulatory_standards) -> contaminated(chemical_batch))",
+              "natural": "Under the condition that regulatory standards are not compliant, the chemical batch is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-compliant(regulatory_standards) -> -contaminated(chemical_batch))",
+              "natural": "Provided that regulatory standards are not compliant, the chemical batch is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> (A9 -> -A10))",
+              "prover9_expression": "(received(raw_material) -> (expired(catalyst) -> -effective(catalyst)))",
+              "natural": "If the raw material is received, then whenever the catalyst is expired, the catalyst is not effective."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A11",
+              "prover9_expression": "received(raw_material)",
+              "natural": "The raw material is received."
+            }
+          ],
+          "conclusion": "(A9 -> -A10)",
+          "natural": "Provided that the catalyst is expired, the catalyst is not effective."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A9 -> A10)",
+              "prover9_expression": "(expired(catalyst) -> effective(catalyst))",
+              "natural": "If the catalyst is expired, then the catalyst is effective."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> -A10)",
+              "prover9_expression": "(expired(catalyst) -> -effective(catalyst))",
+              "natural": "Provided that the catalyst is expired, the catalyst is not effective."
+            }
+          ],
+          "conclusion": "-A9",
+          "natural": "The catalyst is not expired."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(A9 | (A8 -> A5))",
+              "prover9_expression": "(expired(catalyst) | (performed(sterilization) -> available(active_ingredient)))",
+              "natural": "Either the catalyst is expired or, if sterilization is performed, the active ingredient is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A9",
+              "prover9_expression": "-expired(catalyst)",
+              "natural": "The catalyst is not expired."
+            }
+          ],
+          "conclusion": "(A8 -> A5)",
+          "natural": "Whenever sterilization is performed, the active ingredient is available."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(A7 -> A6)",
+              "prover9_expression": "(completed(stability_test) -> calibrated(testing_equipment))",
+              "natural": "If the stability test is completed, then the testing equipment is calibrated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A5)",
+              "prover9_expression": "(performed(sterilization) -> available(active_ingredient))",
+              "natural": "Whenever sterilization is performed, the active ingredient is available."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(completed(stability_test) | performed(sterilization))",
+              "natural": "Either the stability test is completed or sterilization is performed."
+            }
+          ],
+          "conclusion": "(A6 | A5)",
+          "natural": "Either the testing equipment is calibrated or the active ingredient is available."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 | A5)",
+              "prover9_expression": "(calibrated(testing_equipment) | available(active_ingredient))",
+              "natural": "Either the testing equipment is calibrated or the active ingredient is available."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A6",
+              "prover9_expression": "-calibrated(testing_equipment)",
+              "natural": "The testing equipment is not calibrated."
+            }
+          ],
+          "conclusion": "A5",
+          "natural": "The active ingredient is available."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(available(active_ingredient) -> compliant(regulatory_standards))",
+              "natural": "Provided that the active ingredient is available, regulatory standards are compliant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A5",
+              "prover9_expression": "available(active_ingredient)",
+              "natural": "The active ingredient is available."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> A19)",
+              "prover9_expression": "(initiated(pilot_batch) -> filtered(reaction_mixture))",
+              "natural": "Under the condition that the pilot batch is initiated, the reaction mixture is filtered."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A19 -> A18)",
+              "prover9_expression": "(filtered(reaction_mixture) -> cooled(reaction_vessel))",
+              "natural": "Provided that the reaction mixture is filtered, the reaction vessel is cooled."
+            }
+          ],
+          "conclusion": "(A13 -> A18)",
+          "natural": "Provided that the pilot batch is initiated, the reaction vessel is cooled."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A18)",
+              "prover9_expression": "(initiated(pilot_batch) -> cooled(reaction_vessel))",
+              "natural": "Provided that the pilot batch is initiated, the reaction vessel is cooled."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A18 -> A17)",
+              "prover9_expression": "(cooled(reaction_vessel) -> pressurized(reaction_vessel))",
+              "natural": "Under the condition that the reaction vessel is cooled, the reaction vessel is pressurized."
+            }
+          ],
+          "conclusion": "(A13 -> A17)",
+          "natural": "If the pilot batch is initiated, then the reaction vessel is pressurized."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A17)",
+              "prover9_expression": "(initiated(pilot_batch) -> pressurized(reaction_vessel))",
+              "natural": "If the pilot batch is initiated, then the reaction vessel is pressurized."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A17 -> A16)",
+              "prover9_expression": "(pressurized(reaction_vessel) -> heated(reaction_vessel))",
+              "natural": "If the reaction vessel is pressurized, then the reaction vessel is heated."
+            }
+          ],
+          "conclusion": "(A13 -> A16)",
+          "natural": "Whenever the pilot batch is initiated, the reaction vessel is heated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A16)",
+              "prover9_expression": "(initiated(pilot_batch) -> heated(reaction_vessel))",
+              "natural": "Whenever the pilot batch is initiated, the reaction vessel is heated."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(heated(reaction_vessel) -> mixed(excipients))",
+              "natural": "Whenever the reaction vessel is heated, the excipients are mixed."
+            }
+          ],
+          "conclusion": "(A13 -> A15)",
+          "natural": "If the pilot batch is initiated, then the excipients are mixed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A15)",
+              "prover9_expression": "(initiated(pilot_batch) -> mixed(excipients))",
+              "natural": "If the pilot batch is initiated, then the excipients are mixed."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A15 -> (-G -> A12))",
+              "prover9_expression": "(mixed(excipients) -> (-compliant(regulatory_standards) -> passed(final_inspection)))",
+              "natural": "Provided that the excipients are mixed, then if regulatory standards are not compliant, the final inspection is passed."
+            }
+          ],
+          "conclusion": "(A13 -> (-G -> A12))",
+          "natural": "Provided that the pilot batch is initiated, then under the condition that regulatory standards are not compliant, the final inspection is passed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(initiated(pilot_batch) | initiated(commercial_batch))",
+              "natural": "Either the pilot batch is initiated or the commercial batch is initiated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> (-G -> A12))",
+              "prover9_expression": "(initiated(pilot_batch) -> (-compliant(regulatory_standards) -> passed(final_inspection)))",
+              "natural": "Provided that the pilot batch is initiated, then under the condition that regulatory standards are not compliant, the final inspection is passed."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> (-G -> A12))",
+              "prover9_expression": "(initiated(commercial_batch) -> (-compliant(regulatory_standards) -> passed(final_inspection)))",
+              "natural": "If the commercial batch is initiated, then under the condition that regulatory standards are not compliant, the final inspection is passed."
+            }
+          ],
+          "conclusion": "(-G -> A12)",
+          "natural": "Whenever regulatory standards are not compliant, the final inspection is passed."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-compliant(regulatory_standards) -> passed(final_inspection))",
+              "natural": "Whenever regulatory standards are not compliant, the final inspection is passed."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-passed(final_inspection)",
+              "natural": "It is not the case that the final inspection is passed."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A26)",
+              "prover9_expression": "(quarantined(finished_product) -> destroyed(finished_product))",
+              "natural": "Under the condition that the finished product is quarantined, the finished product is destroyed."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> A24)",
+              "prover9_expression": "(destroyed(finished_product) -> rejected(finished_product))",
+              "natural": "Whenever the finished product is destroyed, the finished product is rejected."
+            }
+          ],
+          "conclusion": "(A25 -> A24)",
+          "natural": "If the finished product is quarantined, then the finished product is rejected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(-(A22 -> (A20 | G)) -> A25)",
+              "prover9_expression": "(-(performed(vial_capping) -> (available(clean_room) | compliant(regulatory_standards))) -> quarantined(finished_product))",
+              "natural": "Provided that it is not the case that if vial capping is performed then either the clean room is available or regulatory standards are compliant, the finished product is quarantined."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> A24)",
+              "prover9_expression": "(quarantined(finished_product) -> rejected(finished_product))",
+              "natural": "If the finished product is quarantined, then the finished product is rejected."
+            }
+          ],
+          "conclusion": "(-(A22 -> (A20 | G)) -> A24)",
+          "natural": "Under the condition that it is not the case that if vial capping is performed then either the clean room is available or regulatory standards are compliant, the finished product is rejected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A22 -> (A20 | G)) -> A24)",
+              "prover9_expression": "(-(performed(vial_capping) -> (available(clean_room) | compliant(regulatory_standards))) -> rejected(finished_product))",
+              "natural": "Under the condition that it is not the case that if vial capping is performed then either the clean room is available or regulatory standards are compliant, the finished product is rejected."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A24 -> -A23)",
+              "prover9_expression": "(rejected(finished_product) -> -contaminated(finished_product))",
+              "natural": "Provided that the finished product is rejected, then the finished product is not contaminated."
+            }
+          ],
+          "conclusion": "(-(A22 -> (A20 | G)) -> -A23)",
+          "natural": "If it is not the case that if vial capping is performed then either the clean room is available or regulatory standards are compliant, then the finished product is not contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(-(A22 -> (A20 | G)) -> A23)",
+              "prover9_expression": "(-(performed(vial_capping) -> (available(clean_room) | compliant(regulatory_standards))) -> contaminated(finished_product))",
+              "natural": "If it is not the case that if vial capping is performed then either the clean room is available or regulatory standards are compliant, then the finished product is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A22 -> (A20 | G)) -> -A23)",
+              "prover9_expression": "(-(performed(vial_capping) -> (available(clean_room) | compliant(regulatory_standards))) -> -contaminated(finished_product))",
+              "natural": "If it is not the case that if vial capping is performed then either the clean room is available or regulatory standards are compliant, then the finished product is not contaminated."
+            }
+          ],
+          "conclusion": "(A22 -> (A20 | G))",
+          "natural": "If vial capping is performed, then either the clean room is available or regulatory standards are compliant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A21 | A22)",
+              "prover9_expression": "(performed(aseptic_filling) | performed(vial_capping))",
+              "natural": "Aseptic filling is performed or vial capping is performed."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A21 -> (A20 | G))",
+              "prover9_expression": "(performed(aseptic_filling) -> (available(clean_room) | compliant(regulatory_standards)))",
+              "natural": "Whenever aseptic filling is performed, then either the clean room is available or regulatory standards are compliant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> (A20 | G))",
+              "prover9_expression": "(performed(vial_capping) -> (available(clean_room) | compliant(regulatory_standards)))",
+              "natural": "If vial capping is performed, then either the clean room is available or regulatory standards are compliant."
+            }
+          ],
+          "conclusion": "(A20 | G)",
+          "natural": "Either the clean room is available or regulatory standards are compliant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | G)",
+              "prover9_expression": "(available(clean_room) | compliant(regulatory_standards))",
+              "natural": "Either the clean room is available or regulatory standards are compliant."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A20",
+              "prover9_expression": "-available(clean_room)",
+              "natural": "The clean room is not available."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A29 -> A30)",
+              "prover9_expression": "(detected(pH_deviation) -> detected(viscosity_issue))",
+              "natural": "If a pH deviation is detected, then a viscosity issue is detected."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A30 -> (-G -> -A1))",
+              "prover9_expression": "(detected(viscosity_issue) -> (-compliant(regulatory_standards) -> -contaminated(chemical_batch)))",
+              "natural": "Provided that a viscosity issue is detected, then if regulatory standards are not compliant, the chemical batch is not contaminated."
+            }
+          ],
+          "conclusion": "(A29 -> (-G -> -A1))",
+          "natural": "Provided that a pH deviation is detected, then whenever regulatory standards are not compliant, the chemical batch is not contaminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A28 -> A29)",
+              "prover9_expression": "(detected(microbial_growth) -> detected(pH_deviation))",
+              "natural": "If microbial growth is detected, then a pH deviation is detected."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A29 -> (-G -> -A1))",
+              "prover9_expression": "(detected(pH_deviation) -> (-compliant(regulatory_standards) -> -contaminated(chemical_batch)))",
+              "natural": "Provided that a pH deviation is detected, then whenever regulatory standards are not compliant, the chemical batch is not contaminated."
+            }
+          ],
+          "conclusion": "(A28 -> (-G -> -A1))",
+          "natural": "Whenever microbial growth is detected, then under the condition that regulatory standards are not compliant, the chemical batch is not contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A27 | A28)",
+              "prover9_expression": "(detected(impurity) | detected(microbial_growth))",
+              "natural": "Either an impurity is detected or microbial growth is detected."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A27 -> (-G -> -A1))",
+              "prover9_expression": "(detected(impurity) -> (-compliant(regulatory_standards) -> -contaminated(chemical_batch)))",
+              "natural": "If an impurity is detected, then provided that regulatory standards are not compliant, the chemical batch is not contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A28 -> (-G -> -A1))",
+              "prover9_expression": "(detected(microbial_growth) -> (-compliant(regulatory_standards) -> -contaminated(chemical_batch)))",
+              "natural": "Whenever microbial growth is detected, then under the condition that regulatory standards are not compliant, the chemical batch is not contaminated."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Provided that regulatory standards are not compliant, the chemical batch is not contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule39",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-compliant(regulatory_standards) -> contaminated(chemical_batch))",
+              "natural": "Under the condition that regulatory standards are not compliant, the chemical batch is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-compliant(regulatory_standards) -> -contaminated(chemical_batch))",
+              "natural": "Provided that regulatory standards are not compliant, the chemical batch is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A38 | (A37 -> A36))",
+              "prover9_expression": "(extended(production_schedule) | (hired(temporary_staff) -> authorized(overtime)))",
+              "natural": "Either the production schedule is extended or, if temporary staff is hired, overtime is authorized."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A38",
+              "prover9_expression": "-extended(production_schedule)",
+              "natural": "The production schedule is not extended."
+            }
+          ],
+          "conclusion": "(A37 -> A36)",
+          "natural": "If temporary staff is hired, then overtime is authorized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A34 -> A37)",
+              "prover9_expression": "(escalated(management) -> hired(temporary_staff))",
+              "natural": "Provided that management is escalated, temporary staff is hired."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A37 -> A36)",
+              "prover9_expression": "(hired(temporary_staff) -> authorized(overtime))",
+              "natural": "If temporary staff is hired, then overtime is authorized."
+            }
+          ],
+          "conclusion": "(A34 -> A36)",
+          "natural": "If management is escalated, then overtime is authorized."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A34 -> A36)",
+              "prover9_expression": "(escalated(management) -> authorized(overtime))",
+              "natural": "If management is escalated, then overtime is authorized."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A36 -> A35)",
+              "prover9_expression": "(authorized(overtime) -> reviewed(protocol))",
+              "natural": "Whenever overtime is authorized, the protocol is reviewed."
+            }
+          ],
+          "conclusion": "(A34 -> A35)",
+          "natural": "Whenever management is escalated, the protocol is reviewed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A34 -> A35)",
+              "prover9_expression": "(escalated(management) -> reviewed(protocol))",
+              "natural": "Whenever management is escalated, the protocol is reviewed."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A34 -> -A35)",
+              "prover9_expression": "(escalated(management) -> -reviewed(protocol))",
+              "natural": "Under the condition that management is escalated, it is not the case that the protocol is reviewed."
+            }
+          ],
+          "conclusion": "-A34",
+          "natural": "Management is not escalated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A34 | -A33)",
+              "prover9_expression": "(escalated(management) | -missed(deadline))",
+              "natural": "Either management is escalated or the deadline is not missed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A34",
+              "prover9_expression": "-escalated(management)",
+              "natural": "Management is not escalated."
+            }
+          ],
+          "conclusion": "-A33",
+          "natural": "The deadline is not missed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A32 -> A33)",
+              "prover9_expression": "(delayed(shipment) -> missed(deadline))",
+              "natural": "If the shipment is delayed, then the deadline is missed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A33",
+              "prover9_expression": "-missed(deadline)",
+              "natural": "The deadline is not missed."
+            }
+          ],
+          "conclusion": "-A32",
+          "natural": "The shipment is not delayed."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(-(-A5 -> A31) -> A32)",
+              "prover9_expression": "(-(-available(active_ingredient) -> ordered(backup_supplier)) -> delayed(shipment))",
+              "natural": "If it is not the case that if the active ingredient is not available then a backup supplier is ordered, then the shipment is delayed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A32",
+              "prover9_expression": "-delayed(shipment)",
+              "natural": "The shipment is not delayed."
+            }
+          ],
+          "conclusion": "(-A5 -> A31)",
+          "natural": "Provided that the active ingredient is not available, a backup supplier is ordered."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A5 -> A31)",
+              "prover9_expression": "(-available(active_ingredient) -> ordered(backup_supplier))",
+              "natural": "Provided that the active ingredient is not available, a backup supplier is ordered."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(-A5 -> -A31)",
+              "prover9_expression": "(-available(active_ingredient) -> -ordered(backup_supplier))",
+              "natural": "If the active ingredient is not available, then it is not the case that a backup supplier is ordered."
+            }
+          ],
+          "conclusion": "A5",
+          "natural": "The active ingredient is available."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(available(active_ingredient) -> compliant(regulatory_standards))",
+              "natural": "Provided that the active ingredient is available, regulatory standards are compliant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A5",
+              "prover9_expression": "available(active_ingredient)",
+              "natural": "The active ingredient is available."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory standards are compliant."
+        }
+      ]
+    }
+  ]
+}

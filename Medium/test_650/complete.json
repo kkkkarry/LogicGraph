@@ -1,0 +1,1032 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 5,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 4
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A9)",
+        "prover9_expression": "(monitor_patient(veterinarian, animal) -> condition_improves(animal))",
+        "natural": "Whenever a veterinarian monitors the patient animal, the animal's condition improves."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A14 ∨ ¬A13)",
+        "prover9_expression": "(condition_worsens(animal) | -treatment_working(animal))",
+        "natural": "The animal's condition worsens or the treatment is not working."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A16 → ¬A15)",
+        "prover9_expression": "(transfer_facility(animal) -> -emergency_protocol(veterinarian))",
+        "natural": "In the event that the animal is transferred to a facility, the veterinarian does not follow an emergency protocol."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A17 → (¬(A1 → A2) → A16))",
+        "prover9_expression": "(senior_vet_available(senior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal)))",
+        "natural": "Given that a senior veterinarian is available, if it is not the case that having diagnostic skills implies the veterinarian can treat the animal, then the animal is transferred to a facility."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A17 ∨ A18)",
+        "prover9_expression": "(senior_vet_available(senior_veterinarian) | junior_vet_available(junior_veterinarian))",
+        "natural": "Either a senior veterinarian is available or a junior veterinarian is available."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A19 → (A18 → (¬(A1 → A2) → A16)))",
+        "prover9_expression": "(hospital_has_protocol(hospital) -> (junior_vet_available(junior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal))))",
+        "natural": "Assuming the hospital has protocols, then if a junior veterinarian is available, then if the veterinarian's possession of diagnostic skills does not lead to the veterinarian being able to treat the animal, the animal is transferred to a facility."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(can_treat(veterinarian, animal) -> animal_recovers(animal))",
+        "natural": "Provided the veterinarian can treat the animal, the animal recovers."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A21 → ¬A20)",
+        "prover9_expression": "(equipment_functional(hospital) -> -protocol_violated(hospital))",
+        "natural": "If the hospital's equipment is functional, then a protocol violation does not occur."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A21 ∨ A22)",
+        "prover9_expression": "(equipment_functional(hospital) | backup_available(hospital))",
+        "natural": "Either the hospital's equipment is functional or backup is available."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A22 → ¬A20)",
+        "prover9_expression": "(backup_available(hospital) -> -protocol_violated(hospital))",
+        "natural": "Whenever backup is available at the hospital, a protocol violation does not happen."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A23 → A2)",
+        "prover9_expression": "(knows_procedure(veterinarian, treatment) -> can_treat(veterinarian, animal))",
+        "natural": "In the event that the veterinarian knows the treatment procedure, the veterinarian can treat the animal."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A24 → A26)",
+        "prover9_expression": "(certified_surgeon(veterinarian) -> experienced_surgeon(veterinarian))",
+        "natural": "If the veterinarian is a certified surgeon, then the veterinarian is an experienced surgeon."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A24 ∨ A25)",
+        "prover9_expression": "(certified_surgeon(veterinarian) | trained_surgeon(veterinarian))",
+        "natural": "The veterinarian is either a certified surgeon or a trained surgeon."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A25 → (A1 → A23))",
+        "prover9_expression": "(trained_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+        "natural": "Supposing the veterinarian is a trained surgeon, then if the veterinarian has diagnostic skills, the veterinarian knows the treatment procedure."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A26 → (A1 → A23))",
+        "prover9_expression": "(experienced_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+        "natural": "Given that the veterinarian is an experienced surgeon, then if the veterinarian has diagnostic skills, the veterinarian knows the treatment procedure."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(has_condition(animal, critical) -> requires_surgery(animal))",
+        "natural": "Provided the animal has a critical condition, the animal requires surgery."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A4 → ¬A5)",
+        "prover9_expression": "(has_condition(animal, critical) -> -requires_surgery(animal))",
+        "natural": "If the animal has a critical condition, then the animal does not require surgery."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A4 ∨ (¬(A1 → A2) → A3))",
+        "prover9_expression": "(has_condition(animal, critical) | (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug)))",
+        "natural": "Either the animal has a critical condition or if the veterinarian's possession of diagnostic skills does not imply the veterinarian can treat the animal, then the veterinarian prescribes an alternative drug."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A6 ∨ (A1 → G))",
+        "prover9_expression": "(animal_stable(animal) | (has_skill(veterinarian, diagnosis) -> animal_recovers(animal)))",
+        "natural": "The animal is stable or if the veterinarian has diagnostic skills, then the animal recovers."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A7 → ¬A8)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) -> -drug_effective(drug))",
+        "natural": "Provided the veterinarian administers a drug, the drug is not effective."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A7 ∨ ¬A6)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) | -animal_stable(animal))",
+        "natural": "Either the veterinarian administers a drug or the animal is not stable."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A9 → A8)",
+        "prover9_expression": "(condition_improves(animal) -> drug_effective(drug))",
+        "natural": "Given that the animal's condition improves, the drug is effective."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(¬(A1 → A2) → A15)",
+        "prover9_expression": "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> emergency_protocol(veterinarian))",
+        "natural": "If it is not the case that having diagnostic skills implies the veterinarian can treat the animal, then the veterinarian follows an emergency protocol."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(¬(A11 ∨ (A7 → A10)) → A12)",
+        "prover9_expression": "(-(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))) -> get_second_opinion(veterinarian))",
+        "natural": "If it is not the case that either the veterinarian consults a specialist or if the veterinarian administers a drug then the veterinarian monitors the patient animal, then the veterinarian obtains a second opinion."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(¬(A11 ∨ (A7 → A10)) → ¬A12)",
+        "prover9_expression": "(-(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))) -> -get_second_opinion(veterinarian))",
+        "natural": "In the event that it is not true that either the veterinarian consults a specialist or if the veterinarian administers a drug then the veterinarian monitors the patient animal, the veterinarian does not get a second opinion."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(¬(¬(A1 → A2) → A3) → A13)",
+        "prover9_expression": "(-(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug)) -> treatment_working(animal))",
+        "natural": "Provided it is not the case that if the veterinarian's diagnostic skills do not imply the veterinarian can treat the animal then the veterinarian prescribes an alternative drug, the treatment is working for the animal."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(¬A19 → A20)",
+        "prover9_expression": "(-hospital_has_protocol(hospital) -> protocol_violated(hospital))",
+        "natural": "If the hospital does not have protocols, then a protocol violation occurs."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "has_skill(veterinarian, diagnosis)",
+        "natural": "The veterinarian possesses diagnostic skills."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A11",
+        "prover9_expression": "-consult_specialist(veterinarian)",
+        "natural": "It is not the case that the veterinarian consults a specialist."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A14",
+        "prover9_expression": "-condition_worsens(animal)",
+        "natural": "The animal's condition does not deteriorate."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A3",
+        "prover9_expression": "-prescribe_alternative(veterinarian, drug)",
+        "natural": "The veterinarian does not prescribe an alternative drug."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "animal_recovers(animal)",
+    "natural": "The animal makes a recovery."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A4 -> -A5)"
+          ],
+          "conclusion": "-A4",
+          "natural": "The animal is not afflicted with a critical condition."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (-(A1 -> A2) -> A3))",
+            "-A4"
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "Assuming the veterinarian's possession of diagnostic skills does not entail the veterinarian can treat the animal, the veterinarian prescribes an alternative drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 -> A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "Provided that a veterinarian has diagnostic skills, the veterinarian can treat the animal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that a veterinarian has diagnostic skills, the animal recovers."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The animal makes a recovery."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A11 | (A7 -> A10)) -> A12)",
+            "(-(A11 | (A7 -> A10)) -> -A12)"
+          ],
+          "conclusion": "(A11 | (A7 -> A10))",
+          "natural": "Either the veterinarian consults a specialist, or if the veterinarian administers a drug, then the veterinarian monitors the patient animal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | (A7 -> A10))",
+            "-A11"
+          ],
+          "conclusion": "(A7 -> A10)",
+          "natural": "Whenever the veterinarian administers a drug, the veterinarian monitors the patient animal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(A7 -> A9)",
+          "natural": "Should the veterinarian administer a drug, the animal's condition improves."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A9)",
+            "(A9 -> A8)"
+          ],
+          "conclusion": "(A7 -> A8)",
+          "natural": "In the event that the veterinarian administers a drug, the drug is effective."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A7 -> A8)",
+            "(A7 -> -A8)"
+          ],
+          "conclusion": "-A7",
+          "natural": "The veterinarian does not administer a drug."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | -A6)",
+            "-A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "The animal is not in a stable state."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (A1 -> G))",
+            "-A6"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that a veterinarian has diagnostic skills, the animal recovers."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The animal makes a recovery."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A14 | -A13)",
+            "-A14"
+          ],
+          "conclusion": "-A13",
+          "natural": "The treatment is not working."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A1 -> A2) -> A3) -> A13)",
+            "-A13"
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "Assuming the veterinarian's possession of diagnostic skills does not entail the veterinarian can treat the animal, the veterinarian prescribes an alternative drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 -> A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "Provided that a veterinarian has diagnostic skills, the veterinarian can treat the animal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that a veterinarian has diagnostic skills, the animal recovers."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The animal makes a recovery."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> -A20)",
+            "(A22 -> -A20)"
+          ],
+          "conclusion": "-A20",
+          "natural": "A hospital protocol violation does not hold."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A19 -> A20)",
+            "-A20"
+          ],
+          "conclusion": "A19",
+          "natural": "The hospital has established protocols."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A19 -> (A18 -> (-(A1 -> A2) -> A16)))",
+            "A19"
+          ],
+          "conclusion": "(A18 -> (-(A1 -> A2) -> A16))",
+          "natural": "Should a junior veterinarian be available, then if the veterinarian having diagnostic skills does not entail the veterinarian can treat the animal, the animal is transferred to a facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> (-(A1 -> A2) -> A16))",
+            "(A18 -> (-(A1 -> A2) -> A16))"
+          ],
+          "conclusion": "(-(A1 -> A2) -> A16)",
+          "natural": "Under the condition that the veterinarian's diagnostic skills do not lead to the veterinarian being able to treat the animal, the animal is transferred to a facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> A2) -> A16)",
+            "(A16 -> -A15)"
+          ],
+          "conclusion": "(-(A1 -> A2) -> -A15)",
+          "natural": "Whenever the veterinarian having diagnostic skills does not imply the veterinarian can treat the animal, the veterinarian does not follow an emergency protocol."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> A2) -> A15)",
+            "(-(A1 -> A2) -> -A15)"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "Provided that a veterinarian has diagnostic skills, the veterinarian can treat the animal."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that a veterinarian has diagnostic skills, the animal recovers."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The animal makes a recovery."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A24 -> A26)",
+            "(A26 -> (A1 -> A23))"
+          ],
+          "conclusion": "(A24 -> (A1 -> A23))",
+          "natural": "Under the condition that the veterinarian is a certified surgeon, if the veterinarian has diagnostic skills, then the veterinarian knows the treatment procedure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> (A1 -> A23))",
+            "(A25 -> (A1 -> A23))"
+          ],
+          "conclusion": "(A1 -> A23)",
+          "natural": "If a veterinarian has diagnostic skills, then the veterinarian knows the treatment procedure."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A23)",
+            "(A23 -> A2)"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "Provided that a veterinarian has diagnostic skills, the veterinarian can treat the animal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Under the condition that a veterinarian has diagnostic skills, the animal recovers."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The animal makes a recovery."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Veterinary Medicine",
+    "atomic_facts": {
+      "A1": "has_skill(veterinarian, diagnosis)",
+      "A2": "can_treat(veterinarian, animal)",
+      "A3": "prescribe_alternative(veterinarian, drug)",
+      "A4": "has_condition(animal, critical)",
+      "A5": "requires_surgery(animal)",
+      "A6": "animal_stable(animal)",
+      "A7": "administer_drug(veterinarian, drug)",
+      "A8": "drug_effective(drug)",
+      "A9": "condition_improves(animal)",
+      "A10": "monitor_patient(veterinarian, animal)",
+      "A11": "consult_specialist(veterinarian)",
+      "A12": "get_second_opinion(veterinarian)",
+      "A13": "treatment_working(animal)",
+      "A14": "condition_worsens(animal)",
+      "A15": "emergency_protocol(veterinarian)",
+      "A16": "transfer_facility(animal)",
+      "A17": "senior_vet_available(senior_veterinarian)",
+      "A18": "junior_vet_available(junior_veterinarian)",
+      "A19": "hospital_has_protocol(hospital)",
+      "A20": "protocol_violated(hospital)",
+      "A21": "equipment_functional(hospital)",
+      "A22": "backup_available(hospital)",
+      "A23": "knows_procedure(veterinarian, treatment)",
+      "A24": "certified_surgeon(veterinarian)",
+      "A25": "trained_surgeon(veterinarian)",
+      "A26": "experienced_surgeon(veterinarian)",
+      "G": "animal_recovers(animal)"
+    },
+    "natural_facts": {
+      "A1": "A veterinarian possesses diagnostic skills.",
+      "A2": "A veterinarian is capable of treating an animal.",
+      "A3": "A veterinarian prescribes an alternative drug.",
+      "A4": "The animal is afflicted with a critical condition.",
+      "A5": "The animal requires surgery.",
+      "A6": "The animal remains in a stable state.",
+      "A7": "The veterinarian administers a drug.",
+      "A8": "The drug is effective.",
+      "A9": "The animal's condition improves.",
+      "A10": "The veterinarian monitors the patient animal.",
+      "A11": "The veterinarian seeks consultation from a specialist.",
+      "A12": "The veterinarian obtains a second opinion.",
+      "A13": "The treatment shows effectiveness for the animal.",
+      "A14": "The animal's condition deteriorates.",
+      "A15": "The veterinarian follows an emergency protocol.",
+      "A16": "The animal is transferred to a different facility.",
+      "A17": "A senior veterinarian is available.",
+      "A18": "A junior veterinarian is available.",
+      "A19": "The hospital has established protocols.",
+      "A20": "A hospital protocol has been violated.",
+      "A21": "The hospital's equipment is fully functional.",
+      "A22": "Backup systems are available at the hospital.",
+      "A23": "The veterinarian possesses knowledge of the treatment procedure.",
+      "A24": "The veterinarian is a certified surgeon.",
+      "A25": "The veterinarian is a trained surgeon.",
+      "A26": "The veterinarian is an experienced surgeon.",
+      "G": "The animal makes a recovery."
+    },
+    "prover9_expressions": [
+      "(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal))",
+      "(has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment))",
+      "(has_skill(veterinarian, diagnosis) -> animal_recovers(animal))",
+      "(monitor_patient(veterinarian, animal) -> condition_improves(animal))",
+      "(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal)))",
+      "(condition_worsens(animal) | -treatment_working(animal))",
+      "(transfer_facility(animal) -> -emergency_protocol(veterinarian))",
+      "(senior_vet_available(senior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal)))",
+      "(senior_vet_available(senior_veterinarian) | junior_vet_available(junior_veterinarian))",
+      "(junior_vet_available(junior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal)))",
+      "(hospital_has_protocol(hospital) -> (junior_vet_available(junior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal))))",
+      "(can_treat(veterinarian, animal) -> animal_recovers(animal))",
+      "(equipment_functional(hospital) -> -protocol_violated(hospital))",
+      "(equipment_functional(hospital) | backup_available(hospital))",
+      "(backup_available(hospital) -> -protocol_violated(hospital))",
+      "(knows_procedure(veterinarian, treatment) -> can_treat(veterinarian, animal))",
+      "(certified_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+      "(certified_surgeon(veterinarian) -> experienced_surgeon(veterinarian))",
+      "(certified_surgeon(veterinarian) | trained_surgeon(veterinarian))",
+      "(trained_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+      "(experienced_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+      "(has_condition(animal, critical) -> requires_surgery(animal))",
+      "(has_condition(animal, critical) -> -requires_surgery(animal))",
+      "(has_condition(animal, critical) | (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug)))",
+      "(animal_stable(animal) | (has_skill(veterinarian, diagnosis) -> animal_recovers(animal)))",
+      "(administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))",
+      "(administer_drug(veterinarian, drug) -> drug_effective(drug))",
+      "(administer_drug(veterinarian, drug) -> condition_improves(animal))",
+      "(administer_drug(veterinarian, drug) -> -drug_effective(drug))",
+      "(administer_drug(veterinarian, drug) | -animal_stable(animal))",
+      "(condition_improves(animal) -> drug_effective(drug))",
+      "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> emergency_protocol(veterinarian))",
+      "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal))",
+      "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug))",
+      "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> -emergency_protocol(veterinarian))",
+      "(-(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))) -> get_second_opinion(veterinarian))",
+      "(-(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))) -> -get_second_opinion(veterinarian))",
+      "(-(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug)) -> treatment_working(animal))",
+      "(-hospital_has_protocol(hospital) -> protocol_violated(hospital))",
+      "has_skill(veterinarian, diagnosis)",
+      "hospital_has_protocol(hospital)",
+      "animal_recovers(animal)",
+      "-consult_specialist(veterinarian)",
+      "-treatment_working(animal)",
+      "-condition_worsens(animal)",
+      "-protocol_violated(hospital)",
+      "-prescribe_alternative(veterinarian, drug)",
+      "-has_condition(animal, critical)",
+      "-animal_stable(animal)",
+      "-administer_drug(veterinarian, drug)"
+    ],
+    "natural_expressions": [
+      "Provided that a veterinarian has diagnostic skills, the veterinarian can treat the animal.",
+      "If a veterinarian has diagnostic skills, then the veterinarian knows the treatment procedure.",
+      "Under the condition that a veterinarian has diagnostic skills, the animal recovers.",
+      "Whenever a veterinarian monitors the patient animal, the animal's condition improves.",
+      "Either the veterinarian consults a specialist, or if the veterinarian administers a drug, then the veterinarian monitors the patient animal.",
+      "The animal's condition worsens or the treatment is not working.",
+      "In the event that the animal is transferred to a facility, the veterinarian does not follow an emergency protocol.",
+      "Given that a senior veterinarian is available, if it is not the case that having diagnostic skills implies the veterinarian can treat the animal, then the animal is transferred to a facility.",
+      "Either a senior veterinarian is available or a junior veterinarian is available.",
+      "Should a junior veterinarian be available, then if the veterinarian having diagnostic skills does not entail the veterinarian can treat the animal, the animal is transferred to a facility.",
+      "Assuming the hospital has protocols, then if a junior veterinarian is available, then if the veterinarian's possession of diagnostic skills does not lead to the veterinarian being able to treat the animal, the animal is transferred to a facility.",
+      "Provided the veterinarian can treat the animal, the animal recovers.",
+      "If the hospital's equipment is functional, then a protocol violation does not occur.",
+      "Either the hospital's equipment is functional or backup is available.",
+      "Whenever backup is available at the hospital, a protocol violation does not happen.",
+      "In the event that the veterinarian knows the treatment procedure, the veterinarian can treat the animal.",
+      "Under the condition that the veterinarian is a certified surgeon, if the veterinarian has diagnostic skills, then the veterinarian knows the treatment procedure.",
+      "If the veterinarian is a certified surgeon, then the veterinarian is an experienced surgeon.",
+      "The veterinarian is either a certified surgeon or a trained surgeon.",
+      "Supposing the veterinarian is a trained surgeon, then if the veterinarian has diagnostic skills, the veterinarian knows the treatment procedure.",
+      "Given that the veterinarian is an experienced surgeon, then if the veterinarian has diagnostic skills, the veterinarian knows the treatment procedure.",
+      "Provided the animal has a critical condition, the animal requires surgery.",
+      "If the animal has a critical condition, then the animal does not require surgery.",
+      "Either the animal has a critical condition or if the veterinarian's possession of diagnostic skills does not imply the veterinarian can treat the animal, then the veterinarian prescribes an alternative drug.",
+      "The animal is stable or if the veterinarian has diagnostic skills, then the animal recovers.",
+      "Whenever the veterinarian administers a drug, the veterinarian monitors the patient animal.",
+      "In the event that the veterinarian administers a drug, the drug is effective.",
+      "Should the veterinarian administer a drug, the animal's condition improves.",
+      "Provided the veterinarian administers a drug, the drug is not effective.",
+      "Either the veterinarian administers a drug or the animal is not stable.",
+      "Given that the animal's condition improves, the drug is effective.",
+      "If it is not the case that having diagnostic skills implies the veterinarian can treat the animal, then the veterinarian follows an emergency protocol.",
+      "Under the condition that the veterinarian's diagnostic skills do not lead to the veterinarian being able to treat the animal, the animal is transferred to a facility.",
+      "Assuming the veterinarian's possession of diagnostic skills does not entail the veterinarian can treat the animal, the veterinarian prescribes an alternative drug.",
+      "Whenever the veterinarian having diagnostic skills does not imply the veterinarian can treat the animal, the veterinarian does not follow an emergency protocol.",
+      "If it is not the case that either the veterinarian consults a specialist or if the veterinarian administers a drug then the veterinarian monitors the patient animal, then the veterinarian obtains a second opinion.",
+      "In the event that it is not true that either the veterinarian consults a specialist or if the veterinarian administers a drug then the veterinarian monitors the patient animal, the veterinarian does not get a second opinion.",
+      "Provided it is not the case that if the veterinarian's diagnostic skills do not imply the veterinarian can treat the animal then the veterinarian prescribes an alternative drug, the treatment is working for the animal.",
+      "If the hospital does not have protocols, then a protocol violation occurs.",
+      "The veterinarian possesses diagnostic skills.",
+      "The hospital has established protocols.",
+      "The animal makes a recovery.",
+      "It is not the case that the veterinarian consults a specialist.",
+      "The treatment is not working.",
+      "The animal's condition does not deteriorate.",
+      "A hospital protocol violation does not hold.",
+      "The veterinarian does not prescribe an alternative drug.",
+      "The animal is not afflicted with a critical condition.",
+      "The animal is not in a stable state.",
+      "The veterinarian does not administer a drug."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal))",
+        "natural": "Provided that a veterinarian has diagnostic skills, the veterinarian can treat the animal."
+      },
+      "(A1 → A23)": {
+        "formal": "(A1 → A23)",
+        "prover9": "(A1 -> A23)",
+        "prover9_expression": "(has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment))",
+        "natural": "If a veterinarian has diagnostic skills, then the veterinarian knows the treatment procedure."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_skill(veterinarian, diagnosis) -> animal_recovers(animal))",
+        "natural": "Under the condition that a veterinarian has diagnostic skills, the animal recovers."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(monitor_patient(veterinarian, animal) -> condition_improves(animal))",
+        "natural": "Whenever a veterinarian monitors the patient animal, the animal's condition improves."
+      },
+      "(A11 ∨ (A7 → A10))": {
+        "formal": "(A11 ∨ (A7 → A10))",
+        "prover9": "(A11 | (A7 -> A10))",
+        "prover9_expression": "(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal)))",
+        "natural": "Either the veterinarian consults a specialist, or if the veterinarian administers a drug, then the veterinarian monitors the patient animal."
+      },
+      "(A14 ∨ ¬A13)": {
+        "formal": "(A14 ∨ ¬A13)",
+        "prover9": "(A14 | -A13)",
+        "prover9_expression": "(condition_worsens(animal) | -treatment_working(animal))",
+        "natural": "The animal's condition worsens or the treatment is not working."
+      },
+      "(A16 → ¬A15)": {
+        "formal": "(A16 → ¬A15)",
+        "prover9": "(A16 -> -A15)",
+        "prover9_expression": "(transfer_facility(animal) -> -emergency_protocol(veterinarian))",
+        "natural": "In the event that the animal is transferred to a facility, the veterinarian does not follow an emergency protocol."
+      },
+      "(A17 → (¬(A1 → A2) → A16))": {
+        "formal": "(A17 → (¬(A1 → A2) → A16))",
+        "prover9": "(A17 -> (-(A1 -> A2) -> A16))",
+        "prover9_expression": "(senior_vet_available(senior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal)))",
+        "natural": "Given that a senior veterinarian is available, if it is not the case that having diagnostic skills implies the veterinarian can treat the animal, then the animal is transferred to a facility."
+      },
+      "(A17 ∨ A18)": {
+        "formal": "(A17 ∨ A18)",
+        "prover9": "(A17 | A18)",
+        "prover9_expression": "(senior_vet_available(senior_veterinarian) | junior_vet_available(junior_veterinarian))",
+        "natural": "Either a senior veterinarian is available or a junior veterinarian is available."
+      },
+      "(A18 → (¬(A1 → A2) → A16))": {
+        "formal": "(A18 → (¬(A1 → A2) → A16))",
+        "prover9": "(A18 -> (-(A1 -> A2) -> A16))",
+        "prover9_expression": "(junior_vet_available(junior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal)))",
+        "natural": "Should a junior veterinarian be available, then if the veterinarian having diagnostic skills does not entail the veterinarian can treat the animal, the animal is transferred to a facility."
+      },
+      "(A19 → (A18 → (¬(A1 → A2) → A16)))": {
+        "formal": "(A19 → (A18 → (¬(A1 → A2) → A16)))",
+        "prover9": "(A19 -> (A18 -> (-(A1 -> A2) -> A16)))",
+        "prover9_expression": "(hospital_has_protocol(hospital) -> (junior_vet_available(junior_veterinarian) -> (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal))))",
+        "natural": "Assuming the hospital has protocols, then if a junior veterinarian is available, then if the veterinarian's possession of diagnostic skills does not lead to the veterinarian being able to treat the animal, the animal is transferred to a facility."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(can_treat(veterinarian, animal) -> animal_recovers(animal))",
+        "natural": "Provided the veterinarian can treat the animal, the animal recovers."
+      },
+      "(A21 → ¬A20)": {
+        "formal": "(A21 → ¬A20)",
+        "prover9": "(A21 -> -A20)",
+        "prover9_expression": "(equipment_functional(hospital) -> -protocol_violated(hospital))",
+        "natural": "If the hospital's equipment is functional, then a protocol violation does not occur."
+      },
+      "(A21 ∨ A22)": {
+        "formal": "(A21 ∨ A22)",
+        "prover9": "(A21 | A22)",
+        "prover9_expression": "(equipment_functional(hospital) | backup_available(hospital))",
+        "natural": "Either the hospital's equipment is functional or backup is available."
+      },
+      "(A22 → ¬A20)": {
+        "formal": "(A22 → ¬A20)",
+        "prover9": "(A22 -> -A20)",
+        "prover9_expression": "(backup_available(hospital) -> -protocol_violated(hospital))",
+        "natural": "Whenever backup is available at the hospital, a protocol violation does not happen."
+      },
+      "(A23 → A2)": {
+        "formal": "(A23 → A2)",
+        "prover9": "(A23 -> A2)",
+        "prover9_expression": "(knows_procedure(veterinarian, treatment) -> can_treat(veterinarian, animal))",
+        "natural": "In the event that the veterinarian knows the treatment procedure, the veterinarian can treat the animal."
+      },
+      "(A24 → (A1 → A23))": {
+        "formal": "(A24 → (A1 → A23))",
+        "prover9": "(A24 -> (A1 -> A23))",
+        "prover9_expression": "(certified_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+        "natural": "Under the condition that the veterinarian is a certified surgeon, if the veterinarian has diagnostic skills, then the veterinarian knows the treatment procedure."
+      },
+      "(A24 → A26)": {
+        "formal": "(A24 → A26)",
+        "prover9": "(A24 -> A26)",
+        "prover9_expression": "(certified_surgeon(veterinarian) -> experienced_surgeon(veterinarian))",
+        "natural": "If the veterinarian is a certified surgeon, then the veterinarian is an experienced surgeon."
+      },
+      "(A24 ∨ A25)": {
+        "formal": "(A24 ∨ A25)",
+        "prover9": "(A24 | A25)",
+        "prover9_expression": "(certified_surgeon(veterinarian) | trained_surgeon(veterinarian))",
+        "natural": "The veterinarian is either a certified surgeon or a trained surgeon."
+      },
+      "(A25 → (A1 → A23))": {
+        "formal": "(A25 → (A1 → A23))",
+        "prover9": "(A25 -> (A1 -> A23))",
+        "prover9_expression": "(trained_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+        "natural": "Supposing the veterinarian is a trained surgeon, then if the veterinarian has diagnostic skills, the veterinarian knows the treatment procedure."
+      },
+      "(A26 → (A1 → A23))": {
+        "formal": "(A26 → (A1 → A23))",
+        "prover9": "(A26 -> (A1 -> A23))",
+        "prover9_expression": "(experienced_surgeon(veterinarian) -> (has_skill(veterinarian, diagnosis) -> knows_procedure(veterinarian, treatment)))",
+        "natural": "Given that the veterinarian is an experienced surgeon, then if the veterinarian has diagnostic skills, the veterinarian knows the treatment procedure."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(has_condition(animal, critical) -> requires_surgery(animal))",
+        "natural": "Provided the animal has a critical condition, the animal requires surgery."
+      },
+      "(A4 → ¬A5)": {
+        "formal": "(A4 → ¬A5)",
+        "prover9": "(A4 -> -A5)",
+        "prover9_expression": "(has_condition(animal, critical) -> -requires_surgery(animal))",
+        "natural": "If the animal has a critical condition, then the animal does not require surgery."
+      },
+      "(A4 ∨ (¬(A1 → A2) → A3))": {
+        "formal": "(A4 ∨ (¬(A1 → A2) → A3))",
+        "prover9": "(A4 | (-(A1 -> A2) -> A3))",
+        "prover9_expression": "(has_condition(animal, critical) | (-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug)))",
+        "natural": "Either the animal has a critical condition or if the veterinarian's possession of diagnostic skills does not imply the veterinarian can treat the animal, then the veterinarian prescribes an alternative drug."
+      },
+      "(A6 ∨ (A1 → G))": {
+        "formal": "(A6 ∨ (A1 → G))",
+        "prover9": "(A6 | (A1 -> G))",
+        "prover9_expression": "(animal_stable(animal) | (has_skill(veterinarian, diagnosis) -> animal_recovers(animal)))",
+        "natural": "The animal is stable or if the veterinarian has diagnostic skills, then the animal recovers."
+      },
+      "(A7 → A10)": {
+        "formal": "(A7 → A10)",
+        "prover9": "(A7 -> A10)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))",
+        "natural": "Whenever the veterinarian administers a drug, the veterinarian monitors the patient animal."
+      },
+      "(A7 → A8)": {
+        "formal": "(A7 → A8)",
+        "prover9": "(A7 -> A8)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) -> drug_effective(drug))",
+        "natural": "In the event that the veterinarian administers a drug, the drug is effective."
+      },
+      "(A7 → A9)": {
+        "formal": "(A7 → A9)",
+        "prover9": "(A7 -> A9)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) -> condition_improves(animal))",
+        "natural": "Should the veterinarian administer a drug, the animal's condition improves."
+      },
+      "(A7 → ¬A8)": {
+        "formal": "(A7 → ¬A8)",
+        "prover9": "(A7 -> -A8)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) -> -drug_effective(drug))",
+        "natural": "Provided the veterinarian administers a drug, the drug is not effective."
+      },
+      "(A7 ∨ ¬A6)": {
+        "formal": "(A7 ∨ ¬A6)",
+        "prover9": "(A7 | -A6)",
+        "prover9_expression": "(administer_drug(veterinarian, drug) | -animal_stable(animal))",
+        "natural": "Either the veterinarian administers a drug or the animal is not stable."
+      },
+      "(A9 → A8)": {
+        "formal": "(A9 → A8)",
+        "prover9": "(A9 -> A8)",
+        "prover9_expression": "(condition_improves(animal) -> drug_effective(drug))",
+        "natural": "Given that the animal's condition improves, the drug is effective."
+      },
+      "(¬(A1 → A2) → A15)": {
+        "formal": "(¬(A1 → A2) → A15)",
+        "prover9": "(-(A1 -> A2) -> A15)",
+        "prover9_expression": "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> emergency_protocol(veterinarian))",
+        "natural": "If it is not the case that having diagnostic skills implies the veterinarian can treat the animal, then the veterinarian follows an emergency protocol."
+      },
+      "(¬(A1 → A2) → A16)": {
+        "formal": "(¬(A1 → A2) → A16)",
+        "prover9": "(-(A1 -> A2) -> A16)",
+        "prover9_expression": "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> transfer_facility(animal))",
+        "natural": "Under the condition that the veterinarian's diagnostic skills do not lead to the veterinarian being able to treat the animal, the animal is transferred to a facility."
+      },
+      "(¬(A1 → A2) → A3)": {
+        "formal": "(¬(A1 → A2) → A3)",
+        "prover9": "(-(A1 -> A2) -> A3)",
+        "prover9_expression": "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug))",
+        "natural": "Assuming the veterinarian's possession of diagnostic skills does not entail the veterinarian can treat the animal, the veterinarian prescribes an alternative drug."
+      },
+      "(¬(A1 → A2) → ¬A15)": {
+        "formal": "(¬(A1 → A2) → ¬A15)",
+        "prover9": "(-(A1 -> A2) -> -A15)",
+        "prover9_expression": "(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> -emergency_protocol(veterinarian))",
+        "natural": "Whenever the veterinarian having diagnostic skills does not imply the veterinarian can treat the animal, the veterinarian does not follow an emergency protocol."
+      },
+      "(¬(A11 ∨ (A7 → A10)) → A12)": {
+        "formal": "(¬(A11 ∨ (A7 → A10)) → A12)",
+        "prover9": "(-(A11 | (A7 -> A10)) -> A12)",
+        "prover9_expression": "(-(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))) -> get_second_opinion(veterinarian))",
+        "natural": "If it is not the case that either the veterinarian consults a specialist or if the veterinarian administers a drug then the veterinarian monitors the patient animal, then the veterinarian obtains a second opinion."
+      },
+      "(¬(A11 ∨ (A7 → A10)) → ¬A12)": {
+        "formal": "(¬(A11 ∨ (A7 → A10)) → ¬A12)",
+        "prover9": "(-(A11 | (A7 -> A10)) -> -A12)",
+        "prover9_expression": "(-(consult_specialist(veterinarian) | (administer_drug(veterinarian, drug) -> monitor_patient(veterinarian, animal))) -> -get_second_opinion(veterinarian))",
+        "natural": "In the event that it is not true that either the veterinarian consults a specialist or if the veterinarian administers a drug then the veterinarian monitors the patient animal, the veterinarian does not get a second opinion."
+      },
+      "(¬(¬(A1 → A2) → A3) → A13)": {
+        "formal": "(¬(¬(A1 → A2) → A3) → A13)",
+        "prover9": "(-(-(A1 -> A2) -> A3) -> A13)",
+        "prover9_expression": "(-(-(has_skill(veterinarian, diagnosis) -> can_treat(veterinarian, animal)) -> prescribe_alternative(veterinarian, drug)) -> treatment_working(animal))",
+        "natural": "Provided it is not the case that if the veterinarian's diagnostic skills do not imply the veterinarian can treat the animal then the veterinarian prescribes an alternative drug, the treatment is working for the animal."
+      },
+      "(¬A19 → A20)": {
+        "formal": "(¬A19 → A20)",
+        "prover9": "(-A19 -> A20)",
+        "prover9_expression": "(-hospital_has_protocol(hospital) -> protocol_violated(hospital))",
+        "natural": "If the hospital does not have protocols, then a protocol violation occurs."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_skill(veterinarian, diagnosis)",
+        "natural": "The veterinarian possesses diagnostic skills."
+      },
+      "A19": {
+        "formal": "A19",
+        "prover9": "A19",
+        "prover9_expression": "hospital_has_protocol(hospital)",
+        "natural": "The hospital has established protocols."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "animal_recovers(animal)",
+        "natural": "The animal makes a recovery."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-consult_specialist(veterinarian)",
+        "natural": "It is not the case that the veterinarian consults a specialist."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-treatment_working(animal)",
+        "natural": "The treatment is not working."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-condition_worsens(animal)",
+        "natural": "The animal's condition does not deteriorate."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-protocol_violated(hospital)",
+        "natural": "A hospital protocol violation does not hold."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-prescribe_alternative(veterinarian, drug)",
+        "natural": "The veterinarian does not prescribe an alternative drug."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-has_condition(animal, critical)",
+        "natural": "The animal is not afflicted with a critical condition."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-animal_stable(animal)",
+        "natural": "The animal is not in a stable state."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-administer_drug(veterinarian, drug)",
+        "natural": "The veterinarian does not administer a drug."
+      }
+    }
+  }
+}

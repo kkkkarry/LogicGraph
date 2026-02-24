@@ -1,0 +1,396 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(contaminated(alcohol_sample, poison) | confirmed(cause_of_death, alcohol_poisoning))",
+        "natural": "Either the alcohol sample is contaminated with poison, or the cause of death is confirmed as alcohol poisoning."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(identified(toxic_substance, crime_tool) | detected(natural_phenomenon, contamination_source))",
+        "natural": "Either the toxic substance is identified on the crime tool, or a natural phenomenon is detected as the contamination source."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 → ¬A1)",
+        "prover9_expression": "(detected(natural_phenomenon, contamination_source) -> -contaminated(alcohol_sample, poison))",
+        "natural": "If a natural phenomenon is detected as the contamination source, then the alcohol sample is not contaminated with poison."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → ¬A1)",
+        "prover9_expression": "(completed(lab_analysis, toxic_substance) -> -contaminated(alcohol_sample, poison))",
+        "natural": "If the lab analysis of the toxic substance is completed, then the alcohol sample is not contaminated with poison."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 → (A2 → A4))",
+        "prover9_expression": "(assigned(forensic_toxicologist, case) -> (identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance)))",
+        "natural": "If a forensic toxicologist is assigned to the case, then should the toxic substance be identified on the crime tool, the lab analysis of the toxic substance is completed."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A8 → A9)",
+        "prover9_expression": "(suspended(lab_technician, job) -> terminated(lab_technician, job))",
+        "natural": "If the lab technician's job is suspended, then the lab technician's job is terminated."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A8 ∨ (¬A6 → A7))",
+        "prover9_expression": "(suspended(lab_technician, job) | (-assigned(forensic_toxicologist, case) -> escalated(investigation, federal_level)))",
+        "natural": "Either the lab technician's job is suspended, or if a forensic toxicologist is not assigned to the case, then the investigation is escalated to the federal level."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A2 → A4) → A5)",
+        "prover9_expression": "(-(identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance)) -> initiated(emergency_protocol, investigation))",
+        "natural": "If it is not the case that identifying the toxic substance on the crime tool leads to completing the lab analysis of the toxic substance, then the emergency protocol for the investigation is initiated."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A2 → A4) → ¬A5)",
+        "prover9_expression": "(-(identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance)) -> -initiated(emergency_protocol, investigation))",
+        "natural": "If it is not the case that identifying the toxic substance on the crime tool leads to completing the lab analysis of the toxic substance, then the emergency protocol for the investigation is not initiated."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬A6 → ¬A7)",
+        "prover9_expression": "(-assigned(forensic_toxicologist, case) -> -escalated(investigation, federal_level))",
+        "natural": "If a forensic toxicologist is not assigned to the case, then the investigation is not escalated to the federal level."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A9",
+        "prover9_expression": "-terminated(lab_technician, job)",
+        "natural": "The lab technician's job is not terminated."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "confirmed(cause_of_death, alcohol_poisoning)",
+    "natural": "The cause of death is confirmed as alcohol poisoning."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A2 -> A4) -> A5)",
+            "(-(A2 -> A4) -> -A5)"
+          ],
+          "conclusion": "(A2 -> A4)",
+          "natural": "If the toxic substance is identified on the crime tool, then the lab analysis of the toxic substance is completed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A4)",
+            "(A4 -> -A1)"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If the toxic substance is identified on the crime tool, then the alcohol sample is not contaminated with poison."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "The alcohol sample is not contaminated with poison."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The cause of death is confirmed as alcohol poisoning."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A8 -> A9)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "The lab technician's job is not suspended."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A8 | (-A6 -> A7))",
+            "-A8"
+          ],
+          "conclusion": "(-A6 -> A7)",
+          "natural": "If a forensic toxicologist is not assigned to the case, then the investigation is escalated to the federal level."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A6 -> A7)",
+            "(-A6 -> -A7)"
+          ],
+          "conclusion": "A6",
+          "natural": "A forensic toxicologist is assigned to the case."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> (A2 -> A4))",
+            "A6"
+          ],
+          "conclusion": "(A2 -> A4)",
+          "natural": "If the toxic substance is identified on the crime tool, then the lab analysis of the toxic substance is completed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A4)",
+            "(A4 -> -A1)"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If the toxic substance is identified on the crime tool, then the alcohol sample is not contaminated with poison."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "The alcohol sample is not contaminated with poison."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The cause of death is confirmed as alcohol poisoning."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "contaminated(alcohol_sample, poison)",
+      "A2": "identified(toxic_substance, crime_tool)",
+      "A3": "detected(natural_phenomenon, contamination_source)",
+      "A4": "completed(lab_analysis, toxic_substance)",
+      "A5": "initiated(emergency_protocol, investigation)",
+      "A6": "assigned(forensic_toxicologist, case)",
+      "A7": "escalated(investigation, federal_level)",
+      "A8": "suspended(lab_technician, job)",
+      "A9": "terminated(lab_technician, job)",
+      "G": "confirmed(cause_of_death, alcohol_poisoning)"
+    },
+    "natural_facts": {
+      "A1": "The alcohol sample is contaminated with poison",
+      "A2": "The toxic substance is identified on the crime tool",
+      "A3": "A natural phenomenon is detected as the contamination source",
+      "A4": "The lab analysis of the toxic substance is completed",
+      "A5": "The emergency protocol for the investigation is initiated",
+      "A6": "A forensic toxicologist is assigned to the case",
+      "A7": "The investigation is escalated to the federal level",
+      "A8": "The lab technician's job is suspended",
+      "A9": "The lab technician's job is terminated",
+      "G": "The cause of death is confirmed as alcohol poisoning"
+    },
+    "prover9_expressions": [
+      "(contaminated(alcohol_sample, poison) ∨ confirmed(cause_of_death, alcohol_poisoning))",
+      "(identified(toxic_substance, crime_tool) → completed(lab_analysis, toxic_substance))",
+      "(identified(toxic_substance, crime_tool) → ¬contaminated(alcohol_sample, poison))",
+      "(identified(toxic_substance, crime_tool) ∨ detected(natural_phenomenon, contamination_source))",
+      "(detected(natural_phenomenon, contamination_source) → ¬contaminated(alcohol_sample, poison))",
+      "(completed(lab_analysis, toxic_substance) → ¬contaminated(alcohol_sample, poison))",
+      "(assigned(forensic_toxicologist, case) → (identified(toxic_substance, crime_tool) → completed(lab_analysis, toxic_substance)))",
+      "(suspended(lab_technician, job) → terminated(lab_technician, job))",
+      "(suspended(lab_technician, job) ∨ (¬assigned(forensic_toxicologist, case) → escalated(investigation, federal_level)))",
+      "(¬(identified(toxic_substance, crime_tool) → completed(lab_analysis, toxic_substance)) → initiated(emergency_protocol, investigation))",
+      "(¬(identified(toxic_substance, crime_tool) → completed(lab_analysis, toxic_substance)) → ¬initiated(emergency_protocol, investigation))",
+      "(¬assigned(forensic_toxicologist, case) → escalated(investigation, federal_level))",
+      "(¬assigned(forensic_toxicologist, case) → ¬escalated(investigation, federal_level))",
+      "assigned(forensic_toxicologist, case)",
+      "confirmed(cause_of_death, alcohol_poisoning)",
+      "¬contaminated(alcohol_sample, poison)",
+      "¬suspended(lab_technician, job)",
+      "¬terminated(lab_technician, job)"
+    ],
+    "natural_expressions": [
+      "Either the alcohol sample is contaminated with poison, or the cause of death is confirmed as alcohol poisoning.",
+      "If the toxic substance is identified on the crime tool, then the lab analysis of the toxic substance is completed.",
+      "If the toxic substance is identified on the crime tool, then the alcohol sample is not contaminated with poison.",
+      "Either the toxic substance is identified on the crime tool, or a natural phenomenon is detected as the contamination source.",
+      "If a natural phenomenon is detected as the contamination source, then the alcohol sample is not contaminated with poison.",
+      "If the lab analysis of the toxic substance is completed, then the alcohol sample is not contaminated with poison.",
+      "If a forensic toxicologist is assigned to the case, then should the toxic substance be identified on the crime tool, the lab analysis of the toxic substance is completed.",
+      "If the lab technician's job is suspended, then the lab technician's job is terminated.",
+      "Either the lab technician's job is suspended, or if a forensic toxicologist is not assigned to the case, then the investigation is escalated to the federal level.",
+      "If it is not the case that identifying the toxic substance on the crime tool leads to completing the lab analysis of the toxic substance, then the emergency protocol for the investigation is initiated.",
+      "If it is not the case that identifying the toxic substance on the crime tool leads to completing the lab analysis of the toxic substance, then the emergency protocol for the investigation is not initiated.",
+      "If a forensic toxicologist is not assigned to the case, then the investigation is escalated to the federal level.",
+      "If a forensic toxicologist is not assigned to the case, then the investigation is not escalated to the federal level.",
+      "A forensic toxicologist is assigned to the case.",
+      "The cause of death is confirmed as alcohol poisoning.",
+      "The alcohol sample is not contaminated with poison.",
+      "The lab technician's job is not suspended.",
+      "The lab technician's job is not terminated."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(contaminated(alcohol_sample, poison) | confirmed(cause_of_death, alcohol_poisoning))",
+        "natural": "Either the alcohol sample is contaminated with poison, or the cause of death is confirmed as alcohol poisoning."
+      },
+      "(A2 → A4)": {
+        "formal": "(A2 → A4)",
+        "prover9": "(A2 -> A4)",
+        "prover9_expression": "(identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance))",
+        "natural": "If the toxic substance is identified on the crime tool, then the lab analysis of the toxic substance is completed."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(identified(toxic_substance, crime_tool) -> -contaminated(alcohol_sample, poison))",
+        "natural": "If the toxic substance is identified on the crime tool, then the alcohol sample is not contaminated with poison."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(identified(toxic_substance, crime_tool) | detected(natural_phenomenon, contamination_source))",
+        "natural": "Either the toxic substance is identified on the crime tool, or a natural phenomenon is detected as the contamination source."
+      },
+      "(A3 → ¬A1)": {
+        "formal": "(A3 → ¬A1)",
+        "prover9": "(A3 -> -A1)",
+        "prover9_expression": "(detected(natural_phenomenon, contamination_source) -> -contaminated(alcohol_sample, poison))",
+        "natural": "If a natural phenomenon is detected as the contamination source, then the alcohol sample is not contaminated with poison."
+      },
+      "(A4 → ¬A1)": {
+        "formal": "(A4 → ¬A1)",
+        "prover9": "(A4 -> -A1)",
+        "prover9_expression": "(completed(lab_analysis, toxic_substance) -> -contaminated(alcohol_sample, poison))",
+        "natural": "If the lab analysis of the toxic substance is completed, then the alcohol sample is not contaminated with poison."
+      },
+      "(A6 → (A2 → A4))": {
+        "formal": "(A6 → (A2 → A4))",
+        "prover9": "(A6 -> (A2 -> A4))",
+        "prover9_expression": "(assigned(forensic_toxicologist, case) -> (identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance)))",
+        "natural": "If a forensic toxicologist is assigned to the case, then should the toxic substance be identified on the crime tool, the lab analysis of the toxic substance is completed."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(suspended(lab_technician, job) -> terminated(lab_technician, job))",
+        "natural": "If the lab technician's job is suspended, then the lab technician's job is terminated."
+      },
+      "(A8 ∨ (¬A6 → A7))": {
+        "formal": "(A8 ∨ (¬A6 → A7))",
+        "prover9": "(A8 | (-A6 -> A7))",
+        "prover9_expression": "(suspended(lab_technician, job) | (-assigned(forensic_toxicologist, case) -> escalated(investigation, federal_level)))",
+        "natural": "Either the lab technician's job is suspended, or if a forensic toxicologist is not assigned to the case, then the investigation is escalated to the federal level."
+      },
+      "(¬(A2 → A4) → A5)": {
+        "formal": "(¬(A2 → A4) → A5)",
+        "prover9": "(-(A2 -> A4) -> A5)",
+        "prover9_expression": "(-(identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance)) -> initiated(emergency_protocol, investigation))",
+        "natural": "If it is not the case that identifying the toxic substance on the crime tool leads to completing the lab analysis of the toxic substance, then the emergency protocol for the investigation is initiated."
+      },
+      "(¬(A2 → A4) → ¬A5)": {
+        "formal": "(¬(A2 → A4) → ¬A5)",
+        "prover9": "(-(A2 -> A4) -> -A5)",
+        "prover9_expression": "(-(identified(toxic_substance, crime_tool) -> completed(lab_analysis, toxic_substance)) -> -initiated(emergency_protocol, investigation))",
+        "natural": "If it is not the case that identifying the toxic substance on the crime tool leads to completing the lab analysis of the toxic substance, then the emergency protocol for the investigation is not initiated."
+      },
+      "(¬A6 → A7)": {
+        "formal": "(¬A6 → A7)",
+        "prover9": "(-A6 -> A7)",
+        "prover9_expression": "(-assigned(forensic_toxicologist, case) -> escalated(investigation, federal_level))",
+        "natural": "If a forensic toxicologist is not assigned to the case, then the investigation is escalated to the federal level."
+      },
+      "(¬A6 → ¬A7)": {
+        "formal": "(¬A6 → ¬A7)",
+        "prover9": "(-A6 -> -A7)",
+        "prover9_expression": "(-assigned(forensic_toxicologist, case) -> -escalated(investigation, federal_level))",
+        "natural": "If a forensic toxicologist is not assigned to the case, then the investigation is not escalated to the federal level."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "assigned(forensic_toxicologist, case)",
+        "natural": "A forensic toxicologist is assigned to the case."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "confirmed(cause_of_death, alcohol_poisoning)",
+        "natural": "The cause of death is confirmed as alcohol poisoning."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-contaminated(alcohol_sample, poison)",
+        "natural": "The alcohol sample is not contaminated with poison."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-suspended(lab_technician, job)",
+        "natural": "The lab technician's job is not suspended."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-terminated(lab_technician, job)",
+        "natural": "The lab technician's job is not terminated."
+      }
+    }
+  }
+}

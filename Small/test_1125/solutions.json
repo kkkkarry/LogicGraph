@@ -1,0 +1,441 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A7 | (A6 -> (A2 | A3)))",
+              "prover9_expression": "(traffic_blocked(route5) | (vehicle_ready(driver, van) -> (can_deliver(driver, order1) | can_deliver(driver, order2))))",
+              "natural": "Either route5 is blocked by traffic or, if the driver's van is ready, then the driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A7",
+              "prover9_expression": "-traffic_blocked(route5)",
+              "natural": "Route5 is not blocked by traffic."
+            }
+          ],
+          "conclusion": "(A6 -> (A2 | A3))",
+          "natural": "If the driver's van is ready, then the driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A4 -> A6)",
+              "prover9_expression": "(order_assigned(driver, order1) -> vehicle_ready(driver, van))",
+              "natural": "In the case that order1 is assigned to the driver, the driver's van is ready."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (A2 | A3))",
+              "prover9_expression": "(vehicle_ready(driver, van) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "If the driver's van is ready, then the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "Whenever order1 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(order_assigned(driver, order1) | order_assigned(driver, order2))",
+              "natural": "Either order1 is assigned to the driver or order2 is assigned to the driver."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(order_assigned(driver, order1) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Whenever order1 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A5 -> (A2 | A3))",
+              "prover9_expression": "(order_assigned(driver, order2) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Under the condition that order2 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "The driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(can_deliver(driver, order1) | can_deliver(driver, order2))",
+              "natural": "The driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(can_deliver(driver, order1) -> (has_approval(driver, restaurant) | has_emergency_permit(driver)))",
+              "natural": "Under the condition that the driver can deliver order1, either the driver has approval from the restaurant or the driver has an emergency permit."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A3 -> (A1 | G))",
+              "prover9_expression": "(can_deliver(driver, order2) -> (has_approval(driver, restaurant) | has_emergency_permit(driver)))",
+              "natural": "If the driver can deliver order2, then either the driver has approval from the restaurant or the driver has an emergency permit."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the driver has approval from the restaurant or the driver has an emergency permit."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_approval(driver, restaurant) | has_emergency_permit(driver))",
+              "natural": "Either the driver has approval from the restaurant or the driver has an emergency permit."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A1",
+              "prover9_expression": "-has_approval(driver, restaurant)",
+              "natural": "It is not the case that the driver has approval from the restaurant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The driver holds an emergency permit."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A11)",
+              "prover9_expression": "(override_needed(system) -> manual_authorization(admin))",
+              "natural": "In the event that an override is needed by the system, manual authorization from the admin must occur."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A11",
+              "prover9_expression": "-manual_authorization(admin)",
+              "natural": "Manual authorization by the admin does not occur."
+            }
+          ],
+          "conclusion": "-A10",
+          "natural": "The system does not require an override."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-(A9 -> (A6 -> A8)) -> A10)",
+              "prover9_expression": "(-(dispatch_approved(manager, driver) -> (vehicle_ready(driver, van) -> route_clear(driver, route3))) -> override_needed(system))",
+              "natural": "If it is not the case that dispatch approval from the manager implies that van readiness leads to a clear route via route3, then the system requires an override."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A10",
+              "prover9_expression": "-override_needed(system)",
+              "natural": "The system does not require an override."
+            }
+          ],
+          "conclusion": "(A9 -> (A6 -> A8))",
+          "natural": "In the event that the manager has approved dispatch for the driver, then if the driver's van is ready, the driver has a clear route via route3."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A6 -> A8))",
+              "prover9_expression": "(dispatch_approved(manager, driver) -> (vehicle_ready(driver, van) -> route_clear(driver, route3)))",
+              "natural": "In the event that the manager has approved dispatch for the driver, then if the driver's van is ready, the driver has a clear route via route3."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A9",
+              "prover9_expression": "dispatch_approved(manager, driver)",
+              "natural": "The manager has granted dispatch approval for the driver."
+            }
+          ],
+          "conclusion": "(A6 -> A8)",
+          "natural": "Whenever the driver's van is ready, the driver has a clear route via route3."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> A8)",
+              "prover9_expression": "(vehicle_ready(driver, van) -> route_clear(driver, route3))",
+              "natural": "Whenever the driver's van is ready, the driver has a clear route via route3."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A8 -> (A2 | A3))",
+              "prover9_expression": "(route_clear(driver, route3) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Provided that the driver has a clear route via route3, the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A6 -> (A2 | A3))",
+          "natural": "If the driver's van is ready, then the driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A4 -> A6)",
+              "prover9_expression": "(order_assigned(driver, order1) -> vehicle_ready(driver, van))",
+              "natural": "In the case that order1 is assigned to the driver, the driver's van is ready."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (A2 | A3))",
+              "prover9_expression": "(vehicle_ready(driver, van) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "If the driver's van is ready, then the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "Whenever order1 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(order_assigned(driver, order1) | order_assigned(driver, order2))",
+              "natural": "Either order1 is assigned to the driver or order2 is assigned to the driver."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(order_assigned(driver, order1) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Whenever order1 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A5 -> (A2 | A3))",
+              "prover9_expression": "(order_assigned(driver, order2) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Under the condition that order2 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "The driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(can_deliver(driver, order1) | can_deliver(driver, order2))",
+              "natural": "The driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(can_deliver(driver, order1) -> (has_approval(driver, restaurant) | has_emergency_permit(driver)))",
+              "natural": "Under the condition that the driver can deliver order1, either the driver has approval from the restaurant or the driver has an emergency permit."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A3 -> (A1 | G))",
+              "prover9_expression": "(can_deliver(driver, order2) -> (has_approval(driver, restaurant) | has_emergency_permit(driver)))",
+              "natural": "If the driver can deliver order2, then either the driver has approval from the restaurant or the driver has an emergency permit."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the driver has approval from the restaurant or the driver has an emergency permit."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_approval(driver, restaurant) | has_emergency_permit(driver))",
+              "natural": "Either the driver has approval from the restaurant or the driver has an emergency permit."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A1",
+              "prover9_expression": "-has_approval(driver, restaurant)",
+              "natural": "It is not the case that the driver has approval from the restaurant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The driver holds an emergency permit."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (A12 -> (A2 | A3)))",
+              "prover9_expression": "(delivery_available(order2) -> (delivery_available(order1) -> (can_deliver(driver, order1) | can_deliver(driver, order2))))",
+              "natural": "Provided that delivery is available for order2, if delivery is available for order1, then the driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "delivery_available(order2)",
+              "natural": "Delivery is available for order2."
+            }
+          ],
+          "conclusion": "(A12 -> (A2 | A3))",
+          "natural": "Whenever delivery is available for order1, the driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A4 -> A12)",
+              "prover9_expression": "(order_assigned(driver, order1) -> delivery_available(order1))",
+              "natural": "Provided that order1 is assigned to the driver, delivery is available for order1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (A2 | A3))",
+              "prover9_expression": "(delivery_available(order1) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Whenever delivery is available for order1, the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "Whenever order1 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(order_assigned(driver, order1) | order_assigned(driver, order2))",
+              "natural": "Either order1 is assigned to the driver or order2 is assigned to the driver."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(order_assigned(driver, order1) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Whenever order1 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A5 -> (A2 | A3))",
+              "prover9_expression": "(order_assigned(driver, order2) -> (can_deliver(driver, order1) | can_deliver(driver, order2)))",
+              "natural": "Under the condition that order2 is assigned to the driver, the driver can deliver order1 or the driver can deliver order2."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "The driver can deliver order1 or the driver can deliver order2."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(can_deliver(driver, order1) | can_deliver(driver, order2))",
+              "natural": "The driver can deliver order1 or the driver can deliver order2."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A2 -> (A1 | G))",
+              "prover9_expression": "(can_deliver(driver, order1) -> (has_approval(driver, restaurant) | has_emergency_permit(driver)))",
+              "natural": "Under the condition that the driver can deliver order1, either the driver has approval from the restaurant or the driver has an emergency permit."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A3 -> (A1 | G))",
+              "prover9_expression": "(can_deliver(driver, order2) -> (has_approval(driver, restaurant) | has_emergency_permit(driver)))",
+              "natural": "If the driver can deliver order2, then either the driver has approval from the restaurant or the driver has an emergency permit."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the driver has approval from the restaurant or the driver has an emergency permit."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(has_approval(driver, restaurant) | has_emergency_permit(driver))",
+              "natural": "Either the driver has approval from the restaurant or the driver has an emergency permit."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A1",
+              "prover9_expression": "-has_approval(driver, restaurant)",
+              "natural": "It is not the case that the driver has approval from the restaurant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The driver holds an emergency permit."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A3 -> A4)",
+              "prover9_expression": "(dependent(patient, drug) -> addicted(patient, drug))",
+              "natural": "If the patient is dependent on a drug, then the patient is addicted to a drug."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A3 -> -A4)",
+              "prover9_expression": "(dependent(patient, drug) -> -addicted(patient, drug))",
+              "natural": "Given that the patient is dependent on a drug, it is not the case that the patient is addicted to a drug."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "The patient is not dependent on a drug."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A3 | -A2)",
+              "prover9_expression": "(dependent(patient, drug) | -attending(patient, sessions))",
+              "natural": "Either the patient is dependent on a drug, or the patient is not attending sessions."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-dependent(patient, drug)",
+              "natural": "The patient is not dependent on a drug."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The patient is not attending sessions."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A2 | (A1 | G))",
+              "prover9_expression": "(attending(patient, sessions) | (enrolled(patient, therapy) | prescribed(patient, medication)))",
+              "natural": "The patient is attending sessions, or the patient is enrolled in therapy, or the patient is prescribed medication."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-attending(patient, sessions)",
+              "natural": "The patient is not attending sessions."
+            }
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the patient is enrolled in therapy or the patient is prescribed medication."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(enrolled(patient, therapy) | prescribed(patient, medication))",
+              "natural": "Either the patient is enrolled in therapy or the patient is prescribed medication."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A1",
+              "prover9_expression": "-enrolled(patient, therapy)",
+              "natural": "It is not the case that the patient is enrolled in therapy."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is prescribed medication."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-(A7 -> (A6 -> -A5)) -> A9)",
+              "prover9_expression": "(-(counseled(patient, therapist) -> (tested(patient, drug_free) -> -using(patient, drug))) -> discharged(patient, program))",
+              "natural": "If it is not the case that being counseled by a therapist implies that if tested as drug-free then not using a drug, then the patient is discharged from the program."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(-(A7 -> (A6 -> -A5)) -> -A9)",
+              "prover9_expression": "(-(counseled(patient, therapist) -> (tested(patient, drug_free) -> -using(patient, drug))) -> -discharged(patient, program))",
+              "natural": "If it is false that being counseled by a therapist entails that if tested as drug-free then not using a drug, then the patient is not discharged from the program."
+            }
+          ],
+          "conclusion": "(A7 -> (A6 -> -A5))",
+          "natural": "Under the condition that the patient is counseled by a therapist, if the patient is tested as drug-free, then the patient is not using a drug."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(counseled(patient, therapist) | supported(patient, group))",
+              "natural": "Either the patient is counseled by a therapist or the patient is supported by a group."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> (A6 -> -A5))",
+              "prover9_expression": "(counseled(patient, therapist) -> (tested(patient, drug_free) -> -using(patient, drug)))",
+              "natural": "Under the condition that the patient is counseled by a therapist, if the patient is tested as drug-free, then the patient is not using a drug."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A8 -> (A6 -> -A5))",
+              "prover9_expression": "(supported(patient, group) -> (tested(patient, drug_free) -> -using(patient, drug)))",
+              "natural": "If the patient is supported by a group, then provided that the patient is tested as drug-free, the patient is not using a drug."
+            }
+          ],
+          "conclusion": "(A6 -> -A5)",
+          "natural": "Whenever the patient is tested as drug-free, it follows that the patient is not using a drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> -A5)",
+              "prover9_expression": "(tested(patient, drug_free) -> -using(patient, drug))",
+              "natural": "Whenever the patient is tested as drug-free, it follows that the patient is not using a drug."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A6",
+              "prover9_expression": "tested(patient, drug_free)",
+              "natural": "The patient is tested as drug-free."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The patient is not using a drug."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(-G -> A5)",
+              "prover9_expression": "(-prescribed(patient, medication) -> using(patient, drug))",
+              "natural": "If the patient is not prescribed medication, then the patient is using a drug."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-using(patient, drug)",
+              "natural": "The patient is not using a drug."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is prescribed medication."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A14 -> A13)",
+              "prover9_expression": "(monitored(patient, progress) -> compliant(patient, treatment))",
+              "natural": "Under the condition that the patient is monitored for progress, the patient is compliant with the treatment."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> (-A11 -> -A12))",
+              "prover9_expression": "(evaluated(patient, progress) -> (-abstinent(patient, alcohol) -> -relapsed(patient, alcohol)))",
+              "natural": "If the patient is evaluated for progress, then whenever the patient is not abstinent from alcohol, the patient has not relapsed with alcohol."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(monitored(patient, progress) | evaluated(patient, progress))",
+              "natural": "Either the patient is monitored for progress or the patient is evaluated for progress."
+            }
+          ],
+          "conclusion": "(A13 | (-A11 -> -A12))",
+          "natural": "Either the patient is compliant with the treatment, or if the patient is not abstinent from alcohol, then the patient has not relapsed with alcohol."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | (-A11 -> -A12))",
+              "prover9_expression": "(compliant(patient, treatment) | (-abstinent(patient, alcohol) -> -relapsed(patient, alcohol)))",
+              "natural": "Either the patient is compliant with the treatment, or if the patient is not abstinent from alcohol, then the patient has not relapsed with alcohol."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A13",
+              "prover9_expression": "-compliant(patient, treatment)",
+              "natural": "The patient is not compliant with the treatment."
+            }
+          ],
+          "conclusion": "(-A11 -> -A12)",
+          "natural": "Provided that the patient is not abstinent from alcohol, it follows that the patient has not relapsed with alcohol."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-A11 -> A12)",
+              "prover9_expression": "(-abstinent(patient, alcohol) -> relapsed(patient, alcohol))",
+              "natural": "If the patient is not abstinent from alcohol, then the patient has relapsed with alcohol."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A11 -> -A12)",
+              "prover9_expression": "(-abstinent(patient, alcohol) -> -relapsed(patient, alcohol))",
+              "natural": "Provided that the patient is not abstinent from alcohol, it follows that the patient has not relapsed with alcohol."
+            }
+          ],
+          "conclusion": "A11",
+          "natural": "The patient is abstinent from alcohol."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> -A10)",
+              "prover9_expression": "(abstinent(patient, alcohol) -> -consuming(patient, alcohol))",
+              "natural": "Provided that the patient is abstinent from alcohol, it follows that the patient is not consuming alcohol."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A11",
+              "prover9_expression": "abstinent(patient, alcohol)",
+              "natural": "The patient is abstinent from alcohol."
+            }
+          ],
+          "conclusion": "-A10",
+          "natural": "The patient is not consuming alcohol."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(-G -> A10)",
+              "prover9_expression": "(-prescribed(patient, medication) -> consuming(patient, alcohol))",
+              "natural": "In the event that the patient is not prescribed medication, then the patient is consuming alcohol."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A10",
+              "prover9_expression": "-consuming(patient, alcohol)",
+              "natural": "The patient is not consuming alcohol."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is prescribed medication."
+        }
+      ]
+    }
+  ]
+}

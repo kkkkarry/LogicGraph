@@ -1,0 +1,501 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(has_defect(raw_material, contamination) | has_defect(raw_material, impurity))",
+              "natural": "The raw material has the defect of contamination or the raw material has the defect of impurity."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A4 -> -A3)",
+              "prover9_expression": "(has_defect(raw_material, contamination) -> -has_equipment(drug_manufacturer, processing_machine))",
+              "natural": "If the raw material has the defect of contamination, then it is not the case that the drug manufacturer has the processing machine as equipment."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A5 -> -A3)",
+              "prover9_expression": "(has_defect(raw_material, impurity) -> -has_equipment(drug_manufacturer, processing_machine))",
+              "natural": "Provided that the raw material has the defect of impurity, then the drug manufacturer does not have the processing machine as equipment."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "The drug manufacturer does not have the processing machine as equipment."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A3 | (A1 -> A2))",
+              "prover9_expression": "(has_equipment(drug_manufacturer, processing_machine) | (uses(drug_manufacturer, raw_material) -> produces(drug_manufacturer, drug_formulation)))",
+              "natural": "The drug manufacturer has the processing machine as equipment, or if the drug manufacturer uses raw material, then the drug manufacturer produces drug formulation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-has_equipment(drug_manufacturer, processing_machine)",
+              "natural": "The drug manufacturer does not have the processing machine as equipment."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the drug manufacturer uses raw material, then the drug manufacturer produces drug formulation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(uses(drug_manufacturer, raw_material) -> produces(drug_manufacturer, drug_formulation))",
+              "natural": "If the drug manufacturer uses raw material, then the drug manufacturer produces drug formulation."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> -A2)",
+              "prover9_expression": "(uses(drug_manufacturer, raw_material) -> -produces(drug_manufacturer, drug_formulation))",
+              "natural": "Provided that the drug manufacturer uses raw material, it is not the case that the drug manufacturer produces drug formulation."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the drug manufacturer uses raw material."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-safe(drug_formulation) -> uses(drug_manufacturer, raw_material))",
+              "natural": "If the drug formulation is not safe, then the drug manufacturer uses raw material."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-uses(drug_manufacturer, raw_material)",
+              "natural": "It is not the case that the drug manufacturer uses raw material."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug formulation is safe."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A13 -> A11) -> A14)",
+              "prover9_expression": "(-(passes(drug_formulation, efficacy_test) -> approved_by(drug_formulation, regulatory_agency)) -> receives(drug_formulation, fast_track))",
+              "natural": "Provided that it is not the case that if the drug formulation passes the efficacy test, then the drug formulation is approved by the regulatory agency, the drug formulation receives fast track."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(-(A13 -> A11) -> -A14)",
+              "prover9_expression": "(-(passes(drug_formulation, efficacy_test) -> approved_by(drug_formulation, regulatory_agency)) -> -receives(drug_formulation, fast_track))",
+              "natural": "Under the condition that it is not the case that if the drug formulation passes the efficacy test, then the drug formulation is approved by the regulatory agency, the drug formulation does not receive fast track."
+            }
+          ],
+          "conclusion": "(A13 -> A11)",
+          "natural": "If the drug formulation passes the efficacy test, then the drug formulation is approved by the regulatory agency."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(passes(drug_formulation, safety_test) | passes(drug_formulation, efficacy_test))",
+              "natural": "The drug formulation passes the safety test or the drug formulation passes the efficacy test."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(passes(drug_formulation, safety_test) -> approved_by(drug_formulation, regulatory_agency))",
+              "natural": "Whenever the drug formulation passes the safety test, the drug formulation is approved by the regulatory agency."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(passes(drug_formulation, efficacy_test) -> approved_by(drug_formulation, regulatory_agency))",
+              "natural": "If the drug formulation passes the efficacy test, then the drug formulation is approved by the regulatory agency."
+            }
+          ],
+          "conclusion": "A11",
+          "natural": "The drug formulation is approved by the regulatory agency."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> -A10)",
+              "prover9_expression": "(approved_by(drug_formulation, regulatory_agency) -> -requires(drug_formulation, clinical_trial))",
+              "natural": "Under the condition that the drug formulation is approved by the regulatory agency, the drug formulation does not require clinical trial."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A11",
+              "prover9_expression": "approved_by(drug_formulation, regulatory_agency)",
+              "natural": "The drug formulation is approved by the regulatory agency."
+            }
+          ],
+          "conclusion": "-A10",
+          "natural": "The drug formulation does not require clinical trial."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 | (-(-(A6 -> G) -> -A8) -> -A9))",
+              "prover9_expression": "(requires(drug_formulation, clinical_trial) | (-(-(has_skill(worker, quality_control) -> safe(drug_formulation)) -> -causes(contamination, disease_outbreak)) -> -causes(impurity, adverse_reaction)))",
+              "natural": "Either the drug formulation requires clinical trial, or if the failure of the implication that the worker having quality control skill results in the drug formulation being safe entails that contamination does not cause disease outbreak, then impurity does not cause adverse reaction."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A10",
+              "prover9_expression": "-requires(drug_formulation, clinical_trial)",
+              "natural": "The drug formulation does not require clinical trial."
+            }
+          ],
+          "conclusion": "(-(-(A6 -> G) -> -A8) -> -A9)",
+          "natural": "Under the condition that it is not the case that the failure of the implication that the worker having quality control skill results in the drug formulation being safe entails that contamination does not cause disease outbreak, impurity does not cause adverse reaction."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-(A6 -> G) -> -A8) -> A9)",
+              "prover9_expression": "(-(-(has_skill(worker, quality_control) -> safe(drug_formulation)) -> -causes(contamination, disease_outbreak)) -> causes(impurity, adverse_reaction))",
+              "natural": "Provided that it is not the case that the failure of the implication that the worker having quality control skill results in the drug formulation being safe entails that contamination does not cause disease outbreak, impurity causes adverse reaction."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A6 -> G) -> -A8) -> -A9)",
+              "prover9_expression": "(-(-(has_skill(worker, quality_control) -> safe(drug_formulation)) -> -causes(contamination, disease_outbreak)) -> -causes(impurity, adverse_reaction))",
+              "natural": "Under the condition that it is not the case that the failure of the implication that the worker having quality control skill results in the drug formulation being safe entails that contamination does not cause disease outbreak, impurity does not cause adverse reaction."
+            }
+          ],
+          "conclusion": "(-(A6 -> G) -> -A8)",
+          "natural": "If it is not the case that if the worker has the skill of quality control, then the drug formulation is safe, then contamination does not cause disease outbreak."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(A6 -> G) -> A8)",
+              "prover9_expression": "(-(has_skill(worker, quality_control) -> safe(drug_formulation)) -> causes(contamination, disease_outbreak))",
+              "natural": "Under the condition that it is not the case that if the worker has the skill of quality control, then the drug formulation is safe, contamination causes disease outbreak."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A6 -> G) -> -A8)",
+              "prover9_expression": "(-(has_skill(worker, quality_control) -> safe(drug_formulation)) -> -causes(contamination, disease_outbreak))",
+              "natural": "If it is not the case that if the worker has the skill of quality control, then the drug formulation is safe, then contamination does not cause disease outbreak."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "Under the condition that the worker has the skill of quality control, the drug formulation is safe."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(has_skill(worker, quality_control) | has_skill(worker, production_technique))",
+              "natural": "Either the worker has the skill of quality control or the worker has the skill of production technique."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(has_skill(worker, quality_control) -> safe(drug_formulation))",
+              "natural": "Under the condition that the worker has the skill of quality control, the drug formulation is safe."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(has_skill(worker, production_technique) -> safe(drug_formulation))",
+              "natural": "If the worker has the skill of production technique, then the drug formulation is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug formulation is safe."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A19 -> (A17 -> A18))",
+              "prover9_expression": "(has_contract(distributor, hospital) -> (shipped(drug_formulation, pharmacy) -> delivered(drug_formulation, hospital)))",
+              "natural": "Whenever the distributor has a contract with the hospital, then if the drug formulation is shipped to the pharmacy, the drug formulation is delivered to the hospital."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A19",
+              "prover9_expression": "has_contract(distributor, hospital)",
+              "natural": "The distributor has a contract with the hospital."
+            }
+          ],
+          "conclusion": "(A17 -> A18)",
+          "natural": "Provided that the drug formulation is shipped to the pharmacy, the drug formulation is delivered to the hospital."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(shipped(drug_formulation, pharmacy) -> delivered(drug_formulation, hospital))",
+              "natural": "Provided that the drug formulation is shipped to the pharmacy, the drug formulation is delivered to the hospital."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A18 -> A15)",
+              "prover9_expression": "(delivered(drug_formulation, hospital) -> in_stock(drug_formulation, warehouse))",
+              "natural": "If the drug formulation is delivered to the hospital, then the drug formulation is in stock at the warehouse."
+            }
+          ],
+          "conclusion": "(A17 -> A15)",
+          "natural": "Under the condition that the drug formulation is shipped to the pharmacy, the drug formulation is in stock at the warehouse."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(ordered(drug_formulation, distributor) -> shipped(drug_formulation, pharmacy))",
+              "natural": "If the drug formulation is ordered by the distributor, then the drug formulation is shipped to the pharmacy."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A15)",
+              "prover9_expression": "(shipped(drug_formulation, pharmacy) -> in_stock(drug_formulation, warehouse))",
+              "natural": "Under the condition that the drug formulation is shipped to the pharmacy, the drug formulation is in stock at the warehouse."
+            }
+          ],
+          "conclusion": "(A16 -> A15)",
+          "natural": "Provided that the drug formulation is ordered by the distributor, the drug formulation is in stock at the warehouse."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A16)",
+              "prover9_expression": "(-safe(drug_formulation) -> ordered(drug_formulation, distributor))",
+              "natural": "If the drug formulation is not safe, then the drug formulation is ordered by the distributor."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(ordered(drug_formulation, distributor) -> in_stock(drug_formulation, warehouse))",
+              "natural": "Provided that the drug formulation is ordered by the distributor, the drug formulation is in stock at the warehouse."
+            }
+          ],
+          "conclusion": "(-G -> A15)",
+          "natural": "Provided that the drug formulation is not safe, the drug formulation is in stock at the warehouse."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A15)",
+              "prover9_expression": "(-safe(drug_formulation) -> in_stock(drug_formulation, warehouse))",
+              "natural": "Provided that the drug formulation is not safe, the drug formulation is in stock at the warehouse."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A15",
+              "prover9_expression": "-in_stock(drug_formulation, warehouse)",
+              "natural": "The drug formulation is not in stock at the warehouse."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug formulation is safe."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A24 -> (A21 -> (A20 -> G))) -> A25)",
+              "prover9_expression": "(-(renewed(certification, annual_review) -> (has_certification(facility, gmp_compliance) -> (complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation)))) -> receives(facility, warning_letter))",
+              "natural": "If it is not the case that if the certification is renewed through annual review, then provided that the facility has the certification for GMP compliance, then under the condition that the manufacturing process complies with GMP standards, the drug formulation is safe, then the facility receives a warning letter."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(-(A24 -> (A21 -> (A20 -> G))) -> -A25)",
+              "prover9_expression": "(-(renewed(certification, annual_review) -> (has_certification(facility, gmp_compliance) -> (complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation)))) -> -receives(facility, warning_letter))",
+              "natural": "Provided that it is not the case that if the certification is renewed through annual review, then if the facility has the certification for GMP compliance, then under the condition that the manufacturing process complies with GMP standards, the drug formulation is safe, then the facility does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A24 -> (A21 -> (A20 -> G)))",
+          "natural": "Whenever the certification is renewed through annual review, then if the facility has the certification for GMP compliance, then provided that the manufacturing process complies with GMP standards, the drug formulation is safe."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A23 -> A24)",
+              "prover9_expression": "(audited(facility, regulatory_agency) -> renewed(certification, annual_review))",
+              "natural": "Provided that the facility is audited by the regulatory agency, the certification is renewed through annual review."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A24 -> (A21 -> (A20 -> G)))",
+              "prover9_expression": "(renewed(certification, annual_review) -> (has_certification(facility, gmp_compliance) -> (complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation))))",
+              "natural": "Whenever the certification is renewed through annual review, then if the facility has the certification for GMP compliance, then provided that the manufacturing process complies with GMP standards, the drug formulation is safe."
+            }
+          ],
+          "conclusion": "(A23 -> (A21 -> (A20 -> G)))",
+          "natural": "If the facility is audited by the regulatory agency, then provided that the facility has the certification for GMP compliance, then under the condition that the manufacturing process complies with GMP standards, the drug formulation is safe."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A23 -> (A21 -> (A20 -> G)))",
+              "prover9_expression": "(audited(facility, regulatory_agency) -> (has_certification(facility, gmp_compliance) -> (complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation))))",
+              "natural": "If the facility is audited by the regulatory agency, then provided that the facility has the certification for GMP compliance, then under the condition that the manufacturing process complies with GMP standards, the drug formulation is safe."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A23",
+              "prover9_expression": "audited(facility, regulatory_agency)",
+              "natural": "The facility is audited by the regulatory agency."
+            }
+          ],
+          "conclusion": "(A21 -> (A20 -> G))",
+          "natural": "Provided that the facility has the certification for GMP compliance, then if the manufacturing process complies with GMP standards, the drug formulation is safe."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A21 | A22)",
+              "prover9_expression": "(has_certification(facility, gmp_compliance) | has_certification(facility, iso_9001))",
+              "natural": "The facility has the certification for GMP compliance or the facility has the certification for ISO 9001."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> (A20 -> G))",
+              "prover9_expression": "(has_certification(facility, gmp_compliance) -> (complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation)))",
+              "natural": "Provided that the facility has the certification for GMP compliance, then if the manufacturing process complies with GMP standards, the drug formulation is safe."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A22 -> (A20 -> G))",
+              "prover9_expression": "(has_certification(facility, iso_9001) -> (complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation)))",
+              "natural": "Under the condition that the facility has the certification for ISO 9001, then if the manufacturing process complies with GMP standards, the drug formulation is safe."
+            }
+          ],
+          "conclusion": "(A20 -> G)",
+          "natural": "If the manufacturing process complies with GMP standards, then the drug formulation is safe."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(complies_with(manufacturing_process, gmp_standards) -> safe(drug_formulation))",
+              "natural": "If the manufacturing process complies with GMP standards, then the drug formulation is safe."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A20",
+              "prover9_expression": "complies_with(manufacturing_process, gmp_standards)",
+              "natural": "The manufacturing process complies with GMP standards."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug formulation is safe."
+        }
+      ]
+    }
+  ]
+}

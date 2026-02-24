@@ -1,0 +1,334 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "receives_funding(Consortium, GovernmentGrant) -> conducts_research(Consortium, WetlandEcosystem)",
+        "natural": "If the Environmental Conservation Consortium receives government grant funding, then the Environmental Conservation Consortium conducts research on the wetland ecosystem"
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A4 → (¬(A2 → G) → A3))",
+        "prover9_expression": "monitors_progress(ProjectBoard, Consortium) -> (-(conducts_research(Consortium, WetlandEcosystem) -> achieves_conservation(WetlandEcosystem)) -> halts_project(Consortium, WetlandRestoration))",
+        "natural": "If the Project Board monitors the progress of the Environmental Conservation Consortium, then should the Environmental Conservation Consortium conducting research on the wetland ecosystem not lead to the wetland ecosystem achieving conservation status, the Environmental Conservation Consortium halts the wetland restoration project"
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A5 → G)",
+        "prover9_expression": "publishes_findings(Consortium, ScientificJournal) -> achieves_conservation(WetlandEcosystem)",
+        "natural": "If the Environmental Conservation Consortium publishes findings in a scientific journal, then the wetland ecosystem achieves conservation status"
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → (A2 → A5))",
+        "prover9_expression": "provides_expertise(University, Consortium) -> (conducts_research(Consortium, WetlandEcosystem) -> publishes_findings(Consortium, ScientificJournal))",
+        "natural": "If the University provides expertise to the Environmental Conservation Consortium, then when the Environmental Conservation Consortium conducts research on the wetland ecosystem, the Environmental Conservation Consortium publishes findings in a scientific journal"
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A7 ∨ A6)",
+        "prover9_expression": "withdraws_support(LocalCommunity, Consortium) | provides_expertise(University, Consortium)",
+        "natural": "Either the Local Community withdraws support from the Environmental Conservation Consortium or the University provides expertise to the Environmental Conservation Consortium"
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "receives_funding(Consortium, GovernmentGrant)",
+        "natural": "The Environmental Conservation Consortium receives government grant funding"
+      },
+      {
+        "id": "Fact2",
+        "formal": "A4",
+        "prover9_expression": "monitors_progress(ProjectBoard, Consortium)",
+        "natural": "The Project Board monitors the progress of the Environmental Conservation Consortium"
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A3",
+        "prover9_expression": "-halts_project(Consortium, WetlandRestoration)",
+        "natural": "The Environmental Conservation Consortium does not halt the wetland restoration project"
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A7",
+        "prover9_expression": "-withdraws_support(LocalCommunity, Consortium)",
+        "natural": "The Local Community does not withdraw support from the Environmental Conservation Consortium"
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "achieves_conservation(WetlandEcosystem)",
+    "natural": "The wetland ecosystem achieves conservation status"
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (-(A2 -> G) -> A3))",
+            "A4"
+          ],
+          "conclusion": "(-(A2 -> G) -> A3)",
+          "natural": "Provided that the Environmental Conservation Consortium conducting research on the wetland ecosystem does not result in the wetland ecosystem achieving conservation status, then the Environmental Conservation Consortium halts the wetland restoration project"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> G) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the wetland ecosystem achieves conservation status"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the Environmental Conservation Consortium receives government grant funding, then the wetland ecosystem achieves conservation status"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The wetland ecosystem achieves conservation status"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | A6)",
+            "-A7"
+          ],
+          "conclusion": "A6",
+          "natural": "The University provides expertise to the Environmental Conservation Consortium"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> (A2 -> A5))",
+            "A6"
+          ],
+          "conclusion": "(A2 -> A5)",
+          "natural": "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the Environmental Conservation Consortium publishes findings in a scientific journal"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A5)",
+            "(A5 -> G)"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the wetland ecosystem achieves conservation status"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the Environmental Conservation Consortium receives government grant funding, then the wetland ecosystem achieves conservation status"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The wetland ecosystem achieves conservation status"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "receives_funding(Consortium, GovernmentGrant)",
+      "A2": "conducts_research(Consortium, WetlandEcosystem)",
+      "A3": "halts_project(Consortium, WetlandRestoration)",
+      "A4": "monitors_progress(ProjectBoard, Consortium)",
+      "A5": "publishes_findings(Consortium, ScientificJournal)",
+      "A6": "provides_expertise(University, Consortium)",
+      "A7": "withdraws_support(LocalCommunity, Consortium)",
+      "G": "achieves_conservation(WetlandEcosystem)"
+    },
+    "natural_facts": {
+      "A1": "The Environmental Conservation Consortium receives government grant funding",
+      "A2": "The Environmental Conservation Consortium conducts research on the wetland ecosystem",
+      "A3": "The Environmental Conservation Consortium halts the wetland restoration project",
+      "A4": "The Project Board monitors the progress of the Environmental Conservation Consortium",
+      "A5": "The Environmental Conservation Consortium publishes findings in a scientific journal",
+      "A6": "The University provides expertise to the Environmental Conservation Consortium",
+      "A7": "The Local Community withdraws support from the Environmental Conservation Consortium",
+      "G": "The wetland ecosystem achieves conservation status"
+    },
+    "prover9_expressions": [
+      "receives_funding(Consortium, GovernmentGrant) → conducts_research(Consortium, WetlandEcosystem)",
+      "receives_funding(Consortium, GovernmentGrant) → achieves_conservation(WetlandEcosystem)",
+      "conducts_research(Consortium, WetlandEcosystem) → publishes_findings(Consortium, ScientificJournal)",
+      "conducts_research(Consortium, WetlandEcosystem) → achieves_conservation(WetlandEcosystem)",
+      "monitors_progress(ProjectBoard, Consortium) → (¬(conducts_research(Consortium, WetlandEcosystem) → achieves_conservation(WetlandEcosystem)) → halts_project(Consortium, WetlandRestoration))",
+      "publishes_findings(Consortium, ScientificJournal) → achieves_conservation(WetlandEcosystem)",
+      "provides_expertise(University, Consortium) → (conducts_research(Consortium, WetlandEcosystem) → publishes_findings(Consortium, ScientificJournal))",
+      "withdraws_support(LocalCommunity, Consortium) ∨ provides_expertise(University, Consortium)",
+      "¬(conducts_research(Consortium, WetlandEcosystem) → achieves_conservation(WetlandEcosystem)) → halts_project(Consortium, WetlandRestoration)",
+      "receives_funding(Consortium, GovernmentGrant)",
+      "monitors_progress(ProjectBoard, Consortium)",
+      "provides_expertise(University, Consortium)",
+      "achieves_conservation(WetlandEcosystem)",
+      "¬halts_project(Consortium, WetlandRestoration)",
+      "¬withdraws_support(LocalCommunity, Consortium)"
+    ],
+    "natural_expressions": [
+      "If the Environmental Conservation Consortium receives government grant funding, then the Environmental Conservation Consortium conducts research on the wetland ecosystem",
+      "If the Environmental Conservation Consortium receives government grant funding, then the wetland ecosystem achieves conservation status",
+      "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the Environmental Conservation Consortium publishes findings in a scientific journal",
+      "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the wetland ecosystem achieves conservation status",
+      "If the Project Board monitors the progress of the Environmental Conservation Consortium, then should the Environmental Conservation Consortium conducting research on the wetland ecosystem not lead to the wetland ecosystem achieving conservation status, the Environmental Conservation Consortium halts the wetland restoration project",
+      "If the Environmental Conservation Consortium publishes findings in a scientific journal, then the wetland ecosystem achieves conservation status",
+      "If the University provides expertise to the Environmental Conservation Consortium, then when the Environmental Conservation Consortium conducts research on the wetland ecosystem, the Environmental Conservation Consortium publishes findings in a scientific journal",
+      "Either the Local Community withdraws support from the Environmental Conservation Consortium or the University provides expertise to the Environmental Conservation Consortium",
+      "Provided that the Environmental Conservation Consortium conducting research on the wetland ecosystem does not result in the wetland ecosystem achieving conservation status, then the Environmental Conservation Consortium halts the wetland restoration project",
+      "The Environmental Conservation Consortium receives government grant funding",
+      "The Project Board monitors the progress of the Environmental Conservation Consortium",
+      "The University provides expertise to the Environmental Conservation Consortium",
+      "The wetland ecosystem achieves conservation status",
+      "The Environmental Conservation Consortium does not halt the wetland restoration project",
+      "The Local Community does not withdraw support from the Environmental Conservation Consortium"
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "receives_funding(Consortium, GovernmentGrant) -> conducts_research(Consortium, WetlandEcosystem)",
+        "natural": "If the Environmental Conservation Consortium receives government grant funding, then the Environmental Conservation Consortium conducts research on the wetland ecosystem"
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "receives_funding(Consortium, GovernmentGrant) -> achieves_conservation(WetlandEcosystem)",
+        "natural": "If the Environmental Conservation Consortium receives government grant funding, then the wetland ecosystem achieves conservation status"
+      },
+      "(A2 → A5)": {
+        "formal": "(A2 → A5)",
+        "prover9": "(A2 -> A5)",
+        "prover9_expression": "conducts_research(Consortium, WetlandEcosystem) -> publishes_findings(Consortium, ScientificJournal)",
+        "natural": "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the Environmental Conservation Consortium publishes findings in a scientific journal"
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "conducts_research(Consortium, WetlandEcosystem) -> achieves_conservation(WetlandEcosystem)",
+        "natural": "If the Environmental Conservation Consortium conducts research on the wetland ecosystem, then the wetland ecosystem achieves conservation status"
+      },
+      "(A4 → (¬(A2 → G) → A3))": {
+        "formal": "(A4 → (¬(A2 → G) → A3))",
+        "prover9": "(A4 -> (-(A2 -> G) -> A3))",
+        "prover9_expression": "monitors_progress(ProjectBoard, Consortium) -> (-(conducts_research(Consortium, WetlandEcosystem) -> achieves_conservation(WetlandEcosystem)) -> halts_project(Consortium, WetlandRestoration))",
+        "natural": "If the Project Board monitors the progress of the Environmental Conservation Consortium, then should the Environmental Conservation Consortium conducting research on the wetland ecosystem not lead to the wetland ecosystem achieving conservation status, the Environmental Conservation Consortium halts the wetland restoration project"
+      },
+      "(A5 → G)": {
+        "formal": "(A5 → G)",
+        "prover9": "(A5 -> G)",
+        "prover9_expression": "publishes_findings(Consortium, ScientificJournal) -> achieves_conservation(WetlandEcosystem)",
+        "natural": "If the Environmental Conservation Consortium publishes findings in a scientific journal, then the wetland ecosystem achieves conservation status"
+      },
+      "(A6 → (A2 → A5))": {
+        "formal": "(A6 → (A2 → A5))",
+        "prover9": "(A6 -> (A2 -> A5))",
+        "prover9_expression": "provides_expertise(University, Consortium) -> (conducts_research(Consortium, WetlandEcosystem) -> publishes_findings(Consortium, ScientificJournal))",
+        "natural": "If the University provides expertise to the Environmental Conservation Consortium, then when the Environmental Conservation Consortium conducts research on the wetland ecosystem, the Environmental Conservation Consortium publishes findings in a scientific journal"
+      },
+      "(A7 ∨ A6)": {
+        "formal": "(A7 ∨ A6)",
+        "prover9": "(A7 | A6)",
+        "prover9_expression": "withdraws_support(LocalCommunity, Consortium) | provides_expertise(University, Consortium)",
+        "natural": "Either the Local Community withdraws support from the Environmental Conservation Consortium or the University provides expertise to the Environmental Conservation Consortium"
+      },
+      "(¬(A2 → G) → A3)": {
+        "formal": "(¬(A2 → G) → A3)",
+        "prover9": "(-(A2 -> G) -> A3)",
+        "prover9_expression": "-(conducts_research(Consortium, WetlandEcosystem) -> achieves_conservation(WetlandEcosystem)) -> halts_project(Consortium, WetlandRestoration)",
+        "natural": "Provided that the Environmental Conservation Consortium conducting research on the wetland ecosystem does not result in the wetland ecosystem achieving conservation status, then the Environmental Conservation Consortium halts the wetland restoration project"
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "receives_funding(Consortium, GovernmentGrant)",
+        "natural": "The Environmental Conservation Consortium receives government grant funding"
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "monitors_progress(ProjectBoard, Consortium)",
+        "natural": "The Project Board monitors the progress of the Environmental Conservation Consortium"
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "provides_expertise(University, Consortium)",
+        "natural": "The University provides expertise to the Environmental Conservation Consortium"
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "achieves_conservation(WetlandEcosystem)",
+        "natural": "The wetland ecosystem achieves conservation status"
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-halts_project(Consortium, WetlandRestoration)",
+        "natural": "The Environmental Conservation Consortium does not halt the wetland restoration project"
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-withdraws_support(LocalCommunity, Consortium)",
+        "natural": "The Local Community does not withdraw support from the Environmental Conservation Consortium"
+      }
+    }
+  }
+}

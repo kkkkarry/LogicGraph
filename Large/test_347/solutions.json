@@ -1,0 +1,741 @@
+{
+  "solution_stats": {
+    "total_solutions": 8,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(certified(material_x, organization_beta) | validated(material_x, organization_beta))",
+              "natural": "Either material X is certified by organization Beta or material X is validated by organization Beta."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A5 -> (A3 -> A2))",
+              "prover9_expression": "(certified(material_x, organization_beta) -> (tested(material_x, organization_beta) -> banned(material_x, region_alpha)))",
+              "natural": "In the case that material X is certified by organization Beta, then if material X is tested by organization Beta, material X is banned in region Alpha."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A6 -> (A3 -> A2))",
+              "prover9_expression": "(validated(material_x, organization_beta) -> (tested(material_x, organization_beta) -> banned(material_x, region_alpha)))",
+              "natural": "Should material X be validated by organization Beta, then if material X is tested by organization Beta, material X is banned in region Alpha."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "If material X is tested by organization Beta, then material X is banned in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(tested(material_x, organization_beta) -> banned(material_x, region_alpha))",
+              "natural": "If material X is tested by organization Beta, then material X is banned in region Alpha."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A4 -> -A1)",
+              "prover9_expression": "(restricted(material_x, region_alpha) -> -approved(material_x, region_alpha))",
+              "natural": "Provided that material X is restricted in region Alpha, it is not approved in region Alpha."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(tested(material_x, organization_beta) | restricted(material_x, region_alpha))",
+              "natural": "Material X is tested by organization Beta or material X is restricted in region Alpha."
+            }
+          ],
+          "conclusion": "(A2 | -A1)",
+          "natural": "Material X is banned in region Alpha or material X is not approved in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | -A1)",
+              "prover9_expression": "(banned(material_x, region_alpha) | -approved(material_x, region_alpha))",
+              "natural": "Material X is banned in region Alpha or material X is not approved in region Alpha."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A2",
+              "prover9_expression": "-banned(material_x, region_alpha)",
+              "natural": "Material X is not banned in region Alpha."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "Material X is not approved in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-safe(material_x) -> approved(material_x, region_alpha))",
+              "natural": "In the case that material X is not safe, then material X is approved in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(material_x, region_alpha)",
+              "natural": "Material X is not approved in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A9 -> A10)",
+              "prover9_expression": "(distributed(drug_y, region_alpha) -> effective(drug_y))",
+              "natural": "Provided that drug Y is distributed in region Alpha, it is effective."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(effective(drug_y) -> safe(material_x))",
+              "natural": "If drug Y is effective, then material X is safe."
+            }
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If drug Y is distributed in region Alpha, then material X is safe."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(manufactured(drug_y, organization_beta) -> available(drug_y, region_alpha))",
+              "natural": "If drug Y is manufactured by organization Beta, then drug Y is available in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> G)",
+              "prover9_expression": "(distributed(drug_y, region_alpha) -> safe(material_x))",
+              "natural": "If drug Y is distributed in region Alpha, then material X is safe."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(manufactured(drug_y, organization_beta) | distributed(drug_y, region_alpha))",
+              "natural": "Drug Y is manufactured by organization Beta or drug Y is distributed in region Alpha."
+            }
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Drug Y is available in region Alpha or material X is safe."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | G)",
+              "prover9_expression": "(available(drug_y, region_alpha) | safe(material_x))",
+              "natural": "Drug Y is available in region Alpha or material X is safe."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A7",
+              "prover9_expression": "-available(drug_y, region_alpha)",
+              "natural": "Drug Y is not available in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A12 -> A11) -> A13)",
+              "prover9_expression": "(-(enforced(legislation_gamma, region_alpha) -> compliant(legislation_gamma, region_alpha)) -> violated(legislation_gamma, region_alpha))",
+              "natural": "If it is not the case that legislation Gamma being enforced in region Alpha implies it is compliant in region Alpha, then legislation Gamma is violated in region Alpha."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(-(A12 -> A11) -> -A13)",
+              "prover9_expression": "(-(enforced(legislation_gamma, region_alpha) -> compliant(legislation_gamma, region_alpha)) -> -violated(legislation_gamma, region_alpha))",
+              "natural": "In the scenario where it is not the case that legislation Gamma being enforced in region Alpha implies it is compliant in region Alpha, then legislation Gamma is not violated in region Alpha."
+            }
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "Provided that legislation Gamma is enforced in region Alpha, it is compliant in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-safe(material_x) -> enforced(legislation_gamma, region_alpha))",
+              "natural": "If material X is not safe, then legislation Gamma is enforced in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(enforced(legislation_gamma, region_alpha) -> compliant(legislation_gamma, region_alpha))",
+              "natural": "Provided that legislation Gamma is enforced in region Alpha, it is compliant in region Alpha."
+            }
+          ],
+          "conclusion": "(-G -> A11)",
+          "natural": "Provided that material X is not safe, then legislation Gamma is compliant in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-safe(material_x) -> compliant(legislation_gamma, region_alpha))",
+              "natural": "Provided that material X is not safe, then legislation Gamma is compliant in region Alpha."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A11",
+              "prover9_expression": "-compliant(legislation_gamma, region_alpha)",
+              "natural": "Legislation Gamma is not compliant in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A17 -> (-(A14 -> G) -> A16))",
+              "prover9_expression": "(monitored(region_alpha, organization_beta) -> (-(recalled(drug_y) -> safe(material_x)) -> investigated(drug_y, organization_beta)))",
+              "natural": "If region Alpha is monitored by organization Beta, then if it is not the case that drug Y being recalled implies material X is safe, drug Y is investigated by organization Beta."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A17",
+              "prover9_expression": "monitored(region_alpha, organization_beta)",
+              "natural": "Region Alpha is monitored by organization Beta."
+            }
+          ],
+          "conclusion": "(-(A14 -> G) -> A16)",
+          "natural": "Provided that it is not the case that drug Y being recalled implies material X is safe, then drug Y is investigated by organization Beta."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A14 -> G) -> A16)",
+              "prover9_expression": "(-(recalled(drug_y) -> safe(material_x)) -> investigated(drug_y, organization_beta))",
+              "natural": "Provided that it is not the case that drug Y being recalled implies material X is safe, then drug Y is investigated by organization Beta."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A16",
+              "prover9_expression": "-investigated(drug_y, organization_beta)",
+              "natural": "Drug Y is not investigated by organization Beta."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "Given that drug Y is recalled, material X is safe."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(recalled(drug_y) | reformulated(drug_y))",
+              "natural": "Either drug Y is recalled or drug Y is reformulated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(recalled(drug_y) -> safe(material_x))",
+              "natural": "Given that drug Y is recalled, material X is safe."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(reformulated(drug_y) -> safe(material_x))",
+              "natural": "Should drug Y be reformulated, material X is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A21 | -A20)",
+              "prover9_expression": "(settled(organization_beta, region_alpha) | -appealed(organization_beta, region_alpha))",
+              "natural": "Either organization Beta is settled in region Alpha or organization Beta is not appealed in region Alpha."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A21",
+              "prover9_expression": "-settled(organization_beta, region_alpha)",
+              "natural": "Organization Beta is not settled in region Alpha."
+            }
+          ],
+          "conclusion": "-A20",
+          "natural": "Organization Beta is not appealed in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-A19 -> A20)",
+              "prover9_expression": "(-penalized(organization_beta, region_alpha) -> appealed(organization_beta, region_alpha))",
+              "natural": "Should organization Beta not be penalized in region Alpha, then organization Beta is appealed in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A20",
+              "prover9_expression": "-appealed(organization_beta, region_alpha)",
+              "natural": "Organization Beta is not appealed in region Alpha."
+            }
+          ],
+          "conclusion": "A19",
+          "natural": "Organization Beta is penalized in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A19 -> (A18 -> -A1))",
+              "prover9_expression": "(penalized(organization_beta, region_alpha) -> (audited(organization_beta, region_alpha) -> -approved(material_x, region_alpha)))",
+              "natural": "In the scenario where organization Beta is penalized in region Alpha, then if organization Beta is audited in region Alpha, material X is not approved in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A19",
+              "prover9_expression": "penalized(organization_beta, region_alpha)",
+              "natural": "Organization Beta is penalized in region Alpha."
+            }
+          ],
+          "conclusion": "(A18 -> -A1)",
+          "natural": "Assuming organization Beta is audited in region Alpha, material X is not approved in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> -A1)",
+              "prover9_expression": "(audited(organization_beta, region_alpha) -> -approved(material_x, region_alpha))",
+              "natural": "Assuming organization Beta is audited in region Alpha, material X is not approved in region Alpha."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A18",
+              "prover9_expression": "audited(organization_beta, region_alpha)",
+              "natural": "Organization Beta is audited in region Alpha."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "Material X is not approved in region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-safe(material_x) -> approved(material_x, region_alpha))",
+              "natural": "In the case that material X is not safe, then material X is approved in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(material_x, region_alpha)",
+              "natural": "Material X is not approved in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A9 -> A23)",
+              "prover9_expression": "(distributed(drug_y, region_alpha) -> tested(drug_y, organization_beta))",
+              "natural": "Whenever drug Y is distributed in region Alpha, it is tested by organization Beta."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A23 -> A22)",
+              "prover9_expression": "(tested(drug_y, organization_beta) -> safe(drug_y))",
+              "natural": "If drug Y is tested by organization Beta, then drug Y is safe."
+            }
+          ],
+          "conclusion": "(A9 -> A22)",
+          "natural": "In the event that drug Y is distributed in region Alpha, it is safe."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> A22)",
+              "prover9_expression": "(distributed(drug_y, region_alpha) -> safe(drug_y))",
+              "natural": "In the event that drug Y is distributed in region Alpha, it is safe."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A22 -> G)",
+              "prover9_expression": "(safe(drug_y) -> safe(material_x))",
+              "natural": "Provided that drug Y is safe, material X is safe."
+            }
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If drug Y is distributed in region Alpha, then material X is safe."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(manufactured(drug_y, organization_beta) -> available(drug_y, region_alpha))",
+              "natural": "If drug Y is manufactured by organization Beta, then drug Y is available in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> G)",
+              "prover9_expression": "(distributed(drug_y, region_alpha) -> safe(material_x))",
+              "natural": "If drug Y is distributed in region Alpha, then material X is safe."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(manufactured(drug_y, organization_beta) | distributed(drug_y, region_alpha))",
+              "natural": "Drug Y is manufactured by organization Beta or drug Y is distributed in region Alpha."
+            }
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Drug Y is available in region Alpha or material X is safe."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | G)",
+              "prover9_expression": "(available(drug_y, region_alpha) | safe(material_x))",
+              "natural": "Drug Y is available in region Alpha or material X is safe."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A7",
+              "prover9_expression": "-available(drug_y, region_alpha)",
+              "natural": "Drug Y is not available in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A25 | (A12 -> A24))",
+              "prover9_expression": "(suspended(legislation_gamma, region_alpha) | (enforced(legislation_gamma, region_alpha) -> amended(legislation_gamma, region_alpha)))",
+              "natural": "Legislation Gamma is suspended in region Alpha or, if legislation Gamma is enforced in region Alpha, then it is amended in region Alpha."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A25",
+              "prover9_expression": "-suspended(legislation_gamma, region_alpha)",
+              "natural": "Legislation Gamma is not suspended in region Alpha."
+            }
+          ],
+          "conclusion": "(A12 -> A24)",
+          "natural": "Whenever legislation Gamma is enforced in region Alpha, it is amended in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A24)",
+              "prover9_expression": "(enforced(legislation_gamma, region_alpha) -> amended(legislation_gamma, region_alpha))",
+              "natural": "Whenever legislation Gamma is enforced in region Alpha, it is amended in region Alpha."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A24 -> A11)",
+              "prover9_expression": "(amended(legislation_gamma, region_alpha) -> compliant(legislation_gamma, region_alpha))",
+              "natural": "Whenever legislation Gamma is amended in region Alpha, it is compliant in region Alpha."
+            }
+          ],
+          "conclusion": "(A12 -> A11)",
+          "natural": "Provided that legislation Gamma is enforced in region Alpha, it is compliant in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-safe(material_x) -> enforced(legislation_gamma, region_alpha))",
+              "natural": "If material X is not safe, then legislation Gamma is enforced in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(enforced(legislation_gamma, region_alpha) -> compliant(legislation_gamma, region_alpha))",
+              "natural": "Provided that legislation Gamma is enforced in region Alpha, it is compliant in region Alpha."
+            }
+          ],
+          "conclusion": "(-G -> A11)",
+          "natural": "Provided that material X is not safe, then legislation Gamma is compliant in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-safe(material_x) -> compliant(legislation_gamma, region_alpha))",
+              "natural": "Provided that material X is not safe, then legislation Gamma is compliant in region Alpha."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A11",
+              "prover9_expression": "-compliant(legislation_gamma, region_alpha)",
+              "natural": "Legislation Gamma is not compliant in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(-(A26 -> G) -> -A27) -> A28)",
+              "prover9_expression": "(-(-(hazardous(drug_y) -> safe(material_x)) -> -banned(drug_y, region_alpha)) -> litigated(organization_beta, region_alpha))",
+              "natural": "If it is not the case that the negation of (drug Y being hazardous implies material X is safe) implies drug Y is not banned in region Alpha, then organization Beta is litigated in region Alpha."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A28",
+              "prover9_expression": "-litigated(organization_beta, region_alpha)",
+              "natural": "Organization Beta is not litigated in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A26 -> G) -> -A27)",
+          "natural": "In the event that it is not the case that drug Y being hazardous implies material X is safe, then drug Y is not banned in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(A26 -> G) -> A27)",
+              "prover9_expression": "(-(hazardous(drug_y) -> safe(material_x)) -> banned(drug_y, region_alpha))",
+              "natural": "If it is not the case that drug Y being hazardous implies material X is safe, then drug Y is banned in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A26 -> G) -> -A27)",
+              "prover9_expression": "(-(hazardous(drug_y) -> safe(material_x)) -> -banned(drug_y, region_alpha))",
+              "natural": "In the event that it is not the case that drug Y being hazardous implies material X is safe, then drug Y is not banned in region Alpha."
+            }
+          ],
+          "conclusion": "(A26 -> G)",
+          "natural": "In the event that drug Y is hazardous, material X is safe."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A14 -> A26)",
+              "prover9_expression": "(recalled(drug_y) -> hazardous(drug_y))",
+              "natural": "In the event that drug Y is recalled, it is hazardous."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A26 -> G)",
+              "prover9_expression": "(hazardous(drug_y) -> safe(material_x))",
+              "natural": "In the event that drug Y is hazardous, material X is safe."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "Given that drug Y is recalled, material X is safe."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(recalled(drug_y) | reformulated(drug_y))",
+              "natural": "Either drug Y is recalled or drug Y is reformulated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(recalled(drug_y) -> safe(material_x))",
+              "natural": "Given that drug Y is recalled, material X is safe."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(reformulated(drug_y) -> safe(material_x))",
+              "natural": "Should drug Y be reformulated, material X is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Material X is safe."
+        }
+      ]
+    }
+  ]
+}

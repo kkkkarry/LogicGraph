@@ -1,0 +1,693 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → ¬A2)",
+        "prover9_expression": "(submitted(manuscript, journal) -> -accepted(manuscript, journal))",
+        "natural": "Provided that the manuscript is submitted to the journal, it does not get accepted."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(submitted(manuscript, journal) | camera_ready(manuscript))",
+        "natural": "Either the manuscript is submitted to the journal or it is camera-ready."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(revised(manuscript) -> edited(manuscript))",
+        "natural": "Whenever the manuscript is revised, it is edited."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 → A12)",
+        "prover9_expression": "(edited(manuscript) -> proofread(manuscript))",
+        "natural": "If the manuscript is edited, then it is proofread."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 → A9)",
+        "prover9_expression": "(proofread(manuscript) -> published(manuscript))",
+        "natural": "Whenever the manuscript is proofread, it is published."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A13 → (A1 → A2))",
+        "prover9_expression": "(deadline_met(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "If the manuscript meets the deadline, then the submission to the journal implies its acceptance."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A13 ∨ A14)",
+        "prover9_expression": "(deadline_met(manuscript) | extension_granted(manuscript))",
+        "natural": "The manuscript meets the deadline or an extension is granted for it."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → A17)",
+        "prover9_expression": "(corrected(manuscript) -> retracted(manuscript))",
+        "natural": "Whenever the manuscript is corrected, it is retracted."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A3 → (A1 → A2))",
+        "prover9_expression": "(reviewed_blindly(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "Provided that the manuscript is reviewed blindly, its submission to the journal results in acceptance."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A4 → (A1 → A2))",
+        "prover9_expression": "(reviewed_openly(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "If the manuscript is reviewed openly, then its submission to the journal implies acceptance."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A6 → G)",
+        "prover9_expression": "(formatted_manuscript(manuscript) -> camera_ready(manuscript))",
+        "natural": "Under the condition that the manuscript is formatted, it becomes camera-ready."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A7 → ¬A8)",
+        "prover9_expression": "(plagiarized(manuscript) -> -original(manuscript))",
+        "natural": "Provided that the manuscript is plagiarized, it is not original."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A7 ∨ A6)",
+        "prover9_expression": "(plagiarized(manuscript) | formatted_manuscript(manuscript))",
+        "natural": "Either the manuscript is plagiarized or it is formatted."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(¬(A15 → (A14 → (A1 → A2))) → A16)",
+        "prover9_expression": "(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> desk_rejected(manuscript))",
+        "natural": "If it is not the case that the assignment of an editor implies that an extension leads to submission resulting in acceptance, then the manuscript is desk-rejected."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬(A3 ∨ A4) → A5)",
+        "prover9_expression": "(-(reviewed_blindly(manuscript) | reviewed_openly(manuscript)) -> rejected(manuscript, journal))",
+        "natural": "If it is not the case that the manuscript is reviewed blindly or openly, then it is rejected by the journal."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(¬(A3 ∨ A4) → ¬A5)",
+        "prover9_expression": "(-(reviewed_blindly(manuscript) | reviewed_openly(manuscript)) -> -rejected(manuscript, journal))",
+        "natural": "Provided that it is not the case that the manuscript is reviewed blindly or openly, it does not get rejected by the journal."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(¬(A7 → A8) → A10)",
+        "prover9_expression": "(-(plagiarized(manuscript) -> original(manuscript)) -> revised(manuscript))",
+        "natural": "Under the condition that it is not the case that plagiarism implies originality, the manuscript is revised."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(¬(¬(A15 → (A14 → (A1 → A2))) → ¬A16) → A18)",
+        "prover9_expression": "(-(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript)) -> corrected(manuscript))",
+        "natural": "Provided that the negation of the failure of editor assignment to entail extension leading to submission resulting in acceptance does not imply no desk rejection, the manuscript is corrected."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A15",
+        "prover9_expression": "editor_assigned(manuscript)",
+        "natural": "An editor is assigned to the manuscript."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A17",
+        "prover9_expression": "-retracted(manuscript)",
+        "natural": "The manuscript is not retracted."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A9",
+        "prover9_expression": "-published(manuscript)",
+        "natural": "The manuscript is not published."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "camera_ready(manuscript)",
+    "natural": "The manuscript is camera-ready."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 | A4) -> A5)",
+            "(-(A3 | A4) -> -A5)"
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the manuscript is reviewed blindly or it is reviewed openly."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A1 -> A2))",
+            "(A4 -> (A1 -> A2))"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the manuscript is submitted to the journal, then it is accepted by the journal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A1 -> -A2)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the manuscript is submitted to the journal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The manuscript is camera-ready."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A12)",
+            "(A12 -> A9)"
+          ],
+          "conclusion": "(A11 -> A9)",
+          "natural": "Provided that the manuscript is edited, it is published."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A11 -> A9)"
+          ],
+          "conclusion": "(A10 -> A9)",
+          "natural": "Under the condition that the manuscript is revised, it gets published."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A7 -> A8) -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(-(A7 -> A8) -> A9)",
+          "natural": "If it is not the case that plagiarism leads to originality, then the manuscript is published."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 -> A8) -> A9)",
+            "-A9"
+          ],
+          "conclusion": "(A7 -> A8)",
+          "natural": "If the manuscript is plagiarized, then it is original."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A7 -> A8)",
+            "(A7 -> -A8)"
+          ],
+          "conclusion": "-A7",
+          "natural": "The manuscript is not plagiarized."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | A6)",
+            "-A7"
+          ],
+          "conclusion": "A6",
+          "natural": "The manuscript is formatted."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The manuscript is camera-ready."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(A15 -> (A14 -> (A1 -> A2))) -> -A16) -> A18)",
+            "(A18 -> A17)"
+          ],
+          "conclusion": "(-(-(A15 -> (A14 -> (A1 -> A2))) -> -A16) -> A17)",
+          "natural": "Whenever the negation of the failure of editor assignment to imply extension causing submission to result in acceptance does not lead to the absence of desk rejection, the manuscript is retracted."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A15 -> (A14 -> (A1 -> A2))) -> -A16) -> A17)",
+            "-A17"
+          ],
+          "conclusion": "(-(A15 -> (A14 -> (A1 -> A2))) -> -A16)",
+          "natural": "Whenever it is not the case that editor assignment entails that extension granting causes submission to bring about acceptance, the manuscript is not desk-rejected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A15 -> (A14 -> (A1 -> A2))) -> A16)",
+            "(-(A15 -> (A14 -> (A1 -> A2))) -> -A16)"
+          ],
+          "conclusion": "(A15 -> (A14 -> (A1 -> A2)))",
+          "natural": "If an editor is assigned to the manuscript, then the granting of an extension implies that submission results in acceptance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A15 -> (A14 -> (A1 -> A2)))",
+            "A15"
+          ],
+          "conclusion": "(A14 -> (A1 -> A2))",
+          "natural": "Under the condition that an extension is granted for the manuscript, its submission to the journal leads to acceptance."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> (A1 -> A2))",
+            "(A14 -> (A1 -> A2))"
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the manuscript is submitted to the journal, then it is accepted by the journal."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A1 -> -A2)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the manuscript is submitted to the journal."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The manuscript is camera-ready."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Academic Publishing",
+    "atomic_facts": {
+      "A1": "submitted(manuscript, journal)",
+      "A2": "accepted(manuscript, journal)",
+      "A3": "reviewed_blindly(manuscript)",
+      "A4": "reviewed_openly(manuscript)",
+      "A5": "rejected(manuscript, journal)",
+      "A6": "formatted_manuscript(manuscript)",
+      "A7": "plagiarized(manuscript)",
+      "A8": "original(manuscript)",
+      "A9": "published(manuscript)",
+      "A10": "revised(manuscript)",
+      "A11": "edited(manuscript)",
+      "A12": "proofread(manuscript)",
+      "A13": "deadline_met(manuscript)",
+      "A14": "extension_granted(manuscript)",
+      "A15": "editor_assigned(manuscript)",
+      "A16": "desk_rejected(manuscript)",
+      "A17": "retracted(manuscript)",
+      "A18": "corrected(manuscript)",
+      "G": "camera_ready(manuscript)"
+    },
+    "natural_facts": {
+      "A1": "The manuscript is submitted to the journal.",
+      "A2": "The manuscript is accepted by the journal.",
+      "A3": "The manuscript is reviewed blindly.",
+      "A4": "The manuscript is reviewed openly.",
+      "A5": "The manuscript is rejected by the journal.",
+      "A6": "The manuscript is formatted.",
+      "A7": "The manuscript is plagiarized.",
+      "A8": "The manuscript is original.",
+      "A9": "The manuscript is published.",
+      "A10": "The manuscript is revised.",
+      "A11": "The manuscript is edited.",
+      "A12": "The manuscript is proofread.",
+      "A13": "The manuscript meets the deadline.",
+      "A14": "An extension is granted for the manuscript.",
+      "A15": "An editor is assigned to the manuscript.",
+      "A16": "The manuscript is desk-rejected.",
+      "A17": "The manuscript is retracted.",
+      "A18": "The manuscript is corrected.",
+      "G": "The manuscript is camera-ready."
+    },
+    "prover9_expressions": [
+      "(submitted(manuscript, journal) -> accepted(manuscript, journal))",
+      "(submitted(manuscript, journal) -> -accepted(manuscript, journal))",
+      "(submitted(manuscript, journal) | camera_ready(manuscript))",
+      "(revised(manuscript) -> edited(manuscript))",
+      "(revised(manuscript) -> published(manuscript))",
+      "(edited(manuscript) -> proofread(manuscript))",
+      "(edited(manuscript) -> published(manuscript))",
+      "(proofread(manuscript) -> published(manuscript))",
+      "(deadline_met(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+      "(deadline_met(manuscript) | extension_granted(manuscript))",
+      "(extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+      "(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal))))",
+      "(corrected(manuscript) -> retracted(manuscript))",
+      "(reviewed_blindly(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+      "(reviewed_blindly(manuscript) | reviewed_openly(manuscript))",
+      "(reviewed_openly(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+      "(formatted_manuscript(manuscript) -> camera_ready(manuscript))",
+      "(plagiarized(manuscript) -> original(manuscript))",
+      "(plagiarized(manuscript) -> -original(manuscript))",
+      "(plagiarized(manuscript) | formatted_manuscript(manuscript))",
+      "(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> desk_rejected(manuscript))",
+      "(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript))",
+      "(-(reviewed_blindly(manuscript) | reviewed_openly(manuscript)) -> rejected(manuscript, journal))",
+      "(-(reviewed_blindly(manuscript) | reviewed_openly(manuscript)) -> -rejected(manuscript, journal))",
+      "(-(plagiarized(manuscript) -> original(manuscript)) -> revised(manuscript))",
+      "(-(plagiarized(manuscript) -> original(manuscript)) -> published(manuscript))",
+      "(-(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript)) -> retracted(manuscript))",
+      "(-(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript)) -> corrected(manuscript))",
+      "editor_assigned(manuscript)",
+      "formatted_manuscript(manuscript)",
+      "camera_ready(manuscript)",
+      "-submitted(manuscript, journal)",
+      "-retracted(manuscript)",
+      "-plagiarized(manuscript)",
+      "-published(manuscript)"
+    ],
+    "natural_expressions": [
+      "If the manuscript is submitted to the journal, then it is accepted by the journal.",
+      "Provided that the manuscript is submitted to the journal, it does not get accepted.",
+      "Either the manuscript is submitted to the journal or it is camera-ready.",
+      "Whenever the manuscript is revised, it is edited.",
+      "Under the condition that the manuscript is revised, it gets published.",
+      "If the manuscript is edited, then it is proofread.",
+      "Provided that the manuscript is edited, it is published.",
+      "Whenever the manuscript is proofread, it is published.",
+      "If the manuscript meets the deadline, then the submission to the journal implies its acceptance.",
+      "The manuscript meets the deadline or an extension is granted for it.",
+      "Under the condition that an extension is granted for the manuscript, its submission to the journal leads to acceptance.",
+      "If an editor is assigned to the manuscript, then the granting of an extension implies that submission results in acceptance.",
+      "Whenever the manuscript is corrected, it is retracted.",
+      "Provided that the manuscript is reviewed blindly, its submission to the journal results in acceptance.",
+      "Either the manuscript is reviewed blindly or it is reviewed openly.",
+      "If the manuscript is reviewed openly, then its submission to the journal implies acceptance.",
+      "Under the condition that the manuscript is formatted, it becomes camera-ready.",
+      "If the manuscript is plagiarized, then it is original.",
+      "Provided that the manuscript is plagiarized, it is not original.",
+      "Either the manuscript is plagiarized or it is formatted.",
+      "If it is not the case that the assignment of an editor implies that an extension leads to submission resulting in acceptance, then the manuscript is desk-rejected.",
+      "Whenever it is not the case that editor assignment entails that extension granting causes submission to bring about acceptance, the manuscript is not desk-rejected.",
+      "If it is not the case that the manuscript is reviewed blindly or openly, then it is rejected by the journal.",
+      "Provided that it is not the case that the manuscript is reviewed blindly or openly, it does not get rejected by the journal.",
+      "Under the condition that it is not the case that plagiarism implies originality, the manuscript is revised.",
+      "If it is not the case that plagiarism leads to originality, then the manuscript is published.",
+      "Whenever the negation of the failure of editor assignment to imply extension causing submission to result in acceptance does not lead to the absence of desk rejection, the manuscript is retracted.",
+      "Provided that the negation of the failure of editor assignment to entail extension leading to submission resulting in acceptance does not imply no desk rejection, the manuscript is corrected.",
+      "An editor is assigned to the manuscript.",
+      "The manuscript is formatted.",
+      "The manuscript is camera-ready.",
+      "It is not the case that the manuscript is submitted to the journal.",
+      "The manuscript is not retracted.",
+      "The manuscript is not plagiarized.",
+      "The manuscript is not published."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(submitted(manuscript, journal) -> accepted(manuscript, journal))",
+        "natural": "If the manuscript is submitted to the journal, then it is accepted by the journal."
+      },
+      "(A1 → ¬A2)": {
+        "formal": "(A1 → ¬A2)",
+        "prover9": "(A1 -> -A2)",
+        "prover9_expression": "(submitted(manuscript, journal) -> -accepted(manuscript, journal))",
+        "natural": "Provided that the manuscript is submitted to the journal, it does not get accepted."
+      },
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(submitted(manuscript, journal) | camera_ready(manuscript))",
+        "natural": "Either the manuscript is submitted to the journal or it is camera-ready."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(revised(manuscript) -> edited(manuscript))",
+        "natural": "Whenever the manuscript is revised, it is edited."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(revised(manuscript) -> published(manuscript))",
+        "natural": "Under the condition that the manuscript is revised, it gets published."
+      },
+      "(A11 → A12)": {
+        "formal": "(A11 → A12)",
+        "prover9": "(A11 -> A12)",
+        "prover9_expression": "(edited(manuscript) -> proofread(manuscript))",
+        "natural": "If the manuscript is edited, then it is proofread."
+      },
+      "(A11 → A9)": {
+        "formal": "(A11 → A9)",
+        "prover9": "(A11 -> A9)",
+        "prover9_expression": "(edited(manuscript) -> published(manuscript))",
+        "natural": "Provided that the manuscript is edited, it is published."
+      },
+      "(A12 → A9)": {
+        "formal": "(A12 → A9)",
+        "prover9": "(A12 -> A9)",
+        "prover9_expression": "(proofread(manuscript) -> published(manuscript))",
+        "natural": "Whenever the manuscript is proofread, it is published."
+      },
+      "(A13 → (A1 → A2))": {
+        "formal": "(A13 → (A1 → A2))",
+        "prover9": "(A13 -> (A1 -> A2))",
+        "prover9_expression": "(deadline_met(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "If the manuscript meets the deadline, then the submission to the journal implies its acceptance."
+      },
+      "(A13 ∨ A14)": {
+        "formal": "(A13 ∨ A14)",
+        "prover9": "(A13 | A14)",
+        "prover9_expression": "(deadline_met(manuscript) | extension_granted(manuscript))",
+        "natural": "The manuscript meets the deadline or an extension is granted for it."
+      },
+      "(A14 → (A1 → A2))": {
+        "formal": "(A14 → (A1 → A2))",
+        "prover9": "(A14 -> (A1 -> A2))",
+        "prover9_expression": "(extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "Under the condition that an extension is granted for the manuscript, its submission to the journal leads to acceptance."
+      },
+      "(A15 → (A14 → (A1 → A2)))": {
+        "formal": "(A15 → (A14 → (A1 → A2)))",
+        "prover9": "(A15 -> (A14 -> (A1 -> A2)))",
+        "prover9_expression": "(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal))))",
+        "natural": "If an editor is assigned to the manuscript, then the granting of an extension implies that submission results in acceptance."
+      },
+      "(A18 → A17)": {
+        "formal": "(A18 → A17)",
+        "prover9": "(A18 -> A17)",
+        "prover9_expression": "(corrected(manuscript) -> retracted(manuscript))",
+        "natural": "Whenever the manuscript is corrected, it is retracted."
+      },
+      "(A3 → (A1 → A2))": {
+        "formal": "(A3 → (A1 → A2))",
+        "prover9": "(A3 -> (A1 -> A2))",
+        "prover9_expression": "(reviewed_blindly(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "Provided that the manuscript is reviewed blindly, its submission to the journal results in acceptance."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(reviewed_blindly(manuscript) | reviewed_openly(manuscript))",
+        "natural": "Either the manuscript is reviewed blindly or it is reviewed openly."
+      },
+      "(A4 → (A1 → A2))": {
+        "formal": "(A4 → (A1 → A2))",
+        "prover9": "(A4 -> (A1 -> A2))",
+        "prover9_expression": "(reviewed_openly(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))",
+        "natural": "If the manuscript is reviewed openly, then its submission to the journal implies acceptance."
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(formatted_manuscript(manuscript) -> camera_ready(manuscript))",
+        "natural": "Under the condition that the manuscript is formatted, it becomes camera-ready."
+      },
+      "(A7 → A8)": {
+        "formal": "(A7 → A8)",
+        "prover9": "(A7 -> A8)",
+        "prover9_expression": "(plagiarized(manuscript) -> original(manuscript))",
+        "natural": "If the manuscript is plagiarized, then it is original."
+      },
+      "(A7 → ¬A8)": {
+        "formal": "(A7 → ¬A8)",
+        "prover9": "(A7 -> -A8)",
+        "prover9_expression": "(plagiarized(manuscript) -> -original(manuscript))",
+        "natural": "Provided that the manuscript is plagiarized, it is not original."
+      },
+      "(A7 ∨ A6)": {
+        "formal": "(A7 ∨ A6)",
+        "prover9": "(A7 | A6)",
+        "prover9_expression": "(plagiarized(manuscript) | formatted_manuscript(manuscript))",
+        "natural": "Either the manuscript is plagiarized or it is formatted."
+      },
+      "(¬(A15 → (A14 → (A1 → A2))) → A16)": {
+        "formal": "(¬(A15 → (A14 → (A1 → A2))) → A16)",
+        "prover9": "(-(A15 -> (A14 -> (A1 -> A2))) -> A16)",
+        "prover9_expression": "(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> desk_rejected(manuscript))",
+        "natural": "If it is not the case that the assignment of an editor implies that an extension leads to submission resulting in acceptance, then the manuscript is desk-rejected."
+      },
+      "(¬(A15 → (A14 → (A1 → A2))) → ¬A16)": {
+        "formal": "(¬(A15 → (A14 → (A1 → A2))) → ¬A16)",
+        "prover9": "(-(A15 -> (A14 -> (A1 -> A2))) -> -A16)",
+        "prover9_expression": "(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript))",
+        "natural": "Whenever it is not the case that editor assignment entails that extension granting causes submission to bring about acceptance, the manuscript is not desk-rejected."
+      },
+      "(¬(A3 ∨ A4) → A5)": {
+        "formal": "(¬(A3 ∨ A4) → A5)",
+        "prover9": "(-(A3 | A4) -> A5)",
+        "prover9_expression": "(-(reviewed_blindly(manuscript) | reviewed_openly(manuscript)) -> rejected(manuscript, journal))",
+        "natural": "If it is not the case that the manuscript is reviewed blindly or openly, then it is rejected by the journal."
+      },
+      "(¬(A3 ∨ A4) → ¬A5)": {
+        "formal": "(¬(A3 ∨ A4) → ¬A5)",
+        "prover9": "(-(A3 | A4) -> -A5)",
+        "prover9_expression": "(-(reviewed_blindly(manuscript) | reviewed_openly(manuscript)) -> -rejected(manuscript, journal))",
+        "natural": "Provided that it is not the case that the manuscript is reviewed blindly or openly, it does not get rejected by the journal."
+      },
+      "(¬(A7 → A8) → A10)": {
+        "formal": "(¬(A7 → A8) → A10)",
+        "prover9": "(-(A7 -> A8) -> A10)",
+        "prover9_expression": "(-(plagiarized(manuscript) -> original(manuscript)) -> revised(manuscript))",
+        "natural": "Under the condition that it is not the case that plagiarism implies originality, the manuscript is revised."
+      },
+      "(¬(A7 → A8) → A9)": {
+        "formal": "(¬(A7 → A8) → A9)",
+        "prover9": "(-(A7 -> A8) -> A9)",
+        "prover9_expression": "(-(plagiarized(manuscript) -> original(manuscript)) -> published(manuscript))",
+        "natural": "If it is not the case that plagiarism leads to originality, then the manuscript is published."
+      },
+      "(¬(¬(A15 → (A14 → (A1 → A2))) → ¬A16) → A17)": {
+        "formal": "(¬(¬(A15 → (A14 → (A1 → A2))) → ¬A16) → A17)",
+        "prover9": "(-(-(A15 -> (A14 -> (A1 -> A2))) -> -A16) -> A17)",
+        "prover9_expression": "(-(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript)) -> retracted(manuscript))",
+        "natural": "Whenever the negation of the failure of editor assignment to imply extension causing submission to result in acceptance does not lead to the absence of desk rejection, the manuscript is retracted."
+      },
+      "(¬(¬(A15 → (A14 → (A1 → A2))) → ¬A16) → A18)": {
+        "formal": "(¬(¬(A15 → (A14 → (A1 → A2))) → ¬A16) → A18)",
+        "prover9": "(-(-(A15 -> (A14 -> (A1 -> A2))) -> -A16) -> A18)",
+        "prover9_expression": "(-(-(editor_assigned(manuscript) -> (extension_granted(manuscript) -> (submitted(manuscript, journal) -> accepted(manuscript, journal)))) -> -desk_rejected(manuscript)) -> corrected(manuscript))",
+        "natural": "Provided that the negation of the failure of editor assignment to entail extension leading to submission resulting in acceptance does not imply no desk rejection, the manuscript is corrected."
+      },
+      "A15": {
+        "formal": "A15",
+        "prover9": "A15",
+        "prover9_expression": "editor_assigned(manuscript)",
+        "natural": "An editor is assigned to the manuscript."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "formatted_manuscript(manuscript)",
+        "natural": "The manuscript is formatted."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "camera_ready(manuscript)",
+        "natural": "The manuscript is camera-ready."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-submitted(manuscript, journal)",
+        "natural": "It is not the case that the manuscript is submitted to the journal."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-retracted(manuscript)",
+        "natural": "The manuscript is not retracted."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-plagiarized(manuscript)",
+        "natural": "The manuscript is not plagiarized."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-published(manuscript)",
+        "natural": "The manuscript is not published."
+      }
+    }
+  }
+}

@@ -1,0 +1,475 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 9
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A6 -> (-(A3 | A4) -> A5))",
+              "prover9_expression": "(has_certification(technician_1, gmp) -> (-(approved_production(batch_1) | approved_production(batch_2)) -> rejected_production(test_batch)))",
+              "natural": "If technician 1 has GMP certification, then whenever production of batch 1 is not approved and production of batch 2 is not approved, production of the test batch is rejected."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A6",
+              "prover9_expression": "has_certification(technician_1, gmp)",
+              "natural": "Technician 1 has GMP certification."
+            }
+          ],
+          "conclusion": "(-(A3 | A4) -> A5)",
+          "natural": "Whenever production of batch 1 is not approved and production of batch 2 is not approved, production of the test batch is rejected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 | A4) -> A5)",
+              "prover9_expression": "(-(approved_production(batch_1) | approved_production(batch_2)) -> rejected_production(test_batch))",
+              "natural": "Whenever production of batch 1 is not approved and production of batch 2 is not approved, production of the test batch is rejected."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A3 | A4) -> -A5)",
+              "prover9_expression": "(-(approved_production(batch_1) | approved_production(batch_2)) -> -rejected_production(test_batch))",
+              "natural": "If production of batch 1 is not approved and production of batch 2 is not approved, then production of the test batch is not rejected."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Production of batch 1 is approved or production of batch 2 is approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(approved_production(batch_1) | approved_production(batch_2))",
+              "natural": "Production of batch 1 is approved or production of batch 2 is approved."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (A2 | (-G -> A1)))",
+              "prover9_expression": "(approved_production(batch_1) -> (exceeds_tolerance(impurity_level) | (-validated(sterilization_process) -> contaminated(raw_materials))))",
+              "natural": "If production of batch 1 is approved, then either the impurity level exceeds tolerance or, whenever the sterilization process is not validated, the raw materials are contaminated."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> (A2 | (-G -> A1)))",
+              "prover9_expression": "(approved_production(batch_2) -> (exceeds_tolerance(impurity_level) | (-validated(sterilization_process) -> contaminated(raw_materials))))",
+              "natural": "In the event that production of batch 2 is approved, either the impurity level exceeds tolerance, or under the condition that the sterilization process is not validated, the raw materials are contaminated."
+            }
+          ],
+          "conclusion": "(A2 | (-G -> A1))",
+          "natural": "Either the impurity level exceeds tolerance or, if the sterilization process is not validated, then the raw materials are contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | (-G -> A1))",
+              "prover9_expression": "(exceeds_tolerance(impurity_level) | (-validated(sterilization_process) -> contaminated(raw_materials)))",
+              "natural": "Either the impurity level exceeds tolerance or, if the sterilization process is not validated, then the raw materials are contaminated."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A2",
+              "prover9_expression": "-exceeds_tolerance(impurity_level)",
+              "natural": "The impurity level does not exceed tolerance."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Under the condition that the sterilization process is not validated, the raw materials are contaminated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-validated(sterilization_process) -> contaminated(raw_materials))",
+              "natural": "Under the condition that the sterilization process is not validated, the raw materials are contaminated."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-validated(sterilization_process) -> -contaminated(raw_materials))",
+              "natural": "If the sterilization process is not validated, then the raw materials are not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The sterilization process is validated."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A10 -> -A11) -> A12)",
+              "prover9_expression": "(-(available(sterilizing_equipment) -> -operational(sterilizing_equipment)) -> maintenance_scheduled(sterilizing_equipment))",
+              "natural": "If it is not the case that sterilizing equipment being available implies it is not operational, then maintenance is scheduled for sterilizing equipment."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(-(A10 -> -A11) -> -A12)",
+              "prover9_expression": "(-(available(sterilizing_equipment) -> -operational(sterilizing_equipment)) -> -maintenance_scheduled(sterilizing_equipment))",
+              "natural": "Provided that it is not the case that sterilizing equipment being available implies it is not operational, then maintenance is not scheduled for sterilizing equipment."
+            }
+          ],
+          "conclusion": "(A10 -> -A11)",
+          "natural": "Provided that sterilizing equipment is available, it is not operational."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A11)",
+              "prover9_expression": "(available(sterilizing_equipment) -> operational(sterilizing_equipment))",
+              "natural": "If sterilizing equipment is available, then it is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> -A11)",
+              "prover9_expression": "(available(sterilizing_equipment) -> -operational(sterilizing_equipment))",
+              "natural": "Provided that sterilizing equipment is available, it is not operational."
+            }
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that sterilizing equipment is available."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 | (A8 -> A9))",
+              "prover9_expression": "(available(sterilizing_equipment) | (trained_in(technician_1, aseptic_technique) -> certified_in(technician_1, sterile_processing)))",
+              "natural": "Either sterilizing equipment is available or, whenever technician 1 is trained in aseptic technique, they are certified in sterile processing."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A10",
+              "prover9_expression": "-available(sterilizing_equipment)",
+              "natural": "It is not the case that sterilizing equipment is available."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Whenever technician 1 is trained in aseptic technique, they are certified in sterile processing."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(trained_in(technician_1, aseptic_technique) -> certified_in(technician_1, sterile_processing))",
+              "natural": "Whenever technician 1 is trained in aseptic technique, they are certified in sterile processing."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(certified_in(technician_1, sterile_processing) -> follows_protocol(technician_1, cleaning))",
+              "natural": "Under the condition that technician 1 is certified in sterile processing, they follow the cleaning protocol."
+            }
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "If technician 1 is trained in aseptic technique, then they follow the cleaning protocol."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(trained_in(technician_1, aseptic_technique) -> follows_protocol(technician_1, cleaning))",
+              "natural": "If technician 1 is trained in aseptic technique, then they follow the cleaning protocol."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A8",
+              "prover9_expression": "trained_in(technician_1, aseptic_technique)",
+              "natural": "Technician 1 is trained in aseptic technique."
+            }
+          ],
+          "conclusion": "A7",
+          "natural": "Technician 1 follows the cleaning protocol."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(follows_protocol(technician_1, cleaning) -> validated(sterilization_process))",
+              "natural": "Provided that technician 1 follows the cleaning protocol, the sterilization process is validated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A7",
+              "prover9_expression": "follows_protocol(technician_1, cleaning)",
+              "natural": "Technician 1 follows the cleaning protocol."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The sterilization process is validated."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A20 -> A21)",
+              "prover9_expression": "(investigation_initiated(quality_manager) -> audit_scheduled(quality_manager))",
+              "natural": "If investigation is initiated by the quality manager, then an audit is scheduled by the quality manager."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A21 -> -A18)",
+              "prover9_expression": "(audit_scheduled(quality_manager) -> -deviates_from(manufacturing_process, standard_procedure))",
+              "natural": "Provided that an audit is scheduled by the quality manager, the manufacturing process does not deviate from standard procedure."
+            }
+          ],
+          "conclusion": "(A20 -> -A18)",
+          "natural": "Under the condition that investigation is initiated by the quality manager, the manufacturing process does not deviate from standard procedure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A19 | A20)",
+              "prover9_expression": "(corrective_action_issued(quality_manager) | investigation_initiated(quality_manager))",
+              "natural": "Either corrective action is issued by the quality manager or investigation is initiated by the quality manager."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A19 -> -A18)",
+              "prover9_expression": "(corrective_action_issued(quality_manager) -> -deviates_from(manufacturing_process, standard_procedure))",
+              "natural": "Provided that corrective action is issued by the quality manager, the manufacturing process does not deviate from standard procedure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> -A18)",
+              "prover9_expression": "(investigation_initiated(quality_manager) -> -deviates_from(manufacturing_process, standard_procedure))",
+              "natural": "Under the condition that investigation is initiated by the quality manager, the manufacturing process does not deviate from standard procedure."
+            }
+          ],
+          "conclusion": "-A18",
+          "natural": "The manufacturing process does not deviate from standard procedure."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A18 | A17)",
+              "prover9_expression": "(deviates_from(manufacturing_process, standard_procedure) | compliant_with(manufacturing_process, fda_regulations))",
+              "natural": "Either the manufacturing process deviates from standard procedure or it is compliant with FDA regulations."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A18",
+              "prover9_expression": "-deviates_from(manufacturing_process, standard_procedure)",
+              "natural": "The manufacturing process does not deviate from standard procedure."
+            }
+          ],
+          "conclusion": "A17",
+          "natural": "The manufacturing process is compliant with FDA regulations."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A17 -> (A15 | A16))",
+              "prover9_expression": "(compliant_with(manufacturing_process, fda_regulations) -> (meets_specification(formulation) | within_variance(formulation)))",
+              "natural": "In the event that the manufacturing process is compliant with FDA regulations, the formulation meets specification or is within variance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A17",
+              "prover9_expression": "compliant_with(manufacturing_process, fda_regulations)",
+              "natural": "The manufacturing process is compliant with FDA regulations."
+            }
+          ],
+          "conclusion": "(A15 | A16)",
+          "natural": "The formulation meets specification or is within variance."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(meets_specification(formulation) | within_variance(formulation))",
+              "natural": "The formulation meets specification or is within variance."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A15 -> (A13 | A14))",
+              "prover9_expression": "(meets_specification(formulation) -> (passes_qc(active_ingredient) | passes_qc(excipient)))",
+              "natural": "Given that the formulation meets specification, either the active ingredient passes quality control or the excipient passes quality control."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A16 -> (A13 | A14))",
+              "prover9_expression": "(within_variance(formulation) -> (passes_qc(active_ingredient) | passes_qc(excipient)))",
+              "natural": "Whenever the formulation is within variance, either the active ingredient passes quality control or the excipient passes quality control."
+            }
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either the active ingredient passes quality control or the excipient passes quality control."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A3)",
+              "prover9_expression": "(passes_qc(active_ingredient) -> approved_production(batch_1))",
+              "natural": "Under the condition that the active ingredient passes quality control, production of batch 1 is approved."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> A4)",
+              "prover9_expression": "(passes_qc(excipient) -> approved_production(batch_2))",
+              "natural": "If the excipient passes quality control, then production of batch 2 is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(passes_qc(active_ingredient) | passes_qc(excipient))",
+              "natural": "Either the active ingredient passes quality control or the excipient passes quality control."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Production of batch 1 is approved or production of batch 2 is approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(approved_production(batch_1) | approved_production(batch_2))",
+              "natural": "Production of batch 1 is approved or production of batch 2 is approved."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (A2 | (-G -> A1)))",
+              "prover9_expression": "(approved_production(batch_1) -> (exceeds_tolerance(impurity_level) | (-validated(sterilization_process) -> contaminated(raw_materials))))",
+              "natural": "If production of batch 1 is approved, then either the impurity level exceeds tolerance or, whenever the sterilization process is not validated, the raw materials are contaminated."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> (A2 | (-G -> A1)))",
+              "prover9_expression": "(approved_production(batch_2) -> (exceeds_tolerance(impurity_level) | (-validated(sterilization_process) -> contaminated(raw_materials))))",
+              "natural": "In the event that production of batch 2 is approved, either the impurity level exceeds tolerance, or under the condition that the sterilization process is not validated, the raw materials are contaminated."
+            }
+          ],
+          "conclusion": "(A2 | (-G -> A1))",
+          "natural": "Either the impurity level exceeds tolerance or, if the sterilization process is not validated, then the raw materials are contaminated."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | (-G -> A1))",
+              "prover9_expression": "(exceeds_tolerance(impurity_level) | (-validated(sterilization_process) -> contaminated(raw_materials)))",
+              "natural": "Either the impurity level exceeds tolerance or, if the sterilization process is not validated, then the raw materials are contaminated."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A2",
+              "prover9_expression": "-exceeds_tolerance(impurity_level)",
+              "natural": "The impurity level does not exceed tolerance."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Under the condition that the sterilization process is not validated, the raw materials are contaminated."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-validated(sterilization_process) -> contaminated(raw_materials))",
+              "natural": "Under the condition that the sterilization process is not validated, the raw materials are contaminated."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-validated(sterilization_process) -> -contaminated(raw_materials))",
+              "natural": "If the sterilization process is not validated, then the raw materials are not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The sterilization process is validated."
+        }
+      ]
+    }
+  ]
+}

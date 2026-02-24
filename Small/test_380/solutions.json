@@ -1,0 +1,203 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(monitoring_effective(Organization, Plant) | monitoring_ineffective(Organization, Plant))",
+              "natural": "Either an organization's monitoring at a plant is effective or the organization's monitoring at a plant is ineffective."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A5 -> (A3 -> A1))",
+              "prover9_expression": "(monitoring_effective(Organization, Plant) -> (surveillance_activated(Organization, Plant) -> outbreak_detected(Organization, Disease)))",
+              "natural": "In cases where an organization's monitoring at a plant is effective, then if the organization activates surveillance at that plant, the organization detects an outbreak of a disease."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A6 -> (A3 -> A1))",
+              "prover9_expression": "(monitoring_ineffective(Organization, Plant) -> (surveillance_activated(Organization, Plant) -> outbreak_detected(Organization, Disease)))",
+              "natural": "Assuming an organization's monitoring at a plant is ineffective, then whenever the organization activates surveillance at that plant, the organization detects an outbreak of a disease."
+            }
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "If an organization activates surveillance at a plant, then the organization detects an outbreak of a disease."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(surveillance_activated(Organization, Plant) -> outbreak_detected(Organization, Disease))",
+              "natural": "If an organization activates surveillance at a plant, then the organization detects an outbreak of a disease."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(quarantine_ordered(Organization, Event) -> containment_implemented(Organization, Event))",
+              "natural": "Given that an organization orders quarantine for an event, the organization implements containment for that event."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(surveillance_activated(Organization, Plant) | quarantine_ordered(Organization, Event))",
+              "natural": "An organization activates surveillance at a plant or the organization orders quarantine for an event."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either an organization detects an outbreak of a disease or the organization implements containment for an event."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(outbreak_detected(Organization, Disease) | containment_implemented(Organization, Event))",
+              "natural": "Either an organization detects an outbreak of a disease or the organization implements containment for an event."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(outbreak_detected(Organization, Disease) -> crisis_resolved(Organization, Disease))",
+              "natural": "Provided that an organization detects an outbreak of a disease, then the organization resolves the crisis of that disease."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(containment_implemented(Organization, Event) -> crisis_resolved(Organization, Disease))",
+              "natural": "Whenever an organization implements containment for an event, the organization resolves the crisis of the disease."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An organization resolves the crisis of a disease."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-(A9 -> (A7 -> A1)) -> A10)",
+              "prover9_expression": "(-(protocol_followed(Organization, Disease) -> (testing_positive(Organization, Disease) -> outbreak_detected(Organization, Disease))) -> emergency_declared(Organization, Event))",
+              "natural": "If it is not the case that following protocol for a disease by an organization implies that testing positive for the disease leads to detecting an outbreak, then the organization declares an emergency for an event."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A10",
+              "prover9_expression": "-emergency_declared(Organization, Event)",
+              "natural": "It is not the case that an organization declares an emergency for an event."
+            }
+          ],
+          "conclusion": "(A9 -> (A7 -> A1))",
+          "natural": "Whenever an organization follows protocol for a disease, then if the organization tests positive for that disease, the organization detects an outbreak of the disease."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A7 -> A1))",
+              "prover9_expression": "(protocol_followed(Organization, Disease) -> (testing_positive(Organization, Disease) -> outbreak_detected(Organization, Disease)))",
+              "natural": "Whenever an organization follows protocol for a disease, then if the organization tests positive for that disease, the organization detects an outbreak of the disease."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A9",
+              "prover9_expression": "protocol_followed(Organization, Disease)",
+              "natural": "An organization follows protocol for a disease."
+            }
+          ],
+          "conclusion": "(A7 -> A1)",
+          "natural": "Should an organization test positive for a disease, the organization detects an outbreak of that disease."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> A1)",
+              "prover9_expression": "(testing_positive(Organization, Disease) -> outbreak_detected(Organization, Disease))",
+              "natural": "Should an organization test positive for a disease, the organization detects an outbreak of that disease."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A8 -> A2)",
+              "prover9_expression": "(testing_negative(Organization, Disease) -> containment_implemented(Organization, Event))",
+              "natural": "On the condition that an organization tests negative for a disease, the organization implements containment for an event."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(testing_positive(Organization, Disease) | testing_negative(Organization, Disease))",
+              "natural": "An organization tests positive for a disease or the organization tests negative for a disease."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either an organization detects an outbreak of a disease or the organization implements containment for an event."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(outbreak_detected(Organization, Disease) | containment_implemented(Organization, Event))",
+              "natural": "Either an organization detects an outbreak of a disease or the organization implements containment for an event."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(outbreak_detected(Organization, Disease) -> crisis_resolved(Organization, Disease))",
+              "natural": "Provided that an organization detects an outbreak of a disease, then the organization resolves the crisis of that disease."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(containment_implemented(Organization, Event) -> crisis_resolved(Organization, Disease))",
+              "natural": "Whenever an organization implements containment for an event, the organization resolves the crisis of the disease."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An organization resolves the crisis of a disease."
+        }
+      ]
+    }
+  ]
+}

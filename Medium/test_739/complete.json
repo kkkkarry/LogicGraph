@@ -1,0 +1,1257 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 5,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 0
+      },
+      "5": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(authorized(user, system) | transaction_complete(user))",
+        "natural": "Either the user is authorized to access the system, or the user's transaction is complete."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → A12)",
+        "prover9_expression": "(admin_review(user) -> security_check(user))",
+        "natural": "If the user undergoes admin review, then the user undergoes a security check."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 ∨ A11)",
+        "prover9_expression": "(admin_review(user) | automated_review(user))",
+        "natural": "The user undergoes admin review or the user undergoes automated review."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 → (¬(A7 ∨ A8) → A9))",
+        "prover9_expression": "(automated_review(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+        "natural": "Whenever the user undergoes automated review, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 → (¬(A7 ∨ A8) → A9))",
+        "prover9_expression": "(security_check(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+        "natural": "Under the condition that the user undergoes a security check, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A13 → G)",
+        "prover9_expression": "(game_access(user) -> transaction_complete(user))",
+        "natural": "If the user gains access to games, then the user's transaction is complete."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A14 → G)",
+        "prover9_expression": "(premium_access(user) -> transaction_complete(user))",
+        "natural": "Provided that the user gains premium access, the user's transaction is complete."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A15 → A17)",
+        "prover9_expression": "(subscription_active(user) -> subscription_premium(user))",
+        "natural": "If the user's subscription is active, then the user has a premium subscription."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A15 ∨ A16)",
+        "prover9_expression": "(subscription_active(user) | subscription_expired(user))",
+        "natural": "The user's subscription is active or the user's subscription has expired."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A16 → A14)",
+        "prover9_expression": "(subscription_expired(user) -> premium_access(user))",
+        "natural": "Under the condition that the user's subscription has expired, then the user gains premium access."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A18 ∨ A19)",
+        "prover9_expression": "(bonus_eligible(user) | referral_bonus(user))",
+        "natural": "The user is eligible for a bonus or the user receives a referral bonus."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A19 → (A17 → A13))",
+        "prover9_expression": "(referral_bonus(user) -> (subscription_premium(user) -> game_access(user)))",
+        "natural": "Provided that the user receives a referral bonus, then if the user has a premium subscription, the user gains access to games."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(blocked(user, system) -> -authorized(user, system))",
+        "natural": "If the user is blocked from the system, then the user is not authorized to access the system."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(blocked(user, system) | suspended(user, system))",
+        "natural": "Either the user is blocked from the system or the user is suspended from the system."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A20 → (A17 → A13))",
+        "prover9_expression": "(reward_granted(user) -> (subscription_premium(user) -> game_access(user)))",
+        "natural": "Under the condition that the user is granted a reward, then if the user has a premium subscription, the user gains access to games."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A21 → (A18 → A20))",
+        "prover9_expression": "(system_approved(user) -> (bonus_eligible(user) -> reward_granted(user)))",
+        "natural": "If the system approves the user, then whenever the user is eligible for a bonus, the user is granted a reward."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A22 ∨ A21)",
+        "prover9_expression": "(manual_override(user) | system_approved(user))",
+        "natural": "A manual override is applied for the user or the system approves the user."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A25 → A26)",
+        "prover9_expression": "(refund_issued(user) -> dispute_resolved(user))",
+        "natural": "Whenever a refund is issued to the user, then the user's dispute is resolved."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A28 → ¬A27)",
+        "prover9_expression": "(chargeback_denied(user) -> -chargeback_filed(user))",
+        "natural": "Under the condition that the user's chargeback is denied, then the user does not file a chargeback."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A29 ∨ A30)",
+        "prover9_expression": "(tech_support(user) | customer_service(user))",
+        "natural": "The user receives tech support or the user receives customer service."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A30 → G)",
+        "prover9_expression": "(customer_service(user) -> transaction_complete(user))",
+        "natural": "If the user receives customer service, then the user's transaction is complete."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A31 → G)",
+        "prover9_expression": "(issue_resolved(user) -> transaction_complete(user))",
+        "natural": "Provided that the user's issue is resolved, then the user's transaction is complete."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A34 → A35)",
+        "prover9_expression": "(account_compromised(user) -> secure_login(user))",
+        "natural": "If the user's account is compromised, then the user logs in securely."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A36 → (A34 → ¬A35))",
+        "prover9_expression": "(security_alert(user) -> (account_compromised(user) -> -secure_login(user)))",
+        "natural": "Under the condition that a security alert is generated for the user, then if the user's account is compromised, the user does not log in securely."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A36 ∨ A37)",
+        "prover9_expression": "(security_alert(user) | suspicious_activity(user))",
+        "natural": "A security alert is generated for the user or suspicious activity is detected for the user."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A37 → (A34 → ¬A35))",
+        "prover9_expression": "(suspicious_activity(user) -> (account_compromised(user) -> -secure_login(user)))",
+        "natural": "If suspicious activity is detected for the user, then provided that the user's account is compromised, the user does not log in securely."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(password_change(user) -> password_valid(user))",
+        "natural": "Whenever the user changes their password, then the user's password is valid."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A4 → ¬A5)",
+        "prover9_expression": "(password_change(user) -> -password_valid(user))",
+        "natural": "Provided that the user changes their password, then the user's password is not valid."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A6 ∨ G)",
+        "prover9_expression": "(order_placed(user) | transaction_complete(user))",
+        "natural": "The user places an order or the user's transaction is complete."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A7 → ¬A6)",
+        "prover9_expression": "(payment_failed(user) -> -order_placed(user))",
+        "natural": "If the user's payment fails, then the user does not place an order."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A8 → ¬A6)",
+        "prover9_expression": "(invalid_payment(user) -> -order_placed(user))",
+        "natural": "Under the condition that the user's payment is invalid, then the user does not place an order."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(¬(A23 → G) → A25)",
+        "prover9_expression": "(-(food_delivered(user) -> transaction_complete(user)) -> refund_issued(user))",
+        "natural": "Provided that it is not the case that if food is delivered to the user, then the user's transaction is complete, then a refund is issued to the user."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(¬(A23 → G) → ¬A24)",
+        "prover9_expression": "(-(food_delivered(user) -> transaction_complete(user)) -> -payment_processed(user))",
+        "natural": "If it is not the case that under the condition that food is delivered to the user, the user's transaction is complete, then the user's payment is not processed."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(¬(A26 → A24) → A27)",
+        "prover9_expression": "(-(dispute_resolved(user) -> payment_processed(user)) -> chargeback_filed(user))",
+        "natural": "Whenever it is not the case that if the user's dispute is resolved, then the user's payment is processed, then the user files a chargeback."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(¬(A26 → A24) → A28)",
+        "prover9_expression": "(-(dispute_resolved(user) -> payment_processed(user)) -> chargeback_denied(user))",
+        "natural": "Provided that it is not the case that whenever the user's dispute is resolved, the user's payment is processed, then the user's chargeback is denied."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(¬(A29 → A31) → ¬A32)",
+        "prover9_expression": "(-(tech_support(user) -> issue_resolved(user)) -> -escalation_needed(user))",
+        "natural": "Provided that it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is not needed for the user."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(¬(A3 → ¬A1) → A4)",
+        "prover9_expression": "(-(suspended(user, system) -> -authorized(user, system)) -> password_change(user))",
+        "natural": "If it is not the case that under the condition that the user is suspended from the system, the user is not authorized to access the system, then the user changes their password."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬(A33 ∨ (¬(A29 → A31) → A32)) → A34)",
+        "prover9_expression": "(-(fraud_detected(user) | (-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user))) -> account_compromised(user))",
+        "natural": "If it is not the case that fraud is detected for the user, or if it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is needed for the user, then the user's account is compromised."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A23",
+        "prover9_expression": "food_delivered(user)",
+        "natural": "Food is delivered to the user."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A22",
+        "prover9_expression": "-manual_override(user)",
+        "natural": "It is not the case that a manual override is applied for the user."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A33",
+        "prover9_expression": "-fraud_detected(user)",
+        "natural": "It is not the case that fraud is detected for the user."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A9",
+        "prover9_expression": "-account_flagged(user)",
+        "natural": "It is not the case that the user's account is flagged."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "transaction_complete(user)",
+    "natural": "The user's transaction is complete."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A4 -> -A5)"
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that the user changes their password."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 -> -A1) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> -A1)",
+          "natural": "Whenever the user is suspended from the system, then the user is not authorized to access the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the user is authorized to access the system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The user's transaction is complete."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A12)",
+            "(A12 -> (-(A7 | A8) -> A9))"
+          ],
+          "conclusion": "(A10 -> (-(A7 | A8) -> A9))",
+          "natural": "Provided that the user undergoes admin review, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> (-(A7 | A8) -> A9))",
+            "(A11 -> (-(A7 | A8) -> A9))"
+          ],
+          "conclusion": "(-(A7 | A8) -> A9)",
+          "natural": "Provided that it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 | A8) -> A9)",
+            "-A9"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "The user's payment fails or the user's payment is invalid."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> -A6)",
+            "(A8 -> -A6)"
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that the user places an order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | G)",
+            "-A6"
+          ],
+          "conclusion": "G",
+          "natural": "The user's transaction is complete."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A22 | A21)",
+            "-A22"
+          ],
+          "conclusion": "A21",
+          "natural": "The system approves the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> (A18 -> A20))",
+            "A21"
+          ],
+          "conclusion": "(A18 -> A20)",
+          "natural": "Whenever the user is eligible for a bonus, then the user is granted a reward."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A18 -> A20)",
+            "(A20 -> (A17 -> A13))"
+          ],
+          "conclusion": "(A18 -> (A17 -> A13))",
+          "natural": "If the user is eligible for a bonus, then whenever the user has a premium subscription, the user gains access to games."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A18 | A19)",
+            "(A18 -> (A17 -> A13))",
+            "(A19 -> (A17 -> A13))"
+          ],
+          "conclusion": "(A17 -> A13)",
+          "natural": "Provided that the user has a premium subscription, then the user gains access to games."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A15 -> A17)",
+            "(A17 -> A13)"
+          ],
+          "conclusion": "(A15 -> A13)",
+          "natural": "Whenever the user's subscription is active, then the user gains access to games."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A15 -> A13)",
+            "(A16 -> A14)",
+            "(A15 | A16)"
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either the user gains access to games or the user gains premium access."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> G)",
+            "(A14 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The user's transaction is complete."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A26 -> A24) -> A28)",
+            "(A28 -> -A27)"
+          ],
+          "conclusion": "(-(A26 -> A24) -> -A27)",
+          "natural": "If it is not the case that under the condition that the user's dispute is resolved, the user's payment is processed, then the user does not file a chargeback."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A26 -> A24) -> A27)",
+            "(-(A26 -> A24) -> -A27)"
+          ],
+          "conclusion": "(A26 -> A24)",
+          "natural": "If the user's dispute is resolved, then the user's payment is processed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A25 -> A26)",
+            "(A26 -> A24)"
+          ],
+          "conclusion": "(A25 -> A24)",
+          "natural": "If a refund is issued to the user, then the user's payment is processed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A23 -> G) -> A25)",
+            "(A25 -> A24)"
+          ],
+          "conclusion": "(-(A23 -> G) -> A24)",
+          "natural": "If it is not the case that whenever food is delivered to the user, the user's transaction is complete, then the user's payment is processed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A23 -> G) -> A24)",
+            "(-(A23 -> G) -> -A24)"
+          ],
+          "conclusion": "(A23 -> G)",
+          "natural": "Provided that food is delivered to the user, then the user's transaction is complete."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> G)",
+            "A23"
+          ],
+          "conclusion": "G",
+          "natural": "The user's transaction is complete."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A36 | A37)",
+            "(A36 -> (A34 -> -A35))",
+            "(A37 -> (A34 -> -A35))"
+          ],
+          "conclusion": "(A34 -> -A35)",
+          "natural": "Provided that the user's account is compromised, then the user does not log in securely."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A34 -> A35)",
+            "(A34 -> -A35)"
+          ],
+          "conclusion": "-A34",
+          "natural": "It is not the case that the user's account is compromised."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A33 | (-(A29 -> A31) -> A32)) -> A34)",
+            "-A34"
+          ],
+          "conclusion": "(A33 | (-(A29 -> A31) -> A32))",
+          "natural": "Fraud is detected for the user, or if it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is needed for the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A33 | (-(A29 -> A31) -> A32))",
+            "-A33"
+          ],
+          "conclusion": "(-(A29 -> A31) -> A32)",
+          "natural": "Whenever it is not the case that if the user receives tech support, then the user's issue is resolved, then escalation is needed for the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A29 -> A31) -> A32)",
+            "(-(A29 -> A31) -> -A32)"
+          ],
+          "conclusion": "(A29 -> A31)",
+          "natural": "Provided that the user receives tech support, then the user's issue is resolved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A29 -> A31)",
+            "(A31 -> G)"
+          ],
+          "conclusion": "(A29 -> G)",
+          "natural": "If the user receives tech support, then the user's transaction is complete."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A29 | A30)",
+            "(A29 -> G)",
+            "(A30 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The user's transaction is complete."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Food Delivery App Security",
+    "atomic_facts": {
+      "A1": "authorized(user, system)",
+      "A2": "blocked(user, system)",
+      "A3": "suspended(user, system)",
+      "A4": "password_change(user)",
+      "A5": "password_valid(user)",
+      "A6": "order_placed(user)",
+      "A7": "payment_failed(user)",
+      "A8": "invalid_payment(user)",
+      "A9": "account_flagged(user)",
+      "A10": "admin_review(user)",
+      "A11": "automated_review(user)",
+      "A12": "security_check(user)",
+      "A13": "game_access(user)",
+      "A14": "premium_access(user)",
+      "A15": "subscription_active(user)",
+      "A16": "subscription_expired(user)",
+      "A17": "subscription_premium(user)",
+      "A18": "bonus_eligible(user)",
+      "A19": "referral_bonus(user)",
+      "A20": "reward_granted(user)",
+      "A21": "system_approved(user)",
+      "A22": "manual_override(user)",
+      "A23": "food_delivered(user)",
+      "A24": "payment_processed(user)",
+      "A25": "refund_issued(user)",
+      "A26": "dispute_resolved(user)",
+      "A27": "chargeback_filed(user)",
+      "A28": "chargeback_denied(user)",
+      "A29": "tech_support(user)",
+      "A30": "customer_service(user)",
+      "A31": "issue_resolved(user)",
+      "A32": "escalation_needed(user)",
+      "A33": "fraud_detected(user)",
+      "A34": "account_compromised(user)",
+      "A35": "secure_login(user)",
+      "A36": "security_alert(user)",
+      "A37": "suspicious_activity(user)",
+      "G": "transaction_complete(user)"
+    },
+    "natural_facts": {
+      "A1": "The user is authorized to access the system.",
+      "A2": "The user is blocked from the system.",
+      "A3": "The user is suspended from the system.",
+      "A4": "The user changes their password.",
+      "A5": "The user's password is valid.",
+      "A6": "The user places an order.",
+      "A7": "The user's payment fails.",
+      "A8": "The user's payment is invalid.",
+      "A9": "The user's account is flagged.",
+      "A10": "The user undergoes admin review.",
+      "A11": "The user undergoes automated review.",
+      "A12": "The user undergoes a security check.",
+      "A13": "The user gains access to games.",
+      "A14": "The user gains premium access.",
+      "A15": "The user's subscription is active.",
+      "A16": "The user's subscription has expired.",
+      "A17": "The user has a premium subscription.",
+      "A18": "The user is eligible for a bonus.",
+      "A19": "The user receives a referral bonus.",
+      "A20": "The user is granted a reward.",
+      "A21": "The system approves the user.",
+      "A22": "A manual override is applied for the user.",
+      "A23": "Food is delivered to the user.",
+      "A24": "The user's payment is processed.",
+      "A25": "A refund is issued to the user.",
+      "A26": "The user's dispute is resolved.",
+      "A27": "The user files a chargeback.",
+      "A28": "The user's chargeback is denied.",
+      "A29": "The user receives tech support.",
+      "A30": "The user receives customer service.",
+      "A31": "The user's issue is resolved.",
+      "A32": "Escalation is needed for the user.",
+      "A33": "Fraud is detected for the user.",
+      "A34": "The user's account is compromised.",
+      "A35": "The user logs in securely.",
+      "A36": "A security alert is generated for the user.",
+      "A37": "Suspicious activity is detected for the user.",
+      "G": "The user's transaction is complete."
+    },
+    "prover9_expressions": [
+      "(authorized(user, system) | transaction_complete(user))",
+      "(admin_review(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+      "(admin_review(user) -> security_check(user))",
+      "(admin_review(user) | automated_review(user))",
+      "(automated_review(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+      "(security_check(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+      "(game_access(user) -> transaction_complete(user))",
+      "(game_access(user) | premium_access(user))",
+      "(premium_access(user) -> transaction_complete(user))",
+      "(subscription_active(user) -> game_access(user))",
+      "(subscription_active(user) -> subscription_premium(user))",
+      "(subscription_active(user) | subscription_expired(user))",
+      "(subscription_expired(user) -> premium_access(user))",
+      "(subscription_premium(user) -> game_access(user))",
+      "(bonus_eligible(user) -> (subscription_premium(user) -> game_access(user)))",
+      "(bonus_eligible(user) -> reward_granted(user))",
+      "(bonus_eligible(user) | referral_bonus(user))",
+      "(referral_bonus(user) -> (subscription_premium(user) -> game_access(user)))",
+      "(blocked(user, system) -> -authorized(user, system))",
+      "(blocked(user, system) | suspended(user, system))",
+      "(reward_granted(user) -> (subscription_premium(user) -> game_access(user)))",
+      "(system_approved(user) -> (bonus_eligible(user) -> reward_granted(user)))",
+      "(manual_override(user) | system_approved(user))",
+      "(food_delivered(user) -> transaction_complete(user))",
+      "(refund_issued(user) -> payment_processed(user))",
+      "(refund_issued(user) -> dispute_resolved(user))",
+      "(dispute_resolved(user) -> payment_processed(user))",
+      "(chargeback_denied(user) -> -chargeback_filed(user))",
+      "(tech_support(user) -> issue_resolved(user))",
+      "(tech_support(user) -> transaction_complete(user))",
+      "(tech_support(user) | customer_service(user))",
+      "(suspended(user, system) -> -authorized(user, system))",
+      "(customer_service(user) -> transaction_complete(user))",
+      "(issue_resolved(user) -> transaction_complete(user))",
+      "(fraud_detected(user) | (-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user)))",
+      "(account_compromised(user) -> secure_login(user))",
+      "(account_compromised(user) -> -secure_login(user))",
+      "(security_alert(user) -> (account_compromised(user) -> -secure_login(user)))",
+      "(security_alert(user) | suspicious_activity(user))",
+      "(suspicious_activity(user) -> (account_compromised(user) -> -secure_login(user)))",
+      "(password_change(user) -> password_valid(user))",
+      "(password_change(user) -> -password_valid(user))",
+      "(order_placed(user) | transaction_complete(user))",
+      "(payment_failed(user) -> -order_placed(user))",
+      "(payment_failed(user) | invalid_payment(user))",
+      "(invalid_payment(user) -> -order_placed(user))",
+      "(-(food_delivered(user) -> transaction_complete(user)) -> payment_processed(user))",
+      "(-(food_delivered(user) -> transaction_complete(user)) -> refund_issued(user))",
+      "(-(food_delivered(user) -> transaction_complete(user)) -> -payment_processed(user))",
+      "(-(dispute_resolved(user) -> payment_processed(user)) -> chargeback_filed(user))",
+      "(-(dispute_resolved(user) -> payment_processed(user)) -> chargeback_denied(user))",
+      "(-(dispute_resolved(user) -> payment_processed(user)) -> -chargeback_filed(user))",
+      "(-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user))",
+      "(-(tech_support(user) -> issue_resolved(user)) -> -escalation_needed(user))",
+      "(-(suspended(user, system) -> -authorized(user, system)) -> password_change(user))",
+      "(-(fraud_detected(user) | (-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user))) -> account_compromised(user))",
+      "(-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))",
+      "system_approved(user)",
+      "food_delivered(user)",
+      "transaction_complete(user)",
+      "-authorized(user, system)",
+      "-manual_override(user)",
+      "-fraud_detected(user)",
+      "-account_compromised(user)",
+      "-password_change(user)",
+      "-order_placed(user)",
+      "-account_flagged(user)"
+    ],
+    "natural_expressions": [
+      "Either the user is authorized to access the system, or the user's transaction is complete.",
+      "Provided that the user undergoes admin review, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged.",
+      "If the user undergoes admin review, then the user undergoes a security check.",
+      "The user undergoes admin review or the user undergoes automated review.",
+      "Whenever the user undergoes automated review, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged.",
+      "Under the condition that the user undergoes a security check, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged.",
+      "If the user gains access to games, then the user's transaction is complete.",
+      "Either the user gains access to games or the user gains premium access.",
+      "Provided that the user gains premium access, the user's transaction is complete.",
+      "Whenever the user's subscription is active, then the user gains access to games.",
+      "If the user's subscription is active, then the user has a premium subscription.",
+      "The user's subscription is active or the user's subscription has expired.",
+      "Under the condition that the user's subscription has expired, then the user gains premium access.",
+      "Provided that the user has a premium subscription, then the user gains access to games.",
+      "If the user is eligible for a bonus, then whenever the user has a premium subscription, the user gains access to games.",
+      "Whenever the user is eligible for a bonus, then the user is granted a reward.",
+      "The user is eligible for a bonus or the user receives a referral bonus.",
+      "Provided that the user receives a referral bonus, then if the user has a premium subscription, the user gains access to games.",
+      "If the user is blocked from the system, then the user is not authorized to access the system.",
+      "Either the user is blocked from the system or the user is suspended from the system.",
+      "Under the condition that the user is granted a reward, then if the user has a premium subscription, the user gains access to games.",
+      "If the system approves the user, then whenever the user is eligible for a bonus, the user is granted a reward.",
+      "A manual override is applied for the user or the system approves the user.",
+      "Provided that food is delivered to the user, then the user's transaction is complete.",
+      "If a refund is issued to the user, then the user's payment is processed.",
+      "Whenever a refund is issued to the user, then the user's dispute is resolved.",
+      "If the user's dispute is resolved, then the user's payment is processed.",
+      "Under the condition that the user's chargeback is denied, then the user does not file a chargeback.",
+      "Provided that the user receives tech support, then the user's issue is resolved.",
+      "If the user receives tech support, then the user's transaction is complete.",
+      "The user receives tech support or the user receives customer service.",
+      "Whenever the user is suspended from the system, then the user is not authorized to access the system.",
+      "If the user receives customer service, then the user's transaction is complete.",
+      "Provided that the user's issue is resolved, then the user's transaction is complete.",
+      "Fraud is detected for the user, or if it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is needed for the user.",
+      "If the user's account is compromised, then the user logs in securely.",
+      "Provided that the user's account is compromised, then the user does not log in securely.",
+      "Under the condition that a security alert is generated for the user, then if the user's account is compromised, the user does not log in securely.",
+      "A security alert is generated for the user or suspicious activity is detected for the user.",
+      "If suspicious activity is detected for the user, then provided that the user's account is compromised, the user does not log in securely.",
+      "Whenever the user changes their password, then the user's password is valid.",
+      "Provided that the user changes their password, then the user's password is not valid.",
+      "The user places an order or the user's transaction is complete.",
+      "If the user's payment fails, then the user does not place an order.",
+      "The user's payment fails or the user's payment is invalid.",
+      "Under the condition that the user's payment is invalid, then the user does not place an order.",
+      "If it is not the case that whenever food is delivered to the user, the user's transaction is complete, then the user's payment is processed.",
+      "Provided that it is not the case that if food is delivered to the user, then the user's transaction is complete, then a refund is issued to the user.",
+      "If it is not the case that under the condition that food is delivered to the user, the user's transaction is complete, then the user's payment is not processed.",
+      "Whenever it is not the case that if the user's dispute is resolved, then the user's payment is processed, then the user files a chargeback.",
+      "Provided that it is not the case that whenever the user's dispute is resolved, the user's payment is processed, then the user's chargeback is denied.",
+      "If it is not the case that under the condition that the user's dispute is resolved, the user's payment is processed, then the user does not file a chargeback.",
+      "Whenever it is not the case that if the user receives tech support, then the user's issue is resolved, then escalation is needed for the user.",
+      "Provided that it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is not needed for the user.",
+      "If it is not the case that under the condition that the user is suspended from the system, the user is not authorized to access the system, then the user changes their password.",
+      "If it is not the case that fraud is detected for the user, or if it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is needed for the user, then the user's account is compromised.",
+      "Provided that it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged.",
+      "The system approves the user.",
+      "Food is delivered to the user.",
+      "The user's transaction is complete.",
+      "It is not the case that the user is authorized to access the system.",
+      "It is not the case that a manual override is applied for the user.",
+      "It is not the case that fraud is detected for the user.",
+      "It is not the case that the user's account is compromised.",
+      "It is not the case that the user changes their password.",
+      "It is not the case that the user places an order.",
+      "It is not the case that the user's account is flagged."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(authorized(user, system) | transaction_complete(user))",
+        "natural": "Either the user is authorized to access the system, or the user's transaction is complete."
+      },
+      "(A10 → (¬(A7 ∨ A8) → A9))": {
+        "formal": "(A10 → (¬(A7 ∨ A8) → A9))",
+        "prover9": "(A10 -> (-(A7 | A8) -> A9))",
+        "prover9_expression": "(admin_review(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+        "natural": "Provided that the user undergoes admin review, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+      },
+      "(A10 → A12)": {
+        "formal": "(A10 → A12)",
+        "prover9": "(A10 -> A12)",
+        "prover9_expression": "(admin_review(user) -> security_check(user))",
+        "natural": "If the user undergoes admin review, then the user undergoes a security check."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(admin_review(user) | automated_review(user))",
+        "natural": "The user undergoes admin review or the user undergoes automated review."
+      },
+      "(A11 → (¬(A7 ∨ A8) → A9))": {
+        "formal": "(A11 → (¬(A7 ∨ A8) → A9))",
+        "prover9": "(A11 -> (-(A7 | A8) -> A9))",
+        "prover9_expression": "(automated_review(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+        "natural": "Whenever the user undergoes automated review, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+      },
+      "(A12 → (¬(A7 ∨ A8) → A9))": {
+        "formal": "(A12 → (¬(A7 ∨ A8) → A9))",
+        "prover9": "(A12 -> (-(A7 | A8) -> A9))",
+        "prover9_expression": "(security_check(user) -> ((-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))))",
+        "natural": "Under the condition that the user undergoes a security check, if it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+      },
+      "(A13 → G)": {
+        "formal": "(A13 → G)",
+        "prover9": "(A13 -> G)",
+        "prover9_expression": "(game_access(user) -> transaction_complete(user))",
+        "natural": "If the user gains access to games, then the user's transaction is complete."
+      },
+      "(A13 ∨ A14)": {
+        "formal": "(A13 ∨ A14)",
+        "prover9": "(A13 | A14)",
+        "prover9_expression": "(game_access(user) | premium_access(user))",
+        "natural": "Either the user gains access to games or the user gains premium access."
+      },
+      "(A14 → G)": {
+        "formal": "(A14 → G)",
+        "prover9": "(A14 -> G)",
+        "prover9_expression": "(premium_access(user) -> transaction_complete(user))",
+        "natural": "Provided that the user gains premium access, the user's transaction is complete."
+      },
+      "(A15 → A13)": {
+        "formal": "(A15 → A13)",
+        "prover9": "(A15 -> A13)",
+        "prover9_expression": "(subscription_active(user) -> game_access(user))",
+        "natural": "Whenever the user's subscription is active, then the user gains access to games."
+      },
+      "(A15 → A17)": {
+        "formal": "(A15 → A17)",
+        "prover9": "(A15 -> A17)",
+        "prover9_expression": "(subscription_active(user) -> subscription_premium(user))",
+        "natural": "If the user's subscription is active, then the user has a premium subscription."
+      },
+      "(A15 ∨ A16)": {
+        "formal": "(A15 ∨ A16)",
+        "prover9": "(A15 | A16)",
+        "prover9_expression": "(subscription_active(user) | subscription_expired(user))",
+        "natural": "The user's subscription is active or the user's subscription has expired."
+      },
+      "(A16 → A14)": {
+        "formal": "(A16 → A14)",
+        "prover9": "(A16 -> A14)",
+        "prover9_expression": "(subscription_expired(user) -> premium_access(user))",
+        "natural": "Under the condition that the user's subscription has expired, then the user gains premium access."
+      },
+      "(A17 → A13)": {
+        "formal": "(A17 → A13)",
+        "prover9": "(A17 -> A13)",
+        "prover9_expression": "(subscription_premium(user) -> game_access(user))",
+        "natural": "Provided that the user has a premium subscription, then the user gains access to games."
+      },
+      "(A18 → (A17 → A13))": {
+        "formal": "(A18 → (A17 → A13))",
+        "prover9": "(A18 -> (A17 -> A13))",
+        "prover9_expression": "(bonus_eligible(user) -> (subscription_premium(user) -> game_access(user)))",
+        "natural": "If the user is eligible for a bonus, then whenever the user has a premium subscription, the user gains access to games."
+      },
+      "(A18 → A20)": {
+        "formal": "(A18 → A20)",
+        "prover9": "(A18 -> A20)",
+        "prover9_expression": "(bonus_eligible(user) -> reward_granted(user))",
+        "natural": "Whenever the user is eligible for a bonus, then the user is granted a reward."
+      },
+      "(A18 ∨ A19)": {
+        "formal": "(A18 ∨ A19)",
+        "prover9": "(A18 | A19)",
+        "prover9_expression": "(bonus_eligible(user) | referral_bonus(user))",
+        "natural": "The user is eligible for a bonus or the user receives a referral bonus."
+      },
+      "(A19 → (A17 → A13))": {
+        "formal": "(A19 → (A17 → A13))",
+        "prover9": "(A19 -> (A17 -> A13))",
+        "prover9_expression": "(referral_bonus(user) -> (subscription_premium(user) -> game_access(user)))",
+        "natural": "Provided that the user receives a referral bonus, then if the user has a premium subscription, the user gains access to games."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(blocked(user, system) -> -authorized(user, system))",
+        "natural": "If the user is blocked from the system, then the user is not authorized to access the system."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(blocked(user, system) | suspended(user, system))",
+        "natural": "Either the user is blocked from the system or the user is suspended from the system."
+      },
+      "(A20 → (A17 → A13))": {
+        "formal": "(A20 → (A17 → A13))",
+        "prover9": "(A20 -> (A17 -> A13))",
+        "prover9_expression": "(reward_granted(user) -> (subscription_premium(user) -> game_access(user)))",
+        "natural": "Under the condition that the user is granted a reward, then if the user has a premium subscription, the user gains access to games."
+      },
+      "(A21 → (A18 → A20))": {
+        "formal": "(A21 → (A18 → A20))",
+        "prover9": "(A21 -> (A18 -> A20))",
+        "prover9_expression": "(system_approved(user) -> (bonus_eligible(user) -> reward_granted(user)))",
+        "natural": "If the system approves the user, then whenever the user is eligible for a bonus, the user is granted a reward."
+      },
+      "(A22 ∨ A21)": {
+        "formal": "(A22 ∨ A21)",
+        "prover9": "(A22 | A21)",
+        "prover9_expression": "(manual_override(user) | system_approved(user))",
+        "natural": "A manual override is applied for the user or the system approves the user."
+      },
+      "(A23 → G)": {
+        "formal": "(A23 → G)",
+        "prover9": "(A23 -> G)",
+        "prover9_expression": "(food_delivered(user) -> transaction_complete(user))",
+        "natural": "Provided that food is delivered to the user, then the user's transaction is complete."
+      },
+      "(A25 → A24)": {
+        "formal": "(A25 → A24)",
+        "prover9": "(A25 -> A24)",
+        "prover9_expression": "(refund_issued(user) -> payment_processed(user))",
+        "natural": "If a refund is issued to the user, then the user's payment is processed."
+      },
+      "(A25 → A26)": {
+        "formal": "(A25 → A26)",
+        "prover9": "(A25 -> A26)",
+        "prover9_expression": "(refund_issued(user) -> dispute_resolved(user))",
+        "natural": "Whenever a refund is issued to the user, then the user's dispute is resolved."
+      },
+      "(A26 → A24)": {
+        "formal": "(A26 → A24)",
+        "prover9": "(A26 -> A24)",
+        "prover9_expression": "(dispute_resolved(user) -> payment_processed(user))",
+        "natural": "If the user's dispute is resolved, then the user's payment is processed."
+      },
+      "(A28 → ¬A27)": {
+        "formal": "(A28 → ¬A27)",
+        "prover9": "(A28 -> -A27)",
+        "prover9_expression": "(chargeback_denied(user) -> -chargeback_filed(user))",
+        "natural": "Under the condition that the user's chargeback is denied, then the user does not file a chargeback."
+      },
+      "(A29 → A31)": {
+        "formal": "(A29 → A31)",
+        "prover9": "(A29 -> A31)",
+        "prover9_expression": "(tech_support(user) -> issue_resolved(user))",
+        "natural": "Provided that the user receives tech support, then the user's issue is resolved."
+      },
+      "(A29 → G)": {
+        "formal": "(A29 → G)",
+        "prover9": "(A29 -> G)",
+        "prover9_expression": "(tech_support(user) -> transaction_complete(user))",
+        "natural": "If the user receives tech support, then the user's transaction is complete."
+      },
+      "(A29 ∨ A30)": {
+        "formal": "(A29 ∨ A30)",
+        "prover9": "(A29 | A30)",
+        "prover9_expression": "(tech_support(user) | customer_service(user))",
+        "natural": "The user receives tech support or the user receives customer service."
+      },
+      "(A3 → ¬A1)": {
+        "formal": "(A3 → ¬A1)",
+        "prover9": "(A3 -> -A1)",
+        "prover9_expression": "(suspended(user, system) -> -authorized(user, system))",
+        "natural": "Whenever the user is suspended from the system, then the user is not authorized to access the system."
+      },
+      "(A30 → G)": {
+        "formal": "(A30 → G)",
+        "prover9": "(A30 -> G)",
+        "prover9_expression": "(customer_service(user) -> transaction_complete(user))",
+        "natural": "If the user receives customer service, then the user's transaction is complete."
+      },
+      "(A31 → G)": {
+        "formal": "(A31 → G)",
+        "prover9": "(A31 -> G)",
+        "prover9_expression": "(issue_resolved(user) -> transaction_complete(user))",
+        "natural": "Provided that the user's issue is resolved, then the user's transaction is complete."
+      },
+      "(A33 ∨ (¬(A29 → A31) → A32))": {
+        "formal": "(A33 ∨ (¬(A29 → A31) → A32))",
+        "prover9": "(A33 | (-(A29 -> A31) -> A32))",
+        "prover9_expression": "(fraud_detected(user) | (-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user)))",
+        "natural": "Fraud is detected for the user, or if it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is needed for the user."
+      },
+      "(A34 → A35)": {
+        "formal": "(A34 → A35)",
+        "prover9": "(A34 -> A35)",
+        "prover9_expression": "(account_compromised(user) -> secure_login(user))",
+        "natural": "If the user's account is compromised, then the user logs in securely."
+      },
+      "(A34 → ¬A35)": {
+        "formal": "(A34 → ¬A35)",
+        "prover9": "(A34 -> -A35)",
+        "prover9_expression": "(account_compromised(user) -> -secure_login(user))",
+        "natural": "Provided that the user's account is compromised, then the user does not log in securely."
+      },
+      "(A36 → (A34 → ¬A35))": {
+        "formal": "(A36 → (A34 → ¬A35))",
+        "prover9": "(A36 -> (A34 -> -A35))",
+        "prover9_expression": "(security_alert(user) -> (account_compromised(user) -> -secure_login(user)))",
+        "natural": "Under the condition that a security alert is generated for the user, then if the user's account is compromised, the user does not log in securely."
+      },
+      "(A36 ∨ A37)": {
+        "formal": "(A36 ∨ A37)",
+        "prover9": "(A36 | A37)",
+        "prover9_expression": "(security_alert(user) | suspicious_activity(user))",
+        "natural": "A security alert is generated for the user or suspicious activity is detected for the user."
+      },
+      "(A37 → (A34 → ¬A35))": {
+        "formal": "(A37 → (A34 → ¬A35))",
+        "prover9": "(A37 -> (A34 -> -A35))",
+        "prover9_expression": "(suspicious_activity(user) -> (account_compromised(user) -> -secure_login(user)))",
+        "natural": "If suspicious activity is detected for the user, then provided that the user's account is compromised, the user does not log in securely."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(password_change(user) -> password_valid(user))",
+        "natural": "Whenever the user changes their password, then the user's password is valid."
+      },
+      "(A4 → ¬A5)": {
+        "formal": "(A4 → ¬A5)",
+        "prover9": "(A4 -> -A5)",
+        "prover9_expression": "(password_change(user) -> -password_valid(user))",
+        "natural": "Provided that the user changes their password, then the user's password is not valid."
+      },
+      "(A6 ∨ G)": {
+        "formal": "(A6 ∨ G)",
+        "prover9": "(A6 | G)",
+        "prover9_expression": "(order_placed(user) | transaction_complete(user))",
+        "natural": "The user places an order or the user's transaction is complete."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(payment_failed(user) -> -order_placed(user))",
+        "natural": "If the user's payment fails, then the user does not place an order."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(payment_failed(user) | invalid_payment(user))",
+        "natural": "The user's payment fails or the user's payment is invalid."
+      },
+      "(A8 → ¬A6)": {
+        "formal": "(A8 → ¬A6)",
+        "prover9": "(A8 -> -A6)",
+        "prover9_expression": "(invalid_payment(user) -> -order_placed(user))",
+        "natural": "Under the condition that the user's payment is invalid, then the user does not place an order."
+      },
+      "(¬(A23 → G) → A24)": {
+        "formal": "(¬(A23 → G) → A24)",
+        "prover9": "(-(A23 -> G) -> A24)",
+        "prover9_expression": "(-(food_delivered(user) -> transaction_complete(user)) -> payment_processed(user))",
+        "natural": "If it is not the case that whenever food is delivered to the user, the user's transaction is complete, then the user's payment is processed."
+      },
+      "(¬(A23 → G) → A25)": {
+        "formal": "(¬(A23 → G) → A25)",
+        "prover9": "(-(A23 -> G) -> A25)",
+        "prover9_expression": "(-(food_delivered(user) -> transaction_complete(user)) -> refund_issued(user))",
+        "natural": "Provided that it is not the case that if food is delivered to the user, then the user's transaction is complete, then a refund is issued to the user."
+      },
+      "(¬(A23 → G) → ¬A24)": {
+        "formal": "(¬(A23 → G) → ¬A24)",
+        "prover9": "(-(A23 -> G) -> -A24)",
+        "prover9_expression": "(-(food_delivered(user) -> transaction_complete(user)) -> -payment_processed(user))",
+        "natural": "If it is not the case that under the condition that food is delivered to the user, the user's transaction is complete, then the user's payment is not processed."
+      },
+      "(¬(A26 → A24) → A27)": {
+        "formal": "(¬(A26 → A24) → A27)",
+        "prover9": "(-(A26 -> A24) -> A27)",
+        "prover9_expression": "(-(dispute_resolved(user) -> payment_processed(user)) -> chargeback_filed(user))",
+        "natural": "Whenever it is not the case that if the user's dispute is resolved, then the user's payment is processed, then the user files a chargeback."
+      },
+      "(¬(A26 → A24) → A28)": {
+        "formal": "(¬(A26 → A24) → A28)",
+        "prover9": "(-(A26 -> A24) -> A28)",
+        "prover9_expression": "(-(dispute_resolved(user) -> payment_processed(user)) -> chargeback_denied(user))",
+        "natural": "Provided that it is not the case that whenever the user's dispute is resolved, the user's payment is processed, then the user's chargeback is denied."
+      },
+      "(¬(A26 → A24) → ¬A27)": {
+        "formal": "(¬(A26 → A24) → ¬A27)",
+        "prover9": "(-(A26 -> A24) -> -A27)",
+        "prover9_expression": "(-(dispute_resolved(user) -> payment_processed(user)) -> -chargeback_filed(user))",
+        "natural": "If it is not the case that under the condition that the user's dispute is resolved, the user's payment is processed, then the user does not file a chargeback."
+      },
+      "(¬(A29 → A31) → A32)": {
+        "formal": "(¬(A29 → A31) → A32)",
+        "prover9": "(-(A29 -> A31) -> A32)",
+        "prover9_expression": "(-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user))",
+        "natural": "Whenever it is not the case that if the user receives tech support, then the user's issue is resolved, then escalation is needed for the user."
+      },
+      "(¬(A29 → A31) → ¬A32)": {
+        "formal": "(¬(A29 → A31) → ¬A32)",
+        "prover9": "(-(A29 -> A31) -> -A32)",
+        "prover9_expression": "(-(tech_support(user) -> issue_resolved(user)) -> -escalation_needed(user))",
+        "natural": "Provided that it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is not needed for the user."
+      },
+      "(¬(A3 → ¬A1) → A4)": {
+        "formal": "(¬(A3 → ¬A1) → A4)",
+        "prover9": "(-(A3 -> -A1) -> A4)",
+        "prover9_expression": "(-(suspended(user, system) -> -authorized(user, system)) -> password_change(user))",
+        "natural": "If it is not the case that under the condition that the user is suspended from the system, the user is not authorized to access the system, then the user changes their password."
+      },
+      "(¬(A33 ∨ (¬(A29 → A31) → A32)) → A34)": {
+        "formal": "(¬(A33 ∨ (¬(A29 → A31) → A32)) → A34)",
+        "prover9": "(-(A33 | (-(A29 -> A31) -> A32)) -> A34)",
+        "prover9_expression": "(-(fraud_detected(user) | (-(tech_support(user) -> issue_resolved(user)) -> escalation_needed(user))) -> account_compromised(user))",
+        "natural": "If it is not the case that fraud is detected for the user, or if it is not the case that whenever the user receives tech support, the user's issue is resolved, then escalation is needed for the user, then the user's account is compromised."
+      },
+      "(¬(A7 ∨ A8) → A9)": {
+        "formal": "(¬(A7 ∨ A8) → A9)",
+        "prover9": "(-(A7 | A8) -> A9)",
+        "prover9_expression": "(-(payment_failed(user) | invalid_payment(user)) -> account_flagged(user))",
+        "natural": "Provided that it is not the case that the user's payment fails or the user's payment is invalid, then the user's account is flagged."
+      },
+      "A21": {
+        "formal": "A21",
+        "prover9": "A21",
+        "prover9_expression": "system_approved(user)",
+        "natural": "The system approves the user."
+      },
+      "A23": {
+        "formal": "A23",
+        "prover9": "A23",
+        "prover9_expression": "food_delivered(user)",
+        "natural": "Food is delivered to the user."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "transaction_complete(user)",
+        "natural": "The user's transaction is complete."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-authorized(user, system)",
+        "natural": "It is not the case that the user is authorized to access the system."
+      },
+      "¬A22": {
+        "formal": "¬A22",
+        "prover9": "-A22",
+        "prover9_expression": "-manual_override(user)",
+        "natural": "It is not the case that a manual override is applied for the user."
+      },
+      "¬A33": {
+        "formal": "¬A33",
+        "prover9": "-A33",
+        "prover9_expression": "-fraud_detected(user)",
+        "natural": "It is not the case that fraud is detected for the user."
+      },
+      "¬A34": {
+        "formal": "¬A34",
+        "prover9": "-A34",
+        "prover9_expression": "-account_compromised(user)",
+        "natural": "It is not the case that the user's account is compromised."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-password_change(user)",
+        "natural": "It is not the case that the user changes their password."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-order_placed(user)",
+        "natural": "It is not the case that the user places an order."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-account_flagged(user)",
+        "natural": "It is not the case that the user's account is flagged."
+      }
+    }
+  }
+}

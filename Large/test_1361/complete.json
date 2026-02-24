@@ -1,0 +1,2435 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 13,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 5
+      },
+      "5": {
+        "core": 1,
+        "branch": 3
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → (A7 → A9))",
+        "prover9_expression": "(event_occurs(power_outage) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock)))",
+        "natural": "Provided that a power outage occurs, if the user activates the skill to troubleshoot a device, then the user uses the troubleshoot device skill on the smart lock."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 ∨ A11)",
+        "prover9_expression": "(event_occurs(power_outage) | event_occurs(device_malfunction))",
+        "natural": "Either a power outage occurs, or a device malfunction occurs."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → (¬(A11 → (A7 → A9)) → A12))",
+        "prover9_expression": "(furniture_placed(workstation, near_outlet) -> (-(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))) -> backup_power_engaged(generator)))",
+        "natural": "If the workstation is placed near an outlet, then if it is not the case that a device malfunction occurring implies that the user activating the troubleshoot skill leads to its use on the smart lock, then the backup generator is engaged."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A16 → A14)",
+        "prover9_expression": "(configured(workstation, network) -> functional(workstation))",
+        "natural": "Under the condition that the workstation is configured for the network, the workstation is functional."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(authenticated(workstation, smart_hub) -> configured(workstation, network))",
+        "natural": "If the workstation is authenticated with the smart hub, then the workstation is configured for the network."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A18 → (A15 → A17))",
+        "prover9_expression": "(device_detected(smart_hub, workstation) -> (connected(workstation, smart_hub) -> authenticated(workstation, smart_hub)))",
+        "natural": "Provided that the smart hub detected the workstation, if the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A19 → (A15 → A17))",
+        "prover9_expression": "(manual_pairing_initiated(user, workstation) -> (connected(workstation, smart_hub) -> authenticated(workstation, smart_hub)))",
+        "natural": "Under the condition that the user initiated manual pairing for the workstation, if the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(requires(air_purifier, power_cycle) -> -malfunctioning(air_purifier))",
+        "natural": "If the air purifier requires a power cycle, then it is not malfunctioning."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A20 → (A18 ∨ A19))",
+        "prover9_expression": "(furniture_has(workstation, ethernet_port) -> (device_detected(smart_hub, workstation) | manual_pairing_initiated(user, workstation)))",
+        "natural": "If the workstation has an ethernet port, then either the smart hub detected the workstation, or the user initiated manual pairing for the workstation."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A21 → G)",
+        "prover9_expression": "(skill_activated(user, configure_network) -> goal_achieved(smart_home_setup))",
+        "natural": "Provided that the user activates the skill to configure the network, the smart home setup goal is achieved."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A27 → (A26 ∨ (A25 ∨ ¬A24)))",
+        "prover9_expression": "(device_supports(workstation, dhcp) -> (dns_configured(workstation) | (ip_assigned(workstation) | -configuration_complete(network))))",
+        "natural": "If the workstation supports DHCP, then either DNS is configured on the workstation, or an IP address is assigned to the workstation, or the network configuration is not complete."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A28 → G)",
+        "prover9_expression": "(skill_used(user, configure_network, router) -> goal_achieved(smart_home_setup))",
+        "natural": "Under the condition that the user used the configure network skill on the router, the smart home setup goal is achieved."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A29 → A28)",
+        "prover9_expression": "(skill_activated(user, secure_device) -> skill_used(user, configure_network, router))",
+        "natural": "Provided that the user activates the skill to secure a device, the user used the configure network skill on the router."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A31 → A33)",
+        "prover9_expression": "(encrypted(workstation_data) -> firewall_enabled(workstation))",
+        "natural": "Provided that the workstation data is encrypted, the firewall is enabled on the workstation."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A33 → A32)",
+        "prover9_expression": "(firewall_enabled(workstation) -> secured(workstation))",
+        "natural": "If the firewall is enabled on the workstation, then the workstation is secured."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A34 → A22)",
+        "prover9_expression": "(error_occurred(security_setup) -> error_occurred(network_configuration))",
+        "natural": "Whenever an error occurs in the security setup, an error occurs in the network configuration."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A35 → A34)",
+        "prover9_expression": "(error_logged(security_setup, system) -> error_occurred(security_setup))",
+        "natural": "Provided that the security setup error is logged in the system, an error occurred in the security setup."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A37 ∨ (¬(A25 ∨ ¬A24) → A36))",
+        "prover9_expression": "(automatic_troubleshooting_enabled(smart_hub) | (-(ip_assigned(workstation) | -configuration_complete(network)) -> manual_intervention_required(network)))",
+        "natural": "Either automatic troubleshooting is enabled on the smart hub, or if it is not the case that an IP address is assigned to the workstation or the network configuration is not complete, then manual intervention is required for the network."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A38 ∨ ¬A24)",
+        "prover9_expression": "(connection_stable(network) | -configuration_complete(network))",
+        "natural": "Either the network connection is stable, or the network configuration is not complete."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A39 → ¬A38)",
+        "prover9_expression": "(skill_activated(user, diagnose_connection) -> -connection_stable(network))",
+        "natural": "If the user activates the skill to diagnose a connection, then the network connection is not stable."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A4 ∨ (A3 → A2))",
+        "prover9_expression": "(repaired(air_purifier) | (triggered(air_purifier, power_surge) -> requires(air_purifier, power_cycle)))",
+        "natural": "Either the air purifier has been repaired, or if the air purifier was triggered by a power surge, then it requires a power cycle."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A40 → ¬A38)",
+        "prover9_expression": "(skill_activated(user, test_bandwidth) -> -connection_stable(network))",
+        "natural": "Under the condition that the user activates the skill to test bandwidth, the network connection is not stable."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A41 → (A39 ∨ A40))",
+        "prover9_expression": "(furniture_has(workstation, diagnostic_led) -> (skill_activated(user, diagnose_connection) | skill_activated(user, test_bandwidth)))",
+        "natural": "Provided that the workstation has a diagnostic LED, either the user activates the skill to diagnose a connection, or the user activates the skill to test bandwidth."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A43 → A44)",
+        "prover9_expression": "(device_detected(smart_hub, smart_lock) -> furniture_near(smart_lock, workstation))",
+        "natural": "Provided that the smart hub detected the smart lock, the smart lock is near the workstation."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A44 → (A42 ∨ (¬A21 → A22)))",
+        "prover9_expression": "(furniture_near(smart_lock, workstation) -> (error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))))",
+        "natural": "Under the condition that the smart lock is near the workstation, either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A45 → ¬A46)",
+        "prover9_expression": "(skill_activated(user, calibrate_device) -> -calibrated(smart_lock))",
+        "natural": "If the user activates the skill to calibrate a device, then the smart lock is not calibrated."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A47 → A46)",
+        "prover9_expression": "(skill_used(user, calibrate_device, smart_lock) -> calibrated(smart_lock))",
+        "natural": "Under the condition that the user used the calibrate device skill on the smart lock, the smart lock is calibrated."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A50 → ¬A31)",
+        "prover9_expression": "(furniture_near(air_purifier, window) -> -encrypted(workstation_data))",
+        "natural": "Whenever the air purifier is near a window, the workstation data is not encrypted."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A52 → (¬(A49 → A50) → A51))",
+        "prover9_expression": "(event_occurs(high_pollen) -> (-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier)))",
+        "natural": "If high pollen occurs, then if it is not the case that the smart hub detecting the air purifier implies it is near a window, a placement warning is issued for the air purifier."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A52 ∨ A53)",
+        "prover9_expression": "(event_occurs(high_pollen) | event_occurs(dust_storm))",
+        "natural": "Either high pollen occurs, or a dust storm occurs."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A53 → (¬(A49 → A50) → A51))",
+        "prover9_expression": "(event_occurs(dust_storm) -> (-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier)))",
+        "natural": "Provided that a dust storm occurs, if it is not the case that the smart hub detecting the air purifier implies it is near a window, then a placement warning is issued for the air purifier."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A54 → A55)",
+        "prover9_expression": "(skill_activated(user, schedule_clean) -> scheduled(air_purifier, daily_cycle))",
+        "natural": "Under the condition that the user activates the skill to schedule a cleaning, the air purifier is scheduled for a daily cycle."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A54 ∨ A29)",
+        "prover9_expression": "(skill_activated(user, schedule_clean) | skill_activated(user, secure_device))",
+        "natural": "Either the user activates the skill to schedule a cleaning, or the user activates the skill to secure a device."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A56 → A32)",
+        "prover9_expression": "(encrypted(air_purifier_data) -> secured(workstation))",
+        "natural": "If the air purifier data is encrypted, then the workstation is secured."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A58 → (¬(A31 → A56) → A57))",
+        "prover9_expression": "(event_occurs(cyber_attack) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+        "natural": "Whenever a cyber attack occurs, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A58 ∨ A59)",
+        "prover9_expression": "(event_occurs(cyber_attack) | event_occurs(firmware_update))",
+        "natural": "Either a cyber attack occurs, or a firmware update occurs."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A59 → A60)",
+        "prover9_expression": "(event_occurs(firmware_update) -> system_logs(firmware_update, initiated))",
+        "natural": "If a firmware update occurs, then the system logs show that the firmware update was initiated."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A60 → (¬(A31 → A56) → A57))",
+        "prover9_expression": "(system_logs(firmware_update, initiated) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+        "natural": "Under the condition that the system logs show that the firmware update was initiated, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(skill_activated(user, troubleshoot_device) | skill_activated(user, restart_device))",
+        "natural": "Either the user activates the skill to troubleshoot a device, or the user activates the skill to restart a device."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A8 → (¬(¬G → ¬A5) → A6))",
+        "prover9_expression": "(skill_activated(user, restart_device) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+        "natural": "If the user activates the skill to restart a device, then if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is sent for the smart lock to the security service."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A9 → (¬(¬G → ¬A5) → A6))",
+        "prover9_expression": "(skill_used(user, troubleshoot_device, smart_lock) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+        "natural": "Provided that the user used the troubleshoot device skill on the smart lock, if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, then an alert is sent for the smart lock to the security service."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(¬(A23 ∨ (¬A21 → A22)) → A24)",
+        "prover9_expression": "(-(automatic_configuration_enabled(router) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))) -> configuration_complete(network))",
+        "natural": "Provided that it is not the case that automatic configuration is enabled on the router or that the user not activating the configure network skill leads to a network configuration error, the network configuration is complete."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(¬(A45 → A47) → A48)",
+        "prover9_expression": "(-(skill_activated(user, calibrate_device) -> skill_used(user, calibrate_device, smart_lock)) -> calibration_failed(smart_lock))",
+        "natural": "Provided that it is not the case that the user activating the calibrate device skill implies the user used it on the smart lock, the calibration of the smart lock failed."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(¬(¬A29 → A30) → A31)",
+        "prover9_expression": "(-(-skill_activated(user, secure_device) -> vulnerability_detected(workstation)) -> encrypted(workstation_data))",
+        "natural": "If it is not the case that the user not activating the secure device skill implies a vulnerability is detected on the workstation, then the workstation data is encrypted."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(¬(¬G → ¬A5) → ¬A6)",
+        "prover9_expression": "(-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> -alert_sent(smart_lock, security_service))",
+        "natural": "Provided that it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is not sent for the smart lock to the security service."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(¬A21 → A35)",
+        "prover9_expression": "(-skill_activated(user, configure_network) -> error_logged(security_setup, system))",
+        "natural": "Provided that the user does not activate the skill to configure the network, the security setup error is logged in the system."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(¬A21 → A45)",
+        "prover9_expression": "(-skill_activated(user, configure_network) -> skill_activated(user, calibrate_device))",
+        "natural": "If the user does not activate the skill to configure the network, then the user activates the skill to calibrate a device."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(¬A29 → ¬A30)",
+        "prover9_expression": "(-skill_activated(user, secure_device) -> -vulnerability_detected(workstation))",
+        "natural": "Provided that the user does not activate the skill to secure a device, a vulnerability is not detected on the workstation."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> malfunctioning(air_purifier))",
+        "natural": "If the smart home setup goal is not achieved, then the air purifier is malfunctioning."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(¬G → A15)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> connected(workstation, smart_hub))",
+        "natural": "Provided that the smart home setup goal is not achieved, the workstation is connected to the smart hub."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(¬G → A3)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> triggered(air_purifier, power_surge))",
+        "natural": "If the smart home setup goal is not achieved, then the air purifier was triggered by a power surge."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(¬G → A5)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> operational(smart_lock))",
+        "natural": "Provided that the smart home setup goal is not achieved, the smart lock is operational."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A13",
+        "prover9_expression": "furniture_placed(workstation, near_outlet)",
+        "natural": "The workstation is placed near an outlet."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A20",
+        "prover9_expression": "furniture_has(workstation, ethernet_port)",
+        "natural": "The workstation has an ethernet port."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A27",
+        "prover9_expression": "device_supports(workstation, dhcp)",
+        "natural": "The workstation supports DHCP."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A41",
+        "prover9_expression": "furniture_has(workstation, diagnostic_led)",
+        "natural": "The workstation has a diagnostic LED."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A43",
+        "prover9_expression": "device_detected(smart_hub, smart_lock)",
+        "natural": "The smart hub detected the smart lock."
+      },
+      {
+        "id": "Fact6",
+        "formal": "A49",
+        "prover9_expression": "device_detected(smart_hub, air_purifier)",
+        "natural": "The smart hub detected the air purifier."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A12",
+        "prover9_expression": "-backup_power_engaged(generator)",
+        "natural": "The backup generator is not engaged."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A14",
+        "prover9_expression": "-functional(workstation)",
+        "natural": "The workstation is not functional."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A22",
+        "prover9_expression": "-error_occurred(network_configuration)",
+        "natural": "An error does not occur in the network configuration."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A23",
+        "prover9_expression": "-automatic_configuration_enabled(router)",
+        "natural": "Automatic configuration is not enabled on the router."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A25",
+        "prover9_expression": "-ip_assigned(workstation)",
+        "natural": "An IP address is not assigned to the workstation."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A26",
+        "prover9_expression": "-dns_configured(workstation)",
+        "natural": "DNS is not configured on the workstation."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A32",
+        "prover9_expression": "-secured(workstation)",
+        "natural": "The workstation is not secured."
+      },
+      {
+        "id": "Fact14",
+        "formal": "¬A36",
+        "prover9_expression": "-manual_intervention_required(network)",
+        "natural": "Manual intervention is not required for the network."
+      },
+      {
+        "id": "Fact15",
+        "formal": "¬A37",
+        "prover9_expression": "-automatic_troubleshooting_enabled(smart_hub)",
+        "natural": "Automatic troubleshooting is not enabled on the smart hub."
+      },
+      {
+        "id": "Fact16",
+        "formal": "¬A4",
+        "prover9_expression": "-repaired(air_purifier)",
+        "natural": "The air purifier has not been repaired."
+      },
+      {
+        "id": "Fact17",
+        "formal": "¬A42",
+        "prover9_expression": "-error_occurred(connection_test)",
+        "natural": "An error does not occur in the connection test."
+      },
+      {
+        "id": "Fact18",
+        "formal": "¬A48",
+        "prover9_expression": "-calibration_failed(smart_lock)",
+        "natural": "The calibration of the smart lock does not fail."
+      },
+      {
+        "id": "Fact19",
+        "formal": "¬A51",
+        "prover9_expression": "-placement_warning_issued(air_purifier)",
+        "natural": "A placement warning is not issued for the air purifier."
+      },
+      {
+        "id": "Fact20",
+        "formal": "¬A55",
+        "prover9_expression": "-scheduled(air_purifier, daily_cycle)",
+        "natural": "The air purifier is not scheduled for a daily cycle."
+      },
+      {
+        "id": "Fact21",
+        "formal": "¬A57",
+        "prover9_expression": "-data_breach_alert(air_purifier)",
+        "natural": "A data breach alert is not issued for the air purifier."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "goal_achieved(smart_home_setup)",
+    "natural": "The smart home setup goal is achieved."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A3 -> A2))",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Whenever the air purifier was triggered by a power surge, the air purifier requires a power cycle."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Under the condition that the smart home setup goal is not achieved, the air purifier requires a power cycle."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Whenever the smart home setup goal is not achieved, the air purifier is not malfunctioning."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> (-(A11 -> (A7 -> A9)) -> A12))",
+            "A13"
+          ],
+          "conclusion": "(-(A11 -> (A7 -> A9)) -> A12)",
+          "natural": "If it is not the case that a device malfunction occurring implies that the user activating the troubleshoot skill leads to its use on the smart lock, then the backup generator is engaged."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A11 -> (A7 -> A9)) -> A12)",
+            "-A12"
+          ],
+          "conclusion": "(A11 -> (A7 -> A9))",
+          "natural": "Under the condition that a device malfunction occurs, if the user activates the skill to troubleshoot a device, then the user uses the troubleshoot device skill on the smart lock."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> (A7 -> A9))",
+            "(A11 -> (A7 -> A9))"
+          ],
+          "conclusion": "(A7 -> A9)",
+          "natural": "Whenever the user activates the skill to troubleshoot a device, the user uses the troubleshoot device skill on the smart lock."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A9)",
+            "(A9 -> (-(-G -> -A5) -> A6))"
+          ],
+          "conclusion": "(A7 -> (-(-G -> -A5) -> A6))",
+          "natural": "Provided that the user activates the skill to troubleshoot a device, if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, then an alert is sent for the smart lock to the security service."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> (-(-G -> -A5) -> A6))",
+            "(A8 -> (-(-G -> -A5) -> A6))"
+          ],
+          "conclusion": "(-(-G -> -A5) -> A6)",
+          "natural": "Under the condition that it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is sent for the smart lock to the security service."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> -A5) -> A6)",
+            "(-(-G -> -A5) -> -A6)"
+          ],
+          "conclusion": "(-G -> -A5)",
+          "natural": "Under the condition that the smart home setup goal is not achieved, the smart lock is not operational."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A5)",
+            "(-G -> -A5)"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (A18 | A19))",
+            "A20"
+          ],
+          "conclusion": "(A18 | A19)",
+          "natural": "Either the smart hub detected the workstation, or the user initiated manual pairing for the workstation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A18 | A19)",
+            "(A18 -> (A15 -> A17))",
+            "(A19 -> (A15 -> A17))"
+          ],
+          "conclusion": "(A15 -> A17)",
+          "natural": "If the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A15 -> A17)",
+            "(A17 -> A16)"
+          ],
+          "conclusion": "(A15 -> A16)",
+          "natural": "Provided that the workstation is connected to the smart hub, the workstation is configured for the network."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A15 -> A16)",
+            "(A16 -> A14)"
+          ],
+          "conclusion": "(A15 -> A14)",
+          "natural": "Whenever the workstation is connected to the smart hub, the workstation is functional."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A15)",
+            "(A15 -> A14)"
+          ],
+          "conclusion": "(-G -> A14)",
+          "natural": "Whenever the smart home setup goal is not achieved, the workstation is functional."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A14)",
+            "-A14"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A27 -> (A26 | (A25 | -A24)))",
+            "A27"
+          ],
+          "conclusion": "(A26 | (A25 | -A24))",
+          "natural": "Either DNS is configured on the workstation, or an IP address is assigned to the workstation, or the network configuration is not complete."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A26 | (A25 | -A24))",
+            "-A26"
+          ],
+          "conclusion": "(A25 | -A24)",
+          "natural": "Either an IP address is assigned to the workstation, or the network configuration is not complete."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A25 | -A24)",
+            "-A25"
+          ],
+          "conclusion": "-A24",
+          "natural": "The network configuration is not complete."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A23 | (-A21 -> A22)) -> A24)",
+            "-A24"
+          ],
+          "conclusion": "(A23 | (-A21 -> A22))",
+          "natural": "Either automatic configuration is enabled on the router, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A23 | (-A21 -> A22))",
+            "-A23"
+          ],
+          "conclusion": "(-A21 -> A22)",
+          "natural": "If the user does not activate the skill to configure the network, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A21 -> A22)",
+            "-A22"
+          ],
+          "conclusion": "A21",
+          "natural": "The user activates the skill to configure the network."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> G)",
+            "A21"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A31 -> A33)",
+            "(A33 -> A32)"
+          ],
+          "conclusion": "(A31 -> A32)",
+          "natural": "If the workstation data is encrypted, then the workstation is secured."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A31 -> A32)",
+            "-A32"
+          ],
+          "conclusion": "-A31",
+          "natural": "The workstation data is not encrypted."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A29 -> A30) -> A31)",
+            "-A31"
+          ],
+          "conclusion": "(-A29 -> A30)",
+          "natural": "Under the condition that the user does not activate the skill to secure a device, a vulnerability is detected on the workstation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A29 -> A30)",
+            "(-A29 -> -A30)"
+          ],
+          "conclusion": "A29",
+          "natural": "The user activates the skill to secure a device."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> A28)",
+            "A29"
+          ],
+          "conclusion": "A28",
+          "natural": "The user used the configure network skill on the router."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> G)",
+            "A28"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A21 -> A35)",
+            "(A35 -> A34)"
+          ],
+          "conclusion": "(-A21 -> A34)",
+          "natural": "Whenever the user does not activate the skill to configure the network, an error occurs in the security setup."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A21 -> A34)",
+            "(A34 -> A22)"
+          ],
+          "conclusion": "(-A21 -> A22)",
+          "natural": "If the user does not activate the skill to configure the network, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A21 -> A22)",
+            "-A22"
+          ],
+          "conclusion": "A21",
+          "natural": "The user activates the skill to configure the network."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> G)",
+            "A21"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A37 | (-(A25 | -A24) -> A36))",
+            "-A37"
+          ],
+          "conclusion": "(-(A25 | -A24) -> A36)",
+          "natural": "Under the condition that it is not the case that an IP address is assigned to the workstation or the network configuration is not complete, manual intervention is required for the network."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A25 | -A24) -> A36)",
+            "-A36"
+          ],
+          "conclusion": "(A25 | -A24)",
+          "natural": "Either an IP address is assigned to the workstation, or the network configuration is not complete."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A25 | -A24)",
+            "-A25"
+          ],
+          "conclusion": "-A24",
+          "natural": "The network configuration is not complete."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A23 | (-A21 -> A22)) -> A24)",
+            "-A24"
+          ],
+          "conclusion": "(A23 | (-A21 -> A22))",
+          "natural": "Either automatic configuration is enabled on the router, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A23 | (-A21 -> A22))",
+            "-A23"
+          ],
+          "conclusion": "(-A21 -> A22)",
+          "natural": "If the user does not activate the skill to configure the network, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A21 -> A22)",
+            "-A22"
+          ],
+          "conclusion": "A21",
+          "natural": "The user activates the skill to configure the network."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> G)",
+            "A21"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A41 -> (A39 | A40))",
+            "A41"
+          ],
+          "conclusion": "(A39 | A40)",
+          "natural": "Either the user activates the skill to diagnose a connection, or the user activates the skill to test bandwidth."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A39 | A40)",
+            "(A39 -> -A38)",
+            "(A40 -> -A38)"
+          ],
+          "conclusion": "-A38",
+          "natural": "The network connection is not stable."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A38 | -A24)",
+            "-A38"
+          ],
+          "conclusion": "-A24",
+          "natural": "The network configuration is not complete."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A23 | (-A21 -> A22)) -> A24)",
+            "-A24"
+          ],
+          "conclusion": "(A23 | (-A21 -> A22))",
+          "natural": "Either automatic configuration is enabled on the router, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A23 | (-A21 -> A22))",
+            "-A23"
+          ],
+          "conclusion": "(-A21 -> A22)",
+          "natural": "If the user does not activate the skill to configure the network, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A21 -> A22)",
+            "-A22"
+          ],
+          "conclusion": "A21",
+          "natural": "The user activates the skill to configure the network."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> G)",
+            "A21"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A43 -> A44)",
+            "(A44 -> (A42 | (-A21 -> A22)))"
+          ],
+          "conclusion": "(A43 -> (A42 | (-A21 -> A22)))",
+          "natural": "If the smart hub detected the smart lock, then either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A43 -> (A42 | (-A21 -> A22)))",
+            "A43"
+          ],
+          "conclusion": "(A42 | (-A21 -> A22))",
+          "natural": "Either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A42 | (-A21 -> A22))",
+            "-A42"
+          ],
+          "conclusion": "(-A21 -> A22)",
+          "natural": "If the user does not activate the skill to configure the network, then an error occurs in the network configuration."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A21 -> A22)",
+            "-A22"
+          ],
+          "conclusion": "A21",
+          "natural": "The user activates the skill to configure the network."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> G)",
+            "A21"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A45 -> A47) -> A48)",
+            "-A48"
+          ],
+          "conclusion": "(A45 -> A47)",
+          "natural": "Provided that the user activates the skill to calibrate a device, the user used the calibrate device skill on the smart lock."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A45 -> A47)",
+            "(A47 -> A46)"
+          ],
+          "conclusion": "(A45 -> A46)",
+          "natural": "Whenever the user activates the skill to calibrate a device, the smart lock is calibrated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A45 -> A46)",
+            "(A45 -> -A46)"
+          ],
+          "conclusion": "-A45",
+          "natural": "The user does not activate the skill to calibrate a device."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A21 -> A45)",
+            "-A45"
+          ],
+          "conclusion": "A21",
+          "natural": "The user activates the skill to configure the network."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A21 -> G)",
+            "A21"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A52 | A53)",
+            "(A52 -> (-(A49 -> A50) -> A51))",
+            "(A53 -> (-(A49 -> A50) -> A51))"
+          ],
+          "conclusion": "(-(A49 -> A50) -> A51)",
+          "natural": "Whenever it is not the case that the smart hub detecting the air purifier implies it is near a window, a placement warning is issued for the air purifier."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A49 -> A50) -> A51)",
+            "-A51"
+          ],
+          "conclusion": "(A49 -> A50)",
+          "natural": "Provided that the smart hub detected the air purifier, the air purifier is near a window."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A49 -> A50)",
+            "(A50 -> -A31)"
+          ],
+          "conclusion": "(A49 -> -A31)",
+          "natural": "If the smart hub detected the air purifier, then the workstation data is not encrypted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A49 -> -A31)",
+            "A49"
+          ],
+          "conclusion": "-A31",
+          "natural": "The workstation data is not encrypted."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A29 -> A30) -> A31)",
+            "-A31"
+          ],
+          "conclusion": "(-A29 -> A30)",
+          "natural": "Under the condition that the user does not activate the skill to secure a device, a vulnerability is detected on the workstation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A29 -> A30)",
+            "(-A29 -> -A30)"
+          ],
+          "conclusion": "A29",
+          "natural": "The user activates the skill to secure a device."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> A28)",
+            "A29"
+          ],
+          "conclusion": "A28",
+          "natural": "The user used the configure network skill on the router."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> G)",
+            "A28"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A54 -> A55)",
+            "-A55"
+          ],
+          "conclusion": "-A54",
+          "natural": "The user does not activate the skill to schedule a cleaning."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A54 | A29)",
+            "-A54"
+          ],
+          "conclusion": "A29",
+          "natural": "The user activates the skill to secure a device."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> A28)",
+            "A29"
+          ],
+          "conclusion": "A28",
+          "natural": "The user used the configure network skill on the router."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> G)",
+            "A28"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A59 -> A60)",
+            "(A60 -> (-(A31 -> A56) -> A57))"
+          ],
+          "conclusion": "(A59 -> (-(A31 -> A56) -> A57))",
+          "natural": "Provided that a firmware update occurs, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A58 | A59)",
+            "(A58 -> (-(A31 -> A56) -> A57))",
+            "(A59 -> (-(A31 -> A56) -> A57))"
+          ],
+          "conclusion": "(-(A31 -> A56) -> A57)",
+          "natural": "If it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A31 -> A56) -> A57)",
+            "-A57"
+          ],
+          "conclusion": "(A31 -> A56)",
+          "natural": "Under the condition that the workstation data is encrypted, the air purifier data is encrypted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A31 -> A56)",
+            "(A56 -> A32)"
+          ],
+          "conclusion": "(A31 -> A32)",
+          "natural": "If the workstation data is encrypted, then the workstation is secured."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A31 -> A32)",
+            "-A32"
+          ],
+          "conclusion": "-A31",
+          "natural": "The workstation data is not encrypted."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A29 -> A30) -> A31)",
+            "-A31"
+          ],
+          "conclusion": "(-A29 -> A30)",
+          "natural": "Under the condition that the user does not activate the skill to secure a device, a vulnerability is detected on the workstation."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A29 -> A30)",
+            "(-A29 -> -A30)"
+          ],
+          "conclusion": "A29",
+          "natural": "The user activates the skill to secure a device."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> A28)",
+            "A29"
+          ],
+          "conclusion": "A28",
+          "natural": "The user used the configure network skill on the router."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> G)",
+            "A28"
+          ],
+          "conclusion": "G",
+          "natural": "The smart home setup goal is achieved."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Smart Home Automation Setup",
+    "atomic_facts": {
+      "A1": "malfunctioning(air_purifier)",
+      "A2": "requires(air_purifier, power_cycle)",
+      "A3": "triggered(air_purifier, power_surge)",
+      "A4": "repaired(air_purifier)",
+      "A5": "operational(smart_lock)",
+      "A6": "alert_sent(smart_lock, security_service)",
+      "A7": "skill_activated(user, troubleshoot_device)",
+      "A8": "skill_activated(user, restart_device)",
+      "A9": "skill_used(user, troubleshoot_device, smart_lock)",
+      "A10": "event_occurs(power_outage)",
+      "A11": "event_occurs(device_malfunction)",
+      "A12": "backup_power_engaged(generator)",
+      "A13": "furniture_placed(workstation, near_outlet)",
+      "A14": "functional(workstation)",
+      "A15": "connected(workstation, smart_hub)",
+      "A16": "configured(workstation, network)",
+      "A17": "authenticated(workstation, smart_hub)",
+      "A18": "device_detected(smart_hub, workstation)",
+      "A19": "manual_pairing_initiated(user, workstation)",
+      "A20": "furniture_has(workstation, ethernet_port)",
+      "A21": "skill_activated(user, configure_network)",
+      "A22": "error_occurred(network_configuration)",
+      "A23": "automatic_configuration_enabled(router)",
+      "A24": "configuration_complete(network)",
+      "A25": "ip_assigned(workstation)",
+      "A26": "dns_configured(workstation)",
+      "A27": "device_supports(workstation, dhcp)",
+      "A28": "skill_used(user, configure_network, router)",
+      "A29": "skill_activated(user, secure_device)",
+      "A30": "vulnerability_detected(workstation)",
+      "A31": "encrypted(workstation_data)",
+      "A32": "secured(workstation)",
+      "A33": "firewall_enabled(workstation)",
+      "A34": "error_occurred(security_setup)",
+      "A35": "error_logged(security_setup, system)",
+      "A36": "manual_intervention_required(network)",
+      "A37": "automatic_troubleshooting_enabled(smart_hub)",
+      "A38": "connection_stable(network)",
+      "A39": "skill_activated(user, diagnose_connection)",
+      "A40": "skill_activated(user, test_bandwidth)",
+      "A41": "furniture_has(workstation, diagnostic_led)",
+      "A42": "error_occurred(connection_test)",
+      "A43": "device_detected(smart_hub, smart_lock)",
+      "A44": "furniture_near(smart_lock, workstation)",
+      "A45": "skill_activated(user, calibrate_device)",
+      "A46": "calibrated(smart_lock)",
+      "A47": "skill_used(user, calibrate_device, smart_lock)",
+      "A48": "calibration_failed(smart_lock)",
+      "A49": "device_detected(smart_hub, air_purifier)",
+      "A50": "furniture_near(air_purifier, window)",
+      "A51": "placement_warning_issued(air_purifier)",
+      "A52": "event_occurs(high_pollen)",
+      "A53": "event_occurs(dust_storm)",
+      "A54": "skill_activated(user, schedule_clean)",
+      "A55": "scheduled(air_purifier, daily_cycle)",
+      "A56": "encrypted(air_purifier_data)",
+      "A57": "data_breach_alert(air_purifier)",
+      "A58": "event_occurs(cyber_attack)",
+      "A59": "event_occurs(firmware_update)",
+      "A60": "system_logs(firmware_update, initiated)",
+      "G": "goal_achieved(smart_home_setup)"
+    },
+    "natural_facts": {
+      "A1": "The air purifier is malfunctioning.",
+      "A2": "The air purifier requires a power cycle.",
+      "A3": "The air purifier was triggered by a power surge.",
+      "A4": "The air purifier has been repaired.",
+      "A5": "The smart lock is operational.",
+      "A6": "An alert was sent for the smart lock to the security service.",
+      "A7": "The user activated the skill to troubleshoot a device.",
+      "A8": "The user activated the skill to restart a device.",
+      "A9": "The user used the troubleshoot device skill on the smart lock.",
+      "A10": "A power outage occurs.",
+      "A11": "A device malfunction occurs.",
+      "A12": "The backup generator has been engaged.",
+      "A13": "The workstation is placed near an outlet.",
+      "A14": "The workstation is functional.",
+      "A15": "The workstation is connected to the smart hub.",
+      "A16": "The workstation is configured for the network.",
+      "A17": "The workstation is authenticated with the smart hub.",
+      "A18": "The smart hub detected the workstation.",
+      "A19": "The user initiated manual pairing for the workstation.",
+      "A20": "The workstation has an ethernet port.",
+      "A21": "The user activated the skill to configure the network.",
+      "A22": "An error occurred in the network configuration.",
+      "A23": "Automatic configuration is enabled on the router.",
+      "A24": "The network configuration is complete.",
+      "A25": "An IP address is assigned to the workstation.",
+      "A26": "DNS is configured on the workstation.",
+      "A27": "The workstation supports DHCP.",
+      "A28": "The user used the configure network skill on the router.",
+      "A29": "The user activated the skill to secure a device.",
+      "A30": "A vulnerability is detected on the workstation.",
+      "A31": "The workstation data is encrypted.",
+      "A32": "The workstation is secured.",
+      "A33": "The firewall is enabled on the workstation.",
+      "A34": "An error occurred in the security setup.",
+      "A35": "The security setup error is logged in the system.",
+      "A36": "Manual intervention is required for the network.",
+      "A37": "Automatic troubleshooting is enabled on the smart hub.",
+      "A38": "The network connection is stable.",
+      "A39": "The user activated the skill to diagnose a connection.",
+      "A40": "The user activated the skill to test bandwidth.",
+      "A41": "The workstation has a diagnostic LED.",
+      "A42": "An error occurred in the connection test.",
+      "A43": "The smart hub detected the smart lock.",
+      "A44": "The smart lock is near the workstation.",
+      "A45": "The user activated the skill to calibrate a device.",
+      "A46": "The smart lock is calibrated.",
+      "A47": "The user used the calibrate device skill on the smart lock.",
+      "A48": "The calibration of the smart lock failed.",
+      "A49": "The smart hub detected the air purifier.",
+      "A50": "The air purifier is near a window.",
+      "A51": "A placement warning is issued for the air purifier.",
+      "A52": "High pollen occurs.",
+      "A53": "A dust storm occurs.",
+      "A54": "The user activated the skill to schedule a cleaning.",
+      "A55": "The air purifier is scheduled for a daily cycle.",
+      "A56": "The air purifier data is encrypted.",
+      "A57": "A data breach alert is issued for the air purifier.",
+      "A58": "A cyber attack occurs.",
+      "A59": "A firmware update occurs.",
+      "A60": "The system logs show that the firmware update was initiated.",
+      "G": "The smart home setup goal is achieved."
+    },
+    "prover9_expressions": [
+      "(event_occurs(power_outage) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock)))",
+      "(event_occurs(power_outage) | event_occurs(device_malfunction))",
+      "(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock)))",
+      "(furniture_placed(workstation, near_outlet) -> (-(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))) -> backup_power_engaged(generator)))",
+      "(connected(workstation, smart_hub) -> functional(workstation))",
+      "(connected(workstation, smart_hub) -> configured(workstation, network))",
+      "(connected(workstation, smart_hub) -> authenticated(workstation, smart_hub))",
+      "(configured(workstation, network) -> functional(workstation))",
+      "(authenticated(workstation, smart_hub) -> configured(workstation, network))",
+      "(device_detected(smart_hub, workstation) -> (connected(workstation, smart_hub) -> authenticated(workstation, smart_hub)))",
+      "(device_detected(smart_hub, workstation) | manual_pairing_initiated(user, workstation))",
+      "(manual_pairing_initiated(user, workstation) -> (connected(workstation, smart_hub) -> authenticated(workstation, smart_hub)))",
+      "(requires(air_purifier, power_cycle) -> -malfunctioning(air_purifier))",
+      "(furniture_has(workstation, ethernet_port) -> (device_detected(smart_hub, workstation) | manual_pairing_initiated(user, workstation)))",
+      "(skill_activated(user, configure_network) -> goal_achieved(smart_home_setup))",
+      "(automatic_configuration_enabled(router) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration)))",
+      "(ip_assigned(workstation) | -configuration_complete(network))",
+      "(dns_configured(workstation) | (ip_assigned(workstation) | -configuration_complete(network)))",
+      "(device_supports(workstation, dhcp) -> (dns_configured(workstation) | (ip_assigned(workstation) | -configuration_complete(network))))",
+      "(skill_used(user, configure_network, router) -> goal_achieved(smart_home_setup))",
+      "(skill_activated(user, secure_device) -> skill_used(user, configure_network, router))",
+      "(triggered(air_purifier, power_surge) -> requires(air_purifier, power_cycle))",
+      "(encrypted(workstation_data) -> secured(workstation))",
+      "(encrypted(workstation_data) -> firewall_enabled(workstation))",
+      "(encrypted(workstation_data) -> encrypted(air_purifier_data))",
+      "(firewall_enabled(workstation) -> secured(workstation))",
+      "(error_occurred(security_setup) -> error_occurred(network_configuration))",
+      "(error_logged(security_setup, system) -> error_occurred(security_setup))",
+      "(automatic_troubleshooting_enabled(smart_hub) | (-(ip_assigned(workstation) | -configuration_complete(network)) -> manual_intervention_required(network)))",
+      "(connection_stable(network) | -configuration_complete(network))",
+      "(skill_activated(user, diagnose_connection) -> -connection_stable(network))",
+      "(skill_activated(user, diagnose_connection) | skill_activated(user, test_bandwidth))",
+      "(repaired(air_purifier) | (triggered(air_purifier, power_surge) -> requires(air_purifier, power_cycle)))",
+      "(skill_activated(user, test_bandwidth) -> -connection_stable(network))",
+      "(furniture_has(workstation, diagnostic_led) -> (skill_activated(user, diagnose_connection) | skill_activated(user, test_bandwidth)))",
+      "(error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration)))",
+      "(device_detected(smart_hub, smart_lock) -> (error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))))",
+      "(device_detected(smart_hub, smart_lock) -> furniture_near(smart_lock, workstation))",
+      "(furniture_near(smart_lock, workstation) -> (error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))))",
+      "(skill_activated(user, calibrate_device) -> calibrated(smart_lock))",
+      "(skill_activated(user, calibrate_device) -> skill_used(user, calibrate_device, smart_lock))",
+      "(skill_activated(user, calibrate_device) -> -calibrated(smart_lock))",
+      "(skill_used(user, calibrate_device, smart_lock) -> calibrated(smart_lock))",
+      "(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window))",
+      "(device_detected(smart_hub, air_purifier) -> -encrypted(workstation_data))",
+      "(furniture_near(air_purifier, window) -> -encrypted(workstation_data))",
+      "(event_occurs(high_pollen) -> (-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier)))",
+      "(event_occurs(high_pollen) | event_occurs(dust_storm))",
+      "(event_occurs(dust_storm) -> (-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier)))",
+      "(skill_activated(user, schedule_clean) -> scheduled(air_purifier, daily_cycle))",
+      "(skill_activated(user, schedule_clean) | skill_activated(user, secure_device))",
+      "(encrypted(air_purifier_data) -> secured(workstation))",
+      "(event_occurs(cyber_attack) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+      "(event_occurs(cyber_attack) | event_occurs(firmware_update))",
+      "(event_occurs(firmware_update) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+      "(event_occurs(firmware_update) -> system_logs(firmware_update, initiated))",
+      "(system_logs(firmware_update, initiated) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+      "(skill_activated(user, troubleshoot_device) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+      "(skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))",
+      "(skill_activated(user, troubleshoot_device) | skill_activated(user, restart_device))",
+      "(skill_activated(user, restart_device) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+      "(skill_used(user, troubleshoot_device, smart_lock) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+      "(-(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))) -> backup_power_engaged(generator))",
+      "(-(automatic_configuration_enabled(router) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))) -> configuration_complete(network))",
+      "(-(ip_assigned(workstation) | -configuration_complete(network)) -> manual_intervention_required(network))",
+      "(-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier))",
+      "(-(skill_activated(user, calibrate_device) -> skill_used(user, calibrate_device, smart_lock)) -> calibration_failed(smart_lock))",
+      "(-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier))",
+      "(-(-skill_activated(user, secure_device) -> vulnerability_detected(workstation)) -> encrypted(workstation_data))",
+      "(-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service))",
+      "(-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> -alert_sent(smart_lock, security_service))",
+      "(-skill_activated(user, configure_network) -> error_occurred(network_configuration))",
+      "(-skill_activated(user, configure_network) -> error_occurred(security_setup))",
+      "(-skill_activated(user, configure_network) -> error_logged(security_setup, system))",
+      "(-skill_activated(user, configure_network) -> skill_activated(user, calibrate_device))",
+      "(-skill_activated(user, secure_device) -> vulnerability_detected(workstation))",
+      "(-skill_activated(user, secure_device) -> -vulnerability_detected(workstation))",
+      "(-goal_achieved(smart_home_setup) -> malfunctioning(air_purifier))",
+      "(-goal_achieved(smart_home_setup) -> functional(workstation))",
+      "(-goal_achieved(smart_home_setup) -> connected(workstation, smart_hub))",
+      "(-goal_achieved(smart_home_setup) -> requires(air_purifier, power_cycle))",
+      "(-goal_achieved(smart_home_setup) -> triggered(air_purifier, power_surge))",
+      "(-goal_achieved(smart_home_setup) -> operational(smart_lock))",
+      "(-goal_achieved(smart_home_setup) -> -malfunctioning(air_purifier))",
+      "(-goal_achieved(smart_home_setup) -> -operational(smart_lock))",
+      "furniture_placed(workstation, near_outlet)",
+      "furniture_has(workstation, ethernet_port)",
+      "skill_activated(user, configure_network)",
+      "device_supports(workstation, dhcp)",
+      "skill_used(user, configure_network, router)",
+      "skill_activated(user, secure_device)",
+      "furniture_has(workstation, diagnostic_led)",
+      "device_detected(smart_hub, smart_lock)",
+      "device_detected(smart_hub, air_purifier)",
+      "goal_achieved(smart_home_setup)",
+      "-backup_power_engaged(generator)",
+      "-functional(workstation)",
+      "-error_occurred(network_configuration)",
+      "-automatic_configuration_enabled(router)",
+      "-configuration_complete(network)",
+      "-ip_assigned(workstation)",
+      "-dns_configured(workstation)",
+      "-encrypted(workstation_data)",
+      "-secured(workstation)",
+      "-manual_intervention_required(network)",
+      "-automatic_troubleshooting_enabled(smart_hub)",
+      "-connection_stable(network)",
+      "-repaired(air_purifier)",
+      "-error_occurred(connection_test)",
+      "-skill_activated(user, calibrate_device)",
+      "-calibration_failed(smart_lock)",
+      "-placement_warning_issued(air_purifier)",
+      "-skill_activated(user, schedule_clean)",
+      "-scheduled(air_purifier, daily_cycle)",
+      "-data_breach_alert(air_purifier)"
+    ],
+    "natural_expressions": [
+      "Provided that a power outage occurs, if the user activates the skill to troubleshoot a device, then the user uses the troubleshoot device skill on the smart lock.",
+      "Either a power outage occurs, or a device malfunction occurs.",
+      "Under the condition that a device malfunction occurs, if the user activates the skill to troubleshoot a device, then the user uses the troubleshoot device skill on the smart lock.",
+      "If the workstation is placed near an outlet, then if it is not the case that a device malfunction occurring implies that the user activating the troubleshoot skill leads to its use on the smart lock, then the backup generator is engaged.",
+      "Whenever the workstation is connected to the smart hub, the workstation is functional.",
+      "Provided that the workstation is connected to the smart hub, the workstation is configured for the network.",
+      "If the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub.",
+      "Under the condition that the workstation is configured for the network, the workstation is functional.",
+      "If the workstation is authenticated with the smart hub, then the workstation is configured for the network.",
+      "Provided that the smart hub detected the workstation, if the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub.",
+      "Either the smart hub detected the workstation, or the user initiated manual pairing for the workstation.",
+      "Under the condition that the user initiated manual pairing for the workstation, if the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub.",
+      "If the air purifier requires a power cycle, then it is not malfunctioning.",
+      "If the workstation has an ethernet port, then either the smart hub detected the workstation, or the user initiated manual pairing for the workstation.",
+      "Provided that the user activates the skill to configure the network, the smart home setup goal is achieved.",
+      "Either automatic configuration is enabled on the router, or if the user does not activate the configure network skill, then an error occurs in the network configuration.",
+      "Either an IP address is assigned to the workstation, or the network configuration is not complete.",
+      "Either DNS is configured on the workstation, or an IP address is assigned to the workstation, or the network configuration is not complete.",
+      "If the workstation supports DHCP, then either DNS is configured on the workstation, or an IP address is assigned to the workstation, or the network configuration is not complete.",
+      "Under the condition that the user used the configure network skill on the router, the smart home setup goal is achieved.",
+      "Provided that the user activates the skill to secure a device, the user used the configure network skill on the router.",
+      "Whenever the air purifier was triggered by a power surge, the air purifier requires a power cycle.",
+      "If the workstation data is encrypted, then the workstation is secured.",
+      "Provided that the workstation data is encrypted, the firewall is enabled on the workstation.",
+      "Under the condition that the workstation data is encrypted, the air purifier data is encrypted.",
+      "If the firewall is enabled on the workstation, then the workstation is secured.",
+      "Whenever an error occurs in the security setup, an error occurs in the network configuration.",
+      "Provided that the security setup error is logged in the system, an error occurred in the security setup.",
+      "Either automatic troubleshooting is enabled on the smart hub, or if it is not the case that an IP address is assigned to the workstation or the network configuration is not complete, then manual intervention is required for the network.",
+      "Either the network connection is stable, or the network configuration is not complete.",
+      "If the user activates the skill to diagnose a connection, then the network connection is not stable.",
+      "Either the user activates the skill to diagnose a connection, or the user activates the skill to test bandwidth.",
+      "Either the air purifier has been repaired, or if the air purifier was triggered by a power surge, then it requires a power cycle.",
+      "Under the condition that the user activates the skill to test bandwidth, the network connection is not stable.",
+      "Provided that the workstation has a diagnostic LED, either the user activates the skill to diagnose a connection, or the user activates the skill to test bandwidth.",
+      "Either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration.",
+      "If the smart hub detected the smart lock, then either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration.",
+      "Provided that the smart hub detected the smart lock, the smart lock is near the workstation.",
+      "Under the condition that the smart lock is near the workstation, either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration.",
+      "Whenever the user activates the skill to calibrate a device, the smart lock is calibrated.",
+      "Provided that the user activates the skill to calibrate a device, the user used the calibrate device skill on the smart lock.",
+      "If the user activates the skill to calibrate a device, then the smart lock is not calibrated.",
+      "Under the condition that the user used the calibrate device skill on the smart lock, the smart lock is calibrated.",
+      "Provided that the smart hub detected the air purifier, the air purifier is near a window.",
+      "If the smart hub detected the air purifier, then the workstation data is not encrypted.",
+      "Whenever the air purifier is near a window, the workstation data is not encrypted.",
+      "If high pollen occurs, then if it is not the case that the smart hub detecting the air purifier implies it is near a window, a placement warning is issued for the air purifier.",
+      "Either high pollen occurs, or a dust storm occurs.",
+      "Provided that a dust storm occurs, if it is not the case that the smart hub detecting the air purifier implies it is near a window, then a placement warning is issued for the air purifier.",
+      "Under the condition that the user activates the skill to schedule a cleaning, the air purifier is scheduled for a daily cycle.",
+      "Either the user activates the skill to schedule a cleaning, or the user activates the skill to secure a device.",
+      "If the air purifier data is encrypted, then the workstation is secured.",
+      "Whenever a cyber attack occurs, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier.",
+      "Either a cyber attack occurs, or a firmware update occurs.",
+      "Provided that a firmware update occurs, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier.",
+      "If a firmware update occurs, then the system logs show that the firmware update was initiated.",
+      "Under the condition that the system logs show that the firmware update was initiated, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier.",
+      "Provided that the user activates the skill to troubleshoot a device, if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, then an alert is sent for the smart lock to the security service.",
+      "Whenever the user activates the skill to troubleshoot a device, the user uses the troubleshoot device skill on the smart lock.",
+      "Either the user activates the skill to troubleshoot a device, or the user activates the skill to restart a device.",
+      "If the user activates the skill to restart a device, then if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is sent for the smart lock to the security service.",
+      "Provided that the user used the troubleshoot device skill on the smart lock, if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, then an alert is sent for the smart lock to the security service.",
+      "If it is not the case that a device malfunction occurring implies that the user activating the troubleshoot skill leads to its use on the smart lock, then the backup generator is engaged.",
+      "Provided that it is not the case that automatic configuration is enabled on the router or that the user not activating the configure network skill leads to a network configuration error, the network configuration is complete.",
+      "Under the condition that it is not the case that an IP address is assigned to the workstation or the network configuration is not complete, manual intervention is required for the network.",
+      "If it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier.",
+      "Provided that it is not the case that the user activating the calibrate device skill implies the user used it on the smart lock, the calibration of the smart lock failed.",
+      "Whenever it is not the case that the smart hub detecting the air purifier implies it is near a window, a placement warning is issued for the air purifier.",
+      "If it is not the case that the user not activating the secure device skill implies a vulnerability is detected on the workstation, then the workstation data is encrypted.",
+      "Under the condition that it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is sent for the smart lock to the security service.",
+      "Provided that it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is not sent for the smart lock to the security service.",
+      "If the user does not activate the skill to configure the network, then an error occurs in the network configuration.",
+      "Whenever the user does not activate the skill to configure the network, an error occurs in the security setup.",
+      "Provided that the user does not activate the skill to configure the network, the security setup error is logged in the system.",
+      "If the user does not activate the skill to configure the network, then the user activates the skill to calibrate a device.",
+      "Under the condition that the user does not activate the skill to secure a device, a vulnerability is detected on the workstation.",
+      "Provided that the user does not activate the skill to secure a device, a vulnerability is not detected on the workstation.",
+      "If the smart home setup goal is not achieved, then the air purifier is malfunctioning.",
+      "Whenever the smart home setup goal is not achieved, the workstation is functional.",
+      "Provided that the smart home setup goal is not achieved, the workstation is connected to the smart hub.",
+      "Under the condition that the smart home setup goal is not achieved, the air purifier requires a power cycle.",
+      "If the smart home setup goal is not achieved, then the air purifier was triggered by a power surge.",
+      "Provided that the smart home setup goal is not achieved, the smart lock is operational.",
+      "Whenever the smart home setup goal is not achieved, the air purifier is not malfunctioning.",
+      "Under the condition that the smart home setup goal is not achieved, the smart lock is not operational.",
+      "The workstation is placed near an outlet.",
+      "The workstation has an ethernet port.",
+      "The user activates the skill to configure the network.",
+      "The workstation supports DHCP.",
+      "The user used the configure network skill on the router.",
+      "The user activates the skill to secure a device.",
+      "The workstation has a diagnostic LED.",
+      "The smart hub detected the smart lock.",
+      "The smart hub detected the air purifier.",
+      "The smart home setup goal is achieved.",
+      "The backup generator is not engaged.",
+      "The workstation is not functional.",
+      "An error does not occur in the network configuration.",
+      "Automatic configuration is not enabled on the router.",
+      "The network configuration is not complete.",
+      "An IP address is not assigned to the workstation.",
+      "DNS is not configured on the workstation.",
+      "The workstation data is not encrypted.",
+      "The workstation is not secured.",
+      "Manual intervention is not required for the network.",
+      "Automatic troubleshooting is not enabled on the smart hub.",
+      "The network connection is not stable.",
+      "The air purifier has not been repaired.",
+      "An error does not occur in the connection test.",
+      "The user does not activate the skill to calibrate a device.",
+      "The calibration of the smart lock does not fail.",
+      "A placement warning is not issued for the air purifier.",
+      "The user does not activate the skill to schedule a cleaning.",
+      "The air purifier is not scheduled for a daily cycle.",
+      "A data breach alert is not issued for the air purifier."
+    ],
+    "node_mappings": {
+      "(A10 → (A7 → A9))": {
+        "formal": "(A10 → (A7 → A9))",
+        "prover9": "(A10 -> (A7 -> A9))",
+        "prover9_expression": "(event_occurs(power_outage) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock)))",
+        "natural": "Provided that a power outage occurs, if the user activates the skill to troubleshoot a device, then the user uses the troubleshoot device skill on the smart lock."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(event_occurs(power_outage) | event_occurs(device_malfunction))",
+        "natural": "Either a power outage occurs, or a device malfunction occurs."
+      },
+      "(A11 → (A7 → A9))": {
+        "formal": "(A11 → (A7 → A9))",
+        "prover9": "(A11 -> (A7 -> A9))",
+        "prover9_expression": "(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock)))",
+        "natural": "Under the condition that a device malfunction occurs, if the user activates the skill to troubleshoot a device, then the user uses the troubleshoot device skill on the smart lock."
+      },
+      "(A13 → (¬(A11 → (A7 → A9)) → A12))": {
+        "formal": "(A13 → (¬(A11 → (A7 → A9)) → A12))",
+        "prover9": "(A13 -> (-(A11 -> (A7 -> A9)) -> A12))",
+        "prover9_expression": "(furniture_placed(workstation, near_outlet) -> (-(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))) -> backup_power_engaged(generator)))",
+        "natural": "If the workstation is placed near an outlet, then if it is not the case that a device malfunction occurring implies that the user activating the troubleshoot skill leads to its use on the smart lock, then the backup generator is engaged."
+      },
+      "(A15 → A14)": {
+        "formal": "(A15 → A14)",
+        "prover9": "(A15 -> A14)",
+        "prover9_expression": "(connected(workstation, smart_hub) -> functional(workstation))",
+        "natural": "Whenever the workstation is connected to the smart hub, the workstation is functional."
+      },
+      "(A15 → A16)": {
+        "formal": "(A15 → A16)",
+        "prover9": "(A15 -> A16)",
+        "prover9_expression": "(connected(workstation, smart_hub) -> configured(workstation, network))",
+        "natural": "Provided that the workstation is connected to the smart hub, the workstation is configured for the network."
+      },
+      "(A15 → A17)": {
+        "formal": "(A15 → A17)",
+        "prover9": "(A15 -> A17)",
+        "prover9_expression": "(connected(workstation, smart_hub) -> authenticated(workstation, smart_hub))",
+        "natural": "If the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub."
+      },
+      "(A16 → A14)": {
+        "formal": "(A16 → A14)",
+        "prover9": "(A16 -> A14)",
+        "prover9_expression": "(configured(workstation, network) -> functional(workstation))",
+        "natural": "Under the condition that the workstation is configured for the network, the workstation is functional."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(authenticated(workstation, smart_hub) -> configured(workstation, network))",
+        "natural": "If the workstation is authenticated with the smart hub, then the workstation is configured for the network."
+      },
+      "(A18 → (A15 → A17))": {
+        "formal": "(A18 → (A15 → A17))",
+        "prover9": "(A18 -> (A15 -> A17))",
+        "prover9_expression": "(device_detected(smart_hub, workstation) -> (connected(workstation, smart_hub) -> authenticated(workstation, smart_hub)))",
+        "natural": "Provided that the smart hub detected the workstation, if the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub."
+      },
+      "(A18 ∨ A19)": {
+        "formal": "(A18 ∨ A19)",
+        "prover9": "(A18 | A19)",
+        "prover9_expression": "(device_detected(smart_hub, workstation) | manual_pairing_initiated(user, workstation))",
+        "natural": "Either the smart hub detected the workstation, or the user initiated manual pairing for the workstation."
+      },
+      "(A19 → (A15 → A17))": {
+        "formal": "(A19 → (A15 → A17))",
+        "prover9": "(A19 -> (A15 -> A17))",
+        "prover9_expression": "(manual_pairing_initiated(user, workstation) -> (connected(workstation, smart_hub) -> authenticated(workstation, smart_hub)))",
+        "natural": "Under the condition that the user initiated manual pairing for the workstation, if the workstation is connected to the smart hub, then the workstation is authenticated with the smart hub."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(requires(air_purifier, power_cycle) -> -malfunctioning(air_purifier))",
+        "natural": "If the air purifier requires a power cycle, then it is not malfunctioning."
+      },
+      "(A20 → (A18 ∨ A19))": {
+        "formal": "(A20 → (A18 ∨ A19))",
+        "prover9": "(A20 -> (A18 | A19))",
+        "prover9_expression": "(furniture_has(workstation, ethernet_port) -> (device_detected(smart_hub, workstation) | manual_pairing_initiated(user, workstation)))",
+        "natural": "If the workstation has an ethernet port, then either the smart hub detected the workstation, or the user initiated manual pairing for the workstation."
+      },
+      "(A21 → G)": {
+        "formal": "(A21 → G)",
+        "prover9": "(A21 -> G)",
+        "prover9_expression": "(skill_activated(user, configure_network) -> goal_achieved(smart_home_setup))",
+        "natural": "Provided that the user activates the skill to configure the network, the smart home setup goal is achieved."
+      },
+      "(A23 ∨ (¬A21 → A22))": {
+        "formal": "(A23 ∨ (¬A21 → A22))",
+        "prover9": "(A23 | (-A21 -> A22))",
+        "prover9_expression": "(automatic_configuration_enabled(router) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration)))",
+        "natural": "Either automatic configuration is enabled on the router, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+      },
+      "(A25 ∨ ¬A24)": {
+        "formal": "(A25 ∨ ¬A24)",
+        "prover9": "(A25 | -A24)",
+        "prover9_expression": "(ip_assigned(workstation) | -configuration_complete(network))",
+        "natural": "Either an IP address is assigned to the workstation, or the network configuration is not complete."
+      },
+      "(A26 ∨ (A25 ∨ ¬A24))": {
+        "formal": "(A26 ∨ (A25 ∨ ¬A24))",
+        "prover9": "(A26 | (A25 | -A24))",
+        "prover9_expression": "(dns_configured(workstation) | (ip_assigned(workstation) | -configuration_complete(network)))",
+        "natural": "Either DNS is configured on the workstation, or an IP address is assigned to the workstation, or the network configuration is not complete."
+      },
+      "(A27 → (A26 ∨ (A25 ∨ ¬A24)))": {
+        "formal": "(A27 → (A26 ∨ (A25 ∨ ¬A24)))",
+        "prover9": "(A27 -> (A26 | (A25 | -A24)))",
+        "prover9_expression": "(device_supports(workstation, dhcp) -> (dns_configured(workstation) | (ip_assigned(workstation) | -configuration_complete(network))))",
+        "natural": "If the workstation supports DHCP, then either DNS is configured on the workstation, or an IP address is assigned to the workstation, or the network configuration is not complete."
+      },
+      "(A28 → G)": {
+        "formal": "(A28 → G)",
+        "prover9": "(A28 -> G)",
+        "prover9_expression": "(skill_used(user, configure_network, router) -> goal_achieved(smart_home_setup))",
+        "natural": "Under the condition that the user used the configure network skill on the router, the smart home setup goal is achieved."
+      },
+      "(A29 → A28)": {
+        "formal": "(A29 → A28)",
+        "prover9": "(A29 -> A28)",
+        "prover9_expression": "(skill_activated(user, secure_device) -> skill_used(user, configure_network, router))",
+        "natural": "Provided that the user activates the skill to secure a device, the user used the configure network skill on the router."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(triggered(air_purifier, power_surge) -> requires(air_purifier, power_cycle))",
+        "natural": "Whenever the air purifier was triggered by a power surge, the air purifier requires a power cycle."
+      },
+      "(A31 → A32)": {
+        "formal": "(A31 → A32)",
+        "prover9": "(A31 -> A32)",
+        "prover9_expression": "(encrypted(workstation_data) -> secured(workstation))",
+        "natural": "If the workstation data is encrypted, then the workstation is secured."
+      },
+      "(A31 → A33)": {
+        "formal": "(A31 → A33)",
+        "prover9": "(A31 -> A33)",
+        "prover9_expression": "(encrypted(workstation_data) -> firewall_enabled(workstation))",
+        "natural": "Provided that the workstation data is encrypted, the firewall is enabled on the workstation."
+      },
+      "(A31 → A56)": {
+        "formal": "(A31 → A56)",
+        "prover9": "(A31 -> A56)",
+        "prover9_expression": "(encrypted(workstation_data) -> encrypted(air_purifier_data))",
+        "natural": "Under the condition that the workstation data is encrypted, the air purifier data is encrypted."
+      },
+      "(A33 → A32)": {
+        "formal": "(A33 → A32)",
+        "prover9": "(A33 -> A32)",
+        "prover9_expression": "(firewall_enabled(workstation) -> secured(workstation))",
+        "natural": "If the firewall is enabled on the workstation, then the workstation is secured."
+      },
+      "(A34 → A22)": {
+        "formal": "(A34 → A22)",
+        "prover9": "(A34 -> A22)",
+        "prover9_expression": "(error_occurred(security_setup) -> error_occurred(network_configuration))",
+        "natural": "Whenever an error occurs in the security setup, an error occurs in the network configuration."
+      },
+      "(A35 → A34)": {
+        "formal": "(A35 → A34)",
+        "prover9": "(A35 -> A34)",
+        "prover9_expression": "(error_logged(security_setup, system) -> error_occurred(security_setup))",
+        "natural": "Provided that the security setup error is logged in the system, an error occurred in the security setup."
+      },
+      "(A37 ∨ (¬(A25 ∨ ¬A24) → A36))": {
+        "formal": "(A37 ∨ (¬(A25 ∨ ¬A24) → A36))",
+        "prover9": "(A37 | (-(A25 | -A24) -> A36))",
+        "prover9_expression": "(automatic_troubleshooting_enabled(smart_hub) | (-(ip_assigned(workstation) | -configuration_complete(network)) -> manual_intervention_required(network)))",
+        "natural": "Either automatic troubleshooting is enabled on the smart hub, or if it is not the case that an IP address is assigned to the workstation or the network configuration is not complete, then manual intervention is required for the network."
+      },
+      "(A38 ∨ ¬A24)": {
+        "formal": "(A38 ∨ ¬A24)",
+        "prover9": "(A38 | -A24)",
+        "prover9_expression": "(connection_stable(network) | -configuration_complete(network))",
+        "natural": "Either the network connection is stable, or the network configuration is not complete."
+      },
+      "(A39 → ¬A38)": {
+        "formal": "(A39 → ¬A38)",
+        "prover9": "(A39 -> -A38)",
+        "prover9_expression": "(skill_activated(user, diagnose_connection) -> -connection_stable(network))",
+        "natural": "If the user activates the skill to diagnose a connection, then the network connection is not stable."
+      },
+      "(A39 ∨ A40)": {
+        "formal": "(A39 ∨ A40)",
+        "prover9": "(A39 | A40)",
+        "prover9_expression": "(skill_activated(user, diagnose_connection) | skill_activated(user, test_bandwidth))",
+        "natural": "Either the user activates the skill to diagnose a connection, or the user activates the skill to test bandwidth."
+      },
+      "(A4 ∨ (A3 → A2))": {
+        "formal": "(A4 ∨ (A3 → A2))",
+        "prover9": "(A4 | (A3 -> A2))",
+        "prover9_expression": "(repaired(air_purifier) | (triggered(air_purifier, power_surge) -> requires(air_purifier, power_cycle)))",
+        "natural": "Either the air purifier has been repaired, or if the air purifier was triggered by a power surge, then it requires a power cycle."
+      },
+      "(A40 → ¬A38)": {
+        "formal": "(A40 → ¬A38)",
+        "prover9": "(A40 -> -A38)",
+        "prover9_expression": "(skill_activated(user, test_bandwidth) -> -connection_stable(network))",
+        "natural": "Under the condition that the user activates the skill to test bandwidth, the network connection is not stable."
+      },
+      "(A41 → (A39 ∨ A40))": {
+        "formal": "(A41 → (A39 ∨ A40))",
+        "prover9": "(A41 -> (A39 | A40))",
+        "prover9_expression": "(furniture_has(workstation, diagnostic_led) -> (skill_activated(user, diagnose_connection) | skill_activated(user, test_bandwidth)))",
+        "natural": "Provided that the workstation has a diagnostic LED, either the user activates the skill to diagnose a connection, or the user activates the skill to test bandwidth."
+      },
+      "(A42 ∨ (¬A21 → A22))": {
+        "formal": "(A42 ∨ (¬A21 → A22))",
+        "prover9": "(A42 | (-A21 -> A22))",
+        "prover9_expression": "(error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration)))",
+        "natural": "Either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+      },
+      "(A43 → (A42 ∨ (¬A21 → A22)))": {
+        "formal": "(A43 → (A42 ∨ (¬A21 → A22)))",
+        "prover9": "(A43 -> (A42 | (-A21 -> A22)))",
+        "prover9_expression": "(device_detected(smart_hub, smart_lock) -> (error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))))",
+        "natural": "If the smart hub detected the smart lock, then either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+      },
+      "(A43 → A44)": {
+        "formal": "(A43 → A44)",
+        "prover9": "(A43 -> A44)",
+        "prover9_expression": "(device_detected(smart_hub, smart_lock) -> furniture_near(smart_lock, workstation))",
+        "natural": "Provided that the smart hub detected the smart lock, the smart lock is near the workstation."
+      },
+      "(A44 → (A42 ∨ (¬A21 → A22)))": {
+        "formal": "(A44 → (A42 ∨ (¬A21 → A22)))",
+        "prover9": "(A44 -> (A42 | (-A21 -> A22)))",
+        "prover9_expression": "(furniture_near(smart_lock, workstation) -> (error_occurred(connection_test) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))))",
+        "natural": "Under the condition that the smart lock is near the workstation, either an error occurred in the connection test, or if the user does not activate the configure network skill, then an error occurs in the network configuration."
+      },
+      "(A45 → A46)": {
+        "formal": "(A45 → A46)",
+        "prover9": "(A45 -> A46)",
+        "prover9_expression": "(skill_activated(user, calibrate_device) -> calibrated(smart_lock))",
+        "natural": "Whenever the user activates the skill to calibrate a device, the smart lock is calibrated."
+      },
+      "(A45 → A47)": {
+        "formal": "(A45 → A47)",
+        "prover9": "(A45 -> A47)",
+        "prover9_expression": "(skill_activated(user, calibrate_device) -> skill_used(user, calibrate_device, smart_lock))",
+        "natural": "Provided that the user activates the skill to calibrate a device, the user used the calibrate device skill on the smart lock."
+      },
+      "(A45 → ¬A46)": {
+        "formal": "(A45 → ¬A46)",
+        "prover9": "(A45 -> -A46)",
+        "prover9_expression": "(skill_activated(user, calibrate_device) -> -calibrated(smart_lock))",
+        "natural": "If the user activates the skill to calibrate a device, then the smart lock is not calibrated."
+      },
+      "(A47 → A46)": {
+        "formal": "(A47 → A46)",
+        "prover9": "(A47 -> A46)",
+        "prover9_expression": "(skill_used(user, calibrate_device, smart_lock) -> calibrated(smart_lock))",
+        "natural": "Under the condition that the user used the calibrate device skill on the smart lock, the smart lock is calibrated."
+      },
+      "(A49 → A50)": {
+        "formal": "(A49 → A50)",
+        "prover9": "(A49 -> A50)",
+        "prover9_expression": "(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window))",
+        "natural": "Provided that the smart hub detected the air purifier, the air purifier is near a window."
+      },
+      "(A49 → ¬A31)": {
+        "formal": "(A49 → ¬A31)",
+        "prover9": "(A49 -> -A31)",
+        "prover9_expression": "(device_detected(smart_hub, air_purifier) -> -encrypted(workstation_data))",
+        "natural": "If the smart hub detected the air purifier, then the workstation data is not encrypted."
+      },
+      "(A50 → ¬A31)": {
+        "formal": "(A50 → ¬A31)",
+        "prover9": "(A50 -> -A31)",
+        "prover9_expression": "(furniture_near(air_purifier, window) -> -encrypted(workstation_data))",
+        "natural": "Whenever the air purifier is near a window, the workstation data is not encrypted."
+      },
+      "(A52 → (¬(A49 → A50) → A51))": {
+        "formal": "(A52 → (¬(A49 → A50) → A51))",
+        "prover9": "(A52 -> (-(A49 -> A50) -> A51))",
+        "prover9_expression": "(event_occurs(high_pollen) -> (-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier)))",
+        "natural": "If high pollen occurs, then if it is not the case that the smart hub detecting the air purifier implies it is near a window, a placement warning is issued for the air purifier."
+      },
+      "(A52 ∨ A53)": {
+        "formal": "(A52 ∨ A53)",
+        "prover9": "(A52 | A53)",
+        "prover9_expression": "(event_occurs(high_pollen) | event_occurs(dust_storm))",
+        "natural": "Either high pollen occurs, or a dust storm occurs."
+      },
+      "(A53 → (¬(A49 → A50) → A51))": {
+        "formal": "(A53 → (¬(A49 → A50) → A51))",
+        "prover9": "(A53 -> (-(A49 -> A50) -> A51))",
+        "prover9_expression": "(event_occurs(dust_storm) -> (-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier)))",
+        "natural": "Provided that a dust storm occurs, if it is not the case that the smart hub detecting the air purifier implies it is near a window, then a placement warning is issued for the air purifier."
+      },
+      "(A54 → A55)": {
+        "formal": "(A54 → A55)",
+        "prover9": "(A54 -> A55)",
+        "prover9_expression": "(skill_activated(user, schedule_clean) -> scheduled(air_purifier, daily_cycle))",
+        "natural": "Under the condition that the user activates the skill to schedule a cleaning, the air purifier is scheduled for a daily cycle."
+      },
+      "(A54 ∨ A29)": {
+        "formal": "(A54 ∨ A29)",
+        "prover9": "(A54 | A29)",
+        "prover9_expression": "(skill_activated(user, schedule_clean) | skill_activated(user, secure_device))",
+        "natural": "Either the user activates the skill to schedule a cleaning, or the user activates the skill to secure a device."
+      },
+      "(A56 → A32)": {
+        "formal": "(A56 → A32)",
+        "prover9": "(A56 -> A32)",
+        "prover9_expression": "(encrypted(air_purifier_data) -> secured(workstation))",
+        "natural": "If the air purifier data is encrypted, then the workstation is secured."
+      },
+      "(A58 → (¬(A31 → A56) → A57))": {
+        "formal": "(A58 → (¬(A31 → A56) → A57))",
+        "prover9": "(A58 -> (-(A31 -> A56) -> A57))",
+        "prover9_expression": "(event_occurs(cyber_attack) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+        "natural": "Whenever a cyber attack occurs, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+      },
+      "(A58 ∨ A59)": {
+        "formal": "(A58 ∨ A59)",
+        "prover9": "(A58 | A59)",
+        "prover9_expression": "(event_occurs(cyber_attack) | event_occurs(firmware_update))",
+        "natural": "Either a cyber attack occurs, or a firmware update occurs."
+      },
+      "(A59 → (¬(A31 → A56) → A57))": {
+        "formal": "(A59 → (¬(A31 → A56) → A57))",
+        "prover9": "(A59 -> (-(A31 -> A56) -> A57))",
+        "prover9_expression": "(event_occurs(firmware_update) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+        "natural": "Provided that a firmware update occurs, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+      },
+      "(A59 → A60)": {
+        "formal": "(A59 → A60)",
+        "prover9": "(A59 -> A60)",
+        "prover9_expression": "(event_occurs(firmware_update) -> system_logs(firmware_update, initiated))",
+        "natural": "If a firmware update occurs, then the system logs show that the firmware update was initiated."
+      },
+      "(A60 → (¬(A31 → A56) → A57))": {
+        "formal": "(A60 → (¬(A31 → A56) → A57))",
+        "prover9": "(A60 -> (-(A31 -> A56) -> A57))",
+        "prover9_expression": "(system_logs(firmware_update, initiated) -> (-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier)))",
+        "natural": "Under the condition that the system logs show that the firmware update was initiated, if it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+      },
+      "(A7 → (¬(¬G → ¬A5) → A6))": {
+        "formal": "(A7 → (¬(¬G → ¬A5) → A6))",
+        "prover9": "(A7 -> (-(-G -> -A5) -> A6))",
+        "prover9_expression": "(skill_activated(user, troubleshoot_device) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+        "natural": "Provided that the user activates the skill to troubleshoot a device, if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, then an alert is sent for the smart lock to the security service."
+      },
+      "(A7 → A9)": {
+        "formal": "(A7 → A9)",
+        "prover9": "(A7 -> A9)",
+        "prover9_expression": "(skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))",
+        "natural": "Whenever the user activates the skill to troubleshoot a device, the user uses the troubleshoot device skill on the smart lock."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(skill_activated(user, troubleshoot_device) | skill_activated(user, restart_device))",
+        "natural": "Either the user activates the skill to troubleshoot a device, or the user activates the skill to restart a device."
+      },
+      "(A8 → (¬(¬G → ¬A5) → A6))": {
+        "formal": "(A8 → (¬(¬G → ¬A5) → A6))",
+        "prover9": "(A8 -> (-(-G -> -A5) -> A6))",
+        "prover9_expression": "(skill_activated(user, restart_device) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+        "natural": "If the user activates the skill to restart a device, then if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is sent for the smart lock to the security service."
+      },
+      "(A9 → (¬(¬G → ¬A5) → A6))": {
+        "formal": "(A9 → (¬(¬G → ¬A5) → A6))",
+        "prover9": "(A9 -> (-(-G -> -A5) -> A6))",
+        "prover9_expression": "(skill_used(user, troubleshoot_device, smart_lock) -> (-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service)))",
+        "natural": "Provided that the user used the troubleshoot device skill on the smart lock, if it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, then an alert is sent for the smart lock to the security service."
+      },
+      "(¬(A11 → (A7 → A9)) → A12)": {
+        "formal": "(¬(A11 → (A7 → A9)) → A12)",
+        "prover9": "(-(A11 -> (A7 -> A9)) -> A12)",
+        "prover9_expression": "(-(event_occurs(device_malfunction) -> (skill_activated(user, troubleshoot_device) -> skill_used(user, troubleshoot_device, smart_lock))) -> backup_power_engaged(generator))",
+        "natural": "If it is not the case that a device malfunction occurring implies that the user activating the troubleshoot skill leads to its use on the smart lock, then the backup generator is engaged."
+      },
+      "(¬(A23 ∨ (¬A21 → A22)) → A24)": {
+        "formal": "(¬(A23 ∨ (¬A21 → A22)) → A24)",
+        "prover9": "(-(A23 | (-A21 -> A22)) -> A24)",
+        "prover9_expression": "(-(automatic_configuration_enabled(router) | (-skill_activated(user, configure_network) -> error_occurred(network_configuration))) -> configuration_complete(network))",
+        "natural": "Provided that it is not the case that automatic configuration is enabled on the router or that the user not activating the configure network skill leads to a network configuration error, the network configuration is complete."
+      },
+      "(¬(A25 ∨ ¬A24) → A36)": {
+        "formal": "(¬(A25 ∨ ¬A24) → A36)",
+        "prover9": "(-(A25 | -A24) -> A36)",
+        "prover9_expression": "(-(ip_assigned(workstation) | -configuration_complete(network)) -> manual_intervention_required(network))",
+        "natural": "Under the condition that it is not the case that an IP address is assigned to the workstation or the network configuration is not complete, manual intervention is required for the network."
+      },
+      "(¬(A31 → A56) → A57)": {
+        "formal": "(¬(A31 → A56) → A57)",
+        "prover9": "(-(A31 -> A56) -> A57)",
+        "prover9_expression": "(-(encrypted(workstation_data) -> encrypted(air_purifier_data)) -> data_breach_alert(air_purifier))",
+        "natural": "If it is not the case that the workstation data being encrypted implies the air purifier data is encrypted, then a data breach alert is issued for the air purifier."
+      },
+      "(¬(A45 → A47) → A48)": {
+        "formal": "(¬(A45 → A47) → A48)",
+        "prover9": "(-(A45 -> A47) -> A48)",
+        "prover9_expression": "(-(skill_activated(user, calibrate_device) -> skill_used(user, calibrate_device, smart_lock)) -> calibration_failed(smart_lock))",
+        "natural": "Provided that it is not the case that the user activating the calibrate device skill implies the user used it on the smart lock, the calibration of the smart lock failed."
+      },
+      "(¬(A49 → A50) → A51)": {
+        "formal": "(¬(A49 → A50) → A51)",
+        "prover9": "(-(A49 -> A50) -> A51)",
+        "prover9_expression": "(-(device_detected(smart_hub, air_purifier) -> furniture_near(air_purifier, window)) -> placement_warning_issued(air_purifier))",
+        "natural": "Whenever it is not the case that the smart hub detecting the air purifier implies it is near a window, a placement warning is issued for the air purifier."
+      },
+      "(¬(¬A29 → A30) → A31)": {
+        "formal": "(¬(¬A29 → A30) → A31)",
+        "prover9": "(-(-A29 -> A30) -> A31)",
+        "prover9_expression": "(-(-skill_activated(user, secure_device) -> vulnerability_detected(workstation)) -> encrypted(workstation_data))",
+        "natural": "If it is not the case that the user not activating the secure device skill implies a vulnerability is detected on the workstation, then the workstation data is encrypted."
+      },
+      "(¬(¬G → ¬A5) → A6)": {
+        "formal": "(¬(¬G → ¬A5) → A6)",
+        "prover9": "(-(-G -> -A5) -> A6)",
+        "prover9_expression": "(-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> alert_sent(smart_lock, security_service))",
+        "natural": "Under the condition that it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is sent for the smart lock to the security service."
+      },
+      "(¬(¬G → ¬A5) → ¬A6)": {
+        "formal": "(¬(¬G → ¬A5) → ¬A6)",
+        "prover9": "(-(-G -> -A5) -> -A6)",
+        "prover9_expression": "(-(-goal_achieved(smart_home_setup) -> -operational(smart_lock)) -> -alert_sent(smart_lock, security_service))",
+        "natural": "Provided that it is not the case that the smart home setup goal not being achieved implies the smart lock is not operational, an alert is not sent for the smart lock to the security service."
+      },
+      "(¬A21 → A22)": {
+        "formal": "(¬A21 → A22)",
+        "prover9": "(-A21 -> A22)",
+        "prover9_expression": "(-skill_activated(user, configure_network) -> error_occurred(network_configuration))",
+        "natural": "If the user does not activate the skill to configure the network, then an error occurs in the network configuration."
+      },
+      "(¬A21 → A34)": {
+        "formal": "(¬A21 → A34)",
+        "prover9": "(-A21 -> A34)",
+        "prover9_expression": "(-skill_activated(user, configure_network) -> error_occurred(security_setup))",
+        "natural": "Whenever the user does not activate the skill to configure the network, an error occurs in the security setup."
+      },
+      "(¬A21 → A35)": {
+        "formal": "(¬A21 → A35)",
+        "prover9": "(-A21 -> A35)",
+        "prover9_expression": "(-skill_activated(user, configure_network) -> error_logged(security_setup, system))",
+        "natural": "Provided that the user does not activate the skill to configure the network, the security setup error is logged in the system."
+      },
+      "(¬A21 → A45)": {
+        "formal": "(¬A21 → A45)",
+        "prover9": "(-A21 -> A45)",
+        "prover9_expression": "(-skill_activated(user, configure_network) -> skill_activated(user, calibrate_device))",
+        "natural": "If the user does not activate the skill to configure the network, then the user activates the skill to calibrate a device."
+      },
+      "(¬A29 → A30)": {
+        "formal": "(¬A29 → A30)",
+        "prover9": "(-A29 -> A30)",
+        "prover9_expression": "(-skill_activated(user, secure_device) -> vulnerability_detected(workstation))",
+        "natural": "Under the condition that the user does not activate the skill to secure a device, a vulnerability is detected on the workstation."
+      },
+      "(¬A29 → ¬A30)": {
+        "formal": "(¬A29 → ¬A30)",
+        "prover9": "(-A29 -> -A30)",
+        "prover9_expression": "(-skill_activated(user, secure_device) -> -vulnerability_detected(workstation))",
+        "natural": "Provided that the user does not activate the skill to secure a device, a vulnerability is not detected on the workstation."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> malfunctioning(air_purifier))",
+        "natural": "If the smart home setup goal is not achieved, then the air purifier is malfunctioning."
+      },
+      "(¬G → A14)": {
+        "formal": "(¬G → A14)",
+        "prover9": "(-G -> A14)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> functional(workstation))",
+        "natural": "Whenever the smart home setup goal is not achieved, the workstation is functional."
+      },
+      "(¬G → A15)": {
+        "formal": "(¬G → A15)",
+        "prover9": "(-G -> A15)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> connected(workstation, smart_hub))",
+        "natural": "Provided that the smart home setup goal is not achieved, the workstation is connected to the smart hub."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> requires(air_purifier, power_cycle))",
+        "natural": "Under the condition that the smart home setup goal is not achieved, the air purifier requires a power cycle."
+      },
+      "(¬G → A3)": {
+        "formal": "(¬G → A3)",
+        "prover9": "(-G -> A3)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> triggered(air_purifier, power_surge))",
+        "natural": "If the smart home setup goal is not achieved, then the air purifier was triggered by a power surge."
+      },
+      "(¬G → A5)": {
+        "formal": "(¬G → A5)",
+        "prover9": "(-G -> A5)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> operational(smart_lock))",
+        "natural": "Provided that the smart home setup goal is not achieved, the smart lock is operational."
+      },
+      "(¬G → ¬A1)": {
+        "formal": "(¬G → ¬A1)",
+        "prover9": "(-G -> -A1)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> -malfunctioning(air_purifier))",
+        "natural": "Whenever the smart home setup goal is not achieved, the air purifier is not malfunctioning."
+      },
+      "(¬G → ¬A5)": {
+        "formal": "(¬G → ¬A5)",
+        "prover9": "(-G -> -A5)",
+        "prover9_expression": "(-goal_achieved(smart_home_setup) -> -operational(smart_lock))",
+        "natural": "Under the condition that the smart home setup goal is not achieved, the smart lock is not operational."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "furniture_placed(workstation, near_outlet)",
+        "natural": "The workstation is placed near an outlet."
+      },
+      "A20": {
+        "formal": "A20",
+        "prover9": "A20",
+        "prover9_expression": "furniture_has(workstation, ethernet_port)",
+        "natural": "The workstation has an ethernet port."
+      },
+      "A21": {
+        "formal": "A21",
+        "prover9": "A21",
+        "prover9_expression": "skill_activated(user, configure_network)",
+        "natural": "The user activates the skill to configure the network."
+      },
+      "A27": {
+        "formal": "A27",
+        "prover9": "A27",
+        "prover9_expression": "device_supports(workstation, dhcp)",
+        "natural": "The workstation supports DHCP."
+      },
+      "A28": {
+        "formal": "A28",
+        "prover9": "A28",
+        "prover9_expression": "skill_used(user, configure_network, router)",
+        "natural": "The user used the configure network skill on the router."
+      },
+      "A29": {
+        "formal": "A29",
+        "prover9": "A29",
+        "prover9_expression": "skill_activated(user, secure_device)",
+        "natural": "The user activates the skill to secure a device."
+      },
+      "A41": {
+        "formal": "A41",
+        "prover9": "A41",
+        "prover9_expression": "furniture_has(workstation, diagnostic_led)",
+        "natural": "The workstation has a diagnostic LED."
+      },
+      "A43": {
+        "formal": "A43",
+        "prover9": "A43",
+        "prover9_expression": "device_detected(smart_hub, smart_lock)",
+        "natural": "The smart hub detected the smart lock."
+      },
+      "A49": {
+        "formal": "A49",
+        "prover9": "A49",
+        "prover9_expression": "device_detected(smart_hub, air_purifier)",
+        "natural": "The smart hub detected the air purifier."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "goal_achieved(smart_home_setup)",
+        "natural": "The smart home setup goal is achieved."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-backup_power_engaged(generator)",
+        "natural": "The backup generator is not engaged."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-functional(workstation)",
+        "natural": "The workstation is not functional."
+      },
+      "¬A22": {
+        "formal": "¬A22",
+        "prover9": "-A22",
+        "prover9_expression": "-error_occurred(network_configuration)",
+        "natural": "An error does not occur in the network configuration."
+      },
+      "¬A23": {
+        "formal": "¬A23",
+        "prover9": "-A23",
+        "prover9_expression": "-automatic_configuration_enabled(router)",
+        "natural": "Automatic configuration is not enabled on the router."
+      },
+      "¬A24": {
+        "formal": "¬A24",
+        "prover9": "-A24",
+        "prover9_expression": "-configuration_complete(network)",
+        "natural": "The network configuration is not complete."
+      },
+      "¬A25": {
+        "formal": "¬A25",
+        "prover9": "-A25",
+        "prover9_expression": "-ip_assigned(workstation)",
+        "natural": "An IP address is not assigned to the workstation."
+      },
+      "¬A26": {
+        "formal": "¬A26",
+        "prover9": "-A26",
+        "prover9_expression": "-dns_configured(workstation)",
+        "natural": "DNS is not configured on the workstation."
+      },
+      "¬A31": {
+        "formal": "¬A31",
+        "prover9": "-A31",
+        "prover9_expression": "-encrypted(workstation_data)",
+        "natural": "The workstation data is not encrypted."
+      },
+      "¬A32": {
+        "formal": "¬A32",
+        "prover9": "-A32",
+        "prover9_expression": "-secured(workstation)",
+        "natural": "The workstation is not secured."
+      },
+      "¬A36": {
+        "formal": "¬A36",
+        "prover9": "-A36",
+        "prover9_expression": "-manual_intervention_required(network)",
+        "natural": "Manual intervention is not required for the network."
+      },
+      "¬A37": {
+        "formal": "¬A37",
+        "prover9": "-A37",
+        "prover9_expression": "-automatic_troubleshooting_enabled(smart_hub)",
+        "natural": "Automatic troubleshooting is not enabled on the smart hub."
+      },
+      "¬A38": {
+        "formal": "¬A38",
+        "prover9": "-A38",
+        "prover9_expression": "-connection_stable(network)",
+        "natural": "The network connection is not stable."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-repaired(air_purifier)",
+        "natural": "The air purifier has not been repaired."
+      },
+      "¬A42": {
+        "formal": "¬A42",
+        "prover9": "-A42",
+        "prover9_expression": "-error_occurred(connection_test)",
+        "natural": "An error does not occur in the connection test."
+      },
+      "¬A45": {
+        "formal": "¬A45",
+        "prover9": "-A45",
+        "prover9_expression": "-skill_activated(user, calibrate_device)",
+        "natural": "The user does not activate the skill to calibrate a device."
+      },
+      "¬A48": {
+        "formal": "¬A48",
+        "prover9": "-A48",
+        "prover9_expression": "-calibration_failed(smart_lock)",
+        "natural": "The calibration of the smart lock does not fail."
+      },
+      "¬A51": {
+        "formal": "¬A51",
+        "prover9": "-A51",
+        "prover9_expression": "-placement_warning_issued(air_purifier)",
+        "natural": "A placement warning is not issued for the air purifier."
+      },
+      "¬A54": {
+        "formal": "¬A54",
+        "prover9": "-A54",
+        "prover9_expression": "-skill_activated(user, schedule_clean)",
+        "natural": "The user does not activate the skill to schedule a cleaning."
+      },
+      "¬A55": {
+        "formal": "¬A55",
+        "prover9": "-A55",
+        "prover9_expression": "-scheduled(air_purifier, daily_cycle)",
+        "natural": "The air purifier is not scheduled for a daily cycle."
+      },
+      "¬A57": {
+        "formal": "¬A57",
+        "prover9": "-A57",
+        "prover9_expression": "-data_breach_alert(air_purifier)",
+        "natural": "A data breach alert is not issued for the air purifier."
+      }
+    }
+  }
+}

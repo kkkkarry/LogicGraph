@@ -1,0 +1,701 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A12)",
+        "prover9_expression": "(has_approval(project, zoning) -> completed_phase(project, foundation))",
+        "natural": "If the project has zoning approval, then the project completed the foundation phase."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 → A3)",
+        "prover9_expression": "(has_approval(project, zoning) -> has_approval(project, building_permit))",
+        "natural": "Provided that the project has zoning approval, the project has building permit approval."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(has_approval(project, zoning) | has_approval(project, environmental))",
+        "natural": "Either the project has zoning approval or the project has environmental approval."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 → A15)",
+        "prover9_expression": "(has_insurance(project, delay_coverage) -> active_coverage(insurance_policy))",
+        "natural": "If the project has delay coverage insurance, then the insurance policy has active coverage."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 → (¬(A12 → G) → A13))",
+        "prover9_expression": "(active_coverage(insurance_policy) -> (-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project)))",
+        "natural": "Assuming the insurance policy has active coverage, if failing to complete the foundation phase implies not being on schedule, then the project incurred a cost overrun."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A16 → A17)",
+        "prover9_expression": "(material_available(site, steel) -> work_can_proceed(crew, foundation))",
+        "natural": "Provided that steel material is available at the site, the crew can proceed with foundation work."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 → A18)",
+        "prover9_expression": "(material_available(site, steel) -> alternative_material_approved(engineer, composite))",
+        "natural": "If steel material is available at the site, then the engineer approved an alternative composite material."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → ¬A17)",
+        "prover9_expression": "(alternative_material_approved(engineer, composite) -> -work_can_proceed(crew, foundation))",
+        "natural": "In the event that the engineer approved an alternative composite material, the crew cannot proceed with foundation work."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(has_approval(project, environmental) -> on_schedule(project))",
+        "natural": "If the project has environmental approval, then the project is on schedule."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A4 → (A3 → G))",
+        "prover9_expression": "(submitted_application(contractor, zoning) -> (has_approval(project, building_permit) -> on_schedule(project)))",
+        "natural": "Provided the contractor submitted a zoning application, if the project has building permit approval, then the project is on schedule."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(submitted_application(contractor, zoning) | submitted_application(contractor, environmental))",
+        "natural": "Either the contractor submitted a zoning application or the contractor submitted an environmental application."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A5 → (A3 → G))",
+        "prover9_expression": "(submitted_application(contractor, environmental) -> (has_approval(project, building_permit) -> on_schedule(project)))",
+        "natural": "Assuming the contractor submitted an environmental application, if the project has building permit approval, then the project is on schedule."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A6 → G)",
+        "prover9_expression": "(has_funding(project, complete) -> on_schedule(project))",
+        "natural": "If the project has complete funding, then the project is on schedule."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A7 → A16)",
+        "prover9_expression": "(has_material_delay(project, steel) -> material_available(site, steel))",
+        "natural": "In the event that the project has a steel material delay, steel material is available at the site."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A9 → (A7 → A8))",
+        "prover9_expression": "(received_extension(contractor, deadline) -> (has_material_delay(project, steel) -> has_schedule_delay(project)))",
+        "natural": "Provided that the contractor received a deadline extension, if there is a steel material delay for the project, then the project has a schedule delay."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A9 ∨ A10)",
+        "prover9_expression": "(received_extension(contractor, deadline) | received_penalty(contractor))",
+        "natural": "Either the contractor received a deadline extension or the contractor received a penalty."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(¬(A10 → (A7 → A8)) → A11)",
+        "prover9_expression": "(-(received_penalty(contractor) -> (has_material_delay(project, steel) -> has_schedule_delay(project))) -> terminated_contract(owner, contractor))",
+        "natural": "If it is not the case that receiving a penalty implies that a steel material delay leads to a schedule delay, then the owner terminated the contractor's contract."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(¬A6 → A7)",
+        "prover9_expression": "(-has_funding(project, complete) -> has_material_delay(project, steel))",
+        "natural": "In the event that the project does not have complete funding, the project has a steel material delay."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A14",
+        "prover9_expression": "has_insurance(project, delay_coverage)",
+        "natural": "The project has delay coverage insurance."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A11",
+        "prover9_expression": "-terminated_contract(owner, contractor)",
+        "natural": "It is not the case that the owner terminated the contractor's contract."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A13",
+        "prover9_expression": "-incurred_cost_overrun(project)",
+        "natural": "It is not the case that the project incurred a cost overrun."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A8",
+        "prover9_expression": "-has_schedule_delay(project)",
+        "natural": "The project does not have a schedule delay."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "on_schedule(project)",
+    "natural": "The project is on schedule."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (A3 -> G))",
+            "(A5 -> (A3 -> G))"
+          ],
+          "conclusion": "(A3 -> G)",
+          "natural": "Should the project have building permit approval, the project is on schedule."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the project has zoning approval, the project is on schedule."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The project is on schedule."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A10 -> (A7 -> A8)) -> A11)",
+            "-A11"
+          ],
+          "conclusion": "(A10 -> (A7 -> A8))",
+          "natural": "In the event that the contractor received a penalty, if there is a steel material delay for the project, then the project has a schedule delay."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A9 | A10)",
+            "(A9 -> (A7 -> A8))",
+            "(A10 -> (A7 -> A8))"
+          ],
+          "conclusion": "(A7 -> A8)",
+          "natural": "Should the project have a steel material delay, the project has a schedule delay."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "-A7",
+          "natural": "The project does not have a steel material delay."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A6 -> A7)",
+            "-A7"
+          ],
+          "conclusion": "A6",
+          "natural": "The project has complete funding."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The project is on schedule."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A15)",
+            "(A15 -> (-(A12 -> G) -> A13))"
+          ],
+          "conclusion": "(A14 -> (-(A12 -> G) -> A13))",
+          "natural": "Given that the project has delay coverage insurance, if it is not the case that completing the foundation phase implies being on schedule, then the project incurred a cost overrun."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> (-(A12 -> G) -> A13))",
+            "A14"
+          ],
+          "conclusion": "(-(A12 -> G) -> A13)",
+          "natural": "If failing to complete the foundation phase implies not being on schedule, then the project incurred a cost overrun."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A12 -> G) -> A13)",
+            "-A13"
+          ],
+          "conclusion": "(A12 -> G)",
+          "natural": "Should the project complete the foundation phase, the project is on schedule."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A12)",
+            "(A12 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the project has zoning approval, the project is on schedule."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The project is on schedule."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A16 -> A18)",
+            "(A18 -> -A17)"
+          ],
+          "conclusion": "(A16 -> -A17)",
+          "natural": "Whenever steel material is available at the site, it is not the case that the crew can proceed with foundation work."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A16 -> A17)",
+            "(A16 -> -A17)"
+          ],
+          "conclusion": "-A16",
+          "natural": "Steel material is not available at the site."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A7 -> A16)",
+            "-A16"
+          ],
+          "conclusion": "-A7",
+          "natural": "The project does not have a steel material delay."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A6 -> A7)",
+            "-A7"
+          ],
+          "conclusion": "A6",
+          "natural": "The project has complete funding."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The project is on schedule."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Construction Project Management",
+    "atomic_facts": {
+      "A1": "has_approval(project, zoning)",
+      "A2": "has_approval(project, environmental)",
+      "A3": "has_approval(project, building_permit)",
+      "A4": "submitted_application(contractor, zoning)",
+      "A5": "submitted_application(contractor, environmental)",
+      "A6": "has_funding(project, complete)",
+      "A7": "has_material_delay(project, steel)",
+      "A8": "has_schedule_delay(project)",
+      "A9": "received_extension(contractor, deadline)",
+      "A10": "received_penalty(contractor)",
+      "A11": "terminated_contract(owner, contractor)",
+      "A12": "completed_phase(project, foundation)",
+      "A13": "incurred_cost_overrun(project)",
+      "A14": "has_insurance(project, delay_coverage)",
+      "A15": "active_coverage(insurance_policy)",
+      "A16": "material_available(site, steel)",
+      "A17": "work_can_proceed(crew, foundation)",
+      "A18": "alternative_material_approved(engineer, composite)",
+      "G": "on_schedule(project)"
+    },
+    "natural_facts": {
+      "A1": "The project has zoning approval.",
+      "A2": "The project has environmental approval.",
+      "A3": "The project has building permit approval.",
+      "A4": "The contractor submitted a zoning application.",
+      "A5": "The contractor submitted an environmental application.",
+      "A6": "The project has complete funding.",
+      "A7": "The project has a steel material delay.",
+      "A8": "The project has a schedule delay.",
+      "A9": "The contractor received a deadline extension.",
+      "A10": "The contractor received a penalty.",
+      "A11": "The owner terminated the contractor's contract.",
+      "A12": "The project completed the foundation phase.",
+      "A13": "The project incurred a cost overrun.",
+      "A14": "The project has delay coverage insurance.",
+      "A15": "The insurance policy has active coverage.",
+      "A16": "Steel material is available at the site.",
+      "A17": "The crew can proceed with foundation work.",
+      "A18": "The engineer approved an alternative composite material.",
+      "G": "The project is on schedule."
+    },
+    "prover9_expressions": [
+      "(has_approval(project, zoning) -> completed_phase(project, foundation))",
+      "(has_approval(project, zoning) -> has_approval(project, building_permit))",
+      "(has_approval(project, zoning) -> on_schedule(project))",
+      "(has_approval(project, zoning) | has_approval(project, environmental))",
+      "(received_penalty(contractor) -> (has_material_delay(project, steel) -> has_schedule_delay(project)))",
+      "(completed_phase(project, foundation) -> on_schedule(project))",
+      "(has_insurance(project, delay_coverage) -> (-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project)))",
+      "(has_insurance(project, delay_coverage) -> active_coverage(insurance_policy))",
+      "(active_coverage(insurance_policy) -> (-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project)))",
+      "(material_available(site, steel) -> work_can_proceed(crew, foundation))",
+      "(material_available(site, steel) -> alternative_material_approved(engineer, composite))",
+      "(material_available(site, steel) -> -work_can_proceed(crew, foundation))",
+      "(alternative_material_approved(engineer, composite) -> -work_can_proceed(crew, foundation))",
+      "(has_approval(project, environmental) -> on_schedule(project))",
+      "(has_approval(project, building_permit) -> on_schedule(project))",
+      "(submitted_application(contractor, zoning) -> (has_approval(project, building_permit) -> on_schedule(project)))",
+      "(submitted_application(contractor, zoning) | submitted_application(contractor, environmental))",
+      "(submitted_application(contractor, environmental) -> (has_approval(project, building_permit) -> on_schedule(project)))",
+      "(has_funding(project, complete) -> on_schedule(project))",
+      "(has_material_delay(project, steel) -> material_available(site, steel))",
+      "(has_material_delay(project, steel) -> has_schedule_delay(project))",
+      "(received_extension(contractor, deadline) -> (has_material_delay(project, steel) -> has_schedule_delay(project)))",
+      "(received_extension(contractor, deadline) | received_penalty(contractor))",
+      "(-(received_penalty(contractor) -> (has_material_delay(project, steel) -> has_schedule_delay(project))) -> terminated_contract(owner, contractor))",
+      "(-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project))",
+      "(-has_funding(project, complete) -> has_material_delay(project, steel))",
+      "has_insurance(project, delay_coverage)",
+      "has_funding(project, complete)",
+      "on_schedule(project)",
+      "-terminated_contract(owner, contractor)",
+      "-incurred_cost_overrun(project)",
+      "-material_available(site, steel)",
+      "-has_material_delay(project, steel)",
+      "-has_schedule_delay(project)"
+    ],
+    "natural_expressions": [
+      "If the project has zoning approval, then the project completed the foundation phase.",
+      "Provided that the project has zoning approval, the project has building permit approval.",
+      "Whenever the project has zoning approval, the project is on schedule.",
+      "Either the project has zoning approval or the project has environmental approval.",
+      "In the event that the contractor received a penalty, if there is a steel material delay for the project, then the project has a schedule delay.",
+      "Should the project complete the foundation phase, the project is on schedule.",
+      "Given that the project has delay coverage insurance, if it is not the case that completing the foundation phase implies being on schedule, then the project incurred a cost overrun.",
+      "If the project has delay coverage insurance, then the insurance policy has active coverage.",
+      "Assuming the insurance policy has active coverage, if failing to complete the foundation phase implies not being on schedule, then the project incurred a cost overrun.",
+      "Provided that steel material is available at the site, the crew can proceed with foundation work.",
+      "If steel material is available at the site, then the engineer approved an alternative composite material.",
+      "Whenever steel material is available at the site, it is not the case that the crew can proceed with foundation work.",
+      "In the event that the engineer approved an alternative composite material, the crew cannot proceed with foundation work.",
+      "If the project has environmental approval, then the project is on schedule.",
+      "Should the project have building permit approval, the project is on schedule.",
+      "Provided the contractor submitted a zoning application, if the project has building permit approval, then the project is on schedule.",
+      "Either the contractor submitted a zoning application or the contractor submitted an environmental application.",
+      "Assuming the contractor submitted an environmental application, if the project has building permit approval, then the project is on schedule.",
+      "If the project has complete funding, then the project is on schedule.",
+      "In the event that the project has a steel material delay, steel material is available at the site.",
+      "Should the project have a steel material delay, the project has a schedule delay.",
+      "Provided that the contractor received a deadline extension, if there is a steel material delay for the project, then the project has a schedule delay.",
+      "Either the contractor received a deadline extension or the contractor received a penalty.",
+      "If it is not the case that receiving a penalty implies that a steel material delay leads to a schedule delay, then the owner terminated the contractor's contract.",
+      "If failing to complete the foundation phase implies not being on schedule, then the project incurred a cost overrun.",
+      "In the event that the project does not have complete funding, the project has a steel material delay.",
+      "The project has delay coverage insurance.",
+      "The project has complete funding.",
+      "The project is on schedule.",
+      "It is not the case that the owner terminated the contractor's contract.",
+      "It is not the case that the project incurred a cost overrun.",
+      "Steel material is not available at the site.",
+      "The project does not have a steel material delay.",
+      "The project does not have a schedule delay."
+    ],
+    "node_mappings": {
+      "(A1 → A12)": {
+        "formal": "(A1 → A12)",
+        "prover9": "(A1 -> A12)",
+        "prover9_expression": "(has_approval(project, zoning) -> completed_phase(project, foundation))",
+        "natural": "If the project has zoning approval, then the project completed the foundation phase."
+      },
+      "(A1 → A3)": {
+        "formal": "(A1 → A3)",
+        "prover9": "(A1 -> A3)",
+        "prover9_expression": "(has_approval(project, zoning) -> has_approval(project, building_permit))",
+        "natural": "Provided that the project has zoning approval, the project has building permit approval."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_approval(project, zoning) -> on_schedule(project))",
+        "natural": "Whenever the project has zoning approval, the project is on schedule."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(has_approval(project, zoning) | has_approval(project, environmental))",
+        "natural": "Either the project has zoning approval or the project has environmental approval."
+      },
+      "(A10 → (A7 → A8))": {
+        "formal": "(A10 → (A7 → A8))",
+        "prover9": "(A10 -> (A7 -> A8))",
+        "prover9_expression": "(received_penalty(contractor) -> (has_material_delay(project, steel) -> has_schedule_delay(project)))",
+        "natural": "In the event that the contractor received a penalty, if there is a steel material delay for the project, then the project has a schedule delay."
+      },
+      "(A12 → G)": {
+        "formal": "(A12 → G)",
+        "prover9": "(A12 -> G)",
+        "prover9_expression": "(completed_phase(project, foundation) -> on_schedule(project))",
+        "natural": "Should the project complete the foundation phase, the project is on schedule."
+      },
+      "(A14 → (¬(A12 → G) → A13))": {
+        "formal": "(A14 → (¬(A12 → G) → A13))",
+        "prover9": "(A14 -> (-(A12 -> G) -> A13))",
+        "prover9_expression": "(has_insurance(project, delay_coverage) -> (-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project)))",
+        "natural": "Given that the project has delay coverage insurance, if it is not the case that completing the foundation phase implies being on schedule, then the project incurred a cost overrun."
+      },
+      "(A14 → A15)": {
+        "formal": "(A14 → A15)",
+        "prover9": "(A14 -> A15)",
+        "prover9_expression": "(has_insurance(project, delay_coverage) -> active_coverage(insurance_policy))",
+        "natural": "If the project has delay coverage insurance, then the insurance policy has active coverage."
+      },
+      "(A15 → (¬(A12 → G) → A13))": {
+        "formal": "(A15 → (¬(A12 → G) → A13))",
+        "prover9": "(A15 -> (-(A12 -> G) -> A13))",
+        "prover9_expression": "(active_coverage(insurance_policy) -> (-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project)))",
+        "natural": "Assuming the insurance policy has active coverage, if failing to complete the foundation phase implies not being on schedule, then the project incurred a cost overrun."
+      },
+      "(A16 → A17)": {
+        "formal": "(A16 → A17)",
+        "prover9": "(A16 -> A17)",
+        "prover9_expression": "(material_available(site, steel) -> work_can_proceed(crew, foundation))",
+        "natural": "Provided that steel material is available at the site, the crew can proceed with foundation work."
+      },
+      "(A16 → A18)": {
+        "formal": "(A16 → A18)",
+        "prover9": "(A16 -> A18)",
+        "prover9_expression": "(material_available(site, steel) -> alternative_material_approved(engineer, composite))",
+        "natural": "If steel material is available at the site, then the engineer approved an alternative composite material."
+      },
+      "(A16 → ¬A17)": {
+        "formal": "(A16 → ¬A17)",
+        "prover9": "(A16 -> -A17)",
+        "prover9_expression": "(material_available(site, steel) -> -work_can_proceed(crew, foundation))",
+        "natural": "Whenever steel material is available at the site, it is not the case that the crew can proceed with foundation work."
+      },
+      "(A18 → ¬A17)": {
+        "formal": "(A18 → ¬A17)",
+        "prover9": "(A18 -> -A17)",
+        "prover9_expression": "(alternative_material_approved(engineer, composite) -> -work_can_proceed(crew, foundation))",
+        "natural": "In the event that the engineer approved an alternative composite material, the crew cannot proceed with foundation work."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(has_approval(project, environmental) -> on_schedule(project))",
+        "natural": "If the project has environmental approval, then the project is on schedule."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(has_approval(project, building_permit) -> on_schedule(project))",
+        "natural": "Should the project have building permit approval, the project is on schedule."
+      },
+      "(A4 → (A3 → G))": {
+        "formal": "(A4 → (A3 → G))",
+        "prover9": "(A4 -> (A3 -> G))",
+        "prover9_expression": "(submitted_application(contractor, zoning) -> (has_approval(project, building_permit) -> on_schedule(project)))",
+        "natural": "Provided the contractor submitted a zoning application, if the project has building permit approval, then the project is on schedule."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(submitted_application(contractor, zoning) | submitted_application(contractor, environmental))",
+        "natural": "Either the contractor submitted a zoning application or the contractor submitted an environmental application."
+      },
+      "(A5 → (A3 → G))": {
+        "formal": "(A5 → (A3 → G))",
+        "prover9": "(A5 -> (A3 -> G))",
+        "prover9_expression": "(submitted_application(contractor, environmental) -> (has_approval(project, building_permit) -> on_schedule(project)))",
+        "natural": "Assuming the contractor submitted an environmental application, if the project has building permit approval, then the project is on schedule."
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(has_funding(project, complete) -> on_schedule(project))",
+        "natural": "If the project has complete funding, then the project is on schedule."
+      },
+      "(A7 → A16)": {
+        "formal": "(A7 → A16)",
+        "prover9": "(A7 -> A16)",
+        "prover9_expression": "(has_material_delay(project, steel) -> material_available(site, steel))",
+        "natural": "In the event that the project has a steel material delay, steel material is available at the site."
+      },
+      "(A7 → A8)": {
+        "formal": "(A7 → A8)",
+        "prover9": "(A7 -> A8)",
+        "prover9_expression": "(has_material_delay(project, steel) -> has_schedule_delay(project))",
+        "natural": "Should the project have a steel material delay, the project has a schedule delay."
+      },
+      "(A9 → (A7 → A8))": {
+        "formal": "(A9 → (A7 → A8))",
+        "prover9": "(A9 -> (A7 -> A8))",
+        "prover9_expression": "(received_extension(contractor, deadline) -> (has_material_delay(project, steel) -> has_schedule_delay(project)))",
+        "natural": "Provided that the contractor received a deadline extension, if there is a steel material delay for the project, then the project has a schedule delay."
+      },
+      "(A9 ∨ A10)": {
+        "formal": "(A9 ∨ A10)",
+        "prover9": "(A9 | A10)",
+        "prover9_expression": "(received_extension(contractor, deadline) | received_penalty(contractor))",
+        "natural": "Either the contractor received a deadline extension or the contractor received a penalty."
+      },
+      "(¬(A10 → (A7 → A8)) → A11)": {
+        "formal": "(¬(A10 → (A7 → A8)) → A11)",
+        "prover9": "(-(A10 -> (A7 -> A8)) -> A11)",
+        "prover9_expression": "(-(received_penalty(contractor) -> (has_material_delay(project, steel) -> has_schedule_delay(project))) -> terminated_contract(owner, contractor))",
+        "natural": "If it is not the case that receiving a penalty implies that a steel material delay leads to a schedule delay, then the owner terminated the contractor's contract."
+      },
+      "(¬(A12 → G) → A13)": {
+        "formal": "(¬(A12 → G) → A13)",
+        "prover9": "(-(A12 -> G) -> A13)",
+        "prover9_expression": "(-(completed_phase(project, foundation) -> on_schedule(project)) -> incurred_cost_overrun(project))",
+        "natural": "If failing to complete the foundation phase implies not being on schedule, then the project incurred a cost overrun."
+      },
+      "(¬A6 → A7)": {
+        "formal": "(¬A6 → A7)",
+        "prover9": "(-A6 -> A7)",
+        "prover9_expression": "(-has_funding(project, complete) -> has_material_delay(project, steel))",
+        "natural": "In the event that the project does not have complete funding, the project has a steel material delay."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "has_insurance(project, delay_coverage)",
+        "natural": "The project has delay coverage insurance."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "has_funding(project, complete)",
+        "natural": "The project has complete funding."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "on_schedule(project)",
+        "natural": "The project is on schedule."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-terminated_contract(owner, contractor)",
+        "natural": "It is not the case that the owner terminated the contractor's contract."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-incurred_cost_overrun(project)",
+        "natural": "It is not the case that the project incurred a cost overrun."
+      },
+      "¬A16": {
+        "formal": "¬A16",
+        "prover9": "-A16",
+        "prover9_expression": "-material_available(site, steel)",
+        "natural": "Steel material is not available at the site."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-has_material_delay(project, steel)",
+        "natural": "The project does not have a steel material delay."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-has_schedule_delay(project)",
+        "natural": "The project does not have a schedule delay."
+      }
+    }
+  }
+}

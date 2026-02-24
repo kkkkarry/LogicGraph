@@ -1,0 +1,2096 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 8,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "(prohibited(event1) -> approved(event1))",
+        "natural": "If event1 is prohibited, then event1 is approved."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 → ¬A31)",
+        "prover9_expression": "(prohibited(event1) -> -high_alcohol_content(wine1))",
+        "natural": "In the event that event1 is prohibited, it is not the case that wine1 has high alcohol content."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 ∨ (A9 → (A7 → G)))",
+        "prover9_expression": "(label_approved(wine1) | (filtered_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1))))",
+        "natural": "Either the label of wine1 is approved or, if wine1 is filtered properly, then fermentation of wine1 being complete implies wine1 is ready for sale."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 ∨ ¬A10)",
+        "prover9_expression": "(alcohol_content_verified(wine1) | -label_approved(wine1))",
+        "natural": "Either the alcohol content of wine1 is verified or the label of wine1 is not approved."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 ∨ ¬A11)",
+        "prover9_expression": "(origin_certified(region1) | -alcohol_content_verified(wine1))",
+        "natural": "Either the origin of region1 is certified or the alcohol content of wine1 is not verified."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 → ¬A13)",
+        "prover9_expression": "(chemical_treatment(wine1) -> -contaminated(wine1))",
+        "natural": "If wine1 has undergone chemical treatment, then wine1 is not contaminated."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A15 → ¬A13)",
+        "prover9_expression": "(natural_clarification(wine1) -> -contaminated(wine1))",
+        "natural": "If wine1 has undergone natural clarification, then wine1 is not contaminated."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A16 → (A14 ∨ A15))",
+        "prover9_expression": "(sale_authorized(wine1) -> (chemical_treatment(wine1) | natural_clarification(wine1)))",
+        "natural": "If sale of wine1 is authorized, then either wine1 has undergone chemical treatment or wine1 has undergone natural clarification."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(domestic_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "Should wine1 be sold domestically, then sale of wine1 is authorized."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A17 ∨ A18)",
+        "prover9_expression": "(domestic_sale(wine1) | regional_sale(wine1))",
+        "natural": "Either wine1 is sold domestically or wine1 is sold regionally."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A18 → A19)",
+        "prover9_expression": "(regional_sale(wine1) -> national_sale(wine1))",
+        "natural": "When wine1 is sold regionally, then wine1 is sold nationally."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A19 → A20)",
+        "prover9_expression": "(national_sale(wine1) -> international_sale(wine1))",
+        "natural": "If wine1 is sold nationally, then wine1 is sold internationally."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A20 → A21)",
+        "prover9_expression": "(international_sale(wine1) -> specialty_sale(wine1))",
+        "natural": "If wine1 is sold internationally, then wine1 is sold as a specialty item."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A21 → A16)",
+        "prover9_expression": "(specialty_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "Provided wine1 is sold as a specialty item, sale of wine1 is authorized."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A23 ∨ ¬A22)",
+        "prover9_expression": "(banned_region(region1) | -vintage_year(period1))",
+        "natural": "Either region1 is a banned region or period1 is not a vintage year."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A24 → ¬A23)",
+        "prover9_expression": "(political_sanctions(region1) -> -banned_region(region1))",
+        "natural": "If region1 is under political sanctions, then region1 is not a banned region."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A24 ∨ A25)",
+        "prover9_expression": "(political_sanctions(region1) | quality_violations(region1))",
+        "natural": "Either region1 is under political sanctions or region1 has quality violations."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A25 → A26)",
+        "prover9_expression": "(quality_violations(region1) -> import_restricted(region1))",
+        "natural": "On condition that region1 has quality violations, import to region1 is restricted."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A27 → A29)",
+        "prover9_expression": "(trade_embargo(region1) -> environmental_violations(region1))",
+        "natural": "Provided a trade embargo applies to region1, region1 has environmental violations."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A27 ∨ A28)",
+        "prover9_expression": "(trade_embargo(region1) | health_concerns(region1))",
+        "natural": "Either a trade embargo applies to region1 or health concerns exist for region1."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A28 → (A26 → ¬A23))",
+        "prover9_expression": "(health_concerns(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+        "natural": "If health concerns exist for region1, then import to region1 being restricted implies region1 is not a banned region."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A32 → A31)",
+        "prover9_expression": "(fortified_wine(wine1) -> high_alcohol_content(wine1))",
+        "natural": "When wine1 is a fortified wine, then wine1 has high alcohol content."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A33 ∨ (A1 → A32))",
+        "prover9_expression": "(traditional_method(region1) | (prohibited(event1) -> fortified_wine(wine1)))",
+        "natural": "Either region1 uses traditional methods or, if event1 is prohibited, then wine1 is a fortified wine."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A34 → ¬A33)",
+        "prover9_expression": "(modern_equipment(region1) -> -traditional_method(region1))",
+        "natural": "Should region1 use modern equipment, then region1 does not use traditional methods."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A34 ∨ A35)",
+        "prover9_expression": "(modern_equipment(region1) | hybrid_approach(region1))",
+        "natural": "Either region1 uses modern equipment or region1 uses a hybrid approach."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A36 ∨ (A35 → ¬A33))",
+        "prover9_expression": "(experimental_process(region1) | (hybrid_approach(region1) -> -traditional_method(region1)))",
+        "natural": "Either region1 uses an experimental process or, if region1 uses a hybrid approach, then region1 does not use traditional methods."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A37 → A39)",
+        "prover9_expression": "(organic_certified(region1) -> sustainable_certified(region1))",
+        "natural": "Provided region1 is organically certified, region1 is sustainably certified."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A37 ∨ A38)",
+        "prover9_expression": "(organic_certified(region1) | biodynamic_certified(region1))",
+        "natural": "Either region1 is organically certified or region1 is biodynamically certified."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A38 → (A3 → ¬A2))",
+        "prover9_expression": "(biodynamic_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+        "natural": "If region1 is biodynamically certified, then period1 being a harvest season implies event1 is not approved."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A40 → (A3 → ¬A2))",
+        "prover9_expression": "(eco_friendly_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+        "natural": "Provided region1 is eco-friendly certified, period1 being a harvest season implies event1 is not approved."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A43 ∨ (¬(A41 → (A39 → A40)) → A42))",
+        "prover9_expression": "(counterfeit_wine(wine1) | (-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> standard_quality(wine1)))",
+        "natural": "Either wine1 is counterfeit or, if it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is of standard quality."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A44 → ¬A43)",
+        "prover9_expression": "(laboratory_tested(wine1) -> -counterfeit_wine(wine1))",
+        "natural": "Should wine1 have been laboratory tested, then wine1 is not counterfeit."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A44 ∨ A45)",
+        "prover9_expression": "(laboratory_tested(wine1) | expert_verified(wine1))",
+        "natural": "Either wine1 has been laboratory tested or wine1 has been verified by an expert."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A45 → ¬A43)",
+        "prover9_expression": "(expert_verified(wine1) -> -counterfeit_wine(wine1))",
+        "natural": "If wine1 has been verified by an expert, then wine1 is not counterfeit."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A46 → ¬A23)",
+        "prover9_expression": "(authentic_wine(wine1) -> -banned_region(region1))",
+        "natural": "In the case that wine1 is authentic, then region1 is not a banned region."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A47 ∨ A46)",
+        "prover9_expression": "(mislabeled_wine(wine1) | authentic_wine(wine1))",
+        "natural": "Either wine1 is mislabeled or wine1 is authentic."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A48 → ¬A47)",
+        "prover9_expression": "(proper_documentation(wine1) -> -mislabeled_wine(wine1))",
+        "natural": "When wine1 has proper documentation, then wine1 is not mislabeled."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A49 → ¬A47)",
+        "prover9_expression": "(verified_origin(wine1) -> -mislabeled_wine(wine1))",
+        "natural": "Provided the origin of wine1 is verified, then wine1 is not mislabeled."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(certification_granted(region1) -> export_allowed(wine1))",
+        "natural": "Should region1 have been granted certification, then export of wine1 is allowed."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A50 → (A48 ∨ A49))",
+        "prover9_expression": "(import_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))",
+        "natural": "If import of wine1 is approved, then either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A50 ∨ A51)",
+        "prover9_expression": "(import_approved(wine1) | export_approved(wine1))",
+        "natural": "Either import of wine1 is approved or export of wine1 is approved."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A52 → (A51 → (A48 ∨ A49)))",
+        "prover9_expression": "(trade_agreement(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1))))",
+        "natural": "If a trade agreement exists for region1, then export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A52 ∨ A53)",
+        "prover9_expression": "(trade_agreement(region1) | bilateral_treaty(region1))",
+        "natural": "Either a trade agreement exists for region1 or a bilateral treaty exists for region1."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A55 → ¬A54)",
+        "prover9_expression": "(market_demand(wine1) -> -trade_dispute(region1))",
+        "natural": "In the event there is market demand for wine1, then a trade dispute does not exist for region1."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A55 ∨ A56)",
+        "prover9_expression": "(market_demand(wine1) | limited_edition(wine1))",
+        "natural": "Either there is market demand for wine1 or wine1 is a limited edition."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A56 → ¬A54)",
+        "prover9_expression": "(limited_edition(wine1) -> -trade_dispute(region1))",
+        "natural": "If wine1 is a limited edition, then a trade dispute does not exist for region1."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A58 → (A57 ∨ ¬A22))",
+        "prover9_expression": "(collector_item(wine1) -> (rare_vintage(wine1) | -vintage_year(period1)))",
+        "natural": "Should wine1 be a collector's item, then either wine1 is a rare vintage or period1 is not a vintage year."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A59 → (A57 ∨ ¬A22))",
+        "prover9_expression": "(investment_grade(wine1) -> (rare_vintage(wine1) | -vintage_year(period1)))",
+        "natural": "Provided wine1 is investment grade, then either wine1 is a rare vintage or period1 is not a vintage year."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A6 → (A4 ∨ (A3 → ¬A2)))",
+        "prover9_expression": "(export_allowed(wine1) -> (quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1))))",
+        "natural": "If export of wine1 is allowed, then either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(A60 → (A58 ∨ A59))",
+        "prover9_expression": "(available_market(wine1) -> (collector_item(wine1) | investment_grade(wine1)))",
+        "natural": "When wine1 is available on the market, then either wine1 is a collector's item or wine1 is investment grade."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(A8 → (A7 → G))",
+        "prover9_expression": "(aged_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1)))",
+        "natural": "Provided wine1 has been aged properly, then fermentation of wine1 being complete implies wine1 is ready for sale."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(aged_properly(wine1) | filtered_properly(wine1))",
+        "natural": "Either wine1 has been aged properly or wine1 has been filtered properly."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(¬(A29 → (A26 → ¬A23)) → A30)",
+        "prover9_expression": "(-(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1))) -> temporary_ban(region1))",
+        "natural": "If it is not the case that region1 having environmental violations implies import to region1 being restricted implies region1 is not a banned region, then a temporary ban applies to region1."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(¬(A29 → (A26 → ¬A23)) → ¬A30)",
+        "prover9_expression": "(-(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1))) -> -temporary_ban(region1))",
+        "natural": "If it is not the case that region1 having environmental violations implies import to region1 being restricted implies region1 is not a banned region, then a temporary ban does not apply to region1."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(¬(A41 → (A39 → A40)) → ¬A42)",
+        "prover9_expression": "(-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> -standard_quality(wine1))",
+        "natural": "If it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is not of standard quality."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(¬(A53 → (A51 → (A48 ∨ A49))) → A54)",
+        "prover9_expression": "(-(bilateral_treaty(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))) -> trade_dispute(region1))",
+        "natural": "Should it not be the case that a bilateral treaty existing for region1 implies export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified, then a trade dispute exists for region1."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(¬A60 → A61)",
+        "prover9_expression": "(-available_market(wine1) -> reserved_stock(wine1))",
+        "natural": "In the event wine1 is not available on the market, then wine1 is in reserved stock."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(¬A60 → ¬A61)",
+        "prover9_expression": "(-available_market(wine1) -> -reserved_stock(wine1))",
+        "natural": "If wine1 is not available on the market, then wine1 is not in reserved stock."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-ready_for_sale(wine1) -> prohibited(event1))",
+        "natural": "Provided wine1 is not ready for sale, then event1 is prohibited."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬G → A13)",
+        "prover9_expression": "(-ready_for_sale(wine1) -> contaminated(wine1))",
+        "natural": "If wine1 is not ready for sale, then wine1 is contaminated."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬G → A22)",
+        "prover9_expression": "(-ready_for_sale(wine1) -> vintage_year(period1))",
+        "natural": "When wine1 is not ready for sale, then period1 is a vintage year."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A3",
+        "prover9_expression": "harvest_season(period1)",
+        "natural": "Period1 is a harvest season."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A41",
+        "prover9_expression": "premium_quality(wine1)",
+        "natural": "Wine1 is of premium quality."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A5",
+        "prover9_expression": "certification_granted(region1)",
+        "natural": "Region1 has been granted certification."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A7",
+        "prover9_expression": "fermentation_complete(wine1)",
+        "natural": "Fermentation of wine1 is complete."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A12",
+        "prover9_expression": "-origin_certified(region1)",
+        "natural": "The origin of region1 is not certified."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A36",
+        "prover9_expression": "-experimental_process(region1)",
+        "natural": "Region1 does not use an experimental process."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A4",
+        "prover9_expression": "-quality_test_passed(wine1)",
+        "natural": "Wine1 has not passed quality testing."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A57",
+        "prover9_expression": "-rare_vintage(wine1)",
+        "natural": "Wine1 is not a rare vintage."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "ready_for_sale(wine1)",
+    "natural": "Wine1 is ready for sale."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A6)",
+            "(A6 -> (A4 | (A3 -> -A2)))"
+          ],
+          "conclusion": "(A5 -> (A4 | (A3 -> -A2)))",
+          "natural": "If region1 has been granted certification, then either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> (A4 | (A3 -> -A2)))",
+            "A5"
+          ],
+          "conclusion": "(A4 | (A3 -> -A2))",
+          "natural": "Either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A3 -> -A2))",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> -A2)",
+          "natural": "If period1 is a harvest season, then event1 is not approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A2)",
+            "A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "Event1 is not approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "Event1 is not prohibited."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | -A11)",
+            "-A12"
+          ],
+          "conclusion": "-A11",
+          "natural": "The alcohol content of wine1 is not verified."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | -A10)",
+            "-A11"
+          ],
+          "conclusion": "-A10",
+          "natural": "The label of wine1 is not approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A9 -> (A7 -> G)))",
+            "-A10"
+          ],
+          "conclusion": "(A9 -> (A7 -> G))",
+          "natural": "If wine1 has been filtered properly, then fermentation of wine1 being complete implies wine1 is ready for sale."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A7 -> G))",
+            "(A9 -> (A7 -> G))"
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "If fermentation of wine1 is complete, then wine1 is ready for sale."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> G)",
+            "A7"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A20 -> A21)",
+            "(A21 -> A16)"
+          ],
+          "conclusion": "(A20 -> A16)",
+          "natural": "Given that wine1 is sold internationally, sale of wine1 is authorized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A19 -> A20)",
+            "(A20 -> A16)"
+          ],
+          "conclusion": "(A19 -> A16)",
+          "natural": "In the case that wine1 is sold nationally, sale of wine1 is authorized."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A18 -> A19)",
+            "(A19 -> A16)"
+          ],
+          "conclusion": "(A18 -> A16)",
+          "natural": "Provided that wine1 is sold regionally, sale of wine1 is authorized."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> A16)",
+            "(A18 -> A16)"
+          ],
+          "conclusion": "A16",
+          "natural": "Sale of wine1 is authorized."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> (A14 | A15))",
+            "A16"
+          ],
+          "conclusion": "(A14 | A15)",
+          "natural": "Either wine1 has undergone chemical treatment or wine1 has undergone natural clarification."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> -A13)",
+            "(A15 -> -A13)"
+          ],
+          "conclusion": "-A13",
+          "natural": "Wine1 is not contaminated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A13)",
+            "-A13"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A29 -> (A26 -> -A23)) -> A30)",
+            "(-(A29 -> (A26 -> -A23)) -> -A30)"
+          ],
+          "conclusion": "(A29 -> (A26 -> -A23))",
+          "natural": "In the event that region1 has environmental violations, then import to region1 being restricted implies region1 is not a banned region."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A27 -> A29)",
+            "(A29 -> (A26 -> -A23))"
+          ],
+          "conclusion": "(A27 -> (A26 -> -A23))",
+          "natural": "If a trade embargo applies to region1, then import to region1 being restricted implies region1 is not a banned region."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A27 | A28)",
+            "(A27 -> (A26 -> -A23))",
+            "(A28 -> (A26 -> -A23))"
+          ],
+          "conclusion": "(A26 -> -A23)",
+          "natural": "When import to region1 is restricted, then region1 is not a banned region."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A25 -> A26)",
+            "(A26 -> -A23)"
+          ],
+          "conclusion": "(A25 -> -A23)",
+          "natural": "If region1 has quality violations, then region1 is not a banned region."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> -A23)",
+            "(A25 -> -A23)"
+          ],
+          "conclusion": "-A23",
+          "natural": "Region1 is not a banned region."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A23 | -A22)",
+            "-A23"
+          ],
+          "conclusion": "-A22",
+          "natural": "Period1 is not a vintage year."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A22)",
+            "-A22"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A36 | (A35 -> -A33))",
+            "-A36"
+          ],
+          "conclusion": "(A35 -> -A33)",
+          "natural": "If region1 uses a hybrid approach, then region1 does not use traditional methods."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A34 | A35)",
+            "(A34 -> -A33)",
+            "(A35 -> -A33)"
+          ],
+          "conclusion": "-A33",
+          "natural": "Region1 does not use traditional methods."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A33 | (A1 -> A32))",
+            "-A33"
+          ],
+          "conclusion": "(A1 -> A32)",
+          "natural": "Whenever event1 is prohibited, wine1 is a fortified wine."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A32)",
+            "(A32 -> A31)"
+          ],
+          "conclusion": "(A1 -> A31)",
+          "natural": "Provided that event1 is prohibited, wine1 has high alcohol content."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A1 -> A31)",
+            "(A1 -> -A31)"
+          ],
+          "conclusion": "-A1",
+          "natural": "Event1 is not prohibited."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A44 | A45)",
+            "(A44 -> -A43)",
+            "(A45 -> -A43)"
+          ],
+          "conclusion": "-A43",
+          "natural": "Wine1 is not counterfeit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A43 | (-(A41 -> (A39 -> A40)) -> A42))",
+            "-A43"
+          ],
+          "conclusion": "(-(A41 -> (A39 -> A40)) -> A42)",
+          "natural": "Provided it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is of standard quality."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A41 -> (A39 -> A40)) -> A42)",
+            "(-(A41 -> (A39 -> A40)) -> -A42)"
+          ],
+          "conclusion": "(A41 -> (A39 -> A40))",
+          "natural": "If wine1 is of premium quality, then region1 being sustainably certified implies region1 is eco-friendly certified."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A41 -> (A39 -> A40))",
+            "A41"
+          ],
+          "conclusion": "(A39 -> A40)",
+          "natural": "If region1 is sustainably certified, then region1 is eco-friendly certified."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A39 -> A40)",
+            "(A40 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A39 -> (A3 -> -A2))",
+          "natural": "When region1 is sustainably certified, then period1 being a harvest season implies event1 is not approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A37 -> A39)",
+            "(A39 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A37 -> (A3 -> -A2))",
+          "natural": "If region1 is organically certified, then period1 being a harvest season implies event1 is not approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A37 | A38)",
+            "(A37 -> (A3 -> -A2))",
+            "(A38 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A3 -> -A2)",
+          "natural": "If period1 is a harvest season, then event1 is not approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A2)",
+            "A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "Event1 is not approved."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "Event1 is not prohibited."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A55 | A56)",
+            "(A55 -> -A54)",
+            "(A56 -> -A54)"
+          ],
+          "conclusion": "-A54",
+          "natural": "A trade dispute does not exist for region1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A53 -> (A51 -> (A48 | A49))) -> A54)",
+            "-A54"
+          ],
+          "conclusion": "(A53 -> (A51 -> (A48 | A49)))",
+          "natural": "Provided a bilateral treaty exists for region1, then export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A52 | A53)",
+            "(A52 -> (A51 -> (A48 | A49)))",
+            "(A53 -> (A51 -> (A48 | A49)))"
+          ],
+          "conclusion": "(A51 -> (A48 | A49))",
+          "natural": "When export of wine1 is approved, then either wine1 has proper documentation or the origin of wine1 is verified."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A50 | A51)",
+            "(A50 -> (A48 | A49))",
+            "(A51 -> (A48 | A49))"
+          ],
+          "conclusion": "(A48 | A49)",
+          "natural": "Either wine1 has proper documentation or the origin of wine1 is verified."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A48 | A49)",
+            "(A48 -> -A47)",
+            "(A49 -> -A47)"
+          ],
+          "conclusion": "-A47",
+          "natural": "Wine1 is not mislabeled."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A47 | A46)",
+            "-A47"
+          ],
+          "conclusion": "A46",
+          "natural": "Wine1 is authentic."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A46 -> -A23)",
+            "A46"
+          ],
+          "conclusion": "-A23",
+          "natural": "Region1 is not a banned region."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A23 | -A22)",
+            "-A23"
+          ],
+          "conclusion": "-A22",
+          "natural": "Period1 is not a vintage year."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A22)",
+            "-A22"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A60 -> A61)",
+            "(-A60 -> -A61)"
+          ],
+          "conclusion": "A60",
+          "natural": "Wine1 is available on the market."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A60 -> (A58 | A59))",
+            "A60"
+          ],
+          "conclusion": "(A58 | A59)",
+          "natural": "Either wine1 is a collector's item or wine1 is investment grade."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A58 | A59)",
+            "(A58 -> (A57 | -A22))",
+            "(A59 -> (A57 | -A22))"
+          ],
+          "conclusion": "(A57 | -A22)",
+          "natural": "Either wine1 is a rare vintage or period1 is not a vintage year."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A57 | -A22)",
+            "-A57"
+          ],
+          "conclusion": "-A22",
+          "natural": "Period1 is not a vintage year."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A22)",
+            "-A22"
+          ],
+          "conclusion": "G",
+          "natural": "Wine1 is ready for sale."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Wine Production Regulations",
+    "atomic_facts": {
+      "A1": "prohibited(event1)",
+      "A2": "approved(event1)",
+      "A3": "harvest_season(period1)",
+      "A4": "quality_test_passed(wine1)",
+      "A5": "certification_granted(region1)",
+      "A6": "export_allowed(wine1)",
+      "A7": "fermentation_complete(wine1)",
+      "A8": "aged_properly(wine1)",
+      "A9": "filtered_properly(wine1)",
+      "A10": "label_approved(wine1)",
+      "A11": "alcohol_content_verified(wine1)",
+      "A12": "origin_certified(region1)",
+      "A13": "contaminated(wine1)",
+      "A14": "chemical_treatment(wine1)",
+      "A15": "natural_clarification(wine1)",
+      "A16": "sale_authorized(wine1)",
+      "A17": "domestic_sale(wine1)",
+      "A18": "regional_sale(wine1)",
+      "A19": "national_sale(wine1)",
+      "A20": "international_sale(wine1)",
+      "A21": "specialty_sale(wine1)",
+      "A22": "vintage_year(period1)",
+      "A23": "banned_region(region1)",
+      "A24": "political_sanctions(region1)",
+      "A25": "quality_violations(region1)",
+      "A26": "import_restricted(region1)",
+      "A27": "trade_embargo(region1)",
+      "A28": "health_concerns(region1)",
+      "A29": "environmental_violations(region1)",
+      "A30": "temporary_ban(region1)",
+      "A31": "high_alcohol_content(wine1)",
+      "A32": "fortified_wine(wine1)",
+      "A33": "traditional_method(region1)",
+      "A34": "modern_equipment(region1)",
+      "A35": "hybrid_approach(region1)",
+      "A36": "experimental_process(region1)",
+      "A37": "organic_certified(region1)",
+      "A38": "biodynamic_certified(region1)",
+      "A39": "sustainable_certified(region1)",
+      "A40": "eco_friendly_certified(region1)",
+      "A41": "premium_quality(wine1)",
+      "A42": "standard_quality(wine1)",
+      "A43": "counterfeit_wine(wine1)",
+      "A44": "laboratory_tested(wine1)",
+      "A45": "expert_verified(wine1)",
+      "A46": "authentic_wine(wine1)",
+      "A47": "mislabeled_wine(wine1)",
+      "A48": "proper_documentation(wine1)",
+      "A49": "verified_origin(wine1)",
+      "A50": "import_approved(wine1)",
+      "A51": "export_approved(wine1)",
+      "A52": "trade_agreement(region1)",
+      "A53": "bilateral_treaty(region1)",
+      "A54": "trade_dispute(region1)",
+      "A55": "market_demand(wine1)",
+      "A56": "limited_edition(wine1)",
+      "A57": "rare_vintage(wine1)",
+      "A58": "collector_item(wine1)",
+      "A59": "investment_grade(wine1)",
+      "A60": "available_market(wine1)",
+      "A61": "reserved_stock(wine1)",
+      "G": "ready_for_sale(wine1)"
+    },
+    "natural_facts": {
+      "A1": "Event1 is prohibited.",
+      "A2": "Event1 is approved.",
+      "A3": "Period1 is a harvest season.",
+      "A4": "Wine1 has passed quality testing.",
+      "A5": "Region1 has been granted certification.",
+      "A6": "Export of wine1 is allowed.",
+      "A7": "Fermentation of wine1 is complete.",
+      "A8": "Wine1 has been aged properly.",
+      "A9": "Wine1 has been filtered properly.",
+      "A10": "The label of wine1 is approved.",
+      "A11": "The alcohol content of wine1 is verified.",
+      "A12": "The origin of region1 is certified.",
+      "A13": "Wine1 is contaminated.",
+      "A14": "Wine1 has undergone chemical treatment.",
+      "A15": "Wine1 has undergone natural clarification.",
+      "A16": "Sale of wine1 is authorized.",
+      "A17": "Wine1 is sold domestically.",
+      "A18": "Wine1 is sold regionally.",
+      "A19": "Wine1 is sold nationally.",
+      "A20": "Wine1 is sold internationally.",
+      "A21": "Wine1 is sold as a specialty item.",
+      "A22": "Period1 is a vintage year.",
+      "A23": "Region1 is a banned region.",
+      "A24": "Region1 is under political sanctions.",
+      "A25": "Region1 has quality violations.",
+      "A26": "Import to region1 is restricted.",
+      "A27": "A trade embargo applies to region1.",
+      "A28": "Health concerns exist for region1.",
+      "A29": "Region1 has environmental violations.",
+      "A30": "A temporary ban applies to region1.",
+      "A31": "Wine1 has high alcohol content.",
+      "A32": "Wine1 is a fortified wine.",
+      "A33": "Region1 uses traditional methods.",
+      "A34": "Region1 uses modern equipment.",
+      "A35": "Region1 uses a hybrid approach.",
+      "A36": "Region1 uses an experimental process.",
+      "A37": "Region1 is organically certified.",
+      "A38": "Region1 is biodynamically certified.",
+      "A39": "Region1 is sustainably certified.",
+      "A40": "Region1 is eco-friendly certified.",
+      "A41": "Wine1 is of premium quality.",
+      "A42": "Wine1 is of standard quality.",
+      "A43": "Wine1 is counterfeit.",
+      "A44": "Wine1 has been laboratory tested.",
+      "A45": "Wine1 has been verified by an expert.",
+      "A46": "Wine1 is authentic.",
+      "A47": "Wine1 is mislabeled.",
+      "A48": "Wine1 has proper documentation.",
+      "A49": "The origin of wine1 is verified.",
+      "A50": "Import of wine1 is approved.",
+      "A51": "Export of wine1 is approved.",
+      "A52": "A trade agreement exists for region1.",
+      "A53": "A bilateral treaty exists for region1.",
+      "A54": "A trade dispute exists for region1.",
+      "A55": "There is market demand for wine1.",
+      "A56": "Wine1 is a limited edition.",
+      "A57": "Wine1 is a rare vintage.",
+      "A58": "Wine1 is a collector's item.",
+      "A59": "Wine1 is investment grade.",
+      "A60": "Wine1 is available on the market.",
+      "A61": "Wine1 is in reserved stock.",
+      "G": "Wine1 is ready for sale."
+    },
+    "prover9_expressions": [
+      "(prohibited(event1) -> approved(event1))",
+      "(prohibited(event1) -> high_alcohol_content(wine1))",
+      "(prohibited(event1) -> fortified_wine(wine1))",
+      "(prohibited(event1) -> -high_alcohol_content(wine1))",
+      "(label_approved(wine1) | (filtered_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1))))",
+      "(alcohol_content_verified(wine1) | -label_approved(wine1))",
+      "(origin_certified(region1) | -alcohol_content_verified(wine1))",
+      "(chemical_treatment(wine1) -> -contaminated(wine1))",
+      "(chemical_treatment(wine1) | natural_clarification(wine1))",
+      "(natural_clarification(wine1) -> -contaminated(wine1))",
+      "(sale_authorized(wine1) -> (chemical_treatment(wine1) | natural_clarification(wine1)))",
+      "(domestic_sale(wine1) -> sale_authorized(wine1))",
+      "(domestic_sale(wine1) | regional_sale(wine1))",
+      "(regional_sale(wine1) -> sale_authorized(wine1))",
+      "(regional_sale(wine1) -> national_sale(wine1))",
+      "(national_sale(wine1) -> sale_authorized(wine1))",
+      "(national_sale(wine1) -> international_sale(wine1))",
+      "(international_sale(wine1) -> sale_authorized(wine1))",
+      "(international_sale(wine1) -> specialty_sale(wine1))",
+      "(specialty_sale(wine1) -> sale_authorized(wine1))",
+      "(banned_region(region1) | -vintage_year(period1))",
+      "(political_sanctions(region1) -> -banned_region(region1))",
+      "(political_sanctions(region1) | quality_violations(region1))",
+      "(quality_violations(region1) -> import_restricted(region1))",
+      "(quality_violations(region1) -> -banned_region(region1))",
+      "(import_restricted(region1) -> -banned_region(region1))",
+      "(trade_embargo(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+      "(trade_embargo(region1) -> environmental_violations(region1))",
+      "(trade_embargo(region1) | health_concerns(region1))",
+      "(health_concerns(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+      "(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+      "(harvest_season(period1) -> -approved(event1))",
+      "(fortified_wine(wine1) -> high_alcohol_content(wine1))",
+      "(traditional_method(region1) | (prohibited(event1) -> fortified_wine(wine1)))",
+      "(modern_equipment(region1) -> -traditional_method(region1))",
+      "(modern_equipment(region1) | hybrid_approach(region1))",
+      "(hybrid_approach(region1) -> -traditional_method(region1))",
+      "(experimental_process(region1) | (hybrid_approach(region1) -> -traditional_method(region1)))",
+      "(organic_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+      "(organic_certified(region1) -> sustainable_certified(region1))",
+      "(organic_certified(region1) | biodynamic_certified(region1))",
+      "(biodynamic_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+      "(sustainable_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+      "(sustainable_certified(region1) -> eco_friendly_certified(region1))",
+      "(quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1)))",
+      "(eco_friendly_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+      "(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1)))",
+      "(counterfeit_wine(wine1) | (-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> standard_quality(wine1)))",
+      "(laboratory_tested(wine1) -> -counterfeit_wine(wine1))",
+      "(laboratory_tested(wine1) | expert_verified(wine1))",
+      "(expert_verified(wine1) -> -counterfeit_wine(wine1))",
+      "(authentic_wine(wine1) -> -banned_region(region1))",
+      "(mislabeled_wine(wine1) | authentic_wine(wine1))",
+      "(proper_documentation(wine1) -> -mislabeled_wine(wine1))",
+      "(proper_documentation(wine1) | verified_origin(wine1))",
+      "(verified_origin(wine1) -> -mislabeled_wine(wine1))",
+      "(certification_granted(region1) -> (quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1))))",
+      "(certification_granted(region1) -> export_allowed(wine1))",
+      "(import_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))",
+      "(import_approved(wine1) | export_approved(wine1))",
+      "(export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))",
+      "(trade_agreement(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1))))",
+      "(trade_agreement(region1) | bilateral_treaty(region1))",
+      "(bilateral_treaty(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1))))",
+      "(market_demand(wine1) -> -trade_dispute(region1))",
+      "(market_demand(wine1) | limited_edition(wine1))",
+      "(limited_edition(wine1) -> -trade_dispute(region1))",
+      "(rare_vintage(wine1) | -vintage_year(period1))",
+      "(collector_item(wine1) -> (rare_vintage(wine1) | -vintage_year(period1)))",
+      "(collector_item(wine1) | investment_grade(wine1))",
+      "(investment_grade(wine1) -> (rare_vintage(wine1) | -vintage_year(period1)))",
+      "(export_allowed(wine1) -> (quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1))))",
+      "(available_market(wine1) -> (collector_item(wine1) | investment_grade(wine1)))",
+      "(fermentation_complete(wine1) -> ready_for_sale(wine1))",
+      "(aged_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1)))",
+      "(aged_properly(wine1) | filtered_properly(wine1))",
+      "(filtered_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1)))",
+      "(-(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1))) -> temporary_ban(region1))",
+      "(-(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1))) -> -temporary_ban(region1))",
+      "(-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> standard_quality(wine1))",
+      "(-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> -standard_quality(wine1))",
+      "(-(bilateral_treaty(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))) -> trade_dispute(region1))",
+      "(-available_market(wine1) -> reserved_stock(wine1))",
+      "(-available_market(wine1) -> -reserved_stock(wine1))",
+      "(-ready_for_sale(wine1) -> prohibited(event1))",
+      "(-ready_for_sale(wine1) -> contaminated(wine1))",
+      "(-ready_for_sale(wine1) -> vintage_year(period1))",
+      "sale_authorized(wine1)",
+      "harvest_season(period1)",
+      "premium_quality(wine1)",
+      "authentic_wine(wine1)",
+      "certification_granted(region1)",
+      "available_market(wine1)",
+      "fermentation_complete(wine1)",
+      "ready_for_sale(wine1)",
+      "-prohibited(event1)",
+      "-label_approved(wine1)",
+      "-alcohol_content_verified(wine1)",
+      "-origin_certified(region1)",
+      "-contaminated(wine1)",
+      "-approved(event1)",
+      "-vintage_year(period1)",
+      "-banned_region(region1)",
+      "-traditional_method(region1)",
+      "-experimental_process(region1)",
+      "-quality_test_passed(wine1)",
+      "-counterfeit_wine(wine1)",
+      "-mislabeled_wine(wine1)",
+      "-trade_dispute(region1)",
+      "-rare_vintage(wine1)"
+    ],
+    "natural_expressions": [
+      "If event1 is prohibited, then event1 is approved.",
+      "Provided that event1 is prohibited, wine1 has high alcohol content.",
+      "Whenever event1 is prohibited, wine1 is a fortified wine.",
+      "In the event that event1 is prohibited, it is not the case that wine1 has high alcohol content.",
+      "Either the label of wine1 is approved or, if wine1 is filtered properly, then fermentation of wine1 being complete implies wine1 is ready for sale.",
+      "Either the alcohol content of wine1 is verified or the label of wine1 is not approved.",
+      "Either the origin of region1 is certified or the alcohol content of wine1 is not verified.",
+      "If wine1 has undergone chemical treatment, then wine1 is not contaminated.",
+      "Either wine1 has undergone chemical treatment or wine1 has undergone natural clarification.",
+      "If wine1 has undergone natural clarification, then wine1 is not contaminated.",
+      "If sale of wine1 is authorized, then either wine1 has undergone chemical treatment or wine1 has undergone natural clarification.",
+      "Should wine1 be sold domestically, then sale of wine1 is authorized.",
+      "Either wine1 is sold domestically or wine1 is sold regionally.",
+      "Provided that wine1 is sold regionally, sale of wine1 is authorized.",
+      "When wine1 is sold regionally, then wine1 is sold nationally.",
+      "In the case that wine1 is sold nationally, sale of wine1 is authorized.",
+      "If wine1 is sold nationally, then wine1 is sold internationally.",
+      "Given that wine1 is sold internationally, sale of wine1 is authorized.",
+      "If wine1 is sold internationally, then wine1 is sold as a specialty item.",
+      "Provided wine1 is sold as a specialty item, sale of wine1 is authorized.",
+      "Either region1 is a banned region or period1 is not a vintage year.",
+      "If region1 is under political sanctions, then region1 is not a banned region.",
+      "Either region1 is under political sanctions or region1 has quality violations.",
+      "On condition that region1 has quality violations, import to region1 is restricted.",
+      "If region1 has quality violations, then region1 is not a banned region.",
+      "When import to region1 is restricted, then region1 is not a banned region.",
+      "If a trade embargo applies to region1, then import to region1 being restricted implies region1 is not a banned region.",
+      "Provided a trade embargo applies to region1, region1 has environmental violations.",
+      "Either a trade embargo applies to region1 or health concerns exist for region1.",
+      "If health concerns exist for region1, then import to region1 being restricted implies region1 is not a banned region.",
+      "In the event that region1 has environmental violations, then import to region1 being restricted implies region1 is not a banned region.",
+      "If period1 is a harvest season, then event1 is not approved.",
+      "When wine1 is a fortified wine, then wine1 has high alcohol content.",
+      "Either region1 uses traditional methods or, if event1 is prohibited, then wine1 is a fortified wine.",
+      "Should region1 use modern equipment, then region1 does not use traditional methods.",
+      "Either region1 uses modern equipment or region1 uses a hybrid approach.",
+      "If region1 uses a hybrid approach, then region1 does not use traditional methods.",
+      "Either region1 uses an experimental process or, if region1 uses a hybrid approach, then region1 does not use traditional methods.",
+      "If region1 is organically certified, then period1 being a harvest season implies event1 is not approved.",
+      "Provided region1 is organically certified, region1 is sustainably certified.",
+      "Either region1 is organically certified or region1 is biodynamically certified.",
+      "If region1 is biodynamically certified, then period1 being a harvest season implies event1 is not approved.",
+      "When region1 is sustainably certified, then period1 being a harvest season implies event1 is not approved.",
+      "If region1 is sustainably certified, then region1 is eco-friendly certified.",
+      "Either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved.",
+      "Provided region1 is eco-friendly certified, period1 being a harvest season implies event1 is not approved.",
+      "If wine1 is of premium quality, then region1 being sustainably certified implies region1 is eco-friendly certified.",
+      "Either wine1 is counterfeit or, if it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is of standard quality.",
+      "Should wine1 have been laboratory tested, then wine1 is not counterfeit.",
+      "Either wine1 has been laboratory tested or wine1 has been verified by an expert.",
+      "If wine1 has been verified by an expert, then wine1 is not counterfeit.",
+      "In the case that wine1 is authentic, then region1 is not a banned region.",
+      "Either wine1 is mislabeled or wine1 is authentic.",
+      "When wine1 has proper documentation, then wine1 is not mislabeled.",
+      "Either wine1 has proper documentation or the origin of wine1 is verified.",
+      "Provided the origin of wine1 is verified, then wine1 is not mislabeled.",
+      "If region1 has been granted certification, then either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved.",
+      "Should region1 have been granted certification, then export of wine1 is allowed.",
+      "If import of wine1 is approved, then either wine1 has proper documentation or the origin of wine1 is verified.",
+      "Either import of wine1 is approved or export of wine1 is approved.",
+      "When export of wine1 is approved, then either wine1 has proper documentation or the origin of wine1 is verified.",
+      "If a trade agreement exists for region1, then export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified.",
+      "Either a trade agreement exists for region1 or a bilateral treaty exists for region1.",
+      "Provided a bilateral treaty exists for region1, then export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified.",
+      "In the event there is market demand for wine1, then a trade dispute does not exist for region1.",
+      "Either there is market demand for wine1 or wine1 is a limited edition.",
+      "If wine1 is a limited edition, then a trade dispute does not exist for region1.",
+      "Either wine1 is a rare vintage or period1 is not a vintage year.",
+      "Should wine1 be a collector's item, then either wine1 is a rare vintage or period1 is not a vintage year.",
+      "Either wine1 is a collector's item or wine1 is investment grade.",
+      "Provided wine1 is investment grade, then either wine1 is a rare vintage or period1 is not a vintage year.",
+      "If export of wine1 is allowed, then either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved.",
+      "When wine1 is available on the market, then either wine1 is a collector's item or wine1 is investment grade.",
+      "If fermentation of wine1 is complete, then wine1 is ready for sale.",
+      "Provided wine1 has been aged properly, then fermentation of wine1 being complete implies wine1 is ready for sale.",
+      "Either wine1 has been aged properly or wine1 has been filtered properly.",
+      "If wine1 has been filtered properly, then fermentation of wine1 being complete implies wine1 is ready for sale.",
+      "If it is not the case that region1 having environmental violations implies import to region1 being restricted implies region1 is not a banned region, then a temporary ban applies to region1.",
+      "If it is not the case that region1 having environmental violations implies import to region1 being restricted implies region1 is not a banned region, then a temporary ban does not apply to region1.",
+      "Provided it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is of standard quality.",
+      "If it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is not of standard quality.",
+      "Should it not be the case that a bilateral treaty existing for region1 implies export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified, then a trade dispute exists for region1.",
+      "In the event wine1 is not available on the market, then wine1 is in reserved stock.",
+      "If wine1 is not available on the market, then wine1 is not in reserved stock.",
+      "Provided wine1 is not ready for sale, then event1 is prohibited.",
+      "If wine1 is not ready for sale, then wine1 is contaminated.",
+      "When wine1 is not ready for sale, then period1 is a vintage year.",
+      "Sale of wine1 is authorized.",
+      "Period1 is a harvest season.",
+      "Wine1 is of premium quality.",
+      "Wine1 is authentic.",
+      "Region1 has been granted certification.",
+      "Wine1 is available on the market.",
+      "Fermentation of wine1 is complete.",
+      "Wine1 is ready for sale.",
+      "Event1 is not prohibited.",
+      "The label of wine1 is not approved.",
+      "The alcohol content of wine1 is not verified.",
+      "The origin of region1 is not certified.",
+      "Wine1 is not contaminated.",
+      "Event1 is not approved.",
+      "Period1 is not a vintage year.",
+      "Region1 is not a banned region.",
+      "Region1 does not use traditional methods.",
+      "Region1 does not use an experimental process.",
+      "Wine1 has not passed quality testing.",
+      "Wine1 is not counterfeit.",
+      "Wine1 is not mislabeled.",
+      "A trade dispute does not exist for region1.",
+      "Wine1 is not a rare vintage."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(prohibited(event1) -> approved(event1))",
+        "natural": "If event1 is prohibited, then event1 is approved."
+      },
+      "(A1 → A31)": {
+        "formal": "(A1 → A31)",
+        "prover9": "(A1 -> A31)",
+        "prover9_expression": "(prohibited(event1) -> high_alcohol_content(wine1))",
+        "natural": "Provided that event1 is prohibited, wine1 has high alcohol content."
+      },
+      "(A1 → A32)": {
+        "formal": "(A1 → A32)",
+        "prover9": "(A1 -> A32)",
+        "prover9_expression": "(prohibited(event1) -> fortified_wine(wine1))",
+        "natural": "Whenever event1 is prohibited, wine1 is a fortified wine."
+      },
+      "(A1 → ¬A31)": {
+        "formal": "(A1 → ¬A31)",
+        "prover9": "(A1 -> -A31)",
+        "prover9_expression": "(prohibited(event1) -> -high_alcohol_content(wine1))",
+        "natural": "In the event that event1 is prohibited, it is not the case that wine1 has high alcohol content."
+      },
+      "(A10 ∨ (A9 → (A7 → G)))": {
+        "formal": "(A10 ∨ (A9 → (A7 → G)))",
+        "prover9": "(A10 | (A9 -> (A7 -> G)))",
+        "prover9_expression": "(label_approved(wine1) | (filtered_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1))))",
+        "natural": "Either the label of wine1 is approved or, if wine1 is filtered properly, then fermentation of wine1 being complete implies wine1 is ready for sale."
+      },
+      "(A11 ∨ ¬A10)": {
+        "formal": "(A11 ∨ ¬A10)",
+        "prover9": "(A11 | -A10)",
+        "prover9_expression": "(alcohol_content_verified(wine1) | -label_approved(wine1))",
+        "natural": "Either the alcohol content of wine1 is verified or the label of wine1 is not approved."
+      },
+      "(A12 ∨ ¬A11)": {
+        "formal": "(A12 ∨ ¬A11)",
+        "prover9": "(A12 | -A11)",
+        "prover9_expression": "(origin_certified(region1) | -alcohol_content_verified(wine1))",
+        "natural": "Either the origin of region1 is certified or the alcohol content of wine1 is not verified."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(chemical_treatment(wine1) -> -contaminated(wine1))",
+        "natural": "If wine1 has undergone chemical treatment, then wine1 is not contaminated."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(chemical_treatment(wine1) | natural_clarification(wine1))",
+        "natural": "Either wine1 has undergone chemical treatment or wine1 has undergone natural clarification."
+      },
+      "(A15 → ¬A13)": {
+        "formal": "(A15 → ¬A13)",
+        "prover9": "(A15 -> -A13)",
+        "prover9_expression": "(natural_clarification(wine1) -> -contaminated(wine1))",
+        "natural": "If wine1 has undergone natural clarification, then wine1 is not contaminated."
+      },
+      "(A16 → (A14 ∨ A15))": {
+        "formal": "(A16 → (A14 ∨ A15))",
+        "prover9": "(A16 -> (A14 | A15))",
+        "prover9_expression": "(sale_authorized(wine1) -> (chemical_treatment(wine1) | natural_clarification(wine1)))",
+        "natural": "If sale of wine1 is authorized, then either wine1 has undergone chemical treatment or wine1 has undergone natural clarification."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(domestic_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "Should wine1 be sold domestically, then sale of wine1 is authorized."
+      },
+      "(A17 ∨ A18)": {
+        "formal": "(A17 ∨ A18)",
+        "prover9": "(A17 | A18)",
+        "prover9_expression": "(domestic_sale(wine1) | regional_sale(wine1))",
+        "natural": "Either wine1 is sold domestically or wine1 is sold regionally."
+      },
+      "(A18 → A16)": {
+        "formal": "(A18 → A16)",
+        "prover9": "(A18 -> A16)",
+        "prover9_expression": "(regional_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "Provided that wine1 is sold regionally, sale of wine1 is authorized."
+      },
+      "(A18 → A19)": {
+        "formal": "(A18 → A19)",
+        "prover9": "(A18 -> A19)",
+        "prover9_expression": "(regional_sale(wine1) -> national_sale(wine1))",
+        "natural": "When wine1 is sold regionally, then wine1 is sold nationally."
+      },
+      "(A19 → A16)": {
+        "formal": "(A19 → A16)",
+        "prover9": "(A19 -> A16)",
+        "prover9_expression": "(national_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "In the case that wine1 is sold nationally, sale of wine1 is authorized."
+      },
+      "(A19 → A20)": {
+        "formal": "(A19 → A20)",
+        "prover9": "(A19 -> A20)",
+        "prover9_expression": "(national_sale(wine1) -> international_sale(wine1))",
+        "natural": "If wine1 is sold nationally, then wine1 is sold internationally."
+      },
+      "(A20 → A16)": {
+        "formal": "(A20 → A16)",
+        "prover9": "(A20 -> A16)",
+        "prover9_expression": "(international_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "Given that wine1 is sold internationally, sale of wine1 is authorized."
+      },
+      "(A20 → A21)": {
+        "formal": "(A20 → A21)",
+        "prover9": "(A20 -> A21)",
+        "prover9_expression": "(international_sale(wine1) -> specialty_sale(wine1))",
+        "natural": "If wine1 is sold internationally, then wine1 is sold as a specialty item."
+      },
+      "(A21 → A16)": {
+        "formal": "(A21 → A16)",
+        "prover9": "(A21 -> A16)",
+        "prover9_expression": "(specialty_sale(wine1) -> sale_authorized(wine1))",
+        "natural": "Provided wine1 is sold as a specialty item, sale of wine1 is authorized."
+      },
+      "(A23 ∨ ¬A22)": {
+        "formal": "(A23 ∨ ¬A22)",
+        "prover9": "(A23 | -A22)",
+        "prover9_expression": "(banned_region(region1) | -vintage_year(period1))",
+        "natural": "Either region1 is a banned region or period1 is not a vintage year."
+      },
+      "(A24 → ¬A23)": {
+        "formal": "(A24 → ¬A23)",
+        "prover9": "(A24 -> -A23)",
+        "prover9_expression": "(political_sanctions(region1) -> -banned_region(region1))",
+        "natural": "If region1 is under political sanctions, then region1 is not a banned region."
+      },
+      "(A24 ∨ A25)": {
+        "formal": "(A24 ∨ A25)",
+        "prover9": "(A24 | A25)",
+        "prover9_expression": "(political_sanctions(region1) | quality_violations(region1))",
+        "natural": "Either region1 is under political sanctions or region1 has quality violations."
+      },
+      "(A25 → A26)": {
+        "formal": "(A25 → A26)",
+        "prover9": "(A25 -> A26)",
+        "prover9_expression": "(quality_violations(region1) -> import_restricted(region1))",
+        "natural": "On condition that region1 has quality violations, import to region1 is restricted."
+      },
+      "(A25 → ¬A23)": {
+        "formal": "(A25 → ¬A23)",
+        "prover9": "(A25 -> -A23)",
+        "prover9_expression": "(quality_violations(region1) -> -banned_region(region1))",
+        "natural": "If region1 has quality violations, then region1 is not a banned region."
+      },
+      "(A26 → ¬A23)": {
+        "formal": "(A26 → ¬A23)",
+        "prover9": "(A26 -> -A23)",
+        "prover9_expression": "(import_restricted(region1) -> -banned_region(region1))",
+        "natural": "When import to region1 is restricted, then region1 is not a banned region."
+      },
+      "(A27 → (A26 → ¬A23))": {
+        "formal": "(A27 → (A26 → ¬A23))",
+        "prover9": "(A27 -> (A26 -> -A23))",
+        "prover9_expression": "(trade_embargo(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+        "natural": "If a trade embargo applies to region1, then import to region1 being restricted implies region1 is not a banned region."
+      },
+      "(A27 → A29)": {
+        "formal": "(A27 → A29)",
+        "prover9": "(A27 -> A29)",
+        "prover9_expression": "(trade_embargo(region1) -> environmental_violations(region1))",
+        "natural": "Provided a trade embargo applies to region1, region1 has environmental violations."
+      },
+      "(A27 ∨ A28)": {
+        "formal": "(A27 ∨ A28)",
+        "prover9": "(A27 | A28)",
+        "prover9_expression": "(trade_embargo(region1) | health_concerns(region1))",
+        "natural": "Either a trade embargo applies to region1 or health concerns exist for region1."
+      },
+      "(A28 → (A26 → ¬A23))": {
+        "formal": "(A28 → (A26 → ¬A23))",
+        "prover9": "(A28 -> (A26 -> -A23))",
+        "prover9_expression": "(health_concerns(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+        "natural": "If health concerns exist for region1, then import to region1 being restricted implies region1 is not a banned region."
+      },
+      "(A29 → (A26 → ¬A23))": {
+        "formal": "(A29 → (A26 → ¬A23))",
+        "prover9": "(A29 -> (A26 -> -A23))",
+        "prover9_expression": "(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1)))",
+        "natural": "In the event that region1 has environmental violations, then import to region1 being restricted implies region1 is not a banned region."
+      },
+      "(A3 → ¬A2)": {
+        "formal": "(A3 → ¬A2)",
+        "prover9": "(A3 -> -A2)",
+        "prover9_expression": "(harvest_season(period1) -> -approved(event1))",
+        "natural": "If period1 is a harvest season, then event1 is not approved."
+      },
+      "(A32 → A31)": {
+        "formal": "(A32 → A31)",
+        "prover9": "(A32 -> A31)",
+        "prover9_expression": "(fortified_wine(wine1) -> high_alcohol_content(wine1))",
+        "natural": "When wine1 is a fortified wine, then wine1 has high alcohol content."
+      },
+      "(A33 ∨ (A1 → A32))": {
+        "formal": "(A33 ∨ (A1 → A32))",
+        "prover9": "(A33 | (A1 -> A32))",
+        "prover9_expression": "(traditional_method(region1) | (prohibited(event1) -> fortified_wine(wine1)))",
+        "natural": "Either region1 uses traditional methods or, if event1 is prohibited, then wine1 is a fortified wine."
+      },
+      "(A34 → ¬A33)": {
+        "formal": "(A34 → ¬A33)",
+        "prover9": "(A34 -> -A33)",
+        "prover9_expression": "(modern_equipment(region1) -> -traditional_method(region1))",
+        "natural": "Should region1 use modern equipment, then region1 does not use traditional methods."
+      },
+      "(A34 ∨ A35)": {
+        "formal": "(A34 ∨ A35)",
+        "prover9": "(A34 | A35)",
+        "prover9_expression": "(modern_equipment(region1) | hybrid_approach(region1))",
+        "natural": "Either region1 uses modern equipment or region1 uses a hybrid approach."
+      },
+      "(A35 → ¬A33)": {
+        "formal": "(A35 → ¬A33)",
+        "prover9": "(A35 -> -A33)",
+        "prover9_expression": "(hybrid_approach(region1) -> -traditional_method(region1))",
+        "natural": "If region1 uses a hybrid approach, then region1 does not use traditional methods."
+      },
+      "(A36 ∨ (A35 → ¬A33))": {
+        "formal": "(A36 ∨ (A35 → ¬A33))",
+        "prover9": "(A36 | (A35 -> -A33))",
+        "prover9_expression": "(experimental_process(region1) | (hybrid_approach(region1) -> -traditional_method(region1)))",
+        "natural": "Either region1 uses an experimental process or, if region1 uses a hybrid approach, then region1 does not use traditional methods."
+      },
+      "(A37 → (A3 → ¬A2))": {
+        "formal": "(A37 → (A3 → ¬A2))",
+        "prover9": "(A37 -> (A3 -> -A2))",
+        "prover9_expression": "(organic_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+        "natural": "If region1 is organically certified, then period1 being a harvest season implies event1 is not approved."
+      },
+      "(A37 → A39)": {
+        "formal": "(A37 → A39)",
+        "prover9": "(A37 -> A39)",
+        "prover9_expression": "(organic_certified(region1) -> sustainable_certified(region1))",
+        "natural": "Provided region1 is organically certified, region1 is sustainably certified."
+      },
+      "(A37 ∨ A38)": {
+        "formal": "(A37 ∨ A38)",
+        "prover9": "(A37 | A38)",
+        "prover9_expression": "(organic_certified(region1) | biodynamic_certified(region1))",
+        "natural": "Either region1 is organically certified or region1 is biodynamically certified."
+      },
+      "(A38 → (A3 → ¬A2))": {
+        "formal": "(A38 → (A3 → ¬A2))",
+        "prover9": "(A38 -> (A3 -> -A2))",
+        "prover9_expression": "(biodynamic_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+        "natural": "If region1 is biodynamically certified, then period1 being a harvest season implies event1 is not approved."
+      },
+      "(A39 → (A3 → ¬A2))": {
+        "formal": "(A39 → (A3 → ¬A2))",
+        "prover9": "(A39 -> (A3 -> -A2))",
+        "prover9_expression": "(sustainable_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+        "natural": "When region1 is sustainably certified, then period1 being a harvest season implies event1 is not approved."
+      },
+      "(A39 → A40)": {
+        "formal": "(A39 → A40)",
+        "prover9": "(A39 -> A40)",
+        "prover9_expression": "(sustainable_certified(region1) -> eco_friendly_certified(region1))",
+        "natural": "If region1 is sustainably certified, then region1 is eco-friendly certified."
+      },
+      "(A4 ∨ (A3 → ¬A2))": {
+        "formal": "(A4 ∨ (A3 → ¬A2))",
+        "prover9": "(A4 | (A3 -> -A2))",
+        "prover9_expression": "(quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1)))",
+        "natural": "Either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved."
+      },
+      "(A40 → (A3 → ¬A2))": {
+        "formal": "(A40 → (A3 → ¬A2))",
+        "prover9": "(A40 -> (A3 -> -A2))",
+        "prover9_expression": "(eco_friendly_certified(region1) -> (harvest_season(period1) -> -approved(event1)))",
+        "natural": "Provided region1 is eco-friendly certified, period1 being a harvest season implies event1 is not approved."
+      },
+      "(A41 → (A39 → A40))": {
+        "formal": "(A41 → (A39 → A40))",
+        "prover9": "(A41 -> (A39 -> A40))",
+        "prover9_expression": "(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1)))",
+        "natural": "If wine1 is of premium quality, then region1 being sustainably certified implies region1 is eco-friendly certified."
+      },
+      "(A43 ∨ (¬(A41 → (A39 → A40)) → A42))": {
+        "formal": "(A43 ∨ (¬(A41 → (A39 → A40)) → A42))",
+        "prover9": "(A43 | (-(A41 -> (A39 -> A40)) -> A42))",
+        "prover9_expression": "(counterfeit_wine(wine1) | (-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> standard_quality(wine1)))",
+        "natural": "Either wine1 is counterfeit or, if it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is of standard quality."
+      },
+      "(A44 → ¬A43)": {
+        "formal": "(A44 → ¬A43)",
+        "prover9": "(A44 -> -A43)",
+        "prover9_expression": "(laboratory_tested(wine1) -> -counterfeit_wine(wine1))",
+        "natural": "Should wine1 have been laboratory tested, then wine1 is not counterfeit."
+      },
+      "(A44 ∨ A45)": {
+        "formal": "(A44 ∨ A45)",
+        "prover9": "(A44 | A45)",
+        "prover9_expression": "(laboratory_tested(wine1) | expert_verified(wine1))",
+        "natural": "Either wine1 has been laboratory tested or wine1 has been verified by an expert."
+      },
+      "(A45 → ¬A43)": {
+        "formal": "(A45 → ¬A43)",
+        "prover9": "(A45 -> -A43)",
+        "prover9_expression": "(expert_verified(wine1) -> -counterfeit_wine(wine1))",
+        "natural": "If wine1 has been verified by an expert, then wine1 is not counterfeit."
+      },
+      "(A46 → ¬A23)": {
+        "formal": "(A46 → ¬A23)",
+        "prover9": "(A46 -> -A23)",
+        "prover9_expression": "(authentic_wine(wine1) -> -banned_region(region1))",
+        "natural": "In the case that wine1 is authentic, then region1 is not a banned region."
+      },
+      "(A47 ∨ A46)": {
+        "formal": "(A47 ∨ A46)",
+        "prover9": "(A47 | A46)",
+        "prover9_expression": "(mislabeled_wine(wine1) | authentic_wine(wine1))",
+        "natural": "Either wine1 is mislabeled or wine1 is authentic."
+      },
+      "(A48 → ¬A47)": {
+        "formal": "(A48 → ¬A47)",
+        "prover9": "(A48 -> -A47)",
+        "prover9_expression": "(proper_documentation(wine1) -> -mislabeled_wine(wine1))",
+        "natural": "When wine1 has proper documentation, then wine1 is not mislabeled."
+      },
+      "(A48 ∨ A49)": {
+        "formal": "(A48 ∨ A49)",
+        "prover9": "(A48 | A49)",
+        "prover9_expression": "(proper_documentation(wine1) | verified_origin(wine1))",
+        "natural": "Either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      "(A49 → ¬A47)": {
+        "formal": "(A49 → ¬A47)",
+        "prover9": "(A49 -> -A47)",
+        "prover9_expression": "(verified_origin(wine1) -> -mislabeled_wine(wine1))",
+        "natural": "Provided the origin of wine1 is verified, then wine1 is not mislabeled."
+      },
+      "(A5 → (A4 ∨ (A3 → ¬A2)))": {
+        "formal": "(A5 → (A4 ∨ (A3 → ¬A2)))",
+        "prover9": "(A5 -> (A4 | (A3 -> -A2)))",
+        "prover9_expression": "(certification_granted(region1) -> (quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1))))",
+        "natural": "If region1 has been granted certification, then either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(certification_granted(region1) -> export_allowed(wine1))",
+        "natural": "Should region1 have been granted certification, then export of wine1 is allowed."
+      },
+      "(A50 → (A48 ∨ A49))": {
+        "formal": "(A50 → (A48 ∨ A49))",
+        "prover9": "(A50 -> (A48 | A49))",
+        "prover9_expression": "(import_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))",
+        "natural": "If import of wine1 is approved, then either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      "(A50 ∨ A51)": {
+        "formal": "(A50 ∨ A51)",
+        "prover9": "(A50 | A51)",
+        "prover9_expression": "(import_approved(wine1) | export_approved(wine1))",
+        "natural": "Either import of wine1 is approved or export of wine1 is approved."
+      },
+      "(A51 → (A48 ∨ A49))": {
+        "formal": "(A51 → (A48 ∨ A49))",
+        "prover9": "(A51 -> (A48 | A49))",
+        "prover9_expression": "(export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))",
+        "natural": "When export of wine1 is approved, then either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      "(A52 → (A51 → (A48 ∨ A49)))": {
+        "formal": "(A52 → (A51 → (A48 ∨ A49)))",
+        "prover9": "(A52 -> (A51 -> (A48 | A49)))",
+        "prover9_expression": "(trade_agreement(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1))))",
+        "natural": "If a trade agreement exists for region1, then export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      "(A52 ∨ A53)": {
+        "formal": "(A52 ∨ A53)",
+        "prover9": "(A52 | A53)",
+        "prover9_expression": "(trade_agreement(region1) | bilateral_treaty(region1))",
+        "natural": "Either a trade agreement exists for region1 or a bilateral treaty exists for region1."
+      },
+      "(A53 → (A51 → (A48 ∨ A49)))": {
+        "formal": "(A53 → (A51 → (A48 ∨ A49)))",
+        "prover9": "(A53 -> (A51 -> (A48 | A49)))",
+        "prover9_expression": "(bilateral_treaty(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1))))",
+        "natural": "Provided a bilateral treaty exists for region1, then export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified."
+      },
+      "(A55 → ¬A54)": {
+        "formal": "(A55 → ¬A54)",
+        "prover9": "(A55 -> -A54)",
+        "prover9_expression": "(market_demand(wine1) -> -trade_dispute(region1))",
+        "natural": "In the event there is market demand for wine1, then a trade dispute does not exist for region1."
+      },
+      "(A55 ∨ A56)": {
+        "formal": "(A55 ∨ A56)",
+        "prover9": "(A55 | A56)",
+        "prover9_expression": "(market_demand(wine1) | limited_edition(wine1))",
+        "natural": "Either there is market demand for wine1 or wine1 is a limited edition."
+      },
+      "(A56 → ¬A54)": {
+        "formal": "(A56 → ¬A54)",
+        "prover9": "(A56 -> -A54)",
+        "prover9_expression": "(limited_edition(wine1) -> -trade_dispute(region1))",
+        "natural": "If wine1 is a limited edition, then a trade dispute does not exist for region1."
+      },
+      "(A57 ∨ ¬A22)": {
+        "formal": "(A57 ∨ ¬A22)",
+        "prover9": "(A57 | -A22)",
+        "prover9_expression": "(rare_vintage(wine1) | -vintage_year(period1))",
+        "natural": "Either wine1 is a rare vintage or period1 is not a vintage year."
+      },
+      "(A58 → (A57 ∨ ¬A22))": {
+        "formal": "(A58 → (A57 ∨ ¬A22))",
+        "prover9": "(A58 -> (A57 | -A22))",
+        "prover9_expression": "(collector_item(wine1) -> (rare_vintage(wine1) | -vintage_year(period1)))",
+        "natural": "Should wine1 be a collector's item, then either wine1 is a rare vintage or period1 is not a vintage year."
+      },
+      "(A58 ∨ A59)": {
+        "formal": "(A58 ∨ A59)",
+        "prover9": "(A58 | A59)",
+        "prover9_expression": "(collector_item(wine1) | investment_grade(wine1))",
+        "natural": "Either wine1 is a collector's item or wine1 is investment grade."
+      },
+      "(A59 → (A57 ∨ ¬A22))": {
+        "formal": "(A59 → (A57 ∨ ¬A22))",
+        "prover9": "(A59 -> (A57 | -A22))",
+        "prover9_expression": "(investment_grade(wine1) -> (rare_vintage(wine1) | -vintage_year(period1)))",
+        "natural": "Provided wine1 is investment grade, then either wine1 is a rare vintage or period1 is not a vintage year."
+      },
+      "(A6 → (A4 ∨ (A3 → ¬A2)))": {
+        "formal": "(A6 → (A4 ∨ (A3 → ¬A2)))",
+        "prover9": "(A6 -> (A4 | (A3 -> -A2)))",
+        "prover9_expression": "(export_allowed(wine1) -> (quality_test_passed(wine1) | (harvest_season(period1) -> -approved(event1))))",
+        "natural": "If export of wine1 is allowed, then either wine1 has passed quality testing or, if period1 is a harvest season, then event1 is not approved."
+      },
+      "(A60 → (A58 ∨ A59))": {
+        "formal": "(A60 → (A58 ∨ A59))",
+        "prover9": "(A60 -> (A58 | A59))",
+        "prover9_expression": "(available_market(wine1) -> (collector_item(wine1) | investment_grade(wine1)))",
+        "natural": "When wine1 is available on the market, then either wine1 is a collector's item or wine1 is investment grade."
+      },
+      "(A7 → G)": {
+        "formal": "(A7 → G)",
+        "prover9": "(A7 -> G)",
+        "prover9_expression": "(fermentation_complete(wine1) -> ready_for_sale(wine1))",
+        "natural": "If fermentation of wine1 is complete, then wine1 is ready for sale."
+      },
+      "(A8 → (A7 → G))": {
+        "formal": "(A8 → (A7 → G))",
+        "prover9": "(A8 -> (A7 -> G))",
+        "prover9_expression": "(aged_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1)))",
+        "natural": "Provided wine1 has been aged properly, then fermentation of wine1 being complete implies wine1 is ready for sale."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(aged_properly(wine1) | filtered_properly(wine1))",
+        "natural": "Either wine1 has been aged properly or wine1 has been filtered properly."
+      },
+      "(A9 → (A7 → G))": {
+        "formal": "(A9 → (A7 → G))",
+        "prover9": "(A9 -> (A7 -> G))",
+        "prover9_expression": "(filtered_properly(wine1) -> (fermentation_complete(wine1) -> ready_for_sale(wine1)))",
+        "natural": "If wine1 has been filtered properly, then fermentation of wine1 being complete implies wine1 is ready for sale."
+      },
+      "(¬(A29 → (A26 → ¬A23)) → A30)": {
+        "formal": "(¬(A29 → (A26 → ¬A23)) → A30)",
+        "prover9": "(-(A29 -> (A26 -> -A23)) -> A30)",
+        "prover9_expression": "(-(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1))) -> temporary_ban(region1))",
+        "natural": "If it is not the case that region1 having environmental violations implies import to region1 being restricted implies region1 is not a banned region, then a temporary ban applies to region1."
+      },
+      "(¬(A29 → (A26 → ¬A23)) → ¬A30)": {
+        "formal": "(¬(A29 → (A26 → ¬A23)) → ¬A30)",
+        "prover9": "(-(A29 -> (A26 -> -A23)) -> -A30)",
+        "prover9_expression": "(-(environmental_violations(region1) -> (import_restricted(region1) -> -banned_region(region1))) -> -temporary_ban(region1))",
+        "natural": "If it is not the case that region1 having environmental violations implies import to region1 being restricted implies region1 is not a banned region, then a temporary ban does not apply to region1."
+      },
+      "(¬(A41 → (A39 → A40)) → A42)": {
+        "formal": "(¬(A41 → (A39 → A40)) → A42)",
+        "prover9": "(-(A41 -> (A39 -> A40)) -> A42)",
+        "prover9_expression": "(-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> standard_quality(wine1))",
+        "natural": "Provided it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is of standard quality."
+      },
+      "(¬(A41 → (A39 → A40)) → ¬A42)": {
+        "formal": "(¬(A41 → (A39 → A40)) → ¬A42)",
+        "prover9": "(-(A41 -> (A39 -> A40)) -> -A42)",
+        "prover9_expression": "(-(premium_quality(wine1) -> (sustainable_certified(region1) -> eco_friendly_certified(region1))) -> -standard_quality(wine1))",
+        "natural": "If it is not the case that wine1 being premium quality implies region1 being sustainably certified implies region1 is eco-friendly certified, then wine1 is not of standard quality."
+      },
+      "(¬(A53 → (A51 → (A48 ∨ A49))) → A54)": {
+        "formal": "(¬(A53 → (A51 → (A48 ∨ A49))) → A54)",
+        "prover9": "(-(A53 -> (A51 -> (A48 | A49))) -> A54)",
+        "prover9_expression": "(-(bilateral_treaty(region1) -> (export_approved(wine1) -> (proper_documentation(wine1) | verified_origin(wine1)))) -> trade_dispute(region1))",
+        "natural": "Should it not be the case that a bilateral treaty existing for region1 implies export of wine1 being approved implies either wine1 has proper documentation or the origin of wine1 is verified, then a trade dispute exists for region1."
+      },
+      "(¬A60 → A61)": {
+        "formal": "(¬A60 → A61)",
+        "prover9": "(-A60 -> A61)",
+        "prover9_expression": "(-available_market(wine1) -> reserved_stock(wine1))",
+        "natural": "In the event wine1 is not available on the market, then wine1 is in reserved stock."
+      },
+      "(¬A60 → ¬A61)": {
+        "formal": "(¬A60 → ¬A61)",
+        "prover9": "(-A60 -> -A61)",
+        "prover9_expression": "(-available_market(wine1) -> -reserved_stock(wine1))",
+        "natural": "If wine1 is not available on the market, then wine1 is not in reserved stock."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-ready_for_sale(wine1) -> prohibited(event1))",
+        "natural": "Provided wine1 is not ready for sale, then event1 is prohibited."
+      },
+      "(¬G → A13)": {
+        "formal": "(¬G → A13)",
+        "prover9": "(-G -> A13)",
+        "prover9_expression": "(-ready_for_sale(wine1) -> contaminated(wine1))",
+        "natural": "If wine1 is not ready for sale, then wine1 is contaminated."
+      },
+      "(¬G → A22)": {
+        "formal": "(¬G → A22)",
+        "prover9": "(-G -> A22)",
+        "prover9_expression": "(-ready_for_sale(wine1) -> vintage_year(period1))",
+        "natural": "When wine1 is not ready for sale, then period1 is a vintage year."
+      },
+      "A16": {
+        "formal": "A16",
+        "prover9": "A16",
+        "prover9_expression": "sale_authorized(wine1)",
+        "natural": "Sale of wine1 is authorized."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "harvest_season(period1)",
+        "natural": "Period1 is a harvest season."
+      },
+      "A41": {
+        "formal": "A41",
+        "prover9": "A41",
+        "prover9_expression": "premium_quality(wine1)",
+        "natural": "Wine1 is of premium quality."
+      },
+      "A46": {
+        "formal": "A46",
+        "prover9": "A46",
+        "prover9_expression": "authentic_wine(wine1)",
+        "natural": "Wine1 is authentic."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "certification_granted(region1)",
+        "natural": "Region1 has been granted certification."
+      },
+      "A60": {
+        "formal": "A60",
+        "prover9": "A60",
+        "prover9_expression": "available_market(wine1)",
+        "natural": "Wine1 is available on the market."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "fermentation_complete(wine1)",
+        "natural": "Fermentation of wine1 is complete."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "ready_for_sale(wine1)",
+        "natural": "Wine1 is ready for sale."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-prohibited(event1)",
+        "natural": "Event1 is not prohibited."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-label_approved(wine1)",
+        "natural": "The label of wine1 is not approved."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-alcohol_content_verified(wine1)",
+        "natural": "The alcohol content of wine1 is not verified."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-origin_certified(region1)",
+        "natural": "The origin of region1 is not certified."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-contaminated(wine1)",
+        "natural": "Wine1 is not contaminated."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-approved(event1)",
+        "natural": "Event1 is not approved."
+      },
+      "¬A22": {
+        "formal": "¬A22",
+        "prover9": "-A22",
+        "prover9_expression": "-vintage_year(period1)",
+        "natural": "Period1 is not a vintage year."
+      },
+      "¬A23": {
+        "formal": "¬A23",
+        "prover9": "-A23",
+        "prover9_expression": "-banned_region(region1)",
+        "natural": "Region1 is not a banned region."
+      },
+      "¬A33": {
+        "formal": "¬A33",
+        "prover9": "-A33",
+        "prover9_expression": "-traditional_method(region1)",
+        "natural": "Region1 does not use traditional methods."
+      },
+      "¬A36": {
+        "formal": "¬A36",
+        "prover9": "-A36",
+        "prover9_expression": "-experimental_process(region1)",
+        "natural": "Region1 does not use an experimental process."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-quality_test_passed(wine1)",
+        "natural": "Wine1 has not passed quality testing."
+      },
+      "¬A43": {
+        "formal": "¬A43",
+        "prover9": "-A43",
+        "prover9_expression": "-counterfeit_wine(wine1)",
+        "natural": "Wine1 is not counterfeit."
+      },
+      "¬A47": {
+        "formal": "¬A47",
+        "prover9": "-A47",
+        "prover9_expression": "-mislabeled_wine(wine1)",
+        "natural": "Wine1 is not mislabeled."
+      },
+      "¬A54": {
+        "formal": "¬A54",
+        "prover9": "-A54",
+        "prover9_expression": "-trade_dispute(region1)",
+        "natural": "A trade dispute does not exist for region1."
+      },
+      "¬A57": {
+        "formal": "¬A57",
+        "prover9": "-A57",
+        "prover9_expression": "-rare_vintage(wine1)",
+        "natural": "Wine1 is not a rare vintage."
+      }
+    }
+  }
+}

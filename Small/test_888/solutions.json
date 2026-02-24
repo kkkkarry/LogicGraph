@@ -1,0 +1,279 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(-(-(A4 | (-G -> A3)) -> A5) -> A6)",
+              "prover9_expression": "(-(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition)) -> requires_treatment(patient, emergency_care))",
+              "natural": "If it is not the case that if it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy then the patient is diagnosed with a chronic condition, then the patient requires emergency care."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A6",
+              "prover9_expression": "-requires_treatment(patient, emergency_care)",
+              "natural": "The patient does not require emergency care."
+            }
+          ],
+          "conclusion": "(-(A4 | (-G -> A3)) -> A5)",
+          "natural": "If it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy, then the patient is diagnosed with a chronic condition."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A4 | (-G -> A3)) -> A5)",
+              "prover9_expression": "(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition))",
+              "natural": "If it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy, then the patient is diagnosed with a chronic condition."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A5",
+              "prover9_expression": "-diagnosed(patient, chronic_condition)",
+              "natural": "The patient is not diagnosed with a chronic condition."
+            }
+          ],
+          "conclusion": "(A4 | (-G -> A3))",
+          "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (-G -> A3))",
+              "prover9_expression": "(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+              "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A4",
+              "prover9_expression": "-approved(authorization, treatment_plan)",
+              "natural": "It is not the case that the authorization is approved for the treatment plan."
+            }
+          ],
+          "conclusion": "(-G -> A3)",
+          "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, therapy))",
+              "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(requires_treatment(patient, therapy) -> requires_treatment(patient, medication))",
+              "natural": "Under the condition that the patient requires therapy, the patient requires medication."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, medication))",
+              "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(requires_treatment(patient, medication) -> -requires_treatment(patient, surgery))",
+              "natural": "Provided that the patient requires medication, it is not the case that the patient requires surgery."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, surgery))",
+              "natural": "In the event that the time period is not within the treatment window, the patient requires surgery."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> -requires_treatment(patient, surgery))",
+              "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The time period is within the treatment window."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(-(A8 -> (-G -> A3)) -> A9)",
+              "prover9_expression": "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> available(doctor, specialized_skill))",
+              "natural": "In the event that it is not the case that if the authorization is approved for therapy then whenever the time period is not within the treatment window the patient requires therapy, a doctor is available with specialized skill."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(-(A8 -> (-G -> A3)) -> -A9)",
+              "prover9_expression": "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> -available(doctor, specialized_skill))",
+              "natural": "Should it not be true that if the authorization is approved for therapy then under the condition that the time period is not within the treatment window the patient requires therapy, then a doctor is not available with specialized skill."
+            }
+          ],
+          "conclusion": "(A8 -> (-G -> A3))",
+          "natural": "Whenever the authorization is approved for therapy, then if the time period is not within the treatment window, the patient requires therapy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A7 -> A4)",
+              "prover9_expression": "(approved(authorization, surgery) -> approved(authorization, treatment_plan))",
+              "natural": "If the authorization is approved for surgery, then the authorization is approved for the treatment plan."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> (-G -> A3))",
+              "prover9_expression": "(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+              "natural": "Whenever the authorization is approved for therapy, then if the time period is not within the treatment window, the patient requires therapy."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(approved(authorization, surgery) | approved(authorization, therapy))",
+              "natural": "Either the authorization is approved for surgery or the authorization is approved for therapy."
+            }
+          ],
+          "conclusion": "(A4 | (-G -> A3))",
+          "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (-G -> A3))",
+              "prover9_expression": "(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+              "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A4",
+              "prover9_expression": "-approved(authorization, treatment_plan)",
+              "natural": "It is not the case that the authorization is approved for the treatment plan."
+            }
+          ],
+          "conclusion": "(-G -> A3)",
+          "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, therapy))",
+              "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(requires_treatment(patient, therapy) -> requires_treatment(patient, medication))",
+              "natural": "Under the condition that the patient requires therapy, the patient requires medication."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, medication))",
+              "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(requires_treatment(patient, medication) -> -requires_treatment(patient, surgery))",
+              "natural": "Provided that the patient requires medication, it is not the case that the patient requires surgery."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, surgery))",
+              "natural": "In the event that the time period is not within the treatment window, the patient requires surgery."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-within(time_period, treatment_window) -> -requires_treatment(patient, surgery))",
+              "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The time period is within the treatment window."
+        }
+      ]
+    }
+  ]
+}

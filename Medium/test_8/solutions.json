@@ -1,0 +1,677 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(senior_editor_assigned(article_X) | junior_editor_assigned(article_X))",
+              "natural": "Either senior editor is assigned to Article X or junior editor is assigned"
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A6 -> (-(A4 -> (A2 -> -A1)) -> A5))",
+              "prover9_expression": "(senior_editor_assigned(article_X) -> (-(automated_review_triggered(article_X) -> (flagged_for_review(article_X) -> -approved_for_publication(article_X))) -> content_approved(article_X)))",
+              "natural": "If senior editor is assigned to Article X, then under the condition that automated review triggering does not lead to flagged review preventing approval, content will be approved"
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A7 -> (-(A4 -> (A2 -> -A1)) -> A5))",
+              "prover9_expression": "(junior_editor_assigned(article_X) -> (-(automated_review_triggered(article_X) -> (flagged_for_review(article_X) -> -approved_for_publication(article_X))) -> content_approved(article_X)))",
+              "natural": "If junior editor is assigned to Article X, then whenever automated review triggering does not result in flagged review preventing approval, content will be approved"
+            }
+          ],
+          "conclusion": "(-(A4 -> (A2 -> -A1)) -> A5)",
+          "natural": "Should automated review triggering not lead to flagged review preventing approval, then content is approved"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A4 -> (A2 -> -A1)) -> A5)",
+              "prover9_expression": "(-(automated_review_triggered(article_X) -> (flagged_for_review(article_X) -> -approved_for_publication(article_X))) -> content_approved(article_X))",
+              "natural": "Should automated review triggering not lead to flagged review preventing approval, then content is approved"
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(A4 -> (A2 -> -A1)) -> -A5)",
+              "prover9_expression": "(-(automated_review_triggered(article_X) -> (flagged_for_review(article_X) -> -approved_for_publication(article_X))) -> -content_approved(article_X))",
+              "natural": "Provided that automated review triggering does not result in flagged review preventing approval, then content is not approved"
+            }
+          ],
+          "conclusion": "(A4 -> (A2 -> -A1))",
+          "natural": "If automated review is triggered for Article X, then provided that it is flagged for review, it will not be approved for publication"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(manual_review_required(article_X) | automated_review_triggered(article_X))",
+              "natural": "Either manual review is required for Article X or automated review is triggered"
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (A2 -> -A1))",
+              "prover9_expression": "(manual_review_required(article_X) -> (flagged_for_review(article_X) -> -approved_for_publication(article_X)))",
+              "natural": "If manual review is required for Article X, then should it be flagged for review, it will not be approved for publication"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 -> -A1))",
+              "prover9_expression": "(automated_review_triggered(article_X) -> (flagged_for_review(article_X) -> -approved_for_publication(article_X)))",
+              "natural": "If automated review is triggered for Article X, then provided that it is flagged for review, it will not be approved for publication"
+            }
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If Article X is flagged for review, then it is not approved for publication"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(flagged_for_review(article_X) -> -approved_for_publication(article_X))",
+              "natural": "If Article X is flagged for review, then it is not approved for publication"
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A2",
+              "prover9_expression": "flagged_for_review(article_X)",
+              "natural": "Article X is flagged for review"
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "Article X is not approved for publication"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(approved_for_publication(article_X) | meets_platform_guidelines(article_X))",
+              "natural": "Article X is either approved for publication or meets platform guidelines"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved_for_publication(article_X)",
+              "natural": "Article X is not approved for publication"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Article X meets platform guidelines"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A10 | (-(-G -> A8) -> -A9)) -> A11)",
+              "prover9_expression": "(-(copyright_verified(article_X) | (-(-meets_platform_guidelines(article_X) -> plagiarism_detected(article_X)) -> -citation_check_completed(article_X))) -> legal_department_notified(article_X))",
+              "natural": "Should neither copyright verification occur nor the condition that non-guideline compliance leads to plagiarism detection prevent citation check completion, then legal department is notified"
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(-(A10 | (-(-G -> A8) -> -A9)) -> -A11)",
+              "prover9_expression": "(-(copyright_verified(article_X) | (-(-meets_platform_guidelines(article_X) -> plagiarism_detected(article_X)) -> -citation_check_completed(article_X))) -> -legal_department_notified(article_X))",
+              "natural": "Provided that neither copyright verification occurs nor the condition that non-guideline compliance leads to plagiarism detection prevents citation check completion, then legal department is not notified"
+            }
+          ],
+          "conclusion": "(A10 | (-(-G -> A8) -> -A9))",
+          "natural": "If copyright is not verified for Article X, then provided that failure to meet guidelines does not result in plagiarism detection, citation check will not be completed"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (-(-G -> A8) -> -A9))",
+              "prover9_expression": "(copyright_verified(article_X) | (-(-meets_platform_guidelines(article_X) -> plagiarism_detected(article_X)) -> -citation_check_completed(article_X)))",
+              "natural": "If copyright is not verified for Article X, then provided that failure to meet guidelines does not result in plagiarism detection, citation check will not be completed"
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A10",
+              "prover9_expression": "-copyright_verified(article_X)",
+              "natural": "Copyright is not verified for Article X"
+            }
+          ],
+          "conclusion": "(-(-G -> A8) -> -A9)",
+          "natural": "Whenever non-guideline compliance does not lead to plagiarism detection, then citation check is not completed"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(-(-G -> A8) -> A9)",
+              "prover9_expression": "(-(-meets_platform_guidelines(article_X) -> plagiarism_detected(article_X)) -> citation_check_completed(article_X))",
+              "natural": "If non-guideline compliance does not result in plagiarism detection, then citation check is completed"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A8) -> -A9)",
+              "prover9_expression": "(-(-meets_platform_guidelines(article_X) -> plagiarism_detected(article_X)) -> -citation_check_completed(article_X))",
+              "natural": "Whenever non-guideline compliance does not lead to plagiarism detection, then citation check is not completed"
+            }
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "If Article X does not meet platform guidelines, then plagiarism is detected"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-meets_platform_guidelines(article_X) -> plagiarism_detected(article_X))",
+              "natural": "If Article X does not meet platform guidelines, then plagiarism is detected"
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-plagiarism_detected(article_X)",
+              "natural": "Plagiarism is not detected in Article X"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Article X meets platform guidelines"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A17 -> (A15 -> A13)) -> A19)",
+              "prover9_expression": "(-(standard_procedure_followed(article_X) -> (editor_review_completed(article_X) -> scheduled_for_release(article_X))) -> disciplinary_action_taken(article_X))",
+              "natural": "Whenever standard procedure following does not lead to editor review completion resulting in scheduled release, disciplinary action is taken"
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A19 -> -A18)",
+              "prover9_expression": "(disciplinary_action_taken(article_X) -> -procedure_violation_reported(article_X))",
+              "natural": "If disciplinary action is taken regarding Article X, then no procedure violation is reported"
+            }
+          ],
+          "conclusion": "(-(A17 -> (A15 -> A13)) -> -A18)",
+          "natural": "Under the condition that standard procedure following does not cause editor review completion to lead to scheduled release, no procedure violation is reported"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A17 -> (A15 -> A13)) -> A18)",
+              "prover9_expression": "(-(standard_procedure_followed(article_X) -> (editor_review_completed(article_X) -> scheduled_for_release(article_X))) -> procedure_violation_reported(article_X))",
+              "natural": "If standard procedure following does not result in editor review completion leading to scheduled release, then procedure violation is reported"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A17 -> (A15 -> A13)) -> -A18)",
+              "prover9_expression": "(-(standard_procedure_followed(article_X) -> (editor_review_completed(article_X) -> scheduled_for_release(article_X))) -> -procedure_violation_reported(article_X))",
+              "natural": "Under the condition that standard procedure following does not cause editor review completion to lead to scheduled release, no procedure violation is reported"
+            }
+          ],
+          "conclusion": "(A17 -> (A15 -> A13))",
+          "natural": "Provided that standard procedure is followed for Article X, then if editor review is completed, Article X will be scheduled for release"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> (A15 -> A13))",
+              "prover9_expression": "(standard_procedure_followed(article_X) -> (editor_review_completed(article_X) -> scheduled_for_release(article_X)))",
+              "natural": "Provided that standard procedure is followed for Article X, then if editor review is completed, Article X will be scheduled for release"
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A17",
+              "prover9_expression": "standard_procedure_followed(article_X)",
+              "natural": "Standard procedure is followed for Article X"
+            }
+          ],
+          "conclusion": "(A15 -> A13)",
+          "natural": "If editor review is completed for Article X, then it will be scheduled for release"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A15 -> A13)",
+              "prover9_expression": "(editor_review_completed(article_X) -> scheduled_for_release(article_X))",
+              "natural": "If editor review is completed for Article X, then it will be scheduled for release"
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A16 -> A14)",
+              "prover9_expression": "(copy_edit_required(article_X) -> held_for_editing(article_X))",
+              "natural": "If copy editing is required for Article X, then it will be held for editing"
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(editor_review_completed(article_X) | copy_edit_required(article_X))",
+              "natural": "Either editor review is completed for Article X or copy editing is required"
+            }
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Article X is either scheduled for release or held for editing"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(scheduled_for_release(article_X) | held_for_editing(article_X))",
+              "natural": "Article X is either scheduled for release or held for editing"
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> -A12)",
+              "prover9_expression": "(scheduled_for_release(article_X) -> -published_immediately(article_X))",
+              "natural": "If Article X is scheduled for release, then it will not be published immediately"
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A14 -> -A12)",
+              "prover9_expression": "(held_for_editing(article_X) -> -published_immediately(article_X))",
+              "natural": "If Article X is held for editing, then it will not be published immediately"
+            }
+          ],
+          "conclusion": "-A12",
+          "natural": "Article X is not published immediately"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-meets_platform_guidelines(article_X) -> published_immediately(article_X))",
+              "natural": "If Article X does not meet platform guidelines, then it is published immediately"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A12",
+              "prover9_expression": "-published_immediately(article_X)",
+              "natural": "Article X is not published immediately"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Article X meets platform guidelines"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(A22 -> A21) -> A23)",
+              "prover9_expression": "(-(priority_status_assigned(article_X) -> fast_track_processing(article_X)) -> status_review_required(article_X))",
+              "natural": "If priority status assignment does not result in fast track processing, then status review is required"
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A23",
+              "prover9_expression": "-status_review_required(article_X)",
+              "natural": "Status review is not required for Article X"
+            }
+          ],
+          "conclusion": "(A22 -> A21)",
+          "natural": "If priority status is assigned to Article X, then it receives fast track processing"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A20 -> A22)",
+              "prover9_expression": "(executive_approval_granted(article_X) -> priority_status_assigned(article_X))",
+              "natural": "If executive approval is granted for Article X, then priority status is assigned"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A21)",
+              "prover9_expression": "(priority_status_assigned(article_X) -> fast_track_processing(article_X))",
+              "natural": "If priority status is assigned to Article X, then it receives fast track processing"
+            }
+          ],
+          "conclusion": "(A20 -> A21)",
+          "natural": "If executive approval is granted for Article X, then it receives fast track processing"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> A21)",
+              "prover9_expression": "(executive_approval_granted(article_X) -> fast_track_processing(article_X))",
+              "natural": "If executive approval is granted for Article X, then it receives fast track processing"
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A21 -> G)",
+              "prover9_expression": "(fast_track_processing(article_X) -> meets_platform_guidelines(article_X))",
+              "natural": "If Article X receives fast track processing, then it meets platform guidelines"
+            }
+          ],
+          "conclusion": "(A20 -> G)",
+          "natural": "If executive approval is granted for Article X, then it meets platform guidelines"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(executive_approval_granted(article_X) -> meets_platform_guidelines(article_X))",
+              "natural": "If executive approval is granted for Article X, then it meets platform guidelines"
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A20",
+              "prover9_expression": "executive_approval_granted(article_X)",
+              "natural": "Executive approval is granted for Article X"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Article X meets platform guidelines"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(A25 | A26) -> A28)",
+              "prover9_expression": "(-(limited_distribution_approved(article_X) | full_publication_authorized(article_X)) -> hold_lifted(article_X))",
+              "natural": "Provided that neither limited distribution approval nor full publication authorization happens, then hold is lifted"
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A28 -> A27)",
+              "prover9_expression": "(hold_lifted(article_X) -> distribution_hold_placed(article_X))",
+              "natural": "If hold is lifted from Article X, then a distribution hold was previously placed"
+            }
+          ],
+          "conclusion": "(-(A25 | A26) -> A27)",
+          "natural": "Should neither limited distribution approval nor full publication authorization occur, then distribution hold is placed"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 | A26) -> A27)",
+              "prover9_expression": "(-(limited_distribution_approved(article_X) | full_publication_authorized(article_X)) -> distribution_hold_placed(article_X))",
+              "natural": "Should neither limited distribution approval nor full publication authorization occur, then distribution hold is placed"
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(-(A25 | A26) -> -A27)",
+              "prover9_expression": "(-(limited_distribution_approved(article_X) | full_publication_authorized(article_X)) -> -distribution_hold_placed(article_X))",
+              "natural": "Whenever neither limited distribution approval nor full publication authorization occurs, then no distribution hold is placed"
+            }
+          ],
+          "conclusion": "(A25 | A26)",
+          "natural": "Either limited distribution is approved for Article X or full publication is authorized"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A25 -> A24)",
+              "prover9_expression": "(limited_distribution_approved(article_X) -> published_with_restrictions(article_X))",
+              "natural": "If limited distribution is approved for Article X, then it is published with restrictions"
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A26 -> G)",
+              "prover9_expression": "(full_publication_authorized(article_X) -> meets_platform_guidelines(article_X))",
+              "natural": "If full publication is authorized for Article X, then it meets platform guidelines"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(limited_distribution_approved(article_X) | full_publication_authorized(article_X))",
+              "natural": "Either limited distribution is approved for Article X or full publication is authorized"
+            }
+          ],
+          "conclusion": "(A24 | G)",
+          "natural": "Article X is either published with restrictions or meets platform guidelines"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 | G)",
+              "prover9_expression": "(published_with_restrictions(article_X) | meets_platform_guidelines(article_X))",
+              "natural": "Article X is either published with restrictions or meets platform guidelines"
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A24",
+              "prover9_expression": "-published_with_restrictions(article_X)",
+              "natural": "Article X is not published with restrictions"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Article X meets platform guidelines"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-(A30 -> A29) -> A31)",
+              "prover9_expression": "(-(final_approval_given(article_X) -> release_decision_made(article_X)) -> approval_escalated(article_X))",
+              "natural": "If final approval giving does not lead to release decision making, then approval is escalated"
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(-(A30 -> A29) -> -A31)",
+              "prover9_expression": "(-(final_approval_given(article_X) -> release_decision_made(article_X)) -> -approval_escalated(article_X))",
+              "natural": "Under the condition that final approval giving does not result in release decision making, approval is not escalated"
+            }
+          ],
+          "conclusion": "(A30 -> A29)",
+          "natural": "If final approval is given for Article X, then a release decision is made"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A30 -> A29)",
+              "prover9_expression": "(final_approval_given(article_X) -> release_decision_made(article_X))",
+              "natural": "If final approval is given for Article X, then a release decision is made"
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A30",
+              "prover9_expression": "final_approval_given(article_X)",
+              "natural": "Final approval is given for Article X"
+            }
+          ],
+          "conclusion": "A29",
+          "natural": "Release decision is made for Article X"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A29 -> (A13 | A14))",
+              "prover9_expression": "(release_decision_made(article_X) -> (scheduled_for_release(article_X) | held_for_editing(article_X)))",
+              "natural": "If release decision is made for Article X, then it is either scheduled for release or held for editing"
+            },
+            {
+              "id": "Derived",
+              "prover9": "A29",
+              "prover9_expression": "release_decision_made(article_X)",
+              "natural": "Release decision is made for Article X"
+            }
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Article X is either scheduled for release or held for editing"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(scheduled_for_release(article_X) | held_for_editing(article_X))",
+              "natural": "Article X is either scheduled for release or held for editing"
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> -A12)",
+              "prover9_expression": "(scheduled_for_release(article_X) -> -published_immediately(article_X))",
+              "natural": "If Article X is scheduled for release, then it will not be published immediately"
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A14 -> -A12)",
+              "prover9_expression": "(held_for_editing(article_X) -> -published_immediately(article_X))",
+              "natural": "If Article X is held for editing, then it will not be published immediately"
+            }
+          ],
+          "conclusion": "-A12",
+          "natural": "Article X is not published immediately"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-meets_platform_guidelines(article_X) -> published_immediately(article_X))",
+              "natural": "If Article X does not meet platform guidelines, then it is published immediately"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A12",
+              "prover9_expression": "-published_immediately(article_X)",
+              "natural": "Article X is not published immediately"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Article X meets platform guidelines"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,695 @@
+{
+  "solution_stats": {
+    "total_solutions": 5,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(recalled(substance) | disposed(substance))",
+              "natural": "Either the substance is recalled or the substance is disposed."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A6 -> -A5)",
+              "prover9_expression": "(recalled(substance) -> -contaminated(substance))",
+              "natural": "Provided that the substance is recalled, it is not the case that the substance is contaminated."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A7 -> -A5)",
+              "prover9_expression": "(disposed(substance) -> -contaminated(substance))",
+              "natural": "If the substance is disposed, then it is not the case that the substance is contaminated."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "It is not the case that the substance is contaminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A5 | (A3 | A4))",
+              "prover9_expression": "(contaminated(substance) | (validated(platform, substance) | validated(financial_product, substance)))",
+              "natural": "The substance is contaminated, or the platform is validated for the substance, or the financial product is validated for the substance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-contaminated(substance)",
+              "natural": "It is not the case that the substance is contaminated."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the platform is validated for the substance or the financial product is validated for the substance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(validated(platform, substance) -> approved(platform, job))",
+              "natural": "If the platform is validated for the substance, then the platform is approved for the job."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(validated(financial_product, substance) -> approved(financial_product, job))",
+              "natural": "Whenever the financial product is validated for the substance, the financial product is approved for the job."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(validated(platform, substance) | validated(financial_product, substance))",
+              "natural": "Either the platform is validated for the substance or the financial product is validated for the substance."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the platform is approved for the job or the financial product is approved for the job."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(approved(platform, job) | approved(financial_product, job))",
+              "natural": "Either the platform is approved for the job or the financial product is approved for the job."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(approved(platform, job) -> production_successful(time_period))",
+              "natural": "If the platform is approved for the job, then production is successful during the time period."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(approved(financial_product, job) -> production_successful(time_period))",
+              "natural": "If the financial product is approved for the job, then production is successful during the time period."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Production is successful during the time period."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A14)",
+              "prover9_expression": "(quality_issue(time_period) -> safety_issue(time_period))",
+              "natural": "If a quality issue arises during the time period, then a safety issue arises during the time period."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A14",
+              "prover9_expression": "-safety_issue(time_period)",
+              "natural": "A safety issue does not arise during the time period."
+            }
+          ],
+          "conclusion": "-A13",
+          "natural": "A quality issue does not arise during the time period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-A12 -> A13)",
+              "prover9_expression": "(-production_run(time_period) -> quality_issue(time_period))",
+              "natural": "If it is not the case that a production run takes place during the time period, then a quality issue arises during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A13",
+              "prover9_expression": "-quality_issue(time_period)",
+              "natural": "A quality issue does not arise during the time period."
+            }
+          ],
+          "conclusion": "A12",
+          "natural": "A production run takes place during the time period."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> (A11 | (A10 -> (-G -> -A8))))",
+              "prover9_expression": "(production_run(time_period) -> (regulatory_approval(time_period) | (tested_safety(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))))",
+              "natural": "Under the condition that a production run takes place during the time period, either regulatory approval occurs during the time period or, if safety is tested during the time period, then when production is not successful during the time period, the substance is not manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A12",
+              "prover9_expression": "production_run(time_period)",
+              "natural": "A production run takes place during the time period."
+            }
+          ],
+          "conclusion": "(A11 | (A10 -> (-G -> -A8)))",
+          "natural": "Regulatory approval occurs during the time period, or if safety is tested during the time period, then in case production is not successful during the time period, the substance is not manufactured."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | (A10 -> (-G -> -A8)))",
+              "prover9_expression": "(regulatory_approval(time_period) | (tested_safety(time_period) -> (-production_successful(time_period) -> -manufactured(substance))))",
+              "natural": "Regulatory approval occurs during the time period, or if safety is tested during the time period, then in case production is not successful during the time period, the substance is not manufactured."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A11",
+              "prover9_expression": "-regulatory_approval(time_period)",
+              "natural": "It is not the case that regulatory approval occurs during the time period."
+            }
+          ],
+          "conclusion": "(A10 -> (-G -> -A8))",
+          "natural": "Provided that safety is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(tested_quality(time_period) | tested_safety(time_period))",
+              "natural": "Either quality is tested during the time period or safety is tested during the time period."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A9 -> (-G -> -A8))",
+              "prover9_expression": "(tested_quality(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Under the condition that quality is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (-G -> -A8))",
+              "prover9_expression": "(tested_safety(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Provided that safety is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Whenever production is not successful during the time period, it is not the case that the substance is manufactured."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-production_successful(time_period) -> manufactured(substance))",
+              "natural": "Under the condition that production is not successful during the time period, the substance is manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-production_successful(time_period) -> -manufactured(substance))",
+              "natural": "Whenever production is not successful during the time period, it is not the case that the substance is manufactured."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Production is successful during the time period."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A22 | (A21 -> (A17 | A18)))",
+              "prover9_expression": "(audit_scheduled(time_period) | (production_commenced(time_period) -> (equipment_calibrated(platform) | budget_allocated(financial_product))))",
+              "natural": "An audit is scheduled during the time period, or if production commences during the time period, then either equipment is calibrated on the platform or the budget is allocated for the financial product."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A22",
+              "prover9_expression": "-audit_scheduled(time_period)",
+              "natural": "An audit is not scheduled during the time period."
+            }
+          ],
+          "conclusion": "(A21 -> (A17 | A18))",
+          "natural": "Under the condition that production commences during the time period, either equipment is calibrated on the platform or the budget is allocated for the financial product."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A19 -> A21)",
+              "prover9_expression": "(manufacturing_scheduled(time_period) -> production_commenced(time_period))",
+              "natural": "Provided that manufacturing is scheduled during the time period, production commences during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> (A17 | A18))",
+              "prover9_expression": "(production_commenced(time_period) -> (equipment_calibrated(platform) | budget_allocated(financial_product)))",
+              "natural": "Under the condition that production commences during the time period, either equipment is calibrated on the platform or the budget is allocated for the financial product."
+            }
+          ],
+          "conclusion": "(A19 -> (A17 | A18))",
+          "natural": "If manufacturing is scheduled during the time period, then either equipment is calibrated on the platform or the budget is allocated for the financial product."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A19 | A20)",
+              "prover9_expression": "(manufacturing_scheduled(time_period) | emergency_reschedule(time_period))",
+              "natural": "Manufacturing is scheduled during the time period or an emergency reschedule occurs during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> (A17 | A18))",
+              "prover9_expression": "(manufacturing_scheduled(time_period) -> (equipment_calibrated(platform) | budget_allocated(financial_product)))",
+              "natural": "If manufacturing is scheduled during the time period, then either equipment is calibrated on the platform or the budget is allocated for the financial product."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A20 -> (A17 | A18))",
+              "prover9_expression": "(emergency_reschedule(time_period) -> (equipment_calibrated(platform) | budget_allocated(financial_product)))",
+              "natural": "Whenever an emergency reschedule occurs during the time period, either equipment is calibrated on the platform or the budget is allocated for the financial product."
+            }
+          ],
+          "conclusion": "(A17 | A18)",
+          "natural": "Either equipment is calibrated on the platform or the budget is allocated for the financial product."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> A15)",
+              "prover9_expression": "(equipment_calibrated(platform) -> platform_ready(platform))",
+              "natural": "If equipment is calibrated on the platform, then the platform is ready."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A18 -> A16)",
+              "prover9_expression": "(budget_allocated(financial_product) -> funding_ready(financial_product))",
+              "natural": "Under the condition that the budget is allocated for the financial product, funding is ready for the financial product."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 | A18)",
+              "prover9_expression": "(equipment_calibrated(platform) | budget_allocated(financial_product))",
+              "natural": "Either equipment is calibrated on the platform or the budget is allocated for the financial product."
+            }
+          ],
+          "conclusion": "(A15 | A16)",
+          "natural": "Either the platform is ready or funding is ready for the financial product."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> A1)",
+              "prover9_expression": "(platform_ready(platform) -> approved(platform, job))",
+              "natural": "Provided that the platform is ready, the platform is approved for the job."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A16 -> A2)",
+              "prover9_expression": "(funding_ready(financial_product) -> approved(financial_product, job))",
+              "natural": "Whenever funding is ready for the financial product, the financial product is approved for the job."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(platform_ready(platform) | funding_ready(financial_product))",
+              "natural": "Either the platform is ready or funding is ready for the financial product."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the platform is approved for the job or the financial product is approved for the job."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(approved(platform, job) | approved(financial_product, job))",
+              "natural": "Either the platform is approved for the job or the financial product is approved for the job."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(approved(platform, job) -> production_successful(time_period))",
+              "natural": "If the platform is approved for the job, then production is successful during the time period."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(approved(financial_product, job) -> production_successful(time_period))",
+              "natural": "If the financial product is approved for the job, then production is successful during the time period."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Production is successful during the time period."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A28 -> A29)",
+              "prover9_expression": "(compliance_certified(time_period) -> certification_valid(time_period))",
+              "natural": "Whenever compliance is certified during the time period, certification is valid during the time period."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A29 -> (A27 -> A24))",
+              "prover9_expression": "(certification_valid(time_period) -> (review_completed(time_period) -> compliance_audit(time_period)))",
+              "natural": "Provided that certification is valid during the time period, if review is completed during the time period, then a compliance audit is conducted during the time period."
+            }
+          ],
+          "conclusion": "(A28 -> (A27 -> A24))",
+          "natural": "If compliance is certified during the time period, then when review is completed during the time period, a compliance audit is conducted during the time period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A28 -> (A27 -> A24))",
+              "prover9_expression": "(compliance_certified(time_period) -> (review_completed(time_period) -> compliance_audit(time_period)))",
+              "natural": "If compliance is certified during the time period, then when review is completed during the time period, a compliance audit is conducted during the time period."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A28",
+              "prover9_expression": "compliance_certified(time_period)",
+              "natural": "Compliance is certified during the time period."
+            }
+          ],
+          "conclusion": "(A27 -> A24)",
+          "natural": "Under the condition that review is completed during the time period, a compliance audit is conducted during the time period."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A27)",
+              "prover9_expression": "(internal_review(time_period) -> review_completed(time_period))",
+              "natural": "Whenever an internal review is conducted during the time period, review is completed during the time period."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> A24)",
+              "prover9_expression": "(review_completed(time_period) -> compliance_audit(time_period))",
+              "natural": "Under the condition that review is completed during the time period, a compliance audit is conducted during the time period."
+            }
+          ],
+          "conclusion": "(A25 -> A24)",
+          "natural": "If an internal review is conducted during the time period, then a compliance audit is conducted during the time period."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> A24)",
+              "prover9_expression": "(internal_review(time_period) -> compliance_audit(time_period))",
+              "natural": "If an internal review is conducted during the time period, then a compliance audit is conducted during the time period."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A26 -> A23)",
+              "prover9_expression": "(external_review(time_period) -> safety_protocol_active(time_period))",
+              "natural": "Provided that an external review is conducted during the time period, safety protocol is active during the time period."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(internal_review(time_period) | external_review(time_period))",
+              "natural": "Either an internal review is conducted during the time period or an external review is conducted during the time period."
+            }
+          ],
+          "conclusion": "(A24 | A23)",
+          "natural": "Either a compliance audit is conducted during the time period or safety protocol is active during the time period."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 | A23)",
+              "prover9_expression": "(compliance_audit(time_period) | safety_protocol_active(time_period))",
+              "natural": "Either a compliance audit is conducted during the time period or safety protocol is active during the time period."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A24",
+              "prover9_expression": "-compliance_audit(time_period)",
+              "natural": "A compliance audit is not conducted during the time period."
+            }
+          ],
+          "conclusion": "A23",
+          "natural": "Safety protocol is active during the time period."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A23 -> (A10 -> (-G -> -A8)))",
+              "prover9_expression": "(safety_protocol_active(time_period) -> (tested_safety(time_period) -> (-production_successful(time_period) -> -manufactured(substance))))",
+              "natural": "Provided that safety protocol is active during the time period, if safety is tested during the time period, then when production is not successful during the time period, the substance is not manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A23",
+              "prover9_expression": "safety_protocol_active(time_period)",
+              "natural": "Safety protocol is active during the time period."
+            }
+          ],
+          "conclusion": "(A10 -> (-G -> -A8))",
+          "natural": "Provided that safety is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(tested_quality(time_period) | tested_safety(time_period))",
+              "natural": "Either quality is tested during the time period or safety is tested during the time period."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A9 -> (-G -> -A8))",
+              "prover9_expression": "(tested_quality(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Under the condition that quality is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (-G -> -A8))",
+              "prover9_expression": "(tested_safety(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Provided that safety is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Whenever production is not successful during the time period, it is not the case that the substance is manufactured."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-production_successful(time_period) -> manufactured(substance))",
+              "natural": "Under the condition that production is not successful during the time period, the substance is manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-production_successful(time_period) -> -manufactured(substance))",
+              "natural": "Whenever production is not successful during the time period, it is not the case that the substance is manufactured."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Production is successful during the time period."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(-(A10 -> A30) -> A31)",
+              "prover9_expression": "(-(tested_safety(time_period) -> quality_assured(time_period)) -> investigation_required(time_period))",
+              "natural": "If it is not the case that whenever safety is tested during the time period, quality is assured during the time period, then an investigation is required during the time period."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(-(A10 -> A30) -> -A31)",
+              "prover9_expression": "(-(tested_safety(time_period) -> quality_assured(time_period)) -> -investigation_required(time_period))",
+              "natural": "Provided that it is not the case that if safety is tested during the time period, then quality is assured during the time period, it is not the case that an investigation is required during the time period."
+            }
+          ],
+          "conclusion": "(A10 -> A30)",
+          "natural": "Whenever safety is tested during the time period, quality is assured during the time period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> A30)",
+              "prover9_expression": "(tested_safety(time_period) -> quality_assured(time_period))",
+              "natural": "Whenever safety is tested during the time period, quality is assured during the time period."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A30 -> (-G -> -A8))",
+              "prover9_expression": "(quality_assured(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Under the condition that quality is assured during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            }
+          ],
+          "conclusion": "(A10 -> (-G -> -A8))",
+          "natural": "Provided that safety is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(tested_quality(time_period) | tested_safety(time_period))",
+              "natural": "Either quality is tested during the time period or safety is tested during the time period."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A9 -> (-G -> -A8))",
+              "prover9_expression": "(tested_quality(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Under the condition that quality is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (-G -> -A8))",
+              "prover9_expression": "(tested_safety(time_period) -> (-production_successful(time_period) -> -manufactured(substance)))",
+              "natural": "Provided that safety is tested during the time period, if production is not successful during the time period, then the substance is not manufactured."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Whenever production is not successful during the time period, it is not the case that the substance is manufactured."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-production_successful(time_period) -> manufactured(substance))",
+              "natural": "Under the condition that production is not successful during the time period, the substance is manufactured."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-production_successful(time_period) -> -manufactured(substance))",
+              "natural": "Whenever production is not successful during the time period, it is not the case that the substance is manufactured."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Production is successful during the time period."
+        }
+      ]
+    }
+  ]
+}

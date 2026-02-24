@@ -1,0 +1,411 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 8
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A4 -> A3)",
+              "prover9_expression": "(compliant(manufacturing_process1) -> approved(fda, drug1))",
+              "natural": "If manufacturing process1 is compliant, then the FDA approves drug1."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A5 -> (-(A1 -> G) -> A2))",
+              "prover9_expression": "(certified(lab1) -> (-(produces(facility1, drug1) -> marketable(drug1)) -> recalled(drug1)))",
+              "natural": "Under the condition that lab1 is certified, and if it is not the case that producing drug1 by facility1 leads to drug1 being marketable, then drug1 is recalled."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(compliant(manufacturing_process1) | certified(lab1))",
+              "natural": "Either manufacturing process1 is compliant or lab1 is certified."
+            }
+          ],
+          "conclusion": "(A3 | (-(A1 -> G) -> A2))",
+          "natural": "Either the FDA approves drug1, or if it is not the case that producing drug1 by facility1 leads to drug1 being marketable, then drug1 is recalled."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | (-(A1 -> G) -> A2))",
+              "prover9_expression": "(approved(fda, drug1) | (-(produces(facility1, drug1) -> marketable(drug1)) -> recalled(drug1)))",
+              "natural": "Either the FDA approves drug1, or if it is not the case that producing drug1 by facility1 leads to drug1 being marketable, then drug1 is recalled."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A3",
+              "prover9_expression": "-approved(fda, drug1)",
+              "natural": "It is not the case that the FDA approves drug1."
+            }
+          ],
+          "conclusion": "(-(A1 -> G) -> A2)",
+          "natural": "Under the condition that it is not the case that producing drug1 by facility1 leads to drug1 being marketable, drug1 is recalled."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> G) -> A2)",
+              "prover9_expression": "(-(produces(facility1, drug1) -> marketable(drug1)) -> recalled(drug1))",
+              "natural": "Under the condition that it is not the case that producing drug1 by facility1 leads to drug1 being marketable, drug1 is recalled."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A2",
+              "prover9_expression": "-recalled(drug1)",
+              "natural": "It is not the case that drug1 is recalled."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If facility1 produces drug1, then drug1 is marketable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(produces(facility1, drug1) -> marketable(drug1))",
+              "natural": "If facility1 produces drug1, then drug1 is marketable."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "produces(facility1, drug1)",
+              "natural": "Facility1 produces drug1."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug1 is marketable."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A11 | (-(A8 -> A9) -> A10))",
+              "prover9_expression": "(appealed(facility1, fda_decision1) | (-(failed_test(lab1, quality_check1) -> investigated(facility1, quality_check1)) -> fined(fda, facility1)))",
+              "natural": "Provided that facility1 appeals fda_decision1, or if it is not the case that failing test quality_check1 by lab1 leads to facility1 being investigated for quality_check1, then the FDA fines facility1."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A11",
+              "prover9_expression": "-appealed(facility1, fda_decision1)",
+              "natural": "It is not the case that facility1 appeals fda_decision1."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A10)",
+          "natural": "Provided that it is not the case that failing test quality_check1 by lab1 leads to facility1 being investigated for quality_check1, the FDA fines facility1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A10)",
+              "prover9_expression": "(-(failed_test(lab1, quality_check1) -> investigated(facility1, quality_check1)) -> fined(fda, facility1))",
+              "natural": "Provided that it is not the case that failing test quality_check1 by lab1 leads to facility1 being investigated for quality_check1, the FDA fines facility1."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A10",
+              "prover9_expression": "-fined(fda, facility1)",
+              "natural": "It is not the case that the FDA fines facility1."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Provided that lab1 fails test quality_check1, facility1 is investigated for quality_check1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(failed_test(lab1, quality_check1) -> investigated(facility1, quality_check1))",
+              "natural": "Provided that lab1 fails test quality_check1, facility1 is investigated for quality_check1."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(investigated(facility1, quality_check1) -> unsafe(drug1))",
+              "natural": "If facility1 is investigated for quality_check1, then drug1 is unsafe."
+            }
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "Whenever lab1 fails test quality_check1, drug1 is unsafe."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-marketable(drug1) -> failed_test(lab1, quality_check1))",
+              "natural": "Provided that drug1 is not marketable, lab1 fails test quality_check1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(failed_test(lab1, quality_check1) -> unsafe(drug1))",
+              "natural": "Whenever lab1 fails test quality_check1, drug1 is unsafe."
+            }
+          ],
+          "conclusion": "(-G -> A7)",
+          "natural": "If drug1 is not marketable, then drug1 is unsafe."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A7)",
+              "prover9_expression": "(-marketable(drug1) -> unsafe(drug1))",
+              "natural": "If drug1 is not marketable, then drug1 is unsafe."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A7 -> -A6)",
+              "prover9_expression": "(unsafe(drug1) -> -contaminated(drug1))",
+              "natural": "If drug1 is unsafe, then it is not contaminated."
+            }
+          ],
+          "conclusion": "(-G -> -A6)",
+          "natural": "If drug1 is not marketable, then it is not contaminated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> A6)",
+              "prover9_expression": "(-marketable(drug1) -> contaminated(drug1))",
+              "natural": "Under the condition that drug1 is not marketable, drug1 is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A6)",
+              "prover9_expression": "(-marketable(drug1) -> -contaminated(drug1))",
+              "natural": "If drug1 is not marketable, then it is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug1 is marketable."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A17 -> -A16)",
+              "prover9_expression": "(suspends_operations(facility1) -> -penalized(facility1))",
+              "natural": "Provided that facility1 suspends operations, it is not penalized."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A17",
+              "prover9_expression": "suspends_operations(facility1)",
+              "natural": "Facility1 suspends operations."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "It is not the case that facility1 is penalized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-A15 -> A16)",
+              "prover9_expression": "(-monitors(fda, facility1) -> penalized(facility1))",
+              "natural": "If the FDA does not monitor facility1, then facility1 is penalized."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-penalized(facility1)",
+              "natural": "It is not the case that facility1 is penalized."
+            }
+          ],
+          "conclusion": "A15",
+          "natural": "The FDA monitors facility1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A15 -> (-(A13 -> A7) -> A14))",
+              "prover9_expression": "(monitors(fda, facility1) -> (-(requires_recall(medical_board1, drug1) -> unsafe(drug1)) -> emergency_inspection(fda, facility1)))",
+              "natural": "Given that the FDA monitors facility1, and if it is not the case that requiring a recall of drug1 by the medical board implies drug1 is unsafe, then the FDA conducts an emergency inspection of facility1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A15",
+              "prover9_expression": "monitors(fda, facility1)",
+              "natural": "The FDA monitors facility1."
+            }
+          ],
+          "conclusion": "(-(A13 -> A7) -> A14)",
+          "natural": "If it is not the case that requiring a recall of drug1 by the medical board implies drug1 is unsafe, then the FDA conducts an emergency inspection of facility1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> A7) -> A14)",
+              "prover9_expression": "(-(requires_recall(medical_board1, drug1) -> unsafe(drug1)) -> emergency_inspection(fda, facility1))",
+              "natural": "If it is not the case that requiring a recall of drug1 by the medical board implies drug1 is unsafe, then the FDA conducts an emergency inspection of facility1."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A14",
+              "prover9_expression": "-emergency_inspection(fda, facility1)",
+              "natural": "It is not the case that the FDA conducts an emergency inspection of facility1."
+            }
+          ],
+          "conclusion": "(A13 -> A7)",
+          "natural": "If the medical board requires a recall of drug1, then drug1 is unsafe."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> A13)",
+              "prover9_expression": "(reports_adverse_effects(patients1, drug1) -> requires_recall(medical_board1, drug1))",
+              "natural": "Whenever patients1 report adverse effects from drug1, the medical board requires a recall of drug1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A7)",
+              "prover9_expression": "(requires_recall(medical_board1, drug1) -> unsafe(drug1))",
+              "natural": "If the medical board requires a recall of drug1, then drug1 is unsafe."
+            }
+          ],
+          "conclusion": "(A12 -> A7)",
+          "natural": "Under the condition that patients1 report adverse effects from drug1, drug1 is unsafe."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-marketable(drug1) -> reports_adverse_effects(patients1, drug1))",
+              "natural": "Whenever drug1 is not marketable, patients1 report adverse effects from drug1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A7)",
+              "prover9_expression": "(reports_adverse_effects(patients1, drug1) -> unsafe(drug1))",
+              "natural": "Under the condition that patients1 report adverse effects from drug1, drug1 is unsafe."
+            }
+          ],
+          "conclusion": "(-G -> A7)",
+          "natural": "If drug1 is not marketable, then drug1 is unsafe."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A7)",
+              "prover9_expression": "(-marketable(drug1) -> unsafe(drug1))",
+              "natural": "If drug1 is not marketable, then drug1 is unsafe."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A7 -> -A6)",
+              "prover9_expression": "(unsafe(drug1) -> -contaminated(drug1))",
+              "natural": "If drug1 is unsafe, then it is not contaminated."
+            }
+          ],
+          "conclusion": "(-G -> -A6)",
+          "natural": "If drug1 is not marketable, then it is not contaminated."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> A6)",
+              "prover9_expression": "(-marketable(drug1) -> contaminated(drug1))",
+              "natural": "Under the condition that drug1 is not marketable, drug1 is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A6)",
+              "prover9_expression": "(-marketable(drug1) -> -contaminated(drug1))",
+              "natural": "If drug1 is not marketable, then it is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug1 is marketable."
+        }
+      ]
+    }
+  ]
+}

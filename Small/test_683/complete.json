@@ -1,0 +1,404 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(paper_accepted(conf_paper,reviewer1) -> conference_successful(academic_conf2024))",
+        "natural": "Provided that paper conf_paper is accepted by reviewer1, the conference academic_conf2024 will be successful."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → (A2 ∨ A1))",
+        "prover9_expression": "(reviewer_unavailable(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1)))",
+        "natural": "Under the condition that reviewer1 is unavailable for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(reviewer_unavailable(reviewer1,deadline1) | reviewer_sick(reviewer1,deadline1))",
+        "natural": "Reviewer1 is unavailable for deadline1 or reviewer1 is sick for deadline1."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A5 → (A4 → (A2 ∨ A1)))",
+        "prover9_expression": "(flight_cancelled(reviewer1,airlineX) -> (reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))))",
+        "natural": "Provided that reviewer1's flight with airlineX is cancelled, then whenever reviewer1 is sick for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(flight_cancelled(reviewer1,airlineX) | train_available(reviewer1,routeY))",
+        "natural": "Either reviewer1's flight with airlineX is cancelled or reviewer1 has a train available on routeY."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A6 → (A4 → (A2 ∨ A1)))",
+        "prover9_expression": "(train_available(reviewer1,routeY) -> (reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))))",
+        "natural": "If reviewer1 has a train available on routeY, then under the condition that reviewer1 is sick for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A7 → G)",
+        "prover9_expression": "(remote_presentation(conf_paper,author1) -> conference_successful(academic_conf2024))",
+        "natural": "If the paper conf_paper is presented remotely by author1, then the conference academic_conf2024 is successful."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(remote_presentation(conf_paper,author1) | inperson_presentation(conf_paper,author1))",
+        "natural": "Either the paper conf_paper is presented remotely by author1 or it is presented in person by author1."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A8 → A9)",
+        "prover9_expression": "(inperson_presentation(conf_paper,author1) -> presentation_recorded(conf_paper,tech_team))",
+        "natural": "Provided that the paper conf_paper is presented in person by author1, the presentation of conf_paper is recorded by tech_team."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A10 → (A9 → G)) → A11)",
+        "prover9_expression": "(-(proceedings_published(conf_paper,editor1) -> (presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024))) -> manual_review_needed(conf_paper,chair1))",
+        "natural": "If it is not the case that the publication of conf_paper proceedings by editor1 leads to the recording of the presentation by tech_team implying conference success, then manual review is needed for conf_paper by chair1."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A10",
+        "prover9_expression": "proceedings_published(conf_paper,editor1)",
+        "natural": "The proceedings of conf_paper are published by editor1."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A11",
+        "prover9_expression": "-manual_review_needed(conf_paper,chair1)",
+        "natural": "It is not the case that manual review is needed for conf_paper by chair1."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A2",
+        "prover9_expression": "-paper_rejected(conf_paper,reviewer1)",
+        "natural": "Paper conf_paper is not rejected by reviewer1."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "conference_successful(academic_conf2024)",
+    "natural": "The conference academic_conf2024 is successful."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (A4 -> (A2 | A1)))",
+            "(A6 -> (A4 -> (A2 | A1)))"
+          ],
+          "conclusion": "(A4 -> (A2 | A1))",
+          "natural": "If reviewer1 is sick for deadline1, then paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A2 | A1))",
+            "(A4 -> (A2 | A1))"
+          ],
+          "conclusion": "(A2 | A1)",
+          "natural": "Either paper conf_paper is rejected by reviewer1 or it is accepted by reviewer1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | A1)",
+            "-A2"
+          ],
+          "conclusion": "A1",
+          "natural": "Paper conf_paper is accepted by reviewer1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The conference academic_conf2024 is successful."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A10 -> (A9 -> G)) -> A11)",
+            "-A11"
+          ],
+          "conclusion": "(A10 -> (A9 -> G))",
+          "natural": "If proceedings of conf_paper are published by editor1, then whenever the presentation of conf_paper is recorded by tech_team, the conference academic_conf2024 follows as successful."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 -> G))",
+            "A10"
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If the presentation of conf_paper is recorded by tech_team, then the conference academic_conf2024 is successful."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A9)",
+            "(A9 -> G)"
+          ],
+          "conclusion": "(A8 -> G)",
+          "natural": "Whenever the paper conf_paper is presented in person by author1, the conference academic_conf2024 is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> G)",
+            "(A8 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The conference academic_conf2024 is successful."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Academic Conference Logistics",
+    "atomic_facts": {
+      "A1": "paper_accepted(conf_paper,reviewer1)",
+      "A2": "paper_rejected(conf_paper,reviewer1)",
+      "A3": "reviewer_unavailable(reviewer1,deadline1)",
+      "A4": "reviewer_sick(reviewer1,deadline1)",
+      "A5": "flight_cancelled(reviewer1,airlineX)",
+      "A6": "train_available(reviewer1,routeY)",
+      "A7": "remote_presentation(conf_paper,author1)",
+      "A8": "inperson_presentation(conf_paper,author1)",
+      "A9": "presentation_recorded(conf_paper,tech_team)",
+      "A10": "proceedings_published(conf_paper,editor1)",
+      "A11": "manual_review_needed(conf_paper,chair1)",
+      "G": "conference_successful(academic_conf2024)"
+    },
+    "natural_facts": {
+      "A1": "The paper conf_paper is accepted by reviewer1.",
+      "A2": "The paper conf_paper is rejected by reviewer1.",
+      "A3": "Reviewer1 is unavailable for deadline1.",
+      "A4": "Reviewer1 is sick for deadline1.",
+      "A5": "Reviewer1's flight with airlineX is cancelled.",
+      "A6": "Reviewer1 has a train available on routeY.",
+      "A7": "The paper conf_paper is presented remotely by author1.",
+      "A8": "The paper conf_paper is presented in person by author1.",
+      "A9": "The presentation of conf_paper is recorded by the tech_team.",
+      "A10": "The proceedings of conf_paper are published by editor1.",
+      "A11": "Manual review is needed for conf_paper by chair1.",
+      "G": "The conference academic_conf2024 is successful."
+    },
+    "prover9_expressions": [
+      "(paper_accepted(conf_paper,reviewer1) -> conference_successful(academic_conf2024))",
+      "(proceedings_published(conf_paper,editor1) -> (presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024)))",
+      "(paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))",
+      "(reviewer_unavailable(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1)))",
+      "(reviewer_unavailable(reviewer1,deadline1) | reviewer_sick(reviewer1,deadline1))",
+      "(reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1)))",
+      "(flight_cancelled(reviewer1,airlineX) -> (reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))))",
+      "(flight_cancelled(reviewer1,airlineX) | train_available(reviewer1,routeY))",
+      "(train_available(reviewer1,routeY) -> (reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))))",
+      "(remote_presentation(conf_paper,author1) -> conference_successful(academic_conf2024))",
+      "(remote_presentation(conf_paper,author1) | inperson_presentation(conf_paper,author1))",
+      "(inperson_presentation(conf_paper,author1) -> presentation_recorded(conf_paper,tech_team))",
+      "(inperson_presentation(conf_paper,author1) -> conference_successful(academic_conf2024))",
+      "(presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024))",
+      "(-(proceedings_published(conf_paper,editor1) -> (presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024))) -> manual_review_needed(conf_paper,chair1))",
+      "paper_accepted(conf_paper,reviewer1)",
+      "proceedings_published(conf_paper,editor1)",
+      "conference_successful(academic_conf2024)",
+      "-manual_review_needed(conf_paper,chair1)",
+      "-paper_rejected(conf_paper,reviewer1)"
+    ],
+    "natural_expressions": [
+      "Provided that paper conf_paper is accepted by reviewer1, the conference academic_conf2024 will be successful.",
+      "If proceedings of conf_paper are published by editor1, then whenever the presentation of conf_paper is recorded by tech_team, the conference academic_conf2024 follows as successful.",
+      "Either paper conf_paper is rejected by reviewer1 or it is accepted by reviewer1.",
+      "Under the condition that reviewer1 is unavailable for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1.",
+      "Reviewer1 is unavailable for deadline1 or reviewer1 is sick for deadline1.",
+      "If reviewer1 is sick for deadline1, then paper conf_paper is either rejected by reviewer1 or accepted by reviewer1.",
+      "Provided that reviewer1's flight with airlineX is cancelled, then whenever reviewer1 is sick for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1.",
+      "Either reviewer1's flight with airlineX is cancelled or reviewer1 has a train available on routeY.",
+      "If reviewer1 has a train available on routeY, then under the condition that reviewer1 is sick for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1.",
+      "If the paper conf_paper is presented remotely by author1, then the conference academic_conf2024 is successful.",
+      "Either the paper conf_paper is presented remotely by author1 or it is presented in person by author1.",
+      "Provided that the paper conf_paper is presented in person by author1, the presentation of conf_paper is recorded by tech_team.",
+      "Whenever the paper conf_paper is presented in person by author1, the conference academic_conf2024 is successful.",
+      "If the presentation of conf_paper is recorded by tech_team, then the conference academic_conf2024 is successful.",
+      "If it is not the case that the publication of conf_paper proceedings by editor1 leads to the recording of the presentation by tech_team implying conference success, then manual review is needed for conf_paper by chair1.",
+      "Paper conf_paper is accepted by reviewer1.",
+      "The proceedings of conf_paper are published by editor1.",
+      "The conference academic_conf2024 is successful.",
+      "It is not the case that manual review is needed for conf_paper by chair1.",
+      "Paper conf_paper is not rejected by reviewer1."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(paper_accepted(conf_paper,reviewer1) -> conference_successful(academic_conf2024))",
+        "natural": "Provided that paper conf_paper is accepted by reviewer1, the conference academic_conf2024 will be successful."
+      },
+      "(A10 → (A9 → G))": {
+        "formal": "(A10 → (A9 → G))",
+        "prover9": "(A10 -> (A9 -> G))",
+        "prover9_expression": "(proceedings_published(conf_paper,editor1) -> (presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024)))",
+        "natural": "If proceedings of conf_paper are published by editor1, then whenever the presentation of conf_paper is recorded by tech_team, the conference academic_conf2024 follows as successful."
+      },
+      "(A2 ∨ A1)": {
+        "formal": "(A2 ∨ A1)",
+        "prover9": "(A2 | A1)",
+        "prover9_expression": "(paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))",
+        "natural": "Either paper conf_paper is rejected by reviewer1 or it is accepted by reviewer1."
+      },
+      "(A3 → (A2 ∨ A1))": {
+        "formal": "(A3 → (A2 ∨ A1))",
+        "prover9": "(A3 -> (A2 | A1))",
+        "prover9_expression": "(reviewer_unavailable(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1)))",
+        "natural": "Under the condition that reviewer1 is unavailable for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(reviewer_unavailable(reviewer1,deadline1) | reviewer_sick(reviewer1,deadline1))",
+        "natural": "Reviewer1 is unavailable for deadline1 or reviewer1 is sick for deadline1."
+      },
+      "(A4 → (A2 ∨ A1))": {
+        "formal": "(A4 → (A2 ∨ A1))",
+        "prover9": "(A4 -> (A2 | A1))",
+        "prover9_expression": "(reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1)))",
+        "natural": "If reviewer1 is sick for deadline1, then paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      "(A5 → (A4 → (A2 ∨ A1)))": {
+        "formal": "(A5 → (A4 → (A2 ∨ A1)))",
+        "prover9": "(A5 -> (A4 -> (A2 | A1)))",
+        "prover9_expression": "(flight_cancelled(reviewer1,airlineX) -> (reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))))",
+        "natural": "Provided that reviewer1's flight with airlineX is cancelled, then whenever reviewer1 is sick for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(flight_cancelled(reviewer1,airlineX) | train_available(reviewer1,routeY))",
+        "natural": "Either reviewer1's flight with airlineX is cancelled or reviewer1 has a train available on routeY."
+      },
+      "(A6 → (A4 → (A2 ∨ A1)))": {
+        "formal": "(A6 → (A4 → (A2 ∨ A1)))",
+        "prover9": "(A6 -> (A4 -> (A2 | A1)))",
+        "prover9_expression": "(train_available(reviewer1,routeY) -> (reviewer_sick(reviewer1,deadline1) -> (paper_rejected(conf_paper,reviewer1) | paper_accepted(conf_paper,reviewer1))))",
+        "natural": "If reviewer1 has a train available on routeY, then under the condition that reviewer1 is sick for deadline1, paper conf_paper is either rejected by reviewer1 or accepted by reviewer1."
+      },
+      "(A7 → G)": {
+        "formal": "(A7 → G)",
+        "prover9": "(A7 -> G)",
+        "prover9_expression": "(remote_presentation(conf_paper,author1) -> conference_successful(academic_conf2024))",
+        "natural": "If the paper conf_paper is presented remotely by author1, then the conference academic_conf2024 is successful."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(remote_presentation(conf_paper,author1) | inperson_presentation(conf_paper,author1))",
+        "natural": "Either the paper conf_paper is presented remotely by author1 or it is presented in person by author1."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(inperson_presentation(conf_paper,author1) -> presentation_recorded(conf_paper,tech_team))",
+        "natural": "Provided that the paper conf_paper is presented in person by author1, the presentation of conf_paper is recorded by tech_team."
+      },
+      "(A8 → G)": {
+        "formal": "(A8 → G)",
+        "prover9": "(A8 -> G)",
+        "prover9_expression": "(inperson_presentation(conf_paper,author1) -> conference_successful(academic_conf2024))",
+        "natural": "Whenever the paper conf_paper is presented in person by author1, the conference academic_conf2024 is successful."
+      },
+      "(A9 → G)": {
+        "formal": "(A9 → G)",
+        "prover9": "(A9 -> G)",
+        "prover9_expression": "(presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024))",
+        "natural": "If the presentation of conf_paper is recorded by tech_team, then the conference academic_conf2024 is successful."
+      },
+      "(¬(A10 → (A9 → G)) → A11)": {
+        "formal": "(¬(A10 → (A9 → G)) → A11)",
+        "prover9": "(-(A10 -> (A9 -> G)) -> A11)",
+        "prover9_expression": "(-(proceedings_published(conf_paper,editor1) -> (presentation_recorded(conf_paper,tech_team) -> conference_successful(academic_conf2024))) -> manual_review_needed(conf_paper,chair1))",
+        "natural": "If it is not the case that the publication of conf_paper proceedings by editor1 leads to the recording of the presentation by tech_team implying conference success, then manual review is needed for conf_paper by chair1."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "paper_accepted(conf_paper,reviewer1)",
+        "natural": "Paper conf_paper is accepted by reviewer1."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "proceedings_published(conf_paper,editor1)",
+        "natural": "The proceedings of conf_paper are published by editor1."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "conference_successful(academic_conf2024)",
+        "natural": "The conference academic_conf2024 is successful."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-manual_review_needed(conf_paper,chair1)",
+        "natural": "It is not the case that manual review is needed for conf_paper by chair1."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-paper_rejected(conf_paper,reviewer1)",
+        "natural": "Paper conf_paper is not rejected by reviewer1."
+      }
+    }
+  }
+}

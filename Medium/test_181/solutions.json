@@ -1,0 +1,669 @@
+{
+  "solution_stats": {
+    "total_solutions": 7,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(passes_legislation(congress, renewable_energy_bill) | vetoes_legislation(president, renewable_energy_bill))",
+              "natural": "Either Congress passes the renewable energy bill or the president vetoes the renewable energy bill"
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(passes_legislation(congress, renewable_energy_bill) -> (-available(federal_funding) -> -receives_funding(solar_research, government)))",
+              "natural": "If Congress passes the renewable energy bill, then when federal funding is not available, solar research does not receive government funding"
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (-G -> -A1))",
+              "prover9_expression": "(vetoes_legislation(president, renewable_energy_bill) -> (-available(federal_funding) -> -receives_funding(solar_research, government)))",
+              "natural": "If the president vetoes the renewable energy bill, then when federal funding is not available, solar research does not receive government funding"
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If federal funding is not available, then solar research does not receive government funding"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-available(federal_funding) -> receives_funding(solar_research, government))",
+              "natural": "If federal funding is not available, then solar research receives government funding"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-available(federal_funding) -> -receives_funding(solar_research, government))",
+              "natural": "If federal funding is not available, then solar research does not receive government funding"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(conducts_inspection(environmental_protection_agency, renewable_energy_facility) -> issues_violation(environmental_protection_agency, renewable_energy_facility))",
+              "natural": "If the EPA conducts an inspection of the renewable energy facility, then the EPA issues a violation to the renewable energy facility"
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A9 -> -A7)",
+              "prover9_expression": "(issues_violation(environmental_protection_agency, renewable_energy_facility) -> -violates_regulations(renewable_energy_facility, environmental_protection_agency))",
+              "natural": "If the EPA issues a violation to the renewable energy facility, then the renewable energy facility does not violate EPA regulations"
+            }
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "If the EPA conducts an inspection of the renewable energy facility, then the renewable energy facility does not violate EPA regulations"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(conducts_inspection(environmental_protection_agency, renewable_energy_facility) -> -violates_regulations(renewable_energy_facility, environmental_protection_agency))",
+              "natural": "If the EPA conducts an inspection of the renewable energy facility, then the renewable energy facility does not violate EPA regulations"
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A8",
+              "prover9_expression": "conducts_inspection(environmental_protection_agency, renewable_energy_facility)",
+              "natural": "The EPA conducts an inspection of the renewable energy facility"
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The renewable energy facility does not violate EPA regulations"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A5 -> A4) -> A7)",
+              "prover9_expression": "(-(completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility)) -> violates_regulations(renewable_energy_facility, environmental_protection_agency))",
+              "natural": "If the construction company completing construction does not lead to the renewable energy facility becoming operational, then the renewable energy facility violates EPA regulations"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-violates_regulations(renewable_energy_facility, environmental_protection_agency)",
+              "natural": "The renewable energy facility does not violate EPA regulations"
+            }
+          ],
+          "conclusion": "(A5 -> A4)",
+          "natural": "If the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(completes_construction(construction_company, renewable_energy_facility) | begins_operations(renewable_energy_facility))",
+              "natural": "Either the construction company completes construction of the renewable energy facility or the renewable energy facility begins operations"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))",
+              "natural": "If the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(begins_operations(renewable_energy_facility) -> operational(renewable_energy_facility))",
+              "natural": "If the renewable energy facility begins operations, then the renewable energy facility becomes operational"
+            }
+          ],
+          "conclusion": "A4",
+          "natural": "The renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> G)",
+              "prover9_expression": "(operational(renewable_energy_facility) -> available(federal_funding))",
+              "natural": "If the renewable energy facility becomes operational, then federal funding becomes available"
+            },
+            {
+              "id": "Derived",
+              "prover9": "A4",
+              "prover9_expression": "operational(renewable_energy_facility)",
+              "natural": "The renewable energy facility becomes operational"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(-G -> A10) -> A11)",
+              "prover9_expression": "(-(-available(federal_funding) -> receives_tax_credits(solar_industry)) -> files_lawsuit(solar_industry, government))",
+              "natural": "Provided that the absence of federal funding does not result in the solar industry receiving tax credits, then the solar industry files a lawsuit against the government"
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> A10) -> -A11)",
+              "prover9_expression": "(-(-available(federal_funding) -> receives_tax_credits(solar_industry)) -> -files_lawsuit(solar_industry, government))",
+              "natural": "Given that the absence of federal funding does not lead to the solar industry receiving tax credits, the solar industry does not file a lawsuit against the government"
+            }
+          ],
+          "conclusion": "(-G -> A10)",
+          "natural": "If federal funding is not available, then the solar industry receives tax credits"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A10)",
+              "prover9_expression": "(-available(federal_funding) -> receives_tax_credits(solar_industry))",
+              "natural": "If federal funding is not available, then the solar industry receives tax credits"
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> -A10)",
+              "prover9_expression": "(-available(federal_funding) -> -receives_tax_credits(solar_industry))",
+              "natural": "If federal funding is not available, then the solar industry does not receive tax credits"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(occurs(severe_drought) | occurs(heat_wave))",
+              "natural": "Either a severe drought occurs or a heat wave occurs"
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A13 -> -A12)",
+              "prover9_expression": "(occurs(severe_drought) -> -active(coal_power_plant))",
+              "natural": "If a severe drought occurs, then the coal power plant is not active"
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A14 -> -A12)",
+              "prover9_expression": "(occurs(heat_wave) -> -active(coal_power_plant))",
+              "natural": "If a heat wave occurs, then the coal power plant is not active"
+            }
+          ],
+          "conclusion": "-A12",
+          "natural": "The coal power plant is not active"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-available(federal_funding) -> active(coal_power_plant))",
+              "natural": "If federal funding is not available, then the coal power plant remains active"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A12",
+              "prover9_expression": "-active(coal_power_plant)",
+              "natural": "The coal power plant is not active"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A17 | (A16 -> (-(-G -> -A1) -> A15)))",
+              "prover9_expression": "(activates_national_guard(governor) | (declares_energy_emergency(governor) -> (-(-available(federal_funding) -> -receives_funding(solar_research, government)) -> implements_emergency_measures(energy_department))))",
+              "natural": "Either the governor activates the national guard, or if the governor declares an energy emergency, then under the condition that the absence of federal funding does not result in solar research not receiving government funding, the energy department implements emergency measures"
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A17",
+              "prover9_expression": "-activates_national_guard(governor)",
+              "natural": "The governor does not activate the national guard"
+            }
+          ],
+          "conclusion": "(A16 -> (-(-G -> -A1) -> A15))",
+          "natural": "If the governor declares an energy emergency, then provided that the absence of federal funding does not lead to solar research not receiving government funding, the energy department implements emergency measures"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> (-(-G -> -A1) -> A15))",
+              "prover9_expression": "(declares_energy_emergency(governor) -> (-(-available(federal_funding) -> -receives_funding(solar_research, government)) -> implements_emergency_measures(energy_department)))",
+              "natural": "If the governor declares an energy emergency, then provided that the absence of federal funding does not lead to solar research not receiving government funding, the energy department implements emergency measures"
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A16",
+              "prover9_expression": "declares_energy_emergency(governor)",
+              "natural": "The governor declares an energy emergency"
+            }
+          ],
+          "conclusion": "(-(-G -> -A1) -> A15)",
+          "natural": "If the absence of federal funding does not lead to solar research not receiving government funding, then the energy department implements emergency measures"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A1) -> A15)",
+              "prover9_expression": "(-(-available(federal_funding) -> -receives_funding(solar_research, government)) -> implements_emergency_measures(energy_department))",
+              "natural": "If the absence of federal funding does not lead to solar research not receiving government funding, then the energy department implements emergency measures"
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A15",
+              "prover9_expression": "-implements_emergency_measures(energy_department)",
+              "natural": "The energy department does not implement emergency measures"
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If federal funding is not available, then solar research does not receive government funding"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-available(federal_funding) -> receives_funding(solar_research, government))",
+              "natural": "If federal funding is not available, then solar research receives government funding"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-available(federal_funding) -> -receives_funding(solar_research, government))",
+              "natural": "If federal funding is not available, then solar research does not receive government funding"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A8 -> A19)",
+              "prover9_expression": "(conducts_inspection(environmental_protection_agency, renewable_energy_facility) -> issues_certification(environmental_protection_agency, renewable_energy_facility))",
+              "natural": "If the EPA conducts an inspection of the renewable energy facility, then the EPA issues certification to the renewable energy facility"
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A19 -> A18)",
+              "prover9_expression": "(issues_certification(environmental_protection_agency, renewable_energy_facility) -> finds_compliance(environmental_protection_agency, renewable_energy_facility))",
+              "natural": "If the EPA issues certification to the renewable energy facility, then the EPA finds the renewable energy facility in compliance"
+            }
+          ],
+          "conclusion": "(A8 -> A18)",
+          "natural": "If the EPA conducts an inspection of the renewable energy facility, then the EPA finds the renewable energy facility in compliance"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A18)",
+              "prover9_expression": "(conducts_inspection(environmental_protection_agency, renewable_energy_facility) -> finds_compliance(environmental_protection_agency, renewable_energy_facility))",
+              "natural": "If the EPA conducts an inspection of the renewable energy facility, then the EPA finds the renewable energy facility in compliance"
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A18 -> -A7)",
+              "prover9_expression": "(finds_compliance(environmental_protection_agency, renewable_energy_facility) -> -violates_regulations(renewable_energy_facility, environmental_protection_agency))",
+              "natural": "If the EPA finds the renewable energy facility in compliance, then the renewable energy facility does not violate EPA regulations"
+            }
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "If the EPA conducts an inspection of the renewable energy facility, then the renewable energy facility does not violate EPA regulations"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(conducts_inspection(environmental_protection_agency, renewable_energy_facility) -> -violates_regulations(renewable_energy_facility, environmental_protection_agency))",
+              "natural": "If the EPA conducts an inspection of the renewable energy facility, then the renewable energy facility does not violate EPA regulations"
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A8",
+              "prover9_expression": "conducts_inspection(environmental_protection_agency, renewable_energy_facility)",
+              "natural": "The EPA conducts an inspection of the renewable energy facility"
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The renewable energy facility does not violate EPA regulations"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A5 -> A4) -> A7)",
+              "prover9_expression": "(-(completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility)) -> violates_regulations(renewable_energy_facility, environmental_protection_agency))",
+              "natural": "If the construction company completing construction does not lead to the renewable energy facility becoming operational, then the renewable energy facility violates EPA regulations"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-violates_regulations(renewable_energy_facility, environmental_protection_agency)",
+              "natural": "The renewable energy facility does not violate EPA regulations"
+            }
+          ],
+          "conclusion": "(A5 -> A4)",
+          "natural": "If the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(completes_construction(construction_company, renewable_energy_facility) | begins_operations(renewable_energy_facility))",
+              "natural": "Either the construction company completes construction of the renewable energy facility or the renewable energy facility begins operations"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))",
+              "natural": "If the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(begins_operations(renewable_energy_facility) -> operational(renewable_energy_facility))",
+              "natural": "If the renewable energy facility begins operations, then the renewable energy facility becomes operational"
+            }
+          ],
+          "conclusion": "A4",
+          "natural": "The renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> G)",
+              "prover9_expression": "(operational(renewable_energy_facility) -> available(federal_funding))",
+              "natural": "If the renewable energy facility becomes operational, then federal funding becomes available"
+            },
+            {
+              "id": "Derived",
+              "prover9": "A4",
+              "prover9_expression": "operational(renewable_energy_facility)",
+              "natural": "The renewable energy facility becomes operational"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A23 -> A24)",
+              "prover9_expression": "(investigates_bid(congressional_committee, energy_contract) -> recommends_rebid(congressional_committee, energy_contract))",
+              "natural": "If the congressional committee investigates the energy contract bid, then the congressional committee recommends rebidding the energy contract"
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A24 -> (-(A20 | (A5 -> A4)) -> -A21))",
+              "prover9_expression": "(recommends_rebid(congressional_committee, energy_contract) -> (-(wins_bid(competitor_company, energy_contract) | (completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))) -> -protests_bid(solar_company, energy_contract)))",
+              "natural": "If the congressional committee recommends rebidding the energy contract, then provided that neither a competitor company wins the energy contract bid nor the construction company completing construction leads to the renewable energy facility becoming operational, the solar company does not protest the energy contract bid"
+            }
+          ],
+          "conclusion": "(A23 -> (-(A20 | (A5 -> A4)) -> -A21))",
+          "natural": "If the congressional committee investigates the energy contract bid, then under the condition that neither a competitor company wins the energy contract bid nor the construction company's completion of construction results in the renewable energy facility becoming operational, the solar company does not protest the energy contract bid"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A22 | A23)",
+              "prover9_expression": "(reviews_bid(congressional_committee, energy_contract) | investigates_bid(congressional_committee, energy_contract))",
+              "natural": "Either the congressional committee reviews the energy contract bid or the congressional committee investigates the energy contract bid"
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A22 -> (-(A20 | (A5 -> A4)) -> -A21))",
+              "prover9_expression": "(reviews_bid(congressional_committee, energy_contract) -> (-(wins_bid(competitor_company, energy_contract) | (completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))) -> -protests_bid(solar_company, energy_contract)))",
+              "natural": "If the congressional committee reviews the energy contract bid, then should neither a competitor company win the energy contract bid nor the completion of construction by the construction company lead to the renewable energy facility becoming operational, the solar company does not protest the energy contract bid"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A23 -> (-(A20 | (A5 -> A4)) -> -A21))",
+              "prover9_expression": "(investigates_bid(congressional_committee, energy_contract) -> (-(wins_bid(competitor_company, energy_contract) | (completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))) -> -protests_bid(solar_company, energy_contract)))",
+              "natural": "If the congressional committee investigates the energy contract bid, then under the condition that neither a competitor company wins the energy contract bid nor the construction company's completion of construction results in the renewable energy facility becoming operational, the solar company does not protest the energy contract bid"
+            }
+          ],
+          "conclusion": "(-(A20 | (A5 -> A4)) -> -A21)",
+          "natural": "Under the condition that neither a competitor company wins the energy contract bid nor the construction company completing construction results in the renewable energy facility becoming operational, the solar company does not protest the energy contract bid"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A20 | (A5 -> A4)) -> A21)",
+              "prover9_expression": "(-(wins_bid(competitor_company, energy_contract) | (completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))) -> protests_bid(solar_company, energy_contract))",
+              "natural": "Should neither a competitor company win the energy contract bid nor the construction company completing construction lead to the renewable energy facility becoming operational, then the solar company protests the energy contract bid"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A20 | (A5 -> A4)) -> -A21)",
+              "prover9_expression": "(-(wins_bid(competitor_company, energy_contract) | (completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))) -> -protests_bid(solar_company, energy_contract))",
+              "natural": "Under the condition that neither a competitor company wins the energy contract bid nor the construction company completing construction results in the renewable energy facility becoming operational, the solar company does not protest the energy contract bid"
+            }
+          ],
+          "conclusion": "(A20 | (A5 -> A4))",
+          "natural": "Either a competitor company wins the energy contract bid, or if the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | (A5 -> A4))",
+              "prover9_expression": "(wins_bid(competitor_company, energy_contract) | (completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility)))",
+              "natural": "Either a competitor company wins the energy contract bid, or if the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A20",
+              "prover9_expression": "-wins_bid(competitor_company, energy_contract)",
+              "natural": "A competitor company does not win the energy contract bid"
+            }
+          ],
+          "conclusion": "(A5 -> A4)",
+          "natural": "If the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(completes_construction(construction_company, renewable_energy_facility) | begins_operations(renewable_energy_facility))",
+              "natural": "Either the construction company completes construction of the renewable energy facility or the renewable energy facility begins operations"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(completes_construction(construction_company, renewable_energy_facility) -> operational(renewable_energy_facility))",
+              "natural": "If the construction company completes construction of the renewable energy facility, then the renewable energy facility becomes operational"
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(begins_operations(renewable_energy_facility) -> operational(renewable_energy_facility))",
+              "natural": "If the renewable energy facility begins operations, then the renewable energy facility becomes operational"
+            }
+          ],
+          "conclusion": "A4",
+          "natural": "The renewable energy facility becomes operational"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> G)",
+              "prover9_expression": "(operational(renewable_energy_facility) -> available(federal_funding))",
+              "natural": "If the renewable energy facility becomes operational, then federal funding becomes available"
+            },
+            {
+              "id": "Derived",
+              "prover9": "A4",
+              "prover9_expression": "operational(renewable_energy_facility)",
+              "natural": "The renewable energy facility becomes operational"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Federal funding becomes available"
+        }
+      ]
+    }
+  ]
+}

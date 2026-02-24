@@ -1,0 +1,491 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 → A3)",
+        "prover9_expression": "(tested(drug_x, lab_alpha) -> manufactured(drug_x, company_beta))",
+        "natural": "Provided that drug X is tested by Lab Alpha, drug X is manufactured by Company Beta."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(manufactured(drug_x, company_beta) -> quality_checked(drug_x, inspector_gamma))",
+        "natural": "If drug X is manufactured by Company Beta, then drug X is quality-checked by Inspector Gamma."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A4 → A1)",
+        "prover9_expression": "(quality_checked(drug_x, inspector_gamma) -> approved(drug_x, fda))",
+        "natural": "Drug X being quality-checked by Inspector Gamma implies that drug X is approved by the FDA."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A8 → (A7 → (A3 → A1)))",
+        "prover9_expression": "(audited(company_beta, agency_delta) -> (compliant(company_beta, regulations) -> (manufactured(drug_x, company_beta) -> approved(drug_x, fda))))",
+        "natural": "Should Company Beta be audited by Agency Delta, then if Company Beta is compliant with regulations, whenever drug X is manufactured by Company Beta, drug X is approved by the FDA."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A9 → A8)",
+        "prover9_expression": "(certified(company_beta, standards) -> audited(company_beta, agency_delta))",
+        "natural": "Company Beta being certified to standards leads to Company Beta being audited by Agency Delta."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(¬(A3 → A1) → A5) → A6)",
+        "prover9_expression": "(-(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market)) -> investigated(drug_x, authorities))",
+        "natural": "Assuming it is not the case that the failure of drug X being manufactured by Company Beta to imply FDA approval results in a market recall, then drug X is investigated by the authorities."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(¬(A3 → A1) → A5) → ¬A6)",
+        "prover9_expression": "(-(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market)) -> -investigated(drug_x, authorities))",
+        "natural": "Given that it is not true that the absence of the implication from drug X being manufactured by Company Beta to FDA approval causes a market recall, then drug X is not investigated by the authorities."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬A9 → A10)",
+        "prover9_expression": "(-certified(company_beta, standards) -> fined(company_beta, regulator))",
+        "natural": "In the scenario where Company Beta is not certified to standards, Company Beta is fined by the regulator."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬A9 → ¬A10)",
+        "prover9_expression": "(-certified(company_beta, standards) -> -fined(company_beta, regulator))",
+        "natural": "If Company Beta is not certified to standards, then Company Beta is not fined by the regulator."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬G → A2)",
+        "prover9_expression": "(-safe(drug_x, patients) -> tested(drug_x, lab_alpha))",
+        "natural": "Whenever drug X is not safe for patients, drug X is tested by Lab Alpha."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A7",
+        "prover9_expression": "compliant(company_beta, regulations)",
+        "natural": "Company Beta is compliant with regulations."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A1",
+        "prover9_expression": "-approved(drug_x, fda)",
+        "natural": "It is not the case that drug X is approved by the FDA."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A5",
+        "prover9_expression": "-recalled(drug_x, market)",
+        "natural": "Drug X is not recalled from the market."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "safe(drug_x, patients)",
+    "natural": "Drug X is safe for patients."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> A1)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Whenever drug X is manufactured by Company Beta, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "If drug X is tested by Lab Alpha, then drug X is approved by the FDA."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided drug X is not safe for patients, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for patients."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A3 -> A1) -> A5) -> A6)",
+            "(-(-(A3 -> A1) -> A5) -> -A6)"
+          ],
+          "conclusion": "(-(A3 -> A1) -> A5)",
+          "natural": "If it is not the case that drug X being manufactured by Company Beta implies drug X is approved by the FDA, then drug X is recalled from the market."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 -> A1) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Whenever drug X is manufactured by Company Beta, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "If drug X is tested by Lab Alpha, then drug X is approved by the FDA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided drug X is not safe for patients, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for patients."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A9 -> A10)",
+            "(-A9 -> -A10)"
+          ],
+          "conclusion": "A9",
+          "natural": "Company Beta is certified to standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> A8)",
+            "A9"
+          ],
+          "conclusion": "A8",
+          "natural": "Company Beta is audited by Agency Delta."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> (A7 -> (A3 -> A1)))",
+            "A8"
+          ],
+          "conclusion": "(A7 -> (A3 -> A1))",
+          "natural": "In the event that Company Beta is compliant with regulations, then if drug X is manufactured by Company Beta, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> (A3 -> A1))",
+            "A7"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Whenever drug X is manufactured by Company Beta, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "If drug X is tested by Lab Alpha, then drug X is approved by the FDA."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided drug X is not safe for patients, drug X is approved by the FDA."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for patients."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "approved(drug_x, fda)",
+      "A2": "tested(drug_x, lab_alpha)",
+      "A3": "manufactured(drug_x, company_beta)",
+      "A4": "quality_checked(drug_x, inspector_gamma)",
+      "A5": "recalled(drug_x, market)",
+      "A6": "investigated(drug_x, authorities)",
+      "A7": "compliant(company_beta, regulations)",
+      "A8": "audited(company_beta, agency_delta)",
+      "A9": "certified(company_beta, standards)",
+      "A10": "fined(company_beta, regulator)",
+      "G": "safe(drug_x, patients)"
+    },
+    "natural_facts": {
+      "A1": "Drug X is approved by the FDA.",
+      "A2": "Drug X is tested by Lab Alpha.",
+      "A3": "Drug X is manufactured by Company Beta.",
+      "A4": "Drug X is quality-checked by Inspector Gamma.",
+      "A5": "Drug X is recalled from the market.",
+      "A6": "Drug X is investigated by the authorities.",
+      "A7": "Company Beta is compliant with regulations.",
+      "A8": "Company Beta is audited by Agency Delta.",
+      "A9": "Company Beta is certified to standards.",
+      "A10": "Company Beta is fined by the regulator.",
+      "G": "Drug X is safe for patients."
+    },
+    "prover9_expressions": [
+      "(tested(drug_x, lab_alpha) -> approved(drug_x, fda))",
+      "(tested(drug_x, lab_alpha) -> manufactured(drug_x, company_beta))",
+      "(manufactured(drug_x, company_beta) -> approved(drug_x, fda))",
+      "(manufactured(drug_x, company_beta) -> quality_checked(drug_x, inspector_gamma))",
+      "(quality_checked(drug_x, inspector_gamma) -> approved(drug_x, fda))",
+      "(compliant(company_beta, regulations) -> (manufactured(drug_x, company_beta) -> approved(drug_x, fda)))",
+      "(audited(company_beta, agency_delta) -> (compliant(company_beta, regulations) -> (manufactured(drug_x, company_beta) -> approved(drug_x, fda))))",
+      "(certified(company_beta, standards) -> audited(company_beta, agency_delta))",
+      "(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market))",
+      "(-(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market)) -> investigated(drug_x, authorities))",
+      "(-(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market)) -> -investigated(drug_x, authorities))",
+      "(-certified(company_beta, standards) -> fined(company_beta, regulator))",
+      "(-certified(company_beta, standards) -> -fined(company_beta, regulator))",
+      "(-safe(drug_x, patients) -> approved(drug_x, fda))",
+      "(-safe(drug_x, patients) -> tested(drug_x, lab_alpha))",
+      "compliant(company_beta, regulations)",
+      "audited(company_beta, agency_delta)",
+      "certified(company_beta, standards)",
+      "safe(drug_x, patients)",
+      "-approved(drug_x, fda)",
+      "-recalled(drug_x, market)"
+    ],
+    "natural_expressions": [
+      "If drug X is tested by Lab Alpha, then drug X is approved by the FDA.",
+      "Provided that drug X is tested by Lab Alpha, drug X is manufactured by Company Beta.",
+      "Whenever drug X is manufactured by Company Beta, drug X is approved by the FDA.",
+      "If drug X is manufactured by Company Beta, then drug X is quality-checked by Inspector Gamma.",
+      "Drug X being quality-checked by Inspector Gamma implies that drug X is approved by the FDA.",
+      "In the event that Company Beta is compliant with regulations, then if drug X is manufactured by Company Beta, drug X is approved by the FDA.",
+      "Should Company Beta be audited by Agency Delta, then if Company Beta is compliant with regulations, whenever drug X is manufactured by Company Beta, drug X is approved by the FDA.",
+      "Company Beta being certified to standards leads to Company Beta being audited by Agency Delta.",
+      "If it is not the case that drug X being manufactured by Company Beta implies drug X is approved by the FDA, then drug X is recalled from the market.",
+      "Assuming it is not the case that the failure of drug X being manufactured by Company Beta to imply FDA approval results in a market recall, then drug X is investigated by the authorities.",
+      "Given that it is not true that the absence of the implication from drug X being manufactured by Company Beta to FDA approval causes a market recall, then drug X is not investigated by the authorities.",
+      "In the scenario where Company Beta is not certified to standards, Company Beta is fined by the regulator.",
+      "If Company Beta is not certified to standards, then Company Beta is not fined by the regulator.",
+      "Provided drug X is not safe for patients, drug X is approved by the FDA.",
+      "Whenever drug X is not safe for patients, drug X is tested by Lab Alpha.",
+      "Company Beta is compliant with regulations.",
+      "Company Beta is audited by Agency Delta.",
+      "Company Beta is certified to standards.",
+      "Drug X is safe for patients.",
+      "It is not the case that drug X is approved by the FDA.",
+      "Drug X is not recalled from the market."
+    ],
+    "node_mappings": {
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(tested(drug_x, lab_alpha) -> approved(drug_x, fda))",
+        "natural": "If drug X is tested by Lab Alpha, then drug X is approved by the FDA."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(tested(drug_x, lab_alpha) -> manufactured(drug_x, company_beta))",
+        "natural": "Provided that drug X is tested by Lab Alpha, drug X is manufactured by Company Beta."
+      },
+      "(A3 → A1)": {
+        "formal": "(A3 → A1)",
+        "prover9": "(A3 -> A1)",
+        "prover9_expression": "(manufactured(drug_x, company_beta) -> approved(drug_x, fda))",
+        "natural": "Whenever drug X is manufactured by Company Beta, drug X is approved by the FDA."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(manufactured(drug_x, company_beta) -> quality_checked(drug_x, inspector_gamma))",
+        "natural": "If drug X is manufactured by Company Beta, then drug X is quality-checked by Inspector Gamma."
+      },
+      "(A4 → A1)": {
+        "formal": "(A4 → A1)",
+        "prover9": "(A4 -> A1)",
+        "prover9_expression": "(quality_checked(drug_x, inspector_gamma) -> approved(drug_x, fda))",
+        "natural": "Drug X being quality-checked by Inspector Gamma implies that drug X is approved by the FDA."
+      },
+      "(A7 → (A3 → A1))": {
+        "formal": "(A7 → (A3 → A1))",
+        "prover9": "(A7 -> (A3 -> A1))",
+        "prover9_expression": "(compliant(company_beta, regulations) -> (manufactured(drug_x, company_beta) -> approved(drug_x, fda)))",
+        "natural": "In the event that Company Beta is compliant with regulations, then if drug X is manufactured by Company Beta, drug X is approved by the FDA."
+      },
+      "(A8 → (A7 → (A3 → A1)))": {
+        "formal": "(A8 → (A7 → (A3 → A1)))",
+        "prover9": "(A8 -> (A7 -> (A3 -> A1)))",
+        "prover9_expression": "(audited(company_beta, agency_delta) -> (compliant(company_beta, regulations) -> (manufactured(drug_x, company_beta) -> approved(drug_x, fda))))",
+        "natural": "Should Company Beta be audited by Agency Delta, then if Company Beta is compliant with regulations, whenever drug X is manufactured by Company Beta, drug X is approved by the FDA."
+      },
+      "(A9 → A8)": {
+        "formal": "(A9 → A8)",
+        "prover9": "(A9 -> A8)",
+        "prover9_expression": "(certified(company_beta, standards) -> audited(company_beta, agency_delta))",
+        "natural": "Company Beta being certified to standards leads to Company Beta being audited by Agency Delta."
+      },
+      "(¬(A3 → A1) → A5)": {
+        "formal": "(¬(A3 → A1) → A5)",
+        "prover9": "(-(A3 -> A1) -> A5)",
+        "prover9_expression": "(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market))",
+        "natural": "If it is not the case that drug X being manufactured by Company Beta implies drug X is approved by the FDA, then drug X is recalled from the market."
+      },
+      "(¬(¬(A3 → A1) → A5) → A6)": {
+        "formal": "(¬(¬(A3 → A1) → A5) → A6)",
+        "prover9": "(-(-(A3 -> A1) -> A5) -> A6)",
+        "prover9_expression": "(-(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market)) -> investigated(drug_x, authorities))",
+        "natural": "Assuming it is not the case that the failure of drug X being manufactured by Company Beta to imply FDA approval results in a market recall, then drug X is investigated by the authorities."
+      },
+      "(¬(¬(A3 → A1) → A5) → ¬A6)": {
+        "formal": "(¬(¬(A3 → A1) → A5) → ¬A6)",
+        "prover9": "(-(-(A3 -> A1) -> A5) -> -A6)",
+        "prover9_expression": "(-(-(manufactured(drug_x, company_beta) -> approved(drug_x, fda)) -> recalled(drug_x, market)) -> -investigated(drug_x, authorities))",
+        "natural": "Given that it is not true that the absence of the implication from drug X being manufactured by Company Beta to FDA approval causes a market recall, then drug X is not investigated by the authorities."
+      },
+      "(¬A9 → A10)": {
+        "formal": "(¬A9 → A10)",
+        "prover9": "(-A9 -> A10)",
+        "prover9_expression": "(-certified(company_beta, standards) -> fined(company_beta, regulator))",
+        "natural": "In the scenario where Company Beta is not certified to standards, Company Beta is fined by the regulator."
+      },
+      "(¬A9 → ¬A10)": {
+        "formal": "(¬A9 → ¬A10)",
+        "prover9": "(-A9 -> -A10)",
+        "prover9_expression": "(-certified(company_beta, standards) -> -fined(company_beta, regulator))",
+        "natural": "If Company Beta is not certified to standards, then Company Beta is not fined by the regulator."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-safe(drug_x, patients) -> approved(drug_x, fda))",
+        "natural": "Provided drug X is not safe for patients, drug X is approved by the FDA."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-safe(drug_x, patients) -> tested(drug_x, lab_alpha))",
+        "natural": "Whenever drug X is not safe for patients, drug X is tested by Lab Alpha."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "compliant(company_beta, regulations)",
+        "natural": "Company Beta is compliant with regulations."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "audited(company_beta, agency_delta)",
+        "natural": "Company Beta is audited by Agency Delta."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "certified(company_beta, standards)",
+        "natural": "Company Beta is certified to standards."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "safe(drug_x, patients)",
+        "natural": "Drug X is safe for patients."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-approved(drug_x, fda)",
+        "natural": "It is not the case that drug X is approved by the FDA."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-recalled(drug_x, market)",
+        "natural": "Drug X is not recalled from the market."
+      }
+    }
+  }
+}

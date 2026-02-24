@@ -1,0 +1,265 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(certified(organization1, facility1) -> approved_by(organization1, facility1))",
+              "natural": "Provided that organization1 has certified facility1, organization1 has approved facility1."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A5",
+              "prover9_expression": "certified(organization1, facility1)",
+              "natural": "Organization1 has certified facility1."
+            }
+          ],
+          "conclusion": "A4",
+          "natural": "Organization1 has approved facility1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(approved_by(organization1, facility1) -> (requires_testing(facility1, device1) | requires_testing(facility1, device2)))",
+              "natural": "If organization1 has approved facility1, then either facility1 requires testing with device1 or facility1 requires testing with device2."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A4",
+              "prover9_expression": "approved_by(organization1, facility1)",
+              "natural": "Organization1 has approved facility1."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Facility1 requires testing with device1 or facility1 requires testing with device2."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(requires_testing(facility1, device1) | requires_testing(facility1, device2))",
+              "natural": "Facility1 requires testing with device1 or facility1 requires testing with device2."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(requires_testing(facility1, device1) -> (-compliant(organization1) -> contaminated(drug1)))",
+              "natural": "If facility1 requires testing with device1, then should organization1 not be compliant, drug1 becomes contaminated."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(requires_testing(facility1, device2) -> (-compliant(organization1) -> contaminated(drug1)))",
+              "natural": "Whenever facility1 requires testing with device2, under the condition that organization1 is not compliant, drug1 is contaminated."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Should organization1 not be compliant, drug1 is contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-compliant(organization1) -> contaminated(drug1))",
+              "natural": "Should organization1 not be compliant, drug1 is contaminated."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-compliant(organization1) -> -contaminated(drug1))",
+              "natural": "If organization1 is not compliant, then drug1 is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Organization1 is compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A8 -> A10)",
+              "prover9_expression": "(scheduled(game1, facility1) -> maintenance_complete(device2))",
+              "natural": "Under the condition that game1 is scheduled at facility1, maintenance is complete for device2."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A9)",
+              "prover9_expression": "(maintenance_complete(device2) -> maintenance_complete(device1))",
+              "natural": "Provided that maintenance is complete for device2, maintenance is complete for device1."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Provided that game1 is scheduled at facility1, maintenance is complete for device1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(scheduled(game1, facility1) -> maintenance_complete(device1))",
+              "natural": "Provided that game1 is scheduled at facility1, maintenance is complete for device1."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(maintenance_complete(device1) -> operational(device2))",
+              "natural": "Whenever maintenance is complete for device1, device2 is operational."
+            }
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "If game1 is scheduled at facility1, then device2 is operational."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(scheduled(game1, facility1) -> operational(device2))",
+              "natural": "If game1 is scheduled at facility1, then device2 is operational."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A8",
+              "prover9_expression": "scheduled(game1, facility1)",
+              "natural": "Game1 is scheduled at facility1."
+            }
+          ],
+          "conclusion": "A7",
+          "natural": "Device2 is operational."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A7 -> -A6)",
+              "prover9_expression": "(operational(device2) -> -operational(device1))",
+              "natural": "If device2 is operational, then it is not the case that device1 is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A7",
+              "prover9_expression": "operational(device2)",
+              "natural": "Device2 is operational."
+            }
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that device1 is operational."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A6 | (A2 | A3))",
+              "prover9_expression": "(operational(device1) | (requires_testing(facility1, device1) | requires_testing(facility1, device2)))",
+              "natural": "Either device1 is operational, or facility1 requires testing with device1, or facility1 requires testing with device2."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A6",
+              "prover9_expression": "-operational(device1)",
+              "natural": "It is not the case that device1 is operational."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Facility1 requires testing with device1 or facility1 requires testing with device2."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(requires_testing(facility1, device1) | requires_testing(facility1, device2))",
+              "natural": "Facility1 requires testing with device1 or facility1 requires testing with device2."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(requires_testing(facility1, device1) -> (-compliant(organization1) -> contaminated(drug1)))",
+              "natural": "If facility1 requires testing with device1, then should organization1 not be compliant, drug1 becomes contaminated."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(requires_testing(facility1, device2) -> (-compliant(organization1) -> contaminated(drug1)))",
+              "natural": "Whenever facility1 requires testing with device2, under the condition that organization1 is not compliant, drug1 is contaminated."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Should organization1 not be compliant, drug1 is contaminated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-compliant(organization1) -> contaminated(drug1))",
+              "natural": "Should organization1 not be compliant, drug1 is contaminated."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-compliant(organization1) -> -contaminated(drug1))",
+              "natural": "If organization1 is not compliant, then drug1 is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Organization1 is compliant."
+        }
+      ]
+    }
+  ]
+}

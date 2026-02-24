@@ -1,0 +1,837 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-(A4 -> -A3) -> A5)",
+              "prover9_expression": "(-(material_scarce(warehouse, goods) -> -material_available(warehouse, goods)) -> material_overflow(warehouse, goods))",
+              "natural": "If the scarcity of goods does not imply their unavailability at the warehouse, then there is an overflow of goods."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A5",
+              "prover9_expression": "-material_overflow(warehouse, goods)",
+              "natural": "There is no overflow of goods at the warehouse."
+            }
+          ],
+          "conclusion": "(A4 -> -A3)",
+          "natural": "If the goods are scarce at the warehouse, then the goods are not available."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> -A3)",
+              "prover9_expression": "(material_scarce(warehouse, goods) -> -material_available(warehouse, goods))",
+              "natural": "If the goods are scarce at the warehouse, then the goods are not available."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A4",
+              "prover9_expression": "material_scarce(warehouse, goods)",
+              "natural": "The goods are scarce at the warehouse."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "The warehouse does not have the goods available."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A3 | (A2 -> G))",
+              "prover9_expression": "(material_available(warehouse, goods) | (valid_authorization(driver, transport) -> delivery_on_time(goods, destination)))",
+              "natural": "Either the warehouse has the goods available or, given that the driver's authorization for transport is valid, the goods are delivered on time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-material_available(warehouse, goods)",
+              "natural": "The warehouse does not have the goods available."
+            }
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Given that the driver's authorization for transport is valid, the goods will be delivered on time to the destination."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(has_authorization(driver, transport) -> valid_authorization(driver, transport))",
+              "natural": "If the driver has authorization for transport, then that authorization is valid."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(valid_authorization(driver, transport) -> delivery_on_time(goods, destination))",
+              "natural": "Given that the driver's authorization for transport is valid, the goods will be delivered on time to the destination."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the driver has authorization for transport, the goods will be delivered on time to the destination."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_authorization(driver, transport) -> delivery_on_time(goods, destination))",
+              "natural": "Provided that the driver has authorization for transport, the goods will be delivered on time to the destination."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "has_authorization(driver, transport)",
+              "natural": "The driver has authorization for transport."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The goods will be delivered on time to the destination."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A11 -> A12)",
+              "prover9_expression": "(supervisor_approves(supervisor1, shipment) -> director_approves(director1, shipment))",
+              "natural": "In the event that supervisor1 approves the shipment, director1 also approves the shipment."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A12 -> (A9 -> (A8 -> A7)))",
+              "prover9_expression": "(director_approves(director1, shipment) -> (schedule_approved(driver, shift1) -> (route_assigned(truck1, route1) -> shipment_dispatched(truck1, goods))))",
+              "natural": "Provided that director1 approves the shipment, and if the driver's schedule for shift1 is approved, and under the condition that route1 is assigned to truck1, then truck1 dispatches the goods."
+            }
+          ],
+          "conclusion": "(A11 -> (A9 -> (A8 -> A7)))",
+          "natural": "If supervisor1 approves the shipment, then given that the driver's schedule for shift1 is approved, and whenever route1 is assigned to truck1, it follows that truck1 dispatches the goods."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(manager_approves(manager1, shipment) | supervisor_approves(supervisor1, shipment))",
+              "natural": "Either manager1 approves the shipment or supervisor1 approves the shipment."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (A9 -> (A8 -> A7)))",
+              "prover9_expression": "(manager_approves(manager1, shipment) -> (schedule_approved(driver, shift1) -> (route_assigned(truck1, route1) -> shipment_dispatched(truck1, goods))))",
+              "natural": "Whenever manager1 approves the shipment, and provided that the driver's schedule for shift1 is approved, and under the condition that route1 is assigned to truck1, then truck1 dispatches the goods."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> (A9 -> (A8 -> A7)))",
+              "prover9_expression": "(supervisor_approves(supervisor1, shipment) -> (schedule_approved(driver, shift1) -> (route_assigned(truck1, route1) -> shipment_dispatched(truck1, goods))))",
+              "natural": "If supervisor1 approves the shipment, then given that the driver's schedule for shift1 is approved, and whenever route1 is assigned to truck1, it follows that truck1 dispatches the goods."
+            }
+          ],
+          "conclusion": "(A9 -> (A8 -> A7))",
+          "natural": "Provided that the driver's schedule for shift1 is approved, and if route1 is assigned to truck1, then truck1 dispatches the goods."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A8 -> A7))",
+              "prover9_expression": "(schedule_approved(driver, shift1) -> (route_assigned(truck1, route1) -> shipment_dispatched(truck1, goods)))",
+              "natural": "Provided that the driver's schedule for shift1 is approved, and if route1 is assigned to truck1, then truck1 dispatches the goods."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "A9",
+              "prover9_expression": "schedule_approved(driver, shift1)",
+              "natural": "The driver's schedule for shift1 is approved."
+            }
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "In the event that route1 is assigned to truck1, truck1 dispatches the goods."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A6 -> G) -> A8)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> route_assigned(truck1, route1))",
+              "natural": "Whenever truck1's operational status does not guarantee on-time delivery, route1 is assigned to truck1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(route_assigned(truck1, route1) -> shipment_dispatched(truck1, goods))",
+              "natural": "In the event that route1 is assigned to truck1, truck1 dispatches the goods."
+            }
+          ],
+          "conclusion": "(-(A6 -> G) -> A7)",
+          "natural": "Should truck1 being operational not entail on-time delivery of goods, then truck1 dispatches the goods."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A6 -> G) -> A7)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> shipment_dispatched(truck1, goods))",
+              "natural": "Should truck1 being operational not entail on-time delivery of goods, then truck1 dispatches the goods."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(-(A6 -> G) -> -A7)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> -shipment_dispatched(truck1, goods))",
+              "natural": "If truck1 being operational does not lead to on-time delivery, then truck1 does not dispatch the goods."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "Whenever truck1 is operational, the goods are delivered on time."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(vehicle_operational(truck1) -> delivery_on_time(goods, destination))",
+              "natural": "Whenever truck1 is operational, the goods are delivered on time."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A6",
+              "prover9_expression": "vehicle_operational(truck1)",
+              "natural": "Truck1 is operational."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The goods will be delivered on time to the destination."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A19 -> A18)",
+              "prover9_expression": "(guard_patrol_active(facility) -> security_protocol_enabled(facility))",
+              "natural": "Whenever guard patrol is active at the facility, the security protocol is enabled."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A20 -> -A17)",
+              "prover9_expression": "(surveillance_active(facility) -> -security_alert_active(facility))",
+              "natural": "If surveillance is active at the facility, then a security alert is not active."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A19 | A20)",
+              "prover9_expression": "(guard_patrol_active(facility) | surveillance_active(facility))",
+              "natural": "Either guard patrol is active at the facility or surveillance is active at the facility."
+            }
+          ],
+          "conclusion": "(A18 | -A17)",
+          "natural": "Either the security protocol is enabled at the facility, or it is not the case that a security alert is active."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 | -A17)",
+              "prover9_expression": "(security_protocol_enabled(facility) | -security_alert_active(facility))",
+              "natural": "Either the security protocol is enabled at the facility, or it is not the case that a security alert is active."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A18",
+              "prover9_expression": "-security_protocol_enabled(facility)",
+              "natural": "The security protocol is not enabled at the facility."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "A security alert is not active at the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A17 | (A16 -> -A15))",
+              "prover9_expression": "(security_alert_active(facility) | (security_breach_detected(facility) -> -system_lockdown(facility)))",
+              "natural": "Either a security alert is active at the facility or, if a security breach is detected, the facility is not under system lockdown."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-security_alert_active(facility)",
+              "natural": "A security alert is not active at the facility."
+            }
+          ],
+          "conclusion": "(A16 -> -A15)",
+          "natural": "Should a security breach be detected at the facility, then the facility is not under system lockdown."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> -A15)",
+              "prover9_expression": "(security_breach_detected(facility) -> -system_lockdown(facility))",
+              "natural": "Should a security breach be detected at the facility, then the facility is not under system lockdown."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A16",
+              "prover9_expression": "security_breach_detected(facility)",
+              "natural": "A security breach has been detected at the facility."
+            }
+          ],
+          "conclusion": "-A15",
+          "natural": "The facility is not under system lockdown."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-(-(A13 | G) -> A14) -> A15)",
+              "prover9_expression": "(-(-(emergency_override(system) | delivery_on_time(goods, destination)) -> manual_override(system)) -> system_lockdown(facility))",
+              "natural": "In the case where the absence of either an emergency override or on-time delivery does not necessitate a manual override, the facility enters system lockdown."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A15",
+              "prover9_expression": "-system_lockdown(facility)",
+              "natural": "The facility is not under system lockdown."
+            }
+          ],
+          "conclusion": "(-(A13 | G) -> A14)",
+          "natural": "If it is not the case that either an emergency override is active or the goods are delivered on time, then a manual override is activated for the system."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 | G) -> A14)",
+              "prover9_expression": "(-(emergency_override(system) | delivery_on_time(goods, destination)) -> manual_override(system))",
+              "natural": "If it is not the case that either an emergency override is active or the goods are delivered on time, then a manual override is activated for the system."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(-(A13 | G) -> -A14)",
+              "prover9_expression": "(-(emergency_override(system) | delivery_on_time(goods, destination)) -> -manual_override(system))",
+              "natural": "Should it not be true that either an emergency override occurs or the goods are delivered on time, then a manual override does not happen."
+            }
+          ],
+          "conclusion": "(A13 | G)",
+          "natural": "Either the system has an emergency override or the goods are delivered on time to the destination."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | G)",
+              "prover9_expression": "(emergency_override(system) | delivery_on_time(goods, destination))",
+              "natural": "Either the system has an emergency override or the goods are delivered on time to the destination."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A13",
+              "prover9_expression": "-emergency_override(system)",
+              "natural": "It is not the case that the system has an emergency override."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The goods will be delivered on time to the destination."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A25 -> A23)",
+              "prover9_expression": "(day_shift_active(garage) -> mechanic_available(garage))",
+              "natural": "Under the condition that the day shift is active at the garage, a mechanic is available."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> A24)",
+              "prover9_expression": "(night_shift_active(garage) -> technician_available(garage))",
+              "natural": "If the night shift is active at the garage, then a technician is available."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(day_shift_active(garage) | night_shift_active(garage))",
+              "natural": "Either the day shift is active at the garage or the night shift is active."
+            }
+          ],
+          "conclusion": "(A23 | A24)",
+          "natural": "Either a mechanic is available at the garage or a technician is available at the garage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A23 | A24)",
+              "prover9_expression": "(mechanic_available(garage) | technician_available(garage))",
+              "natural": "Either a mechanic is available at the garage or a technician is available at the garage."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A23 -> -A22)",
+              "prover9_expression": "(mechanic_available(garage) -> -vehicle_ready(truck1))",
+              "natural": "If a mechanic is available at the garage, then truck1 is not ready."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A24 -> -A22)",
+              "prover9_expression": "(technician_available(garage) -> -vehicle_ready(truck1))",
+              "natural": "Whenever a technician is available at the garage, truck1 is not ready."
+            }
+          ],
+          "conclusion": "-A22",
+          "natural": "Truck1 is not ready as a vehicle."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A21 -> A22)",
+              "prover9_expression": "(maintenance_required(truck1) -> vehicle_ready(truck1))",
+              "natural": "Provided that maintenance is required for truck1, truck1 is ready as a vehicle."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A22",
+              "prover9_expression": "-vehicle_ready(truck1)",
+              "natural": "Truck1 is not ready as a vehicle."
+            }
+          ],
+          "conclusion": "-A21",
+          "natural": "Maintenance is not required for truck1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(-(-(A6 -> G) -> A7) -> A21)",
+              "prover9_expression": "(-(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> shipment_dispatched(truck1, goods)) -> maintenance_required(truck1))",
+              "natural": "Provided that the failure of truck1's operational status to ensure on-time delivery does not result in dispatching the goods, maintenance is required for truck1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A21",
+              "prover9_expression": "-maintenance_required(truck1)",
+              "natural": "Maintenance is not required for truck1."
+            }
+          ],
+          "conclusion": "(-(A6 -> G) -> A7)",
+          "natural": "Should truck1 being operational not entail on-time delivery of goods, then truck1 dispatches the goods."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A6 -> G) -> A7)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> shipment_dispatched(truck1, goods))",
+              "natural": "Should truck1 being operational not entail on-time delivery of goods, then truck1 dispatches the goods."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(-(A6 -> G) -> -A7)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> -shipment_dispatched(truck1, goods))",
+              "natural": "If truck1 being operational does not lead to on-time delivery, then truck1 does not dispatch the goods."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "Whenever truck1 is operational, the goods are delivered on time."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(vehicle_operational(truck1) -> delivery_on_time(goods, destination))",
+              "natural": "Whenever truck1 is operational, the goods are delivered on time."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A6",
+              "prover9_expression": "vehicle_operational(truck1)",
+              "natural": "Truck1 is operational."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The goods will be delivered on time to the destination."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A33 -> A34)",
+              "prover9_expression": "(cellular_signal_strong(navigation) -> wifi_signal_strong(navigation))",
+              "natural": "If the cellular signal is strong for the navigation system, then the Wi-Fi signal is strong."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A34 -> (A30 -> A31))",
+              "prover9_expression": "(wifi_signal_strong(navigation) -> (gps_malfunction(navigation) -> location_tracking_active(navigation)))",
+              "natural": "Under the condition that the Wi-Fi signal is strong, and if a GPS malfunction happens, location tracking is active."
+            }
+          ],
+          "conclusion": "(A33 -> (A30 -> A31))",
+          "natural": "Whenever the cellular signal is strong, and given a GPS malfunction occurs, location tracking is active."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A32 | A33)",
+              "prover9_expression": "(satellite_signal_strong(navigation) | cellular_signal_strong(navigation))",
+              "natural": "Either the satellite signal is strong for the navigation system or the cellular signal is strong."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A32 -> (A30 -> A31))",
+              "prover9_expression": "(satellite_signal_strong(navigation) -> (gps_malfunction(navigation) -> location_tracking_active(navigation)))",
+              "natural": "Provided that the satellite signal is strong, and if there is a GPS malfunction, then location tracking is active."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A33 -> (A30 -> A31))",
+              "prover9_expression": "(cellular_signal_strong(navigation) -> (gps_malfunction(navigation) -> location_tracking_active(navigation)))",
+              "natural": "Whenever the cellular signal is strong, and given a GPS malfunction occurs, location tracking is active."
+            }
+          ],
+          "conclusion": "(A30 -> A31)",
+          "natural": "Should the navigation system have a GPS malfunction, then location tracking is active."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A30 -> A31)",
+              "prover9_expression": "(gps_malfunction(navigation) -> location_tracking_active(navigation))",
+              "natural": "Should the navigation system have a GPS malfunction, then location tracking is active."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A30 -> -A31)",
+              "prover9_expression": "(gps_malfunction(navigation) -> -location_tracking_active(navigation))",
+              "natural": "If there is a GPS malfunction in the navigation system, location tracking is not active."
+            }
+          ],
+          "conclusion": "-A30",
+          "natural": "The navigation system does not have a GPS malfunction."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A28 | A29) -> A30)",
+              "prover9_expression": "(-(daily_check_complete(truck1) | weekly_check_complete(truck1)) -> gps_malfunction(navigation))",
+              "natural": "If neither the daily check is complete nor the weekly check is complete for truck1, then the navigation has a GPS malfunction."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A30",
+              "prover9_expression": "-gps_malfunction(navigation)",
+              "natural": "The navigation system does not have a GPS malfunction."
+            }
+          ],
+          "conclusion": "(A28 | A29)",
+          "natural": "Either the daily check for truck1 is complete or the weekly check is complete."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A28 -> A27)",
+              "prover9_expression": "(daily_check_complete(truck1) -> inspection_passed(truck1))",
+              "natural": "Provided that the daily check for truck1 is complete, truck1 has passed inspection."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A29 -> (A6 -> G))",
+              "prover9_expression": "(weekly_check_complete(truck1) -> (vehicle_operational(truck1) -> delivery_on_time(goods, destination)))",
+              "natural": "If the weekly check for truck1 is complete, then whenever truck1 is operational, the goods will be delivered on time."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A28 | A29)",
+              "prover9_expression": "(daily_check_complete(truck1) | weekly_check_complete(truck1))",
+              "natural": "Either the daily check for truck1 is complete or the weekly check is complete."
+            }
+          ],
+          "conclusion": "(A27 | (A6 -> G))",
+          "natural": "Either truck1 has passed inspection or, if truck1 is operational, the goods are delivered on time."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A27 | (A6 -> G))",
+              "prover9_expression": "(inspection_passed(truck1) | (vehicle_operational(truck1) -> delivery_on_time(goods, destination)))",
+              "natural": "Either truck1 has passed inspection or, if truck1 is operational, the goods are delivered on time."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A27",
+              "prover9_expression": "-inspection_passed(truck1)",
+              "natural": "Truck1 has not passed inspection."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "Whenever truck1 is operational, the goods are delivered on time."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(vehicle_operational(truck1) -> delivery_on_time(goods, destination))",
+              "natural": "Whenever truck1 is operational, the goods are delivered on time."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A6",
+              "prover9_expression": "vehicle_operational(truck1)",
+              "natural": "Truck1 is operational."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The goods will be delivered on time to the destination."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-(A35 -> A7) -> A36)",
+              "prover9_expression": "(-(fuel_sufficient(truck1) -> shipment_dispatched(truck1, goods)) -> refueling_scheduled(truck1))",
+              "natural": "In the event that having sufficient fuel does not lead to truck1 dispatching the goods, then refueling is scheduled for truck1."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(A35 -> A7) -> -A36)",
+              "prover9_expression": "(-(fuel_sufficient(truck1) -> shipment_dispatched(truck1, goods)) -> -refueling_scheduled(truck1))",
+              "natural": "Provided that sufficient fuel does not result in truck1 dispatching the goods, refueling is not scheduled."
+            }
+          ],
+          "conclusion": "(A35 -> A7)",
+          "natural": "Provided that truck1 has sufficient fuel, it dispatches the goods."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A8 -> A35)",
+              "prover9_expression": "(route_assigned(truck1, route1) -> fuel_sufficient(truck1))",
+              "natural": "Should route1 be assigned to truck1, then truck1 has sufficient fuel."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A35 -> A7)",
+              "prover9_expression": "(fuel_sufficient(truck1) -> shipment_dispatched(truck1, goods))",
+              "natural": "Provided that truck1 has sufficient fuel, it dispatches the goods."
+            }
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "In the event that route1 is assigned to truck1, truck1 dispatches the goods."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A6 -> G) -> A8)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> route_assigned(truck1, route1))",
+              "natural": "Whenever truck1's operational status does not guarantee on-time delivery, route1 is assigned to truck1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(route_assigned(truck1, route1) -> shipment_dispatched(truck1, goods))",
+              "natural": "In the event that route1 is assigned to truck1, truck1 dispatches the goods."
+            }
+          ],
+          "conclusion": "(-(A6 -> G) -> A7)",
+          "natural": "Should truck1 being operational not entail on-time delivery of goods, then truck1 dispatches the goods."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A6 -> G) -> A7)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> shipment_dispatched(truck1, goods))",
+              "natural": "Should truck1 being operational not entail on-time delivery of goods, then truck1 dispatches the goods."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(-(A6 -> G) -> -A7)",
+              "prover9_expression": "(-(vehicle_operational(truck1) -> delivery_on_time(goods, destination)) -> -shipment_dispatched(truck1, goods))",
+              "natural": "If truck1 being operational does not lead to on-time delivery, then truck1 does not dispatch the goods."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "Whenever truck1 is operational, the goods are delivered on time."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(vehicle_operational(truck1) -> delivery_on_time(goods, destination))",
+              "natural": "Whenever truck1 is operational, the goods are delivered on time."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A6",
+              "prover9_expression": "vehicle_operational(truck1)",
+              "natural": "Truck1 is operational."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The goods will be delivered on time to the destination."
+        }
+      ]
+    }
+  ]
+}

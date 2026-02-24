@@ -1,0 +1,877 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A12 → (A11 → A10))",
+        "prover9_expression": "(scheduled_audit(facility_alpha) -> (valid_permit(facility_alpha) -> operates_legally(facility_alpha)))",
+        "natural": "Whenever a scheduled audit occurs at Facility Alpha, it follows that if the facility possesses a valid permit, then it operates legally."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 ∨ A13)",
+        "prover9_expression": "(scheduled_audit(facility_alpha) | unscheduled_inspection(facility_alpha))",
+        "natural": "Either a scheduled audit happens at Facility Alpha or an unscheduled inspection occurs."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → (A11 → A10))",
+        "prover9_expression": "(unscheduled_inspection(facility_alpha) -> (valid_permit(facility_alpha) -> operates_legally(facility_alpha)))",
+        "natural": "Under the condition that an unscheduled inspection takes place at Facility Alpha, then if the facility has a valid permit, it operates legally."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A17 → (¬(A15 → A14) → A16))",
+        "prover9_expression": "(major_contamination(facility_alpha) -> (-(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha)) -> criminal_charges(facility_alpha)))",
+        "natural": "When major contamination occurs at Facility Alpha, then if it is not the case that a regulatory violation leads to temporary shutdown, criminal charges will be filed against the facility."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A18 → A17)",
+        "prover9_expression": "(batch_recall(drug_x) -> major_contamination(facility_alpha))",
+        "natural": "A batch recall of Drug X implies that major contamination occurred at Facility Alpha."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A21 → (A20 → (A4 → A5)))",
+        "prover9_expression": "(supplier_approved(chemical_y) -> (uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))))",
+        "natural": "If supplier approval was granted for Chemical Y, then whenever Drug X uses that raw material and is manufactured at Facility Alpha, it meets quality standards."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A21 ∨ A22)",
+        "prover9_expression": "(supplier_approved(chemical_y) | emergency_procurement(chemical_y))",
+        "natural": "Either supplier approval exists for Chemical Y or emergency procurement was used for it."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A22 → (A20 → (A4 → A5)))",
+        "prover9_expression": "(emergency_procurement(chemical_y) -> (uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))))",
+        "natural": "Under the condition of emergency procurement for Chemical Y, then if Drug X uses that raw material and is made at Facility Alpha, it meets quality standards."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A3 → A2)",
+        "prover9_expression": "(passes_clinical_trial(drug_x) -> approved_by_fda(drug_x))",
+        "natural": "If Drug X passes clinical trials, then it receives FDA approval."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(passes_clinical_trial(drug_x) | manufactured_at(drug_x, facility_alpha))",
+        "natural": "Drug X passes clinical trials or it is manufactured at Facility Alpha."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A4 → A6)",
+        "prover9_expression": "(manufactured_at(drug_x, facility_alpha) -> passes_qc_test(drug_x))",
+        "natural": "If Drug X is manufactured at Facility Alpha, then it passes quality control testing."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A5 → (A1 → G))",
+        "prover9_expression": "(meets_quality_standards(drug_x) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+        "natural": "Under the condition that Drug X meets quality standards, then if it contains active compound A, it is safe for consumption."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A6 → A5)",
+        "prover9_expression": "(passes_qc_test(drug_x) -> meets_quality_standards(drug_x))",
+        "natural": "If Drug X passes quality control testing, then it meets quality standards."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A8 → A7)",
+        "prover9_expression": "(investigated_by_fda(drug_x) -> recalled_product(drug_x))",
+        "natural": "Whenever Drug X is investigated by the FDA, it indicates that the product was recalled."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬(A4 → (A1 → G)) → A15)",
+        "prover9_expression": "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> regulatory_violation(facility_alpha))",
+        "natural": "Under the condition that it is not true that manufacturing Drug X at Facility Alpha leads to safety given active compound A, a regulatory violation is committed by the facility."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(¬(A4 → (A1 → G)) → ¬A14)",
+        "prover9_expression": "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> -temporary_shutdown(facility_alpha))",
+        "natural": "Whenever it is not the case that manufacturing Drug X at Facility Alpha results in safety with active compound A, then temporary shutdown does not occur at the facility."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(¬(A9 ∨ (¬G → A8)) → A11)",
+        "prover9_expression": "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> valid_permit(facility_alpha))",
+        "natural": "Provided that it is not the case that Facility Alpha has a manufacturing license or non-safety triggers FDA investigation, the facility holds a valid permit."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(¬(A9 ∨ (¬G → A8)) → ¬A10)",
+        "prover9_expression": "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> -operates_legally(facility_alpha))",
+        "natural": "Under the condition that neither does Facility Alpha have a manufacturing license nor does non-safety result in FDA investigation, the facility does not operate legally."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(¬A18 → A19)",
+        "prover9_expression": "(-batch_recall(drug_x) -> minor_infraction(facility_alpha))",
+        "natural": "If a batch recall does not happen for Drug X, then Facility Alpha committed a minor infraction."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "has_active_compound(drug_x, compound_a)",
+        "natural": "Drug X contains active compound A."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A20",
+        "prover9_expression": "uses_raw_material(drug_x, chemical_y)",
+        "natural": "Drug X uses raw material Chemical Y."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A16",
+        "prover9_expression": "-criminal_charges(facility_alpha)",
+        "natural": "It is not the case that criminal charges were filed against Facility Alpha."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A19",
+        "prover9_expression": "-minor_infraction(facility_alpha)",
+        "natural": "No minor infraction was committed by Facility Alpha."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A2",
+        "prover9_expression": "-approved_by_fda(drug_x)",
+        "natural": "Drug X does not have FDA approval."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A7",
+        "prover9_expression": "-recalled_product(drug_x)",
+        "natural": "Drug X was not recalled as a product."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A9",
+        "prover9_expression": "-has_manufacturing_license(facility_alpha)",
+        "natural": "Facility Alpha does not hold a manufacturing license."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "safe_for_consumption(drug_x)",
+    "natural": "Drug X is safe for consumption."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A6)",
+            "(A6 -> A5)"
+          ],
+          "conclusion": "(A4 -> A5)",
+          "natural": "Provided that Drug X is manufactured at Facility Alpha, it meets quality standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A1 -> G))"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Whenever Drug X is manufactured at Facility Alpha, then if it contains active compound A, it is safe for consumption."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A3 -> A2)",
+            "(A4 -> (A1 -> G))",
+            "(A3 | A4)"
+          ],
+          "conclusion": "(A2 | (A1 -> G))",
+          "natural": "Either Drug X has FDA approval or, if it contains active compound A, then it is safe for consumption."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 -> G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If Drug X contains active compound A, then it is safe for consumption."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for consumption."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> (A11 -> A10))",
+            "(A13 -> (A11 -> A10))"
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that Facility Alpha has a valid permit, it operates legally."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A9 | (-G -> A8)) -> A11)",
+            "(A11 -> A10)"
+          ],
+          "conclusion": "(-(A9 | (-G -> A8)) -> A10)",
+          "natural": "If it is false that either Facility Alpha has a manufacturing license or non-safety of Drug X leads to FDA investigation, then the facility operates legally."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A9 | (-G -> A8)) -> A10)",
+            "(-(A9 | (-G -> A8)) -> -A10)"
+          ],
+          "conclusion": "(A9 | (-G -> A8))",
+          "natural": "Either Facility Alpha has a manufacturing license or, if Drug X is not safe for consumption, then it is investigated by the FDA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (-G -> A8))",
+            "-A9"
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "Provided that Drug X is not safe for consumption, it is investigated by the FDA."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A8)",
+            "(A8 -> A7)"
+          ],
+          "conclusion": "(-G -> A7)",
+          "natural": "Whenever Drug X is not safe for consumption, it is recalled as a product."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A7)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for consumption."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A18",
+          "natural": "A batch recall was issued for Drug X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> A17)",
+            "A18"
+          ],
+          "conclusion": "A17",
+          "natural": "Major contamination occurred at Facility Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> (-(A15 -> A14) -> A16))",
+            "A17"
+          ],
+          "conclusion": "(-(A15 -> A14) -> A16)",
+          "natural": "If it is not the case that a regulatory violation at Facility Alpha leads to temporary shutdown, then criminal charges are filed against the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A15 -> A14) -> A16)",
+            "-A16"
+          ],
+          "conclusion": "(A15 -> A14)",
+          "natural": "If Facility Alpha commits a regulatory violation, then a temporary shutdown follows."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A4 -> (A1 -> G)) -> A15)",
+            "(A15 -> A14)"
+          ],
+          "conclusion": "(-(A4 -> (A1 -> G)) -> A14)",
+          "natural": "Provided that it is false that manufacturing Drug X at Facility Alpha implies that if it contains active compound A then it is safe, a temporary shutdown of the facility occurs."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> (A1 -> G)) -> A14)",
+            "(-(A4 -> (A1 -> G)) -> -A14)"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Whenever Drug X is manufactured at Facility Alpha, then if it contains active compound A, it is safe for consumption."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A3 -> A2)",
+            "(A4 -> (A1 -> G))",
+            "(A3 | A4)"
+          ],
+          "conclusion": "(A2 | (A1 -> G))",
+          "natural": "Either Drug X has FDA approval or, if it contains active compound A, then it is safe for consumption."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 -> G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If Drug X contains active compound A, then it is safe for consumption."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for consumption."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 -> (A4 -> A5)))",
+            "(A22 -> (A20 -> (A4 -> A5)))"
+          ],
+          "conclusion": "(A20 -> (A4 -> A5))",
+          "natural": "Provided that Drug X uses raw material Chemical Y, then if it is manufactured at Facility Alpha, it meets quality standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (A4 -> A5))",
+            "A20"
+          ],
+          "conclusion": "(A4 -> A5)",
+          "natural": "Provided that Drug X is manufactured at Facility Alpha, it meets quality standards."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A1 -> G))"
+          ],
+          "conclusion": "(A4 -> (A1 -> G))",
+          "natural": "Whenever Drug X is manufactured at Facility Alpha, then if it contains active compound A, it is safe for consumption."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A3 -> A2)",
+            "(A4 -> (A1 -> G))",
+            "(A3 | A4)"
+          ],
+          "conclusion": "(A2 | (A1 -> G))",
+          "natural": "Either Drug X has FDA approval or, if it contains active compound A, then it is safe for consumption."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 -> G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If Drug X contains active compound A, then it is safe for consumption."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for consumption."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "has_active_compound(drug_x, compound_a)",
+      "A2": "approved_by_fda(drug_x)",
+      "A3": "passes_clinical_trial(drug_x)",
+      "A4": "manufactured_at(drug_x, facility_alpha)",
+      "A5": "meets_quality_standards(drug_x)",
+      "A6": "passes_qc_test(drug_x)",
+      "A7": "recalled_product(drug_x)",
+      "A8": "investigated_by_fda(drug_x)",
+      "A9": "has_manufacturing_license(facility_alpha)",
+      "A10": "operates_legally(facility_alpha)",
+      "A11": "valid_permit(facility_alpha)",
+      "A12": "scheduled_audit(facility_alpha)",
+      "A13": "unscheduled_inspection(facility_alpha)",
+      "A14": "temporary_shutdown(facility_alpha)",
+      "A15": "regulatory_violation(facility_alpha)",
+      "A16": "criminal_charges(facility_alpha)",
+      "A17": "major_contamination(facility_alpha)",
+      "A18": "batch_recall(drug_x)",
+      "A19": "minor_infraction(facility_alpha)",
+      "A20": "uses_raw_material(drug_x, chemical_y)",
+      "A21": "supplier_approved(chemical_y)",
+      "A22": "emergency_procurement(chemical_y)",
+      "G": "safe_for_consumption(drug_x)"
+    },
+    "natural_facts": {
+      "A1": "Drug X contains active compound A.",
+      "A2": "Drug X has FDA approval.",
+      "A3": "Drug X successfully passed clinical trials.",
+      "A4": "Drug X is manufactured at Facility Alpha.",
+      "A5": "Drug X meets all quality standards.",
+      "A6": "Drug X passed quality control testing.",
+      "A7": "Drug X was recalled as a product.",
+      "A8": "Drug X is under FDA investigation.",
+      "A9": "Facility Alpha holds a valid manufacturing license.",
+      "A10": "Facility Alpha operates legally.",
+      "A11": "Facility Alpha possesses a valid permit.",
+      "A12": "A scheduled audit is planned for Facility Alpha.",
+      "A13": "Facility Alpha underwent an unscheduled inspection.",
+      "A14": "Facility Alpha is temporarily shut down.",
+      "A15": "Facility Alpha committed a regulatory violation.",
+      "A16": "Criminal charges were filed against Facility Alpha.",
+      "A17": "Major contamination occurred at Facility Alpha.",
+      "A18": "A batch recall was issued for Drug X.",
+      "A19": "Facility Alpha committed a minor infraction.",
+      "A20": "Drug X uses raw material Chemical Y.",
+      "A21": "Supplier approval was granted for Chemical Y.",
+      "A22": "Emergency procurement procedures were used for Chemical Y."
+    },
+    "prover9_expressions": [
+      "(has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))",
+      "(valid_permit(facility_alpha) -> operates_legally(facility_alpha))",
+      "(scheduled_audit(facility_alpha) -> (valid_permit(facility_alpha) -> operates_legally(facility_alpha)))",
+      "(scheduled_audit(facility_alpha) | unscheduled_inspection(facility_alpha))",
+      "(unscheduled_inspection(facility_alpha) -> (valid_permit(facility_alpha) -> operates_legally(facility_alpha)))",
+      "(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha))",
+      "(major_contamination(facility_alpha) -> (-(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha)) -> criminal_charges(facility_alpha)))",
+      "(batch_recall(drug_x) -> major_contamination(facility_alpha))",
+      "(approved_by_fda(drug_x) | (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+      "(uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x)))",
+      "(supplier_approved(chemical_y) -> (uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))))",
+      "(supplier_approved(chemical_y) | emergency_procurement(chemical_y))",
+      "(emergency_procurement(chemical_y) -> (uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))))",
+      "(passes_clinical_trial(drug_x) -> approved_by_fda(drug_x))",
+      "(passes_clinical_trial(drug_x) | manufactured_at(drug_x, facility_alpha))",
+      "(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+      "(manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))",
+      "(manufactured_at(drug_x, facility_alpha) -> passes_qc_test(drug_x))",
+      "(meets_quality_standards(drug_x) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+      "(passes_qc_test(drug_x) -> meets_quality_standards(drug_x))",
+      "(investigated_by_fda(drug_x) -> recalled_product(drug_x))",
+      "(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x)))",
+      "(-(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha)) -> criminal_charges(facility_alpha))",
+      "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> temporary_shutdown(facility_alpha))",
+      "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> regulatory_violation(facility_alpha))",
+      "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> -temporary_shutdown(facility_alpha))",
+      "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> operates_legally(facility_alpha))",
+      "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> valid_permit(facility_alpha))",
+      "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> -operates_legally(facility_alpha))",
+      "(-batch_recall(drug_x) -> minor_infraction(facility_alpha))",
+      "(-safe_for_consumption(drug_x) -> recalled_product(drug_x))",
+      "(-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))",
+      "has_active_compound(drug_x, compound_a)",
+      "major_contamination(facility_alpha)",
+      "batch_recall(drug_x)",
+      "uses_raw_material(drug_x, chemical_y)",
+      "safe_for_consumption(drug_x)",
+      "-criminal_charges(facility_alpha)",
+      "-minor_infraction(facility_alpha)",
+      "-approved_by_fda(drug_x)",
+      "-recalled_product(drug_x)",
+      "-has_manufacturing_license(facility_alpha)"
+    ],
+    "natural_expressions": [
+      "If Drug X contains active compound A, then it is safe for consumption.",
+      "Provided that Facility Alpha has a valid permit, it operates legally.",
+      "Whenever a scheduled audit occurs at Facility Alpha, it follows that if the facility possesses a valid permit, then it operates legally.",
+      "Either a scheduled audit happens at Facility Alpha or an unscheduled inspection occurs.",
+      "Under the condition that an unscheduled inspection takes place at Facility Alpha, then if the facility has a valid permit, it operates legally.",
+      "If Facility Alpha commits a regulatory violation, then a temporary shutdown follows.",
+      "When major contamination occurs at Facility Alpha, then if it is not the case that a regulatory violation leads to temporary shutdown, criminal charges will be filed against the facility.",
+      "A batch recall of Drug X implies that major contamination occurred at Facility Alpha.",
+      "Either Drug X has FDA approval or, if it contains active compound A, then it is safe for consumption.",
+      "Provided that Drug X uses raw material Chemical Y, then if it is manufactured at Facility Alpha, it meets quality standards.",
+      "If supplier approval was granted for Chemical Y, then whenever Drug X uses that raw material and is manufactured at Facility Alpha, it meets quality standards.",
+      "Either supplier approval exists for Chemical Y or emergency procurement was used for it.",
+      "Under the condition of emergency procurement for Chemical Y, then if Drug X uses that raw material and is made at Facility Alpha, it meets quality standards.",
+      "If Drug X passes clinical trials, then it receives FDA approval.",
+      "Drug X passes clinical trials or it is manufactured at Facility Alpha.",
+      "Whenever Drug X is manufactured at Facility Alpha, then if it contains active compound A, it is safe for consumption.",
+      "Provided that Drug X is manufactured at Facility Alpha, it meets quality standards.",
+      "If Drug X is manufactured at Facility Alpha, then it passes quality control testing.",
+      "Under the condition that Drug X meets quality standards, then if it contains active compound A, it is safe for consumption.",
+      "If Drug X passes quality control testing, then it meets quality standards.",
+      "Whenever Drug X is investigated by the FDA, it indicates that the product was recalled.",
+      "Either Facility Alpha has a manufacturing license or, if Drug X is not safe for consumption, then it is investigated by the FDA.",
+      "If it is not the case that a regulatory violation at Facility Alpha leads to temporary shutdown, then criminal charges are filed against the facility.",
+      "Provided that it is false that manufacturing Drug X at Facility Alpha implies that if it contains active compound A then it is safe, a temporary shutdown of the facility occurs.",
+      "Under the condition that it is not true that manufacturing Drug X at Facility Alpha leads to safety given active compound A, a regulatory violation is committed by the facility.",
+      "Whenever it is not the case that manufacturing Drug X at Facility Alpha results in safety with active compound A, then temporary shutdown does not occur at the facility.",
+      "If it is false that either Facility Alpha has a manufacturing license or non-safety of Drug X leads to FDA investigation, then the facility operates legally.",
+      "Provided that it is not the case that Facility Alpha has a manufacturing license or non-safety triggers FDA investigation, the facility holds a valid permit.",
+      "Under the condition that neither does Facility Alpha have a manufacturing license nor does non-safety result in FDA investigation, the facility does not operate legally.",
+      "If a batch recall does not happen for Drug X, then Facility Alpha committed a minor infraction.",
+      "Whenever Drug X is not safe for consumption, it is recalled as a product.",
+      "Provided that Drug X is not safe for consumption, it is investigated by the FDA.",
+      "Drug X contains active compound A.",
+      "Major contamination occurred at Facility Alpha.",
+      "A batch recall was issued for Drug X.",
+      "Drug X uses raw material Chemical Y.",
+      "Drug X is safe for consumption.",
+      "It is not the case that criminal charges were filed against Facility Alpha.",
+      "No minor infraction was committed by Facility Alpha.",
+      "Drug X does not have FDA approval.",
+      "Drug X was not recalled as a product.",
+      "Facility Alpha does not hold a manufacturing license."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))",
+        "natural": "If Drug X contains active compound A, then it is safe for consumption."
+      },
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(valid_permit(facility_alpha) -> operates_legally(facility_alpha))",
+        "natural": "Provided that Facility Alpha has a valid permit, it operates legally."
+      },
+      "(A12 → (A11 → A10))": {
+        "formal": "(A12 → (A11 → A10))",
+        "prover9": "(A12 -> (A11 -> A10))",
+        "prover9_expression": "(scheduled_audit(facility_alpha) -> (valid_permit(facility_alpha) -> operates_legally(facility_alpha)))",
+        "natural": "Whenever a scheduled audit occurs at Facility Alpha, it follows that if the facility possesses a valid permit, then it operates legally."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(scheduled_audit(facility_alpha) | unscheduled_inspection(facility_alpha))",
+        "natural": "Either a scheduled audit happens at Facility Alpha or an unscheduled inspection occurs."
+      },
+      "(A13 → (A11 → A10))": {
+        "formal": "(A13 → (A11 → A10))",
+        "prover9": "(A13 -> (A11 -> A10))",
+        "prover9_expression": "(unscheduled_inspection(facility_alpha) -> (valid_permit(facility_alpha) -> operates_legally(facility_alpha)))",
+        "natural": "Under the condition that an unscheduled inspection takes place at Facility Alpha, then if the facility has a valid permit, it operates legally."
+      },
+      "(A15 → A14)": {
+        "formal": "(A15 → A14)",
+        "prover9": "(A15 -> A14)",
+        "prover9_expression": "(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha))",
+        "natural": "If Facility Alpha commits a regulatory violation, then a temporary shutdown follows."
+      },
+      "(A17 → (¬(A15 → A14) → A16))": {
+        "formal": "(A17 → (¬(A15 → A14) → A16))",
+        "prover9": "(A17 -> (-(A15 -> A14) -> A16))",
+        "prover9_expression": "(major_contamination(facility_alpha) -> (-(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha)) -> criminal_charges(facility_alpha)))",
+        "natural": "When major contamination occurs at Facility Alpha, then if it is not the case that a regulatory violation leads to temporary shutdown, criminal charges will be filed against the facility."
+      },
+      "(A18 → A17)": {
+        "formal": "(A18 → A17)",
+        "prover9": "(A18 -> A17)",
+        "prover9_expression": "(batch_recall(drug_x) -> major_contamination(facility_alpha))",
+        "natural": "A batch recall of Drug X implies that major contamination occurred at Facility Alpha."
+      },
+      "(A2 ∨ (A1 → G))": {
+        "formal": "(A2 ∨ (A1 → G))",
+        "prover9": "(A2 | (A1 -> G))",
+        "prover9_expression": "(approved_by_fda(drug_x) | (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+        "natural": "Either Drug X has FDA approval or, if it contains active compound A, then it is safe for consumption."
+      },
+      "(A20 → (A4 → A5))": {
+        "formal": "(A20 → (A4 → A5))",
+        "prover9": "(A20 -> (A4 -> A5))",
+        "prover9_expression": "(uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x)))",
+        "natural": "Provided that Drug X uses raw material Chemical Y, then if it is manufactured at Facility Alpha, it meets quality standards."
+      },
+      "(A21 → (A20 → (A4 → A5)))": {
+        "formal": "(A21 → (A20 → (A4 → A5)))",
+        "prover9": "(A21 -> (A20 -> (A4 -> A5)))",
+        "prover9_expression": "(supplier_approved(chemical_y) -> (uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))))",
+        "natural": "If supplier approval was granted for Chemical Y, then whenever Drug X uses that raw material and is manufactured at Facility Alpha, it meets quality standards."
+      },
+      "(A21 ∨ A22)": {
+        "formal": "(A21 ∨ A22)",
+        "prover9": "(A21 | A22)",
+        "prover9_expression": "(supplier_approved(chemical_y) | emergency_procurement(chemical_y))",
+        "natural": "Either supplier approval exists for Chemical Y or emergency procurement was used for it."
+      },
+      "(A22 → (A20 → (A4 → A5)))": {
+        "formal": "(A22 → (A20 → (A4 → A5)))",
+        "prover9": "(A22 -> (A20 -> (A4 -> A5)))",
+        "prover9_expression": "(emergency_procurement(chemical_y) -> (uses_raw_material(drug_x, chemical_y) -> (manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))))",
+        "natural": "Under the condition of emergency procurement for Chemical Y, then if Drug X uses that raw material and is made at Facility Alpha, it meets quality standards."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(passes_clinical_trial(drug_x) -> approved_by_fda(drug_x))",
+        "natural": "If Drug X passes clinical trials, then it receives FDA approval."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(passes_clinical_trial(drug_x) | manufactured_at(drug_x, facility_alpha))",
+        "natural": "Drug X passes clinical trials or it is manufactured at Facility Alpha."
+      },
+      "(A4 → (A1 → G))": {
+        "formal": "(A4 → (A1 → G))",
+        "prover9": "(A4 -> (A1 -> G))",
+        "prover9_expression": "(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+        "natural": "Whenever Drug X is manufactured at Facility Alpha, then if it contains active compound A, it is safe for consumption."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(manufactured_at(drug_x, facility_alpha) -> meets_quality_standards(drug_x))",
+        "natural": "Provided that Drug X is manufactured at Facility Alpha, it meets quality standards."
+      },
+      "(A4 → A6)": {
+        "formal": "(A4 → A6)",
+        "prover9": "(A4 -> A6)",
+        "prover9_expression": "(manufactured_at(drug_x, facility_alpha) -> passes_qc_test(drug_x))",
+        "natural": "If Drug X is manufactured at Facility Alpha, then it passes quality control testing."
+      },
+      "(A5 → (A1 → G))": {
+        "formal": "(A5 → (A1 → G))",
+        "prover9": "(A5 -> (A1 -> G))",
+        "prover9_expression": "(meets_quality_standards(drug_x) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x)))",
+        "natural": "Under the condition that Drug X meets quality standards, then if it contains active compound A, it is safe for consumption."
+      },
+      "(A6 → A5)": {
+        "formal": "(A6 → A5)",
+        "prover9": "(A6 -> A5)",
+        "prover9_expression": "(passes_qc_test(drug_x) -> meets_quality_standards(drug_x))",
+        "natural": "If Drug X passes quality control testing, then it meets quality standards."
+      },
+      "(A8 → A7)": {
+        "formal": "(A8 → A7)",
+        "prover9": "(A8 -> A7)",
+        "prover9_expression": "(investigated_by_fda(drug_x) -> recalled_product(drug_x))",
+        "natural": "Whenever Drug X is investigated by the FDA, it indicates that the product was recalled."
+      },
+      "(A9 ∨ (¬G → A8))": {
+        "formal": "(A9 ∨ (¬G → A8))",
+        "prover9": "(A9 | (-G -> A8))",
+        "prover9_expression": "(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x)))",
+        "natural": "Either Facility Alpha has a manufacturing license or, if Drug X is not safe for consumption, then it is investigated by the FDA."
+      },
+      "(¬(A15 → A14) → A16)": {
+        "formal": "(¬(A15 → A14) → A16)",
+        "prover9": "(-(A15 -> A14) -> A16)",
+        "prover9_expression": "(-(regulatory_violation(facility_alpha) -> temporary_shutdown(facility_alpha)) -> criminal_charges(facility_alpha))",
+        "natural": "If it is not the case that a regulatory violation at Facility Alpha leads to temporary shutdown, then criminal charges are filed against the facility."
+      },
+      "(¬(A4 → (A1 → G)) → A14)": {
+        "formal": "(¬(A4 → (A1 → G)) → A14)",
+        "prover9": "(-(A4 -> (A1 -> G)) -> A14)",
+        "prover9_expression": "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> temporary_shutdown(facility_alpha))",
+        "natural": "Provided that it is false that manufacturing Drug X at Facility Alpha implies that if it contains active compound A then it is safe, a temporary shutdown of the facility occurs."
+      },
+      "(¬(A4 → (A1 → G)) → A15)": {
+        "formal": "(¬(A4 → (A1 → G)) → A15)",
+        "prover9": "(-(A4 -> (A1 -> G)) -> A15)",
+        "prover9_expression": "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> regulatory_violation(facility_alpha))",
+        "natural": "Under the condition that it is not true that manufacturing Drug X at Facility Alpha leads to safety given active compound A, a regulatory violation is committed by the facility."
+      },
+      "(¬(A4 → (A1 → G)) → ¬A14)": {
+        "formal": "(¬(A4 → (A1 → G)) → ¬A14)",
+        "prover9": "(-(A4 -> (A1 -> G)) -> -A14)",
+        "prover9_expression": "(-(manufactured_at(drug_x, facility_alpha) -> (has_active_compound(drug_x, compound_a) -> safe_for_consumption(drug_x))) -> -temporary_shutdown(facility_alpha))",
+        "natural": "Whenever it is not the case that manufacturing Drug X at Facility Alpha results in safety with active compound A, then temporary shutdown does not occur at the facility."
+      },
+      "(¬(A9 ∨ (¬G → A8)) → A10)": {
+        "formal": "(¬(A9 ∨ (¬G → A8)) → A10)",
+        "prover9": "(-(A9 | (-G -> A8)) -> A10)",
+        "prover9_expression": "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> operates_legally(facility_alpha))",
+        "natural": "If it is false that either Facility Alpha has a manufacturing license or non-safety of Drug X leads to FDA investigation, then the facility operates legally."
+      },
+      "(¬(A9 ∨ (¬G → A8)) → A11)": {
+        "formal": "(¬(A9 ∨ (¬G → A8)) → A11)",
+        "prover9": "(-(A9 | (-G -> A8)) -> A11)",
+        "prover9_expression": "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> valid_permit(facility_alpha))",
+        "natural": "Provided that it is not the case that Facility Alpha has a manufacturing license or non-safety triggers FDA investigation, the facility holds a valid permit."
+      },
+      "(¬(A9 ∨ (¬G → A8)) → ¬A10)": {
+        "formal": "(¬(A9 ∨ (¬G → A8)) → ¬A10)",
+        "prover9": "(-(A9 | (-G -> A8)) -> -A10)",
+        "prover9_expression": "(-(has_manufacturing_license(facility_alpha) | (-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))) -> -operates_legally(facility_alpha))",
+        "natural": "Under the condition that neither does Facility Alpha have a manufacturing license nor does non-safety result in FDA investigation, the facility does not operate legally."
+      },
+      "(¬A18 → A19)": {
+        "formal": "(¬A18 → A19)",
+        "prover9": "(-A18 -> A19)",
+        "prover9_expression": "(-batch_recall(drug_x) -> minor_infraction(facility_alpha))",
+        "natural": "If a batch recall does not happen for Drug X, then Facility Alpha committed a minor infraction."
+      },
+      "(¬G → A7)": {
+        "formal": "(¬G → A7)",
+        "prover9": "(-G -> A7)",
+        "prover9_expression": "(-safe_for_consumption(drug_x) -> recalled_product(drug_x))",
+        "natural": "Whenever Drug X is not safe for consumption, it is recalled as a product."
+      },
+      "(¬G → A8)": {
+        "formal": "(¬G → A8)",
+        "prover9": "(-G -> A8)",
+        "prover9_expression": "(-safe_for_consumption(drug_x) -> investigated_by_fda(drug_x))",
+        "natural": "Provided that Drug X is not safe for consumption, it is investigated by the FDA."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_active_compound(drug_x, compound_a)",
+        "natural": "Drug X contains active compound A."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "major_contamination(facility_alpha)",
+        "natural": "Major contamination occurred at Facility Alpha."
+      },
+      "A18": {
+        "formal": "A18",
+        "prover9": "A18",
+        "prover9_expression": "batch_recall(drug_x)",
+        "natural": "A batch recall was issued for Drug X."
+      },
+      "A20": {
+        "formal": "A20",
+        "prover9": "A20",
+        "prover9_expression": "uses_raw_material(drug_x, chemical_y)",
+        "natural": "Drug X uses raw material Chemical Y."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "safe_for_consumption(drug_x)",
+        "natural": "Drug X is safe for consumption."
+      },
+      "¬A16": {
+        "formal": "¬A16",
+        "prover9": "-A16",
+        "prover9_expression": "-criminal_charges(facility_alpha)",
+        "natural": "It is not the case that criminal charges were filed against Facility Alpha."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-minor_infraction(facility_alpha)",
+        "natural": "No minor infraction was committed by Facility Alpha."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-approved_by_fda(drug_x)",
+        "natural": "Drug X does not have FDA approval."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-recalled_product(drug_x)",
+        "natural": "Drug X was not recalled as a product."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-has_manufacturing_license(facility_alpha)",
+        "natural": "Facility Alpha does not hold a manufacturing license."
+      }
+    }
+  }
+}

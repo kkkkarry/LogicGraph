@@ -1,0 +1,632 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A11 ∨ (A10 → G))",
+        "prover9_expression": "(delayed(ProductionSchedule) | (approved(NewProcess) -> compliant(ManufacturingProcess)))",
+        "natural": "Either the ProductionSchedule is delayed, or if the NewProcess is approved then the ManufacturingProcess is compliant."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A13 ∨ (A12 → ¬A11))",
+        "prover9_expression": "(implemented(RemediationPlan) | (discovered(ContaminantSource) -> -delayed(ProductionSchedule)))",
+        "natural": "Either the RemediationPlan is implemented, or whenever the ContaminantSource is discovered, the ProductionSchedule is not delayed."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A14 → A15)",
+        "prover9_expression": "(activated(EmergencyProtocol) -> evacuated(Facility))",
+        "natural": "Under the condition that the EmergencyProtocol is activated, the Facility is evacuated."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 ∨ (A6 ∨ A7))",
+        "prover9_expression": "(activated(EmergencyProtocol) | (rejected(Batch7) | quarantined(Batch7)))",
+        "natural": "Either the EmergencyProtocol is activated, or Batch7 is rejected, or Batch7 is quarantined."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A2 → A1)",
+        "prover9_expression": "(operates(PlantA, Line1) -> produces(PlantA, DrugX))",
+        "natural": "If PlantA operates Line1, then PlantA produces DrugX."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(contaminated(CatalystZ, ImpurityK) -> safe(FinalProduct))",
+        "natural": "If CatalystZ is contaminated with ImpurityK, then the FinalProduct is safe."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A4 ∨ (A3 → A2))",
+        "prover9_expression": "(contaminated(CatalystZ, ImpurityK) | (requires(Line1, CatalystZ) -> operates(PlantA, Line1)))",
+        "natural": "Either CatalystZ is contaminated with ImpurityK, or if Line1 requires CatalystZ then PlantA operates Line1."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A6 → ¬A5)",
+        "prover9_expression": "(rejected(Batch7) -> -safe(FinalProduct))",
+        "natural": "If Batch7 is rejected, then it is not the case that the FinalProduct is safe."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A7 → ¬A5)",
+        "prover9_expression": "(quarantined(Batch7) -> -safe(FinalProduct))",
+        "natural": "Under the condition that Batch7 is quarantined, the FinalProduct is not safe."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A8 → A6)",
+        "prover9_expression": "(test_failed(Batch7, PurityTest) -> rejected(Batch7))",
+        "natural": "If Batch7 failed the PurityTest, then Batch7 is rejected."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(test_failed(Batch7, PurityTest) | inspection_found(Batch7, Contamination))",
+        "natural": "Either Batch7 failed the PurityTest, or inspection found contamination in Batch7."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A9 → A7)",
+        "prover9_expression": "(inspection_found(Batch7, Contamination) -> quarantined(Batch7))",
+        "natural": "Provided that inspection found contamination in Batch7, Batch7 is quarantined."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬G → A3)",
+        "prover9_expression": "(-compliant(ManufacturingProcess) -> requires(Line1, CatalystZ))",
+        "natural": "If the ManufacturingProcess is not compliant, then Line1 requires CatalystZ."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A10",
+        "prover9_expression": "approved(NewProcess)",
+        "natural": "The NewProcess is approved."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A12",
+        "prover9_expression": "discovered(ContaminantSource)",
+        "natural": "The ContaminantSource is discovered."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A1",
+        "prover9_expression": "-produces(PlantA, DrugX)",
+        "natural": "PlantA does not produce DrugX."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A13",
+        "prover9_expression": "-implemented(RemediationPlan)",
+        "natural": "The RemediationPlan is not implemented."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A15",
+        "prover9_expression": "-evacuated(Facility)",
+        "natural": "The Facility is not evacuated."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "compliant(ManufacturingProcess)",
+    "natural": "The ManufacturingProcess is compliant."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A6)",
+            "(A9 -> A7)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A6 | A7)",
+          "natural": "Either Batch7 is rejected, or Batch7 is quarantined."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> -A5)",
+            "(A7 -> -A5)"
+          ],
+          "conclusion": "-A5",
+          "natural": "The FinalProduct is not safe."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A4 -> A5)",
+            "-A5"
+          ],
+          "conclusion": "-A4",
+          "natural": "CatalystZ is not contaminated with ImpurityK."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A3 -> A2))",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Whenever Line1 requires CatalystZ, PlantA operates Line1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "If the ManufacturingProcess is not compliant, then PlantA operates Line1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If the ManufacturingProcess is not compliant, then PlantA produces DrugX."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The ManufacturingProcess is compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | (A12 -> -A11))",
+            "-A13"
+          ],
+          "conclusion": "(A12 -> -A11)",
+          "natural": "Provided that the ContaminantSource is discovered, the ProductionSchedule is not delayed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> -A11)",
+            "A12"
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that the ProductionSchedule is delayed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | (A10 -> G))",
+            "-A11"
+          ],
+          "conclusion": "(A10 -> G)",
+          "natural": "If the NewProcess is approved, then the ManufacturingProcess is compliant."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> G)",
+            "A10"
+          ],
+          "conclusion": "G",
+          "natural": "The ManufacturingProcess is compliant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A14 -> A15)",
+            "-A15"
+          ],
+          "conclusion": "-A14",
+          "natural": "The EmergencyProtocol is not activated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A14 | (A6 | A7))",
+            "-A14"
+          ],
+          "conclusion": "(A6 | A7)",
+          "natural": "Either Batch7 is rejected, or Batch7 is quarantined."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> -A5)",
+            "(A7 -> -A5)"
+          ],
+          "conclusion": "-A5",
+          "natural": "The FinalProduct is not safe."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A4 -> A5)",
+            "-A5"
+          ],
+          "conclusion": "-A4",
+          "natural": "CatalystZ is not contaminated with ImpurityK."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A3 -> A2))",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Whenever Line1 requires CatalystZ, PlantA operates Line1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "If the ManufacturingProcess is not compliant, then PlantA operates Line1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If the ManufacturingProcess is not compliant, then PlantA produces DrugX."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The ManufacturingProcess is compliant."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "produces(PlantA, DrugX)",
+      "A2": "operates(PlantA, Line1)",
+      "A3": "requires(Line1, CatalystZ)",
+      "A4": "contaminated(CatalystZ, ImpurityK)",
+      "A5": "safe(FinalProduct)",
+      "A6": "rejected(Batch7)",
+      "A7": "quarantined(Batch7)",
+      "A8": "test_failed(Batch7, PurityTest)",
+      "A9": "inspection_found(Batch7, Contamination)",
+      "A10": "approved(NewProcess)",
+      "A11": "delayed(ProductionSchedule)",
+      "A12": "discovered(ContaminantSource)",
+      "A13": "implemented(RemediationPlan)",
+      "A14": "activated(EmergencyProtocol)",
+      "A15": "evacuated(Facility)",
+      "G": "compliant(ManufacturingProcess)"
+    },
+    "natural_facts": {
+      "A1": "PlantA produces DrugX.",
+      "A2": "PlantA operates Line1.",
+      "A3": "Line1 requires CatalystZ.",
+      "A4": "CatalystZ is contaminated with ImpurityK.",
+      "A5": "The FinalProduct is safe.",
+      "A6": "Batch7 is rejected.",
+      "A7": "Batch7 is quarantined.",
+      "A8": "Batch7 failed the PurityTest.",
+      "A9": "Inspection found contamination in Batch7.",
+      "A10": "The NewProcess is approved.",
+      "A11": "The ProductionSchedule is delayed.",
+      "A12": "The ContaminantSource is discovered.",
+      "A13": "The RemediationPlan is implemented.",
+      "A14": "The EmergencyProtocol is activated.",
+      "A15": "The Facility is evacuated.",
+      "G": "The ManufacturingProcess is compliant."
+    },
+    "prover9_expressions": [
+      "(approved(NewProcess) -> compliant(ManufacturingProcess))",
+      "(delayed(ProductionSchedule) | (approved(NewProcess) -> compliant(ManufacturingProcess)))",
+      "(discovered(ContaminantSource) -> -delayed(ProductionSchedule))",
+      "(implemented(RemediationPlan) | (discovered(ContaminantSource) -> -delayed(ProductionSchedule)))",
+      "(activated(EmergencyProtocol) -> evacuated(Facility))",
+      "(activated(EmergencyProtocol) | (rejected(Batch7) | quarantined(Batch7)))",
+      "(operates(PlantA, Line1) -> produces(PlantA, DrugX))",
+      "(requires(Line1, CatalystZ) -> operates(PlantA, Line1))",
+      "(contaminated(CatalystZ, ImpurityK) -> safe(FinalProduct))",
+      "(contaminated(CatalystZ, ImpurityK) | (requires(Line1, CatalystZ) -> operates(PlantA, Line1)))",
+      "(rejected(Batch7) -> -safe(FinalProduct))",
+      "(rejected(Batch7) | quarantined(Batch7))",
+      "(quarantined(Batch7) -> -safe(FinalProduct))",
+      "(test_failed(Batch7, PurityTest) -> rejected(Batch7))",
+      "(test_failed(Batch7, PurityTest) | inspection_found(Batch7, Contamination))",
+      "(inspection_found(Batch7, Contamination) -> quarantined(Batch7))",
+      "(-compliant(ManufacturingProcess) -> produces(PlantA, DrugX))",
+      "(-compliant(ManufacturingProcess) -> operates(PlantA, Line1))",
+      "(-compliant(ManufacturingProcess) -> requires(Line1, CatalystZ))",
+      "approved(NewProcess)",
+      "discovered(ContaminantSource)",
+      "compliant(ManufacturingProcess)",
+      "-produces(PlantA, DrugX)",
+      "-delayed(ProductionSchedule)",
+      "-implemented(RemediationPlan)",
+      "-activated(EmergencyProtocol)",
+      "-evacuated(Facility)",
+      "-contaminated(CatalystZ, ImpurityK)",
+      "-safe(FinalProduct)"
+    ],
+    "natural_expressions": [
+      "If the NewProcess is approved, then the ManufacturingProcess is compliant.",
+      "Either the ProductionSchedule is delayed, or if the NewProcess is approved then the ManufacturingProcess is compliant.",
+      "Provided that the ContaminantSource is discovered, the ProductionSchedule is not delayed.",
+      "Either the RemediationPlan is implemented, or whenever the ContaminantSource is discovered, the ProductionSchedule is not delayed.",
+      "Under the condition that the EmergencyProtocol is activated, the Facility is evacuated.",
+      "Either the EmergencyProtocol is activated, or Batch7 is rejected, or Batch7 is quarantined.",
+      "If PlantA operates Line1, then PlantA produces DrugX.",
+      "Whenever Line1 requires CatalystZ, PlantA operates Line1.",
+      "If CatalystZ is contaminated with ImpurityK, then the FinalProduct is safe.",
+      "Either CatalystZ is contaminated with ImpurityK, or if Line1 requires CatalystZ then PlantA operates Line1.",
+      "If Batch7 is rejected, then it is not the case that the FinalProduct is safe.",
+      "Either Batch7 is rejected, or Batch7 is quarantined.",
+      "Under the condition that Batch7 is quarantined, the FinalProduct is not safe.",
+      "If Batch7 failed the PurityTest, then Batch7 is rejected.",
+      "Either Batch7 failed the PurityTest, or inspection found contamination in Batch7.",
+      "Provided that inspection found contamination in Batch7, Batch7 is quarantined.",
+      "If the ManufacturingProcess is not compliant, then PlantA produces DrugX.",
+      "If the ManufacturingProcess is not compliant, then PlantA operates Line1.",
+      "If the ManufacturingProcess is not compliant, then Line1 requires CatalystZ.",
+      "The NewProcess is approved.",
+      "The ContaminantSource is discovered.",
+      "The ManufacturingProcess is compliant.",
+      "PlantA does not produce DrugX.",
+      "It is not the case that the ProductionSchedule is delayed.",
+      "The RemediationPlan is not implemented.",
+      "The EmergencyProtocol is not activated.",
+      "The Facility is not evacuated.",
+      "CatalystZ is not contaminated with ImpurityK.",
+      "The FinalProduct is not safe."
+    ],
+    "node_mappings": {
+      "(A10 → G)": {
+        "formal": "(A10 → G)",
+        "prover9": "(A10 -> G)",
+        "prover9_expression": "(approved(NewProcess) -> compliant(ManufacturingProcess))",
+        "natural": "If the NewProcess is approved, then the ManufacturingProcess is compliant."
+      },
+      "(A11 ∨ (A10 → G))": {
+        "formal": "(A11 ∨ (A10 → G))",
+        "prover9": "(A11 | (A10 -> G))",
+        "prover9_expression": "(delayed(ProductionSchedule) | (approved(NewProcess) -> compliant(ManufacturingProcess)))",
+        "natural": "Either the ProductionSchedule is delayed, or if the NewProcess is approved then the ManufacturingProcess is compliant."
+      },
+      "(A12 → ¬A11)": {
+        "formal": "(A12 → ¬A11)",
+        "prover9": "(A12 -> -A11)",
+        "prover9_expression": "(discovered(ContaminantSource) -> -delayed(ProductionSchedule))",
+        "natural": "Provided that the ContaminantSource is discovered, the ProductionSchedule is not delayed."
+      },
+      "(A13 ∨ (A12 → ¬A11))": {
+        "formal": "(A13 ∨ (A12 → ¬A11))",
+        "prover9": "(A13 | (A12 -> -A11))",
+        "prover9_expression": "(implemented(RemediationPlan) | (discovered(ContaminantSource) -> -delayed(ProductionSchedule)))",
+        "natural": "Either the RemediationPlan is implemented, or whenever the ContaminantSource is discovered, the ProductionSchedule is not delayed."
+      },
+      "(A14 → A15)": {
+        "formal": "(A14 → A15)",
+        "prover9": "(A14 -> A15)",
+        "prover9_expression": "(activated(EmergencyProtocol) -> evacuated(Facility))",
+        "natural": "Under the condition that the EmergencyProtocol is activated, the Facility is evacuated."
+      },
+      "(A14 ∨ (A6 ∨ A7))": {
+        "formal": "(A14 ∨ (A6 ∨ A7))",
+        "prover9": "(A14 | (A6 | A7))",
+        "prover9_expression": "(activated(EmergencyProtocol) | (rejected(Batch7) | quarantined(Batch7)))",
+        "natural": "Either the EmergencyProtocol is activated, or Batch7 is rejected, or Batch7 is quarantined."
+      },
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(operates(PlantA, Line1) -> produces(PlantA, DrugX))",
+        "natural": "If PlantA operates Line1, then PlantA produces DrugX."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(requires(Line1, CatalystZ) -> operates(PlantA, Line1))",
+        "natural": "Whenever Line1 requires CatalystZ, PlantA operates Line1."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(contaminated(CatalystZ, ImpurityK) -> safe(FinalProduct))",
+        "natural": "If CatalystZ is contaminated with ImpurityK, then the FinalProduct is safe."
+      },
+      "(A4 ∨ (A3 → A2))": {
+        "formal": "(A4 ∨ (A3 → A2))",
+        "prover9": "(A4 | (A3 -> A2))",
+        "prover9_expression": "(contaminated(CatalystZ, ImpurityK) | (requires(Line1, CatalystZ) -> operates(PlantA, Line1)))",
+        "natural": "Either CatalystZ is contaminated with ImpurityK, or if Line1 requires CatalystZ then PlantA operates Line1."
+      },
+      "(A6 → ¬A5)": {
+        "formal": "(A6 → ¬A5)",
+        "prover9": "(A6 -> -A5)",
+        "prover9_expression": "(rejected(Batch7) -> -safe(FinalProduct))",
+        "natural": "If Batch7 is rejected, then it is not the case that the FinalProduct is safe."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(rejected(Batch7) | quarantined(Batch7))",
+        "natural": "Either Batch7 is rejected, or Batch7 is quarantined."
+      },
+      "(A7 → ¬A5)": {
+        "formal": "(A7 → ¬A5)",
+        "prover9": "(A7 -> -A5)",
+        "prover9_expression": "(quarantined(Batch7) -> -safe(FinalProduct))",
+        "natural": "Under the condition that Batch7 is quarantined, the FinalProduct is not safe."
+      },
+      "(A8 → A6)": {
+        "formal": "(A8 → A6)",
+        "prover9": "(A8 -> A6)",
+        "prover9_expression": "(test_failed(Batch7, PurityTest) -> rejected(Batch7))",
+        "natural": "If Batch7 failed the PurityTest, then Batch7 is rejected."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(test_failed(Batch7, PurityTest) | inspection_found(Batch7, Contamination))",
+        "natural": "Either Batch7 failed the PurityTest, or inspection found contamination in Batch7."
+      },
+      "(A9 → A7)": {
+        "formal": "(A9 → A7)",
+        "prover9": "(A9 -> A7)",
+        "prover9_expression": "(inspection_found(Batch7, Contamination) -> quarantined(Batch7))",
+        "natural": "Provided that inspection found contamination in Batch7, Batch7 is quarantined."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-compliant(ManufacturingProcess) -> produces(PlantA, DrugX))",
+        "natural": "If the ManufacturingProcess is not compliant, then PlantA produces DrugX."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-compliant(ManufacturingProcess) -> operates(PlantA, Line1))",
+        "natural": "If the ManufacturingProcess is not compliant, then PlantA operates Line1."
+      },
+      "(¬G → A3)": {
+        "formal": "(¬G → A3)",
+        "prover9": "(-G -> A3)",
+        "prover9_expression": "(-compliant(ManufacturingProcess) -> requires(Line1, CatalystZ))",
+        "natural": "If the ManufacturingProcess is not compliant, then Line1 requires CatalystZ."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "approved(NewProcess)",
+        "natural": "The NewProcess is approved."
+      },
+      "A12": {
+        "formal": "A12",
+        "prover9": "A12",
+        "prover9_expression": "discovered(ContaminantSource)",
+        "natural": "The ContaminantSource is discovered."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "compliant(ManufacturingProcess)",
+        "natural": "The ManufacturingProcess is compliant."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-produces(PlantA, DrugX)",
+        "natural": "PlantA does not produce DrugX."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-delayed(ProductionSchedule)",
+        "natural": "It is not the case that the ProductionSchedule is delayed."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-implemented(RemediationPlan)",
+        "natural": "The RemediationPlan is not implemented."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-activated(EmergencyProtocol)",
+        "natural": "The EmergencyProtocol is not activated."
+      },
+      "¬A15": {
+        "formal": "¬A15",
+        "prover9": "-A15",
+        "prover9_expression": "-evacuated(Facility)",
+        "natural": "The Facility is not evacuated."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-contaminated(CatalystZ, ImpurityK)",
+        "natural": "CatalystZ is not contaminated with ImpurityK."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-safe(FinalProduct)",
+        "natural": "The FinalProduct is not safe."
+      }
+    }
+  }
+}

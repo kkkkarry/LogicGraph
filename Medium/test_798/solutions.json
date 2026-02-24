@@ -1,0 +1,947 @@
+{
+  "solution_stats": {
+    "total_solutions": 7,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 8
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(manufactured(drug_product) -> packaged(drug_product))",
+              "natural": "If the drug product is manufactured, then it is packaged."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A4 -> -A5)",
+              "prover9_expression": "(manufactured(drug_product) -> -packaged(drug_product))",
+              "natural": "Under the condition that the drug product is manufactured, it is not packaged."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "The drug product is not manufactured."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A4 | (A2 | A3))",
+              "prover9_expression": "(manufactured(drug_product) | (tested(active_ingredient) | analyzed(active_ingredient)))",
+              "natural": "Either the drug product is manufactured, or the active ingredient is tested, or the active ingredient is analyzed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-manufactured(drug_product)",
+              "natural": "The drug product is not manufactured."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "The active ingredient is tested or it is analyzed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(tested(active_ingredient) | analyzed(active_ingredient))",
+              "natural": "The active ingredient is tested or it is analyzed."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(tested(active_ingredient) -> (-compliant(quality_standards) -> -approved(raw_material)))",
+              "natural": "If the active ingredient is tested, then if the quality standards are not compliant, the raw material is not approved."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A3 -> (-G -> -A1))",
+              "prover9_expression": "(analyzed(active_ingredient) -> (-compliant(quality_standards) -> -approved(raw_material)))",
+              "natural": "If the active ingredient is analyzed, then if the quality standards are not compliant, the raw material is not approved."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that the quality standards are not compliant, the raw material is not approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-compliant(quality_standards) -> approved(raw_material))",
+              "natural": "If the quality standards are not compliant, then the raw material is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-compliant(quality_standards) -> -approved(raw_material))",
+              "natural": "Under the condition that the quality standards are not compliant, the raw material is not approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> A10)",
+              "prover9_expression": "(requested(active_ingredient) -> ordered(active_ingredient))",
+              "natural": "Under the condition that the active ingredient is requested, it is ordered."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(procured(active_ingredient) -> shipped(active_ingredient))",
+              "natural": "Provided that the active ingredient is procured, it is shipped."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(requested(active_ingredient) | procured(active_ingredient))",
+              "natural": "Either the active ingredient is requested or it is procured."
+            }
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "The active ingredient is ordered or it is shipped."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A9)",
+              "prover9_expression": "(ordered(active_ingredient) -> received(active_ingredient))",
+              "natural": "If the active ingredient is ordered, then it is received."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> A8)",
+              "prover9_expression": "(shipped(active_ingredient) -> delivered(active_ingredient))",
+              "natural": "Whenever the active ingredient is shipped, it is delivered."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(ordered(active_ingredient) | shipped(active_ingredient))",
+              "natural": "The active ingredient is ordered or it is shipped."
+            }
+          ],
+          "conclusion": "(A9 | A8)",
+          "natural": "Either the active ingredient is received or it is delivered."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 | A8)",
+              "prover9_expression": "(received(active_ingredient) | delivered(active_ingredient))",
+              "natural": "Either the active ingredient is received or it is delivered."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A9",
+              "prover9_expression": "-received(active_ingredient)",
+              "natural": "The active ingredient is not received."
+            }
+          ],
+          "conclusion": "A8",
+          "natural": "The active ingredient is delivered."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(delivered(active_ingredient) -> transported(active_ingredient))",
+              "natural": "Under the condition that the active ingredient is delivered, it is transported."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A8",
+              "prover9_expression": "delivered(active_ingredient)",
+              "natural": "The active ingredient is delivered."
+            }
+          ],
+          "conclusion": "A7",
+          "natural": "The active ingredient is transported."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A7 -> (A6 -> G))",
+              "prover9_expression": "(transported(active_ingredient) -> (stored(active_ingredient) -> compliant(quality_standards)))",
+              "natural": "Whenever the active ingredient is transported, if it is stored, then the quality standards are compliant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A7",
+              "prover9_expression": "transported(active_ingredient)",
+              "natural": "The active ingredient is transported."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the active ingredient is stored, then the quality standards are compliant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(stored(active_ingredient) -> compliant(quality_standards))",
+              "natural": "If the active ingredient is stored, then the quality standards are compliant."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "A6",
+              "prover9_expression": "stored(active_ingredient)",
+              "natural": "The active ingredient is stored."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A17 -> A18) -> A19)",
+              "prover9_expression": "(-(contaminated(manufacturing_line) -> sterilized(manufacturing_line)) -> quarantined(manufacturing_line))",
+              "natural": "If it is not the case that if the manufacturing line is contaminated then it is sterilized, then the manufacturing line is quarantined."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(A17 -> A18) -> -A19)",
+              "prover9_expression": "(-(contaminated(manufacturing_line) -> sterilized(manufacturing_line)) -> -quarantined(manufacturing_line))",
+              "natural": "If it is not the case that if the manufacturing line is contaminated then it is sterilized, then the manufacturing line is not quarantined."
+            }
+          ],
+          "conclusion": "(A17 -> A18)",
+          "natural": "If the manufacturing line is contaminated, then it is sterilized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(contaminated(manufacturing_line) -> sterilized(manufacturing_line))",
+              "natural": "If the manufacturing line is contaminated, then it is sterilized."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> -A18)",
+              "prover9_expression": "(contaminated(manufacturing_line) -> -sterilized(manufacturing_line))",
+              "natural": "If the manufacturing line is contaminated, then it is not sterilized."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The manufacturing line is not contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-(-(-(-G -> A14) -> A15) -> -A16) -> A17)",
+              "prover9_expression": "(-(-(-(-compliant(quality_standards) -> validated(raw_material)) -> certified(raw_material)) -> -released(raw_material)) -> contaminated(manufacturing_line))",
+              "natural": "If it is not the case that if it is not the case that if it is not the case that if the quality standards are not compliant then the raw material is validated, then the raw material is certified, then the raw material is not released, then the manufacturing line is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-contaminated(manufacturing_line)",
+              "natural": "The manufacturing line is not contaminated."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A14) -> A15) -> -A16)",
+          "natural": "Under the condition that it is not the case that if it is not the case that if the quality standards are not compliant then the raw material is validated, then the raw material is certified, the raw material is not released."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(-(-(-G -> A14) -> A15) -> A16)",
+              "prover9_expression": "(-(-(-compliant(quality_standards) -> validated(raw_material)) -> certified(raw_material)) -> released(raw_material))",
+              "natural": "If it is not the case that if it is not the case that if the quality standards are not compliant then the raw material is validated, then the raw material is certified, then the raw material is released."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A14) -> A15) -> -A16)",
+              "prover9_expression": "(-(-(-compliant(quality_standards) -> validated(raw_material)) -> certified(raw_material)) -> -released(raw_material))",
+              "natural": "Under the condition that it is not the case that if it is not the case that if the quality standards are not compliant then the raw material is validated, then the raw material is certified, the raw material is not released."
+            }
+          ],
+          "conclusion": "(-(-G -> A14) -> A15)",
+          "natural": "If it is not the case that if the quality standards are not compliant then the raw material is validated, then the raw material is certified."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A14) -> A15)",
+              "prover9_expression": "(-(-compliant(quality_standards) -> validated(raw_material)) -> certified(raw_material))",
+              "natural": "If it is not the case that if the quality standards are not compliant then the raw material is validated, then the raw material is certified."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-(-G -> A14) -> -A15)",
+              "prover9_expression": "(-(-compliant(quality_standards) -> validated(raw_material)) -> -certified(raw_material))",
+              "natural": "Provided that it is not the case that if the quality standards are not compliant then the raw material is validated, the raw material is not certified."
+            }
+          ],
+          "conclusion": "(-G -> A14)",
+          "natural": "Whenever the quality standards are not compliant, the raw material is validated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-compliant(quality_standards) -> validated(raw_material))",
+              "natural": "Whenever the quality standards are not compliant, the raw material is validated."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(-G -> -A14)",
+              "prover9_expression": "(-compliant(quality_standards) -> -validated(raw_material))",
+              "natural": "If the quality standards are not compliant, then the raw material is not validated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A25 -> A26)",
+              "prover9_expression": "(recalled(finished_product) -> destroyed(finished_product))",
+              "natural": "Under the condition that the finished product is recalled, it is destroyed."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A26",
+              "prover9_expression": "-destroyed(finished_product)",
+              "natural": "The finished product is not destroyed."
+            }
+          ],
+          "conclusion": "-A25",
+          "natural": "The finished product is not recalled."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A24 -> A23) -> A25)",
+              "prover9_expression": "(-(released(finished_product) -> approved(finished_product)) -> recalled(finished_product))",
+              "natural": "If it is not the case that if the finished product is released then it is approved, then the finished product is recalled."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A25",
+              "prover9_expression": "-recalled(finished_product)",
+              "natural": "The finished product is not recalled."
+            }
+          ],
+          "conclusion": "(A24 -> A23)",
+          "natural": "Provided that the finished product is released, it is approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 -> A23)",
+              "prover9_expression": "(released(finished_product) -> approved(finished_product))",
+              "natural": "Provided that the finished product is released, it is approved."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A24",
+              "prover9_expression": "released(finished_product)",
+              "natural": "The finished product is released."
+            }
+          ],
+          "conclusion": "A23",
+          "natural": "The finished product is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A23 -> (A22 | (A20 | A21)))",
+              "prover9_expression": "(approved(finished_product) -> (inspected(finished_product) | (labeled(finished_product) | marked(finished_product))))",
+              "natural": "If the finished product is approved, then either it is inspected, or it is labeled, or it is marked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A23",
+              "prover9_expression": "approved(finished_product)",
+              "natural": "The finished product is approved."
+            }
+          ],
+          "conclusion": "(A22 | (A20 | A21))",
+          "natural": "The finished product is inspected, or it is labeled, or it is marked."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | (A20 | A21))",
+              "prover9_expression": "(inspected(finished_product) | (labeled(finished_product) | marked(finished_product)))",
+              "natural": "The finished product is inspected, or it is labeled, or it is marked."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A22",
+              "prover9_expression": "-inspected(finished_product)",
+              "natural": "The finished product is not inspected."
+            }
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the finished product is labeled or it is marked."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | A21)",
+              "prover9_expression": "(labeled(finished_product) | marked(finished_product))",
+              "natural": "Either the finished product is labeled or it is marked."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(labeled(finished_product) -> compliant(quality_standards))",
+              "natural": "Under the condition that the finished product is labeled, the quality standards are compliant."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> G)",
+              "prover9_expression": "(marked(finished_product) -> compliant(quality_standards))",
+              "natural": "Whenever the finished product is marked, the quality standards are compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(A27 -> A22) -> A29)",
+              "prover9_expression": "(-(sampled(finished_product) -> inspected(finished_product)) -> rejected(finished_product))",
+              "natural": "Provided that it is not the case that if the finished product is sampled then it is inspected, the finished product is rejected."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A29",
+              "prover9_expression": "-rejected(finished_product)",
+              "natural": "The finished product is not rejected."
+            }
+          ],
+          "conclusion": "(A27 -> A22)",
+          "natural": "If the finished product is sampled, then it is inspected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> A22)",
+              "prover9_expression": "(sampled(finished_product) -> inspected(finished_product))",
+              "natural": "If the finished product is sampled, then it is inspected."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A28 -> (A20 | A21))",
+              "prover9_expression": "(tested(finished_product) -> (labeled(finished_product) | marked(finished_product)))",
+              "natural": "Whenever the finished product is tested, it is labeled or it is marked."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A27 | A28)",
+              "prover9_expression": "(sampled(finished_product) | tested(finished_product))",
+              "natural": "Either the finished product is sampled or it is tested."
+            }
+          ],
+          "conclusion": "(A22 | (A20 | A21))",
+          "natural": "The finished product is inspected, or it is labeled, or it is marked."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | (A20 | A21))",
+              "prover9_expression": "(inspected(finished_product) | (labeled(finished_product) | marked(finished_product)))",
+              "natural": "The finished product is inspected, or it is labeled, or it is marked."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A22",
+              "prover9_expression": "-inspected(finished_product)",
+              "natural": "The finished product is not inspected."
+            }
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the finished product is labeled or it is marked."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | A21)",
+              "prover9_expression": "(labeled(finished_product) | marked(finished_product))",
+              "natural": "Either the finished product is labeled or it is marked."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(labeled(finished_product) -> compliant(quality_standards))",
+              "natural": "Under the condition that the finished product is labeled, the quality standards are compliant."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> G)",
+              "prover9_expression": "(marked(finished_product) -> compliant(quality_standards))",
+              "natural": "Whenever the finished product is marked, the quality standards are compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A34 | (A33 -> (A31 -> -A30)))",
+              "prover9_expression": "(reported(defect) | (detected(defect) -> (flawed(finished_product) -> -defective(finished_product))))",
+              "natural": "The defect is reported, or if the defect is detected, then if the finished product is flawed, it is not defective."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A34",
+              "prover9_expression": "-reported(defect)",
+              "natural": "The defect is not reported."
+            }
+          ],
+          "conclusion": "(A33 -> (A31 -> -A30))",
+          "natural": "Provided that the defect is detected, if the finished product is flawed, it is not defective."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A32 | A33)",
+              "prover9_expression": "(identified(defect) | detected(defect))",
+              "natural": "The defect is identified or it is detected."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A32 -> (A31 -> -A30))",
+              "prover9_expression": "(identified(defect) -> (flawed(finished_product) -> -defective(finished_product)))",
+              "natural": "If the defect is identified, then if the finished product is flawed, it is not defective."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A33 -> (A31 -> -A30))",
+              "prover9_expression": "(detected(defect) -> (flawed(finished_product) -> -defective(finished_product)))",
+              "natural": "Provided that the defect is detected, if the finished product is flawed, it is not defective."
+            }
+          ],
+          "conclusion": "(A31 -> -A30)",
+          "natural": "Under the condition that the finished product is flawed, it is not defective."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-(A22 | (A20 | A21)) -> A31)",
+              "prover9_expression": "(-(inspected(finished_product) | (labeled(finished_product) | marked(finished_product))) -> flawed(finished_product))",
+              "natural": "Under the condition that it is not the case that the finished product is inspected or it is labeled or it is marked, the finished product is flawed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A31 -> -A30)",
+              "prover9_expression": "(flawed(finished_product) -> -defective(finished_product))",
+              "natural": "Under the condition that the finished product is flawed, it is not defective."
+            }
+          ],
+          "conclusion": "(-(A22 | (A20 | A21)) -> -A30)",
+          "natural": "Whenever it is not the case that the finished product is inspected or it is labeled or it is marked, the finished product is not defective."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(-(A22 | (A20 | A21)) -> A30)",
+              "prover9_expression": "(-(inspected(finished_product) | (labeled(finished_product) | marked(finished_product))) -> defective(finished_product))",
+              "natural": "If it is not the case that the finished product is inspected or it is labeled or it is marked, then the finished product is defective."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A22 | (A20 | A21)) -> -A30)",
+              "prover9_expression": "(-(inspected(finished_product) | (labeled(finished_product) | marked(finished_product))) -> -defective(finished_product))",
+              "natural": "Whenever it is not the case that the finished product is inspected or it is labeled or it is marked, the finished product is not defective."
+            }
+          ],
+          "conclusion": "(A22 | (A20 | A21))",
+          "natural": "The finished product is inspected, or it is labeled, or it is marked."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | (A20 | A21))",
+              "prover9_expression": "(inspected(finished_product) | (labeled(finished_product) | marked(finished_product)))",
+              "natural": "The finished product is inspected, or it is labeled, or it is marked."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A22",
+              "prover9_expression": "-inspected(finished_product)",
+              "natural": "The finished product is not inspected."
+            }
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the finished product is labeled or it is marked."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | A21)",
+              "prover9_expression": "(labeled(finished_product) | marked(finished_product))",
+              "natural": "Either the finished product is labeled or it is marked."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(labeled(finished_product) -> compliant(quality_standards))",
+              "natural": "Under the condition that the finished product is labeled, the quality standards are compliant."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> G)",
+              "prover9_expression": "(marked(finished_product) -> compliant(quality_standards))",
+              "natural": "Whenever the finished product is marked, the quality standards are compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A39 -> (A38 -> (A36 -> -A35)))",
+              "prover9_expression": "(investigated(defect) -> (logged(defect) -> (minor(defect) -> -critical(defect))))",
+              "natural": "Provided that the defect is investigated, if the defect is logged, then if the defect is minor, it is not critical."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A39",
+              "prover9_expression": "investigated(defect)",
+              "natural": "The defect is investigated."
+            }
+          ],
+          "conclusion": "(A38 -> (A36 -> -A35))",
+          "natural": "Whenever the defect is logged, if the defect is minor, it is not critical."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A37 -> A38)",
+              "prover9_expression": "(documented(defect) -> logged(defect))",
+              "natural": "If the defect is documented, then it is logged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> (A36 -> -A35))",
+              "prover9_expression": "(logged(defect) -> (minor(defect) -> -critical(defect)))",
+              "natural": "Whenever the defect is logged, if the defect is minor, it is not critical."
+            }
+          ],
+          "conclusion": "(A37 -> (A36 -> -A35))",
+          "natural": "Under the condition that the defect is documented, if the defect is minor, it is not critical."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A37 -> (A36 -> -A35))",
+              "prover9_expression": "(documented(defect) -> (minor(defect) -> -critical(defect)))",
+              "natural": "Under the condition that the defect is documented, if the defect is minor, it is not critical."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A37",
+              "prover9_expression": "documented(defect)",
+              "natural": "The defect is documented."
+            }
+          ],
+          "conclusion": "(A36 -> -A35)",
+          "natural": "If the defect is minor, then it is not critical."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> -A35)",
+              "prover9_expression": "(minor(defect) -> -critical(defect))",
+              "natural": "If the defect is minor, then it is not critical."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A36",
+              "prover9_expression": "minor(defect)",
+              "natural": "The defect is minor."
+            }
+          ],
+          "conclusion": "-A35",
+          "natural": "The defect is not critical."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A35 | A23)",
+              "prover9_expression": "(critical(defect) | approved(finished_product))",
+              "natural": "Either the defect is critical or the finished product is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A35",
+              "prover9_expression": "-critical(defect)",
+              "natural": "The defect is not critical."
+            }
+          ],
+          "conclusion": "A23",
+          "natural": "The finished product is approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A23 -> (A22 | (A20 | A21)))",
+              "prover9_expression": "(approved(finished_product) -> (inspected(finished_product) | (labeled(finished_product) | marked(finished_product))))",
+              "natural": "If the finished product is approved, then either it is inspected, or it is labeled, or it is marked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A23",
+              "prover9_expression": "approved(finished_product)",
+              "natural": "The finished product is approved."
+            }
+          ],
+          "conclusion": "(A22 | (A20 | A21))",
+          "natural": "The finished product is inspected, or it is labeled, or it is marked."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | (A20 | A21))",
+              "prover9_expression": "(inspected(finished_product) | (labeled(finished_product) | marked(finished_product)))",
+              "natural": "The finished product is inspected, or it is labeled, or it is marked."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A22",
+              "prover9_expression": "-inspected(finished_product)",
+              "natural": "The finished product is not inspected."
+            }
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "Either the finished product is labeled or it is marked."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | A21)",
+              "prover9_expression": "(labeled(finished_product) | marked(finished_product))",
+              "natural": "Either the finished product is labeled or it is marked."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(labeled(finished_product) -> compliant(quality_standards))",
+              "natural": "Under the condition that the finished product is labeled, the quality standards are compliant."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> G)",
+              "prover9_expression": "(marked(finished_product) -> compliant(quality_standards))",
+              "natural": "Whenever the finished product is marked, the quality standards are compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The quality standards are compliant."
+        }
+      ]
+    }
+  ]
+}

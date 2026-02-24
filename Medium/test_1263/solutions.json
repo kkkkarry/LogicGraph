@@ -1,0 +1,833 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 9
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(scans(drone, field) -> initiates(sprayer, treatment))",
+              "natural": "Provided that the drone scans the field, the sprayer initiates treatment."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A8)",
+              "prover9_expression": "(completes(drone, scan) -> applies(sprayer, herbicide))",
+              "natural": "Provided that the drone completes the scan, the sprayer applies herbicide."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(scans(drone, field) | completes(drone, scan))",
+              "natural": "The drone scans the field or the drone completes the scan."
+            }
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "The sprayer initiates treatment or the sprayer applies herbicide."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(initiates(sprayer, treatment) -> detects(sensor_array, weed))",
+              "natural": "Assuming the sprayer initiates treatment, the sensor array detects a weed."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(applies(sprayer, herbicide) -> processes(control_unit, data))",
+              "natural": "If the sprayer applies herbicide, then the control unit processes data."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(initiates(sprayer, treatment) | applies(sprayer, herbicide))",
+              "natural": "The sprayer initiates treatment or the sprayer applies herbicide."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "The sensor array detects a weed or the control unit processes data."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(detects(sensor_array, weed) | processes(control_unit, data))",
+              "natural": "The sensor array detects a weed or the control unit processes data."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A5 -> (A4 | (A3 -> -A1)))",
+              "prover9_expression": "(detects(sensor_array, weed) -> (error(navigation) | (recalibrated(drone) -> -offline(sensor_array))))",
+              "natural": "If the sensor array detects a weed, then there is a navigation error or, provided the drone is recalibrated, the sensor array is not offline."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A6 -> (A4 | (A3 -> -A1)))",
+              "prover9_expression": "(processes(control_unit, data) -> (error(navigation) | (recalibrated(drone) -> -offline(sensor_array))))",
+              "natural": "Whenever the control unit processes data, there is a navigation error or, if the drone is recalibrated, the sensor array is not offline."
+            }
+          ],
+          "conclusion": "(A4 | (A3 -> -A1))",
+          "natural": "There is a navigation error, or if the drone is recalibrated then the sensor array is not offline."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (A3 -> -A1))",
+              "prover9_expression": "(error(navigation) | (recalibrated(drone) -> -offline(sensor_array)))",
+              "natural": "There is a navigation error, or if the drone is recalibrated then the sensor array is not offline."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A4",
+              "prover9_expression": "-error(navigation)",
+              "natural": "There is no navigation error."
+            }
+          ],
+          "conclusion": "(A3 -> -A1)",
+          "natural": "Provided that the drone is recalibrated, it is not the case that the sensor array is offline."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(calibrated(drone) | recalibrated(drone))",
+              "natural": "Either the drone is calibrated or the drone is recalibrated."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(calibrated(drone) -> -offline(sensor_array))",
+              "natural": "If the drone is calibrated, then it is not the case that the sensor array is offline."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> -A1)",
+              "prover9_expression": "(recalibrated(drone) -> -offline(sensor_array))",
+              "natural": "Provided that the drone is recalibrated, it is not the case that the sensor array is offline."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the sensor array is offline."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-operational(power_grid) -> offline(sensor_array))",
+              "natural": "If the power grid is not operational, then the sensor array is offline."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-offline(sensor_array)",
+              "natural": "It is not the case that the sensor array is offline."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is operational."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(-(A14 -> (A12 | (-G -> A11))) -> A15)",
+              "prover9_expression": "(-(damaged(tank) -> (blocked(nozzle) | (-operational(power_grid) -> low(battery)))) -> leaks(sprayer))",
+              "natural": "If it is not the case that a damaged tank implies either a blocked nozzle or (a non-operational power grid implying a low battery), then the sprayer leaks."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A15",
+              "prover9_expression": "-leaks(sprayer)",
+              "natural": "The sprayer does not leak."
+            }
+          ],
+          "conclusion": "(A14 -> (A12 | (-G -> A11)))",
+          "natural": "If the tank is damaged, then either the nozzle is blocked or, under the condition that the power grid is not operational, the battery is low."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(clogged(filter) | damaged(tank))",
+              "natural": "The filter is clogged or the tank is damaged."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (A12 | (-G -> A11)))",
+              "prover9_expression": "(clogged(filter) -> (blocked(nozzle) | (-operational(power_grid) -> low(battery))))",
+              "natural": "Assuming the filter is clogged, either the nozzle is blocked or, given that the power grid is not operational, the battery is low."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (A12 | (-G -> A11)))",
+              "prover9_expression": "(damaged(tank) -> (blocked(nozzle) | (-operational(power_grid) -> low(battery))))",
+              "natural": "If the tank is damaged, then either the nozzle is blocked or, under the condition that the power grid is not operational, the battery is low."
+            }
+          ],
+          "conclusion": "(A12 | (-G -> A11))",
+          "natural": "Either the nozzle is blocked, or if the power grid is not operational, then the battery is low."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | (-G -> A11))",
+              "prover9_expression": "(blocked(nozzle) | (-operational(power_grid) -> low(battery)))",
+              "natural": "Either the nozzle is blocked, or if the power grid is not operational, then the battery is low."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A12",
+              "prover9_expression": "-blocked(nozzle)",
+              "natural": "The nozzle is not blocked."
+            }
+          ],
+          "conclusion": "(-G -> A11)",
+          "natural": "Provided that the power grid is not operational, the battery is low."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-operational(power_grid) -> low(battery))",
+              "natural": "Provided that the power grid is not operational, the battery is low."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(-G -> -A11)",
+              "prover9_expression": "(-operational(power_grid) -> -low(battery))",
+              "natural": "Assuming the power grid is not operational, the battery is not low."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is operational."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(-(-(-(A16 | A17) -> A18) -> A19) -> A20)",
+              "prover9_expression": "(-(-(-(running(harvester) | active(harvester)) -> stalled(harvester)) -> overloaded(conveyor)) -> jammed(conveyor))",
+              "natural": "If it is not the case that the statement \"the harvester not being running or active implies it is stalled\" implies the conveyor is overloaded, then the conveyor is jammed."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(-(-(-(A16 | A17) -> A18) -> A19) -> -A20)",
+              "prover9_expression": "(-(-(-(running(harvester) | active(harvester)) -> stalled(harvester)) -> overloaded(conveyor)) -> -jammed(conveyor))",
+              "natural": "Under the condition that it is not true that the statement \"the harvester not being running or active implies it is stalled\" implies the conveyor is overloaded, then the conveyor is not jammed."
+            }
+          ],
+          "conclusion": "(-(-(A16 | A17) -> A18) -> A19)",
+          "natural": "Assuming it is not the case that the harvester not being running or active implies it is stalled, then the conveyor is overloaded."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A16 | A17) -> A18) -> A19)",
+              "prover9_expression": "(-(-(running(harvester) | active(harvester)) -> stalled(harvester)) -> overloaded(conveyor))",
+              "natural": "Assuming it is not the case that the harvester not being running or active implies it is stalled, then the conveyor is overloaded."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A19",
+              "prover9_expression": "-overloaded(conveyor)",
+              "natural": "The conveyor is not overloaded."
+            }
+          ],
+          "conclusion": "(-(A16 | A17) -> A18)",
+          "natural": "If it is not the case that the harvester is running or active, then the harvester is stalled."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 | A17) -> A18)",
+              "prover9_expression": "(-(running(harvester) | active(harvester)) -> stalled(harvester))",
+              "natural": "If it is not the case that the harvester is running or active, then the harvester is stalled."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-(A16 | A17) -> -A18)",
+              "prover9_expression": "(-(running(harvester) | active(harvester)) -> -stalled(harvester))",
+              "natural": "Provided that the harvester is not running or active, it is not the case that the harvester is stalled."
+            }
+          ],
+          "conclusion": "(A16 | A17)",
+          "natural": "The harvester is running or the harvester is active."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 | A17)",
+              "prover9_expression": "(running(harvester) | active(harvester))",
+              "natural": "The harvester is running or the harvester is active."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A16 -> G)",
+              "prover9_expression": "(running(harvester) -> operational(power_grid))",
+              "natural": "Whenever the harvester is running, the power grid is operational."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A17 -> G)",
+              "prover9_expression": "(active(harvester) -> operational(power_grid))",
+              "natural": "In the event that the harvester is active, the power grid is operational."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is operational."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A25 -> A27)",
+              "prover9_expression": "(analyzes(lab, sample) -> generates(lab, report))",
+              "natural": "Whenever the lab analyzes a sample, the lab generates a report."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A27 -> (A24 | -A23))",
+              "prover9_expression": "(generates(lab, report) -> (fertilized(soil) | -nutrient_deficient(soil)))",
+              "natural": "Under the condition that the lab generates a report, either the soil is fertilized or the soil is not nutrient deficient."
+            }
+          ],
+          "conclusion": "(A25 -> (A24 | -A23))",
+          "natural": "If the lab analyzes a sample, then either the soil is fertilized or the soil is not nutrient deficient."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(analyzes(lab, sample) | tests(lab, sample))",
+              "natural": "The lab analyzes a sample or the lab tests a sample."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> (A24 | -A23))",
+              "prover9_expression": "(analyzes(lab, sample) -> (fertilized(soil) | -nutrient_deficient(soil)))",
+              "natural": "If the lab analyzes a sample, then either the soil is fertilized or the soil is not nutrient deficient."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A26 -> (A24 | -A23))",
+              "prover9_expression": "(tests(lab, sample) -> (fertilized(soil) | -nutrient_deficient(soil)))",
+              "natural": "Given that the lab tests a sample, either the soil is fertilized or the soil is not nutrient deficient."
+            }
+          ],
+          "conclusion": "(A24 | -A23)",
+          "natural": "The soil is fertilized or the soil is not nutrient deficient."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 | -A23)",
+              "prover9_expression": "(fertilized(soil) | -nutrient_deficient(soil))",
+              "natural": "The soil is fertilized or the soil is not nutrient deficient."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A24",
+              "prover9_expression": "-fertilized(soil)",
+              "natural": "The soil is not fertilized."
+            }
+          ],
+          "conclusion": "-A23",
+          "natural": "The soil is not nutrient deficient."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A23 | A22)",
+              "prover9_expression": "(nutrient_deficient(soil) | moist(soil))",
+              "natural": "The soil is nutrient deficient or the soil is moist."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A23",
+              "prover9_expression": "-nutrient_deficient(soil)",
+              "natural": "The soil is not nutrient deficient."
+            }
+          ],
+          "conclusion": "A22",
+          "natural": "The soil is moist."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A22 -> -A21)",
+              "prover9_expression": "(moist(soil) -> -dry(soil))",
+              "natural": "Provided that the soil is moist, the soil is not dry."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A22",
+              "prover9_expression": "moist(soil)",
+              "natural": "The soil is moist."
+            }
+          ],
+          "conclusion": "-A21",
+          "natural": "The soil is not dry."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A21 | G)",
+              "prover9_expression": "(dry(soil) | operational(power_grid))",
+              "natural": "The soil is dry or the power grid is operational."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A21",
+              "prover9_expression": "-dry(soil)",
+              "natural": "The soil is not dry."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is operational."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A32 | (-(A29 -> A30) -> A31))",
+              "prover9_expression": "(inaccurate(prediction) | (-(optimal(conditions) -> clear(weather)) -> faulty(forecast)))",
+              "natural": "Either the prediction is inaccurate, or if it is not the case that optimal conditions imply clear weather, then the forecast is faulty."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A32",
+              "prover9_expression": "-inaccurate(prediction)",
+              "natural": "The prediction is not inaccurate."
+            }
+          ],
+          "conclusion": "(-(A29 -> A30) -> A31)",
+          "natural": "If it is not true that optimal conditions imply clear weather, then the forecast is faulty."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A29 -> A30) -> A31)",
+              "prover9_expression": "(-(optimal(conditions) -> clear(weather)) -> faulty(forecast))",
+              "natural": "If it is not true that optimal conditions imply clear weather, then the forecast is faulty."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A31",
+              "prover9_expression": "-faulty(forecast)",
+              "natural": "The forecast is not faulty."
+            }
+          ],
+          "conclusion": "(A29 -> A30)",
+          "natural": "Assuming the conditions are optimal, the weather is clear."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A29 -> A30)",
+              "prover9_expression": "(optimal(conditions) -> clear(weather))",
+              "natural": "Assuming the conditions are optimal, the weather is clear."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A30 -> A28)",
+              "prover9_expression": "(clear(weather) -> sunny(weather))",
+              "natural": "Whenever the weather is clear, the weather is sunny."
+            }
+          ],
+          "conclusion": "(A29 -> A28)",
+          "natural": "If the conditions are optimal, then the weather is sunny."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(-G -> A29)",
+              "prover9_expression": "(-operational(power_grid) -> optimal(conditions))",
+              "natural": "If the power grid is not operational, then the conditions are optimal."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A29 -> A28)",
+              "prover9_expression": "(optimal(conditions) -> sunny(weather))",
+              "natural": "If the conditions are optimal, then the weather is sunny."
+            }
+          ],
+          "conclusion": "(-G -> A28)",
+          "natural": "Whenever the power grid is not operational, the weather is sunny."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A28)",
+              "prover9_expression": "(-operational(power_grid) -> sunny(weather))",
+              "natural": "Whenever the power grid is not operational, the weather is sunny."
+            },
+            {
+              "id": "Rule40",
+              "prover9": "(-G -> -A28)",
+              "prover9_expression": "(-operational(power_grid) -> -sunny(weather))",
+              "natural": "Given that the power grid is not operational, the weather is not sunny."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is operational."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A42 | (A40 -> (A38 -> (A36 -> (A35 -> -A33)))))",
+              "prover9_expression": "(lost(data) | (uploads(data, cloud) -> (calculates(ai, yield) -> (verifies(system, route) -> (engaged(autopilot) -> -manual(override))))))",
+              "natural": "The data is lost, or, if data is uploaded to the cloud then, given that the AI calculates the yield, whenever the system verifies the route, under the condition that the autopilot is engaged, the manual override is not engaged."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A42",
+              "prover9_expression": "-lost(data)",
+              "natural": "The data is not lost."
+            }
+          ],
+          "conclusion": "(A40 -> (A38 -> (A36 -> (A35 -> -A33))))",
+          "natural": "Provided that data is uploaded to the cloud, then, if the AI calculates the yield, under the condition that the system verifies the route, assuming the autopilot is engaged, the manual override is not engaged."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A40 | A41)",
+              "prover9_expression": "(uploads(data, cloud) | syncs(data, server))",
+              "natural": "Data is uploaded to the cloud or data syncs with the server."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A40 -> (A38 -> (A36 -> (A35 -> -A33))))",
+              "prover9_expression": "(uploads(data, cloud) -> (calculates(ai, yield) -> (verifies(system, route) -> (engaged(autopilot) -> -manual(override)))))",
+              "natural": "Provided that data is uploaded to the cloud, then, if the AI calculates the yield, under the condition that the system verifies the route, assuming the autopilot is engaged, the manual override is not engaged."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A41 -> (A38 -> (A36 -> (A35 -> -A33))))",
+              "prover9_expression": "(syncs(data, server) -> (calculates(ai, yield) -> (verifies(system, route) -> (engaged(autopilot) -> -manual(override)))))",
+              "natural": "In the event that data syncs with the server, then, assuming the AI calculates the yield, if the system verifies the route, provided the autopilot is engaged, the manual override is not engaged."
+            }
+          ],
+          "conclusion": "(A38 -> (A36 -> (A35 -> -A33)))",
+          "natural": "Under the condition that the AI calculates the yield, then, provided the system verifies the route, if the autopilot is engaged the manual override is not engaged."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A38 | A39)",
+              "prover9_expression": "(calculates(ai, yield) | estimates(ai, yield))",
+              "natural": "The AI calculates the yield or the AI estimates the yield."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> (A36 -> (A35 -> -A33)))",
+              "prover9_expression": "(calculates(ai, yield) -> (verifies(system, route) -> (engaged(autopilot) -> -manual(override))))",
+              "natural": "Under the condition that the AI calculates the yield, then, provided the system verifies the route, if the autopilot is engaged the manual override is not engaged."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A39 -> (A36 -> (A35 -> -A33)))",
+              "prover9_expression": "(estimates(ai, yield) -> (verifies(system, route) -> (engaged(autopilot) -> -manual(override))))",
+              "natural": "If the AI estimates the yield, then, assuming the system verifies the route, whenever the autopilot is engaged, the manual override is not engaged."
+            }
+          ],
+          "conclusion": "(A36 -> (A35 -> -A33))",
+          "natural": "If the system verifies the route, then, assuming the autopilot is engaged, the manual override is not engaged."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A36 | A37)",
+              "prover9_expression": "(verifies(system, route) | confirms(system, route))",
+              "natural": "The system verifies the route or the system confirms the route."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> (A35 -> -A33))",
+              "prover9_expression": "(verifies(system, route) -> (engaged(autopilot) -> -manual(override)))",
+              "natural": "If the system verifies the route, then, assuming the autopilot is engaged, the manual override is not engaged."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A37 -> (A35 -> -A33))",
+              "prover9_expression": "(confirms(system, route) -> (engaged(autopilot) -> -manual(override)))",
+              "natural": "Whenever the system confirms the route, if the autopilot is engaged then the manual override is not engaged."
+            }
+          ],
+          "conclusion": "(A35 -> -A33)",
+          "natural": "Provided that the autopilot is engaged, the manual override is not engaged."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A34 | A35)",
+              "prover9_expression": "(enabled(autopilot) | engaged(autopilot))",
+              "natural": "The autopilot is enabled or the autopilot is engaged."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A34 -> -A33)",
+              "prover9_expression": "(enabled(autopilot) -> -manual(override))",
+              "natural": "If the autopilot is enabled, then the manual override is not engaged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A35 -> -A33)",
+              "prover9_expression": "(engaged(autopilot) -> -manual(override))",
+              "natural": "Provided that the autopilot is engaged, the manual override is not engaged."
+            }
+          ],
+          "conclusion": "-A33",
+          "natural": "The manual override is not engaged."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A33 | (-(-(A16 | A17) -> A18) -> A19))",
+              "prover9_expression": "(manual(override) | (-(-(running(harvester) | active(harvester)) -> stalled(harvester)) -> overloaded(conveyor)))",
+              "natural": "There is a manual override, or if it is not the case that the harvester not being running or active implies it is stalled, then the conveyor is overloaded."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A33",
+              "prover9_expression": "-manual(override)",
+              "natural": "The manual override is not engaged."
+            }
+          ],
+          "conclusion": "(-(-(A16 | A17) -> A18) -> A19)",
+          "natural": "Assuming it is not the case that the harvester not being running or active implies it is stalled, then the conveyor is overloaded."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A16 | A17) -> A18) -> A19)",
+              "prover9_expression": "(-(-(running(harvester) | active(harvester)) -> stalled(harvester)) -> overloaded(conveyor))",
+              "natural": "Assuming it is not the case that the harvester not being running or active implies it is stalled, then the conveyor is overloaded."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A19",
+              "prover9_expression": "-overloaded(conveyor)",
+              "natural": "The conveyor is not overloaded."
+            }
+          ],
+          "conclusion": "(-(A16 | A17) -> A18)",
+          "natural": "If it is not the case that the harvester is running or active, then the harvester is stalled."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 | A17) -> A18)",
+              "prover9_expression": "(-(running(harvester) | active(harvester)) -> stalled(harvester))",
+              "natural": "If it is not the case that the harvester is running or active, then the harvester is stalled."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-(A16 | A17) -> -A18)",
+              "prover9_expression": "(-(running(harvester) | active(harvester)) -> -stalled(harvester))",
+              "natural": "Provided that the harvester is not running or active, it is not the case that the harvester is stalled."
+            }
+          ],
+          "conclusion": "(A16 | A17)",
+          "natural": "The harvester is running or the harvester is active."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 | A17)",
+              "prover9_expression": "(running(harvester) | active(harvester))",
+              "natural": "The harvester is running or the harvester is active."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A16 -> G)",
+              "prover9_expression": "(running(harvester) -> operational(power_grid))",
+              "natural": "Whenever the harvester is running, the power grid is operational."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A17 -> G)",
+              "prover9_expression": "(active(harvester) -> operational(power_grid))",
+              "natural": "In the event that the harvester is active, the power grid is operational."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is operational."
+        }
+      ]
+    }
+  ]
+}

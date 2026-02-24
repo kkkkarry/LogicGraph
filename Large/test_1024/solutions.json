@@ -1,0 +1,1613 @@
+{
+  "solution_stats": {
+    "total_solutions": 11,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 10
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 10,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 11,
+        "steps_count": 9
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A4 -> -A3)",
+              "prover9_expression": "(has(pharma_company, export_license) -> -requires(drug_delivery, licensed_driver))",
+              "natural": "If the pharmaceutical company possesses an export license, then drug delivery does not require a licensed driver."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A4",
+              "prover9_expression": "has(pharma_company, export_license)",
+              "natural": "The pharmaceutical company possesses an export license."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "Drug delivery does not require a licensed driver."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> A3)",
+              "prover9_expression": "(requires(drug_delivery, secure_transport) -> requires(drug_delivery, licensed_driver))",
+              "natural": "Whenever drug delivery requires secure transport, it also requires a licensed driver."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-requires(drug_delivery, licensed_driver)",
+              "natural": "Drug delivery does not require a licensed driver."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "Drug delivery does not require secure transport."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(requires(drug_delivery, cold_storage) -> requires(drug_delivery, secure_transport))",
+              "natural": "If drug delivery requires cold storage, then drug delivery requires secure transport."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-requires(drug_delivery, secure_transport)",
+              "natural": "Drug delivery does not require secure transport."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug delivery requires cold storage."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(requires(drug_delivery, cold_storage) | regulated(drug_distribution))",
+              "natural": "Either drug delivery requires cold storage, or drug distribution is regulated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-requires(drug_delivery, cold_storage)",
+              "natural": "It is not the case that drug delivery requires cold storage."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(scheduled_for(drug_batch, lab_testing) | scheduled_for(drug_batch, field_testing))",
+              "natural": "Either the drug batch is scheduled for lab testing, or the drug batch is scheduled for field testing."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A11 -> (A8 -> A10))",
+              "prover9_expression": "(scheduled_for(drug_batch, lab_testing) -> (inspected_by(drug_batch, fda_agent) -> compliant_with(drug_batch, regulations)))",
+              "natural": "Under the condition that the drug batch is scheduled for lab testing, if the drug batch is inspected by an FDA agent, then the drug batch is compliant with regulations."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A12 -> (A8 -> A10))",
+              "prover9_expression": "(scheduled_for(drug_batch, field_testing) -> (inspected_by(drug_batch, fda_agent) -> compliant_with(drug_batch, regulations)))",
+              "natural": "Provided that the drug batch is scheduled for field testing, whenever the drug batch is inspected by an FDA agent, it follows that the drug batch is compliant with regulations."
+            }
+          ],
+          "conclusion": "(A8 -> A10)",
+          "natural": "Whenever the drug batch is inspected by an FDA agent, it is compliant with regulations."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A10)",
+              "prover9_expression": "(inspected_by(drug_batch, fda_agent) -> compliant_with(drug_batch, regulations))",
+              "natural": "Whenever the drug batch is inspected by an FDA agent, it is compliant with regulations."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A10 -> -A7)",
+              "prover9_expression": "(compliant_with(drug_batch, regulations) -> -contaminated(drug_batch))",
+              "natural": "Whenever the drug batch is compliant with regulations, it is not the case that the drug batch is contaminated."
+            }
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "Provided that the drug batch is inspected by an FDA agent, it is not contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule41",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(inspected_by(drug_batch, fda_agent) | inspected_by(drug_batch, customs_agent))",
+              "natural": "Either the drug batch is inspected by an FDA agent, or it is inspected by a customs agent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(inspected_by(drug_batch, fda_agent) -> -contaminated(drug_batch))",
+              "natural": "Provided that the drug batch is inspected by an FDA agent, it is not contaminated."
+            },
+            {
+              "id": "Rule42",
+              "prover9": "(A9 -> -A7)",
+              "prover9_expression": "(inspected_by(drug_batch, customs_agent) -> -contaminated(drug_batch))",
+              "natural": "Should the drug batch be inspected by a customs agent, then it is not contaminated."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The drug batch is not contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(A7 | (-(-G -> -A5) -> -A6))",
+              "prover9_expression": "(contaminated(drug_batch) | (-(-regulated(drug_distribution) -> -approved_by(drug_shipment, fda)) -> -passes(drug_shipment, quality_check)))",
+              "natural": "Either the drug batch is contaminated, or if it is not the case that drug distribution not being regulated implies the drug shipment is not approved by the FDA, then the drug shipment does not pass the quality check."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-contaminated(drug_batch)",
+              "natural": "The drug batch is not contaminated."
+            }
+          ],
+          "conclusion": "(-(-G -> -A5) -> -A6)",
+          "natural": "Under the condition that it is not the case that drug distribution not being regulated implies the drug shipment is not approved by the FDA, then the drug shipment does not pass the quality check."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule56",
+              "prover9": "(-(-G -> -A5) -> A6)",
+              "prover9_expression": "(-(-regulated(drug_distribution) -> -approved_by(drug_shipment, fda)) -> passes(drug_shipment, quality_check))",
+              "natural": "Provided that it is not the case that drug distribution not being regulated implies the drug shipment is not approved by the FDA, then the drug shipment passes the quality check."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A5) -> -A6)",
+              "prover9_expression": "(-(-regulated(drug_distribution) -> -approved_by(drug_shipment, fda)) -> -passes(drug_shipment, quality_check))",
+              "natural": "Under the condition that it is not the case that drug distribution not being regulated implies the drug shipment is not approved by the FDA, then the drug shipment does not pass the quality check."
+            }
+          ],
+          "conclusion": "(-G -> -A5)",
+          "natural": "Under the condition that drug distribution is not regulated, the drug shipment is not approved by the FDA."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-G -> A5)",
+              "prover9_expression": "(-regulated(drug_distribution) -> approved_by(drug_shipment, fda))",
+              "natural": "Provided that drug distribution is not regulated, the drug shipment is approved by the FDA."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A5)",
+              "prover9_expression": "(-regulated(drug_distribution) -> -approved_by(drug_shipment, fda))",
+              "natural": "Under the condition that drug distribution is not regulated, the drug shipment is not approved by the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule44",
+              "prover9": "(-(A17 -> A15) -> A18)",
+              "prover9_expression": "(-(malfunctioning(refrigeration_unit) -> delayed(drug_shipment)) -> diverted(drug_shipment))",
+              "natural": "If it is not the case that the refrigeration unit malfunctioning implies the drug shipment is delayed, then the drug shipment is diverted."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A18",
+              "prover9_expression": "-diverted(drug_shipment)",
+              "natural": "The drug shipment is not diverted."
+            }
+          ],
+          "conclusion": "(A17 -> A15)",
+          "natural": "Provided that the refrigeration unit is malfunctioning, the drug shipment is delayed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(damaged(refrigerated_truck) -> malfunctioning(refrigeration_unit))",
+              "natural": "Should the refrigerated truck be damaged, the refrigeration unit is malfunctioning."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A15)",
+              "prover9_expression": "(malfunctioning(refrigeration_unit) -> delayed(drug_shipment))",
+              "natural": "Provided that the refrigeration unit is malfunctioning, the drug shipment is delayed."
+            }
+          ],
+          "conclusion": "(A16 -> A15)",
+          "natural": "In the event that the refrigerated truck is damaged, the drug shipment is delayed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule43",
+              "prover9": "(-(A13 -> G) -> A16)",
+              "prover9_expression": "(-(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution)) -> damaged(refrigerated_truck))",
+              "natural": "Under the condition that it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, the refrigerated truck is damaged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(damaged(refrigerated_truck) -> delayed(drug_shipment))",
+              "natural": "In the event that the refrigerated truck is damaged, the drug shipment is delayed."
+            }
+          ],
+          "conclusion": "(-(A13 -> G) -> A15)",
+          "natural": "If it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, then the drug shipment is delayed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> G) -> A15)",
+              "prover9_expression": "(-(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution)) -> delayed(drug_shipment))",
+              "natural": "If it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, then the drug shipment is delayed."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A15",
+              "prover9_expression": "-delayed(drug_shipment)",
+              "natural": "The drug shipment is not delayed."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "If the distribution center utilizes a refrigerated truck, then drug distribution is regulated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(uses(distribution_center, refrigerated_truck) | uses(distribution_center, armored_truck))",
+              "natural": "Either the distribution center utilizes a refrigerated truck, or it utilizes an armored truck."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution))",
+              "natural": "If the distribution center utilizes a refrigerated truck, then drug distribution is regulated."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(uses(distribution_center, armored_truck) -> regulated(drug_distribution))",
+              "natural": "Given that the distribution center utilizes an armored truck, drug distribution is regulated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A24 -> -A23)",
+              "prover9_expression": "(approves(fda, drug_formula) -> -penalizes(fda, pharma_company))",
+              "natural": "If the FDA approves the drug formula, then the FDA does not penalize the pharmaceutical company."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A24",
+              "prover9_expression": "approves(fda, drug_formula)",
+              "natural": "The FDA approves the drug formula."
+            }
+          ],
+          "conclusion": "-A23",
+          "natural": "The FDA does not penalize the pharmaceutical company."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule55",
+              "prover9": "(-(-A21 -> A22) -> A23)",
+              "prover9_expression": "(-(-monitors(fda, drug_shipment) -> investigates(fda, pharma_company)) -> penalizes(fda, pharma_company))",
+              "natural": "In the event that it is not the case that the FDA not monitoring the drug shipment implies it investigates the pharmaceutical company, then the FDA penalizes the pharmaceutical company."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A23",
+              "prover9_expression": "-penalizes(fda, pharma_company)",
+              "natural": "The FDA does not penalize the pharmaceutical company."
+            }
+          ],
+          "conclusion": "(-A21 -> A22)",
+          "natural": "If the FDA does not monitor the drug shipment, then it investigates the pharmaceutical company."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A21 -> A22)",
+              "prover9_expression": "(-monitors(fda, drug_shipment) -> investigates(fda, pharma_company))",
+              "natural": "If the FDA does not monitor the drug shipment, then it investigates the pharmaceutical company."
+            },
+            {
+              "id": "Rule57",
+              "prover9": "(-A21 -> -A22)",
+              "prover9_expression": "(-monitors(fda, drug_shipment) -> -investigates(fda, pharma_company))",
+              "natural": "Should the FDA not monitor the drug shipment, then it does not investigate the pharmaceutical company."
+            }
+          ],
+          "conclusion": "A21",
+          "natural": "The FDA monitors the drug shipment."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A21 -> (A20 | (-G -> A19)))",
+              "prover9_expression": "(monitors(fda, drug_shipment) -> (rerouted(drug_shipment) | (-regulated(drug_distribution) -> expedited(drug_shipment))))",
+              "natural": "If the FDA monitors the drug shipment, then either the drug shipment is rerouted, or under the condition that drug distribution is not regulated, the drug shipment is expedited."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A21",
+              "prover9_expression": "monitors(fda, drug_shipment)",
+              "natural": "The FDA monitors the drug shipment."
+            }
+          ],
+          "conclusion": "(A20 | (-G -> A19))",
+          "natural": "Either the drug shipment is rerouted, or if drug distribution is not regulated, then the drug shipment is expedited."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 | (-G -> A19))",
+              "prover9_expression": "(rerouted(drug_shipment) | (-regulated(drug_distribution) -> expedited(drug_shipment)))",
+              "natural": "Either the drug shipment is rerouted, or if drug distribution is not regulated, then the drug shipment is expedited."
+            },
+            {
+              "id": "Fact13",
+              "prover9": "-A20",
+              "prover9_expression": "-rerouted(drug_shipment)",
+              "natural": "The drug shipment is not rerouted."
+            }
+          ],
+          "conclusion": "(-G -> A19)",
+          "natural": "In the event that drug distribution is not regulated, the drug shipment is expedited."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A19)",
+              "prover9_expression": "(-regulated(drug_distribution) -> expedited(drug_shipment))",
+              "natural": "In the event that drug distribution is not regulated, the drug shipment is expedited."
+            },
+            {
+              "id": "Fact12",
+              "prover9": "-A19",
+              "prover9_expression": "-expedited(drug_shipment)",
+              "natural": "The drug shipment is not expedited."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A31 | A32)",
+              "prover9_expression": "(assigned_to(appeal, senior_inspector) | assigned_to(appeal, legal_team))",
+              "natural": "Either the appeal is assigned to a senior inspector, or it is assigned to a legal team."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A31 -> A30)",
+              "prover9_expression": "(assigned_to(appeal, senior_inspector) -> reviewed_by(regulatory_board, appeal))",
+              "natural": "Under the condition that the appeal is assigned to a senior inspector, the appeal is reviewed by the regulatory board."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A32 -> A30)",
+              "prover9_expression": "(assigned_to(appeal, legal_team) -> reviewed_by(regulatory_board, appeal))",
+              "natural": "If the appeal is assigned to a legal team, then the appeal is reviewed by the regulatory board."
+            }
+          ],
+          "conclusion": "A30",
+          "natural": "The appeal is reviewed by the regulatory board."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A30 -> (A28 | A29))",
+              "prover9_expression": "(reviewed_by(regulatory_board, appeal) -> (filed_by(pharma_company, appeal) | filed_by(pharma_lawyer, appeal)))",
+              "natural": "If the appeal is reviewed by the regulatory board, then either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A30",
+              "prover9_expression": "reviewed_by(regulatory_board, appeal)",
+              "natural": "The appeal is reviewed by the regulatory board."
+            }
+          ],
+          "conclusion": "(A28 | A29)",
+          "natural": "Either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A28 | A29)",
+              "prover9_expression": "(filed_by(pharma_company, appeal) | filed_by(pharma_lawyer, appeal))",
+              "natural": "Either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A28 -> (-(-(A25 -> G) -> -A26) -> A27))",
+              "prover9_expression": "(filed_by(pharma_company, appeal) -> (-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)))",
+              "natural": "If the appeal is filed by the pharmaceutical company, then if it is not the case that whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A29 -> (-(-(A25 -> G) -> -A26) -> A27))",
+              "prover9_expression": "(filed_by(pharma_lawyer, appeal) -> (-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)))",
+              "natural": "Provided that the appeal is filed by the pharmaceutical lawyer, if it is not the case that whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated, which implies that the pharmaceutical license is not suspended, then the pharmaceutical license is reinstated."
+            }
+          ],
+          "conclusion": "(-(-(A25 -> G) -> -A26) -> A27)",
+          "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A25 -> G) -> -A26) -> A27)",
+              "prover9_expression": "(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license))",
+              "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+            },
+            {
+              "id": "Rule52",
+              "prover9": "(-(-(A25 -> G) -> -A26) -> -A27)",
+              "prover9_expression": "(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> -reinstated(pharma_license))",
+              "natural": "In the event that it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is not reinstated."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> -A26)",
+          "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A25 -> G) -> A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> suspended(pharma_license))",
+              "natural": "In the event that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> -A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license))",
+              "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(A25 -> G)",
+          "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> G)",
+              "prover9_expression": "(registered_with(pharma_company, fda) -> regulated(drug_distribution))",
+              "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "registered_with(pharma_company, fda)",
+              "natural": "The pharmaceutical company is registered with the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule46",
+              "prover9": "(-(A33 -> A34) -> A35)",
+              "prover9_expression": "(-(violates(pharma_company, safety_protocols) -> violates(pharma_company, storage_guidelines)) -> fined(pharma_company))",
+              "natural": "Whenever it is not the case that the pharmaceutical company violating safety protocols implies it violates storage guidelines, the pharmaceutical company is fined."
+            },
+            {
+              "id": "Rule47",
+              "prover9": "(-(A33 -> A34) -> -A35)",
+              "prover9_expression": "(-(violates(pharma_company, safety_protocols) -> violates(pharma_company, storage_guidelines)) -> -fined(pharma_company))",
+              "natural": "In the event that it is not the case that the pharmaceutical company violating safety protocols implies it violates storage guidelines, the pharmaceutical company is not fined."
+            }
+          ],
+          "conclusion": "(A33 -> A34)",
+          "natural": "Should the pharmaceutical company violate safety protocols, it also violates storage guidelines."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A33 -> A34)",
+              "prover9_expression": "(violates(pharma_company, safety_protocols) -> violates(pharma_company, storage_guidelines))",
+              "natural": "Should the pharmaceutical company violate safety protocols, it also violates storage guidelines."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A34 -> -A2)",
+              "prover9_expression": "(violates(pharma_company, storage_guidelines) -> -requires(drug_delivery, secure_transport))",
+              "natural": "If the pharmaceutical company violates storage guidelines, then drug delivery does not require secure transport."
+            }
+          ],
+          "conclusion": "(A33 -> -A2)",
+          "natural": "Whenever the pharmaceutical company violates safety protocols, drug delivery does not require secure transport."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A33 -> -A2)",
+              "prover9_expression": "(violates(pharma_company, safety_protocols) -> -requires(drug_delivery, secure_transport))",
+              "natural": "Whenever the pharmaceutical company violates safety protocols, drug delivery does not require secure transport."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A33",
+              "prover9_expression": "violates(pharma_company, safety_protocols)",
+              "natural": "The pharmaceutical company violates safety protocols."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "Drug delivery does not require secure transport."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(requires(drug_delivery, cold_storage) -> requires(drug_delivery, secure_transport))",
+              "natural": "If drug delivery requires cold storage, then drug delivery requires secure transport."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-requires(drug_delivery, secure_transport)",
+              "natural": "Drug delivery does not require secure transport."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug delivery requires cold storage."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(requires(drug_delivery, cold_storage) | regulated(drug_distribution))",
+              "natural": "Either drug delivery requires cold storage, or drug distribution is regulated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-requires(drug_delivery, cold_storage)",
+              "natural": "It is not the case that drug delivery requires cold storage."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-(A43 -> (A42 | (-(A39 -> A40) -> A41))) -> A44)",
+              "prover9_expression": "(-(oversees(health_ministry, drug_distribution) -> (coordinated_with(hospital, emergency_shipment) | (-(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment)) -> dispatched(emergency_shipment)))) -> intervened(health_ministry, distribution_process))",
+              "natural": "If it is not the case that the health ministry overseeing drug distribution implies either the emergency shipment is coordinated with the hospital or if it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, then the emergency shipment is dispatched, then the health ministry intervenes in the distribution process."
+            },
+            {
+              "id": "Rule51",
+              "prover9": "(-(A43 -> (A42 | (-(A39 -> A40) -> A41))) -> -A44)",
+              "prover9_expression": "(-(oversees(health_ministry, drug_distribution) -> (coordinated_with(hospital, emergency_shipment) | (-(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment)) -> dispatched(emergency_shipment)))) -> -intervened(health_ministry, distribution_process))",
+              "natural": "Should it not be the case that the health ministry overseeing drug distribution implies either the emergency shipment is coordinated with the hospital or if it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, then the emergency shipment is dispatched, then the health ministry does not intervene in the distribution process."
+            }
+          ],
+          "conclusion": "(A43 -> (A42 | (-(A39 -> A40) -> A41)))",
+          "natural": "Provided that the health ministry oversees drug distribution, then either the emergency shipment is coordinated with the hospital, or if it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, then the emergency shipment is dispatched."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A43 -> (A42 | (-(A39 -> A40) -> A41)))",
+              "prover9_expression": "(oversees(health_ministry, drug_distribution) -> (coordinated_with(hospital, emergency_shipment) | (-(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment)) -> dispatched(emergency_shipment))))",
+              "natural": "Provided that the health ministry oversees drug distribution, then either the emergency shipment is coordinated with the hospital, or if it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, then the emergency shipment is dispatched."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "A43",
+              "prover9_expression": "oversees(health_ministry, drug_distribution)",
+              "natural": "The health ministry oversees drug distribution."
+            }
+          ],
+          "conclusion": "(A42 | (-(A39 -> A40) -> A41))",
+          "natural": "Either the emergency shipment is coordinated with the hospital, or if it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, then the emergency shipment is dispatched."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A42 | (-(A39 -> A40) -> A41))",
+              "prover9_expression": "(coordinated_with(hospital, emergency_shipment) | (-(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment)) -> dispatched(emergency_shipment)))",
+              "natural": "Either the emergency shipment is coordinated with the hospital, or if it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, then the emergency shipment is dispatched."
+            },
+            {
+              "id": "Fact15",
+              "prover9": "-A42",
+              "prover9_expression": "-coordinated_with(hospital, emergency_shipment)",
+              "natural": "The emergency shipment is not coordinated with the hospital."
+            }
+          ],
+          "conclusion": "(-(A39 -> A40) -> A41)",
+          "natural": "Under the condition that it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, the emergency shipment is dispatched."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A39 -> A40) -> A41)",
+              "prover9_expression": "(-(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment)) -> dispatched(emergency_shipment))",
+              "natural": "Under the condition that it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, the emergency shipment is dispatched."
+            },
+            {
+              "id": "Rule49",
+              "prover9": "(-(A39 -> A40) -> -A41)",
+              "prover9_expression": "(-(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment)) -> -dispatched(emergency_shipment))",
+              "natural": "Provided that it is not the case that the emergency shipment being authorized by the pharmaceutical director implies it is approved by the medical board, the emergency shipment is not dispatched."
+            }
+          ],
+          "conclusion": "(A39 -> A40)",
+          "natural": "Whenever the emergency shipment is authorized by the pharmaceutical director, it is approved by the medical board."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A39 -> A40)",
+              "prover9_expression": "(authorized_by(pharma_director, emergency_shipment) -> approved_by(medical_board, emergency_shipment))",
+              "natural": "Whenever the emergency shipment is authorized by the pharmaceutical director, it is approved by the medical board."
+            },
+            {
+              "id": "Fact14",
+              "prover9": "-A40",
+              "prover9_expression": "-approved_by(medical_board, emergency_shipment)",
+              "natural": "The emergency shipment is not approved by the medical board."
+            }
+          ],
+          "conclusion": "-A39",
+          "natural": "The emergency shipment is not authorized by the pharmaceutical director."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule48",
+              "prover9": "(-(A36 -> A38) -> A39)",
+              "prover9_expression": "(-(detected_by(quality_control, temperature_breach) -> logged_in(system, temperature_breach)) -> authorized_by(pharma_director, emergency_shipment))",
+              "natural": "Should it not be the case that the temperature breach being detected by quality control implies it is logged in the system, the emergency shipment is authorized by the pharmaceutical director."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A39",
+              "prover9_expression": "-authorized_by(pharma_director, emergency_shipment)",
+              "natural": "The emergency shipment is not authorized by the pharmaceutical director."
+            }
+          ],
+          "conclusion": "(A36 -> A38)",
+          "natural": "Provided that the temperature breach is detected by quality control, it is logged in the system."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> A38)",
+              "prover9_expression": "(detected_by(quality_control, temperature_breach) -> logged_in(system, temperature_breach))",
+              "natural": "Provided that the temperature breach is detected by quality control, it is logged in the system."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A38 -> (-(A13 -> G) -> A15))",
+              "prover9_expression": "(logged_in(system, temperature_breach) -> (-(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution)) -> delayed(drug_shipment)))",
+              "natural": "If the temperature breach is logged in the system, then should it not be the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, the drug shipment is delayed."
+            }
+          ],
+          "conclusion": "(A36 -> (-(A13 -> G) -> A15))",
+          "natural": "If the temperature breach is detected by quality control, then if it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, the drug shipment is delayed."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A36 | A37)",
+              "prover9_expression": "(detected_by(quality_control, temperature_breach) | detected_by(distribution_manager, temperature_breach))",
+              "natural": "Either the temperature breach is detected by quality control, or it is detected by the distribution manager."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> (-(A13 -> G) -> A15))",
+              "prover9_expression": "(detected_by(quality_control, temperature_breach) -> (-(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution)) -> delayed(drug_shipment)))",
+              "natural": "If the temperature breach is detected by quality control, then if it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, the drug shipment is delayed."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A37 -> (-(A13 -> G) -> A15))",
+              "prover9_expression": "(detected_by(distribution_manager, temperature_breach) -> (-(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution)) -> delayed(drug_shipment)))",
+              "natural": "In the event that the temperature breach is detected by the distribution manager, then if it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, the drug shipment is delayed."
+            }
+          ],
+          "conclusion": "(-(A13 -> G) -> A15)",
+          "natural": "If it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, then the drug shipment is delayed."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> G) -> A15)",
+              "prover9_expression": "(-(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution)) -> delayed(drug_shipment))",
+              "natural": "If it is not the case that the distribution center utilizing a refrigerated truck implies drug distribution is regulated, then the drug shipment is delayed."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A15",
+              "prover9_expression": "-delayed(drug_shipment)",
+              "natural": "The drug shipment is not delayed."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "If the distribution center utilizes a refrigerated truck, then drug distribution is regulated."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(uses(distribution_center, refrigerated_truck) | uses(distribution_center, armored_truck))",
+              "natural": "Either the distribution center utilizes a refrigerated truck, or it utilizes an armored truck."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(uses(distribution_center, refrigerated_truck) -> regulated(drug_distribution))",
+              "natural": "If the distribution center utilizes a refrigerated truck, then drug distribution is regulated."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(uses(distribution_center, armored_truck) -> regulated(drug_distribution))",
+              "natural": "Given that the distribution center utilizes an armored truck, drug distribution is regulated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A50 | A51)",
+              "prover9_expression": "(forwarded_to(compliance_report, review_committee) | returned_to(compliance_report, pharma_company))",
+              "natural": "Either the compliance report is forwarded to the review committee, or it is returned to the pharmaceutical company."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A50 -> (A48 | A49))",
+              "prover9_expression": "(forwarded_to(compliance_report, review_committee) -> (accepted_by(fda, compliance_report) | rejected_by(fda, compliance_report)))",
+              "natural": "If the compliance report is forwarded to the review committee, then either it is accepted by the FDA, or it is rejected by the FDA."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A51 -> (A48 | A49))",
+              "prover9_expression": "(returned_to(compliance_report, pharma_company) -> (accepted_by(fda, compliance_report) | rejected_by(fda, compliance_report)))",
+              "natural": "Whenever the compliance report is returned to the pharmaceutical company, it is either accepted by the FDA or rejected by the FDA."
+            }
+          ],
+          "conclusion": "(A48 | A49)",
+          "natural": "Either the compliance report is accepted by the FDA, or it is rejected by the FDA."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A48 | A49)",
+              "prover9_expression": "(accepted_by(fda, compliance_report) | rejected_by(fda, compliance_report))",
+              "natural": "Either the compliance report is accepted by the FDA, or it is rejected by the FDA."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A48 -> (A47 -> (-(A25 -> G) -> A46)))",
+              "prover9_expression": "(accepted_by(fda, compliance_report) -> (submitted_by(pharma_company, compliance_report) -> (-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> audited(pharma_company))))",
+              "natural": "In the event that the compliance report is accepted by the FDA, then if the compliance report is submitted by the pharmaceutical company, and if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical company is audited."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A49 -> (A47 -> (-(A25 -> G) -> A46)))",
+              "prover9_expression": "(rejected_by(fda, compliance_report) -> (submitted_by(pharma_company, compliance_report) -> (-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> audited(pharma_company))))",
+              "natural": "Provided that the compliance report is rejected by the FDA, then if the compliance report is submitted by the pharmaceutical company, and if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical company is audited."
+            }
+          ],
+          "conclusion": "(A47 -> (-(A25 -> G) -> A46))",
+          "natural": "Should the compliance report be submitted by the pharmaceutical company, then if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical company is audited."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A47 -> (-(A25 -> G) -> A46))",
+              "prover9_expression": "(submitted_by(pharma_company, compliance_report) -> (-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> audited(pharma_company)))",
+              "natural": "Should the compliance report be submitted by the pharmaceutical company, then if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical company is audited."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "A47",
+              "prover9_expression": "submitted_by(pharma_company, compliance_report)",
+              "natural": "The compliance report is submitted by the pharmaceutical company."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> A46)",
+          "natural": "Provided that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical company is audited."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> A46)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> audited(pharma_company))",
+              "natural": "Provided that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical company is audited."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A46 -> A45)",
+              "prover9_expression": "(audited(pharma_company) -> under_investigation(pharma_company))",
+              "natural": "If the pharmaceutical company is audited, then it is under investigation."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> A45)",
+          "natural": "Should it not be the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical company is under investigation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> A45)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> under_investigation(pharma_company))",
+              "natural": "Should it not be the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical company is under investigation."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A45 -> -A26)",
+              "prover9_expression": "(under_investigation(pharma_company) -> -suspended(pharma_license))",
+              "natural": "Under the condition that the pharmaceutical company is under investigation, the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> -A26)",
+          "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A25 -> G) -> A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> suspended(pharma_license))",
+              "natural": "In the event that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> -A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license))",
+              "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(A25 -> G)",
+          "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> G)",
+              "prover9_expression": "(registered_with(pharma_company, fda) -> regulated(drug_distribution))",
+              "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "registered_with(pharma_company, fda)",
+              "natural": "The pharmaceutical company is registered with the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(A54 -> A55)",
+              "prover9_expression": "(requires(appeal, legal_hearing) -> scheduled(legal_hearing))",
+              "natural": "If the appeal requires a legal hearing, then the legal hearing is scheduled."
+            },
+            {
+              "id": "Fact16",
+              "prover9": "-A55",
+              "prover9_expression": "-scheduled(legal_hearing)",
+              "natural": "The legal hearing is not scheduled."
+            }
+          ],
+          "conclusion": "-A54",
+          "natural": "The appeal does not require a legal hearing."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A54 | -A53)",
+              "prover9_expression": "(requires(appeal, legal_hearing) | -processed_within(appeal, deadline))",
+              "natural": "Either the appeal requires a legal hearing, or it is not the case that the appeal is processed within the deadline."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A54",
+              "prover9_expression": "-requires(appeal, legal_hearing)",
+              "natural": "The appeal does not require a legal hearing."
+            }
+          ],
+          "conclusion": "-A53",
+          "natural": "It is not the case that the appeal is processed within the deadline."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(A53 | (A52 -> (A28 | A29)))",
+              "prover9_expression": "(processed_within(appeal, deadline) | (acknowledged_by(regulatory_board, appeal) -> (filed_by(pharma_company, appeal) | filed_by(pharma_lawyer, appeal))))",
+              "natural": "Either the appeal is processed within the deadline, or if the appeal is acknowledged by the regulatory board, then it is filed by the pharmaceutical company or by the pharmaceutical lawyer."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A53",
+              "prover9_expression": "-processed_within(appeal, deadline)",
+              "natural": "It is not the case that the appeal is processed within the deadline."
+            }
+          ],
+          "conclusion": "(A52 -> (A28 | A29))",
+          "natural": "Should the appeal be acknowledged by the regulatory board, then either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A52 -> (A28 | A29))",
+              "prover9_expression": "(acknowledged_by(regulatory_board, appeal) -> (filed_by(pharma_company, appeal) | filed_by(pharma_lawyer, appeal)))",
+              "natural": "Should the appeal be acknowledged by the regulatory board, then either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "A52",
+              "prover9_expression": "acknowledged_by(regulatory_board, appeal)",
+              "natural": "The appeal is acknowledged by the regulatory board."
+            }
+          ],
+          "conclusion": "(A28 | A29)",
+          "natural": "Either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A28 | A29)",
+              "prover9_expression": "(filed_by(pharma_company, appeal) | filed_by(pharma_lawyer, appeal))",
+              "natural": "Either the appeal is filed by the pharmaceutical company, or it is filed by the pharmaceutical lawyer."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A28 -> (-(-(A25 -> G) -> -A26) -> A27))",
+              "prover9_expression": "(filed_by(pharma_company, appeal) -> (-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)))",
+              "natural": "If the appeal is filed by the pharmaceutical company, then if it is not the case that whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A29 -> (-(-(A25 -> G) -> -A26) -> A27))",
+              "prover9_expression": "(filed_by(pharma_lawyer, appeal) -> (-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)))",
+              "natural": "Provided that the appeal is filed by the pharmaceutical lawyer, if it is not the case that whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated, which implies that the pharmaceutical license is not suspended, then the pharmaceutical license is reinstated."
+            }
+          ],
+          "conclusion": "(-(-(A25 -> G) -> -A26) -> A27)",
+          "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A25 -> G) -> -A26) -> A27)",
+              "prover9_expression": "(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license))",
+              "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+            },
+            {
+              "id": "Rule52",
+              "prover9": "(-(-(A25 -> G) -> -A26) -> -A27)",
+              "prover9_expression": "(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> -reinstated(pharma_license))",
+              "natural": "In the event that it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is not reinstated."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> -A26)",
+          "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A25 -> G) -> A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> suspended(pharma_license))",
+              "natural": "In the event that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> -A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license))",
+              "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(A25 -> G)",
+          "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> G)",
+              "prover9_expression": "(registered_with(pharma_company, fda) -> regulated(drug_distribution))",
+              "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "registered_with(pharma_company, fda)",
+              "natural": "The pharmaceutical company is registered with the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(A58 -> (A57 -> (-(A25 -> G) -> -A26)))",
+              "prover9_expression": "(verified_by(fda, corrective_actions) -> (provided_by(consultant, corrective_actions) -> (-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license))))",
+              "natural": "If corrective actions are verified by the FDA, then whenever they are provided by the consultant, and if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is not suspended."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "A58",
+              "prover9_expression": "verified_by(fda, corrective_actions)",
+              "natural": "Corrective actions are verified by the FDA."
+            }
+          ],
+          "conclusion": "(A57 -> (-(A25 -> G) -> -A26))",
+          "natural": "In the event that corrective actions are provided by the consultant, then if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is not suspended."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(A56 | A57)",
+              "prover9_expression": "(provided_by(pharma_company, corrective_actions) | provided_by(consultant, corrective_actions))",
+              "natural": "Either corrective actions are provided by the pharmaceutical company, or they are provided by the consultant."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(A56 -> (-(A25 -> G) -> -A26))",
+              "prover9_expression": "(provided_by(pharma_company, corrective_actions) -> (-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)))",
+              "natural": "Provided that corrective actions are provided by the pharmaceutical company, then if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is not suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A57 -> (-(A25 -> G) -> -A26))",
+              "prover9_expression": "(provided_by(consultant, corrective_actions) -> (-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)))",
+              "natural": "In the event that corrective actions are provided by the consultant, then if it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> -A26)",
+          "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A25 -> G) -> A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> suspended(pharma_license))",
+              "natural": "In the event that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> -A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license))",
+              "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(A25 -> G)",
+          "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> G)",
+              "prover9_expression": "(registered_with(pharma_company, fda) -> regulated(drug_distribution))",
+              "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "registered_with(pharma_company, fda)",
+              "natural": "The pharmaceutical company is registered with the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule39",
+              "prover9": "(A65 -> (A64 | (A63 | (A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60)))))",
+              "prover9_expression": "(supervised_by(compliance_audit, senior_officer) -> (involves(compliance_audit, document_review) | (involves(compliance_audit, field_inspection) | (initiated_by(fda, compliance_audit) -> (-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> -cleared(pharma_company))))))",
+              "natural": "If the compliance audit is supervised by a senior officer, then either it involves a document review, or it involves a field inspection, or if the compliance audit is initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "A65",
+              "prover9_expression": "supervised_by(compliance_audit, senior_officer)",
+              "natural": "The compliance audit is supervised by a senior officer."
+            }
+          ],
+          "conclusion": "(A64 | (A63 | (A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60))))",
+          "natural": "Either the compliance audit involves a document review, or it involves a field inspection, or if the compliance audit is initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A64 | (A63 | (A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60))))",
+              "prover9_expression": "(involves(compliance_audit, document_review) | (involves(compliance_audit, field_inspection) | (initiated_by(fda, compliance_audit) -> (-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> -cleared(pharma_company)))))",
+              "natural": "Either the compliance audit involves a document review, or it involves a field inspection, or if the compliance audit is initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+            },
+            {
+              "id": "Fact18",
+              "prover9": "-A64",
+              "prover9_expression": "-involves(compliance_audit, document_review)",
+              "natural": "It is not the case that the compliance audit involves a document review."
+            }
+          ],
+          "conclusion": "(A63 | (A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60)))",
+          "natural": "Either the compliance audit involves a field inspection, or if the compliance audit is initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A63 | (A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60)))",
+              "prover9_expression": "(involves(compliance_audit, field_inspection) | (initiated_by(fda, compliance_audit) -> (-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> -cleared(pharma_company))))",
+              "natural": "Either the compliance audit involves a field inspection, or if the compliance audit is initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+            },
+            {
+              "id": "Fact17",
+              "prover9": "-A63",
+              "prover9_expression": "-involves(compliance_audit, field_inspection)",
+              "natural": "It is not the case that the compliance audit involves a field inspection."
+            }
+          ],
+          "conclusion": "(A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60))",
+          "natural": "Should the compliance audit be initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A61 | A62)",
+              "prover9_expression": "(initiated_by(fda, compliance_audit) | initiated_by(health_ministry, compliance_audit))",
+              "natural": "Either the compliance audit is initiated by the FDA, or it is initiated by the health ministry."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A61 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60))",
+              "prover9_expression": "(initiated_by(fda, compliance_audit) -> (-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> -cleared(pharma_company)))",
+              "natural": "Should the compliance audit be initiated by the FDA, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A62 -> (-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60))",
+              "prover9_expression": "(initiated_by(health_ministry, compliance_audit) -> (-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> -cleared(pharma_company)))",
+              "natural": "Under the condition that the compliance audit is initiated by the health ministry, then if it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+            }
+          ],
+          "conclusion": "(-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60)",
+          "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> A60)",
+              "prover9_expression": "(-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> cleared(pharma_company))",
+              "natural": "Should it not be the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is cleared."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(-(A25 -> G) -> -A26) -> A27) -> A59) -> -A60)",
+              "prover9_expression": "(-(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit)) -> -cleared(pharma_company))",
+              "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, and if the compliance audit is completed, then the pharmaceutical company is not cleared."
+            }
+          ],
+          "conclusion": "(-(-(-(A25 -> G) -> -A26) -> A27) -> A59)",
+          "natural": "Provided that it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, then the compliance audit is completed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(A25 -> G) -> -A26) -> A27) -> A59)",
+              "prover9_expression": "(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> completed(compliance_audit))",
+              "natural": "Provided that it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, then the compliance audit is completed."
+            },
+            {
+              "id": "Rule53",
+              "prover9": "(-(-(-(A25 -> G) -> -A26) -> A27) -> -A59)",
+              "prover9_expression": "(-(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license)) -> -completed(compliance_audit))",
+              "natural": "Under the condition that it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, which then leads to the pharmaceutical license being reinstated, then the compliance audit is not completed."
+            }
+          ],
+          "conclusion": "(-(-(A25 -> G) -> -A26) -> A27)",
+          "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A25 -> G) -> -A26) -> A27)",
+              "prover9_expression": "(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> reinstated(pharma_license))",
+              "natural": "If it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is reinstated."
+            },
+            {
+              "id": "Rule52",
+              "prover9": "(-(-(A25 -> G) -> -A26) -> -A27)",
+              "prover9_expression": "(-(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license)) -> -reinstated(pharma_license))",
+              "natural": "In the event that it is not the case that the negation of the implication that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, leading to the pharmaceutical license not being suspended, then the pharmaceutical license is not reinstated."
+            }
+          ],
+          "conclusion": "(-(A25 -> G) -> -A26)",
+          "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A25 -> G) -> A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> suspended(pharma_license))",
+              "natural": "In the event that it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, the pharmaceutical license is suspended."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A25 -> G) -> -A26)",
+              "prover9_expression": "(-(registered_with(pharma_company, fda) -> regulated(drug_distribution)) -> -suspended(pharma_license))",
+              "natural": "If it is not the case that the pharmaceutical company being registered with the FDA implies drug distribution is regulated, then the pharmaceutical license is not suspended."
+            }
+          ],
+          "conclusion": "(A25 -> G)",
+          "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> G)",
+              "prover9_expression": "(registered_with(pharma_company, fda) -> regulated(drug_distribution))",
+              "natural": "Whenever the pharmaceutical company is registered with the FDA, drug distribution is regulated."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "registered_with(pharma_company, fda)",
+              "natural": "The pharmaceutical company is registered with the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug distribution is regulated."
+        }
+      ]
+    }
+  ]
+}

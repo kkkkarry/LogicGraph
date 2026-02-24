@@ -1,0 +1,484 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(has_authorization(restaurant, receive_food_shipment) -> food_delivered(restaurant))",
+        "natural": "If the restaurant has authorization to receive the food shipment, then food is delivered to the restaurant."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → (A7 ∨ (A5 → A4)))",
+        "prover9_expression": "(valid_transport_authorization(vehicle) -> (has_emergency_approval(food_shipment) | (passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment))))",
+        "natural": "If the vehicle has valid transport authorization, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → A12)",
+        "prover9_expression": "(scheduled_delivery_event(delivery_truck) -> confirmed_delivery_event(delivery_truck))",
+        "natural": "If a delivery truck has a scheduled delivery event, then the delivery truck has a confirmed delivery event."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → A1)",
+        "prover9_expression": "(confirmed_delivery_event(delivery_truck) -> has_authorization(restaurant, receive_food_shipment))",
+        "natural": "If a delivery truck has a confirmed delivery event, then the restaurant has authorization to receive the food shipment."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A2 → A1)",
+        "prover9_expression": "(passes_inspection(food_shipment) -> has_authorization(restaurant, receive_food_shipment))",
+        "natural": "If the food shipment passes inspection, then the restaurant has authorization to receive the food shipment."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A4 → ¬A3)",
+        "prover9_expression": "(meets_safety_standards(food_shipment) -> -has_contamination(food_shipment))",
+        "natural": "If the food shipment meets safety standards, then the food shipment does not have contamination."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(passes_lab_testing(food_shipment) | passes_visual_inspection(food_shipment))",
+        "natural": "Either the food shipment passes lab testing or the food shipment passes visual inspection."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A6 → A4)",
+        "prover9_expression": "(passes_visual_inspection(food_shipment) -> meets_safety_standards(food_shipment))",
+        "natural": "If the food shipment passes visual inspection, then the food shipment meets safety standards."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A8 → A10)",
+        "prover9_expression": "(supplier_meets_requirements(food_supplier) -> valid_transport_authorization(vehicle))",
+        "natural": "If the food supplier meets requirements, then the vehicle has valid transport authorization."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(supplier_meets_requirements(food_supplier) | distributor_meets_requirements(food_distributor))",
+        "natural": "Either the food supplier meets requirements or the food distributor meets requirements."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A9 → (A7 ∨ (A5 → A4)))",
+        "prover9_expression": "(distributor_meets_requirements(food_distributor) -> (has_emergency_approval(food_shipment) | (passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment))))",
+        "natural": "If the food distributor meets requirements, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬G → A3)",
+        "prover9_expression": "(-food_delivered(restaurant) -> has_contamination(food_shipment))",
+        "natural": "If food is not delivered to the restaurant, then the food shipment has contamination."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A11",
+        "prover9_expression": "scheduled_delivery_event(delivery_truck)",
+        "natural": "A delivery truck has a scheduled delivery event."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A2",
+        "prover9_expression": "passes_inspection(food_shipment)",
+        "natural": "The food shipment passes inspection."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A7",
+        "prover9_expression": "-has_emergency_approval(food_shipment)",
+        "natural": "The food shipment does not have emergency approval."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "food_delivered(restaurant)",
+    "natural": "Food is delivered to the restaurant."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> A1)",
+            "A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The restaurant has authorization to receive the food shipment."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Food is delivered to the restaurant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A10)",
+            "(A10 -> (A7 | (A5 -> A4)))"
+          ],
+          "conclusion": "(A8 -> (A7 | (A5 -> A4)))",
+          "natural": "If the food supplier meets requirements, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A7 | (A5 -> A4)))",
+            "(A9 -> (A7 | (A5 -> A4)))"
+          ],
+          "conclusion": "(A7 | (A5 -> A4))",
+          "natural": "Either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (A5 -> A4))",
+            "-A7"
+          ],
+          "conclusion": "(A5 -> A4)",
+          "natural": "If the food shipment passes lab testing, then the food shipment meets safety standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> A4)",
+            "(A6 -> A4)"
+          ],
+          "conclusion": "A4",
+          "natural": "The food shipment meets safety standards."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> -A3)",
+            "A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "The food shipment does not have contamination."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A3)",
+            "-A3"
+          ],
+          "conclusion": "G",
+          "natural": "Food is delivered to the restaurant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A12)",
+            "(A12 -> A1)"
+          ],
+          "conclusion": "(A11 -> A1)",
+          "natural": "If a delivery truck has a scheduled delivery event, then the restaurant has authorization to receive the food shipment."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> A1)",
+            "A11"
+          ],
+          "conclusion": "A1",
+          "natural": "The restaurant has authorization to receive the food shipment."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Food is delivered to the restaurant."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "has_authorization(restaurant, receive_food_shipment)",
+      "A2": "passes_inspection(food_shipment)",
+      "A3": "has_contamination(food_shipment)",
+      "A4": "meets_safety_standards(food_shipment)",
+      "A5": "passes_lab_testing(food_shipment)",
+      "A6": "passes_visual_inspection(food_shipment)",
+      "A7": "has_emergency_approval(food_shipment)",
+      "A8": "supplier_meets_requirements(food_supplier)",
+      "A9": "distributor_meets_requirements(food_distributor)",
+      "A10": "valid_transport_authorization(vehicle)",
+      "A11": "scheduled_delivery_event(delivery_truck)",
+      "A12": "confirmed_delivery_event(delivery_truck)",
+      "G": "food_delivered(restaurant)",
+      "¬G": "not_food_delivered(restaurant)",
+      "¬A3": "not_has_contamination(food_shipment)",
+      "¬A7": "not_has_emergency_approval(food_shipment)"
+    },
+    "natural_facts": {
+      "A1": "The restaurant has authorization to receive the food shipment.",
+      "A2": "The food shipment passes inspection.",
+      "A3": "The food shipment has contamination.",
+      "A4": "The food shipment meets safety standards.",
+      "A5": "The food shipment passes lab testing.",
+      "A6": "The food shipment passes visual inspection.",
+      "A7": "The food shipment has emergency approval.",
+      "A8": "The food supplier meets requirements.",
+      "A9": "The food distributor meets requirements.",
+      "A10": "The vehicle has valid transport authorization.",
+      "A11": "A delivery truck has a scheduled delivery event.",
+      "A12": "A delivery truck has a confirmed delivery event.",
+      "G": "Food is delivered to the restaurant.",
+      "¬G": "Food is not delivered to the restaurant.",
+      "¬A3": "The food shipment does not have contamination.",
+      "¬A7": "The food shipment does not have emergency approval."
+    },
+    "prover9_expressions": [
+      "(has_authorization(restaurant, receive_food_shipment) → food_delivered(restaurant))",
+      "(valid_transport_authorization(vehicle) → (has_emergency_approval(food_shipment) ∨ (passes_lab_testing(food_shipment) → meets_safety_standards(food_shipment))))",
+      "(scheduled_delivery_event(delivery_truck) → has_authorization(restaurant, receive_food_shipment))",
+      "(scheduled_delivery_event(delivery_truck) → confirmed_delivery_event(delivery_truck))",
+      "(confirmed_delivery_event(delivery_truck) → has_authorization(restaurant, receive_food_shipment))",
+      "(passes_inspection(food_shipment) → has_authorization(restaurant, receive_food_shipment))",
+      "(meets_safety_standards(food_shipment) → ¬has_contamination(food_shipment))",
+      "(passes_lab_testing(food_shipment) → meets_safety_standards(food_shipment))",
+      "(passes_lab_testing(food_shipment) ∨ passes_visual_inspection(food_shipment))",
+      "(passes_visual_inspection(food_shipment) → meets_safety_standards(food_shipment))",
+      "(has_emergency_approval(food_shipment) ∨ (passes_lab_testing(food_shipment) → meets_safety_standards(food_shipment)))",
+      "(supplier_meets_requirements(food_supplier) → (has_emergency_approval(food_shipment) ∨ (passes_lab_testing(food_shipment) → meets_safety_standards(food_shipment))))",
+      "(supplier_meets_requirements(food_supplier) → valid_transport_authorization(vehicle))",
+      "(supplier_meets_requirements(food_supplier) ∨ distributor_meets_requirements(food_distributor))",
+      "(distributor_meets_requirements(food_distributor) → (has_emergency_approval(food_shipment) ∨ (passes_lab_testing(food_shipment) → meets_safety_standards(food_shipment))))",
+      "(¬food_delivered(restaurant) → has_contamination(food_shipment))",
+      "has_authorization(restaurant, receive_food_shipment)",
+      "scheduled_delivery_event(delivery_truck)",
+      "passes_inspection(food_shipment)",
+      "meets_safety_standards(food_shipment)",
+      "food_delivered(restaurant)",
+      "¬has_contamination(food_shipment)",
+      "¬has_emergency_approval(food_shipment)"
+    ],
+    "natural_expressions": [
+      "If the restaurant has authorization to receive the food shipment, then food is delivered to the restaurant.",
+      "If the vehicle has valid transport authorization, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards.",
+      "If a delivery truck has a scheduled delivery event, then the restaurant has authorization to receive the food shipment.",
+      "If a delivery truck has a scheduled delivery event, then the delivery truck has a confirmed delivery event.",
+      "If a delivery truck has a confirmed delivery event, then the restaurant has authorization to receive the food shipment.",
+      "If the food shipment passes inspection, then the restaurant has authorization to receive the food shipment.",
+      "If the food shipment meets safety standards, then the food shipment does not have contamination.",
+      "If the food shipment passes lab testing, then the food shipment meets safety standards.",
+      "Either the food shipment passes lab testing or the food shipment passes visual inspection.",
+      "If the food shipment passes visual inspection, then the food shipment meets safety standards.",
+      "Either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards.",
+      "If the food supplier meets requirements, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards.",
+      "If the food supplier meets requirements, then the vehicle has valid transport authorization.",
+      "Either the food supplier meets requirements or the food distributor meets requirements.",
+      "If the food distributor meets requirements, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards.",
+      "If food is not delivered to the restaurant, then the food shipment has contamination.",
+      "The restaurant has authorization to receive the food shipment.",
+      "A delivery truck has a scheduled delivery event.",
+      "The food shipment passes inspection.",
+      "The food shipment meets safety standards.",
+      "Food is delivered to the restaurant.",
+      "The food shipment does not have contamination.",
+      "The food shipment does not have emergency approval."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_authorization(restaurant, receive_food_shipment) -> food_delivered(restaurant))",
+        "natural": "If the restaurant has authorization to receive the food shipment, then food is delivered to the restaurant."
+      },
+      "(A10 → (A7 ∨ (A5 → A4)))": {
+        "formal": "(A10 → (A7 ∨ (A5 → A4)))",
+        "prover9": "(A10 -> (A7 | (A5 -> A4)))",
+        "prover9_expression": "(valid_transport_authorization(vehicle) -> (has_emergency_approval(food_shipment) | (passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment))))",
+        "natural": "If the vehicle has valid transport authorization, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+      },
+      "(A11 → A1)": {
+        "formal": "(A11 → A1)",
+        "prover9": "(A11 -> A1)",
+        "prover9_expression": "(scheduled_delivery_event(delivery_truck) -> has_authorization(restaurant, receive_food_shipment))",
+        "natural": "If a delivery truck has a scheduled delivery event, then the restaurant has authorization to receive the food shipment."
+      },
+      "(A11 → A12)": {
+        "formal": "(A11 → A12)",
+        "prover9": "(A11 -> A12)",
+        "prover9_expression": "(scheduled_delivery_event(delivery_truck) -> confirmed_delivery_event(delivery_truck))",
+        "natural": "If a delivery truck has a scheduled delivery event, then the delivery truck has a confirmed delivery event."
+      },
+      "(A12 → A1)": {
+        "formal": "(A12 → A1)",
+        "prover9": "(A12 -> A1)",
+        "prover9_expression": "(confirmed_delivery_event(delivery_truck) -> has_authorization(restaurant, receive_food_shipment))",
+        "natural": "If a delivery truck has a confirmed delivery event, then the restaurant has authorization to receive the food shipment."
+      },
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(passes_inspection(food_shipment) -> has_authorization(restaurant, receive_food_shipment))",
+        "natural": "If the food shipment passes inspection, then the restaurant has authorization to receive the food shipment."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(meets_safety_standards(food_shipment) -> -has_contamination(food_shipment))",
+        "natural": "If the food shipment meets safety standards, then the food shipment does not have contamination."
+      },
+      "(A5 → A4)": {
+        "formal": "(A5 → A4)",
+        "prover9": "(A5 -> A4)",
+        "prover9_expression": "(passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment))",
+        "natural": "If the food shipment passes lab testing, then the food shipment meets safety standards."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(passes_lab_testing(food_shipment) | passes_visual_inspection(food_shipment))",
+        "natural": "Either the food shipment passes lab testing or the food shipment passes visual inspection."
+      },
+      "(A6 → A4)": {
+        "formal": "(A6 → A4)",
+        "prover9": "(A6 -> A4)",
+        "prover9_expression": "(passes_visual_inspection(food_shipment) -> meets_safety_standards(food_shipment))",
+        "natural": "If the food shipment passes visual inspection, then the food shipment meets safety standards."
+      },
+      "(A7 ∨ (A5 → A4))": {
+        "formal": "(A7 ∨ (A5 → A4))",
+        "prover9": "(A7 | (A5 -> A4))",
+        "prover9_expression": "(has_emergency_approval(food_shipment) | (passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment)))",
+        "natural": "Either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+      },
+      "(A8 → (A7 ∨ (A5 → A4)))": {
+        "formal": "(A8 → (A7 ∨ (A5 → A4)))",
+        "prover9": "(A8 -> (A7 | (A5 -> A4)))",
+        "prover9_expression": "(supplier_meets_requirements(food_supplier) -> (has_emergency_approval(food_shipment) | (passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment))))",
+        "natural": "If the food supplier meets requirements, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+      },
+      "(A8 → A10)": {
+        "formal": "(A8 → A10)",
+        "prover9": "(A8 -> A10)",
+        "prover9_expression": "(supplier_meets_requirements(food_supplier) -> valid_transport_authorization(vehicle))",
+        "natural": "If the food supplier meets requirements, then the vehicle has valid transport authorization."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(supplier_meets_requirements(food_supplier) | distributor_meets_requirements(food_distributor))",
+        "natural": "Either the food supplier meets requirements or the food distributor meets requirements."
+      },
+      "(A9 → (A7 ∨ (A5 → A4)))": {
+        "formal": "(A9 → (A7 ∨ (A5 → A4)))",
+        "prover9": "(A9 -> (A7 | (A5 -> A4)))",
+        "prover9_expression": "(distributor_meets_requirements(food_distributor) -> (has_emergency_approval(food_shipment) | (passes_lab_testing(food_shipment) -> meets_safety_standards(food_shipment))))",
+        "natural": "If the food distributor meets requirements, then either the food shipment has emergency approval or, should the food shipment pass lab testing, the food shipment meets safety standards."
+      },
+      "(¬G → A3)": {
+        "formal": "(¬G → A3)",
+        "prover9": "(-G -> A3)",
+        "prover9_expression": "(-food_delivered(restaurant) -> has_contamination(food_shipment))",
+        "natural": "If food is not delivered to the restaurant, then the food shipment has contamination."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_authorization(restaurant, receive_food_shipment)",
+        "natural": "The restaurant has authorization to receive the food shipment."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "scheduled_delivery_event(delivery_truck)",
+        "natural": "A delivery truck has a scheduled delivery event."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "passes_inspection(food_shipment)",
+        "natural": "The food shipment passes inspection."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "meets_safety_standards(food_shipment)",
+        "natural": "The food shipment meets safety standards."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "food_delivered(restaurant)",
+        "natural": "Food is delivered to the restaurant."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-has_contamination(food_shipment)",
+        "natural": "The food shipment does not have contamination."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-has_emergency_approval(food_shipment)",
+        "natural": "The food shipment does not have emergency approval."
+      }
+    }
+  }
+}

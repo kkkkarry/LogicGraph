@@ -1,0 +1,325 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 → (¬G → A1))",
+        "prover9_expression": "(approved(conservation_bill) -> (-exists(natural_habitat) -> protected(plant_species)))",
+        "natural": "If the conservation bill is approved, then provided that a natural habitat does not exist, the plant species is protected."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → A2)",
+        "prover9_expression": "(passed(senate_vote) -> approved(conservation_bill))",
+        "natural": "In the event that the senate vote is passed, the conservation bill is approved."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(passed(senate_vote) | passed(house_vote))",
+        "natural": "Either the senate vote is passed or the house vote is passed."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → A2)",
+        "prover9_expression": "(passed(house_vote) -> approved(conservation_bill))",
+        "natural": "Should the house vote be passed, the conservation bill becomes approved."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 → A8)",
+        "prover9_expression": "(supported(environmental_group) -> funded(conservation_program))",
+        "natural": "Given that the environmental group is supported, the conservation program is funded."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(supported(environmental_group) | supported(scientific_community))",
+        "natural": "The environmental group is supported or the scientific community is supported."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A7 → (¬(¬G → A1) → ¬A5))",
+        "prover9_expression": "(supported(scientific_community) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+        "natural": "Provided that the scientific community is supported, then whenever it is false that lacking a natural habitat leads to the plant species being protected, the national park is not designated."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A8 → (¬(¬G → A1) → ¬A5))",
+        "prover9_expression": "(funded(conservation_program) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+        "natural": "If the conservation program is funded, then in the case that it is not true that the non-existence of a natural habitat results in the plant species being protected, the national park is not designated."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(¬G → A1) → A5)",
+        "prover9_expression": "(-(-exists(natural_habitat) -> protected(plant_species)) -> designated(national_park))",
+        "natural": "Assuming that it is not the case that the absence of a natural habitat implies the plant species is protected, the national park is designated."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A1",
+        "prover9_expression": "-protected(plant_species)",
+        "natural": "It is not the case that the plant species is protected."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "exists(natural_habitat)",
+    "natural": "A natural habitat exists."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> A2)",
+            "(A4 -> A2)"
+          ],
+          "conclusion": "A2",
+          "natural": "The conservation bill is approved."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> (-G -> A1))",
+            "A2"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that a natural habitat does not exist, the plant species is protected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A natural habitat exists."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A8)",
+            "(A8 -> (-(-G -> A1) -> -A5))"
+          ],
+          "conclusion": "(A6 -> (-(-G -> A1) -> -A5))",
+          "natural": "Whenever the environmental group is supported, then if it is not the case that the absence of a natural habitat implies the plant species is protected, the national park is not designated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> (-(-G -> A1) -> -A5))",
+            "(A7 -> (-(-G -> A1) -> -A5))"
+          ],
+          "conclusion": "(-(-G -> A1) -> -A5)",
+          "natural": "In the event that it is false that if a natural habitat does not exist then the plant species is protected, the national park is not designated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A1) -> A5)",
+            "(-(-G -> A1) -> -A5)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that a natural habitat does not exist, the plant species is protected."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A natural habitat exists."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Environmental Conservation",
+    "atomic_facts": {
+      "A1": "protected(plant_species)",
+      "A2": "approved(conservation_bill)",
+      "A3": "passed(senate_vote)",
+      "A4": "passed(house_vote)",
+      "A5": "designated(national_park)",
+      "A6": "supported(environmental_group)",
+      "A7": "supported(scientific_community)",
+      "A8": "funded(conservation_program)",
+      "G": "exists(natural_habitat)"
+    },
+    "natural_facts": {
+      "A1": "The plant species is protected.",
+      "A2": "The conservation bill is approved.",
+      "A3": "The senate vote is passed.",
+      "A4": "The house vote is passed.",
+      "A5": "The national park is designated.",
+      "A6": "The environmental group is supported.",
+      "A7": "The scientific community is supported.",
+      "A8": "The conservation program is funded.",
+      "G": "A natural habitat exists."
+    },
+    "prover9_expressions": [
+      "(approved(conservation_bill) -> (-exists(natural_habitat) -> protected(plant_species)))",
+      "(passed(senate_vote) -> approved(conservation_bill))",
+      "(passed(senate_vote) | passed(house_vote))",
+      "(passed(house_vote) -> approved(conservation_bill))",
+      "(supported(environmental_group) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+      "(supported(environmental_group) -> funded(conservation_program))",
+      "(supported(environmental_group) | supported(scientific_community))",
+      "(supported(scientific_community) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+      "(funded(conservation_program) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+      "(-(-exists(natural_habitat) -> protected(plant_species)) -> designated(national_park))",
+      "(-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park))",
+      "(-exists(natural_habitat) -> protected(plant_species))",
+      "approved(conservation_bill)",
+      "exists(natural_habitat)",
+      "-protected(plant_species)"
+    ],
+    "natural_expressions": [
+      "If the conservation bill is approved, then provided that a natural habitat does not exist, the plant species is protected.",
+      "In the event that the senate vote is passed, the conservation bill is approved.",
+      "Either the senate vote is passed or the house vote is passed.",
+      "Should the house vote be passed, the conservation bill becomes approved.",
+      "Whenever the environmental group is supported, then if it is not the case that the absence of a natural habitat implies the plant species is protected, the national park is not designated.",
+      "Given that the environmental group is supported, the conservation program is funded.",
+      "The environmental group is supported or the scientific community is supported.",
+      "Provided that the scientific community is supported, then whenever it is false that lacking a natural habitat leads to the plant species being protected, the national park is not designated.",
+      "If the conservation program is funded, then in the case that it is not true that the non-existence of a natural habitat results in the plant species being protected, the national park is not designated.",
+      "Assuming that it is not the case that the absence of a natural habitat implies the plant species is protected, the national park is designated.",
+      "In the event that it is false that if a natural habitat does not exist then the plant species is protected, the national park is not designated.",
+      "Provided that a natural habitat does not exist, the plant species is protected.",
+      "The conservation bill is approved.",
+      "A natural habitat exists.",
+      "It is not the case that the plant species is protected."
+    ],
+    "node_mappings": {
+      "(A2 → (¬G → A1))": {
+        "formal": "(A2 → (¬G → A1))",
+        "prover9": "(A2 -> (-G -> A1))",
+        "prover9_expression": "(approved(conservation_bill) -> (-exists(natural_habitat) -> protected(plant_species)))",
+        "natural": "If the conservation bill is approved, then provided that a natural habitat does not exist, the plant species is protected."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(passed(senate_vote) -> approved(conservation_bill))",
+        "natural": "In the event that the senate vote is passed, the conservation bill is approved."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(passed(senate_vote) | passed(house_vote))",
+        "natural": "Either the senate vote is passed or the house vote is passed."
+      },
+      "(A4 → A2)": {
+        "formal": "(A4 → A2)",
+        "prover9": "(A4 -> A2)",
+        "prover9_expression": "(passed(house_vote) -> approved(conservation_bill))",
+        "natural": "Should the house vote be passed, the conservation bill becomes approved."
+      },
+      "(A6 → (¬(¬G → A1) → ¬A5))": {
+        "formal": "(A6 → (¬(¬G → A1) → ¬A5))",
+        "prover9": "(A6 -> (-(-G -> A1) -> -A5))",
+        "prover9_expression": "(supported(environmental_group) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+        "natural": "Whenever the environmental group is supported, then if it is not the case that the absence of a natural habitat implies the plant species is protected, the national park is not designated."
+      },
+      "(A6 → A8)": {
+        "formal": "(A6 → A8)",
+        "prover9": "(A6 -> A8)",
+        "prover9_expression": "(supported(environmental_group) -> funded(conservation_program))",
+        "natural": "Given that the environmental group is supported, the conservation program is funded."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(supported(environmental_group) | supported(scientific_community))",
+        "natural": "The environmental group is supported or the scientific community is supported."
+      },
+      "(A7 → (¬(¬G → A1) → ¬A5))": {
+        "formal": "(A7 → (¬(¬G → A1) → ¬A5))",
+        "prover9": "(A7 -> (-(-G -> A1) -> -A5))",
+        "prover9_expression": "(supported(scientific_community) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+        "natural": "Provided that the scientific community is supported, then whenever it is false that lacking a natural habitat leads to the plant species being protected, the national park is not designated."
+      },
+      "(A8 → (¬(¬G → A1) → ¬A5))": {
+        "formal": "(A8 → (¬(¬G → A1) → ¬A5))",
+        "prover9": "(A8 -> (-(-G -> A1) -> -A5))",
+        "prover9_expression": "(funded(conservation_program) -> (-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park)))",
+        "natural": "If the conservation program is funded, then in the case that it is not true that the non-existence of a natural habitat results in the plant species being protected, the national park is not designated."
+      },
+      "(¬(¬G → A1) → A5)": {
+        "formal": "(¬(¬G → A1) → A5)",
+        "prover9": "(-(-G -> A1) -> A5)",
+        "prover9_expression": "(-(-exists(natural_habitat) -> protected(plant_species)) -> designated(national_park))",
+        "natural": "Assuming that it is not the case that the absence of a natural habitat implies the plant species is protected, the national park is designated."
+      },
+      "(¬(¬G → A1) → ¬A5)": {
+        "formal": "(¬(¬G → A1) → ¬A5)",
+        "prover9": "(-(-G -> A1) -> -A5)",
+        "prover9_expression": "(-(-exists(natural_habitat) -> protected(plant_species)) -> -designated(national_park))",
+        "natural": "In the event that it is false that if a natural habitat does not exist then the plant species is protected, the national park is not designated."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-exists(natural_habitat) -> protected(plant_species))",
+        "natural": "Provided that a natural habitat does not exist, the plant species is protected."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "approved(conservation_bill)",
+        "natural": "The conservation bill is approved."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "exists(natural_habitat)",
+        "natural": "A natural habitat exists."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-protected(plant_species)",
+        "natural": "It is not the case that the plant species is protected."
+      }
+    }
+  }
+}

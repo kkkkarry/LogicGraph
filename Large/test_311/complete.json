@@ -1,0 +1,1584 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 11,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      },
+      "2": {
+        "core": 1,
+        "branch": 3
+      },
+      "3": {
+        "core": 1,
+        "branch": 1
+      },
+      "4": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(alcohol_detected(vehicle) -> safe_to_drive(vehicle))",
+        "natural": "If alcohol is detected in the vehicle, then it is safe to drive the vehicle."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(police_notified(system) | emergency_services_alerted(system))",
+        "natural": "The system has notified the police or the system has alerted emergency services."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A12 → ¬A10)",
+        "prover9_expression": "(emergency_services_alerted(system) -> -override_authorized(driver))",
+        "natural": "Whenever the system has alerted emergency services, override is not authorized for the driver."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A13 ∨ (A11 → ¬A10))",
+        "prover9_expression": "(false_positive_detected(system) | (police_notified(system) -> -override_authorized(driver)))",
+        "natural": "Either a false positive has been detected by the system or, if the system has notified the police, then override is not authorized for the driver."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 ∨ A16)",
+        "prover9_expression": "(primary_system_operational(breathalyzer) | secondary_system_operational(breathalyzer))",
+        "natural": "The primary system of the breathalyzer is operational or the secondary system of the breathalyzer is operational."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A16 → (¬G → A14))",
+        "prover9_expression": "(secondary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+        "natural": "Assuming the secondary system of the breathalyzer is operational, then whenever it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(device_malfunction(breathalyzer) -> safe_to_drive(vehicle))",
+        "natural": "Should the breathalyzer device be malfunctioning, then it is safe to drive the vehicle."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A21 → (¬(A1 ∨ A2) → A3))",
+        "prover9_expression": "(calibration_verified(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+        "natural": "Given that the breathalyzer calibration is verified, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A22 → A21)",
+        "prover9_expression": "(diagnostic_passed(breathalyzer) -> calibration_verified(breathalyzer))",
+        "natural": "If the breathalyzer diagnostic has passed, then the breathalyzer calibration is verified."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A25 ∨ (A11 → ¬A10))",
+        "prover9_expression": "(law_enforcement_contacted(system) | (police_notified(system) -> -override_authorized(driver)))",
+        "natural": "Either law enforcement has been contacted by the system or, if the system has notified the police, then override is not authorized for the driver."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A26 ∨ ¬A25)",
+        "prover9_expression": "(autonomous_response_initiated(system) | -law_enforcement_contacted(system))",
+        "natural": "An autonomous response is initiated by the system or law enforcement has not been contacted by the system."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A27 → A28)",
+        "prover9_expression": "(vehicle_immobilized(vehicle) -> safety_mode_engaged(vehicle))",
+        "natural": "Provided that the vehicle is immobilized, safety mode is engaged for the vehicle."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A29 ∨ A30)",
+        "prover9_expression": "(temporary_override_granted(vehicle) | service_mode_activated(vehicle))",
+        "natural": "A temporary override is granted for the vehicle or service mode is activated for the vehicle."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A30 → ¬A7)",
+        "prover9_expression": "(service_mode_activated(vehicle) -> -ignition_disabled(vehicle))",
+        "natural": "Whenever service mode is activated for the vehicle, the vehicle ignition is not disabled."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A34 → A36)",
+        "prover9_expression": "(protocol_A_active(system) -> protocol_C_active(system))",
+        "natural": "If Protocol A is active for the system, then Protocol C is active for the system."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A34 ∨ A35)",
+        "prover9_expression": "(protocol_A_active(system) | protocol_B_active(system))",
+        "natural": "Protocol A is active for the system or Protocol B is active for the system."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A35 → (A33 → (A32 ∨ (¬G → A14))))",
+        "prover9_expression": "(protocol_B_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+        "natural": "Assuming Protocol B is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, whenever it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A36 → (A33 → (A32 ∨ (¬G → A14))))",
+        "prover9_expression": "(protocol_C_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+        "natural": "In case Protocol C is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, provided that it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A37 → A19)",
+        "prover9_expression": "(real_time_tracking_enabled(system) -> remote_monitoring_active(system))",
+        "natural": "If real-time tracking is enabled for the system, then remote monitoring is active for the system."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A37 ∨ A38)",
+        "prover9_expression": "(real_time_tracking_enabled(system) | periodic_checking_enabled(system))",
+        "natural": "Real-time tracking is enabled for the system or periodic checking is enabled for the system."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A4 → A22)",
+        "prover9_expression": "(sensor_calibrated(breathalyzer) -> diagnostic_passed(breathalyzer))",
+        "natural": "Provided that the breathalyzer sensor is calibrated, then the breathalyzer diagnostic has passed."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(sensor_calibrated(breathalyzer) | sensor_faulty(breathalyzer))",
+        "natural": "The breathalyzer sensor is calibrated or the breathalyzer sensor is faulty."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A5 → (¬(A1 ∨ A2) → A3))",
+        "prover9_expression": "(sensor_faulty(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+        "natural": "In the event that the breathalyzer sensor is faulty, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A7 → A27)",
+        "prover9_expression": "(ignition_disabled(vehicle) -> vehicle_immobilized(vehicle))",
+        "natural": "If the vehicle ignition is disabled, then the vehicle is immobilized."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A7 ∨ G)",
+        "prover9_expression": "(ignition_disabled(vehicle) | safe_to_drive(vehicle))",
+        "natural": "The vehicle ignition is disabled or it is safe to drive the vehicle."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A8 → ¬A7)",
+        "prover9_expression": "(emergency_override(vehicle) -> -ignition_disabled(vehicle))",
+        "natural": "Assuming emergency override is active for the vehicle, then the vehicle ignition is not disabled."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(emergency_override(vehicle) | maintenance_mode(vehicle))",
+        "natural": "Emergency override is active for the vehicle or the vehicle is in maintenance mode."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(¬(A15 → (¬G → A14)) → A17)",
+        "prover9_expression": "(-(primary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle))) -> system_failure_detected(breathalyzer))",
+        "natural": "If it is not the case that if the primary system of the breathalyzer is operational, then if it is not safe to drive the vehicle, the backup system is activated in the vehicle, then a system failure is detected in the breathalyzer."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(¬(A19 ∨ (¬G → A18)) → A20)",
+        "prover9_expression": "(-(remote_monitoring_active(system) | (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> monitoring_disabled(system))",
+        "natural": "Provided that it is not the case that either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle, then monitoring is disabled for the system."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(¬(A29 → ¬A7) → A31)",
+        "prover9_expression": "(-(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle)) -> override_conflict_detected(system))",
+        "natural": "If it is not the case that if a temporary override is granted for the vehicle, then the vehicle ignition is not disabled, then an override conflict is detected by the system."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(¬(A29 → ¬A7) → ¬A31)",
+        "prover9_expression": "(-(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle)) -> -override_conflict_detected(system))",
+        "natural": "Assuming it is not the case that if a temporary override is granted for the vehicle, then the vehicle ignition is not disabled, then an override conflict is not detected by the system."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(¬(A38 → (¬G → A18)) → ¬A39)",
+        "prover9_expression": "(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> -tracking_conflict(system))",
+        "natural": "Should it not be the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict does not exist for the system."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(¬(A4 → (¬(A1 ∨ A2) → A3)) → A6)",
+        "prover9_expression": "(-(sensor_calibrated(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver))) -> calibration_required(breathalyzer))",
+        "natural": "If it is not the case that if the breathalyzer sensor is calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver, then calibration is required for the breathalyzer."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(¬(A9 → ¬A7) → A10)",
+        "prover9_expression": "(-(maintenance_mode(vehicle) -> -ignition_disabled(vehicle)) -> override_authorized(driver))",
+        "natural": "Provided that it is not the case that if the vehicle is in maintenance mode, then the vehicle ignition is not disabled, then override is authorized for the driver."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(¬(¬(A1 ∨ A2) → A3) → A23)",
+        "prover9_expression": "(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> manual_control_denied(driver))",
+        "natural": "If it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is denied to the driver."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(¬(¬(A38 → (¬G → A18)) → A39) → A40)",
+        "prover9_expression": "(-(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> tracking_conflict(system)) -> system_reset_required(vehicle))",
+        "natural": "Assuming it is not the case that if it is not the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict exists for the system, then a system reset is required for the vehicle."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(¬(¬(¬(A1 ∨ A2) → A3) → ¬A23) → A24)",
+        "prover9_expression": "(-(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> -manual_control_denied(driver)) -> system_lockout_engaged(vehicle))",
+        "natural": "If it is not the case that if it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is not denied to the driver, then system lockout is engaged for the vehicle."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬G → ¬A14)",
+        "prover9_expression": "(-safe_to_drive(vehicle) -> -backup_system_activated(vehicle))",
+        "natural": "Whenever it is not safe to drive the vehicle, the backup system is not activated in the vehicle."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(¬G → ¬A18)",
+        "prover9_expression": "(-safe_to_drive(vehicle) -> -emergency_power_enabled(vehicle))",
+        "natural": "In case it is not safe to drive the vehicle, emergency power is not enabled for the vehicle."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A33",
+        "prover9_expression": "system_online(breathalyzer)",
+        "natural": "The breathalyzer system is online."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A13",
+        "prover9_expression": "-false_positive_detected(system)",
+        "natural": "A false positive has not been detected by the system."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A17",
+        "prover9_expression": "-system_failure_detected(breathalyzer)",
+        "natural": "A system failure is not detected in the breathalyzer."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A19",
+        "prover9_expression": "-remote_monitoring_active(system)",
+        "natural": "Remote monitoring is not active for the system."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A20",
+        "prover9_expression": "-monitoring_disabled(system)",
+        "natural": "Monitoring is not disabled for the system."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A24",
+        "prover9_expression": "-system_lockout_engaged(vehicle)",
+        "natural": "System lockout is not engaged for the vehicle."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A26",
+        "prover9_expression": "-autonomous_response_initiated(system)",
+        "natural": "An autonomous response is not initiated by the system."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A28",
+        "prover9_expression": "-safety_mode_engaged(vehicle)",
+        "natural": "Safety mode is not engaged for the vehicle."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A3",
+        "prover9_expression": "-manual_override_enabled(driver)",
+        "natural": "Manual override is not enabled for the driver."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A32",
+        "prover9_expression": "-manual_control_available(vehicle)",
+        "natural": "Manual control is not available for the vehicle."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A40",
+        "prover9_expression": "-system_reset_required(vehicle)",
+        "natural": "A system reset is not required for the vehicle."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A6",
+        "prover9_expression": "-calibration_required(breathalyzer)",
+        "natural": "Calibration is not required for the breathalyzer."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "safe_to_drive(vehicle)",
+    "natural": "It is safe to drive the vehicle."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 -> (-(A1 | A2) -> A3)) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(A4 -> (-(A1 | A2) -> A3))",
+          "natural": "Should the breathalyzer sensor be calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (-(A1 | A2) -> A3))",
+            "(A5 -> (-(A1 | A2) -> A3))"
+          ],
+          "conclusion": "(-(A1 | A2) -> A3)",
+          "natural": "If it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 | A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | (A11 -> -A10))",
+            "-A13"
+          ],
+          "conclusion": "(A11 -> -A10)",
+          "natural": "Provided that the system has notified the police, override is not authorized for the driver."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> -A10)",
+            "(A12 -> -A10)"
+          ],
+          "conclusion": "-A10",
+          "natural": "Override is not authorized for the driver."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 -> -A7) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 -> -A7)",
+          "natural": "Whenever the vehicle is in maintenance mode, the vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> -A7)",
+            "(A9 -> -A7)"
+          ],
+          "conclusion": "-A7",
+          "natural": "The vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A15 -> (-G -> A14)) -> A17)",
+            "-A17"
+          ],
+          "conclusion": "(A15 -> (-G -> A14))",
+          "natural": "In case the primary system of the breathalyzer is operational, then if it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A15 | A16)",
+            "(A15 -> (-G -> A14))",
+            "(A16 -> (-G -> A14))"
+          ],
+          "conclusion": "(-G -> A14)",
+          "natural": "If it is not safe to drive the vehicle, then the backup system is activated in the vehicle."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A14)",
+            "(-G -> -A14)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A19 | (-G -> A18)) -> A20)",
+            "-A20"
+          ],
+          "conclusion": "(A19 | (-G -> A18))",
+          "natural": "Either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | (-G -> A18))",
+            "-A19"
+          ],
+          "conclusion": "(-G -> A18)",
+          "natural": "Provided that it is not safe to drive the vehicle, then emergency power is enabled for the vehicle."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A18)",
+            "(-G -> -A18)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A22)",
+            "(A22 -> A21)"
+          ],
+          "conclusion": "(A4 -> A21)",
+          "natural": "If the breathalyzer sensor is calibrated, then the breathalyzer calibration is verified."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A21)",
+            "(A21 -> (-(A1 | A2) -> A3))"
+          ],
+          "conclusion": "(A4 -> (-(A1 | A2) -> A3))",
+          "natural": "Should the breathalyzer sensor be calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (-(A1 | A2) -> A3))",
+            "(A5 -> (-(A1 | A2) -> A3))"
+          ],
+          "conclusion": "(-(A1 | A2) -> A3)",
+          "natural": "If it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 | A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(-(A1 | A2) -> A3) -> -A23) -> A24)",
+            "-A24"
+          ],
+          "conclusion": "(-(-(A1 | A2) -> A3) -> -A23)",
+          "natural": "In the event that it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is not denied to the driver."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A1 | A2) -> A3) -> A23)",
+            "(-(-(A1 | A2) -> A3) -> -A23)"
+          ],
+          "conclusion": "(-(A1 | A2) -> A3)",
+          "natural": "If it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 | A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A26 | -A25)",
+            "-A26"
+          ],
+          "conclusion": "-A25",
+          "natural": "Law enforcement has not been contacted by the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A25 | (A11 -> -A10))",
+            "-A25"
+          ],
+          "conclusion": "(A11 -> -A10)",
+          "natural": "Provided that the system has notified the police, override is not authorized for the driver."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> -A10)",
+            "(A12 -> -A10)"
+          ],
+          "conclusion": "-A10",
+          "natural": "Override is not authorized for the driver."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 -> -A7) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 -> -A7)",
+          "natural": "Whenever the vehicle is in maintenance mode, the vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> -A7)",
+            "(A9 -> -A7)"
+          ],
+          "conclusion": "-A7",
+          "natural": "The vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A27 -> A28)",
+            "-A28"
+          ],
+          "conclusion": "-A27",
+          "natural": "The vehicle is not immobilized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A7 -> A27)",
+            "-A27"
+          ],
+          "conclusion": "-A7",
+          "natural": "The vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A29 -> -A7) -> A31)",
+            "(-(A29 -> -A7) -> -A31)"
+          ],
+          "conclusion": "(A29 -> -A7)",
+          "natural": "In the event that a temporary override is granted for the vehicle, the vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A29 | A30)",
+            "(A29 -> -A7)",
+            "(A30 -> -A7)"
+          ],
+          "conclusion": "-A7",
+          "natural": "The vehicle ignition is not disabled."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A34 -> A36)",
+            "(A36 -> (A33 -> (A32 | (-G -> A14))))"
+          ],
+          "conclusion": "(A34 -> (A33 -> (A32 | (-G -> A14))))",
+          "natural": "Provided that Protocol A is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, in case it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A34 | A35)",
+            "(A34 -> (A33 -> (A32 | (-G -> A14))))",
+            "(A35 -> (A33 -> (A32 | (-G -> A14))))"
+          ],
+          "conclusion": "(A33 -> (A32 | (-G -> A14)))",
+          "natural": "If the breathalyzer system is online, then either manual control is available for the vehicle or, should it not be safe to drive the vehicle, the backup system is activated in the vehicle."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A33 -> (A32 | (-G -> A14)))",
+            "A33"
+          ],
+          "conclusion": "(A32 | (-G -> A14))",
+          "natural": "Either manual control is available for the vehicle or, if it is not safe to drive the vehicle, then the backup system is activated in the vehicle."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A32 | (-G -> A14))",
+            "-A32"
+          ],
+          "conclusion": "(-G -> A14)",
+          "natural": "If it is not safe to drive the vehicle, then the backup system is activated in the vehicle."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A14)",
+            "(-G -> -A14)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A38 -> (-G -> A18)) -> A39) -> A40)",
+            "-A40"
+          ],
+          "conclusion": "(-(A38 -> (-G -> A18)) -> A39)",
+          "natural": "In case it is not the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict exists for the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A38 -> (-G -> A18)) -> A39)",
+            "(-(A38 -> (-G -> A18)) -> -A39)"
+          ],
+          "conclusion": "(A38 -> (-G -> A18))",
+          "natural": "Given that periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A37 -> A19)",
+            "(A38 -> (-G -> A18))",
+            "(A37 | A38)"
+          ],
+          "conclusion": "(A19 | (-G -> A18))",
+          "natural": "Either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | (-G -> A18))",
+            "-A19"
+          ],
+          "conclusion": "(-G -> A18)",
+          "natural": "Provided that it is not safe to drive the vehicle, then emergency power is enabled for the vehicle."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A18)",
+            "(-G -> -A18)"
+          ],
+          "conclusion": "G",
+          "natural": "It is safe to drive the vehicle."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Drunk Driving Prevention Technology",
+    "atomic_facts": {
+      "A1": "alcohol_detected(vehicle)",
+      "A2": "device_malfunction(breathalyzer)",
+      "A3": "manual_override_enabled(driver)",
+      "A4": "sensor_calibrated(breathalyzer)",
+      "A5": "sensor_faulty(breathalyzer)",
+      "A6": "calibration_required(breathalyzer)",
+      "A7": "ignition_disabled(vehicle)",
+      "A8": "emergency_override(vehicle)",
+      "A9": "maintenance_mode(vehicle)",
+      "A10": "override_authorized(driver)",
+      "A11": "police_notified(system)",
+      "A12": "emergency_services_alerted(system)",
+      "A13": "false_positive_detected(system)",
+      "A14": "backup_system_activated(vehicle)",
+      "A15": "primary_system_operational(breathalyzer)",
+      "A16": "secondary_system_operational(breathalyzer)",
+      "A17": "system_failure_detected(breathalyzer)",
+      "A18": "emergency_power_enabled(vehicle)",
+      "A19": "remote_monitoring_active(system)",
+      "A20": "monitoring_disabled(system)",
+      "A21": "calibration_verified(breathalyzer)",
+      "A22": "diagnostic_passed(breathalyzer)",
+      "A23": "manual_control_denied(driver)",
+      "A24": "system_lockout_engaged(vehicle)",
+      "A25": "law_enforcement_contacted(system)",
+      "A26": "autonomous_response_initiated(system)",
+      "A27": "vehicle_immobilized(vehicle)",
+      "A28": "safety_mode_engaged(vehicle)",
+      "A29": "temporary_override_granted(vehicle)",
+      "A30": "service_mode_activated(vehicle)",
+      "A31": "override_conflict_detected(system)",
+      "A32": "manual_control_available(vehicle)",
+      "A33": "system_online(breathalyzer)",
+      "A34": "protocol_A_active(system)",
+      "A35": "protocol_B_active(system)",
+      "A36": "protocol_C_active(system)",
+      "A37": "real_time_tracking_enabled(system)",
+      "A38": "periodic_checking_enabled(system)",
+      "A39": "tracking_conflict(system)",
+      "A40": "system_reset_required(vehicle)",
+      "G": "safe_to_drive(vehicle)"
+    },
+    "natural_facts": {
+      "A1": "Alcohol is detected in the vehicle.",
+      "A2": "The breathalyzer device is malfunctioning.",
+      "A3": "Manual override is enabled for the driver.",
+      "A4": "The breathalyzer sensor is calibrated.",
+      "A5": "The breathalyzer sensor is faulty.",
+      "A6": "Calibration is required for the breathalyzer.",
+      "A7": "The vehicle ignition is disabled.",
+      "A8": "Emergency override is active for the vehicle.",
+      "A9": "The vehicle is in maintenance mode.",
+      "A10": "Override is authorized for the driver.",
+      "A11": "The system has notified the police.",
+      "A12": "The system has alerted emergency services.",
+      "A13": "A false positive has been detected by the system.",
+      "A14": "The backup system is activated in the vehicle.",
+      "A15": "The primary system of the breathalyzer is operational.",
+      "A16": "The secondary system of the breathalyzer is operational.",
+      "A17": "A system failure is detected in the breathalyzer.",
+      "A18": "Emergency power is enabled for the vehicle.",
+      "A19": "Remote monitoring is active for the system.",
+      "A20": "Monitoring is disabled for the system.",
+      "A21": "The breathalyzer calibration is verified.",
+      "A22": "The breathalyzer diagnostic has passed.",
+      "A23": "Manual control is denied to the driver.",
+      "A24": "System lockout is engaged for the vehicle.",
+      "A25": "Law enforcement has been contacted by the system.",
+      "A26": "An autonomous response is initiated by the system.",
+      "A27": "The vehicle is immobilized.",
+      "A28": "Safety mode is engaged for the vehicle.",
+      "A29": "A temporary override is granted for the vehicle.",
+      "A30": "Service mode is activated for the vehicle.",
+      "A31": "An override conflict is detected by the system.",
+      "A32": "Manual control is available for the vehicle.",
+      "A33": "The breathalyzer system is online.",
+      "A34": "Protocol A is active for the system.",
+      "A35": "Protocol B is active for the system.",
+      "A36": "Protocol C is active for the system.",
+      "A37": "Real-time tracking is enabled for the system.",
+      "A38": "Periodic checking is enabled for the system.",
+      "A39": "A tracking conflict exists for the system.",
+      "A40": "A system reset is required for the vehicle.",
+      "G": "It is safe to drive the vehicle."
+    },
+    "prover9_expressions": [
+      "(alcohol_detected(vehicle) -> safe_to_drive(vehicle))",
+      "(alcohol_detected(vehicle) | device_malfunction(breathalyzer))",
+      "(police_notified(system) -> -override_authorized(driver))",
+      "(police_notified(system) | emergency_services_alerted(system))",
+      "(emergency_services_alerted(system) -> -override_authorized(driver))",
+      "(false_positive_detected(system) | (police_notified(system) -> -override_authorized(driver)))",
+      "(primary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+      "(primary_system_operational(breathalyzer) | secondary_system_operational(breathalyzer))",
+      "(secondary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+      "(remote_monitoring_active(system) | (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle)))",
+      "(device_malfunction(breathalyzer) -> safe_to_drive(vehicle))",
+      "(calibration_verified(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+      "(diagnostic_passed(breathalyzer) -> calibration_verified(breathalyzer))",
+      "(law_enforcement_contacted(system) | (police_notified(system) -> -override_authorized(driver)))",
+      "(autonomous_response_initiated(system) | -law_enforcement_contacted(system))",
+      "(vehicle_immobilized(vehicle) -> safety_mode_engaged(vehicle))",
+      "(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle))",
+      "(temporary_override_granted(vehicle) | service_mode_activated(vehicle))",
+      "(service_mode_activated(vehicle) -> -ignition_disabled(vehicle))",
+      "(manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+      "(system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle))))",
+      "(protocol_A_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+      "(protocol_A_active(system) -> protocol_C_active(system))",
+      "(protocol_A_active(system) | protocol_B_active(system))",
+      "(protocol_B_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+      "(protocol_C_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+      "(real_time_tracking_enabled(system) -> remote_monitoring_active(system))",
+      "(real_time_tracking_enabled(system) | periodic_checking_enabled(system))",
+      "(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle)))",
+      "(sensor_calibrated(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+      "(sensor_calibrated(breathalyzer) -> calibration_verified(breathalyzer))",
+      "(sensor_calibrated(breathalyzer) -> diagnostic_passed(breathalyzer))",
+      "(sensor_calibrated(breathalyzer) | sensor_faulty(breathalyzer))",
+      "(sensor_faulty(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+      "(ignition_disabled(vehicle) -> vehicle_immobilized(vehicle))",
+      "(ignition_disabled(vehicle) | safe_to_drive(vehicle))",
+      "(emergency_override(vehicle) -> -ignition_disabled(vehicle))",
+      "(emergency_override(vehicle) | maintenance_mode(vehicle))",
+      "(maintenance_mode(vehicle) -> -ignition_disabled(vehicle))",
+      "(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver))",
+      "(-(primary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle))) -> system_failure_detected(breathalyzer))",
+      "(-(remote_monitoring_active(system) | (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> monitoring_disabled(system))",
+      "(-(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle)) -> override_conflict_detected(system))",
+      "(-(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle)) -> -override_conflict_detected(system))",
+      "(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> tracking_conflict(system))",
+      "(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> -tracking_conflict(system))",
+      "(-(sensor_calibrated(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver))) -> calibration_required(breathalyzer))",
+      "(-(maintenance_mode(vehicle) -> -ignition_disabled(vehicle)) -> override_authorized(driver))",
+      "(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> manual_control_denied(driver))",
+      "(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> -manual_control_denied(driver))",
+      "(-(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> tracking_conflict(system)) -> system_reset_required(vehicle))",
+      "(-(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> -manual_control_denied(driver)) -> system_lockout_engaged(vehicle))",
+      "(-safe_to_drive(vehicle) -> backup_system_activated(vehicle))",
+      "(-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))",
+      "(-safe_to_drive(vehicle) -> -backup_system_activated(vehicle))",
+      "(-safe_to_drive(vehicle) -> -emergency_power_enabled(vehicle))",
+      "system_online(breathalyzer)",
+      "safe_to_drive(vehicle)",
+      "-override_authorized(driver)",
+      "-false_positive_detected(system)",
+      "-system_failure_detected(breathalyzer)",
+      "-remote_monitoring_active(system)",
+      "-monitoring_disabled(system)",
+      "-system_lockout_engaged(vehicle)",
+      "-law_enforcement_contacted(system)",
+      "-autonomous_response_initiated(system)",
+      "-vehicle_immobilized(vehicle)",
+      "-safety_mode_engaged(vehicle)",
+      "-manual_override_enabled(driver)",
+      "-manual_control_available(vehicle)",
+      "-system_reset_required(vehicle)",
+      "-calibration_required(breathalyzer)",
+      "-ignition_disabled(vehicle)"
+    ],
+    "natural_expressions": [
+      "If alcohol is detected in the vehicle, then it is safe to drive the vehicle.",
+      "Either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning.",
+      "Provided that the system has notified the police, override is not authorized for the driver.",
+      "The system has notified the police or the system has alerted emergency services.",
+      "Whenever the system has alerted emergency services, override is not authorized for the driver.",
+      "Either a false positive has been detected by the system or, if the system has notified the police, then override is not authorized for the driver.",
+      "In case the primary system of the breathalyzer is operational, then if it is not safe to drive the vehicle, the backup system is activated in the vehicle.",
+      "The primary system of the breathalyzer is operational or the secondary system of the breathalyzer is operational.",
+      "Assuming the secondary system of the breathalyzer is operational, then whenever it is not safe to drive the vehicle, the backup system is activated in the vehicle.",
+      "Either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle.",
+      "Should the breathalyzer device be malfunctioning, then it is safe to drive the vehicle.",
+      "Given that the breathalyzer calibration is verified, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver.",
+      "If the breathalyzer diagnostic has passed, then the breathalyzer calibration is verified.",
+      "Either law enforcement has been contacted by the system or, if the system has notified the police, then override is not authorized for the driver.",
+      "An autonomous response is initiated by the system or law enforcement has not been contacted by the system.",
+      "Provided that the vehicle is immobilized, safety mode is engaged for the vehicle.",
+      "In the event that a temporary override is granted for the vehicle, the vehicle ignition is not disabled.",
+      "A temporary override is granted for the vehicle or service mode is activated for the vehicle.",
+      "Whenever service mode is activated for the vehicle, the vehicle ignition is not disabled.",
+      "Either manual control is available for the vehicle or, if it is not safe to drive the vehicle, then the backup system is activated in the vehicle.",
+      "If the breathalyzer system is online, then either manual control is available for the vehicle or, should it not be safe to drive the vehicle, the backup system is activated in the vehicle.",
+      "Provided that Protocol A is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, in case it is not safe to drive the vehicle, the backup system is activated in the vehicle.",
+      "If Protocol A is active for the system, then Protocol C is active for the system.",
+      "Protocol A is active for the system or Protocol B is active for the system.",
+      "Assuming Protocol B is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, whenever it is not safe to drive the vehicle, the backup system is activated in the vehicle.",
+      "In case Protocol C is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, provided that it is not safe to drive the vehicle, the backup system is activated in the vehicle.",
+      "If real-time tracking is enabled for the system, then remote monitoring is active for the system.",
+      "Real-time tracking is enabled for the system or periodic checking is enabled for the system.",
+      "Given that periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle.",
+      "Should the breathalyzer sensor be calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver.",
+      "If the breathalyzer sensor is calibrated, then the breathalyzer calibration is verified.",
+      "Provided that the breathalyzer sensor is calibrated, then the breathalyzer diagnostic has passed.",
+      "The breathalyzer sensor is calibrated or the breathalyzer sensor is faulty.",
+      "In the event that the breathalyzer sensor is faulty, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver.",
+      "If the vehicle ignition is disabled, then the vehicle is immobilized.",
+      "The vehicle ignition is disabled or it is safe to drive the vehicle.",
+      "Assuming emergency override is active for the vehicle, then the vehicle ignition is not disabled.",
+      "Emergency override is active for the vehicle or the vehicle is in maintenance mode.",
+      "Whenever the vehicle is in maintenance mode, the vehicle ignition is not disabled.",
+      "If it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver.",
+      "If it is not the case that if the primary system of the breathalyzer is operational, then if it is not safe to drive the vehicle, the backup system is activated in the vehicle, then a system failure is detected in the breathalyzer.",
+      "Provided that it is not the case that either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle, then monitoring is disabled for the system.",
+      "If it is not the case that if a temporary override is granted for the vehicle, then the vehicle ignition is not disabled, then an override conflict is detected by the system.",
+      "Assuming it is not the case that if a temporary override is granted for the vehicle, then the vehicle ignition is not disabled, then an override conflict is not detected by the system.",
+      "In case it is not the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict exists for the system.",
+      "Should it not be the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict does not exist for the system.",
+      "If it is not the case that if the breathalyzer sensor is calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver, then calibration is required for the breathalyzer.",
+      "Provided that it is not the case that if the vehicle is in maintenance mode, then the vehicle ignition is not disabled, then override is authorized for the driver.",
+      "If it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is denied to the driver.",
+      "In the event that it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is not denied to the driver.",
+      "Assuming it is not the case that if it is not the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict exists for the system, then a system reset is required for the vehicle.",
+      "If it is not the case that if it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is not denied to the driver, then system lockout is engaged for the vehicle.",
+      "If it is not safe to drive the vehicle, then the backup system is activated in the vehicle.",
+      "Provided that it is not safe to drive the vehicle, then emergency power is enabled for the vehicle.",
+      "Whenever it is not safe to drive the vehicle, the backup system is not activated in the vehicle.",
+      "In case it is not safe to drive the vehicle, emergency power is not enabled for the vehicle.",
+      "The breathalyzer system is online.",
+      "It is safe to drive the vehicle.",
+      "Override is not authorized for the driver.",
+      "A false positive has not been detected by the system.",
+      "A system failure is not detected in the breathalyzer.",
+      "Remote monitoring is not active for the system.",
+      "Monitoring is not disabled for the system.",
+      "System lockout is not engaged for the vehicle.",
+      "Law enforcement has not been contacted by the system.",
+      "An autonomous response is not initiated by the system.",
+      "The vehicle is not immobilized.",
+      "Safety mode is not engaged for the vehicle.",
+      "Manual override is not enabled for the driver.",
+      "Manual control is not available for the vehicle.",
+      "A system reset is not required for the vehicle.",
+      "Calibration is not required for the breathalyzer.",
+      "The vehicle ignition is not disabled."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(alcohol_detected(vehicle) -> safe_to_drive(vehicle))",
+        "natural": "If alcohol is detected in the vehicle, then it is safe to drive the vehicle."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(alcohol_detected(vehicle) | device_malfunction(breathalyzer))",
+        "natural": "Either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning."
+      },
+      "(A11 → ¬A10)": {
+        "formal": "(A11 → ¬A10)",
+        "prover9": "(A11 -> -A10)",
+        "prover9_expression": "(police_notified(system) -> -override_authorized(driver))",
+        "natural": "Provided that the system has notified the police, override is not authorized for the driver."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(police_notified(system) | emergency_services_alerted(system))",
+        "natural": "The system has notified the police or the system has alerted emergency services."
+      },
+      "(A12 → ¬A10)": {
+        "formal": "(A12 → ¬A10)",
+        "prover9": "(A12 -> -A10)",
+        "prover9_expression": "(emergency_services_alerted(system) -> -override_authorized(driver))",
+        "natural": "Whenever the system has alerted emergency services, override is not authorized for the driver."
+      },
+      "(A13 ∨ (A11 → ¬A10))": {
+        "formal": "(A13 ∨ (A11 → ¬A10))",
+        "prover9": "(A13 | (A11 -> -A10))",
+        "prover9_expression": "(false_positive_detected(system) | (police_notified(system) -> -override_authorized(driver)))",
+        "natural": "Either a false positive has been detected by the system or, if the system has notified the police, then override is not authorized for the driver."
+      },
+      "(A15 → (¬G → A14))": {
+        "formal": "(A15 → (¬G → A14))",
+        "prover9": "(A15 -> (-G -> A14))",
+        "prover9_expression": "(primary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+        "natural": "In case the primary system of the breathalyzer is operational, then if it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      "(A15 ∨ A16)": {
+        "formal": "(A15 ∨ A16)",
+        "prover9": "(A15 | A16)",
+        "prover9_expression": "(primary_system_operational(breathalyzer) | secondary_system_operational(breathalyzer))",
+        "natural": "The primary system of the breathalyzer is operational or the secondary system of the breathalyzer is operational."
+      },
+      "(A16 → (¬G → A14))": {
+        "formal": "(A16 → (¬G → A14))",
+        "prover9": "(A16 -> (-G -> A14))",
+        "prover9_expression": "(secondary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+        "natural": "Assuming the secondary system of the breathalyzer is operational, then whenever it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      "(A19 ∨ (¬G → A18))": {
+        "formal": "(A19 ∨ (¬G → A18))",
+        "prover9": "(A19 | (-G -> A18))",
+        "prover9_expression": "(remote_monitoring_active(system) | (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle)))",
+        "natural": "Either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(device_malfunction(breathalyzer) -> safe_to_drive(vehicle))",
+        "natural": "Should the breathalyzer device be malfunctioning, then it is safe to drive the vehicle."
+      },
+      "(A21 → (¬(A1 ∨ A2) → A3))": {
+        "formal": "(A21 → (¬(A1 ∨ A2) → A3))",
+        "prover9": "(A21 -> (-(A1 | A2) -> A3))",
+        "prover9_expression": "(calibration_verified(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+        "natural": "Given that the breathalyzer calibration is verified, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+      },
+      "(A22 → A21)": {
+        "formal": "(A22 → A21)",
+        "prover9": "(A22 -> A21)",
+        "prover9_expression": "(diagnostic_passed(breathalyzer) -> calibration_verified(breathalyzer))",
+        "natural": "If the breathalyzer diagnostic has passed, then the breathalyzer calibration is verified."
+      },
+      "(A25 ∨ (A11 → ¬A10))": {
+        "formal": "(A25 ∨ (A11 → ¬A10))",
+        "prover9": "(A25 | (A11 -> -A10))",
+        "prover9_expression": "(law_enforcement_contacted(system) | (police_notified(system) -> -override_authorized(driver)))",
+        "natural": "Either law enforcement has been contacted by the system or, if the system has notified the police, then override is not authorized for the driver."
+      },
+      "(A26 ∨ ¬A25)": {
+        "formal": "(A26 ∨ ¬A25)",
+        "prover9": "(A26 | -A25)",
+        "prover9_expression": "(autonomous_response_initiated(system) | -law_enforcement_contacted(system))",
+        "natural": "An autonomous response is initiated by the system or law enforcement has not been contacted by the system."
+      },
+      "(A27 → A28)": {
+        "formal": "(A27 → A28)",
+        "prover9": "(A27 -> A28)",
+        "prover9_expression": "(vehicle_immobilized(vehicle) -> safety_mode_engaged(vehicle))",
+        "natural": "Provided that the vehicle is immobilized, safety mode is engaged for the vehicle."
+      },
+      "(A29 → ¬A7)": {
+        "formal": "(A29 → ¬A7)",
+        "prover9": "(A29 -> -A7)",
+        "prover9_expression": "(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle))",
+        "natural": "In the event that a temporary override is granted for the vehicle, the vehicle ignition is not disabled."
+      },
+      "(A29 ∨ A30)": {
+        "formal": "(A29 ∨ A30)",
+        "prover9": "(A29 | A30)",
+        "prover9_expression": "(temporary_override_granted(vehicle) | service_mode_activated(vehicle))",
+        "natural": "A temporary override is granted for the vehicle or service mode is activated for the vehicle."
+      },
+      "(A30 → ¬A7)": {
+        "formal": "(A30 → ¬A7)",
+        "prover9": "(A30 -> -A7)",
+        "prover9_expression": "(service_mode_activated(vehicle) -> -ignition_disabled(vehicle))",
+        "natural": "Whenever service mode is activated for the vehicle, the vehicle ignition is not disabled."
+      },
+      "(A32 ∨ (¬G → A14))": {
+        "formal": "(A32 ∨ (¬G → A14))",
+        "prover9": "(A32 | (-G -> A14))",
+        "prover9_expression": "(manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))",
+        "natural": "Either manual control is available for the vehicle or, if it is not safe to drive the vehicle, then the backup system is activated in the vehicle."
+      },
+      "(A33 → (A32 ∨ (¬G → A14)))": {
+        "formal": "(A33 → (A32 ∨ (¬G → A14)))",
+        "prover9": "(A33 -> (A32 | (-G -> A14)))",
+        "prover9_expression": "(system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle))))",
+        "natural": "If the breathalyzer system is online, then either manual control is available for the vehicle or, should it not be safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      "(A34 → (A33 → (A32 ∨ (¬G → A14))))": {
+        "formal": "(A34 → (A33 → (A32 ∨ (¬G → A14))))",
+        "prover9": "(A34 -> (A33 -> (A32 | (-G -> A14))))",
+        "prover9_expression": "(protocol_A_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+        "natural": "Provided that Protocol A is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, in case it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      "(A34 → A36)": {
+        "formal": "(A34 → A36)",
+        "prover9": "(A34 -> A36)",
+        "prover9_expression": "(protocol_A_active(system) -> protocol_C_active(system))",
+        "natural": "If Protocol A is active for the system, then Protocol C is active for the system."
+      },
+      "(A34 ∨ A35)": {
+        "formal": "(A34 ∨ A35)",
+        "prover9": "(A34 | A35)",
+        "prover9_expression": "(protocol_A_active(system) | protocol_B_active(system))",
+        "natural": "Protocol A is active for the system or Protocol B is active for the system."
+      },
+      "(A35 → (A33 → (A32 ∨ (¬G → A14))))": {
+        "formal": "(A35 → (A33 → (A32 ∨ (¬G → A14))))",
+        "prover9": "(A35 -> (A33 -> (A32 | (-G -> A14))))",
+        "prover9_expression": "(protocol_B_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+        "natural": "Assuming Protocol B is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, whenever it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      "(A36 → (A33 → (A32 ∨ (¬G → A14))))": {
+        "formal": "(A36 → (A33 → (A32 ∨ (¬G → A14))))",
+        "prover9": "(A36 -> (A33 -> (A32 | (-G -> A14))))",
+        "prover9_expression": "(protocol_C_active(system) -> (system_online(breathalyzer) -> (manual_control_available(vehicle) | (-safe_to_drive(vehicle) -> backup_system_activated(vehicle)))))",
+        "natural": "In case Protocol C is active for the system, then if the breathalyzer system is online, either manual control is available for the vehicle or, provided that it is not safe to drive the vehicle, the backup system is activated in the vehicle."
+      },
+      "(A37 → A19)": {
+        "formal": "(A37 → A19)",
+        "prover9": "(A37 -> A19)",
+        "prover9_expression": "(real_time_tracking_enabled(system) -> remote_monitoring_active(system))",
+        "natural": "If real-time tracking is enabled for the system, then remote monitoring is active for the system."
+      },
+      "(A37 ∨ A38)": {
+        "formal": "(A37 ∨ A38)",
+        "prover9": "(A37 | A38)",
+        "prover9_expression": "(real_time_tracking_enabled(system) | periodic_checking_enabled(system))",
+        "natural": "Real-time tracking is enabled for the system or periodic checking is enabled for the system."
+      },
+      "(A38 → (¬G → A18))": {
+        "formal": "(A38 → (¬G → A18))",
+        "prover9": "(A38 -> (-G -> A18))",
+        "prover9_expression": "(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle)))",
+        "natural": "Given that periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle."
+      },
+      "(A4 → (¬(A1 ∨ A2) → A3))": {
+        "formal": "(A4 → (¬(A1 ∨ A2) → A3))",
+        "prover9": "(A4 -> (-(A1 | A2) -> A3))",
+        "prover9_expression": "(sensor_calibrated(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+        "natural": "Should the breathalyzer sensor be calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+      },
+      "(A4 → A21)": {
+        "formal": "(A4 → A21)",
+        "prover9": "(A4 -> A21)",
+        "prover9_expression": "(sensor_calibrated(breathalyzer) -> calibration_verified(breathalyzer))",
+        "natural": "If the breathalyzer sensor is calibrated, then the breathalyzer calibration is verified."
+      },
+      "(A4 → A22)": {
+        "formal": "(A4 → A22)",
+        "prover9": "(A4 -> A22)",
+        "prover9_expression": "(sensor_calibrated(breathalyzer) -> diagnostic_passed(breathalyzer))",
+        "natural": "Provided that the breathalyzer sensor is calibrated, then the breathalyzer diagnostic has passed."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(sensor_calibrated(breathalyzer) | sensor_faulty(breathalyzer))",
+        "natural": "The breathalyzer sensor is calibrated or the breathalyzer sensor is faulty."
+      },
+      "(A5 → (¬(A1 ∨ A2) → A3))": {
+        "formal": "(A5 → (¬(A1 ∨ A2) → A3))",
+        "prover9": "(A5 -> (-(A1 | A2) -> A3))",
+        "prover9_expression": "(sensor_faulty(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)))",
+        "natural": "In the event that the breathalyzer sensor is faulty, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver."
+      },
+      "(A7 → A27)": {
+        "formal": "(A7 → A27)",
+        "prover9": "(A7 -> A27)",
+        "prover9_expression": "(ignition_disabled(vehicle) -> vehicle_immobilized(vehicle))",
+        "natural": "If the vehicle ignition is disabled, then the vehicle is immobilized."
+      },
+      "(A7 ∨ G)": {
+        "formal": "(A7 ∨ G)",
+        "prover9": "(A7 | G)",
+        "prover9_expression": "(ignition_disabled(vehicle) | safe_to_drive(vehicle))",
+        "natural": "The vehicle ignition is disabled or it is safe to drive the vehicle."
+      },
+      "(A8 → ¬A7)": {
+        "formal": "(A8 → ¬A7)",
+        "prover9": "(A8 -> -A7)",
+        "prover9_expression": "(emergency_override(vehicle) -> -ignition_disabled(vehicle))",
+        "natural": "Assuming emergency override is active for the vehicle, then the vehicle ignition is not disabled."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(emergency_override(vehicle) | maintenance_mode(vehicle))",
+        "natural": "Emergency override is active for the vehicle or the vehicle is in maintenance mode."
+      },
+      "(A9 → ¬A7)": {
+        "formal": "(A9 → ¬A7)",
+        "prover9": "(A9 -> -A7)",
+        "prover9_expression": "(maintenance_mode(vehicle) -> -ignition_disabled(vehicle))",
+        "natural": "Whenever the vehicle is in maintenance mode, the vehicle ignition is not disabled."
+      },
+      "(¬(A1 ∨ A2) → A3)": {
+        "formal": "(¬(A1 ∨ A2) → A3)",
+        "prover9": "(-(A1 | A2) -> A3)",
+        "prover9_expression": "(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver))",
+        "natural": "If it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver."
+      },
+      "(¬(A15 → (¬G → A14)) → A17)": {
+        "formal": "(¬(A15 → (¬G → A14)) → A17)",
+        "prover9": "(-(A15 -> (-G -> A14)) -> A17)",
+        "prover9_expression": "(-(primary_system_operational(breathalyzer) -> (-safe_to_drive(vehicle) -> backup_system_activated(vehicle))) -> system_failure_detected(breathalyzer))",
+        "natural": "If it is not the case that if the primary system of the breathalyzer is operational, then if it is not safe to drive the vehicle, the backup system is activated in the vehicle, then a system failure is detected in the breathalyzer."
+      },
+      "(¬(A19 ∨ (¬G → A18)) → A20)": {
+        "formal": "(¬(A19 ∨ (¬G → A18)) → A20)",
+        "prover9": "(-(A19 | (-G -> A18)) -> A20)",
+        "prover9_expression": "(-(remote_monitoring_active(system) | (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> monitoring_disabled(system))",
+        "natural": "Provided that it is not the case that either remote monitoring is active for the system or, if it is not safe to drive the vehicle, then emergency power is enabled for the vehicle, then monitoring is disabled for the system."
+      },
+      "(¬(A29 → ¬A7) → A31)": {
+        "formal": "(¬(A29 → ¬A7) → A31)",
+        "prover9": "(-(A29 -> -A7) -> A31)",
+        "prover9_expression": "(-(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle)) -> override_conflict_detected(system))",
+        "natural": "If it is not the case that if a temporary override is granted for the vehicle, then the vehicle ignition is not disabled, then an override conflict is detected by the system."
+      },
+      "(¬(A29 → ¬A7) → ¬A31)": {
+        "formal": "(¬(A29 → ¬A7) → ¬A31)",
+        "prover9": "(-(A29 -> -A7) -> -A31)",
+        "prover9_expression": "(-(temporary_override_granted(vehicle) -> -ignition_disabled(vehicle)) -> -override_conflict_detected(system))",
+        "natural": "Assuming it is not the case that if a temporary override is granted for the vehicle, then the vehicle ignition is not disabled, then an override conflict is not detected by the system."
+      },
+      "(¬(A38 → (¬G → A18)) → A39)": {
+        "formal": "(¬(A38 → (¬G → A18)) → A39)",
+        "prover9": "(-(A38 -> (-G -> A18)) -> A39)",
+        "prover9_expression": "(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> tracking_conflict(system))",
+        "natural": "In case it is not the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict exists for the system."
+      },
+      "(¬(A38 → (¬G → A18)) → ¬A39)": {
+        "formal": "(¬(A38 → (¬G → A18)) → ¬A39)",
+        "prover9": "(-(A38 -> (-G -> A18)) -> -A39)",
+        "prover9_expression": "(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> -tracking_conflict(system))",
+        "natural": "Should it not be the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict does not exist for the system."
+      },
+      "(¬(A4 → (¬(A1 ∨ A2) → A3)) → A6)": {
+        "formal": "(¬(A4 → (¬(A1 ∨ A2) → A3)) → A6)",
+        "prover9": "(-(A4 -> (-(A1 | A2) -> A3)) -> A6)",
+        "prover9_expression": "(-(sensor_calibrated(breathalyzer) -> (-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver))) -> calibration_required(breathalyzer))",
+        "natural": "If it is not the case that if the breathalyzer sensor is calibrated, then if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, manual override is enabled for the driver, then calibration is required for the breathalyzer."
+      },
+      "(¬(A9 → ¬A7) → A10)": {
+        "formal": "(¬(A9 → ¬A7) → A10)",
+        "prover9": "(-(A9 -> -A7) -> A10)",
+        "prover9_expression": "(-(maintenance_mode(vehicle) -> -ignition_disabled(vehicle)) -> override_authorized(driver))",
+        "natural": "Provided that it is not the case that if the vehicle is in maintenance mode, then the vehicle ignition is not disabled, then override is authorized for the driver."
+      },
+      "(¬(¬(A1 ∨ A2) → A3) → A23)": {
+        "formal": "(¬(¬(A1 ∨ A2) → A3) → A23)",
+        "prover9": "(-(-(A1 | A2) -> A3) -> A23)",
+        "prover9_expression": "(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> manual_control_denied(driver))",
+        "natural": "If it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is denied to the driver."
+      },
+      "(¬(¬(A1 ∨ A2) → A3) → ¬A23)": {
+        "formal": "(¬(¬(A1 ∨ A2) → A3) → ¬A23)",
+        "prover9": "(-(-(A1 | A2) -> A3) -> -A23)",
+        "prover9_expression": "(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> -manual_control_denied(driver))",
+        "natural": "In the event that it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is not denied to the driver."
+      },
+      "(¬(¬(A38 → (¬G → A18)) → A39) → A40)": {
+        "formal": "(¬(¬(A38 → (¬G → A18)) → A39) → A40)",
+        "prover9": "(-(-(A38 -> (-G -> A18)) -> A39) -> A40)",
+        "prover9_expression": "(-(-(periodic_checking_enabled(system) -> (-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))) -> tracking_conflict(system)) -> system_reset_required(vehicle))",
+        "natural": "Assuming it is not the case that if it is not the case that if periodic checking is enabled for the system, then if it is not safe to drive the vehicle, emergency power is enabled for the vehicle, then a tracking conflict exists for the system, then a system reset is required for the vehicle."
+      },
+      "(¬(¬(¬(A1 ∨ A2) → A3) → ¬A23) → A24)": {
+        "formal": "(¬(¬(¬(A1 ∨ A2) → A3) → ¬A23) → A24)",
+        "prover9": "(-(-(-(A1 | A2) -> A3) -> -A23) -> A24)",
+        "prover9_expression": "(-(-(-(alcohol_detected(vehicle) | device_malfunction(breathalyzer)) -> manual_override_enabled(driver)) -> -manual_control_denied(driver)) -> system_lockout_engaged(vehicle))",
+        "natural": "If it is not the case that if it is not the case that if it is not the case that either alcohol is detected in the vehicle or the breathalyzer device is malfunctioning, then manual override is enabled for the driver, then manual control is not denied to the driver, then system lockout is engaged for the vehicle."
+      },
+      "(¬G → A14)": {
+        "formal": "(¬G → A14)",
+        "prover9": "(-G -> A14)",
+        "prover9_expression": "(-safe_to_drive(vehicle) -> backup_system_activated(vehicle))",
+        "natural": "If it is not safe to drive the vehicle, then the backup system is activated in the vehicle."
+      },
+      "(¬G → A18)": {
+        "formal": "(¬G → A18)",
+        "prover9": "(-G -> A18)",
+        "prover9_expression": "(-safe_to_drive(vehicle) -> emergency_power_enabled(vehicle))",
+        "natural": "Provided that it is not safe to drive the vehicle, then emergency power is enabled for the vehicle."
+      },
+      "(¬G → ¬A14)": {
+        "formal": "(¬G → ¬A14)",
+        "prover9": "(-G -> -A14)",
+        "prover9_expression": "(-safe_to_drive(vehicle) -> -backup_system_activated(vehicle))",
+        "natural": "Whenever it is not safe to drive the vehicle, the backup system is not activated in the vehicle."
+      },
+      "(¬G → ¬A18)": {
+        "formal": "(¬G → ¬A18)",
+        "prover9": "(-G -> -A18)",
+        "prover9_expression": "(-safe_to_drive(vehicle) -> -emergency_power_enabled(vehicle))",
+        "natural": "In case it is not safe to drive the vehicle, emergency power is not enabled for the vehicle."
+      },
+      "A33": {
+        "formal": "A33",
+        "prover9": "A33",
+        "prover9_expression": "system_online(breathalyzer)",
+        "natural": "The breathalyzer system is online."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "safe_to_drive(vehicle)",
+        "natural": "It is safe to drive the vehicle."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-override_authorized(driver)",
+        "natural": "Override is not authorized for the driver."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-false_positive_detected(system)",
+        "natural": "A false positive has not been detected by the system."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-system_failure_detected(breathalyzer)",
+        "natural": "A system failure is not detected in the breathalyzer."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-remote_monitoring_active(system)",
+        "natural": "Remote monitoring is not active for the system."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-monitoring_disabled(system)",
+        "natural": "Monitoring is not disabled for the system."
+      },
+      "¬A24": {
+        "formal": "¬A24",
+        "prover9": "-A24",
+        "prover9_expression": "-system_lockout_engaged(vehicle)",
+        "natural": "System lockout is not engaged for the vehicle."
+      },
+      "¬A25": {
+        "formal": "¬A25",
+        "prover9": "-A25",
+        "prover9_expression": "-law_enforcement_contacted(system)",
+        "natural": "Law enforcement has not been contacted by the system."
+      },
+      "¬A26": {
+        "formal": "¬A26",
+        "prover9": "-A26",
+        "prover9_expression": "-autonomous_response_initiated(system)",
+        "natural": "An autonomous response is not initiated by the system."
+      },
+      "¬A27": {
+        "formal": "¬A27",
+        "prover9": "-A27",
+        "prover9_expression": "-vehicle_immobilized(vehicle)",
+        "natural": "The vehicle is not immobilized."
+      },
+      "¬A28": {
+        "formal": "¬A28",
+        "prover9": "-A28",
+        "prover9_expression": "-safety_mode_engaged(vehicle)",
+        "natural": "Safety mode is not engaged for the vehicle."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-manual_override_enabled(driver)",
+        "natural": "Manual override is not enabled for the driver."
+      },
+      "¬A32": {
+        "formal": "¬A32",
+        "prover9": "-A32",
+        "prover9_expression": "-manual_control_available(vehicle)",
+        "natural": "Manual control is not available for the vehicle."
+      },
+      "¬A40": {
+        "formal": "¬A40",
+        "prover9": "-A40",
+        "prover9_expression": "-system_reset_required(vehicle)",
+        "natural": "A system reset is not required for the vehicle."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-calibration_required(breathalyzer)",
+        "natural": "Calibration is not required for the breathalyzer."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-ignition_disabled(vehicle)",
+        "natural": "The vehicle ignition is not disabled."
+      }
+    }
+  }
+}

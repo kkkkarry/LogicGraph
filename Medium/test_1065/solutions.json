@@ -1,0 +1,861 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 11
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(pure(material) -> sterile(material))",
+              "natural": "If the material is pure, then it is sterile."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A5 -> -A3)",
+              "prover9_expression": "(sterile(material) -> -contaminated(material))",
+              "natural": "Under the condition that the material is sterile, it is not the case that the material is contaminated."
+            }
+          ],
+          "conclusion": "(A4 -> -A3)",
+          "natural": "Whenever the material is pure, the material is not contaminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(-A2 -> A4)",
+              "prover9_expression": "(-approved(fda, process) -> pure(material))",
+              "natural": "Provided that it is not the case that the FDA approves the process, the material is pure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> -A3)",
+              "prover9_expression": "(pure(material) -> -contaminated(material))",
+              "natural": "Whenever the material is pure, the material is not contaminated."
+            }
+          ],
+          "conclusion": "(-A2 -> -A3)",
+          "natural": "Under the condition that it is not the case that the FDA approves the process, it is not the case that the material is contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(-A2 -> A3)",
+              "prover9_expression": "(-approved(fda, process) -> contaminated(material))",
+              "natural": "If it is not the case that the FDA approves the process, then the material is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A2 -> -A3)",
+              "prover9_expression": "(-approved(fda, process) -> -contaminated(material))",
+              "natural": "Under the condition that it is not the case that the FDA approves the process, it is not the case that the material is contaminated."
+            }
+          ],
+          "conclusion": "A2",
+          "natural": "The FDA approves the process."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(approved(fda, process) -> -produces(company, compound))",
+              "natural": "Whenever the FDA approves the process, it is not the case that the company produces the compound."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A2",
+              "prover9_expression": "approved(fda, process)",
+              "natural": "The FDA approves the process."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the company produces the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(produces(company, compound) | safe_for_human_use(product))",
+              "natural": "Either the company produces the compound or the product is safe for human use."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-produces(company, compound)",
+              "natural": "It is not the case that the company produces the compound."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> A13)",
+              "prover9_expression": "(has_regulatory_approval(product) -> market_ready(product))",
+              "natural": "Under the condition that the product has regulatory approval, the product is market ready."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> (A10 | (A9 -> (A6 -> G))))",
+              "prover9_expression": "(market_ready(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+              "natural": "Whenever the product is market ready, either it meets specifications or, under the condition that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+            }
+          ],
+          "conclusion": "(A11 -> (A10 | (A9 -> (A6 -> G))))",
+          "natural": "If the product has regulatory approval, then either it meets specifications or, whenever the lab follows GMP protocols, whenever the batch passes the quality check, the product is safe for human use."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(has_regulatory_approval(product) | passes_validation_study(product))",
+              "natural": "Either the product has regulatory approval or it passes the validation study."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> (A10 | (A9 -> (A6 -> G))))",
+              "prover9_expression": "(has_regulatory_approval(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+              "natural": "If the product has regulatory approval, then either it meets specifications or, whenever the lab follows GMP protocols, whenever the batch passes the quality check, the product is safe for human use."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> (A10 | (A9 -> (A6 -> G))))",
+              "prover9_expression": "(passes_validation_study(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+              "natural": "If the product passes the validation study, then either it meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+            }
+          ],
+          "conclusion": "(A10 | (A9 -> (A6 -> G)))",
+          "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (A9 -> (A6 -> G)))",
+              "prover9_expression": "(meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product))))",
+              "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A10",
+              "prover9_expression": "-meets_specifications(product)",
+              "natural": "It is not the case that the product meets specifications."
+            }
+          ],
+          "conclusion": "(A9 -> (A6 -> G))",
+          "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(uses_sterile_equipment(lab) | follows_gmp_protocols(lab))",
+              "natural": "Either the lab uses sterile equipment or the lab follows GMP protocols."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A8 -> (A6 -> G))",
+              "prover9_expression": "(uses_sterile_equipment(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+              "natural": "If the lab uses sterile equipment, then if the batch passes the quality check, the product is safe for human use."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A6 -> G))",
+              "prover9_expression": "(follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+              "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(passes_quality_check(batch) | fails_quality_check(batch))",
+              "natural": "Either the batch passes the quality check or the batch fails the quality check."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(passes_quality_check(batch) -> safe_for_human_use(product))",
+              "natural": "If the batch passes the quality check, then the product is safe for human use."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(fails_quality_check(batch) -> safe_for_human_use(product))",
+              "natural": "Provided that the batch fails the quality check, the product is safe for human use."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(-A17 -> A18)",
+              "prover9_expression": "(-scheduled_for_retest(batch) -> discarded(batch))",
+              "natural": "If it is not the case that the batch is scheduled for retest, then the batch is discarded."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(-A17 -> -A18)",
+              "prover9_expression": "(-scheduled_for_retest(batch) -> -discarded(batch))",
+              "natural": "Whenever it is not the case that the batch is scheduled for retest, it is not the case that the batch is discarded."
+            }
+          ],
+          "conclusion": "A17",
+          "natural": "The batch is scheduled for retest."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> (A16 -> -A15))",
+              "prover9_expression": "(scheduled_for_retest(batch) -> (fails_final_test(batch) -> -requires_reprocessing(batch)))",
+              "natural": "If the batch is scheduled for retest, then if the batch fails the final test, the batch does not require reprocessing."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A17",
+              "prover9_expression": "scheduled_for_retest(batch)",
+              "natural": "The batch is scheduled for retest."
+            }
+          ],
+          "conclusion": "(A16 -> -A15)",
+          "natural": "Provided that the batch fails the final test, it is not the case that the batch requires reprocessing."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(A14 -> G) -> A16)",
+              "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> fails_final_test(batch))",
+              "natural": "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch fails the final test."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> -A15)",
+              "prover9_expression": "(fails_final_test(batch) -> -requires_reprocessing(batch))",
+              "natural": "Provided that the batch fails the final test, it is not the case that the batch requires reprocessing."
+            }
+          ],
+          "conclusion": "(-(A14 -> G) -> -A15)",
+          "natural": "Provided that it is not the case that if the batch undergoes final testing then the product is safe for human use, it is not the case that the batch requires reprocessing."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A14 -> G) -> A15)",
+              "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> requires_reprocessing(batch))",
+              "natural": "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch requires reprocessing."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A14 -> G) -> -A15)",
+              "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> -requires_reprocessing(batch))",
+              "natural": "Provided that it is not the case that if the batch undergoes final testing then the product is safe for human use, it is not the case that the batch requires reprocessing."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "If the batch undergoes final testing, then the product is safe for human use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(undergoes_final_testing(batch) -> safe_for_human_use(product))",
+              "natural": "If the batch undergoes final testing, then the product is safe for human use."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A14",
+              "prover9_expression": "undergoes_final_testing(batch)",
+              "natural": "The batch undergoes final testing."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(supervisor_approves(supervisor) | director_approves(director))",
+              "natural": "Either the supervisor approves or the director approves."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A25 -> (-A23 -> A24))",
+              "prover9_expression": "(supervisor_approves(supervisor) -> (-release_authorized(quality_manager) -> released(product)))",
+              "natural": "If the supervisor approves, then if it is not the case that the quality manager authorizes release, the product is released."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> (-A23 -> A24))",
+              "prover9_expression": "(director_approves(director) -> (-release_authorized(quality_manager) -> released(product)))",
+              "natural": "Under the condition that the director approves, if it is not the case that the quality manager authorizes release, the product is released."
+            }
+          ],
+          "conclusion": "(-A23 -> A24)",
+          "natural": "If it is not the case that the quality manager authorizes release, then the product is released."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A23 -> A24)",
+              "prover9_expression": "(-release_authorized(quality_manager) -> released(product))",
+              "natural": "If it is not the case that the quality manager authorizes release, then the product is released."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(-A23 -> -A24)",
+              "prover9_expression": "(-release_authorized(quality_manager) -> -released(product))",
+              "natural": "Whenever it is not the case that the quality manager authorizes release, it is not the case that the product is released."
+            }
+          ],
+          "conclusion": "A23",
+          "natural": "The quality manager authorizes release."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A23 -> (A21 | A22))",
+              "prover9_expression": "(release_authorized(quality_manager) -> (labeled_correctly(product) | documented_properly(product)))",
+              "natural": "If the quality manager authorizes release, then either the product is labeled correctly or it is documented properly."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A23",
+              "prover9_expression": "release_authorized(quality_manager)",
+              "natural": "The quality manager authorizes release."
+            }
+          ],
+          "conclusion": "(A21 | A22)",
+          "natural": "Either the product is labeled correctly or it is documented properly."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A21 -> A19)",
+              "prover9_expression": "(labeled_correctly(product) -> packaged(product))",
+              "natural": "If the product is labeled correctly, then it is packaged."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A22 -> A20)",
+              "prover9_expression": "(documented_properly(product) -> shipped(product))",
+              "natural": "Provided that the product is documented properly, the product is shipped."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 | A22)",
+              "prover9_expression": "(labeled_correctly(product) | documented_properly(product))",
+              "natural": "Either the product is labeled correctly or it is documented properly."
+            }
+          ],
+          "conclusion": "(A19 | A20)",
+          "natural": "Either the product is packaged or the product is shipped."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 | A20)",
+              "prover9_expression": "(packaged(product) | shipped(product))",
+              "natural": "Either the product is packaged or the product is shipped."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A19 -> G)",
+              "prover9_expression": "(packaged(product) -> safe_for_human_use(product))",
+              "natural": "If the product is packaged, then it is safe for human use."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(shipped(product) -> safe_for_human_use(product))",
+              "natural": "Under the condition that the product is shipped, the product is safe for human use."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-(A34 -> A31) -> A35)",
+              "prover9_expression": "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> infringement_occurred(competitor))",
+              "natural": "If it is not the case that if the company secures intellectual property then the company has exclusive rights, then infringement occurs by the competitor."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(-(A34 -> A31) -> -A35)",
+              "prover9_expression": "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> -infringement_occurred(competitor))",
+              "natural": "Under the condition that it is not the case that if the company secures intellectual property then the company has exclusive rights, it is not the case that infringement occurs by the competitor."
+            }
+          ],
+          "conclusion": "(A34 -> A31)",
+          "natural": "Under the condition that the company secures intellectual property, the company has exclusive rights."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A32 -> A34)",
+              "prover9_expression": "(patents_filed(company) -> intellectual_property_secured(company))",
+              "natural": "Whenever the company files the patents, the company secures intellectual property."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A34 -> A31)",
+              "prover9_expression": "(intellectual_property_secured(company) -> exclusive_rights(company))",
+              "natural": "Under the condition that the company secures intellectual property, the company has exclusive rights."
+            }
+          ],
+          "conclusion": "(A32 -> A31)",
+          "natural": "Provided that the company files the patents, the company has exclusive rights."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A32 -> A31)",
+              "prover9_expression": "(patents_filed(company) -> exclusive_rights(company))",
+              "natural": "Provided that the company files the patents, the company has exclusive rights."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A33 -> -A30)",
+              "prover9_expression": "(trade_secret_protected(formula) -> -patent_granted(invention))",
+              "natural": "If the formula is protected as a trade secret, then it is not the case that the patent is granted for the invention."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A32 | A33)",
+              "prover9_expression": "(patents_filed(company) | trade_secret_protected(formula))",
+              "natural": "Either the company files the patents or the formula is protected as a trade secret."
+            }
+          ],
+          "conclusion": "(A31 | -A30)",
+          "natural": "Either the company has exclusive rights or it is not the case that the patent is granted for the invention."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A31 | -A30)",
+              "prover9_expression": "(exclusive_rights(company) | -patent_granted(invention))",
+              "natural": "Either the company has exclusive rights or it is not the case that the patent is granted for the invention."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A31",
+              "prover9_expression": "-exclusive_rights(company)",
+              "natural": "It is not the case that the company has exclusive rights."
+            }
+          ],
+          "conclusion": "-A30",
+          "natural": "It is not the case that the patent is granted for the invention."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A30 | A29)",
+              "prover9_expression": "(patent_granted(invention) | regulatory_submission_filed(company))",
+              "natural": "Either the patent is granted for the invention or the company files the regulatory submission."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A30",
+              "prover9_expression": "-patent_granted(invention)",
+              "natural": "It is not the case that the patent is granted for the invention."
+            }
+          ],
+          "conclusion": "A29",
+          "natural": "The company files the regulatory submission."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A29 -> (-A27 -> A28))",
+              "prover9_expression": "(regulatory_submission_filed(company) -> (-clinical_trial_successful(drug) -> phase_iii_complete(drug)))",
+              "natural": "If the company files the regulatory submission, then if it is not the case that the clinical trial for the drug is successful, Phase III for the drug is complete."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A29",
+              "prover9_expression": "regulatory_submission_filed(company)",
+              "natural": "The company files the regulatory submission."
+            }
+          ],
+          "conclusion": "(-A27 -> A28)",
+          "natural": "If it is not the case that the clinical trial for the drug is successful, then Phase III for the drug is complete."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A27 -> A28)",
+              "prover9_expression": "(-clinical_trial_successful(drug) -> phase_iii_complete(drug))",
+              "natural": "If it is not the case that the clinical trial for the drug is successful, then Phase III for the drug is complete."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(-A27 -> -A28)",
+              "prover9_expression": "(-clinical_trial_successful(drug) -> -phase_iii_complete(drug))",
+              "natural": "Provided that it is not the case that the clinical trial for the drug is successful, it is not the case that Phase III for the drug is complete."
+            }
+          ],
+          "conclusion": "A27",
+          "natural": "The clinical trial for the drug is successful."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A27 -> (A10 | (A9 -> (A6 -> G))))",
+              "prover9_expression": "(clinical_trial_successful(drug) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+              "natural": "If the clinical trial for the drug is successful, then either the product meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A27",
+              "prover9_expression": "clinical_trial_successful(drug)",
+              "natural": "The clinical trial for the drug is successful."
+            }
+          ],
+          "conclusion": "(A10 | (A9 -> (A6 -> G)))",
+          "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (A9 -> (A6 -> G)))",
+              "prover9_expression": "(meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product))))",
+              "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A10",
+              "prover9_expression": "-meets_specifications(product)",
+              "natural": "It is not the case that the product meets specifications."
+            }
+          ],
+          "conclusion": "(A9 -> (A6 -> G))",
+          "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(uses_sterile_equipment(lab) | follows_gmp_protocols(lab))",
+              "natural": "Either the lab uses sterile equipment or the lab follows GMP protocols."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A8 -> (A6 -> G))",
+              "prover9_expression": "(uses_sterile_equipment(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+              "natural": "If the lab uses sterile equipment, then if the batch passes the quality check, the product is safe for human use."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A6 -> G))",
+              "prover9_expression": "(follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+              "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(passes_quality_check(batch) | fails_quality_check(batch))",
+              "natural": "Either the batch passes the quality check or the batch fails the quality check."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(passes_quality_check(batch) -> safe_for_human_use(product))",
+              "natural": "If the batch passes the quality check, then the product is safe for human use."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(fails_quality_check(batch) -> safe_for_human_use(product))",
+              "natural": "Provided that the batch fails the quality check, the product is safe for human use."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A39 | (A38 -> A37))",
+              "prover9_expression": "(recall_issued(product) | (supply_chain_disrupted(distributor) -> stock_available(product)))",
+              "natural": "Either a recall is issued for the product or, if the supply chain is disrupted at the distributor, the product is available in stock."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A39",
+              "prover9_expression": "-recall_issued(product)",
+              "natural": "It is not the case that a recall is issued for the product."
+            }
+          ],
+          "conclusion": "(A38 -> A37)",
+          "natural": "Provided that the supply chain is disrupted at the distributor, the product is available in stock."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(-A36 -> A38)",
+              "prover9_expression": "(-inventory_managed(warehouse) -> supply_chain_disrupted(distributor))",
+              "natural": "If it is not the case that the warehouse manages inventory, then the supply chain is disrupted at the distributor."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> A37)",
+              "prover9_expression": "(supply_chain_disrupted(distributor) -> stock_available(product))",
+              "natural": "Provided that the supply chain is disrupted at the distributor, the product is available in stock."
+            }
+          ],
+          "conclusion": "(-A36 -> A37)",
+          "natural": "Under the condition that it is not the case that the warehouse manages inventory, the product is available in stock."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A36 -> A37)",
+              "prover9_expression": "(-inventory_managed(warehouse) -> stock_available(product))",
+              "natural": "Under the condition that it is not the case that the warehouse manages inventory, the product is available in stock."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A37",
+              "prover9_expression": "-stock_available(product)",
+              "natural": "It is not the case that the product is available in stock."
+            }
+          ],
+          "conclusion": "A36",
+          "natural": "The warehouse manages inventory."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A36 -> (A19 | A20))",
+              "prover9_expression": "(inventory_managed(warehouse) -> (packaged(product) | shipped(product)))",
+              "natural": "If the warehouse manages inventory, then either the product is packaged or the product is shipped."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A36",
+              "prover9_expression": "inventory_managed(warehouse)",
+              "natural": "The warehouse manages inventory."
+            }
+          ],
+          "conclusion": "(A19 | A20)",
+          "natural": "Either the product is packaged or the product is shipped."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 | A20)",
+              "prover9_expression": "(packaged(product) | shipped(product))",
+              "natural": "Either the product is packaged or the product is shipped."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A19 -> G)",
+              "prover9_expression": "(packaged(product) -> safe_for_human_use(product))",
+              "natural": "If the product is packaged, then it is safe for human use."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A20 -> G)",
+              "prover9_expression": "(shipped(product) -> safe_for_human_use(product))",
+              "natural": "Under the condition that the product is shipped, the product is safe for human use."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    }
+  ]
+}

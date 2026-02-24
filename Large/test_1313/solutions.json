@@ -1,0 +1,1419 @@
+{
+  "solution_stats": {
+    "total_solutions": 9,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 10
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule47",
+              "prover9": "(A6 | A5)",
+              "prover9_expression": "(treatment_available(drugY, diseaseX) | vaccine_approved(vaxZ, diseaseX))",
+              "natural": "Either drug Y is available as a treatment for Disease X, or Vaccine Z is approved for Disease X."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A6",
+              "prover9_expression": "-treatment_available(drugY, diseaseX)",
+              "natural": "Drug Y is not available as a treatment for Disease X."
+            }
+          ],
+          "conclusion": "A5",
+          "natural": "Vaccine Z is approved for Disease X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A5 -> (A4 | (-(A1 | A2) -> -A3)))",
+              "prover9_expression": "(vaccine_approved(vaxZ, diseaseX) -> (travel_allowed(regionAlpha) | (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))))",
+              "natural": "If Vaccine Z is approved for Disease X, then travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A5",
+              "prover9_expression": "vaccine_approved(vaxZ, diseaseX)",
+              "natural": "Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "(A4 | (-(A1 | A2) -> -A3))",
+          "natural": "Travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (-(A1 | A2) -> -A3))",
+              "prover9_expression": "(travel_allowed(regionAlpha) | (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha)))",
+              "natural": "Travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A4",
+              "prover9_expression": "-travel_allowed(regionAlpha)",
+              "natural": "Travel is not allowed in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> -A3)",
+          "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "If it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha))",
+              "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the CDC is authorized to quarantine region Alpha, then the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(authorized(WHO, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the WHO is authorized to quarantine region Alpha, the game is over for Disease X in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-(A13 -> -A11) -> A14)",
+              "prover9_expression": "(-(trial_successful(vaxZ, phase2) -> -mutation_observed(diseaseX)) -> side_effects_severe(vaxZ))",
+              "natural": "If it is not the case that (if Vaccine Z has a successful Phase 2 trial then a mutation is not observed in Disease X), then Vaccine Z has severe side effects."
+            },
+            {
+              "id": "Rule51",
+              "prover9": "(-(A13 -> -A11) -> -A14)",
+              "prover9_expression": "(-(trial_successful(vaxZ, phase2) -> -mutation_observed(diseaseX)) -> -side_effects_severe(vaxZ))",
+              "natural": "Should it not be the case that (if Vaccine Z has a successful Phase 2 trial then a mutation is not observed in Disease X), then Vaccine Z does not have severe side effects."
+            }
+          ],
+          "conclusion": "(A13 -> -A11)",
+          "natural": "Under the condition that Vaccine Z has a successful Phase 2 trial, a mutation is not observed in Disease X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(trial_successful(vaxZ, phase1) | trial_successful(vaxZ, phase2))",
+              "natural": "Either Vaccine Z has a successful Phase 1 trial, or Vaccine Z has a successful Phase 2 trial."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> -A11)",
+              "prover9_expression": "(trial_successful(vaxZ, phase1) -> -mutation_observed(diseaseX))",
+              "natural": "Whenever Vaccine Z has a successful Phase 1 trial, it is not the case that a mutation is observed in Disease X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> -A11)",
+              "prover9_expression": "(trial_successful(vaxZ, phase2) -> -mutation_observed(diseaseX))",
+              "natural": "Under the condition that Vaccine Z has a successful Phase 2 trial, a mutation is not observed in Disease X."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that a mutation is observed in Disease X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule55",
+              "prover9": "(-(A9 | A10) -> A11)",
+              "prover9_expression": "(-(surveillance_active(regionAlpha) | lab_confirmed(diseaseX, regionAlpha)) -> mutation_observed(diseaseX))",
+              "natural": "If it is not the case that either surveillance is active in region Alpha or Disease X is lab‑confirmed in region Alpha, a mutation is observed in Disease X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-mutation_observed(diseaseX)",
+              "natural": "It is not the case that a mutation is observed in Disease X."
+            }
+          ],
+          "conclusion": "(A9 | A10)",
+          "natural": "Either surveillance is active in region Alpha, or Disease X is lab‑confirmed in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule48",
+              "prover9": "(A9 -> A8)",
+              "prover9_expression": "(surveillance_active(regionAlpha) -> emergency_declared(regionAlpha))",
+              "natural": "In case surveillance is active in region Alpha, an emergency is declared in region Alpha."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (A7 -> G))",
+              "prover9_expression": "(lab_confirmed(diseaseX, regionAlpha) -> (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha)))",
+              "natural": "Provided that Disease X is lab‑confirmed in region Alpha, then if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(surveillance_active(regionAlpha) | lab_confirmed(diseaseX, regionAlpha))",
+              "natural": "Either surveillance is active in region Alpha, or Disease X is lab‑confirmed in region Alpha."
+            }
+          ],
+          "conclusion": "(A8 | (A7 -> G))",
+          "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | (A7 -> G))",
+              "prover9_expression": "(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha)))",
+              "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A8",
+              "prover9_expression": "-emergency_declared(regionAlpha)",
+              "natural": "An emergency is not declared in region Alpha."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A7",
+              "prover9_expression": "pathogen_detected(diseaseX, regionAlpha)",
+              "natural": "The pathogen of Disease X is detected in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A23 | (-(A21 -> (A18 -> (A16 -> A15))) -> -A22))",
+              "prover9_expression": "(misinformation_spreading(regionAlpha) | (-(neighboring_regions_assist(regionAlpha) -> (icu_beds_critical(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha)))) -> -international_aid_requested(regionAlpha)))",
+              "natural": "Either misinformation is spreading in region Alpha, or if it is not the case that (neighboring regions assist region Alpha implies that if ICU beds are critical, then a curfew being imposed leads to a lockdown), then international aid is not requested by region Alpha."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A23",
+              "prover9_expression": "-misinformation_spreading(regionAlpha)",
+              "natural": "Misinformation is not spreading in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A21 -> (A18 -> (A16 -> A15))) -> -A22)",
+          "natural": "Under the condition that it is not the case that (neighboring regions assist region Alpha implies that if ICU beds are critical, then a curfew being imposed leads to a lockdown), international aid is not requested by region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule52",
+              "prover9": "(-(A21 -> (A18 -> (A16 -> A15))) -> A22)",
+              "prover9_expression": "(-(neighboring_regions_assist(regionAlpha) -> (icu_beds_critical(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha)))) -> international_aid_requested(regionAlpha))",
+              "natural": "If it is not the case that (neighboring regions assist region Alpha implies that if ICU beds are critical, then a curfew being imposed leads to a lockdown), then international aid is requested by region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A21 -> (A18 -> (A16 -> A15))) -> -A22)",
+              "prover9_expression": "(-(neighboring_regions_assist(regionAlpha) -> (icu_beds_critical(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha)))) -> -international_aid_requested(regionAlpha))",
+              "natural": "Under the condition that it is not the case that (neighboring regions assist region Alpha implies that if ICU beds are critical, then a curfew being imposed leads to a lockdown), international aid is not requested by region Alpha."
+            }
+          ],
+          "conclusion": "(A21 -> (A18 -> (A16 -> A15)))",
+          "natural": "Given that neighboring regions assist region Alpha, then if ICU beds are critical in region Alpha, whenever a curfew is imposed, a lockdown is ordered in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A20 -> A19)",
+              "prover9_expression": "(federal_aid_received(regionAlpha) -> field_hospital_built(regionAlpha))",
+              "natural": "Should federal aid be received by region Alpha, then a field hospital is built in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> (A18 -> (A16 -> A15)))",
+              "prover9_expression": "(neighboring_regions_assist(regionAlpha) -> (icu_beds_critical(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha))))",
+              "natural": "Given that neighboring regions assist region Alpha, then if ICU beds are critical in region Alpha, whenever a curfew is imposed, a lockdown is ordered in region Alpha."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A20 | A21)",
+              "prover9_expression": "(federal_aid_received(regionAlpha) | neighboring_regions_assist(regionAlpha))",
+              "natural": "Either federal aid is received by region Alpha, or neighboring regions assist region Alpha."
+            }
+          ],
+          "conclusion": "(A19 | (A18 -> (A16 -> A15)))",
+          "natural": "Either a field hospital is built in region Alpha, or if ICU beds are critical in region Alpha, then when a curfew is imposed, a lockdown is ordered in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 | (A18 -> (A16 -> A15)))",
+              "prover9_expression": "(field_hospital_built(regionAlpha) | (icu_beds_critical(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha))))",
+              "natural": "Either a field hospital is built in region Alpha, or if ICU beds are critical in region Alpha, then when a curfew is imposed, a lockdown is ordered in region Alpha."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A19",
+              "prover9_expression": "-field_hospital_built(regionAlpha)",
+              "natural": "A field hospital is not built in region Alpha."
+            }
+          ],
+          "conclusion": "(A18 -> (A16 -> A15))",
+          "natural": "Provided that ICU beds are critical in region Alpha, then if a curfew is imposed, a lockdown is ordered in region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A17 | A18)",
+              "prover9_expression": "(hospital_capacity_full(regionAlpha) | icu_beds_critical(regionAlpha))",
+              "natural": "Either hospital capacity is full in region Alpha, or ICU beds are critical in region Alpha."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A17 -> (A16 -> A15))",
+              "prover9_expression": "(hospital_capacity_full(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha)))",
+              "natural": "In case hospital capacity is full in region Alpha, then if a curfew is imposed, a lockdown is ordered in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A16 -> A15))",
+              "prover9_expression": "(icu_beds_critical(regionAlpha) -> (curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha)))",
+              "natural": "Provided that ICU beds are critical in region Alpha, then if a curfew is imposed, a lockdown is ordered in region Alpha."
+            }
+          ],
+          "conclusion": "(A16 -> A15)",
+          "natural": "If a curfew is imposed in region Alpha, then a lockdown is ordered in region Alpha."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule56",
+              "prover9": "(-G -> A16)",
+              "prover9_expression": "(-game_over(diseaseX, regionAlpha) -> curfew_imposed(regionAlpha))",
+              "natural": "If the game is not over for Disease X in region Alpha, a curfew is imposed in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(curfew_imposed(regionAlpha) -> lockdown_ordered(regionAlpha))",
+              "natural": "If a curfew is imposed in region Alpha, then a lockdown is ordered in region Alpha."
+            }
+          ],
+          "conclusion": "(-G -> A15)",
+          "natural": "Provided that the game is not over for Disease X in region Alpha, a lockdown is ordered in region Alpha."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A15)",
+              "prover9_expression": "(-game_over(diseaseX, regionAlpha) -> lockdown_ordered(regionAlpha))",
+              "natural": "Provided that the game is not over for Disease X in region Alpha, a lockdown is ordered in region Alpha."
+            },
+            {
+              "id": "Rule57",
+              "prover9": "(-G -> -A15)",
+              "prover9_expression": "(-game_over(diseaseX, regionAlpha) -> -lockdown_ordered(regionAlpha))",
+              "natural": "Under the condition that the game is not over for Disease X in region Alpha, a lockdown is not ordered in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A31 -> A33)",
+              "prover9_expression": "(public_awareness_campaign(regionAlpha) -> hotline_established(regionAlpha))",
+              "natural": "Given that a public awareness campaign is conducted in region Alpha, a hotline is established in region Alpha."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A33 -> A29)",
+              "prover9_expression": "(hotline_established(regionAlpha) -> vaccination_sites_selected(regionAlpha))",
+              "natural": "If a hotline is established in region Alpha, then vaccination sites are selected in region Alpha."
+            }
+          ],
+          "conclusion": "(A31 -> A29)",
+          "natural": "In case a public awareness campaign is conducted in region Alpha, then vaccination sites are selected in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A31 -> A29)",
+              "prover9_expression": "(public_awareness_campaign(regionAlpha) -> vaccination_sites_selected(regionAlpha))",
+              "natural": "In case a public awareness campaign is conducted in region Alpha, then vaccination sites are selected in region Alpha."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A32 -> A30)",
+              "prover9_expression": "(community_engagement(regionAlpha) -> medical_staff_trained(regionAlpha))",
+              "natural": "Should community engagement take place in region Alpha, then medical staff are trained in region Alpha."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A31 | A32)",
+              "prover9_expression": "(public_awareness_campaign(regionAlpha) | community_engagement(regionAlpha))",
+              "natural": "A public awareness campaign is conducted in region Alpha, or community engagement takes place in region Alpha."
+            }
+          ],
+          "conclusion": "(A29 | A30)",
+          "natural": "Either vaccination sites are selected in region Alpha, or medical staff are trained in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A29 | A30)",
+              "prover9_expression": "(vaccination_sites_selected(regionAlpha) | medical_staff_trained(regionAlpha))",
+              "natural": "Either vaccination sites are selected in region Alpha, or medical staff are trained in region Alpha."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A29 -> (A28 -> (A26 -> A5)))",
+              "prover9_expression": "(vaccination_sites_selected(regionAlpha) -> (storage_facilities_ready(regionAlpha) -> (distribution_planned(vaxZ, regionAlpha) -> vaccine_approved(vaxZ, diseaseX))))",
+              "natural": "Provided that vaccination sites are selected in region Alpha, then if storage facilities are ready in region Alpha, and distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A30 -> (A28 -> (A26 -> A5)))",
+              "prover9_expression": "(medical_staff_trained(regionAlpha) -> (storage_facilities_ready(regionAlpha) -> (distribution_planned(vaxZ, regionAlpha) -> vaccine_approved(vaxZ, diseaseX))))",
+              "natural": "If medical staff are trained in region Alpha, then if storage facilities are ready in region Alpha, and distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "(A28 -> (A26 -> A5))",
+          "natural": "Under the condition that storage facilities are ready in region Alpha, then if distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A27 | A28)",
+              "prover9_expression": "(cold_chain_established(regionAlpha) | storage_facilities_ready(regionAlpha))",
+              "natural": "Either a cold chain is established in region Alpha, or storage facilities are ready in region Alpha."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A27 -> (A26 -> A5))",
+              "prover9_expression": "(cold_chain_established(regionAlpha) -> (distribution_planned(vaxZ, regionAlpha) -> vaccine_approved(vaxZ, diseaseX)))",
+              "natural": "If a cold chain is established in region Alpha, then if distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A28 -> (A26 -> A5))",
+              "prover9_expression": "(storage_facilities_ready(regionAlpha) -> (distribution_planned(vaxZ, regionAlpha) -> vaccine_approved(vaxZ, diseaseX)))",
+              "natural": "Under the condition that storage facilities are ready in region Alpha, then if distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "(A26 -> A5)",
+          "natural": "Whenever distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A25 -> A26)",
+              "prover9_expression": "(manufacturing_begun(vaxZ, plantB) -> distribution_planned(vaxZ, regionAlpha))",
+              "natural": "Provided that manufacturing of Vaccine Z begins at Plant B, distribution of Vaccine Z is planned for region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A26 -> A5)",
+              "prover9_expression": "(distribution_planned(vaxZ, regionAlpha) -> vaccine_approved(vaxZ, diseaseX))",
+              "natural": "Whenever distribution of Vaccine Z is planned for region Alpha, Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "(A25 -> A5)",
+          "natural": "Should manufacturing of Vaccine Z begin at Plant B, then Vaccine Z is approved for Disease X."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A24 | A25)",
+              "prover9_expression": "(manufacturing_begun(vaxZ, plantA) | manufacturing_begun(vaxZ, plantB))",
+              "natural": "Manufacturing of Vaccine Z begins at Plant A, or manufacturing of Vaccine Z begins at Plant B."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A24 -> A5)",
+              "prover9_expression": "(manufacturing_begun(vaxZ, plantA) -> vaccine_approved(vaxZ, diseaseX))",
+              "natural": "If manufacturing of Vaccine Z begins at Plant A, then Vaccine Z is approved for Disease X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> A5)",
+              "prover9_expression": "(manufacturing_begun(vaxZ, plantB) -> vaccine_approved(vaxZ, diseaseX))",
+              "natural": "Should manufacturing of Vaccine Z begin at Plant B, then Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "A5",
+          "natural": "Vaccine Z is approved for Disease X."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A5 -> (A4 | (-(A1 | A2) -> -A3)))",
+              "prover9_expression": "(vaccine_approved(vaxZ, diseaseX) -> (travel_allowed(regionAlpha) | (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))))",
+              "natural": "If Vaccine Z is approved for Disease X, then travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A5",
+              "prover9_expression": "vaccine_approved(vaxZ, diseaseX)",
+              "natural": "Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "(A4 | (-(A1 | A2) -> -A3))",
+          "natural": "Travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (-(A1 | A2) -> -A3))",
+              "prover9_expression": "(travel_allowed(regionAlpha) | (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha)))",
+              "natural": "Travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A4",
+              "prover9_expression": "-travel_allowed(regionAlpha)",
+              "natural": "Travel is not allowed in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> -A3)",
+          "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "If it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha))",
+              "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the CDC is authorized to quarantine region Alpha, then the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(authorized(WHO, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the WHO is authorized to quarantine region Alpha, the game is over for Disease X in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A39 | (A38 -> (A36 -> A34)))",
+              "prover9_expression": "(distribution_delayed(vaxZ) | (long_term_study_launched(vaxZ) -> (regulatory_review_passed(vaxZ) -> efficacy_high(vaxZ, diseaseX))))",
+              "natural": "Either distribution of Vaccine Z is delayed, or if a long‑term study for Vaccine Z is launched, then provided that Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A39",
+              "prover9_expression": "-distribution_delayed(vaxZ)",
+              "natural": "Distribution of Vaccine Z is not delayed."
+            }
+          ],
+          "conclusion": "(A38 -> (A36 -> A34))",
+          "natural": "In case a long‑term study for Vaccine Z is launched, then if Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A37 -> A38)",
+              "prover9_expression": "(safety_profile_good(vaxZ) -> long_term_study_launched(vaxZ))",
+              "natural": "Should Vaccine Z have a good safety profile, a long‑term study for Vaccine Z is launched."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> (A36 -> A34))",
+              "prover9_expression": "(long_term_study_launched(vaxZ) -> (regulatory_review_passed(vaxZ) -> efficacy_high(vaxZ, diseaseX)))",
+              "natural": "In case a long‑term study for Vaccine Z is launched, then if Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+            }
+          ],
+          "conclusion": "(A37 -> (A36 -> A34))",
+          "natural": "If Vaccine Z has a good safety profile, then if Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A37 -> (A36 -> A34))",
+              "prover9_expression": "(safety_profile_good(vaxZ) -> (regulatory_review_passed(vaxZ) -> efficacy_high(vaxZ, diseaseX)))",
+              "natural": "If Vaccine Z has a good safety profile, then if Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A37",
+              "prover9_expression": "safety_profile_good(vaxZ)",
+              "natural": "Vaccine Z has a good safety profile."
+            }
+          ],
+          "conclusion": "(A36 -> A34)",
+          "natural": "Under the condition that Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A35 | A36)",
+              "prover9_expression": "(peer_review_published(vaxZ) | regulatory_review_passed(vaxZ))",
+              "natural": "Either peer‑reviewed results for Vaccine Z are published, or Vaccine Z passes regulatory review."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A35 -> A34)",
+              "prover9_expression": "(peer_review_published(vaxZ) -> efficacy_high(vaxZ, diseaseX))",
+              "natural": "Provided that peer‑reviewed results for Vaccine Z are published, Vaccine Z has high efficacy against Disease X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> A34)",
+              "prover9_expression": "(regulatory_review_passed(vaxZ) -> efficacy_high(vaxZ, diseaseX))",
+              "natural": "Under the condition that Vaccine Z passes regulatory review, Vaccine Z has high efficacy against Disease X."
+            }
+          ],
+          "conclusion": "A34",
+          "natural": "Vaccine Z has high efficacy against Disease X."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A34 -> A5)",
+              "prover9_expression": "(efficacy_high(vaxZ, diseaseX) -> vaccine_approved(vaxZ, diseaseX))",
+              "natural": "Whenever Vaccine Z has high efficacy against Disease X, Vaccine Z is approved for Disease X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A34",
+              "prover9_expression": "efficacy_high(vaxZ, diseaseX)",
+              "natural": "Vaccine Z has high efficacy against Disease X."
+            }
+          ],
+          "conclusion": "A5",
+          "natural": "Vaccine Z is approved for Disease X."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A5 -> (A4 | (-(A1 | A2) -> -A3)))",
+              "prover9_expression": "(vaccine_approved(vaxZ, diseaseX) -> (travel_allowed(regionAlpha) | (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))))",
+              "natural": "If Vaccine Z is approved for Disease X, then travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A5",
+              "prover9_expression": "vaccine_approved(vaxZ, diseaseX)",
+              "natural": "Vaccine Z is approved for Disease X."
+            }
+          ],
+          "conclusion": "(A4 | (-(A1 | A2) -> -A3))",
+          "natural": "Travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (-(A1 | A2) -> -A3))",
+              "prover9_expression": "(travel_allowed(regionAlpha) | (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha)))",
+              "natural": "Travel is allowed in region Alpha, or if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A4",
+              "prover9_expression": "-travel_allowed(regionAlpha)",
+              "natural": "Travel is not allowed in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> -A3)",
+          "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "If it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha))",
+              "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the CDC is authorized to quarantine region Alpha, then the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(authorized(WHO, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the WHO is authorized to quarantine region Alpha, the game is over for Disease X in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A40 -> A43)",
+              "prover9_expression": "(quarantine_violated(regionAlpha) -> fines_issued(regionAlpha))",
+              "natural": "Should quarantine be violated in region Alpha, fines are issued in region Alpha."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(A43 -> A42)",
+              "prover9_expression": "(fines_issued(regionAlpha) -> legal_action_taken(regionAlpha))",
+              "natural": "Whenever fines are issued in region Alpha, legal action is taken in region Alpha."
+            }
+          ],
+          "conclusion": "(A40 -> A42)",
+          "natural": "Provided that quarantine is violated in region Alpha, legal action is taken in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A40 -> A42)",
+              "prover9_expression": "(quarantine_violated(regionAlpha) -> legal_action_taken(regionAlpha))",
+              "natural": "Provided that quarantine is violated in region Alpha, legal action is taken in region Alpha."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A42 -> (-(A1 | A2) -> -A3))",
+              "prover9_expression": "(legal_action_taken(regionAlpha) -> (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha)))",
+              "natural": "If legal action is taken in region Alpha, then if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            }
+          ],
+          "conclusion": "(A40 -> (-(A1 | A2) -> -A3))",
+          "natural": "If quarantine is violated in region Alpha, then if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(A40 | A41)",
+              "prover9_expression": "(quarantine_violated(regionAlpha) | border_breach_detected(regionAlpha))",
+              "natural": "Either quarantine is violated in region Alpha, or a border breach is detected in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A40 -> (-(A1 | A2) -> -A3))",
+              "prover9_expression": "(quarantine_violated(regionAlpha) -> (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha)))",
+              "natural": "If quarantine is violated in region Alpha, then if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A41 -> (-(A1 | A2) -> -A3))",
+              "prover9_expression": "(border_breach_detected(regionAlpha) -> (-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha)))",
+              "natural": "In case a border breach is detected in region Alpha, then if it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> -A3)",
+          "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "If it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, then outbreak of Disease X is contained in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha)) -> -outbreak_contained(diseaseX, regionAlpha))",
+              "natural": "Provided that it is not the case that either the CDC is authorized to quarantine region Alpha or the WHO is authorized to quarantine region Alpha, outbreak of Disease X is not contained in region Alpha."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) | authorized(WHO, quarantine, regionAlpha))",
+              "natural": "Either the CDC is authorized to quarantine region Alpha, or the WHO is authorized to quarantine region Alpha."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(authorized(CDC, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the CDC is authorized to quarantine region Alpha, then the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(authorized(WHO, quarantine, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "If the WHO is authorized to quarantine region Alpha, the game is over for Disease X in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(A48 -> (A47 -> (A44 | A45)))",
+              "prover9_expression": "(response_coordinated(regionAlpha) -> (predictive_modeling_used(regionAlpha) -> (contact_tracing_intensified(regionAlpha) | mass_testing_initiated(regionAlpha))))",
+              "natural": "Given that response is coordinated in region Alpha, then if predictive modeling is used in region Alpha, either contact tracing is intensified or mass testing is initiated in region Alpha."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A48",
+              "prover9_expression": "response_coordinated(regionAlpha)",
+              "natural": "Response is coordinated in region Alpha."
+            }
+          ],
+          "conclusion": "(A47 -> (A44 | A45))",
+          "natural": "Under the condition that predictive modeling is used in region Alpha, then either contact tracing is intensified in region Alpha, or mass testing is initiated in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(A46 | A47)",
+              "prover9_expression": "(data_analysis_completed(regionAlpha) | predictive_modeling_used(regionAlpha))",
+              "natural": "Data analysis is completed in region Alpha, or predictive modeling is used in region Alpha."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(A46 -> (A44 | A45))",
+              "prover9_expression": "(data_analysis_completed(regionAlpha) -> (contact_tracing_intensified(regionAlpha) | mass_testing_initiated(regionAlpha)))",
+              "natural": "If data analysis is completed in region Alpha, then either contact tracing is intensified in region Alpha, or mass testing is initiated in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A47 -> (A44 | A45))",
+              "prover9_expression": "(predictive_modeling_used(regionAlpha) -> (contact_tracing_intensified(regionAlpha) | mass_testing_initiated(regionAlpha)))",
+              "natural": "Under the condition that predictive modeling is used in region Alpha, then either contact tracing is intensified in region Alpha, or mass testing is initiated in region Alpha."
+            }
+          ],
+          "conclusion": "(A44 | A45)",
+          "natural": "Either contact tracing is intensified in region Alpha, or mass testing is initiated in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(A44 -> A8)",
+              "prover9_expression": "(contact_tracing_intensified(regionAlpha) -> emergency_declared(regionAlpha))",
+              "natural": "Provided that contact tracing is intensified in region Alpha, an emergency is declared in region Alpha."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(A45 -> (A7 -> G))",
+              "prover9_expression": "(mass_testing_initiated(regionAlpha) -> (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha)))",
+              "natural": "Should mass testing be initiated in region Alpha, then if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A44 | A45)",
+              "prover9_expression": "(contact_tracing_intensified(regionAlpha) | mass_testing_initiated(regionAlpha))",
+              "natural": "Either contact tracing is intensified in region Alpha, or mass testing is initiated in region Alpha."
+            }
+          ],
+          "conclusion": "(A8 | (A7 -> G))",
+          "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | (A7 -> G))",
+              "prover9_expression": "(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha)))",
+              "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A8",
+              "prover9_expression": "-emergency_declared(regionAlpha)",
+              "natural": "An emergency is not declared in region Alpha."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A7",
+              "prover9_expression": "pathogen_detected(diseaseX, regionAlpha)",
+              "natural": "The pathogen of Disease X is detected in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(A52 -> (-(A8 | (A7 -> G)) -> A51))",
+              "prover9_expression": "(game_theory_model_applied(regionAlpha) -> (-(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))) -> outbreak_controlled(diseaseX, regionAlpha)))",
+              "natural": "If a game‑theory model is applied in region Alpha, then if it is not the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), outbreak of Disease X is controlled in region Alpha."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A52",
+              "prover9_expression": "game_theory_model_applied(regionAlpha)",
+              "natural": "A game‑theory model is applied in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A8 | (A7 -> G)) -> A51)",
+          "natural": "Given that it is not the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), outbreak of Disease X is controlled in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | (A7 -> G)) -> A51)",
+              "prover9_expression": "(-(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))) -> outbreak_controlled(diseaseX, regionAlpha))",
+              "natural": "Given that it is not the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), outbreak of Disease X is controlled in region Alpha."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A51 -> A50)",
+              "prover9_expression": "(outbreak_controlled(diseaseX, regionAlpha) -> new_cases_declining(regionAlpha))",
+              "natural": "Provided that outbreak of Disease X is controlled in region Alpha, new cases are declining in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A8 | (A7 -> G)) -> A50)",
+          "natural": "In case it is not the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), new cases are declining in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | (A7 -> G)) -> A50)",
+              "prover9_expression": "(-(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))) -> new_cases_declining(regionAlpha))",
+              "natural": "In case it is not the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), new cases are declining in region Alpha."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A50 -> -A49)",
+              "prover9_expression": "(new_cases_declining(regionAlpha) -> -herd_immunity_achieved(regionAlpha))",
+              "natural": "Whenever new cases are declining in region Alpha, herd immunity is not achieved in region Alpha."
+            }
+          ],
+          "conclusion": "(-(A8 | (A7 -> G)) -> -A49)",
+          "natural": "Should it not be the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), herd immunity is not achieved in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-(A8 | (A7 -> G)) -> A49)",
+              "prover9_expression": "(-(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))) -> herd_immunity_achieved(regionAlpha))",
+              "natural": "If it is not the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), herd immunity is achieved in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | (A7 -> G)) -> -A49)",
+              "prover9_expression": "(-(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))) -> -herd_immunity_achieved(regionAlpha))",
+              "natural": "Should it not be the case that either an emergency is declared in region Alpha or (if the pathogen of Disease X is detected in region Alpha then the game is over for Disease X in region Alpha), herd immunity is not achieved in region Alpha."
+            }
+          ],
+          "conclusion": "(A8 | (A7 -> G))",
+          "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | (A7 -> G))",
+              "prover9_expression": "(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha)))",
+              "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A8",
+              "prover9_expression": "-emergency_declared(regionAlpha)",
+              "natural": "An emergency is not declared in region Alpha."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A7",
+              "prover9_expression": "pathogen_detected(diseaseX, regionAlpha)",
+              "natural": "The pathogen of Disease X is detected in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(A57 -> A58)",
+              "prover9_expression": "(panic_buying_occurs(regionAlpha) -> shortages_occur(regionAlpha))",
+              "natural": "Should panic buying occur in region Alpha, shortages occur in region Alpha."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(A57 -> -A58)",
+              "prover9_expression": "(panic_buying_occurs(regionAlpha) -> -shortages_occur(regionAlpha))",
+              "natural": "If panic buying occurs in region Alpha, then shortages do not occur in region Alpha."
+            }
+          ],
+          "conclusion": "-A57",
+          "natural": "Panic buying does not occur in region Alpha."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule53",
+              "prover9": "(-(A56 -> A55) -> A57)",
+              "prover9_expression": "(-(logistics_optimized(regionAlpha) -> essential_services_maintained(regionAlpha)) -> panic_buying_occurs(regionAlpha))",
+              "natural": "Provided that it is not the case that (if logistics are optimized in region Alpha then essential services are maintained in region Alpha), panic buying occurs in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A57",
+              "prover9_expression": "-panic_buying_occurs(regionAlpha)",
+              "natural": "Panic buying does not occur in region Alpha."
+            }
+          ],
+          "conclusion": "(A56 -> A55)",
+          "natural": "Whenever logistics are optimized in region Alpha, essential services are maintained in region Alpha."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule43",
+              "prover9": "(A54 -> A56)",
+              "prover9_expression": "(supply_chain_secured(regionAlpha) -> logistics_optimized(regionAlpha))",
+              "natural": "Under the condition that the supply chain is secured for region Alpha, logistics are optimized in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A56 -> A55)",
+              "prover9_expression": "(logistics_optimized(regionAlpha) -> essential_services_maintained(regionAlpha))",
+              "natural": "Whenever logistics are optimized in region Alpha, essential services are maintained in region Alpha."
+            }
+          ],
+          "conclusion": "(A54 -> A55)",
+          "natural": "Provided that the supply chain is secured for region Alpha, essential services are maintained in region Alpha."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A54 -> A55)",
+              "prover9_expression": "(supply_chain_secured(regionAlpha) -> essential_services_maintained(regionAlpha))",
+              "natural": "Provided that the supply chain is secured for region Alpha, essential services are maintained in region Alpha."
+            },
+            {
+              "id": "Rule44",
+              "prover9": "(A55 -> (A8 | (A7 -> G)))",
+              "prover9_expression": "(essential_services_maintained(regionAlpha) -> (emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))))",
+              "natural": "If essential services are maintained in region Alpha, then either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            }
+          ],
+          "conclusion": "(A54 -> (A8 | (A7 -> G)))",
+          "natural": "Should the supply chain be secured for region Alpha, then either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule42",
+              "prover9": "(A53 | A54)",
+              "prover9_expression": "(economic_support_announced(regionAlpha) | supply_chain_secured(regionAlpha))",
+              "natural": "Either economic support is announced for region Alpha, or the supply chain is secured for region Alpha."
+            },
+            {
+              "id": "Rule41",
+              "prover9": "(A53 -> (A8 | (A7 -> G)))",
+              "prover9_expression": "(economic_support_announced(regionAlpha) -> (emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))))",
+              "natural": "In case economic support is announced for region Alpha, then either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A54 -> (A8 | (A7 -> G)))",
+              "prover9_expression": "(supply_chain_secured(regionAlpha) -> (emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))))",
+              "natural": "Should the supply chain be secured for region Alpha, then either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            }
+          ],
+          "conclusion": "(A8 | (A7 -> G))",
+          "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | (A7 -> G))",
+              "prover9_expression": "(emergency_declared(regionAlpha) | (pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha)))",
+              "natural": "Either an emergency is declared in region Alpha, or if the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A8",
+              "prover9_expression": "-emergency_declared(regionAlpha)",
+              "natural": "An emergency is not declared in region Alpha."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(pathogen_detected(diseaseX, regionAlpha) -> game_over(diseaseX, regionAlpha))",
+              "natural": "Given that the pathogen of Disease X is detected in region Alpha, the game is over for Disease X in region Alpha."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A7",
+              "prover9_expression": "pathogen_detected(diseaseX, regionAlpha)",
+              "natural": "The pathogen of Disease X is detected in region Alpha."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The game is over for Disease X in region Alpha."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,359 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "(develops(GlobalTech, AI_harvesting_system) -> implements(GlobalTech, AI_harvesting_system, California_region))",
+        "natural": "If GlobalTech develops an AI harvesting system, then GlobalTech implements the AI harvesting system in the California region."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(implements(GlobalTech, AI_harvesting_system, California_region) -> maintains(GlobalTech, regional_supply_chain))",
+        "natural": "If GlobalTech implements the AI harvesting system in the California region, then GlobalTech maintains its regional supply chain."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(experiences(California_region, drought_conditions) | experiences(California_region, labor_shortages))",
+        "natural": "The California region experiences drought conditions or the California region experiences labor shortages."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → G)",
+        "prover9_expression": "(experiences(California_region, labor_shortages) -> maintains(GlobalTech, regional_supply_chain))",
+        "natural": "If the California region experiences labor shortages, then GlobalTech maintains its regional supply chain."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A7 → A6)",
+        "prover9_expression": "(delays(GlobalTech, AI_system_deployment) -> increases(GlobalTech, manual_labor_force))",
+        "natural": "If GlobalTech delays AI system deployment, then GlobalTech increases its manual labor force."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A8 → (¬(A1 → G) → A7))",
+        "prover9_expression": "(has_policy(GlobalTech, contingency_planning) -> (-(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain)) -> delays(GlobalTech, AI_system_deployment)))",
+        "natural": "If GlobalTech has a contingency planning policy, then should GlobalTech developing an AI harvesting system fail to result in GlobalTech maintaining its regional supply chain, GlobalTech delays AI system deployment."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A1 → G) → ¬A6)",
+        "prover9_expression": "(-(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain)) -> -increases(GlobalTech, manual_labor_force))",
+        "natural": "If GlobalTech developing an AI harvesting system fails to cause GlobalTech maintaining its regional supply chain, then GlobalTech does not increase its manual labor force."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A3 → G) → A5)",
+        "prover9_expression": "(-(experiences(California_region, drought_conditions) -> maintains(GlobalTech, regional_supply_chain)) -> imports(GlobalTech, produce, Mexico))",
+        "natural": "If the California region experiencing drought conditions does not lead to GlobalTech maintaining its regional supply chain, then GlobalTech imports produce from Mexico."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "develops(GlobalTech, AI_harvesting_system)",
+        "natural": "GlobalTech develops an AI harvesting system."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A8",
+        "prover9_expression": "has_policy(GlobalTech, contingency_planning)",
+        "natural": "GlobalTech has a contingency planning policy."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A5",
+        "prover9_expression": "-imports(GlobalTech, produce, Mexico)",
+        "natural": "GlobalTech does not import produce from Mexico."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "maintains(GlobalTech, regional_supply_chain)",
+    "natural": "GlobalTech maintains its regional supply chain."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If GlobalTech develops an AI harvesting system, then GlobalTech maintains its regional supply chain."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "GlobalTech maintains its regional supply chain."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 -> G) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A3 -> G)",
+          "natural": "If the California region experiences drought conditions, then GlobalTech maintains its regional supply chain."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> G)",
+            "(A4 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "GlobalTech maintains its regional supply chain."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> (-(A1 -> G) -> A7))",
+            "A8"
+          ],
+          "conclusion": "(-(A1 -> G) -> A7)",
+          "natural": "If GlobalTech developing an AI harvesting system does not result in GlobalTech maintaining its regional supply chain, then GlobalTech delays AI system deployment."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A7)",
+            "(A7 -> A6)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A6)",
+          "natural": "If GlobalTech developing an AI harvesting system does not lead to GlobalTech maintaining its regional supply chain, then GlobalTech increases its manual labor force."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A6)",
+            "(-(A1 -> G) -> -A6)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If GlobalTech develops an AI harvesting system, then GlobalTech maintains its regional supply chain."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "GlobalTech maintains its regional supply chain."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "develops(GlobalTech, AI_harvesting_system)",
+      "A2": "implements(GlobalTech, AI_harvesting_system, California_region)",
+      "A3": "experiences(California_region, drought_conditions)",
+      "A4": "experiences(California_region, labor_shortages)",
+      "A5": "imports(GlobalTech, produce, Mexico)",
+      "A6": "increases(GlobalTech, manual_labor_force)",
+      "A7": "delays(GlobalTech, AI_system_deployment)",
+      "A8": "has_policy(GlobalTech, contingency_planning)",
+      "G": "maintains(GlobalTech, regional_supply_chain)"
+    },
+    "natural_facts": {
+      "A1": "GlobalTech develops an AI harvesting system.",
+      "A2": "GlobalTech implements the AI harvesting system in the California region.",
+      "A3": "The California region experiences drought conditions.",
+      "A4": "The California region experiences labor shortages.",
+      "A5": "GlobalTech imports produce from Mexico.",
+      "A6": "GlobalTech increases its manual labor force.",
+      "A7": "GlobalTech delays AI system deployment.",
+      "A8": "GlobalTech has a contingency planning policy.",
+      "G": "GlobalTech maintains its regional supply chain."
+    },
+    "prover9_expressions": [
+      "(develops(GlobalTech, AI_harvesting_system) → implements(GlobalTech, AI_harvesting_system, California_region))",
+      "(develops(GlobalTech, AI_harvesting_system) → maintains(GlobalTech, regional_supply_chain))",
+      "(implements(GlobalTech, AI_harvesting_system, California_region) → maintains(GlobalTech, regional_supply_chain))",
+      "(experiences(California_region, drought_conditions) → maintains(GlobalTech, regional_supply_chain))",
+      "(experiences(California_region, drought_conditions) ∨ experiences(California_region, labor_shortages))",
+      "(experiences(California_region, labor_shortages) → maintains(GlobalTech, regional_supply_chain))",
+      "(delays(GlobalTech, AI_system_deployment) → increases(GlobalTech, manual_labor_force))",
+      "(has_policy(GlobalTech, contingency_planning) → (¬(develops(GlobalTech, AI_harvesting_system) → maintains(GlobalTech, regional_supply_chain)) → delays(GlobalTech, AI_system_deployment)))",
+      "(¬(develops(GlobalTech, AI_harvesting_system) → maintains(GlobalTech, regional_supply_chain)) → increases(GlobalTech, manual_labor_force))",
+      "(¬(develops(GlobalTech, AI_harvesting_system) → maintains(GlobalTech, regional_supply_chain)) → delays(GlobalTech, AI_system_deployment))",
+      "(¬(develops(GlobalTech, AI_harvesting_system) → maintains(GlobalTech, regional_supply_chain)) → ¬increases(GlobalTech, manual_labor_force))",
+      "(¬(experiences(California_region, drought_conditions) → maintains(GlobalTech, regional_supply_chain)) → imports(GlobalTech, produce, Mexico))",
+      "develops(GlobalTech, AI_harvesting_system)",
+      "has_policy(GlobalTech, contingency_planning)",
+      "maintains(GlobalTech, regional_supply_chain)",
+      "¬imports(GlobalTech, produce, Mexico)"
+    ],
+    "natural_expressions": [
+      "If GlobalTech develops an AI harvesting system, then GlobalTech implements the AI harvesting system in the California region.",
+      "If GlobalTech develops an AI harvesting system, then GlobalTech maintains its regional supply chain.",
+      "If GlobalTech implements the AI harvesting system in the California region, then GlobalTech maintains its regional supply chain.",
+      "If the California region experiences drought conditions, then GlobalTech maintains its regional supply chain.",
+      "The California region experiences drought conditions or the California region experiences labor shortages.",
+      "If the California region experiences labor shortages, then GlobalTech maintains its regional supply chain.",
+      "If GlobalTech delays AI system deployment, then GlobalTech increases its manual labor force.",
+      "If GlobalTech has a contingency planning policy, then should GlobalTech developing an AI harvesting system fail to result in GlobalTech maintaining its regional supply chain, GlobalTech delays AI system deployment.",
+      "If GlobalTech developing an AI harvesting system does not lead to GlobalTech maintaining its regional supply chain, then GlobalTech increases its manual labor force.",
+      "If GlobalTech developing an AI harvesting system does not result in GlobalTech maintaining its regional supply chain, then GlobalTech delays AI system deployment.",
+      "If GlobalTech developing an AI harvesting system fails to cause GlobalTech maintaining its regional supply chain, then GlobalTech does not increase its manual labor force.",
+      "If the California region experiencing drought conditions does not lead to GlobalTech maintaining its regional supply chain, then GlobalTech imports produce from Mexico.",
+      "GlobalTech develops an AI harvesting system.",
+      "GlobalTech has a contingency planning policy.",
+      "GlobalTech maintains its regional supply chain.",
+      "GlobalTech does not import produce from Mexico."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(develops(GlobalTech, AI_harvesting_system) -> implements(GlobalTech, AI_harvesting_system, California_region))",
+        "natural": "If GlobalTech develops an AI harvesting system, then GlobalTech implements the AI harvesting system in the California region."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain))",
+        "natural": "If GlobalTech develops an AI harvesting system, then GlobalTech maintains its regional supply chain."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(implements(GlobalTech, AI_harvesting_system, California_region) -> maintains(GlobalTech, regional_supply_chain))",
+        "natural": "If GlobalTech implements the AI harvesting system in the California region, then GlobalTech maintains its regional supply chain."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(experiences(California_region, drought_conditions) -> maintains(GlobalTech, regional_supply_chain))",
+        "natural": "If the California region experiences drought conditions, then GlobalTech maintains its regional supply chain."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(experiences(California_region, drought_conditions) | experiences(California_region, labor_shortages))",
+        "natural": "The California region experiences drought conditions or the California region experiences labor shortages."
+      },
+      "(A4 → G)": {
+        "formal": "(A4 → G)",
+        "prover9": "(A4 -> G)",
+        "prover9_expression": "(experiences(California_region, labor_shortages) -> maintains(GlobalTech, regional_supply_chain))",
+        "natural": "If the California region experiences labor shortages, then GlobalTech maintains its regional supply chain."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(delays(GlobalTech, AI_system_deployment) -> increases(GlobalTech, manual_labor_force))",
+        "natural": "If GlobalTech delays AI system deployment, then GlobalTech increases its manual labor force."
+      },
+      "(A8 → (¬(A1 → G) → A7))": {
+        "formal": "(A8 → (¬(A1 → G) → A7))",
+        "prover9": "(A8 -> (-(A1 -> G) -> A7))",
+        "prover9_expression": "(has_policy(GlobalTech, contingency_planning) -> (-(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain)) -> delays(GlobalTech, AI_system_deployment)))",
+        "natural": "If GlobalTech has a contingency planning policy, then should GlobalTech developing an AI harvesting system fail to result in GlobalTech maintaining its regional supply chain, GlobalTech delays AI system deployment."
+      },
+      "(¬(A1 → G) → A6)": {
+        "formal": "(¬(A1 → G) → A6)",
+        "prover9": "(-(A1 -> G) -> A6)",
+        "prover9_expression": "(-(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain)) -> increases(GlobalTech, manual_labor_force))",
+        "natural": "If GlobalTech developing an AI harvesting system does not lead to GlobalTech maintaining its regional supply chain, then GlobalTech increases its manual labor force."
+      },
+      "(¬(A1 → G) → A7)": {
+        "formal": "(¬(A1 → G) → A7)",
+        "prover9": "(-(A1 -> G) -> A7)",
+        "prover9_expression": "(-(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain)) -> delays(GlobalTech, AI_system_deployment))",
+        "natural": "If GlobalTech developing an AI harvesting system does not result in GlobalTech maintaining its regional supply chain, then GlobalTech delays AI system deployment."
+      },
+      "(¬(A1 → G) → ¬A6)": {
+        "formal": "(¬(A1 → G) → ¬A6)",
+        "prover9": "(-(A1 -> G) -> -A6)",
+        "prover9_expression": "(-(develops(GlobalTech, AI_harvesting_system) -> maintains(GlobalTech, regional_supply_chain)) -> -increases(GlobalTech, manual_labor_force))",
+        "natural": "If GlobalTech developing an AI harvesting system fails to cause GlobalTech maintaining its regional supply chain, then GlobalTech does not increase its manual labor force."
+      },
+      "(¬(A3 → G) → A5)": {
+        "formal": "(¬(A3 → G) → A5)",
+        "prover9": "(-(A3 -> G) -> A5)",
+        "prover9_expression": "(-(experiences(California_region, drought_conditions) -> maintains(GlobalTech, regional_supply_chain)) -> imports(GlobalTech, produce, Mexico))",
+        "natural": "If the California region experiencing drought conditions does not lead to GlobalTech maintaining its regional supply chain, then GlobalTech imports produce from Mexico."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "develops(GlobalTech, AI_harvesting_system)",
+        "natural": "GlobalTech develops an AI harvesting system."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "has_policy(GlobalTech, contingency_planning)",
+        "natural": "GlobalTech has a contingency planning policy."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "maintains(GlobalTech, regional_supply_chain)",
+        "natural": "GlobalTech maintains its regional supply chain."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-imports(GlobalTech, produce, Mexico)",
+        "natural": "GlobalTech does not import produce from Mexico."
+      }
+    }
+  }
+}

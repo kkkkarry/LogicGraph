@@ -1,0 +1,396 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(funds(show, financial_product) | popular(show))",
+        "natural": "Either the show funds the financial product or the show is popular."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(approved(drug, animal) -> harmful(drug, animal))",
+        "natural": "Whenever the drug is approved for the animal, the drug is harmful to the animal."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 → ¬A4)",
+        "prover9_expression": "(approved(drug, animal) -> -harmful(drug, animal))",
+        "natural": "Under the condition that the drug is approved for the animal, the drug is not harmful to the animal."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A3 ∨ (A2 → ¬A1))",
+        "prover9_expression": "(approved(drug, animal) | (endangered(animal, natural_place) -> -funds(show, financial_product)))",
+        "natural": "The drug is approved for the animal or, if the animal is endangered in the natural place, the show does not fund the financial product."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(develops(show, drug) | sponsors(show, financial_product))",
+        "natural": "Either the show develops the drug or the show sponsors the financial product."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A6 → ¬A3)",
+        "prover9_expression": "(sponsors(show, financial_product) -> -approved(drug, animal))",
+        "natural": "Provided that the show sponsors the financial product, the drug is not approved for the animal."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A7 → ¬A3)",
+        "prover9_expression": "(researches(show, natural_place) -> -approved(drug, animal))",
+        "natural": "If the show researches the natural place, then the drug is not approved for the animal."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A8 → A7)",
+        "prover9_expression": "(protects(show, animal) -> researches(show, natural_place))",
+        "natural": "Under the condition that the show protects the animal, the show researches the natural place."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A5 → A8) → A9)",
+        "prover9_expression": "(-(develops(show, drug) -> protects(show, animal)) -> violates(show, regulation))",
+        "natural": "If it is not the case that whenever the show develops the drug, the show protects the animal, then the show violates the regulation."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A2",
+        "prover9_expression": "endangered(animal, natural_place)",
+        "natural": "The animal is endangered in the natural place."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A9",
+        "prover9_expression": "-violates(show, regulation)",
+        "natural": "The show does not violate the regulation."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "popular(show)",
+    "natural": "The show is popular."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A3 -> -A4)"
+          ],
+          "conclusion": "-A3",
+          "natural": "The drug is not approved for the animal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A2 -> -A1))",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "Provided that the animal is endangered in the natural place, the show does not fund the financial product."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the show funds the financial product."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The show is popular."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A5 -> A8) -> A9)",
+            "-A9"
+          ],
+          "conclusion": "(A5 -> A8)",
+          "natural": "Whenever the show develops the drug, the show protects the animal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A8)",
+            "(A8 -> A7)"
+          ],
+          "conclusion": "(A5 -> A7)",
+          "natural": "If the show develops the drug, then the show researches the natural place."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A7)",
+            "(A7 -> -A3)"
+          ],
+          "conclusion": "(A5 -> -A3)",
+          "natural": "Under the condition that the show develops the drug, the drug is not approved for the animal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> -A3)",
+            "(A6 -> -A3)"
+          ],
+          "conclusion": "-A3",
+          "natural": "The drug is not approved for the animal."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A2 -> -A1))",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "Provided that the animal is endangered in the natural place, the show does not fund the financial product."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the show funds the financial product."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The show is popular."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Wildlife Conservation",
+    "atomic_facts": {
+      "A1": "funds(show, financial_product)",
+      "A2": "endangered(animal, natural_place)",
+      "A3": "approved(drug, animal)",
+      "A4": "harmful(drug, animal)",
+      "A5": "develops(show, drug)",
+      "A6": "sponsors(show, financial_product)",
+      "A7": "researches(show, natural_place)",
+      "A8": "protects(show, animal)",
+      "A9": "violates(show, regulation)",
+      "G": "popular(show)"
+    },
+    "natural_facts": {
+      "A1": "The show funds the financial product.",
+      "A2": "The animal is endangered in the natural place.",
+      "A3": "The drug is approved for the animal.",
+      "A4": "The drug is harmful to the animal.",
+      "A5": "The show develops the drug.",
+      "A6": "The show sponsors the financial product.",
+      "A7": "The show researches the natural place.",
+      "A8": "The show protects the animal.",
+      "A9": "The show violates the regulation.",
+      "G": "The show is popular."
+    },
+    "prover9_expressions": [
+      "(funds(show, financial_product) | popular(show))",
+      "(endangered(animal, natural_place) -> -funds(show, financial_product))",
+      "(approved(drug, animal) -> harmful(drug, animal))",
+      "(approved(drug, animal) -> -harmful(drug, animal))",
+      "(approved(drug, animal) | (endangered(animal, natural_place) -> -funds(show, financial_product)))",
+      "(develops(show, drug) -> researches(show, natural_place))",
+      "(develops(show, drug) -> protects(show, animal))",
+      "(develops(show, drug) -> -approved(drug, animal))",
+      "(develops(show, drug) | sponsors(show, financial_product))",
+      "(sponsors(show, financial_product) -> -approved(drug, animal))",
+      "(researches(show, natural_place) -> -approved(drug, animal))",
+      "(protects(show, animal) -> researches(show, natural_place))",
+      "(-(develops(show, drug) -> protects(show, animal)) -> violates(show, regulation))",
+      "endangered(animal, natural_place)",
+      "popular(show)",
+      "-funds(show, financial_product)",
+      "-approved(drug, animal)",
+      "-violates(show, regulation)"
+    ],
+    "natural_expressions": [
+      "Either the show funds the financial product or the show is popular.",
+      "Provided that the animal is endangered in the natural place, the show does not fund the financial product.",
+      "Whenever the drug is approved for the animal, the drug is harmful to the animal.",
+      "Under the condition that the drug is approved for the animal, the drug is not harmful to the animal.",
+      "The drug is approved for the animal or, if the animal is endangered in the natural place, the show does not fund the financial product.",
+      "If the show develops the drug, then the show researches the natural place.",
+      "Whenever the show develops the drug, the show protects the animal.",
+      "Under the condition that the show develops the drug, the drug is not approved for the animal.",
+      "Either the show develops the drug or the show sponsors the financial product.",
+      "Provided that the show sponsors the financial product, the drug is not approved for the animal.",
+      "If the show researches the natural place, then the drug is not approved for the animal.",
+      "Under the condition that the show protects the animal, the show researches the natural place.",
+      "If it is not the case that whenever the show develops the drug, the show protects the animal, then the show violates the regulation.",
+      "The animal is endangered in the natural place.",
+      "The show is popular.",
+      "It is not the case that the show funds the financial product.",
+      "The drug is not approved for the animal.",
+      "The show does not violate the regulation."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(funds(show, financial_product) | popular(show))",
+        "natural": "Either the show funds the financial product or the show is popular."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(endangered(animal, natural_place) -> -funds(show, financial_product))",
+        "natural": "Provided that the animal is endangered in the natural place, the show does not fund the financial product."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(approved(drug, animal) -> harmful(drug, animal))",
+        "natural": "Whenever the drug is approved for the animal, the drug is harmful to the animal."
+      },
+      "(A3 → ¬A4)": {
+        "formal": "(A3 → ¬A4)",
+        "prover9": "(A3 -> -A4)",
+        "prover9_expression": "(approved(drug, animal) -> -harmful(drug, animal))",
+        "natural": "Under the condition that the drug is approved for the animal, the drug is not harmful to the animal."
+      },
+      "(A3 ∨ (A2 → ¬A1))": {
+        "formal": "(A3 ∨ (A2 → ¬A1))",
+        "prover9": "(A3 | (A2 -> -A1))",
+        "prover9_expression": "(approved(drug, animal) | (endangered(animal, natural_place) -> -funds(show, financial_product)))",
+        "natural": "The drug is approved for the animal or, if the animal is endangered in the natural place, the show does not fund the financial product."
+      },
+      "(A5 → A7)": {
+        "formal": "(A5 → A7)",
+        "prover9": "(A5 -> A7)",
+        "prover9_expression": "(develops(show, drug) -> researches(show, natural_place))",
+        "natural": "If the show develops the drug, then the show researches the natural place."
+      },
+      "(A5 → A8)": {
+        "formal": "(A5 → A8)",
+        "prover9": "(A5 -> A8)",
+        "prover9_expression": "(develops(show, drug) -> protects(show, animal))",
+        "natural": "Whenever the show develops the drug, the show protects the animal."
+      },
+      "(A5 → ¬A3)": {
+        "formal": "(A5 → ¬A3)",
+        "prover9": "(A5 -> -A3)",
+        "prover9_expression": "(develops(show, drug) -> -approved(drug, animal))",
+        "natural": "Under the condition that the show develops the drug, the drug is not approved for the animal."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(develops(show, drug) | sponsors(show, financial_product))",
+        "natural": "Either the show develops the drug or the show sponsors the financial product."
+      },
+      "(A6 → ¬A3)": {
+        "formal": "(A6 → ¬A3)",
+        "prover9": "(A6 -> -A3)",
+        "prover9_expression": "(sponsors(show, financial_product) -> -approved(drug, animal))",
+        "natural": "Provided that the show sponsors the financial product, the drug is not approved for the animal."
+      },
+      "(A7 → ¬A3)": {
+        "formal": "(A7 → ¬A3)",
+        "prover9": "(A7 -> -A3)",
+        "prover9_expression": "(researches(show, natural_place) -> -approved(drug, animal))",
+        "natural": "If the show researches the natural place, then the drug is not approved for the animal."
+      },
+      "(A8 → A7)": {
+        "formal": "(A8 → A7)",
+        "prover9": "(A8 -> A7)",
+        "prover9_expression": "(protects(show, animal) -> researches(show, natural_place))",
+        "natural": "Under the condition that the show protects the animal, the show researches the natural place."
+      },
+      "(¬(A5 → A8) → A9)": {
+        "formal": "(¬(A5 → A8) → A9)",
+        "prover9": "(-(A5 -> A8) -> A9)",
+        "prover9_expression": "(-(develops(show, drug) -> protects(show, animal)) -> violates(show, regulation))",
+        "natural": "If it is not the case that whenever the show develops the drug, the show protects the animal, then the show violates the regulation."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "endangered(animal, natural_place)",
+        "natural": "The animal is endangered in the natural place."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "popular(show)",
+        "natural": "The show is popular."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-funds(show, financial_product)",
+        "natural": "It is not the case that the show funds the financial product."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-approved(drug, animal)",
+        "natural": "The drug is not approved for the animal."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-violates(show, regulation)",
+        "natural": "The show does not violate the regulation."
+      }
+    }
+  }
+}

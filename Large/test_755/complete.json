@@ -1,0 +1,2709 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 10,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 5
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(authorized(employee, facility) | authorized(employee, furniture))",
+        "natural": "The employee is authorized for the facility, or the employee is authorized for the furniture."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 → A13)",
+        "prover9_expression": "(access_revoked(employee) -> active_access(employee, facility))",
+        "natural": "In the event that access is revoked for the employee, the employee has active access to the facility."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(security_breach_detected(employee) | suspicious_activity(employee))",
+        "natural": "Either a security breach is detected involving the employee, or suspicious activity is detected involving the employee."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A15 → ¬A13)",
+        "prover9_expression": "(suspicious_activity(employee) -> -active_access(employee, facility))",
+        "natural": "Whenever suspicious activity is detected involving the employee, the employee does not have active access to the facility."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(lockdown_initiated(facility) -> security_alert_triggered(facility))",
+        "natural": "Should lockdown be initiated for the facility, a security alert is triggered for the facility."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A18 → G)",
+        "prover9_expression": "(emergency_mode_active(facility) -> valid_authorization(employee))",
+        "natural": "Under the condition that emergency mode is active for the facility, the employee has valid authorization."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(authorized(employee, furniture) -> valid_authorization(employee))",
+        "natural": "If the employee is authorized for the furniture, then the employee has valid authorization."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A21 ∨ A22)",
+        "prover9_expression": "(backup_system_active(facility) | redundant_systems_engaged(facility))",
+        "natural": "Either the backup system is active for the facility, or redundant systems are engaged for the facility."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A22 → (A20 → (¬A18 → A19)))",
+        "prover9_expression": "(redundant_systems_engaged(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+        "natural": "Whenever redundant systems are engaged for the facility, then given that the access control system is online for the facility and emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A24 → (A23 → (A21 → (A20 → (¬A18 → A19)))))",
+        "prover9_expression": "(building_secured(facility) -> (system_administrator_present(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))",
+        "natural": "Given that the building is secured for the facility, then if a system administrator is present at the facility, the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A25 → A24)",
+        "prover9_expression": "(security_audit_passed(facility) -> building_secured(facility))",
+        "natural": "Under the condition that the security audit is passed for the facility, the building is secured for the facility."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A28 ∨ A29)",
+        "prover9_expression": "(management_approval(employee) | temporary_authorization(employee))",
+        "natural": "Management approval is given to the employee, or temporary authorization is given to the employee."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A29 → (¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26))",
+        "prover9_expression": "(temporary_authorization(employee) -> (-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee)))",
+        "natural": "Whenever temporary authorization is given to the employee, then if it is not the case that when the employee is not authorized for the facility implying access, then approval is not required, leading to access not being granted, then access override is not granted to the employee."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A3 → G)",
+        "prover9_expression": "(has_access(employee, facility) -> valid_authorization(employee))",
+        "natural": "Assuming the employee has access to the facility, the employee has valid authorization."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A30 → A27)",
+        "prover9_expression": "(executive_clearance(employee) -> emergency_override_used(employee))",
+        "natural": "Given that executive clearance is granted to the employee, emergency override is used by the employee."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A34 → A33)",
+        "prover9_expression": "(security_policy_updated(facility) -> access_privileges_modified(employee))",
+        "natural": "Should the security policy be updated for the facility, access privileges are modified for the employee."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A35 → (¬(¬(A1 → A3) → ¬A4) → A5))",
+        "prover9_expression": "(standard_procedure_followed(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)))",
+        "natural": "Provided that standard procedure is followed by the employee, then if the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A35 ∨ A36)",
+        "prover9_expression": "(standard_procedure_followed(employee) | exceptional_circumstances(employee))",
+        "natural": "Standard procedure is followed by the employee, or exceptional circumstances apply to the employee."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A37 → (A36 → (¬(¬(A1 → A3) → ¬A4) → A5)))",
+        "prover9_expression": "(documented_approval(employee) -> (exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))))",
+        "natural": "If documented approval is provided for the employee, then whenever exceptional circumstances apply to the employee and the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A38 → (A36 → (¬(¬(A1 → A3) → ¬A4) → A5)))",
+        "prover9_expression": "(verbal_authorization(employee) -> (exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))))",
+        "natural": "In case verbal authorization is provided for the employee, then provided that exceptional circumstances apply to the employee and the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A41 → A42)",
+        "prover9_expression": "(policy_breach_detected(employee) -> compliance_issue(employee))",
+        "natural": "Given that a policy breach is detected involving the employee, a compliance issue arises with the employee."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A42 → A40)",
+        "prover9_expression": "(compliance_issue(employee) -> security_violation(employee))",
+        "natural": "Whenever a compliance issue arises with the employee, a security violation occurs by the employee."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A43 → A44)",
+        "prover9_expression": "(conflicting_authorizations(employee) -> consistent_permissions(employee))",
+        "natural": "If conflicting authorizations exist for the employee, then consistent permissions exist for the employee."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A43 → A45)",
+        "prover9_expression": "(conflicting_authorizations(employee) -> permission_conflict(employee))",
+        "natural": "Provided that conflicting authorizations exist for the employee, a permission conflict exists for the employee."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A43 ∨ A24)",
+        "prover9_expression": "(conflicting_authorizations(employee) | building_secured(facility))",
+        "natural": "Conflicting authorizations exist for the employee, or the building is secured for the facility."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A45 → A46)",
+        "prover9_expression": "(permission_conflict(employee) -> access_conflict_resolved(employee))",
+        "natural": "In the event that a permission conflict exists for the employee, the access conflict is resolved for the employee."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A46 → ¬A44)",
+        "prover9_expression": "(access_conflict_resolved(employee) -> -consistent_permissions(employee))",
+        "natural": "Provided that the access conflict is resolved for the employee, consistent permissions do not exist for the employee."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A49 → A48)",
+        "prover9_expression": "(backup_controls_active(facility) -> automated_system_functional(facility))",
+        "natural": "Assuming backup controls are active for the facility, the automated system is functional for the facility."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A50 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49))",
+        "prover9_expression": "(primary_system_operational(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility)))",
+        "natural": "Given that the primary system is operational for the facility, then if manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A50 ∨ A51)",
+        "prover9_expression": "(primary_system_operational(facility) | secondary_system_ready(facility))",
+        "natural": "The primary system is operational for the facility, or the secondary system is ready for the facility."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A52 → (A51 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49)))",
+        "prover9_expression": "(system_redundancy_confirmed(facility) -> (secondary_system_ready(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility))))",
+        "natural": "Under the condition that system redundancy is confirmed for the facility, then if the secondary system is ready for the facility and manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A56 ∨ (A55 → (A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19)))))))",
+        "prover9_expression": "(system_vulnerability(facility) | (system_resilience_verified(facility) -> (single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))))",
+        "natural": "A system vulnerability exists for the facility, or if system resilience is verified and either a single point of failure exists or the redundancy test passed implying normal operations with backup active and online access control without emergency mode, then normal operations occur."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A58 → A59)",
+        "prover9_expression": "(patch_verification_complete(facility) -> system_integrity_confirmed(facility))",
+        "natural": "Under the condition that patch verification is complete for the facility, system integrity is confirmed for the facility."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A59 → (A57 → ¬A56))",
+        "prover9_expression": "(system_integrity_confirmed(facility) -> (security_patch_applied(facility) -> -system_vulnerability(facility)))",
+        "natural": "If system integrity is confirmed for the facility, then provided that a security patch is applied to the facility, a system vulnerability does not exist for the facility."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A60 → A24)",
+        "prover9_expression": "(physical_security_verified(facility) -> building_secured(facility))",
+        "natural": "Given that physical security is verified for the facility, the building is secured for the facility."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A61 → A24)",
+        "prover9_expression": "(electronic_security_confirmed(facility) -> building_secured(facility))",
+        "natural": "Whenever electronic security is confirmed for the facility, the building is secured for the facility."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A63 → A62)",
+        "prover9_expression": "(security_measures_enhanced(facility) -> security_gap_identified(facility))",
+        "natural": "In the event that security measures are enhanced for the facility, a security gap is identified for the facility."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A64 ∨ (¬(A60 ∨ A61) → A63))",
+        "prover9_expression": "(access_system_compromised(facility) | (-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_measures_enhanced(facility)))",
+        "natural": "The access system is compromised for the facility, or if physical security is not verified or electronic security is not confirmed, then security measures are enhanced for the facility."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A65 → A67)",
+        "prover9_expression": "(intrusion_detected(facility) -> threat_mitigated(facility))",
+        "natural": "Should intrusion be detected at the facility, the threat is mitigated for the facility."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A65 ∨ A66)",
+        "prover9_expression": "(intrusion_detected(facility) | anomaly_identified(facility))",
+        "natural": "Intrusion is detected at the facility, or an anomaly is identified at the facility."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A66 → ¬A64)",
+        "prover9_expression": "(anomaly_identified(facility) -> -access_system_compromised(facility))",
+        "natural": "Under the condition that an anomaly is identified at the facility, the access system is not compromised for the facility."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A67 → ¬A64)",
+        "prover9_expression": "(threat_mitigated(facility) -> -access_system_compromised(facility))",
+        "natural": "If the threat is mitigated for the facility, then the access system is not compromised for the facility."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A70 → (A68 → A69))",
+        "prover9_expression": "(emergency_response_team_alerted(facility) -> (emergency_protocols_activated(facility) -> building_evacuated(facility)))",
+        "natural": "In case the emergency response team is alerted for the facility, then if emergency protocols are activated for the facility, the building is evacuated for the facility."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A70 ∨ A71)",
+        "prover9_expression": "(emergency_response_team_alerted(facility) | automated_emergency_system(facility))",
+        "natural": "The emergency response team is alerted for the facility, or the automated emergency system is active for the facility."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A71 → (A68 → A69))",
+        "prover9_expression": "(automated_emergency_system(facility) -> (emergency_protocols_activated(facility) -> building_evacuated(facility)))",
+        "natural": "Assuming the automated emergency system is active for the facility, then provided that emergency protocols are activated for the facility, the building is evacuated for the facility."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A8 → (A7 → A6))",
+        "prover9_expression": "(supervisor_approved(employee) -> (maintenance_completed(facility) -> maintenance_scheduled(facility)))",
+        "natural": "If the employee is supervisor approved, then whenever maintenance is completed for the facility, maintenance is scheduled for the facility."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A9 → G)",
+        "prover9_expression": "(security_clearance(employee) -> valid_authorization(employee))",
+        "natural": "Provided that the employee has security clearance, the employee has valid authorization."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A9 ∨ A10)",
+        "prover9_expression": "(security_clearance(employee) | background_check(employee))",
+        "natural": "The employee has security clearance, or a background check is performed on the employee."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(¬(A1 → A3) → A4)",
+        "prover9_expression": "(-(authorized(employee, facility) -> has_access(employee, facility)) -> requires_approval(employee, facility))",
+        "natural": "In the event that it is not the case that if the employee is authorized for the facility then the employee has access, the employee requires approval for the facility."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(¬(A14 → ¬A13) → A17)",
+        "prover9_expression": "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> lockdown_initiated(facility))",
+        "natural": "Provided that the implication from security breach detection to no active access does not hold, lockdown is initiated for the facility."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(¬(A14 → ¬A13) → ¬A16)",
+        "prover9_expression": "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> -security_alert_triggered(facility))",
+        "natural": "Whenever the implication from security breach detection to no active access is false, a security alert is not triggered for the facility."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(¬(A28 → A30) → A32)",
+        "prover9_expression": "(-(management_approval(employee) -> executive_clearance(employee)) -> security_investigation(employee))",
+        "natural": "Should the implication from management approval to executive clearance not hold, a security investigation is conducted on the employee."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(¬(A32 → A31) → A34)",
+        "prover9_expression": "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> security_policy_updated(facility))",
+        "natural": "If the implication from security investigation to access logs reviewed is false, the security policy is updated for the facility."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(¬(A32 → A31) → ¬A33)",
+        "prover9_expression": "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> -access_privileges_modified(employee))",
+        "natural": "Provided that the implication from security investigation to access logs reviewed does not hold, access privileges are not modified for the employee."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(¬(A37 ∨ A38) → ¬A39)",
+        "prover9_expression": "(-(documented_approval(employee) | verbal_authorization(employee)) -> -unauthorized_access(employee))",
+        "natural": "Should it not be true that documented approval or verbal authorization happens, unauthorized access does not occur by the employee."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(¬(A47 ∨ (A20 → (¬A18 → A19))) → ¬A48)",
+        "prover9_expression": "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> -automated_system_functional(facility))",
+        "natural": "If it is not the case that manual override is available or the access control system online implies normal operations without emergency mode, the automated system is not functional for the facility."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(¬(A60 ∨ A61) → ¬A62)",
+        "prover9_expression": "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> -security_gap_identified(facility))",
+        "natural": "Under the condition that it is not the case that physical security is verified or electronic security is confirmed, a security gap is not identified for the facility."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(¬(¬(A1 → A3) → ¬A4) → ¬A5)",
+        "prover9_expression": "(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> -granted_access(employee, facility))",
+        "natural": "Should it not be true that not authorization implying access then approval not required, access is not granted to the employee."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬(¬(A10 → G) → A11) → A12)",
+        "prover9_expression": "(-(-(background_check(employee) -> valid_authorization(employee)) -> temporary_access(employee)) -> access_revoked(employee))",
+        "natural": "If it is not the case that not background check implying valid authorization then temporary access, access is revoked for the employee."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬(¬(A37 ∨ A38) → A39) → A41)",
+        "prover9_expression": "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> policy_breach_detected(employee))",
+        "natural": "Under the condition that the implication from not documented approval or verbal authorization to unauthorized access is false, a policy breach is detected involving the employee."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬(¬(A37 ∨ A38) → A39) → ¬A40)",
+        "prover9_expression": "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> -security_violation(employee))",
+        "natural": "In the event that it is not the case that not documented approval or verbal authorization implies unauthorized access, a security violation does not occur by the employee."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A26)",
+        "prover9_expression": "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> access_override_granted(employee))",
+        "natural": "If it is not the case that not not authorization implying access then approval not required then access granted, access override is granted to the employee."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A7)",
+        "prover9_expression": "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> maintenance_completed(facility))",
+        "natural": "Whenever the implication from not not authorization implying access then approval not required then access granted is false, maintenance is completed for the facility."
+      },
+      {
+        "id": "Rule64",
+        "formal": "(¬A18 → A68)",
+        "prover9_expression": "(-emergency_mode_active(facility) -> emergency_protocols_activated(facility))",
+        "natural": "Under the condition that emergency mode is not active for the facility, emergency protocols are activated for the facility."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A20",
+        "prover9_expression": "access_control_system_online(facility)",
+        "natural": "The access control system is online for the facility."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A23",
+        "prover9_expression": "system_administrator_present(facility)",
+        "natural": "A system administrator is present at the facility."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A25",
+        "prover9_expression": "security_audit_passed(facility)",
+        "natural": "The security audit is passed for the facility."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A52",
+        "prover9_expression": "system_redundancy_confirmed(facility)",
+        "natural": "System redundancy is confirmed for the facility."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A53",
+        "prover9_expression": "redundancy_test_passed(facility)",
+        "natural": "The redundancy test is passed for the facility."
+      },
+      {
+        "id": "Fact6",
+        "formal": "A55",
+        "prover9_expression": "system_resilience_verified(facility)",
+        "natural": "System resilience is verified for the facility."
+      },
+      {
+        "id": "Fact7",
+        "formal": "A57",
+        "prover9_expression": "security_patch_applied(facility)",
+        "natural": "A security patch is applied to the facility."
+      },
+      {
+        "id": "Fact8",
+        "formal": "A58",
+        "prover9_expression": "patch_verification_complete(facility)",
+        "natural": "Patch verification is complete for the facility."
+      },
+      {
+        "id": "Fact9",
+        "formal": "A8",
+        "prover9_expression": "supervisor_approved(employee)",
+        "natural": "The employee is supervisor approved."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A11",
+        "prover9_expression": "-temporary_access(employee)",
+        "natural": "The employee does not have temporary access."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A19",
+        "prover9_expression": "-normal_operations(facility)",
+        "natural": "Normal operations are not occurring at the facility."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A27",
+        "prover9_expression": "-emergency_override_used(employee)",
+        "natural": "Emergency override is not used by the employee."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A31",
+        "prover9_expression": "-access_logs_reviewed(employee)",
+        "natural": "Access logs are not reviewed for the employee."
+      },
+      {
+        "id": "Fact14",
+        "formal": "¬A47",
+        "prover9_expression": "-manual_override_available(facility)",
+        "natural": "Manual override is not available for the facility."
+      },
+      {
+        "id": "Fact15",
+        "formal": "¬A54",
+        "prover9_expression": "-single_point_failure(facility)",
+        "natural": "A single point of failure does not exist for the facility."
+      },
+      {
+        "id": "Fact16",
+        "formal": "¬A6",
+        "prover9_expression": "-maintenance_scheduled(facility)",
+        "natural": "Maintenance is not scheduled for the facility."
+      },
+      {
+        "id": "Fact17",
+        "formal": "¬A69",
+        "prover9_expression": "-building_evacuated(facility)",
+        "natural": "The building is not evacuated for the facility."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "valid_authorization(employee)",
+    "natural": "The employee has valid authorization."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> (A7 -> A6))",
+            "A8"
+          ],
+          "conclusion": "(A7 -> A6)",
+          "natural": "Whenever maintenance is completed for the facility, maintenance is scheduled for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A7)",
+            "(A7 -> A6)"
+          ],
+          "conclusion": "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A6)",
+          "natural": "Should it not be true that not not authorization implying access then approval not required then access granted, maintenance is scheduled for the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(-(-(A1 -> A3) -> -A4) -> A5)",
+          "natural": "In case it is not the case that not authorization implying access then approval not required, access is granted to the employee."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A1 -> A3) -> -A4) -> A5)",
+            "(-(-(A1 -> A3) -> -A4) -> -A5)"
+          ],
+          "conclusion": "(-(A1 -> A3) -> -A4)",
+          "natural": "Should it not be true that authorization implies access, then the employee does not require approval for the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> A3) -> A4)",
+            "(-(A1 -> A3) -> -A4)"
+          ],
+          "conclusion": "(A1 -> A3)",
+          "natural": "Given that the employee is authorized for the facility, it follows that the employee has access to the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the employee is authorized for the facility, the employee has valid authorization."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A14 -> -A13) -> A17)",
+            "(A17 -> A16)"
+          ],
+          "conclusion": "(-(A14 -> -A13) -> A16)",
+          "natural": "If it is not true that a security breach detection implies no active access, then a security alert is triggered for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> -A13) -> A16)",
+            "(-(A14 -> -A13) -> -A16)"
+          ],
+          "conclusion": "(A14 -> -A13)",
+          "natural": "If a security breach is detected involving the employee, then it is not the case that the employee has active access to the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> -A13)",
+            "(A15 -> -A13)"
+          ],
+          "conclusion": "-A13",
+          "natural": "The employee does not have active access to the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A12 -> A13)",
+            "-A13"
+          ],
+          "conclusion": "-A12",
+          "natural": "Access is not revoked for the employee."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A10 -> G) -> A11) -> A12)",
+            "-A12"
+          ],
+          "conclusion": "(-(A10 -> G) -> A11)",
+          "natural": "Under the condition that it is not the case that a background check implies valid authorization, the employee has temporary access."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A10 -> G) -> A11)",
+            "-A11"
+          ],
+          "conclusion": "(A10 -> G)",
+          "natural": "Provided that a background check is performed on the employee, the employee has valid authorization."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A9 | A10)",
+            "(A9 -> G)",
+            "(A10 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A25 -> A24)",
+            "A25"
+          ],
+          "conclusion": "A24",
+          "natural": "The building is secured for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A24 -> (A23 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+            "A24"
+          ],
+          "conclusion": "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+          "natural": "If a system administrator is present at the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+            "A23"
+          ],
+          "conclusion": "(A21 -> (A20 -> (-A18 -> A19)))",
+          "natural": "In case the backup system is active for the facility, then if the access control system is online for the facility and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 -> (-A18 -> A19)))",
+            "(A22 -> (A20 -> (-A18 -> A19)))"
+          ],
+          "conclusion": "(A20 -> (-A18 -> A19))",
+          "natural": "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (-A18 -> A19))",
+            "A20"
+          ],
+          "conclusion": "(-A18 -> A19)",
+          "natural": "In case emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A18",
+          "natural": "Emergency mode is active for the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> G)",
+            "A18"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A32 -> A31) -> A34)",
+            "(A34 -> A33)"
+          ],
+          "conclusion": "(-(A32 -> A31) -> A33)",
+          "natural": "Under the condition that it is not true that a security investigation implies access logs reviewed, access privileges are modified for the employee."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A32 -> A31) -> A33)",
+            "(-(A32 -> A31) -> -A33)"
+          ],
+          "conclusion": "(A32 -> A31)",
+          "natural": "In the event that a security investigation is conducted on the employee, access logs are reviewed for the employee."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A28 -> A30) -> A32)",
+            "(A32 -> A31)"
+          ],
+          "conclusion": "(-(A28 -> A30) -> A31)",
+          "natural": "In case it is not the case that management approval implies executive clearance, access logs are reviewed for the employee."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A28 -> A30) -> A31)",
+            "-A31"
+          ],
+          "conclusion": "(A28 -> A30)",
+          "natural": "If management approval is given to the employee, then executive clearance is granted to the employee."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A28 -> A30)",
+            "(A30 -> A27)"
+          ],
+          "conclusion": "(A28 -> A27)",
+          "natural": "Provided that management approval is given to the employee, emergency override is used by the employee."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A28 -> A27)",
+            "(A29 -> (-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26))",
+            "(A28 | A29)"
+          ],
+          "conclusion": "(A27 | (-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26))",
+          "natural": "Either emergency override is used by the employee, or if it is not the case that when the employee is not authorized for the facility implying access, then approval is not required, leading to access not being granted, then access override is not granted to the employee."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A27 | (-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26))",
+            "-A27"
+          ],
+          "conclusion": "(-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26)",
+          "natural": "Provided that it is not the case that not not authorization implying access then approval not required then access granted, access override is not granted to the employee."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A26)",
+            "(-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26)"
+          ],
+          "conclusion": "(-(-(A1 -> A3) -> -A4) -> A5)",
+          "natural": "In case it is not the case that not authorization implying access then approval not required, access is granted to the employee."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A1 -> A3) -> -A4) -> A5)",
+            "(-(-(A1 -> A3) -> -A4) -> -A5)"
+          ],
+          "conclusion": "(-(A1 -> A3) -> -A4)",
+          "natural": "Should it not be true that authorization implies access, then the employee does not require approval for the facility."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> A3) -> A4)",
+            "(-(A1 -> A3) -> -A4)"
+          ],
+          "conclusion": "(A1 -> A3)",
+          "natural": "Given that the employee is authorized for the facility, it follows that the employee has access to the facility."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the employee is authorized for the facility, the employee has valid authorization."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A41 -> A42)",
+            "(A42 -> A40)"
+          ],
+          "conclusion": "(A41 -> A40)",
+          "natural": "Assuming a policy breach is detected involving the employee, a security violation occurs by the employee."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(A37 | A38) -> A39) -> A41)",
+            "(A41 -> A40)"
+          ],
+          "conclusion": "(-(-(A37 | A38) -> A39) -> A40)",
+          "natural": "Provided that it is not true that not documented approval or verbal authorization then unauthorized access, a security violation occurs by the employee."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A37 | A38) -> A39) -> A40)",
+            "(-(-(A37 | A38) -> A39) -> -A40)"
+          ],
+          "conclusion": "(-(A37 | A38) -> A39)",
+          "natural": "In the event that it is not the case that documented approval or verbal authorization occurs, unauthorized access occurs by the employee."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A37 | A38) -> A39)",
+            "(-(A37 | A38) -> -A39)"
+          ],
+          "conclusion": "(A37 | A38)",
+          "natural": "Documented approval is provided for the employee, or verbal authorization is provided for the employee."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A37 | A38)",
+            "(A37 -> (A36 -> (-(-(A1 -> A3) -> -A4) -> A5)))",
+            "(A38 -> (A36 -> (-(-(A1 -> A3) -> -A4) -> A5)))"
+          ],
+          "conclusion": "(A36 -> (-(-(A1 -> A3) -> -A4) -> A5))",
+          "natural": "Under the condition that exceptional circumstances apply to the employee, then if the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A35 | A36)",
+            "(A35 -> (-(-(A1 -> A3) -> -A4) -> A5))",
+            "(A36 -> (-(-(A1 -> A3) -> -A4) -> A5))"
+          ],
+          "conclusion": "(-(-(A1 -> A3) -> -A4) -> A5)",
+          "natural": "In case it is not the case that not authorization implying access then approval not required, access is granted to the employee."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A1 -> A3) -> -A4) -> A5)",
+            "(-(-(A1 -> A3) -> -A4) -> -A5)"
+          ],
+          "conclusion": "(-(A1 -> A3) -> -A4)",
+          "natural": "Should it not be true that authorization implies access, then the employee does not require approval for the facility."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> A3) -> A4)",
+            "(-(A1 -> A3) -> -A4)"
+          ],
+          "conclusion": "(A1 -> A3)",
+          "natural": "Given that the employee is authorized for the facility, it follows that the employee has access to the facility."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the employee is authorized for the facility, the employee has valid authorization."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A45 -> A46)",
+            "(A46 -> -A44)"
+          ],
+          "conclusion": "(A45 -> -A44)",
+          "natural": "If a permission conflict exists for the employee, then consistent permissions do not exist for the employee."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A43 -> A45)",
+            "(A45 -> -A44)"
+          ],
+          "conclusion": "(A43 -> -A44)",
+          "natural": "Under the condition that conflicting authorizations exist for the employee, consistent permissions do not exist for the employee."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A43 -> A44)",
+            "(A43 -> -A44)"
+          ],
+          "conclusion": "-A43",
+          "natural": "Conflicting authorizations do not exist for the employee."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A43 | A24)",
+            "-A43"
+          ],
+          "conclusion": "A24",
+          "natural": "The building is secured for the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A24 -> (A23 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+            "A24"
+          ],
+          "conclusion": "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+          "natural": "If a system administrator is present at the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+            "A23"
+          ],
+          "conclusion": "(A21 -> (A20 -> (-A18 -> A19)))",
+          "natural": "In case the backup system is active for the facility, then if the access control system is online for the facility and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 -> (-A18 -> A19)))",
+            "(A22 -> (A20 -> (-A18 -> A19)))"
+          ],
+          "conclusion": "(A20 -> (-A18 -> A19))",
+          "natural": "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (-A18 -> A19))",
+            "A20"
+          ],
+          "conclusion": "(-A18 -> A19)",
+          "natural": "In case emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A18",
+          "natural": "Emergency mode is active for the facility."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> G)",
+            "A18"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A52 -> (A51 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49)))",
+            "A52"
+          ],
+          "conclusion": "(A51 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49))",
+          "natural": "Whenever the secondary system is ready for the facility, then provided that manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A50 | A51)",
+            "(A50 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49))",
+            "(A51 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49))"
+          ],
+          "conclusion": "(-(A47 | (A20 -> (-A18 -> A19))) -> A49)",
+          "natural": "Whenever manual override is not available and the access control system online does not imply normal operations without emergency mode, backup controls are active for the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A47 | (A20 -> (-A18 -> A19))) -> A49)",
+            "(A49 -> A48)"
+          ],
+          "conclusion": "(-(A47 | (A20 -> (-A18 -> A19))) -> A48)",
+          "natural": "Under the condition that manual override is not available and the access control system online does not imply normal operations without emergency mode, the automated system is functional for the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A47 | (A20 -> (-A18 -> A19))) -> A48)",
+            "(-(A47 | (A20 -> (-A18 -> A19))) -> -A48)"
+          ],
+          "conclusion": "(A47 | (A20 -> (-A18 -> A19)))",
+          "natural": "Either manual override is available for the facility, or if the access control system is online for the facility and emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A47 | (A20 -> (-A18 -> A19)))",
+            "-A47"
+          ],
+          "conclusion": "(A20 -> (-A18 -> A19))",
+          "natural": "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (-A18 -> A19))",
+            "A20"
+          ],
+          "conclusion": "(-A18 -> A19)",
+          "natural": "In case emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A18",
+          "natural": "Emergency mode is active for the facility."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> G)",
+            "A18"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A58 -> A59)",
+            "(A59 -> (A57 -> -A56))"
+          ],
+          "conclusion": "(A58 -> (A57 -> -A56))",
+          "natural": "Assuming patch verification is complete for the facility, then if a security patch is applied to the facility, a system vulnerability does not exist for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A58 -> (A57 -> -A56))",
+            "A58"
+          ],
+          "conclusion": "(A57 -> -A56)",
+          "natural": "Provided that a security patch is applied to the facility, a system vulnerability does not exist for the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A57 -> -A56)",
+            "A57"
+          ],
+          "conclusion": "-A56",
+          "natural": "A system vulnerability does not exist for the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A56 | (A55 -> (A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19)))))))",
+            "-A56"
+          ],
+          "conclusion": "(A55 -> (A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19))))))",
+          "natural": "In case system resilience is verified for the facility, then either a single point of failure exists, or if the redundancy test is passed and the backup system is active implying normal operations with online access control and no emergency mode, then normal operations occur."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A55 -> (A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19))))))",
+            "A55"
+          ],
+          "conclusion": "(A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+          "natural": "A single point of failure exists for the facility, or if the redundancy test is passed for the facility and the backup system is active implying normal operations with online access control and no emergency mode, then normal operations occur."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+            "-A54"
+          ],
+          "conclusion": "(A53 -> (A21 -> (A20 -> (-A18 -> A19))))",
+          "natural": "Should the redundancy test be passed for the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A53 -> (A21 -> (A20 -> (-A18 -> A19))))",
+            "A53"
+          ],
+          "conclusion": "(A21 -> (A20 -> (-A18 -> A19)))",
+          "natural": "In case the backup system is active for the facility, then if the access control system is online for the facility and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 -> (-A18 -> A19)))",
+            "(A22 -> (A20 -> (-A18 -> A19)))"
+          ],
+          "conclusion": "(A20 -> (-A18 -> A19))",
+          "natural": "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (-A18 -> A19))",
+            "A20"
+          ],
+          "conclusion": "(-A18 -> A19)",
+          "natural": "In case emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A18",
+          "natural": "Emergency mode is active for the facility."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> G)",
+            "A18"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A65 -> A67)",
+            "(A67 -> -A64)"
+          ],
+          "conclusion": "(A65 -> -A64)",
+          "natural": "Provided that intrusion is detected at the facility, the access system is not compromised for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A65 | A66)",
+            "(A65 -> -A64)",
+            "(A66 -> -A64)"
+          ],
+          "conclusion": "-A64",
+          "natural": "The access system is not compromised for the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A64 | (-(A60 | A61) -> A63))",
+            "-A64"
+          ],
+          "conclusion": "(-(A60 | A61) -> A63)",
+          "natural": "Provided that physical security is not verified and electronic security is not confirmed, security measures are enhanced for the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A60 | A61) -> A63)",
+            "(A63 -> A62)"
+          ],
+          "conclusion": "(-(A60 | A61) -> A62)",
+          "natural": "Given that it is not true that physical security is verified or electronic security is confirmed, a security gap is identified for the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A60 | A61) -> A62)",
+            "(-(A60 | A61) -> -A62)"
+          ],
+          "conclusion": "(A60 | A61)",
+          "natural": "Physical security is verified for the facility, or electronic security is confirmed for the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A60 | A61)",
+            "(A60 -> A24)",
+            "(A61 -> A24)"
+          ],
+          "conclusion": "A24",
+          "natural": "The building is secured for the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A24 -> (A23 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+            "A24"
+          ],
+          "conclusion": "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+          "natural": "If a system administrator is present at the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+            "A23"
+          ],
+          "conclusion": "(A21 -> (A20 -> (-A18 -> A19)))",
+          "natural": "In case the backup system is active for the facility, then if the access control system is online for the facility and emergency mode is not active for the facility, normal operations follow at the facility."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 -> (-A18 -> A19)))",
+            "(A22 -> (A20 -> (-A18 -> A19)))"
+          ],
+          "conclusion": "(A20 -> (-A18 -> A19))",
+          "natural": "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> (-A18 -> A19))",
+            "A20"
+          ],
+          "conclusion": "(-A18 -> A19)",
+          "natural": "In case emergency mode is not active for the facility, normal operations occur at the facility."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A18",
+          "natural": "Emergency mode is active for the facility."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> G)",
+            "A18"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A70 | A71)",
+            "(A70 -> (A68 -> A69))",
+            "(A71 -> (A68 -> A69))"
+          ],
+          "conclusion": "(A68 -> A69)",
+          "natural": "Given that emergency protocols are activated for the facility, the building is evacuated for the facility."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A68 -> A69)",
+            "-A69"
+          ],
+          "conclusion": "-A68",
+          "natural": "Emergency protocols are not activated for the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A18 -> A68)",
+            "-A68"
+          ],
+          "conclusion": "A18",
+          "natural": "Emergency mode is active for the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> G)",
+            "A18"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has valid authorization."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Office Building Management System",
+    "atomic_facts": {
+      "A1": "authorized(employee, facility)",
+      "A2": "authorized(employee, furniture)",
+      "A3": "has_access(employee, facility)",
+      "A4": "requires_approval(employee, facility)",
+      "A5": "granted_access(employee, facility)",
+      "A6": "maintenance_scheduled(facility)",
+      "A7": "maintenance_completed(facility)",
+      "A8": "supervisor_approved(employee)",
+      "A9": "security_clearance(employee)",
+      "A10": "background_check(employee)",
+      "A11": "temporary_access(employee)",
+      "A12": "access_revoked(employee)",
+      "A13": "active_access(employee, facility)",
+      "A14": "security_breach_detected(employee)",
+      "A15": "suspicious_activity(employee)",
+      "A16": "security_alert_triggered(facility)",
+      "A17": "lockdown_initiated(facility)",
+      "A18": "emergency_mode_active(facility)",
+      "A19": "normal_operations(facility)",
+      "A20": "access_control_system_online(facility)",
+      "A21": "backup_system_active(facility)",
+      "A22": "redundant_systems_engaged(facility)",
+      "A23": "system_administrator_present(facility)",
+      "A24": "building_secured(facility)",
+      "A25": "security_audit_passed(facility)",
+      "A26": "access_override_granted(employee)",
+      "A27": "emergency_override_used(employee)",
+      "A28": "management_approval(employee)",
+      "A29": "temporary_authorization(employee)",
+      "A30": "executive_clearance(employee)",
+      "A31": "access_logs_reviewed(employee)",
+      "A32": "security_investigation(employee)",
+      "A33": "access_privileges_modified(employee)",
+      "A34": "security_policy_updated(facility)",
+      "A35": "standard_procedure_followed(employee)",
+      "A36": "exceptional_circumstances(employee)",
+      "A37": "documented_approval(employee)",
+      "A38": "verbal_authorization(employee)",
+      "A39": "unauthorized_access(employee)",
+      "A40": "security_violation(employee)",
+      "A41": "policy_breach_detected(employee)",
+      "A42": "compliance_issue(employee)",
+      "A43": "conflicting_authorizations(employee)",
+      "A44": "consistent_permissions(employee)",
+      "A45": "permission_conflict(employee)",
+      "A46": "access_conflict_resolved(employee)",
+      "A47": "manual_override_available(facility)",
+      "A48": "automated_system_functional(facility)",
+      "A49": "backup_controls_active(facility)",
+      "A50": "primary_system_operational(facility)",
+      "A51": "secondary_system_ready(facility)",
+      "A52": "system_redundancy_confirmed(facility)",
+      "A53": "redundancy_test_passed(facility)",
+      "A54": "single_point_failure(facility)",
+      "A55": "system_resilience_verified(facility)",
+      "A56": "system_vulnerability(facility)",
+      "A57": "security_patch_applied(facility)",
+      "A58": "patch_verification_complete(facility)",
+      "A59": "system_integrity_confirmed(facility)",
+      "A60": "physical_security_verified(facility)",
+      "A61": "electronic_security_confirmed(facility)",
+      "A62": "security_gap_identified(facility)",
+      "A63": "security_measures_enhanced(facility)",
+      "A64": "access_system_compromised(facility)",
+      "A65": "intrusion_detected(facility)",
+      "A66": "anomaly_identified(facility)",
+      "A67": "threat_mitigated(facility)",
+      "A68": "emergency_protocols_activated(facility)",
+      "A69": "building_evacuated(facility)",
+      "A70": "emergency_response_team_alerted(facility)",
+      "A71": "automated_emergency_system(facility)",
+      "G": "valid_authorization(employee)"
+    },
+    "natural_facts": {
+      "A1": "The employee is authorized for the facility.",
+      "A2": "The employee is authorized for the furniture.",
+      "A3": "The employee has access to the facility.",
+      "A4": "The employee requires approval for the facility.",
+      "A5": "The employee is granted access to the facility.",
+      "A6": "Maintenance is scheduled for the facility.",
+      "A7": "Maintenance is completed for the facility.",
+      "A8": "The employee is supervisor approved.",
+      "A9": "The employee has security clearance.",
+      "A10": "A background check is performed on the employee.",
+      "A11": "The employee has temporary access.",
+      "A12": "Access is revoked for the employee.",
+      "A13": "The employee has active access to the facility.",
+      "A14": "A security breach is detected involving the employee.",
+      "A15": "Suspicious activity is detected involving the employee.",
+      "A16": "A security alert is triggered for the facility.",
+      "A17": "Lockdown is initiated for the facility.",
+      "A18": "Emergency mode is active for the facility.",
+      "A19": "Normal operations are occurring at the facility.",
+      "A20": "The access control system is online for the facility.",
+      "A21": "The backup system is active for the facility.",
+      "A22": "Redundant systems are engaged for the facility.",
+      "A23": "A system administrator is present at the facility.",
+      "A24": "The building is secured for the facility.",
+      "A25": "The security audit is passed for the facility.",
+      "A26": "Access override is granted to the employee.",
+      "A27": "Emergency override is used by the employee.",
+      "A28": "Management approval is given to the employee.",
+      "A29": "Temporary authorization is given to the employee.",
+      "A30": "Executive clearance is granted to the employee.",
+      "A31": "Access logs are reviewed for the employee.",
+      "A32": "A security investigation is conducted on the employee.",
+      "A33": "Access privileges are modified for the employee.",
+      "A34": "The security policy is updated for the facility.",
+      "A35": "Standard procedure is followed by the employee.",
+      "A36": "Exceptional circumstances apply to the employee.",
+      "A37": "Documented approval is provided for the employee.",
+      "A38": "Verbal authorization is provided for the employee.",
+      "A39": "Unauthorized access occurs by the employee.",
+      "A40": "A security violation occurs by the employee.",
+      "A41": "A policy breach is detected involving the employee.",
+      "A42": "A compliance issue arises with the employee.",
+      "A43": "Conflicting authorizations exist for the employee.",
+      "A44": "Consistent permissions exist for the employee.",
+      "A45": "A permission conflict exists for the employee.",
+      "A46": "The access conflict is resolved for the employee.",
+      "A47": "Manual override is available for the facility.",
+      "A48": "The automated system is functional for the facility.",
+      "A49": "Backup controls are active for the facility.",
+      "A50": "The primary system is operational for the facility.",
+      "A51": "The secondary system is ready for the facility.",
+      "A52": "System redundancy is confirmed for the facility.",
+      "A53": "The redundancy test is passed for the facility.",
+      "A54": "A single point of failure exists for the facility.",
+      "A55": "System resilience is verified for the facility.",
+      "A56": "A system vulnerability exists for the facility.",
+      "A57": "A security patch is applied to the facility.",
+      "A58": "Patch verification is complete for the facility.",
+      "A59": "System integrity is confirmed for the facility.",
+      "A60": "Physical security is verified for the facility.",
+      "A61": "Electronic security is confirmed for the facility.",
+      "A62": "A security gap is identified for the facility.",
+      "A63": "Security measures are enhanced for the facility.",
+      "A64": "The access system is compromised for the facility.",
+      "A65": "Intrusion is detected at the facility.",
+      "A66": "An anomaly is identified at the facility.",
+      "A67": "The threat is mitigated for the facility.",
+      "A68": "Emergency protocols are activated for the facility.",
+      "A69": "The building is evacuated for the facility.",
+      "A70": "The emergency response team is alerted for the facility.",
+      "A71": "The automated emergency system is active for the facility.",
+      "G": "The employee has valid authorization."
+    },
+    "prover9_expressions": [
+      "(authorized(employee, facility) -> has_access(employee, facility))",
+      "(authorized(employee, facility) -> valid_authorization(employee))",
+      "(authorized(employee, facility) | authorized(employee, furniture))",
+      "(background_check(employee) -> valid_authorization(employee))",
+      "(access_revoked(employee) -> active_access(employee, facility))",
+      "(security_breach_detected(employee) -> -active_access(employee, facility))",
+      "(security_breach_detected(employee) | suspicious_activity(employee))",
+      "(suspicious_activity(employee) -> -active_access(employee, facility))",
+      "(lockdown_initiated(facility) -> security_alert_triggered(facility))",
+      "(emergency_mode_active(facility) -> valid_authorization(employee))",
+      "(authorized(employee, furniture) -> valid_authorization(employee))",
+      "(access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))",
+      "(backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+      "(backup_system_active(facility) | redundant_systems_engaged(facility))",
+      "(redundant_systems_engaged(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+      "(system_administrator_present(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))))",
+      "(building_secured(facility) -> (system_administrator_present(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))",
+      "(security_audit_passed(facility) -> building_secured(facility))",
+      "(emergency_override_used(employee) | (-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee)))",
+      "(management_approval(employee) -> emergency_override_used(employee))",
+      "(management_approval(employee) -> executive_clearance(employee))",
+      "(management_approval(employee) | temporary_authorization(employee))",
+      "(temporary_authorization(employee) -> (-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee)))",
+      "(has_access(employee, facility) -> valid_authorization(employee))",
+      "(executive_clearance(employee) -> emergency_override_used(employee))",
+      "(security_investigation(employee) -> access_logs_reviewed(employee))",
+      "(security_policy_updated(facility) -> access_privileges_modified(employee))",
+      "(standard_procedure_followed(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)))",
+      "(standard_procedure_followed(employee) | exceptional_circumstances(employee))",
+      "(exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)))",
+      "(documented_approval(employee) -> (exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))))",
+      "(documented_approval(employee) | verbal_authorization(employee))",
+      "(verbal_authorization(employee) -> (exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))))",
+      "(policy_breach_detected(employee) -> security_violation(employee))",
+      "(policy_breach_detected(employee) -> compliance_issue(employee))",
+      "(compliance_issue(employee) -> security_violation(employee))",
+      "(conflicting_authorizations(employee) -> consistent_permissions(employee))",
+      "(conflicting_authorizations(employee) -> permission_conflict(employee))",
+      "(conflicting_authorizations(employee) -> -consistent_permissions(employee))",
+      "(conflicting_authorizations(employee) | building_secured(facility))",
+      "(permission_conflict(employee) -> access_conflict_resolved(employee))",
+      "(permission_conflict(employee) -> -consistent_permissions(employee))",
+      "(access_conflict_resolved(employee) -> -consistent_permissions(employee))",
+      "(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+      "(backup_controls_active(facility) -> automated_system_functional(facility))",
+      "(primary_system_operational(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility)))",
+      "(primary_system_operational(facility) | secondary_system_ready(facility))",
+      "(secondary_system_ready(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility)))",
+      "(system_redundancy_confirmed(facility) -> (secondary_system_ready(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility))))",
+      "(redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))))",
+      "(single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))",
+      "(system_resilience_verified(facility) -> (single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))))))",
+      "(system_vulnerability(facility) | (system_resilience_verified(facility) -> (single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))))",
+      "(security_patch_applied(facility) -> -system_vulnerability(facility))",
+      "(patch_verification_complete(facility) -> (security_patch_applied(facility) -> -system_vulnerability(facility)))",
+      "(patch_verification_complete(facility) -> system_integrity_confirmed(facility))",
+      "(system_integrity_confirmed(facility) -> (security_patch_applied(facility) -> -system_vulnerability(facility)))",
+      "(physical_security_verified(facility) -> building_secured(facility))",
+      "(physical_security_verified(facility) | electronic_security_confirmed(facility))",
+      "(electronic_security_confirmed(facility) -> building_secured(facility))",
+      "(security_measures_enhanced(facility) -> security_gap_identified(facility))",
+      "(access_system_compromised(facility) | (-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_measures_enhanced(facility)))",
+      "(intrusion_detected(facility) -> threat_mitigated(facility))",
+      "(intrusion_detected(facility) -> -access_system_compromised(facility))",
+      "(intrusion_detected(facility) | anomaly_identified(facility))",
+      "(anomaly_identified(facility) -> -access_system_compromised(facility))",
+      "(threat_mitigated(facility) -> -access_system_compromised(facility))",
+      "(emergency_protocols_activated(facility) -> building_evacuated(facility))",
+      "(maintenance_completed(facility) -> maintenance_scheduled(facility))",
+      "(emergency_response_team_alerted(facility) -> (emergency_protocols_activated(facility) -> building_evacuated(facility)))",
+      "(emergency_response_team_alerted(facility) | automated_emergency_system(facility))",
+      "(automated_emergency_system(facility) -> (emergency_protocols_activated(facility) -> building_evacuated(facility)))",
+      "(supervisor_approved(employee) -> (maintenance_completed(facility) -> maintenance_scheduled(facility)))",
+      "(security_clearance(employee) -> valid_authorization(employee))",
+      "(security_clearance(employee) | background_check(employee))",
+      "(-(authorized(employee, facility) -> has_access(employee, facility)) -> requires_approval(employee, facility))",
+      "(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility))",
+      "(-(background_check(employee) -> valid_authorization(employee)) -> temporary_access(employee))",
+      "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> security_alert_triggered(facility))",
+      "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> lockdown_initiated(facility))",
+      "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> -security_alert_triggered(facility))",
+      "(-(management_approval(employee) -> executive_clearance(employee)) -> access_logs_reviewed(employee))",
+      "(-(management_approval(employee) -> executive_clearance(employee)) -> security_investigation(employee))",
+      "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> access_privileges_modified(employee))",
+      "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> security_policy_updated(facility))",
+      "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> -access_privileges_modified(employee))",
+      "(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee))",
+      "(-(documented_approval(employee) | verbal_authorization(employee)) -> -unauthorized_access(employee))",
+      "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> automated_system_functional(facility))",
+      "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility))",
+      "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> -automated_system_functional(facility))",
+      "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_gap_identified(facility))",
+      "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_measures_enhanced(facility))",
+      "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> -security_gap_identified(facility))",
+      "(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))",
+      "(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> -granted_access(employee, facility))",
+      "(-(-(background_check(employee) -> valid_authorization(employee)) -> temporary_access(employee)) -> access_revoked(employee))",
+      "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> security_violation(employee))",
+      "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> policy_breach_detected(employee))",
+      "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> -security_violation(employee))",
+      "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> access_override_granted(employee))",
+      "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> maintenance_scheduled(facility))",
+      "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> maintenance_completed(facility))",
+      "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee))",
+      "(-emergency_mode_active(facility) -> normal_operations(facility))",
+      "(-emergency_mode_active(facility) -> emergency_protocols_activated(facility))",
+      "emergency_mode_active(facility)",
+      "access_control_system_online(facility)",
+      "system_administrator_present(facility)",
+      "building_secured(facility)",
+      "security_audit_passed(facility)",
+      "system_redundancy_confirmed(facility)",
+      "redundancy_test_passed(facility)",
+      "system_resilience_verified(facility)",
+      "security_patch_applied(facility)",
+      "patch_verification_complete(facility)",
+      "supervisor_approved(employee)",
+      "valid_authorization(employee)",
+      "-temporary_access(employee)",
+      "-access_revoked(employee)",
+      "-active_access(employee, facility)",
+      "-normal_operations(facility)",
+      "-emergency_override_used(employee)",
+      "-access_logs_reviewed(employee)",
+      "-conflicting_authorizations(employee)",
+      "-manual_override_available(facility)",
+      "-single_point_failure(facility)",
+      "-system_vulnerability(facility)",
+      "-maintenance_scheduled(facility)",
+      "-access_system_compromised(facility)",
+      "-emergency_protocols_activated(facility)",
+      "-building_evacuated(facility)"
+    ],
+    "natural_expressions": [
+      "Given that the employee is authorized for the facility, it follows that the employee has access to the facility.",
+      "Whenever the employee is authorized for the facility, the employee has valid authorization.",
+      "The employee is authorized for the facility, or the employee is authorized for the furniture.",
+      "Provided that a background check is performed on the employee, the employee has valid authorization.",
+      "In the event that access is revoked for the employee, the employee has active access to the facility.",
+      "If a security breach is detected involving the employee, then it is not the case that the employee has active access to the facility.",
+      "Either a security breach is detected involving the employee, or suspicious activity is detected involving the employee.",
+      "Whenever suspicious activity is detected involving the employee, the employee does not have active access to the facility.",
+      "Should lockdown be initiated for the facility, a security alert is triggered for the facility.",
+      "Under the condition that emergency mode is active for the facility, the employee has valid authorization.",
+      "If the employee is authorized for the furniture, then the employee has valid authorization.",
+      "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility.",
+      "In case the backup system is active for the facility, then if the access control system is online for the facility and emergency mode is not active for the facility, normal operations follow at the facility.",
+      "Either the backup system is active for the facility, or redundant systems are engaged for the facility.",
+      "Whenever redundant systems are engaged for the facility, then given that the access control system is online for the facility and emergency mode is not active for the facility, normal operations occur at the facility.",
+      "If a system administrator is present at the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations follow at the facility.",
+      "Given that the building is secured for the facility, then if a system administrator is present at the facility, the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations occur at the facility.",
+      "Under the condition that the security audit is passed for the facility, the building is secured for the facility.",
+      "Either emergency override is used by the employee, or if it is not the case that when the employee is not authorized for the facility implying access, then approval is not required, leading to access not being granted, then access override is not granted to the employee.",
+      "Provided that management approval is given to the employee, emergency override is used by the employee.",
+      "If management approval is given to the employee, then executive clearance is granted to the employee.",
+      "Management approval is given to the employee, or temporary authorization is given to the employee.",
+      "Whenever temporary authorization is given to the employee, then if it is not the case that when the employee is not authorized for the facility implying access, then approval is not required, leading to access not being granted, then access override is not granted to the employee.",
+      "Assuming the employee has access to the facility, the employee has valid authorization.",
+      "Given that executive clearance is granted to the employee, emergency override is used by the employee.",
+      "In the event that a security investigation is conducted on the employee, access logs are reviewed for the employee.",
+      "Should the security policy be updated for the facility, access privileges are modified for the employee.",
+      "Provided that standard procedure is followed by the employee, then if the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee.",
+      "Standard procedure is followed by the employee, or exceptional circumstances apply to the employee.",
+      "Under the condition that exceptional circumstances apply to the employee, then if the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee.",
+      "If documented approval is provided for the employee, then whenever exceptional circumstances apply to the employee and the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee.",
+      "Documented approval is provided for the employee, or verbal authorization is provided for the employee.",
+      "In case verbal authorization is provided for the employee, then provided that exceptional circumstances apply to the employee and the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee.",
+      "Assuming a policy breach is detected involving the employee, a security violation occurs by the employee.",
+      "Given that a policy breach is detected involving the employee, a compliance issue arises with the employee.",
+      "Whenever a compliance issue arises with the employee, a security violation occurs by the employee.",
+      "If conflicting authorizations exist for the employee, then consistent permissions exist for the employee.",
+      "Provided that conflicting authorizations exist for the employee, a permission conflict exists for the employee.",
+      "Under the condition that conflicting authorizations exist for the employee, consistent permissions do not exist for the employee.",
+      "Conflicting authorizations exist for the employee, or the building is secured for the facility.",
+      "In the event that a permission conflict exists for the employee, the access conflict is resolved for the employee.",
+      "If a permission conflict exists for the employee, then consistent permissions do not exist for the employee.",
+      "Provided that the access conflict is resolved for the employee, consistent permissions do not exist for the employee.",
+      "Either manual override is available for the facility, or if the access control system is online for the facility and emergency mode is not active for the facility, normal operations occur at the facility.",
+      "Assuming backup controls are active for the facility, the automated system is functional for the facility.",
+      "Given that the primary system is operational for the facility, then if manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility.",
+      "The primary system is operational for the facility, or the secondary system is ready for the facility.",
+      "Whenever the secondary system is ready for the facility, then provided that manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility.",
+      "Under the condition that system redundancy is confirmed for the facility, then if the secondary system is ready for the facility and manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility.",
+      "Should the redundancy test be passed for the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations occur at the facility.",
+      "A single point of failure exists for the facility, or if the redundancy test is passed for the facility and the backup system is active implying normal operations with online access control and no emergency mode, then normal operations occur.",
+      "In case system resilience is verified for the facility, then either a single point of failure exists, or if the redundancy test is passed and the backup system is active implying normal operations with online access control and no emergency mode, then normal operations occur.",
+      "A system vulnerability exists for the facility, or if system resilience is verified and either a single point of failure exists or the redundancy test passed implying normal operations with backup active and online access control without emergency mode, then normal operations occur.",
+      "Provided that a security patch is applied to the facility, a system vulnerability does not exist for the facility.",
+      "Assuming patch verification is complete for the facility, then if a security patch is applied to the facility, a system vulnerability does not exist for the facility.",
+      "Under the condition that patch verification is complete for the facility, system integrity is confirmed for the facility.",
+      "If system integrity is confirmed for the facility, then provided that a security patch is applied to the facility, a system vulnerability does not exist for the facility.",
+      "Given that physical security is verified for the facility, the building is secured for the facility.",
+      "Physical security is verified for the facility, or electronic security is confirmed for the facility.",
+      "Whenever electronic security is confirmed for the facility, the building is secured for the facility.",
+      "In the event that security measures are enhanced for the facility, a security gap is identified for the facility.",
+      "The access system is compromised for the facility, or if physical security is not verified or electronic security is not confirmed, then security measures are enhanced for the facility.",
+      "Should intrusion be detected at the facility, the threat is mitigated for the facility.",
+      "Provided that intrusion is detected at the facility, the access system is not compromised for the facility.",
+      "Intrusion is detected at the facility, or an anomaly is identified at the facility.",
+      "Under the condition that an anomaly is identified at the facility, the access system is not compromised for the facility.",
+      "If the threat is mitigated for the facility, then the access system is not compromised for the facility.",
+      "Given that emergency protocols are activated for the facility, the building is evacuated for the facility.",
+      "Whenever maintenance is completed for the facility, maintenance is scheduled for the facility.",
+      "In case the emergency response team is alerted for the facility, then if emergency protocols are activated for the facility, the building is evacuated for the facility.",
+      "The emergency response team is alerted for the facility, or the automated emergency system is active for the facility.",
+      "Assuming the automated emergency system is active for the facility, then provided that emergency protocols are activated for the facility, the building is evacuated for the facility.",
+      "If the employee is supervisor approved, then whenever maintenance is completed for the facility, maintenance is scheduled for the facility.",
+      "Provided that the employee has security clearance, the employee has valid authorization.",
+      "The employee has security clearance, or a background check is performed on the employee.",
+      "In the event that it is not the case that if the employee is authorized for the facility then the employee has access, the employee requires approval for the facility.",
+      "Should it not be true that authorization implies access, then the employee does not require approval for the facility.",
+      "Under the condition that it is not the case that a background check implies valid authorization, the employee has temporary access.",
+      "If it is not true that a security breach detection implies no active access, then a security alert is triggered for the facility.",
+      "Provided that the implication from security breach detection to no active access does not hold, lockdown is initiated for the facility.",
+      "Whenever the implication from security breach detection to no active access is false, a security alert is not triggered for the facility.",
+      "In case it is not the case that management approval implies executive clearance, access logs are reviewed for the employee.",
+      "Should the implication from management approval to executive clearance not hold, a security investigation is conducted on the employee.",
+      "Under the condition that it is not true that a security investigation implies access logs reviewed, access privileges are modified for the employee.",
+      "If the implication from security investigation to access logs reviewed is false, the security policy is updated for the facility.",
+      "Provided that the implication from security investigation to access logs reviewed does not hold, access privileges are not modified for the employee.",
+      "In the event that it is not the case that documented approval or verbal authorization occurs, unauthorized access occurs by the employee.",
+      "Should it not be true that documented approval or verbal authorization happens, unauthorized access does not occur by the employee.",
+      "Under the condition that manual override is not available and the access control system online does not imply normal operations without emergency mode, the automated system is functional for the facility.",
+      "Whenever manual override is not available and the access control system online does not imply normal operations without emergency mode, backup controls are active for the facility.",
+      "If it is not the case that manual override is available or the access control system online implies normal operations without emergency mode, the automated system is not functional for the facility.",
+      "Given that it is not true that physical security is verified or electronic security is confirmed, a security gap is identified for the facility.",
+      "Provided that physical security is not verified and electronic security is not confirmed, security measures are enhanced for the facility.",
+      "Under the condition that it is not the case that physical security is verified or electronic security is confirmed, a security gap is not identified for the facility.",
+      "In case it is not the case that not authorization implying access then approval not required, access is granted to the employee.",
+      "Should it not be true that not authorization implying access then approval not required, access is not granted to the employee.",
+      "If it is not the case that not background check implying valid authorization then temporary access, access is revoked for the employee.",
+      "Provided that it is not true that not documented approval or verbal authorization then unauthorized access, a security violation occurs by the employee.",
+      "Under the condition that the implication from not documented approval or verbal authorization to unauthorized access is false, a policy breach is detected involving the employee.",
+      "In the event that it is not the case that not documented approval or verbal authorization implies unauthorized access, a security violation does not occur by the employee.",
+      "If it is not the case that not not authorization implying access then approval not required then access granted, access override is granted to the employee.",
+      "Should it not be true that not not authorization implying access then approval not required then access granted, maintenance is scheduled for the facility.",
+      "Whenever the implication from not not authorization implying access then approval not required then access granted is false, maintenance is completed for the facility.",
+      "Provided that it is not the case that not not authorization implying access then approval not required then access granted, access override is not granted to the employee.",
+      "In case emergency mode is not active for the facility, normal operations occur at the facility.",
+      "Under the condition that emergency mode is not active for the facility, emergency protocols are activated for the facility.",
+      "Emergency mode is active for the facility.",
+      "The access control system is online for the facility.",
+      "A system administrator is present at the facility.",
+      "The building is secured for the facility.",
+      "The security audit is passed for the facility.",
+      "System redundancy is confirmed for the facility.",
+      "The redundancy test is passed for the facility.",
+      "System resilience is verified for the facility.",
+      "A security patch is applied to the facility.",
+      "Patch verification is complete for the facility.",
+      "The employee is supervisor approved.",
+      "The employee has valid authorization.",
+      "The employee does not have temporary access.",
+      "Access is not revoked for the employee.",
+      "The employee does not have active access to the facility.",
+      "Normal operations are not occurring at the facility.",
+      "Emergency override is not used by the employee.",
+      "Access logs are not reviewed for the employee.",
+      "Conflicting authorizations do not exist for the employee.",
+      "Manual override is not available for the facility.",
+      "A single point of failure does not exist for the facility.",
+      "A system vulnerability does not exist for the facility.",
+      "Maintenance is not scheduled for the facility.",
+      "The access system is not compromised for the facility.",
+      "Emergency protocols are not activated for the facility.",
+      "The building is not evacuated for the facility."
+    ],
+    "node_mappings": {
+      "(A1 → A3)": {
+        "formal": "(A1 → A3)",
+        "prover9": "(A1 -> A3)",
+        "prover9_expression": "(authorized(employee, facility) -> has_access(employee, facility))",
+        "natural": "Given that the employee is authorized for the facility, it follows that the employee has access to the facility."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(authorized(employee, facility) -> valid_authorization(employee))",
+        "natural": "Whenever the employee is authorized for the facility, the employee has valid authorization."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(authorized(employee, facility) | authorized(employee, furniture))",
+        "natural": "The employee is authorized for the facility, or the employee is authorized for the furniture."
+      },
+      "(A10 → G)": {
+        "formal": "(A10 → G)",
+        "prover9": "(A10 -> G)",
+        "prover9_expression": "(background_check(employee) -> valid_authorization(employee))",
+        "natural": "Provided that a background check is performed on the employee, the employee has valid authorization."
+      },
+      "(A12 → A13)": {
+        "formal": "(A12 → A13)",
+        "prover9": "(A12 -> A13)",
+        "prover9_expression": "(access_revoked(employee) -> active_access(employee, facility))",
+        "natural": "In the event that access is revoked for the employee, the employee has active access to the facility."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(security_breach_detected(employee) -> -active_access(employee, facility))",
+        "natural": "If a security breach is detected involving the employee, then it is not the case that the employee has active access to the facility."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(security_breach_detected(employee) | suspicious_activity(employee))",
+        "natural": "Either a security breach is detected involving the employee, or suspicious activity is detected involving the employee."
+      },
+      "(A15 → ¬A13)": {
+        "formal": "(A15 → ¬A13)",
+        "prover9": "(A15 -> -A13)",
+        "prover9_expression": "(suspicious_activity(employee) -> -active_access(employee, facility))",
+        "natural": "Whenever suspicious activity is detected involving the employee, the employee does not have active access to the facility."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(lockdown_initiated(facility) -> security_alert_triggered(facility))",
+        "natural": "Should lockdown be initiated for the facility, a security alert is triggered for the facility."
+      },
+      "(A18 → G)": {
+        "formal": "(A18 → G)",
+        "prover9": "(A18 -> G)",
+        "prover9_expression": "(emergency_mode_active(facility) -> valid_authorization(employee))",
+        "natural": "Under the condition that emergency mode is active for the facility, the employee has valid authorization."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(authorized(employee, furniture) -> valid_authorization(employee))",
+        "natural": "If the employee is authorized for the furniture, then the employee has valid authorization."
+      },
+      "(A20 → (¬A18 → A19))": {
+        "formal": "(A20 → (¬A18 → A19))",
+        "prover9": "(A20 -> (-A18 -> A19))",
+        "prover9_expression": "(access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))",
+        "natural": "Assuming the access control system is online for the facility, then provided that emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      "(A21 → (A20 → (¬A18 → A19)))": {
+        "formal": "(A21 → (A20 → (¬A18 → A19)))",
+        "prover9": "(A21 -> (A20 -> (-A18 -> A19)))",
+        "prover9_expression": "(backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+        "natural": "In case the backup system is active for the facility, then if the access control system is online for the facility and emergency mode is not active for the facility, normal operations follow at the facility."
+      },
+      "(A21 ∨ A22)": {
+        "formal": "(A21 ∨ A22)",
+        "prover9": "(A21 | A22)",
+        "prover9_expression": "(backup_system_active(facility) | redundant_systems_engaged(facility))",
+        "natural": "Either the backup system is active for the facility, or redundant systems are engaged for the facility."
+      },
+      "(A22 → (A20 → (¬A18 → A19)))": {
+        "formal": "(A22 → (A20 → (¬A18 → A19)))",
+        "prover9": "(A22 -> (A20 -> (-A18 -> A19)))",
+        "prover9_expression": "(redundant_systems_engaged(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+        "natural": "Whenever redundant systems are engaged for the facility, then given that the access control system is online for the facility and emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      "(A23 → (A21 → (A20 → (¬A18 → A19))))": {
+        "formal": "(A23 → (A21 → (A20 → (¬A18 → A19))))",
+        "prover9": "(A23 -> (A21 -> (A20 -> (-A18 -> A19))))",
+        "prover9_expression": "(system_administrator_present(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))))",
+        "natural": "If a system administrator is present at the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations follow at the facility."
+      },
+      "(A24 → (A23 → (A21 → (A20 → (¬A18 → A19)))))": {
+        "formal": "(A24 → (A23 → (A21 → (A20 → (¬A18 → A19)))))",
+        "prover9": "(A24 -> (A23 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+        "prover9_expression": "(building_secured(facility) -> (system_administrator_present(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))",
+        "natural": "Given that the building is secured for the facility, then if a system administrator is present at the facility, the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      "(A25 → A24)": {
+        "formal": "(A25 → A24)",
+        "prover9": "(A25 -> A24)",
+        "prover9_expression": "(security_audit_passed(facility) -> building_secured(facility))",
+        "natural": "Under the condition that the security audit is passed for the facility, the building is secured for the facility."
+      },
+      "(A27 ∨ (¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26))": {
+        "formal": "(A27 ∨ (¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26))",
+        "prover9": "(A27 | (-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26))",
+        "prover9_expression": "(emergency_override_used(employee) | (-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee)))",
+        "natural": "Either emergency override is used by the employee, or if it is not the case that when the employee is not authorized for the facility implying access, then approval is not required, leading to access not being granted, then access override is not granted to the employee."
+      },
+      "(A28 → A27)": {
+        "formal": "(A28 → A27)",
+        "prover9": "(A28 -> A27)",
+        "prover9_expression": "(management_approval(employee) -> emergency_override_used(employee))",
+        "natural": "Provided that management approval is given to the employee, emergency override is used by the employee."
+      },
+      "(A28 → A30)": {
+        "formal": "(A28 → A30)",
+        "prover9": "(A28 -> A30)",
+        "prover9_expression": "(management_approval(employee) -> executive_clearance(employee))",
+        "natural": "If management approval is given to the employee, then executive clearance is granted to the employee."
+      },
+      "(A28 ∨ A29)": {
+        "formal": "(A28 ∨ A29)",
+        "prover9": "(A28 | A29)",
+        "prover9_expression": "(management_approval(employee) | temporary_authorization(employee))",
+        "natural": "Management approval is given to the employee, or temporary authorization is given to the employee."
+      },
+      "(A29 → (¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26))": {
+        "formal": "(A29 → (¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26))",
+        "prover9": "(A29 -> (-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26))",
+        "prover9_expression": "(temporary_authorization(employee) -> (-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee)))",
+        "natural": "Whenever temporary authorization is given to the employee, then if it is not the case that when the employee is not authorized for the facility implying access, then approval is not required, leading to access not being granted, then access override is not granted to the employee."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(has_access(employee, facility) -> valid_authorization(employee))",
+        "natural": "Assuming the employee has access to the facility, the employee has valid authorization."
+      },
+      "(A30 → A27)": {
+        "formal": "(A30 → A27)",
+        "prover9": "(A30 -> A27)",
+        "prover9_expression": "(executive_clearance(employee) -> emergency_override_used(employee))",
+        "natural": "Given that executive clearance is granted to the employee, emergency override is used by the employee."
+      },
+      "(A32 → A31)": {
+        "formal": "(A32 → A31)",
+        "prover9": "(A32 -> A31)",
+        "prover9_expression": "(security_investigation(employee) -> access_logs_reviewed(employee))",
+        "natural": "In the event that a security investigation is conducted on the employee, access logs are reviewed for the employee."
+      },
+      "(A34 → A33)": {
+        "formal": "(A34 → A33)",
+        "prover9": "(A34 -> A33)",
+        "prover9_expression": "(security_policy_updated(facility) -> access_privileges_modified(employee))",
+        "natural": "Should the security policy be updated for the facility, access privileges are modified for the employee."
+      },
+      "(A35 → (¬(¬(A1 → A3) → ¬A4) → A5))": {
+        "formal": "(A35 → (¬(¬(A1 → A3) → ¬A4) → A5))",
+        "prover9": "(A35 -> (-(-(A1 -> A3) -> -A4) -> A5))",
+        "prover9_expression": "(standard_procedure_followed(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)))",
+        "natural": "Provided that standard procedure is followed by the employee, then if the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      "(A35 ∨ A36)": {
+        "formal": "(A35 ∨ A36)",
+        "prover9": "(A35 | A36)",
+        "prover9_expression": "(standard_procedure_followed(employee) | exceptional_circumstances(employee))",
+        "natural": "Standard procedure is followed by the employee, or exceptional circumstances apply to the employee."
+      },
+      "(A36 → (¬(¬(A1 → A3) → ¬A4) → A5))": {
+        "formal": "(A36 → (¬(¬(A1 → A3) → ¬A4) → A5))",
+        "prover9": "(A36 -> (-(-(A1 -> A3) -> -A4) -> A5))",
+        "prover9_expression": "(exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)))",
+        "natural": "Under the condition that exceptional circumstances apply to the employee, then if the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      "(A37 → (A36 → (¬(¬(A1 → A3) → ¬A4) → A5)))": {
+        "formal": "(A37 → (A36 → (¬(¬(A1 → A3) → ¬A4) → A5)))",
+        "prover9": "(A37 -> (A36 -> (-(-(A1 -> A3) -> -A4) -> A5)))",
+        "prover9_expression": "(documented_approval(employee) -> (exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))))",
+        "natural": "If documented approval is provided for the employee, then whenever exceptional circumstances apply to the employee and the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      "(A37 ∨ A38)": {
+        "formal": "(A37 ∨ A38)",
+        "prover9": "(A37 | A38)",
+        "prover9_expression": "(documented_approval(employee) | verbal_authorization(employee))",
+        "natural": "Documented approval is provided for the employee, or verbal authorization is provided for the employee."
+      },
+      "(A38 → (A36 → (¬(¬(A1 → A3) → ¬A4) → A5)))": {
+        "formal": "(A38 → (A36 → (¬(¬(A1 → A3) → ¬A4) → A5)))",
+        "prover9": "(A38 -> (A36 -> (-(-(A1 -> A3) -> -A4) -> A5)))",
+        "prover9_expression": "(verbal_authorization(employee) -> (exceptional_circumstances(employee) -> (-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))))",
+        "natural": "In case verbal authorization is provided for the employee, then provided that exceptional circumstances apply to the employee and the employee is not authorized for the facility implying access, then approval is not required, access is granted to the employee."
+      },
+      "(A41 → A40)": {
+        "formal": "(A41 → A40)",
+        "prover9": "(A41 -> A40)",
+        "prover9_expression": "(policy_breach_detected(employee) -> security_violation(employee))",
+        "natural": "Assuming a policy breach is detected involving the employee, a security violation occurs by the employee."
+      },
+      "(A41 → A42)": {
+        "formal": "(A41 → A42)",
+        "prover9": "(A41 -> A42)",
+        "prover9_expression": "(policy_breach_detected(employee) -> compliance_issue(employee))",
+        "natural": "Given that a policy breach is detected involving the employee, a compliance issue arises with the employee."
+      },
+      "(A42 → A40)": {
+        "formal": "(A42 → A40)",
+        "prover9": "(A42 -> A40)",
+        "prover9_expression": "(compliance_issue(employee) -> security_violation(employee))",
+        "natural": "Whenever a compliance issue arises with the employee, a security violation occurs by the employee."
+      },
+      "(A43 → A44)": {
+        "formal": "(A43 → A44)",
+        "prover9": "(A43 -> A44)",
+        "prover9_expression": "(conflicting_authorizations(employee) -> consistent_permissions(employee))",
+        "natural": "If conflicting authorizations exist for the employee, then consistent permissions exist for the employee."
+      },
+      "(A43 → A45)": {
+        "formal": "(A43 → A45)",
+        "prover9": "(A43 -> A45)",
+        "prover9_expression": "(conflicting_authorizations(employee) -> permission_conflict(employee))",
+        "natural": "Provided that conflicting authorizations exist for the employee, a permission conflict exists for the employee."
+      },
+      "(A43 → ¬A44)": {
+        "formal": "(A43 → ¬A44)",
+        "prover9": "(A43 -> -A44)",
+        "prover9_expression": "(conflicting_authorizations(employee) -> -consistent_permissions(employee))",
+        "natural": "Under the condition that conflicting authorizations exist for the employee, consistent permissions do not exist for the employee."
+      },
+      "(A43 ∨ A24)": {
+        "formal": "(A43 ∨ A24)",
+        "prover9": "(A43 | A24)",
+        "prover9_expression": "(conflicting_authorizations(employee) | building_secured(facility))",
+        "natural": "Conflicting authorizations exist for the employee, or the building is secured for the facility."
+      },
+      "(A45 → A46)": {
+        "formal": "(A45 → A46)",
+        "prover9": "(A45 -> A46)",
+        "prover9_expression": "(permission_conflict(employee) -> access_conflict_resolved(employee))",
+        "natural": "In the event that a permission conflict exists for the employee, the access conflict is resolved for the employee."
+      },
+      "(A45 → ¬A44)": {
+        "formal": "(A45 → ¬A44)",
+        "prover9": "(A45 -> -A44)",
+        "prover9_expression": "(permission_conflict(employee) -> -consistent_permissions(employee))",
+        "natural": "If a permission conflict exists for the employee, then consistent permissions do not exist for the employee."
+      },
+      "(A46 → ¬A44)": {
+        "formal": "(A46 → ¬A44)",
+        "prover9": "(A46 -> -A44)",
+        "prover9_expression": "(access_conflict_resolved(employee) -> -consistent_permissions(employee))",
+        "natural": "Provided that the access conflict is resolved for the employee, consistent permissions do not exist for the employee."
+      },
+      "(A47 ∨ (A20 → (¬A18 → A19)))": {
+        "formal": "(A47 ∨ (A20 → (¬A18 → A19)))",
+        "prover9": "(A47 | (A20 -> (-A18 -> A19)))",
+        "prover9_expression": "(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))",
+        "natural": "Either manual override is available for the facility, or if the access control system is online for the facility and emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      "(A49 → A48)": {
+        "formal": "(A49 → A48)",
+        "prover9": "(A49 -> A48)",
+        "prover9_expression": "(backup_controls_active(facility) -> automated_system_functional(facility))",
+        "natural": "Assuming backup controls are active for the facility, the automated system is functional for the facility."
+      },
+      "(A50 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49))": {
+        "formal": "(A50 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49))",
+        "prover9": "(A50 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49))",
+        "prover9_expression": "(primary_system_operational(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility)))",
+        "natural": "Given that the primary system is operational for the facility, then if manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility."
+      },
+      "(A50 ∨ A51)": {
+        "formal": "(A50 ∨ A51)",
+        "prover9": "(A50 | A51)",
+        "prover9_expression": "(primary_system_operational(facility) | secondary_system_ready(facility))",
+        "natural": "The primary system is operational for the facility, or the secondary system is ready for the facility."
+      },
+      "(A51 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49))": {
+        "formal": "(A51 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49))",
+        "prover9": "(A51 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49))",
+        "prover9_expression": "(secondary_system_ready(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility)))",
+        "natural": "Whenever the secondary system is ready for the facility, then provided that manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility."
+      },
+      "(A52 → (A51 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49)))": {
+        "formal": "(A52 → (A51 → (¬(A47 ∨ (A20 → (¬A18 → A19))) → A49)))",
+        "prover9": "(A52 -> (A51 -> (-(A47 | (A20 -> (-A18 -> A19))) -> A49)))",
+        "prover9_expression": "(system_redundancy_confirmed(facility) -> (secondary_system_ready(facility) -> (-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility))))",
+        "natural": "Under the condition that system redundancy is confirmed for the facility, then if the secondary system is ready for the facility and manual override is not available and the access control system is online implying normal operations without emergency mode, backup controls are active for the facility."
+      },
+      "(A53 → (A21 → (A20 → (¬A18 → A19))))": {
+        "formal": "(A53 → (A21 → (A20 → (¬A18 → A19))))",
+        "prover9": "(A53 -> (A21 -> (A20 -> (-A18 -> A19))))",
+        "prover9_expression": "(redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))))",
+        "natural": "Should the redundancy test be passed for the facility, then provided that the backup system is active for the facility, the access control system is online for the facility, and emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      "(A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19)))))": {
+        "formal": "(A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19)))))",
+        "prover9": "(A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19)))))",
+        "prover9_expression": "(single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))",
+        "natural": "A single point of failure exists for the facility, or if the redundancy test is passed for the facility and the backup system is active implying normal operations with online access control and no emergency mode, then normal operations occur."
+      },
+      "(A55 → (A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19))))))": {
+        "formal": "(A55 → (A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19))))))",
+        "prover9": "(A55 -> (A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19))))))",
+        "prover9_expression": "(system_resilience_verified(facility) -> (single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))))))",
+        "natural": "In case system resilience is verified for the facility, then either a single point of failure exists, or if the redundancy test is passed and the backup system is active implying normal operations with online access control and no emergency mode, then normal operations occur."
+      },
+      "(A56 ∨ (A55 → (A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19)))))))": {
+        "formal": "(A56 ∨ (A55 → (A54 ∨ (A53 → (A21 → (A20 → (¬A18 → A19)))))))",
+        "prover9": "(A56 | (A55 -> (A54 | (A53 -> (A21 -> (A20 -> (-A18 -> A19)))))))",
+        "prover9_expression": "(system_vulnerability(facility) | (system_resilience_verified(facility) -> (single_point_failure(facility) | (redundancy_test_passed(facility) -> (backup_system_active(facility) -> (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility))))))))",
+        "natural": "A system vulnerability exists for the facility, or if system resilience is verified and either a single point of failure exists or the redundancy test passed implying normal operations with backup active and online access control without emergency mode, then normal operations occur."
+      },
+      "(A57 → ¬A56)": {
+        "formal": "(A57 → ¬A56)",
+        "prover9": "(A57 -> -A56)",
+        "prover9_expression": "(security_patch_applied(facility) -> -system_vulnerability(facility))",
+        "natural": "Provided that a security patch is applied to the facility, a system vulnerability does not exist for the facility."
+      },
+      "(A58 → (A57 → ¬A56))": {
+        "formal": "(A58 → (A57 → ¬A56))",
+        "prover9": "(A58 -> (A57 -> -A56))",
+        "prover9_expression": "(patch_verification_complete(facility) -> (security_patch_applied(facility) -> -system_vulnerability(facility)))",
+        "natural": "Assuming patch verification is complete for the facility, then if a security patch is applied to the facility, a system vulnerability does not exist for the facility."
+      },
+      "(A58 → A59)": {
+        "formal": "(A58 → A59)",
+        "prover9": "(A58 -> A59)",
+        "prover9_expression": "(patch_verification_complete(facility) -> system_integrity_confirmed(facility))",
+        "natural": "Under the condition that patch verification is complete for the facility, system integrity is confirmed for the facility."
+      },
+      "(A59 → (A57 → ¬A56))": {
+        "formal": "(A59 → (A57 → ¬A56))",
+        "prover9": "(A59 -> (A57 -> -A56))",
+        "prover9_expression": "(system_integrity_confirmed(facility) -> (security_patch_applied(facility) -> -system_vulnerability(facility)))",
+        "natural": "If system integrity is confirmed for the facility, then provided that a security patch is applied to the facility, a system vulnerability does not exist for the facility."
+      },
+      "(A60 → A24)": {
+        "formal": "(A60 → A24)",
+        "prover9": "(A60 -> A24)",
+        "prover9_expression": "(physical_security_verified(facility) -> building_secured(facility))",
+        "natural": "Given that physical security is verified for the facility, the building is secured for the facility."
+      },
+      "(A60 ∨ A61)": {
+        "formal": "(A60 ∨ A61)",
+        "prover9": "(A60 | A61)",
+        "prover9_expression": "(physical_security_verified(facility) | electronic_security_confirmed(facility))",
+        "natural": "Physical security is verified for the facility, or electronic security is confirmed for the facility."
+      },
+      "(A61 → A24)": {
+        "formal": "(A61 → A24)",
+        "prover9": "(A61 -> A24)",
+        "prover9_expression": "(electronic_security_confirmed(facility) -> building_secured(facility))",
+        "natural": "Whenever electronic security is confirmed for the facility, the building is secured for the facility."
+      },
+      "(A63 → A62)": {
+        "formal": "(A63 → A62)",
+        "prover9": "(A63 -> A62)",
+        "prover9_expression": "(security_measures_enhanced(facility) -> security_gap_identified(facility))",
+        "natural": "In the event that security measures are enhanced for the facility, a security gap is identified for the facility."
+      },
+      "(A64 ∨ (¬(A60 ∨ A61) → A63))": {
+        "formal": "(A64 ∨ (¬(A60 ∨ A61) → A63))",
+        "prover9": "(A64 | (-(A60 | A61) -> A63))",
+        "prover9_expression": "(access_system_compromised(facility) | (-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_measures_enhanced(facility)))",
+        "natural": "The access system is compromised for the facility, or if physical security is not verified or electronic security is not confirmed, then security measures are enhanced for the facility."
+      },
+      "(A65 → A67)": {
+        "formal": "(A65 → A67)",
+        "prover9": "(A65 -> A67)",
+        "prover9_expression": "(intrusion_detected(facility) -> threat_mitigated(facility))",
+        "natural": "Should intrusion be detected at the facility, the threat is mitigated for the facility."
+      },
+      "(A65 → ¬A64)": {
+        "formal": "(A65 → ¬A64)",
+        "prover9": "(A65 -> -A64)",
+        "prover9_expression": "(intrusion_detected(facility) -> -access_system_compromised(facility))",
+        "natural": "Provided that intrusion is detected at the facility, the access system is not compromised for the facility."
+      },
+      "(A65 ∨ A66)": {
+        "formal": "(A65 ∨ A66)",
+        "prover9": "(A65 | A66)",
+        "prover9_expression": "(intrusion_detected(facility) | anomaly_identified(facility))",
+        "natural": "Intrusion is detected at the facility, or an anomaly is identified at the facility."
+      },
+      "(A66 → ¬A64)": {
+        "formal": "(A66 → ¬A64)",
+        "prover9": "(A66 -> -A64)",
+        "prover9_expression": "(anomaly_identified(facility) -> -access_system_compromised(facility))",
+        "natural": "Under the condition that an anomaly is identified at the facility, the access system is not compromised for the facility."
+      },
+      "(A67 → ¬A64)": {
+        "formal": "(A67 → ¬A64)",
+        "prover9": "(A67 -> -A64)",
+        "prover9_expression": "(threat_mitigated(facility) -> -access_system_compromised(facility))",
+        "natural": "If the threat is mitigated for the facility, then the access system is not compromised for the facility."
+      },
+      "(A68 → A69)": {
+        "formal": "(A68 → A69)",
+        "prover9": "(A68 -> A69)",
+        "prover9_expression": "(emergency_protocols_activated(facility) -> building_evacuated(facility))",
+        "natural": "Given that emergency protocols are activated for the facility, the building is evacuated for the facility."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(maintenance_completed(facility) -> maintenance_scheduled(facility))",
+        "natural": "Whenever maintenance is completed for the facility, maintenance is scheduled for the facility."
+      },
+      "(A70 → (A68 → A69))": {
+        "formal": "(A70 → (A68 → A69))",
+        "prover9": "(A70 -> (A68 -> A69))",
+        "prover9_expression": "(emergency_response_team_alerted(facility) -> (emergency_protocols_activated(facility) -> building_evacuated(facility)))",
+        "natural": "In case the emergency response team is alerted for the facility, then if emergency protocols are activated for the facility, the building is evacuated for the facility."
+      },
+      "(A70 ∨ A71)": {
+        "formal": "(A70 ∨ A71)",
+        "prover9": "(A70 | A71)",
+        "prover9_expression": "(emergency_response_team_alerted(facility) | automated_emergency_system(facility))",
+        "natural": "The emergency response team is alerted for the facility, or the automated emergency system is active for the facility."
+      },
+      "(A71 → (A68 → A69))": {
+        "formal": "(A71 → (A68 → A69))",
+        "prover9": "(A71 -> (A68 -> A69))",
+        "prover9_expression": "(automated_emergency_system(facility) -> (emergency_protocols_activated(facility) -> building_evacuated(facility)))",
+        "natural": "Assuming the automated emergency system is active for the facility, then provided that emergency protocols are activated for the facility, the building is evacuated for the facility."
+      },
+      "(A8 → (A7 → A6))": {
+        "formal": "(A8 → (A7 → A6))",
+        "prover9": "(A8 -> (A7 -> A6))",
+        "prover9_expression": "(supervisor_approved(employee) -> (maintenance_completed(facility) -> maintenance_scheduled(facility)))",
+        "natural": "If the employee is supervisor approved, then whenever maintenance is completed for the facility, maintenance is scheduled for the facility."
+      },
+      "(A9 → G)": {
+        "formal": "(A9 → G)",
+        "prover9": "(A9 -> G)",
+        "prover9_expression": "(security_clearance(employee) -> valid_authorization(employee))",
+        "natural": "Provided that the employee has security clearance, the employee has valid authorization."
+      },
+      "(A9 ∨ A10)": {
+        "formal": "(A9 ∨ A10)",
+        "prover9": "(A9 | A10)",
+        "prover9_expression": "(security_clearance(employee) | background_check(employee))",
+        "natural": "The employee has security clearance, or a background check is performed on the employee."
+      },
+      "(¬(A1 → A3) → A4)": {
+        "formal": "(¬(A1 → A3) → A4)",
+        "prover9": "(-(A1 -> A3) -> A4)",
+        "prover9_expression": "(-(authorized(employee, facility) -> has_access(employee, facility)) -> requires_approval(employee, facility))",
+        "natural": "In the event that it is not the case that if the employee is authorized for the facility then the employee has access, the employee requires approval for the facility."
+      },
+      "(¬(A1 → A3) → ¬A4)": {
+        "formal": "(¬(A1 → A3) → ¬A4)",
+        "prover9": "(-(A1 -> A3) -> -A4)",
+        "prover9_expression": "(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility))",
+        "natural": "Should it not be true that authorization implies access, then the employee does not require approval for the facility."
+      },
+      "(¬(A10 → G) → A11)": {
+        "formal": "(¬(A10 → G) → A11)",
+        "prover9": "(-(A10 -> G) -> A11)",
+        "prover9_expression": "(-(background_check(employee) -> valid_authorization(employee)) -> temporary_access(employee))",
+        "natural": "Under the condition that it is not the case that a background check implies valid authorization, the employee has temporary access."
+      },
+      "(¬(A14 → ¬A13) → A16)": {
+        "formal": "(¬(A14 → ¬A13) → A16)",
+        "prover9": "(-(A14 -> -A13) -> A16)",
+        "prover9_expression": "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> security_alert_triggered(facility))",
+        "natural": "If it is not true that a security breach detection implies no active access, then a security alert is triggered for the facility."
+      },
+      "(¬(A14 → ¬A13) → A17)": {
+        "formal": "(¬(A14 → ¬A13) → A17)",
+        "prover9": "(-(A14 -> -A13) -> A17)",
+        "prover9_expression": "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> lockdown_initiated(facility))",
+        "natural": "Provided that the implication from security breach detection to no active access does not hold, lockdown is initiated for the facility."
+      },
+      "(¬(A14 → ¬A13) → ¬A16)": {
+        "formal": "(¬(A14 → ¬A13) → ¬A16)",
+        "prover9": "(-(A14 -> -A13) -> -A16)",
+        "prover9_expression": "(-(security_breach_detected(employee) -> -active_access(employee, facility)) -> -security_alert_triggered(facility))",
+        "natural": "Whenever the implication from security breach detection to no active access is false, a security alert is not triggered for the facility."
+      },
+      "(¬(A28 → A30) → A31)": {
+        "formal": "(¬(A28 → A30) → A31)",
+        "prover9": "(-(A28 -> A30) -> A31)",
+        "prover9_expression": "(-(management_approval(employee) -> executive_clearance(employee)) -> access_logs_reviewed(employee))",
+        "natural": "In case it is not the case that management approval implies executive clearance, access logs are reviewed for the employee."
+      },
+      "(¬(A28 → A30) → A32)": {
+        "formal": "(¬(A28 → A30) → A32)",
+        "prover9": "(-(A28 -> A30) -> A32)",
+        "prover9_expression": "(-(management_approval(employee) -> executive_clearance(employee)) -> security_investigation(employee))",
+        "natural": "Should the implication from management approval to executive clearance not hold, a security investigation is conducted on the employee."
+      },
+      "(¬(A32 → A31) → A33)": {
+        "formal": "(¬(A32 → A31) → A33)",
+        "prover9": "(-(A32 -> A31) -> A33)",
+        "prover9_expression": "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> access_privileges_modified(employee))",
+        "natural": "Under the condition that it is not true that a security investigation implies access logs reviewed, access privileges are modified for the employee."
+      },
+      "(¬(A32 → A31) → A34)": {
+        "formal": "(¬(A32 → A31) → A34)",
+        "prover9": "(-(A32 -> A31) -> A34)",
+        "prover9_expression": "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> security_policy_updated(facility))",
+        "natural": "If the implication from security investigation to access logs reviewed is false, the security policy is updated for the facility."
+      },
+      "(¬(A32 → A31) → ¬A33)": {
+        "formal": "(¬(A32 → A31) → ¬A33)",
+        "prover9": "(-(A32 -> A31) -> -A33)",
+        "prover9_expression": "(-(security_investigation(employee) -> access_logs_reviewed(employee)) -> -access_privileges_modified(employee))",
+        "natural": "Provided that the implication from security investigation to access logs reviewed does not hold, access privileges are not modified for the employee."
+      },
+      "(¬(A37 ∨ A38) → A39)": {
+        "formal": "(¬(A37 ∨ A38) → A39)",
+        "prover9": "(-(A37 | A38) -> A39)",
+        "prover9_expression": "(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee))",
+        "natural": "In the event that it is not the case that documented approval or verbal authorization occurs, unauthorized access occurs by the employee."
+      },
+      "(¬(A37 ∨ A38) → ¬A39)": {
+        "formal": "(¬(A37 ∨ A38) → ¬A39)",
+        "prover9": "(-(A37 | A38) -> -A39)",
+        "prover9_expression": "(-(documented_approval(employee) | verbal_authorization(employee)) -> -unauthorized_access(employee))",
+        "natural": "Should it not be true that documented approval or verbal authorization happens, unauthorized access does not occur by the employee."
+      },
+      "(¬(A47 ∨ (A20 → (¬A18 → A19))) → A48)": {
+        "formal": "(¬(A47 ∨ (A20 → (¬A18 → A19))) → A48)",
+        "prover9": "(-(A47 | (A20 -> (-A18 -> A19))) -> A48)",
+        "prover9_expression": "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> automated_system_functional(facility))",
+        "natural": "Under the condition that manual override is not available and the access control system online does not imply normal operations without emergency mode, the automated system is functional for the facility."
+      },
+      "(¬(A47 ∨ (A20 → (¬A18 → A19))) → A49)": {
+        "formal": "(¬(A47 ∨ (A20 → (¬A18 → A19))) → A49)",
+        "prover9": "(-(A47 | (A20 -> (-A18 -> A19))) -> A49)",
+        "prover9_expression": "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> backup_controls_active(facility))",
+        "natural": "Whenever manual override is not available and the access control system online does not imply normal operations without emergency mode, backup controls are active for the facility."
+      },
+      "(¬(A47 ∨ (A20 → (¬A18 → A19))) → ¬A48)": {
+        "formal": "(¬(A47 ∨ (A20 → (¬A18 → A19))) → ¬A48)",
+        "prover9": "(-(A47 | (A20 -> (-A18 -> A19))) -> -A48)",
+        "prover9_expression": "(-(manual_override_available(facility) | (access_control_system_online(facility) -> (-emergency_mode_active(facility) -> normal_operations(facility)))) -> -automated_system_functional(facility))",
+        "natural": "If it is not the case that manual override is available or the access control system online implies normal operations without emergency mode, the automated system is not functional for the facility."
+      },
+      "(¬(A60 ∨ A61) → A62)": {
+        "formal": "(¬(A60 ∨ A61) → A62)",
+        "prover9": "(-(A60 | A61) -> A62)",
+        "prover9_expression": "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_gap_identified(facility))",
+        "natural": "Given that it is not true that physical security is verified or electronic security is confirmed, a security gap is identified for the facility."
+      },
+      "(¬(A60 ∨ A61) → A63)": {
+        "formal": "(¬(A60 ∨ A61) → A63)",
+        "prover9": "(-(A60 | A61) -> A63)",
+        "prover9_expression": "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> security_measures_enhanced(facility))",
+        "natural": "Provided that physical security is not verified and electronic security is not confirmed, security measures are enhanced for the facility."
+      },
+      "(¬(A60 ∨ A61) → ¬A62)": {
+        "formal": "(¬(A60 ∨ A61) → ¬A62)",
+        "prover9": "(-(A60 | A61) -> -A62)",
+        "prover9_expression": "(-(physical_security_verified(facility) | electronic_security_confirmed(facility)) -> -security_gap_identified(facility))",
+        "natural": "Under the condition that it is not the case that physical security is verified or electronic security is confirmed, a security gap is not identified for the facility."
+      },
+      "(¬(¬(A1 → A3) → ¬A4) → A5)": {
+        "formal": "(¬(¬(A1 → A3) → ¬A4) → A5)",
+        "prover9": "(-(-(A1 -> A3) -> -A4) -> A5)",
+        "prover9_expression": "(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility))",
+        "natural": "In case it is not the case that not authorization implying access then approval not required, access is granted to the employee."
+      },
+      "(¬(¬(A1 → A3) → ¬A4) → ¬A5)": {
+        "formal": "(¬(¬(A1 → A3) → ¬A4) → ¬A5)",
+        "prover9": "(-(-(A1 -> A3) -> -A4) -> -A5)",
+        "prover9_expression": "(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> -granted_access(employee, facility))",
+        "natural": "Should it not be true that not authorization implying access then approval not required, access is not granted to the employee."
+      },
+      "(¬(¬(A10 → G) → A11) → A12)": {
+        "formal": "(¬(¬(A10 → G) → A11) → A12)",
+        "prover9": "(-(-(A10 -> G) -> A11) -> A12)",
+        "prover9_expression": "(-(-(background_check(employee) -> valid_authorization(employee)) -> temporary_access(employee)) -> access_revoked(employee))",
+        "natural": "If it is not the case that not background check implying valid authorization then temporary access, access is revoked for the employee."
+      },
+      "(¬(¬(A37 ∨ A38) → A39) → A40)": {
+        "formal": "(¬(¬(A37 ∨ A38) → A39) → A40)",
+        "prover9": "(-(-(A37 | A38) -> A39) -> A40)",
+        "prover9_expression": "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> security_violation(employee))",
+        "natural": "Provided that it is not true that not documented approval or verbal authorization then unauthorized access, a security violation occurs by the employee."
+      },
+      "(¬(¬(A37 ∨ A38) → A39) → A41)": {
+        "formal": "(¬(¬(A37 ∨ A38) → A39) → A41)",
+        "prover9": "(-(-(A37 | A38) -> A39) -> A41)",
+        "prover9_expression": "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> policy_breach_detected(employee))",
+        "natural": "Under the condition that the implication from not documented approval or verbal authorization to unauthorized access is false, a policy breach is detected involving the employee."
+      },
+      "(¬(¬(A37 ∨ A38) → A39) → ¬A40)": {
+        "formal": "(¬(¬(A37 ∨ A38) → A39) → ¬A40)",
+        "prover9": "(-(-(A37 | A38) -> A39) -> -A40)",
+        "prover9_expression": "(-(-(documented_approval(employee) | verbal_authorization(employee)) -> unauthorized_access(employee)) -> -security_violation(employee))",
+        "natural": "In the event that it is not the case that not documented approval or verbal authorization implies unauthorized access, a security violation does not occur by the employee."
+      },
+      "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A26)": {
+        "formal": "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A26)",
+        "prover9": "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A26)",
+        "prover9_expression": "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> access_override_granted(employee))",
+        "natural": "If it is not the case that not not authorization implying access then approval not required then access granted, access override is granted to the employee."
+      },
+      "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A6)": {
+        "formal": "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A6)",
+        "prover9": "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A6)",
+        "prover9_expression": "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> maintenance_scheduled(facility))",
+        "natural": "Should it not be true that not not authorization implying access then approval not required then access granted, maintenance is scheduled for the facility."
+      },
+      "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A7)": {
+        "formal": "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → A7)",
+        "prover9": "(-(-(-(A1 -> A3) -> -A4) -> A5) -> A7)",
+        "prover9_expression": "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> maintenance_completed(facility))",
+        "natural": "Whenever the implication from not not authorization implying access then approval not required then access granted is false, maintenance is completed for the facility."
+      },
+      "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26)": {
+        "formal": "(¬(¬(¬(A1 → A3) → ¬A4) → A5) → ¬A26)",
+        "prover9": "(-(-(-(A1 -> A3) -> -A4) -> A5) -> -A26)",
+        "prover9_expression": "(-(-(-(authorized(employee, facility) -> has_access(employee, facility)) -> -requires_approval(employee, facility)) -> granted_access(employee, facility)) -> -access_override_granted(employee))",
+        "natural": "Provided that it is not the case that not not authorization implying access then approval not required then access granted, access override is not granted to the employee."
+      },
+      "(¬A18 → A19)": {
+        "formal": "(¬A18 → A19)",
+        "prover9": "(-A18 -> A19)",
+        "prover9_expression": "(-emergency_mode_active(facility) -> normal_operations(facility))",
+        "natural": "In case emergency mode is not active for the facility, normal operations occur at the facility."
+      },
+      "(¬A18 → A68)": {
+        "formal": "(¬A18 → A68)",
+        "prover9": "(-A18 -> A68)",
+        "prover9_expression": "(-emergency_mode_active(facility) -> emergency_protocols_activated(facility))",
+        "natural": "Under the condition that emergency mode is not active for the facility, emergency protocols are activated for the facility."
+      },
+      "A18": {
+        "formal": "A18",
+        "prover9": "A18",
+        "prover9_expression": "emergency_mode_active(facility)",
+        "natural": "Emergency mode is active for the facility."
+      },
+      "A20": {
+        "formal": "A20",
+        "prover9": "A20",
+        "prover9_expression": "access_control_system_online(facility)",
+        "natural": "The access control system is online for the facility."
+      },
+      "A23": {
+        "formal": "A23",
+        "prover9": "A23",
+        "prover9_expression": "system_administrator_present(facility)",
+        "natural": "A system administrator is present at the facility."
+      },
+      "A24": {
+        "formal": "A24",
+        "prover9": "A24",
+        "prover9_expression": "building_secured(facility)",
+        "natural": "The building is secured for the facility."
+      },
+      "A25": {
+        "formal": "A25",
+        "prover9": "A25",
+        "prover9_expression": "security_audit_passed(facility)",
+        "natural": "The security audit is passed for the facility."
+      },
+      "A52": {
+        "formal": "A52",
+        "prover9": "A52",
+        "prover9_expression": "system_redundancy_confirmed(facility)",
+        "natural": "System redundancy is confirmed for the facility."
+      },
+      "A53": {
+        "formal": "A53",
+        "prover9": "A53",
+        "prover9_expression": "redundancy_test_passed(facility)",
+        "natural": "The redundancy test is passed for the facility."
+      },
+      "A55": {
+        "formal": "A55",
+        "prover9": "A55",
+        "prover9_expression": "system_resilience_verified(facility)",
+        "natural": "System resilience is verified for the facility."
+      },
+      "A57": {
+        "formal": "A57",
+        "prover9": "A57",
+        "prover9_expression": "security_patch_applied(facility)",
+        "natural": "A security patch is applied to the facility."
+      },
+      "A58": {
+        "formal": "A58",
+        "prover9": "A58",
+        "prover9_expression": "patch_verification_complete(facility)",
+        "natural": "Patch verification is complete for the facility."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "supervisor_approved(employee)",
+        "natural": "The employee is supervisor approved."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "valid_authorization(employee)",
+        "natural": "The employee has valid authorization."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-temporary_access(employee)",
+        "natural": "The employee does not have temporary access."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-access_revoked(employee)",
+        "natural": "Access is not revoked for the employee."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-active_access(employee, facility)",
+        "natural": "The employee does not have active access to the facility."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-normal_operations(facility)",
+        "natural": "Normal operations are not occurring at the facility."
+      },
+      "¬A27": {
+        "formal": "¬A27",
+        "prover9": "-A27",
+        "prover9_expression": "-emergency_override_used(employee)",
+        "natural": "Emergency override is not used by the employee."
+      },
+      "¬A31": {
+        "formal": "¬A31",
+        "prover9": "-A31",
+        "prover9_expression": "-access_logs_reviewed(employee)",
+        "natural": "Access logs are not reviewed for the employee."
+      },
+      "¬A43": {
+        "formal": "¬A43",
+        "prover9": "-A43",
+        "prover9_expression": "-conflicting_authorizations(employee)",
+        "natural": "Conflicting authorizations do not exist for the employee."
+      },
+      "¬A47": {
+        "formal": "¬A47",
+        "prover9": "-A47",
+        "prover9_expression": "-manual_override_available(facility)",
+        "natural": "Manual override is not available for the facility."
+      },
+      "¬A54": {
+        "formal": "¬A54",
+        "prover9": "-A54",
+        "prover9_expression": "-single_point_failure(facility)",
+        "natural": "A single point of failure does not exist for the facility."
+      },
+      "¬A56": {
+        "formal": "¬A56",
+        "prover9": "-A56",
+        "prover9_expression": "-system_vulnerability(facility)",
+        "natural": "A system vulnerability does not exist for the facility."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-maintenance_scheduled(facility)",
+        "natural": "Maintenance is not scheduled for the facility."
+      },
+      "¬A64": {
+        "formal": "¬A64",
+        "prover9": "-A64",
+        "prover9_expression": "-access_system_compromised(facility)",
+        "natural": "The access system is not compromised for the facility."
+      },
+      "¬A68": {
+        "formal": "¬A68",
+        "prover9": "-A68",
+        "prover9_expression": "-emergency_protocols_activated(facility)",
+        "natural": "Emergency protocols are not activated for the facility."
+      },
+      "¬A69": {
+        "formal": "¬A69",
+        "prover9": "-A69",
+        "prover9_expression": "-building_evacuated(facility)",
+        "natural": "The building is not evacuated for the facility."
+      }
+    }
+  }
+}

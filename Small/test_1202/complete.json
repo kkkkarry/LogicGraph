@@ -1,0 +1,342 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(publishes_paper(john, neural_net_paper) -> uses_tech(neural_net_paper, deep_learning))",
+        "natural": "Whenever John publishes a paper called neural_net_paper, it follows that the neural_net_paper uses the technology deep learning."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A5 → (A4 → (A2 → A1)))",
+        "prover9_expression": "(funded_by(unix_lab, tech_grant) -> (uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher))))",
+        "natural": "If the Unix Lab is funded by the tech grant, then whenever the neural_net_paper uses the technology deep learning, it follows that if John works for the Unix Lab, John has the job of researcher."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(funded_by(unix_lab, tech_grant) | funded_by(unix_lab, private_donation))",
+        "natural": "Either the Unix Lab is funded by the tech grant, or the Unix Lab is funded by a private donation."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → (A4 → (A2 → A1)))",
+        "prover9_expression": "(funded_by(unix_lab, private_donation) -> (uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher))))",
+        "natural": "Provided that the Unix Lab is funded by a private donation, if the neural_net_paper uses the technology deep learning, then if John works for the Unix Lab, John has the job of researcher."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A8 → ¬A7)",
+        "prover9_expression": "(retains_position(john) -> -job_terminated(john))",
+        "natural": "If John retains his position, then it is not the case that John’s job is terminated."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(¬G → A1) → A7)",
+        "prover9_expression": "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> job_terminated(john))",
+        "natural": "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then John’s job is terminated."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(¬G → A1) → A8)",
+        "prover9_expression": "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> retains_position(john))",
+        "natural": "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then John retains his position."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬G → A2)",
+        "prover9_expression": "(-receives_grant(john, tech_grant) -> works_for(john, unix_lab))",
+        "natural": "If John does not receive the tech grant, then John works for the Unix Lab."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A3",
+        "prover9_expression": "publishes_paper(john, neural_net_paper)",
+        "natural": "John publishes a paper called neural_net_paper."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A1",
+        "prover9_expression": "-has_job(john, researcher)",
+        "natural": "John does not have the job of researcher."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "receives_grant(john, tech_grant)",
+    "natural": "John receives the tech grant."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (A4 -> (A2 -> A1)))",
+            "(A6 -> (A4 -> (A2 -> A1)))"
+          ],
+          "conclusion": "(A4 -> (A2 -> A1))",
+          "natural": "Under the condition that the neural_net_paper uses the technology deep learning, if John works for the Unix Lab, John has the job of researcher."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> (A2 -> A1))"
+          ],
+          "conclusion": "(A3 -> (A2 -> A1))",
+          "natural": "If John publishes a paper called neural_net_paper, then if John works for the Unix Lab, John has the job of researcher."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (A2 -> A1))",
+            "A3"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that John works for the Unix Lab, John has the job of researcher."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If John does not receive the tech grant, then John has the job of researcher."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "John receives the tech grant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-G -> A1) -> A8)",
+            "(A8 -> -A7)"
+          ],
+          "conclusion": "(-(-G -> A1) -> -A7)",
+          "natural": "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then it is not the case that John’s job is terminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A1) -> A7)",
+            "(-(-G -> A1) -> -A7)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If John does not receive the tech grant, then John has the job of researcher."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "John receives the tech grant."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Technology Research in Academia",
+    "atomic_facts": {
+      "A1": "has_job(john, researcher)",
+      "A2": "works_for(john, unix_lab)",
+      "A3": "publishes_paper(john, neural_net_paper)",
+      "A4": "uses_tech(neural_net_paper, deep_learning)",
+      "A5": "funded_by(unix_lab, tech_grant)",
+      "A6": "funded_by(unix_lab, private_donation)",
+      "A7": "job_terminated(john)",
+      "A8": "retains_position(john)",
+      "G": "receives_grant(john, tech_grant)"
+    },
+    "natural_facts": {
+      "A1": "John has the job of researcher.",
+      "A2": "John works for the Unix Lab.",
+      "A3": "John publishes a paper called neural_net_paper.",
+      "A4": "The neural_net_paper uses the technology deep learning.",
+      "A5": "The Unix Lab is funded by the tech grant.",
+      "A6": "The Unix Lab is funded by a private donation.",
+      "A7": "John’s job is terminated.",
+      "A8": "John retains his position.",
+      "G": "John receives the tech grant."
+    },
+    "prover9_expressions": [
+      "(works_for(john, unix_lab) -> has_job(john, researcher))",
+      "(publishes_paper(john, neural_net_paper) -> (works_for(john, unix_lab) -> has_job(john, researcher)))",
+      "(publishes_paper(john, neural_net_paper) -> uses_tech(neural_net_paper, deep_learning))",
+      "(uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher)))",
+      "(funded_by(unix_lab, tech_grant) -> (uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher))))",
+      "(funded_by(unix_lab, tech_grant) | funded_by(unix_lab, private_donation))",
+      "(funded_by(unix_lab, private_donation) -> (uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher))))",
+      "(retains_position(john) -> -job_terminated(john))",
+      "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> job_terminated(john))",
+      "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> retains_position(john))",
+      "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> -job_terminated(john))",
+      "(-receives_grant(john, tech_grant) -> has_job(john, researcher))",
+      "(-receives_grant(john, tech_grant) -> works_for(john, unix_lab))",
+      "publishes_paper(john, neural_net_paper)",
+      "receives_grant(john, tech_grant)",
+      "-has_job(john, researcher)"
+    ],
+    "natural_expressions": [
+      "Provided that John works for the Unix Lab, John has the job of researcher.",
+      "If John publishes a paper called neural_net_paper, then if John works for the Unix Lab, John has the job of researcher.",
+      "Whenever John publishes a paper called neural_net_paper, it follows that the neural_net_paper uses the technology deep learning.",
+      "Under the condition that the neural_net_paper uses the technology deep learning, if John works for the Unix Lab, John has the job of researcher.",
+      "If the Unix Lab is funded by the tech grant, then whenever the neural_net_paper uses the technology deep learning, it follows that if John works for the Unix Lab, John has the job of researcher.",
+      "Either the Unix Lab is funded by the tech grant, or the Unix Lab is funded by a private donation.",
+      "Provided that the Unix Lab is funded by a private donation, if the neural_net_paper uses the technology deep learning, then if John works for the Unix Lab, John has the job of researcher.",
+      "If John retains his position, then it is not the case that John’s job is terminated.",
+      "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then John’s job is terminated.",
+      "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then John retains his position.",
+      "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then it is not the case that John’s job is terminated.",
+      "If John does not receive the tech grant, then John has the job of researcher.",
+      "If John does not receive the tech grant, then John works for the Unix Lab.",
+      "John publishes a paper called neural_net_paper.",
+      "John receives the tech grant.",
+      "John does not have the job of researcher."
+    ],
+    "node_mappings": {
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(works_for(john, unix_lab) -> has_job(john, researcher))",
+        "natural": "Provided that John works for the Unix Lab, John has the job of researcher."
+      },
+      "(A3 → (A2 → A1))": {
+        "formal": "(A3 → (A2 → A1))",
+        "prover9": "(A3 -> (A2 -> A1))",
+        "prover9_expression": "(publishes_paper(john, neural_net_paper) -> (works_for(john, unix_lab) -> has_job(john, researcher)))",
+        "natural": "If John publishes a paper called neural_net_paper, then if John works for the Unix Lab, John has the job of researcher."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(publishes_paper(john, neural_net_paper) -> uses_tech(neural_net_paper, deep_learning))",
+        "natural": "Whenever John publishes a paper called neural_net_paper, it follows that the neural_net_paper uses the technology deep learning."
+      },
+      "(A4 → (A2 → A1))": {
+        "formal": "(A4 → (A2 → A1))",
+        "prover9": "(A4 -> (A2 -> A1))",
+        "prover9_expression": "(uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher)))",
+        "natural": "Under the condition that the neural_net_paper uses the technology deep learning, if John works for the Unix Lab, John has the job of researcher."
+      },
+      "(A5 → (A4 → (A2 → A1)))": {
+        "formal": "(A5 → (A4 → (A2 → A1)))",
+        "prover9": "(A5 -> (A4 -> (A2 -> A1)))",
+        "prover9_expression": "(funded_by(unix_lab, tech_grant) -> (uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher))))",
+        "natural": "If the Unix Lab is funded by the tech grant, then whenever the neural_net_paper uses the technology deep learning, it follows that if John works for the Unix Lab, John has the job of researcher."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(funded_by(unix_lab, tech_grant) | funded_by(unix_lab, private_donation))",
+        "natural": "Either the Unix Lab is funded by the tech grant, or the Unix Lab is funded by a private donation."
+      },
+      "(A6 → (A4 → (A2 → A1)))": {
+        "formal": "(A6 → (A4 → (A2 → A1)))",
+        "prover9": "(A6 -> (A4 -> (A2 -> A1)))",
+        "prover9_expression": "(funded_by(unix_lab, private_donation) -> (uses_tech(neural_net_paper, deep_learning) -> (works_for(john, unix_lab) -> has_job(john, researcher))))",
+        "natural": "Provided that the Unix Lab is funded by a private donation, if the neural_net_paper uses the technology deep learning, then if John works for the Unix Lab, John has the job of researcher."
+      },
+      "(A8 → ¬A7)": {
+        "formal": "(A8 → ¬A7)",
+        "prover9": "(A8 -> -A7)",
+        "prover9_expression": "(retains_position(john) -> -job_terminated(john))",
+        "natural": "If John retains his position, then it is not the case that John’s job is terminated."
+      },
+      "(¬(¬G → A1) → A7)": {
+        "formal": "(¬(¬G → A1) → A7)",
+        "prover9": "(-(-G -> A1) -> A7)",
+        "prover9_expression": "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> job_terminated(john))",
+        "natural": "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then John’s job is terminated."
+      },
+      "(¬(¬G → A1) → A8)": {
+        "formal": "(¬(¬G → A1) → A8)",
+        "prover9": "(-(-G -> A1) -> A8)",
+        "prover9_expression": "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> retains_position(john))",
+        "natural": "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then John retains his position."
+      },
+      "(¬(¬G → A1) → ¬A7)": {
+        "formal": "(¬(¬G → A1) → ¬A7)",
+        "prover9": "(-(-G -> A1) -> -A7)",
+        "prover9_expression": "(-(-receives_grant(john, tech_grant) -> has_job(john, researcher)) -> -job_terminated(john))",
+        "natural": "If it is not the case that if John does not receive the tech grant, then John has the job of researcher, then it is not the case that John’s job is terminated."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-receives_grant(john, tech_grant) -> has_job(john, researcher))",
+        "natural": "If John does not receive the tech grant, then John has the job of researcher."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-receives_grant(john, tech_grant) -> works_for(john, unix_lab))",
+        "natural": "If John does not receive the tech grant, then John works for the Unix Lab."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "publishes_paper(john, neural_net_paper)",
+        "natural": "John publishes a paper called neural_net_paper."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "receives_grant(john, tech_grant)",
+        "natural": "John receives the tech grant."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_job(john, researcher)",
+        "natural": "John does not have the job of researcher."
+      }
+    }
+  }
+}

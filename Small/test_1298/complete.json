@@ -1,0 +1,557 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(approved(platform, drug) -> market_release(platform, drug))",
+        "natural": "If the platform's drug is approved, then the platform's drug is released to the market."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(automated_system_alert(substance, drug) | manual_inspection_alert(substance, drug))",
+        "natural": "Either an automated system alert is issued for the substance concerning the drug, or a manual inspection alert is issued for the substance concerning the drug."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A12 → (A10 → (A8 → A9)))",
+        "prover9_expression": "(manual_inspection_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug))))",
+        "natural": "Provided that a manual inspection alert is issued for the substance concerning the drug, then if a lab alert is issued for the substance concerning the drug, whenever contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A13 ∨ (A11 → (A10 → (A8 → A9))))",
+        "prover9_expression": "(production_halted(platform, drug) | (automated_system_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug)))))",
+        "natural": "Either production is halted on the platform for the drug, or, if an automated system alert is issued for the substance concerning the drug, then whenever a lab alert is issued for the substance concerning the drug, it follows that, given that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A14 → ¬A13)",
+        "prover9_expression": "(equipment_failure(platform, drug) -> -production_halted(platform, drug))",
+        "natural": "If there is equipment failure on the platform for the drug, then it is not the case that production is halted on the platform for the drug."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(equipment_failure(platform, drug) | supply_shortage(substance, drug))",
+        "natural": "Either there is equipment failure on the platform for the drug, or there is a supply shortage of the substance for the drug."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A15 → ¬A13)",
+        "prover9_expression": "(supply_shortage(substance, drug) -> -production_halted(platform, drug))",
+        "natural": "Provided that there is a supply shortage of the substance for the drug, then production is not halted on the platform for the drug."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → A1)",
+        "prover9_expression": "(passes_safety(platform, drug) -> approved(platform, drug))",
+        "natural": "Under the condition that the platform's drug passes safety checks, the platform's drug is approved."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(passes_safety(platform, drug) | passes_efficacy(platform, drug))",
+        "natural": "The platform's drug passes safety checks, or the platform's drug passes efficacy checks."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A3 → A4)",
+        "prover9_expression": "(passes_efficacy(platform, drug) -> passes_quality(platform, drug))",
+        "natural": "Whenever the platform's drug passes efficacy checks, the platform's drug passes quality checks."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A5 → (A4 → A1))",
+        "prover9_expression": "(supervisor_verified(platform, drug) -> (passes_quality(platform, drug) -> approved(platform, drug)))",
+        "natural": "Provided that a supervisor verified the platform's drug, then if the platform's drug passes quality checks, the platform's drug is approved."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬(A6 ∨ (A3 → A1)) → ¬A7)",
+        "prover9_expression": "(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> -regulatory_investigation(platform, drug))",
+        "natural": "Provided that it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then it is not the case that the platform's drug is under regulatory investigation."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬(¬(A6 ∨ (A3 → A1)) → A7) → A8)",
+        "prover9_expression": "(-(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> regulatory_investigation(platform, drug)) -> contamination_detected(substance, drug))",
+        "natural": "If it is not the case that, if it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then the platform's drug is under regulatory investigation, then contamination is detected in the substance within the drug."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A10",
+        "prover9_expression": "lab_alert(substance, drug)",
+        "natural": "A lab alert is issued for the substance concerning the drug."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A5",
+        "prover9_expression": "supervisor_verified(platform, drug)",
+        "natural": "A supervisor verified the platform's drug."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A6",
+        "prover9_expression": "-third_party_audited(platform, drug)",
+        "natural": "The platform's drug was not audited by a third party."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A9",
+        "prover9_expression": "-batch_quarantined(substance, drug)",
+        "natural": "The batch containing the substance is not quarantined for the drug."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "market_release(platform, drug)",
+    "natural": "The platform's drug is released to the market."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> (A4 -> A1))",
+            "A5"
+          ],
+          "conclusion": "(A4 -> A1)",
+          "natural": "Given that the platform's drug passes quality checks, the platform's drug is approved."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A4)",
+            "(A4 -> A1)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "If the platform's drug passes efficacy checks, then the platform's drug is approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> A1)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "A1",
+          "natural": "The platform's drug is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The platform's drug is released to the market."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> -A13)",
+            "(A15 -> -A13)"
+          ],
+          "conclusion": "-A13",
+          "natural": "It is not the case that production is halted on the platform for the drug."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | (A11 -> (A10 -> (A8 -> A9))))",
+            "-A13"
+          ],
+          "conclusion": "(A11 -> (A10 -> (A8 -> A9)))",
+          "natural": "Given that an automated system alert is issued for the substance concerning the drug, then if a lab alert is issued for the substance concerning the drug, it follows that under the condition that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> (A10 -> (A8 -> A9)))",
+            "(A12 -> (A10 -> (A8 -> A9)))"
+          ],
+          "conclusion": "(A10 -> (A8 -> A9))",
+          "natural": "Whenever a lab alert is issued for the substance concerning the drug, then, provided that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A8 -> A9))",
+            "A10"
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "If contamination is detected in the substance within the drug, then the batch containing the substance is quarantined for the drug."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A8 -> A9)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "Contamination is not detected in the substance within the drug."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A6 | (A3 -> A1)) -> A7) -> A8)",
+            "-A8"
+          ],
+          "conclusion": "(-(A6 | (A3 -> A1)) -> A7)",
+          "natural": "If it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then the platform's drug is under regulatory investigation."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A6 | (A3 -> A1)) -> A7)",
+            "(-(A6 | (A3 -> A1)) -> -A7)"
+          ],
+          "conclusion": "(A6 | (A3 -> A1))",
+          "natural": "Either the platform's drug was audited by a third party, or, if the platform's drug passes efficacy checks, then the platform's drug is approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (A3 -> A1))",
+            "-A6"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "If the platform's drug passes efficacy checks, then the platform's drug is approved."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> A1)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "A1",
+          "natural": "The platform's drug is approved."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The platform's drug is released to the market."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "approved(platform, drug)",
+      "A2": "passes_safety(platform, drug)",
+      "A3": "passes_efficacy(platform, drug)",
+      "A4": "passes_quality(platform, drug)",
+      "A5": "supervisor_verified(platform, drug)",
+      "A6": "third_party_audited(platform, drug)",
+      "A7": "regulatory_investigation(platform, drug)",
+      "A8": "contamination_detected(substance, drug)",
+      "A9": "batch_quarantined(substance, drug)",
+      "A10": "lab_alert(substance, drug)",
+      "A11": "automated_system_alert(substance, drug)",
+      "A12": "manual_inspection_alert(substance, drug)",
+      "A13": "production_halted(platform, drug)",
+      "A14": "equipment_failure(platform, drug)",
+      "A15": "supply_shortage(substance, drug)",
+      "G": "market_release(platform, drug)"
+    },
+    "natural_facts": {
+      "A1": "The platform's drug is approved.",
+      "A2": "The platform's drug passes safety checks.",
+      "A3": "The platform's drug passes efficacy checks.",
+      "A4": "The platform's drug passes quality checks.",
+      "A5": "A supervisor verified the platform's drug.",
+      "A6": "The platform's drug was audited by a third party.",
+      "A7": "The platform's drug is under regulatory investigation.",
+      "A8": "Contamination is detected in the substance within the drug.",
+      "A9": "The batch containing the substance is quarantined for the drug.",
+      "A10": "A lab alert is issued for the substance concerning the drug.",
+      "A11": "An automated system alert is issued for the substance concerning the drug.",
+      "A12": "A manual inspection alert is issued for the substance concerning the drug.",
+      "A13": "Production is halted on the platform for the drug.",
+      "A14": "There is equipment failure on the platform for the drug.",
+      "A15": "There is a supply shortage of the substance for the drug.",
+      "G": "The platform's drug is released to the market."
+    },
+    "prover9_expressions": [
+      "(approved(platform, drug) -> market_release(platform, drug))",
+      "(lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug)))",
+      "(automated_system_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug))))",
+      "(automated_system_alert(substance, drug) | manual_inspection_alert(substance, drug))",
+      "(manual_inspection_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug))))",
+      "(production_halted(platform, drug) | (automated_system_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug)))))",
+      "(equipment_failure(platform, drug) -> -production_halted(platform, drug))",
+      "(equipment_failure(platform, drug) | supply_shortage(substance, drug))",
+      "(supply_shortage(substance, drug) -> -production_halted(platform, drug))",
+      "(passes_safety(platform, drug) -> approved(platform, drug))",
+      "(passes_safety(platform, drug) | passes_efficacy(platform, drug))",
+      "(passes_efficacy(platform, drug) -> approved(platform, drug))",
+      "(passes_efficacy(platform, drug) -> passes_quality(platform, drug))",
+      "(passes_quality(platform, drug) -> approved(platform, drug))",
+      "(supervisor_verified(platform, drug) -> (passes_quality(platform, drug) -> approved(platform, drug)))",
+      "(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug)))",
+      "(contamination_detected(substance, drug) -> batch_quarantined(substance, drug))",
+      "(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> regulatory_investigation(platform, drug))",
+      "(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> -regulatory_investigation(platform, drug))",
+      "(-(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> regulatory_investigation(platform, drug)) -> contamination_detected(substance, drug))",
+      "approved(platform, drug)",
+      "lab_alert(substance, drug)",
+      "supervisor_verified(platform, drug)",
+      "market_release(platform, drug)",
+      "-production_halted(platform, drug)",
+      "-third_party_audited(platform, drug)",
+      "-contamination_detected(substance, drug)",
+      "-batch_quarantined(substance, drug)"
+    ],
+    "natural_expressions": [
+      "If the platform's drug is approved, then the platform's drug is released to the market.",
+      "Whenever a lab alert is issued for the substance concerning the drug, then, provided that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug.",
+      "Given that an automated system alert is issued for the substance concerning the drug, then if a lab alert is issued for the substance concerning the drug, it follows that under the condition that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug.",
+      "Either an automated system alert is issued for the substance concerning the drug, or a manual inspection alert is issued for the substance concerning the drug.",
+      "Provided that a manual inspection alert is issued for the substance concerning the drug, then if a lab alert is issued for the substance concerning the drug, whenever contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug.",
+      "Either production is halted on the platform for the drug, or, if an automated system alert is issued for the substance concerning the drug, then whenever a lab alert is issued for the substance concerning the drug, it follows that, given that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug.",
+      "If there is equipment failure on the platform for the drug, then it is not the case that production is halted on the platform for the drug.",
+      "Either there is equipment failure on the platform for the drug, or there is a supply shortage of the substance for the drug.",
+      "Provided that there is a supply shortage of the substance for the drug, then production is not halted on the platform for the drug.",
+      "Under the condition that the platform's drug passes safety checks, the platform's drug is approved.",
+      "The platform's drug passes safety checks, or the platform's drug passes efficacy checks.",
+      "If the platform's drug passes efficacy checks, then the platform's drug is approved.",
+      "Whenever the platform's drug passes efficacy checks, the platform's drug passes quality checks.",
+      "Given that the platform's drug passes quality checks, the platform's drug is approved.",
+      "Provided that a supervisor verified the platform's drug, then if the platform's drug passes quality checks, the platform's drug is approved.",
+      "Either the platform's drug was audited by a third party, or, if the platform's drug passes efficacy checks, then the platform's drug is approved.",
+      "If contamination is detected in the substance within the drug, then the batch containing the substance is quarantined for the drug.",
+      "If it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then the platform's drug is under regulatory investigation.",
+      "Provided that it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then it is not the case that the platform's drug is under regulatory investigation.",
+      "If it is not the case that, if it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then the platform's drug is under regulatory investigation, then contamination is detected in the substance within the drug.",
+      "The platform's drug is approved.",
+      "A lab alert is issued for the substance concerning the drug.",
+      "A supervisor verified the platform's drug.",
+      "The platform's drug is released to the market.",
+      "It is not the case that production is halted on the platform for the drug.",
+      "The platform's drug was not audited by a third party.",
+      "Contamination is not detected in the substance within the drug.",
+      "The batch containing the substance is not quarantined for the drug."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(approved(platform, drug) -> market_release(platform, drug))",
+        "natural": "If the platform's drug is approved, then the platform's drug is released to the market."
+      },
+      "(A10 → (A8 → A9))": {
+        "formal": "(A10 → (A8 → A9))",
+        "prover9": "(A10 -> (A8 -> A9))",
+        "prover9_expression": "(lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug)))",
+        "natural": "Whenever a lab alert is issued for the substance concerning the drug, then, provided that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+      },
+      "(A11 → (A10 → (A8 → A9)))": {
+        "formal": "(A11 → (A10 → (A8 → A9)))",
+        "prover9": "(A11 -> (A10 -> (A8 -> A9)))",
+        "prover9_expression": "(automated_system_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug))))",
+        "natural": "Given that an automated system alert is issued for the substance concerning the drug, then if a lab alert is issued for the substance concerning the drug, it follows that under the condition that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(automated_system_alert(substance, drug) | manual_inspection_alert(substance, drug))",
+        "natural": "Either an automated system alert is issued for the substance concerning the drug, or a manual inspection alert is issued for the substance concerning the drug."
+      },
+      "(A12 → (A10 → (A8 → A9)))": {
+        "formal": "(A12 → (A10 → (A8 → A9)))",
+        "prover9": "(A12 -> (A10 -> (A8 -> A9)))",
+        "prover9_expression": "(manual_inspection_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug))))",
+        "natural": "Provided that a manual inspection alert is issued for the substance concerning the drug, then if a lab alert is issued for the substance concerning the drug, whenever contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+      },
+      "(A13 ∨ (A11 → (A10 → (A8 → A9))))": {
+        "formal": "(A13 ∨ (A11 → (A10 → (A8 → A9))))",
+        "prover9": "(A13 | (A11 -> (A10 -> (A8 -> A9))))",
+        "prover9_expression": "(production_halted(platform, drug) | (automated_system_alert(substance, drug) -> (lab_alert(substance, drug) -> (contamination_detected(substance, drug) -> batch_quarantined(substance, drug)))))",
+        "natural": "Either production is halted on the platform for the drug, or, if an automated system alert is issued for the substance concerning the drug, then whenever a lab alert is issued for the substance concerning the drug, it follows that, given that contamination is detected in the substance within the drug, the batch containing the substance is quarantined for the drug."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(equipment_failure(platform, drug) -> -production_halted(platform, drug))",
+        "natural": "If there is equipment failure on the platform for the drug, then it is not the case that production is halted on the platform for the drug."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(equipment_failure(platform, drug) | supply_shortage(substance, drug))",
+        "natural": "Either there is equipment failure on the platform for the drug, or there is a supply shortage of the substance for the drug."
+      },
+      "(A15 → ¬A13)": {
+        "formal": "(A15 → ¬A13)",
+        "prover9": "(A15 -> -A13)",
+        "prover9_expression": "(supply_shortage(substance, drug) -> -production_halted(platform, drug))",
+        "natural": "Provided that there is a supply shortage of the substance for the drug, then production is not halted on the platform for the drug."
+      },
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(passes_safety(platform, drug) -> approved(platform, drug))",
+        "natural": "Under the condition that the platform's drug passes safety checks, the platform's drug is approved."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(passes_safety(platform, drug) | passes_efficacy(platform, drug))",
+        "natural": "The platform's drug passes safety checks, or the platform's drug passes efficacy checks."
+      },
+      "(A3 → A1)": {
+        "formal": "(A3 → A1)",
+        "prover9": "(A3 -> A1)",
+        "prover9_expression": "(passes_efficacy(platform, drug) -> approved(platform, drug))",
+        "natural": "If the platform's drug passes efficacy checks, then the platform's drug is approved."
+      },
+      "(A3 → A4)": {
+        "formal": "(A3 → A4)",
+        "prover9": "(A3 -> A4)",
+        "prover9_expression": "(passes_efficacy(platform, drug) -> passes_quality(platform, drug))",
+        "natural": "Whenever the platform's drug passes efficacy checks, the platform's drug passes quality checks."
+      },
+      "(A4 → A1)": {
+        "formal": "(A4 → A1)",
+        "prover9": "(A4 -> A1)",
+        "prover9_expression": "(passes_quality(platform, drug) -> approved(platform, drug))",
+        "natural": "Given that the platform's drug passes quality checks, the platform's drug is approved."
+      },
+      "(A5 → (A4 → A1))": {
+        "formal": "(A5 → (A4 → A1))",
+        "prover9": "(A5 -> (A4 -> A1))",
+        "prover9_expression": "(supervisor_verified(platform, drug) -> (passes_quality(platform, drug) -> approved(platform, drug)))",
+        "natural": "Provided that a supervisor verified the platform's drug, then if the platform's drug passes quality checks, the platform's drug is approved."
+      },
+      "(A6 ∨ (A3 → A1))": {
+        "formal": "(A6 ∨ (A3 → A1))",
+        "prover9": "(A6 | (A3 -> A1))",
+        "prover9_expression": "(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug)))",
+        "natural": "Either the platform's drug was audited by a third party, or, if the platform's drug passes efficacy checks, then the platform's drug is approved."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(contamination_detected(substance, drug) -> batch_quarantined(substance, drug))",
+        "natural": "If contamination is detected in the substance within the drug, then the batch containing the substance is quarantined for the drug."
+      },
+      "(¬(A6 ∨ (A3 → A1)) → A7)": {
+        "formal": "(¬(A6 ∨ (A3 → A1)) → A7)",
+        "prover9": "(-(A6 | (A3 -> A1)) -> A7)",
+        "prover9_expression": "(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> regulatory_investigation(platform, drug))",
+        "natural": "If it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then the platform's drug is under regulatory investigation."
+      },
+      "(¬(A6 ∨ (A3 → A1)) → ¬A7)": {
+        "formal": "(¬(A6 ∨ (A3 → A1)) → ¬A7)",
+        "prover9": "(-(A6 | (A3 -> A1)) -> -A7)",
+        "prover9_expression": "(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> -regulatory_investigation(platform, drug))",
+        "natural": "Provided that it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then it is not the case that the platform's drug is under regulatory investigation."
+      },
+      "(¬(¬(A6 ∨ (A3 → A1)) → A7) → A8)": {
+        "formal": "(¬(¬(A6 ∨ (A3 → A1)) → A7) → A8)",
+        "prover9": "(-(-(A6 | (A3 -> A1)) -> A7) -> A8)",
+        "prover9_expression": "(-(-(third_party_audited(platform, drug) | (passes_efficacy(platform, drug) -> approved(platform, drug))) -> regulatory_investigation(platform, drug)) -> contamination_detected(substance, drug))",
+        "natural": "If it is not the case that, if it is not the case that either the platform's drug was audited by a third party or, if the platform's drug passes efficacy checks, then the platform's drug is approved, then the platform's drug is under regulatory investigation, then contamination is detected in the substance within the drug."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "approved(platform, drug)",
+        "natural": "The platform's drug is approved."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "lab_alert(substance, drug)",
+        "natural": "A lab alert is issued for the substance concerning the drug."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "supervisor_verified(platform, drug)",
+        "natural": "A supervisor verified the platform's drug."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "market_release(platform, drug)",
+        "natural": "The platform's drug is released to the market."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-production_halted(platform, drug)",
+        "natural": "It is not the case that production is halted on the platform for the drug."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-third_party_audited(platform, drug)",
+        "natural": "The platform's drug was not audited by a third party."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-contamination_detected(substance, drug)",
+        "natural": "Contamination is not detected in the substance within the drug."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-batch_quarantined(substance, drug)",
+        "natural": "The batch containing the substance is not quarantined for the drug."
+      }
+    }
+  }
+}

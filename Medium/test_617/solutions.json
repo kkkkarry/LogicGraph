@@ -1,0 +1,1331 @@
+{
+  "solution_stats": {
+    "total_solutions": 7,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 11
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 14
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 8
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A3 -> A4)",
+              "prover9_expression": "(spread(disease_y, region_z) -> epidemic(disease_y))",
+              "natural": "Whenever disease Y is spreading in region Z, disease Y has reached epidemic status."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A4 -> (-G -> A1))",
+              "prover9_expression": "(epidemic(disease_y) -> (-regulation(enforced) -> contaminated(substance_x)))",
+              "natural": "If disease Y has reached epidemic status, then under the condition that regulation is not enforced, substance X is contaminated."
+            }
+          ],
+          "conclusion": "(A3 -> (-G -> A1))",
+          "natural": "If disease Y is spreading in region Z, then under the condition that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A2 -> A3)",
+              "prover9_expression": "(outbreak(disease_y, region_z) -> spread(disease_y, region_z))",
+              "natural": "Whenever there is an outbreak of disease Y in region Z, disease Y is spreading in region Z."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(spread(disease_y, region_z) -> (-regulation(enforced) -> contaminated(substance_x)))",
+              "natural": "If disease Y is spreading in region Z, then under the condition that regulation is not enforced, substance X is contaminated."
+            }
+          ],
+          "conclusion": "(A2 -> (-G -> A1))",
+          "natural": "If there is an outbreak of disease Y in region Z, then in the event that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(outbreak(disease_y, region_z) -> (-regulation(enforced) -> contaminated(substance_x)))",
+              "natural": "If there is an outbreak of disease Y in region Z, then in the event that regulation is not enforced, substance X is contaminated."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A2",
+              "prover9_expression": "outbreak(disease_y, region_z)",
+              "natural": "There is an outbreak of disease Y in region Z."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-regulation(enforced) -> contaminated(substance_x))",
+              "natural": "Provided that regulation is not enforced, substance X is contaminated."
+            },
+            {
+              "id": "Rule49",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-regulation(enforced) -> -contaminated(substance_x))",
+              "natural": "Under the condition that regulation is not enforced, substance X is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(diagnosis(preliminary) | diagnosis(final))",
+              "natural": "Either the diagnosis is preliminary or the diagnosis is final."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> (-(A8 -> A9) -> A12))",
+              "prover9_expression": "(diagnosis(preliminary) -> (-(consumed(food_w) -> digested(food_w)) -> symptom(fever)))",
+              "natural": "Whenever the diagnosis is preliminary, then if the absence of food W being consumed implies that food W is digested, fever is a symptom."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> (-(A8 -> A9) -> A12))",
+              "prover9_expression": "(diagnosis(final) -> (-(consumed(food_w) -> digested(food_w)) -> symptom(fever)))",
+              "natural": "Under the condition that the diagnosis is final, if the failure of food W being consumed to lead to its digestion occurs, then fever is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A12)",
+          "natural": "Whenever the absence of food W being consumed implies that food W is not digested, fever is a symptom."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A12)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(fever))",
+              "natural": "Whenever the absence of food W being consumed implies that food W is not digested, fever is a symptom."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(symptom(fever) -> symptom(nausea))",
+              "natural": "Provided that fever is a symptom, nausea is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A11)",
+          "natural": "Under the condition that the failure of food W being consumed to imply its digestion occurs, nausea is a symptom."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A11)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(nausea))",
+              "natural": "Under the condition that the failure of food W being consumed to imply its digestion occurs, nausea is a symptom."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(symptom(nausea) -> symptom(headache))",
+              "natural": "If nausea is a symptom, then headache is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A10)",
+          "natural": "If the absence of food W being consumed does not lead to food W being digested, then headache is a symptom."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A10)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(headache))",
+              "natural": "If the absence of food W being consumed does not lead to food W being digested, then headache is a symptom."
+            },
+            {
+              "id": "Rule41",
+              "prover9": "(-(A8 -> A9) -> -A10)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> -symptom(headache))",
+              "natural": "Under the condition that the absence of food W being consumed does not lead to food W being digested, headache is not a symptom."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Under the condition that food W has been consumed, food W has been digested."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(consumed(food_w) -> digested(food_w))",
+              "natural": "Under the condition that food W has been consumed, food W has been digested."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A9 -> A6)",
+              "prover9_expression": "(digested(food_w) -> approved(food_w))",
+              "natural": "If food W has been digested, then food W is approved."
+            }
+          ],
+          "conclusion": "(A8 -> A6)",
+          "natural": "Whenever food W has been consumed, food W is approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(tested(food_w) -> safe(food_w))",
+              "natural": "If food W has been tested, then food W is safe."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(consumed(food_w) -> approved(food_w))",
+              "natural": "Whenever food W has been consumed, food W is approved."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(tested(food_w) | consumed(food_w))",
+              "natural": "Either food W has been tested, or food W has been consumed."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either food W is safe, or food W is approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(safe(food_w) | approved(food_w))",
+              "natural": "Either food W is safe, or food W is approved."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(safe(food_w) -> regulation(enforced))",
+              "natural": "If food W is safe, then regulation is enforced."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(approved(food_w) -> regulation(enforced))",
+              "natural": "Provided that food W is approved, regulation is enforced."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A19 -> A20)",
+              "prover9_expression": "(curfew(region_z) -> travel_ban(region_z))",
+              "natural": "Provided that a curfew is in place in region Z, a travel ban is imposed on region Z."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A20 -> A18)",
+              "prover9_expression": "(travel_ban(region_z) -> restricted_movement(region_z))",
+              "natural": "If a travel ban is imposed on region Z, then movement in region Z is restricted."
+            }
+          ],
+          "conclusion": "(A19 -> A18)",
+          "natural": "If a curfew is in place in region Z, then movement in region Z is restricted."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A17 -> A19)",
+              "prover9_expression": "(lockdown(region_z) -> curfew(region_z))",
+              "natural": "Whenever region Z is under lockdown, a curfew is in place in region Z."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> A18)",
+              "prover9_expression": "(curfew(region_z) -> restricted_movement(region_z))",
+              "natural": "If a curfew is in place in region Z, then movement in region Z is restricted."
+            }
+          ],
+          "conclusion": "(A17 -> A18)",
+          "natural": "Provided that region Z is under lockdown, movement in region Z is restricted."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(lockdown(region_z) -> restricted_movement(region_z))",
+              "natural": "Provided that region Z is under lockdown, movement in region Z is restricted."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A17 -> -A18)",
+              "prover9_expression": "(lockdown(region_z) -> -restricted_movement(region_z))",
+              "natural": "Under the condition that region Z is under lockdown, movement in region Z is not restricted."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "Region Z is not under lockdown."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 | -A16)",
+              "prover9_expression": "(lockdown(region_z) | -quarantine(region_z))",
+              "natural": "Either region Z is under lockdown, or region Z is not under quarantine."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-lockdown(region_z)",
+              "natural": "Region Z is not under lockdown."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "Region Z is not under quarantine."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A16 | (A15 -> A1))",
+              "prover9_expression": "(quarantine(region_z) | (recall(substance_x) -> contaminated(substance_x)))",
+              "natural": "Either region Z is under quarantine, or if substance X is recalled, then substance X is contaminated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-quarantine(region_z)",
+              "natural": "Region Z is not under quarantine."
+            }
+          ],
+          "conclusion": "(A15 -> A1)",
+          "natural": "If substance X is recalled, then substance X is contaminated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule48",
+              "prover9": "(-G -> A15)",
+              "prover9_expression": "(-regulation(enforced) -> recall(substance_x))",
+              "natural": "If regulation is not enforced, then substance X is recalled."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A15 -> A1)",
+              "prover9_expression": "(recall(substance_x) -> contaminated(substance_x))",
+              "natural": "If substance X is recalled, then substance X is contaminated."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-regulation(enforced) -> contaminated(substance_x))",
+              "natural": "Provided that regulation is not enforced, substance X is contaminated."
+            },
+            {
+              "id": "Rule49",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-regulation(enforced) -> -contaminated(substance_x))",
+              "natural": "Under the condition that regulation is not enforced, substance X is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule42",
+              "prover9": "(-(-(A21 -> A22) -> A23) -> A25)",
+              "prover9_expression": "(-(-(investigation(food_w) -> inspection(food_w)) -> clearance(food_w)) -> license(distribution))",
+              "natural": "Provided that the failure of the negation of the implication from an investigation on food W to an inspection on food W to result in food W having clearance occurs, distribution is licensed."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A24)",
+              "prover9_expression": "(license(distribution) -> permit(distribution))",
+              "natural": "If distribution is licensed, then distribution is permitted."
+            }
+          ],
+          "conclusion": "(-(-(A21 -> A22) -> A23) -> A24)",
+          "natural": "If it is not the case that the negation of the implication from an investigation on food W to an inspection on food W leads to food W having clearance, then distribution is permitted."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A21 -> A22) -> A23) -> A24)",
+              "prover9_expression": "(-(-(investigation(food_w) -> inspection(food_w)) -> clearance(food_w)) -> permit(distribution))",
+              "natural": "If it is not the case that the negation of the implication from an investigation on food W to an inspection on food W leads to food W having clearance, then distribution is permitted."
+            },
+            {
+              "id": "Rule43",
+              "prover9": "(-(-(A21 -> A22) -> A23) -> -A24)",
+              "prover9_expression": "(-(-(investigation(food_w) -> inspection(food_w)) -> clearance(food_w)) -> -permit(distribution))",
+              "natural": "If it is not the case that the negation of the implication from an investigation on food W to an inspection on food W implies food W has clearance, then distribution is not permitted."
+            }
+          ],
+          "conclusion": "(-(A21 -> A22) -> A23)",
+          "natural": "If it is not the case that an investigation being underway on food W implies an inspection is conducted on food W, then food W has clearance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A21 -> A22) -> A23)",
+              "prover9_expression": "(-(investigation(food_w) -> inspection(food_w)) -> clearance(food_w))",
+              "natural": "If it is not the case that an investigation being underway on food W implies an inspection is conducted on food W, then food W has clearance."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A23",
+              "prover9_expression": "-clearance(food_w)",
+              "natural": "Food W does not have clearance."
+            }
+          ],
+          "conclusion": "(A21 -> A22)",
+          "natural": "If an investigation is underway on food W, then an inspection is conducted on food W."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> A22)",
+              "prover9_expression": "(investigation(food_w) -> inspection(food_w))",
+              "natural": "If an investigation is underway on food W, then an inspection is conducted on food W."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A22 -> (A2 -> (-G -> A1)))",
+              "prover9_expression": "(inspection(food_w) -> (outbreak(disease_y, region_z) -> (-regulation(enforced) -> contaminated(substance_x))))",
+              "natural": "Provided that an inspection is conducted on food W, if there is an outbreak of disease Y in region Z, then whenever regulation is not enforced, substance X is contaminated."
+            }
+          ],
+          "conclusion": "(A21 -> (A2 -> (-G -> A1)))",
+          "natural": "Under the condition that an investigation is underway on food W, if there is an outbreak of disease Y in region Z, then provided that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> (A2 -> (-G -> A1)))",
+              "prover9_expression": "(investigation(food_w) -> (outbreak(disease_y, region_z) -> (-regulation(enforced) -> contaminated(substance_x))))",
+              "natural": "Under the condition that an investigation is underway on food W, if there is an outbreak of disease Y in region Z, then provided that regulation is not enforced, substance X is contaminated."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A21",
+              "prover9_expression": "investigation(food_w)",
+              "natural": "An investigation is underway on food W."
+            }
+          ],
+          "conclusion": "(A2 -> (-G -> A1))",
+          "natural": "If there is an outbreak of disease Y in region Z, then in the event that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(outbreak(disease_y, region_z) -> (-regulation(enforced) -> contaminated(substance_x)))",
+              "natural": "If there is an outbreak of disease Y in region Z, then in the event that regulation is not enforced, substance X is contaminated."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A2",
+              "prover9_expression": "outbreak(disease_y, region_z)",
+              "natural": "There is an outbreak of disease Y in region Z."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that regulation is not enforced, substance X is contaminated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-regulation(enforced) -> contaminated(substance_x))",
+              "natural": "Provided that regulation is not enforced, substance X is contaminated."
+            },
+            {
+              "id": "Rule49",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-regulation(enforced) -> -contaminated(substance_x))",
+              "natural": "Under the condition that regulation is not enforced, substance X is not contaminated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A33 | A34)",
+              "prover9_expression": "(measure(preventive) | measure(reactive))",
+              "natural": "Either preventive measures are implemented, or reactive measures are implemented."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A33 -> (-(A30 | A31) -> A32))",
+              "prover9_expression": "(measure(preventive) -> (-(protocol(initial) | protocol(revised)) -> guideline(containment)))",
+              "natural": "If preventive measures are implemented, then in the event that neither the initial protocol nor the revised protocol is in use, containment guidelines exist."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A34 -> (-(A30 | A31) -> A32))",
+              "prover9_expression": "(measure(reactive) -> (-(protocol(initial) | protocol(revised)) -> guideline(containment)))",
+              "natural": "Under the condition that reactive measures are implemented, if it is not the case that either the initial protocol or the revised protocol is in use, then containment guidelines exist."
+            }
+          ],
+          "conclusion": "(-(A30 | A31) -> A32)",
+          "natural": "Provided that neither the initial protocol nor the revised protocol is in use, containment guidelines exist."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A30 | A31) -> A32)",
+              "prover9_expression": "(-(protocol(initial) | protocol(revised)) -> guideline(containment))",
+              "natural": "Provided that neither the initial protocol nor the revised protocol is in use, containment guidelines exist."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A32",
+              "prover9_expression": "-guideline(containment)",
+              "natural": "Containment guidelines do not exist."
+            }
+          ],
+          "conclusion": "(A30 | A31)",
+          "natural": "Either the initial protocol is in use, or the revised protocol is in use."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A30 | A31)",
+              "prover9_expression": "(protocol(initial) | protocol(revised))",
+              "natural": "Either the initial protocol is in use, or the revised protocol is in use."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A30 -> (-(-(-(A8 -> A9) -> A26) -> -A27) -> A29))",
+              "prover9_expression": "(protocol(initial) -> (-(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> -treatment(antiemetic)) -> dispense(antiemetic)))",
+              "natural": "If the initial protocol is in use, then in the case that the negation of the implication that the absence of food W being consumed implies that food W is digested leads to vomiting not being a symptom, and antiemetic treatment is not administered, an antiemetic is dispensed."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A31 -> (-(-(-(A8 -> A9) -> A26) -> -A27) -> A29))",
+              "prover9_expression": "(protocol(revised) -> (-(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> -treatment(antiemetic)) -> dispense(antiemetic)))",
+              "natural": "Provided that the revised protocol is in use, if the failure of the negation of the implication that the absence of food W being consumed implies that food W is digested to result in vomiting being a symptom leads to antiemetic treatment not being administered, then an antiemetic is dispensed."
+            }
+          ],
+          "conclusion": "(-(-(-(A8 -> A9) -> A26) -> -A27) -> A29)",
+          "natural": "Provided that the failure of the negation of the implication that the negation of the implication from food W not being consumed to it being digested implies vomiting is a symptom to lead to antiemetic treatment not being administered occurs, an antiemetic is dispensed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(A8 -> A9) -> A26) -> -A27) -> A29)",
+              "prover9_expression": "(-(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> -treatment(antiemetic)) -> dispense(antiemetic))",
+              "natural": "Provided that the failure of the negation of the implication that the negation of the implication from food W not being consumed to it being digested implies vomiting is a symptom to lead to antiemetic treatment not being administered occurs, an antiemetic is dispensed."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A29 -> A28)",
+              "prover9_expression": "(dispense(antiemetic) -> prescription(antiemetic))",
+              "natural": "Provided that an antiemetic is dispensed, an antiemetic is prescribed."
+            }
+          ],
+          "conclusion": "(-(-(-(A8 -> A9) -> A26) -> -A27) -> A28)",
+          "natural": "If the negation of the implication that the negation of the implication from food W not being consumed to it being digested leads to vomiting being a symptom does not result in antiemetic treatment not being administered, then an antiemetic is prescribed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(A8 -> A9) -> A26) -> -A27) -> A28)",
+              "prover9_expression": "(-(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> -treatment(antiemetic)) -> prescription(antiemetic))",
+              "natural": "If the negation of the implication that the negation of the implication from food W not being consumed to it being digested leads to vomiting being a symptom does not result in antiemetic treatment not being administered, then an antiemetic is prescribed."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(-(-(-(A8 -> A9) -> A26) -> -A27) -> -A28)",
+              "prover9_expression": "(-(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> -treatment(antiemetic)) -> -prescription(antiemetic))",
+              "natural": "Under the condition that the negation of the implication that the negation of the implication from food W not being consumed to it being digested results in vomiting being a symptom does not imply antiemetic treatment is not administered, an antiemetic is not prescribed."
+            }
+          ],
+          "conclusion": "(-(-(A8 -> A9) -> A26) -> -A27)",
+          "natural": "If the failure of the negation of the implication from food W not being consumed to it being digested to result in vomiting being a symptom occurs, then antiemetic treatment is not administered."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule44",
+              "prover9": "(-(-(A8 -> A9) -> A26) -> A27)",
+              "prover9_expression": "(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> treatment(antiemetic))",
+              "natural": "Under the condition that the negation of the implication from the absence of food W being consumed to its digestion does not lead to vomiting being a symptom, antiemetic treatment is administered."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A8 -> A9) -> A26) -> -A27)",
+              "prover9_expression": "(-(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting)) -> -treatment(antiemetic))",
+              "natural": "If the failure of the negation of the implication from food W not being consumed to it being digested to result in vomiting being a symptom occurs, then antiemetic treatment is not administered."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A26)",
+          "natural": "If the lack of food W consumption does not result in its digestion, then vomiting is a symptom."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A26)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(vomiting))",
+              "natural": "If the lack of food W consumption does not result in its digestion, then vomiting is a symptom."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> A10)",
+              "prover9_expression": "(symptom(vomiting) -> symptom(headache))",
+              "natural": "If vomiting is a symptom, then headache is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A10)",
+          "natural": "If the absence of food W being consumed does not lead to food W being digested, then headache is a symptom."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A10)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(headache))",
+              "natural": "If the absence of food W being consumed does not lead to food W being digested, then headache is a symptom."
+            },
+            {
+              "id": "Rule41",
+              "prover9": "(-(A8 -> A9) -> -A10)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> -symptom(headache))",
+              "natural": "Under the condition that the absence of food W being consumed does not lead to food W being digested, headache is not a symptom."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Under the condition that food W has been consumed, food W has been digested."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(consumed(food_w) -> digested(food_w))",
+              "natural": "Under the condition that food W has been consumed, food W has been digested."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A9 -> A6)",
+              "prover9_expression": "(digested(food_w) -> approved(food_w))",
+              "natural": "If food W has been digested, then food W is approved."
+            }
+          ],
+          "conclusion": "(A8 -> A6)",
+          "natural": "Whenever food W has been consumed, food W is approved."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(tested(food_w) -> safe(food_w))",
+              "natural": "If food W has been tested, then food W is safe."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(consumed(food_w) -> approved(food_w))",
+              "natural": "Whenever food W has been consumed, food W is approved."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(tested(food_w) | consumed(food_w))",
+              "natural": "Either food W has been tested, or food W has been consumed."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either food W is safe, or food W is approved."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(safe(food_w) | approved(food_w))",
+              "natural": "Either food W is safe, or food W is approved."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(safe(food_w) -> regulation(enforced))",
+              "natural": "If food W is safe, then regulation is enforced."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(approved(food_w) -> regulation(enforced))",
+              "natural": "Provided that food W is approved, regulation is enforced."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(-(A42 -> A40) -> A43)",
+              "prover9_expression": "(-(certification(worker_k) -> hygiene(practice_g)) -> violation(protocol_h))",
+              "natural": "If it is not the case that worker K being certified implies hygiene practice G is maintained, then protocol H has been violated."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A43",
+              "prover9_expression": "-violation(protocol_h)",
+              "natural": "Protocol H has not been violated."
+            }
+          ],
+          "conclusion": "(A42 -> A40)",
+          "natural": "Whenever worker K is certified, hygiene practice G is maintained."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A41 | A42)",
+              "prover9_expression": "(training(worker_k) | certification(worker_k))",
+              "natural": "Either worker K has received training, or worker K is certified."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A41 -> A40)",
+              "prover9_expression": "(training(worker_k) -> hygiene(practice_g))",
+              "natural": "If worker K has received training, then hygiene practice G is maintained."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A42 -> A40)",
+              "prover9_expression": "(certification(worker_k) -> hygiene(practice_g))",
+              "natural": "Whenever worker K is certified, hygiene practice G is maintained."
+            }
+          ],
+          "conclusion": "A40",
+          "natural": "Hygiene practice G is maintained."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A40 -> -A39)",
+              "prover9_expression": "(hygiene(practice_g) -> -discharge(patient_p))",
+              "natural": "Provided that hygiene practice G is maintained, patient P is not discharged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A40",
+              "prover9_expression": "hygiene(practice_g)",
+              "natural": "Hygiene practice G is maintained."
+            }
+          ],
+          "conclusion": "-A39",
+          "natural": "Patient P is not discharged."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule47",
+              "prover9": "(-(-(-(A8 -> A9) -> A35) -> A38) -> A39)",
+              "prover9_expression": "(-(-(-(consumed(food_w) -> digested(food_w)) -> symptom(chills)) -> intensive_care(patient_p)) -> discharge(patient_p))",
+              "natural": "If the negation of the implication that the negation of the implication from food W not being consumed to it being digested leads to chills being a symptom does not result in patient P being in intensive care, then patient P is discharged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A39",
+              "prover9_expression": "-discharge(patient_p)",
+              "natural": "Patient P is not discharged."
+            }
+          ],
+          "conclusion": "(-(-(A8 -> A9) -> A35) -> A38)",
+          "natural": "If the absence of the implication that the absence of food W being consumed implies its digestion does not lead to chills being a symptom, then patient P is in intensive care."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A8 -> A9) -> A35) -> A38)",
+              "prover9_expression": "(-(-(consumed(food_w) -> digested(food_w)) -> symptom(chills)) -> intensive_care(patient_p))",
+              "natural": "If the absence of the implication that the absence of food W being consumed implies its digestion does not lead to chills being a symptom, then patient P is in intensive care."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A38 -> A37)",
+              "prover9_expression": "(intensive_care(patient_p) -> hospitalization(patient_p))",
+              "natural": "Whenever patient P is in intensive care, patient P is hospitalized."
+            }
+          ],
+          "conclusion": "(-(-(A8 -> A9) -> A35) -> A37)",
+          "natural": "Provided that the negation of the implication that food W is not consumed leads to it being digested does not result in chills being a symptom, patient P is hospitalized."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A8 -> A9) -> A35) -> A37)",
+              "prover9_expression": "(-(-(consumed(food_w) -> digested(food_w)) -> symptom(chills)) -> hospitalization(patient_p))",
+              "natural": "Provided that the negation of the implication that food W is not consumed leads to it being digested does not result in chills being a symptom, patient P is hospitalized."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A37 -> -A36)",
+              "prover9_expression": "(hospitalization(patient_p) -> -isolation(patient_p))",
+              "natural": "If patient P is hospitalized, then patient P is not isolated."
+            }
+          ],
+          "conclusion": "(-(-(A8 -> A9) -> A35) -> -A36)",
+          "natural": "Under the condition that the negation of the implication from food W not being consumed to it being digested fails to imply chills are a symptom, patient P is not isolated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(-(A8 -> A9) -> A35) -> A36)",
+              "prover9_expression": "(-(-(consumed(food_w) -> digested(food_w)) -> symptom(chills)) -> isolation(patient_p))",
+              "natural": "Whenever the negation of the implication from the lack of food W consumption to its digestion does not imply chills are a symptom, patient P is isolated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A8 -> A9) -> A35) -> -A36)",
+              "prover9_expression": "(-(-(consumed(food_w) -> digested(food_w)) -> symptom(chills)) -> -isolation(patient_p))",
+              "natural": "Under the condition that the negation of the implication from food W not being consumed to it being digested fails to imply chills are a symptom, patient P is not isolated."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A35)",
+          "natural": "Provided that the implication from food W not being consumed to it being digested fails, chills are a symptom."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A35)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(chills))",
+              "natural": "Provided that the implication from food W not being consumed to it being digested fails, chills are a symptom."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A35 -> A12)",
+              "prover9_expression": "(symptom(chills) -> symptom(fever))",
+              "natural": "Provided that chills are a symptom, fever is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A12)",
+          "natural": "Whenever the absence of food W being consumed implies that food W is not digested, fever is a symptom."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A12)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(fever))",
+              "natural": "Whenever the absence of food W being consumed implies that food W is not digested, fever is a symptom."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(symptom(fever) -> symptom(nausea))",
+              "natural": "Provided that fever is a symptom, nausea is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A11)",
+          "natural": "Under the condition that the failure of food W being consumed to imply its digestion occurs, nausea is a symptom."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A11)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(nausea))",
+              "natural": "Under the condition that the failure of food W being consumed to imply its digestion occurs, nausea is a symptom."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(symptom(nausea) -> symptom(headache))",
+              "natural": "If nausea is a symptom, then headache is a symptom."
+            }
+          ],
+          "conclusion": "(-(A8 -> A9) -> A10)",
+          "natural": "If the absence of food W being consumed does not lead to food W being digested, then headache is a symptom."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 -> A9) -> A10)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> symptom(headache))",
+              "natural": "If the absence of food W being consumed does not lead to food W being digested, then headache is a symptom."
+            },
+            {
+              "id": "Rule41",
+              "prover9": "(-(A8 -> A9) -> -A10)",
+              "prover9_expression": "(-(consumed(food_w) -> digested(food_w)) -> -symptom(headache))",
+              "natural": "Under the condition that the absence of food W being consumed does not lead to food W being digested, headache is not a symptom."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Under the condition that food W has been consumed, food W has been digested."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(consumed(food_w) -> digested(food_w))",
+              "natural": "Under the condition that food W has been consumed, food W has been digested."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A9 -> A6)",
+              "prover9_expression": "(digested(food_w) -> approved(food_w))",
+              "natural": "If food W has been digested, then food W is approved."
+            }
+          ],
+          "conclusion": "(A8 -> A6)",
+          "natural": "Whenever food W has been consumed, food W is approved."
+        },
+        {
+          "step_number": 13,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(tested(food_w) -> safe(food_w))",
+              "natural": "If food W has been tested, then food W is safe."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(consumed(food_w) -> approved(food_w))",
+              "natural": "Whenever food W has been consumed, food W is approved."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(tested(food_w) | consumed(food_w))",
+              "natural": "Either food W has been tested, or food W has been consumed."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either food W is safe, or food W is approved."
+        },
+        {
+          "step_number": 14,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(safe(food_w) | approved(food_w))",
+              "natural": "Either food W is safe, or food W is approved."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(safe(food_w) -> regulation(enforced))",
+              "natural": "If food W is safe, then regulation is enforced."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(approved(food_w) -> regulation(enforced))",
+              "natural": "Provided that food W is approved, regulation is enforced."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(A49 | (A48 -> (A47 -> (A8 -> A9))))",
+              "prover9_expression": "(exemption(compliance) | (regulation(compliance) -> (analysis(laboratory) -> (consumed(food_w) -> digested(food_w)))))",
+              "natural": "Either an exemption from compliance is granted, or if compliance with regulations is achieved, then if laboratory analysis is performed, then whenever food W is consumed, food W is digested."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A49",
+              "prover9_expression": "-exemption(compliance)",
+              "natural": "An exemption from compliance is not granted."
+            }
+          ],
+          "conclusion": "(A48 -> (A47 -> (A8 -> A9)))",
+          "natural": "If compliance with regulations is achieved, then if laboratory analysis is performed, then provided that food W is consumed, food W is digested."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A48 -> (A47 -> (A8 -> A9)))",
+              "prover9_expression": "(regulation(compliance) -> (analysis(laboratory) -> (consumed(food_w) -> digested(food_w))))",
+              "natural": "If compliance with regulations is achieved, then if laboratory analysis is performed, then provided that food W is consumed, food W is digested."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A48",
+              "prover9_expression": "regulation(compliance)",
+              "natural": "Compliance with regulations is achieved."
+            }
+          ],
+          "conclusion": "(A47 -> (A8 -> A9))",
+          "natural": "If laboratory analysis is performed, then under the condition that food W is consumed, food W is digested."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A46 -> A47)",
+              "prover9_expression": "(testing(laboratory) -> analysis(laboratory))",
+              "natural": "Provided that laboratory testing is conducted, laboratory analysis is performed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A47 -> (A8 -> A9))",
+              "prover9_expression": "(analysis(laboratory) -> (consumed(food_w) -> digested(food_w)))",
+              "natural": "If laboratory analysis is performed, then under the condition that food W is consumed, food W is digested."
+            }
+          ],
+          "conclusion": "(A46 -> (A8 -> A9))",
+          "natural": "If laboratory testing is conducted, then whenever food W is consumed, food W is digested."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(A44 -> A46)",
+              "prover9_expression": "(screening(routine) -> testing(laboratory))",
+              "natural": "Provided that routine screening is performed, laboratory testing is conducted."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A46 -> (A8 -> A9))",
+              "prover9_expression": "(testing(laboratory) -> (consumed(food_w) -> digested(food_w)))",
+              "natural": "If laboratory testing is conducted, then whenever food W is consumed, food W is digested."
+            }
+          ],
+          "conclusion": "(A44 -> (A8 -> A9))",
+          "natural": "If routine screening is performed, then if food W is consumed, food W is digested."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(A44 | A45)",
+              "prover9_expression": "(screening(routine) | screening(targeted))",
+              "natural": "Either routine screening is performed, or targeted screening is performed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A44 -> (A8 -> A9))",
+              "prover9_expression": "(screening(routine) -> (consumed(food_w) -> digested(food_w)))",
+              "natural": "If routine screening is performed, then if food W is consumed, food W is digested."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(A45 -> (A8 -> A9))",
+              "prover9_expression": "(screening(targeted) -> (consumed(food_w) -> digested(food_w)))",
+              "natural": "Under the condition that targeted screening is performed, if food W is consumed, food W is digested."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Under the condition that food W has been consumed, food W has been digested."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(consumed(food_w) -> digested(food_w))",
+              "natural": "Under the condition that food W has been consumed, food W has been digested."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A9 -> A6)",
+              "prover9_expression": "(digested(food_w) -> approved(food_w))",
+              "natural": "If food W has been digested, then food W is approved."
+            }
+          ],
+          "conclusion": "(A8 -> A6)",
+          "natural": "Whenever food W has been consumed, food W is approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(tested(food_w) -> safe(food_w))",
+              "natural": "If food W has been tested, then food W is safe."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(consumed(food_w) -> approved(food_w))",
+              "natural": "Whenever food W has been consumed, food W is approved."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(tested(food_w) | consumed(food_w))",
+              "natural": "Either food W has been tested, or food W has been consumed."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either food W is safe, or food W is approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(safe(food_w) | approved(food_w))",
+              "natural": "Either food W is safe, or food W is approved."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(safe(food_w) -> regulation(enforced))",
+              "natural": "If food W is safe, then regulation is enforced."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(approved(food_w) -> regulation(enforced))",
+              "natural": "Provided that food W is approved, regulation is enforced."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulation is enforced."
+        }
+      ]
+    }
+  ]
+}

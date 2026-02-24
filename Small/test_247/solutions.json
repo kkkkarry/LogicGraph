@@ -1,0 +1,443 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(fast_track_designation(drug_x) -> priority_review(drug_x))",
+              "natural": "In cases where drug X has fast track designation, drug X has priority review."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A6 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(priority_review(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Should drug X have priority review, then if the clinical trial for drug X is complete, it follows that if drug X is approved, drug X is marketed."
+            }
+          ],
+          "conclusion": "(A5 -> (A3 -> (A1 -> A2)))",
+          "natural": "Whenever drug X has fast track designation, then if the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(fda_review(drug_x) | fast_track_designation(drug_x))",
+              "natural": "Either FDA review of drug X is conducted or drug X has fast track designation."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(fda_review(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "If FDA review of drug X is conducted, then provided the clinical trial for drug X is complete, it follows that if drug X is approved, drug X is marketed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(fast_track_designation(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Whenever drug X has fast track designation, then if the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+            }
+          ],
+          "conclusion": "(A3 -> (A1 -> A2))",
+          "natural": "Should the clinical trial for drug X be complete, then if drug X is approved, drug X is marketed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (A1 -> A2))",
+              "prover9_expression": "(clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x)))",
+              "natural": "Should the clinical trial for drug X be complete, then if drug X is approved, drug X is marketed."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A3",
+              "prover9_expression": "clinical_trial_complete(drug_x)",
+              "natural": "The clinical trial for drug X is complete."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If drug X is approved, then drug X is marketed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(approved(drug_x) -> marketed(drug_x))",
+              "natural": "If drug X is approved, then drug X is marketed."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> -A2)",
+              "prover9_expression": "(approved(drug_x) -> -marketed(drug_x))",
+              "natural": "Provided that drug X is approved, drug X is not marketed."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-manufacturing_compliant(drug_x) -> approved(drug_x))",
+              "natural": "In the event that drug X is not manufacturing compliant, drug X is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(drug_x)",
+              "natural": "It is not the case that drug X is approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is manufacturing compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A9 -> A10)",
+              "prover9_expression": "(standard_review(drug_x) -> complete_response(drug_x))",
+              "natural": "Provided that drug X has standard review, drug X has a complete response."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A10",
+              "prover9_expression": "-complete_response(drug_x)",
+              "natural": "Drug X does not have a complete response."
+            }
+          ],
+          "conclusion": "-A9",
+          "natural": "Drug X does not have standard review."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(-(A5 -> A8) -> A9)",
+              "prover9_expression": "(-(fast_track_designation(drug_x) -> breakthrough_therapy(drug_x)) -> standard_review(drug_x))",
+              "natural": "If it is not the case that fast track designation of drug X implies breakthrough therapy designation, then drug X has standard review."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A9",
+              "prover9_expression": "-standard_review(drug_x)",
+              "natural": "Drug X does not have standard review."
+            }
+          ],
+          "conclusion": "(A5 -> A8)",
+          "natural": "Given that drug X has fast track designation, drug X has breakthrough therapy designation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A8)",
+              "prover9_expression": "(fast_track_designation(drug_x) -> breakthrough_therapy(drug_x))",
+              "natural": "Given that drug X has fast track designation, drug X has breakthrough therapy designation."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(breakthrough_therapy(drug_x) -> accelerated_approval(drug_x))",
+              "natural": "If drug X has breakthrough therapy designation, then drug X has accelerated approval."
+            }
+          ],
+          "conclusion": "(A5 -> A7)",
+          "natural": "If drug X has fast track designation, then drug X has accelerated approval."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A7)",
+              "prover9_expression": "(fast_track_designation(drug_x) -> accelerated_approval(drug_x))",
+              "natural": "If drug X has fast track designation, then drug X has accelerated approval."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A7 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(accelerated_approval(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Whenever drug X has accelerated approval, then provided the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+            }
+          ],
+          "conclusion": "(A5 -> (A3 -> (A1 -> A2)))",
+          "natural": "Whenever drug X has fast track designation, then if the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(fda_review(drug_x) | fast_track_designation(drug_x))",
+              "natural": "Either FDA review of drug X is conducted or drug X has fast track designation."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(fda_review(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "If FDA review of drug X is conducted, then provided the clinical trial for drug X is complete, it follows that if drug X is approved, drug X is marketed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(fast_track_designation(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Whenever drug X has fast track designation, then if the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+            }
+          ],
+          "conclusion": "(A3 -> (A1 -> A2))",
+          "natural": "Should the clinical trial for drug X be complete, then if drug X is approved, drug X is marketed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (A1 -> A2))",
+              "prover9_expression": "(clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x)))",
+              "natural": "Should the clinical trial for drug X be complete, then if drug X is approved, drug X is marketed."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A3",
+              "prover9_expression": "clinical_trial_complete(drug_x)",
+              "natural": "The clinical trial for drug X is complete."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If drug X is approved, then drug X is marketed."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(approved(drug_x) -> marketed(drug_x))",
+              "natural": "If drug X is approved, then drug X is marketed."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> -A2)",
+              "prover9_expression": "(approved(drug_x) -> -marketed(drug_x))",
+              "natural": "Provided that drug X is approved, drug X is not marketed."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-manufacturing_compliant(drug_x) -> approved(drug_x))",
+              "natural": "In the event that drug X is not manufacturing compliant, drug X is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(drug_x)",
+              "natural": "It is not the case that drug X is approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is manufacturing compliant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> A12)",
+              "prover9_expression": "(orphan_drug_designation(drug_x) -> rare_disease_indication(drug_x))",
+              "natural": "In cases where drug X has orphan drug designation, drug X has a rare disease indication."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(rare_disease_indication(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Given that drug X has a rare disease indication, then whenever the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+            }
+          ],
+          "conclusion": "(A11 -> (A3 -> (A1 -> A2)))",
+          "natural": "Whenever drug X has orphan drug designation, then if the clinical trial for drug X is complete, it follows that if drug X is approved, then drug X is marketed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A5 -> A11)",
+              "prover9_expression": "(fast_track_designation(drug_x) -> orphan_drug_designation(drug_x))",
+              "natural": "Provided that drug X has fast track designation, drug X has orphan drug designation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(orphan_drug_designation(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Whenever drug X has orphan drug designation, then if the clinical trial for drug X is complete, it follows that if drug X is approved, then drug X is marketed."
+            }
+          ],
+          "conclusion": "(A5 -> (A3 -> (A1 -> A2)))",
+          "natural": "Whenever drug X has fast track designation, then if the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(fda_review(drug_x) | fast_track_designation(drug_x))",
+              "natural": "Either FDA review of drug X is conducted or drug X has fast track designation."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(fda_review(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "If FDA review of drug X is conducted, then provided the clinical trial for drug X is complete, it follows that if drug X is approved, drug X is marketed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> (A3 -> (A1 -> A2)))",
+              "prover9_expression": "(fast_track_designation(drug_x) -> (clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x))))",
+              "natural": "Whenever drug X has fast track designation, then if the clinical trial for drug X is complete, it implies that if drug X is approved, drug X is marketed."
+            }
+          ],
+          "conclusion": "(A3 -> (A1 -> A2))",
+          "natural": "Should the clinical trial for drug X be complete, then if drug X is approved, drug X is marketed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (A1 -> A2))",
+              "prover9_expression": "(clinical_trial_complete(drug_x) -> (approved(drug_x) -> marketed(drug_x)))",
+              "natural": "Should the clinical trial for drug X be complete, then if drug X is approved, drug X is marketed."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A3",
+              "prover9_expression": "clinical_trial_complete(drug_x)",
+              "natural": "The clinical trial for drug X is complete."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If drug X is approved, then drug X is marketed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(approved(drug_x) -> marketed(drug_x))",
+              "natural": "If drug X is approved, then drug X is marketed."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> -A2)",
+              "prover9_expression": "(approved(drug_x) -> -marketed(drug_x))",
+              "natural": "Provided that drug X is approved, drug X is not marketed."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-manufacturing_compliant(drug_x) -> approved(drug_x))",
+              "natural": "In the event that drug X is not manufacturing compliant, drug X is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(drug_x)",
+              "natural": "It is not the case that drug X is approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is manufacturing compliant."
+        }
+      ]
+    }
+  ]
+}

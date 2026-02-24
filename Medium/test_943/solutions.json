@@ -1,0 +1,889 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 12
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A8 -> (A6 | A7))",
+              "prover9_expression": "(has_documentation(application) -> (submitted(application) | withdrawn(application)))",
+              "natural": "If an application has documentation, then either the application is submitted or the application is withdrawn."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A8",
+              "prover9_expression": "has_documentation(application)",
+              "natural": "An application has documentation."
+            }
+          ],
+          "conclusion": "(A6 | A7)",
+          "natural": "An application is submitted, or the application is withdrawn."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(submitted(application) -> approved(loan))",
+              "natural": "If an application is submitted, then the loan is approved."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(withdrawn(application) -> rejected(loan))",
+              "natural": "Under the condition that an application is withdrawn, the loan is rejected."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(submitted(application) | withdrawn(application))",
+              "natural": "An application is submitted, or the application is withdrawn."
+            }
+          ],
+          "conclusion": "(A4 | A5)",
+          "natural": "Either a loan is approved, or the loan is rejected."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(approved(loan) | rejected(loan))",
+              "natural": "Either a loan is approved, or the loan is rejected."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A4 -> -A3)",
+              "prover9_expression": "(approved(loan) -> -fraudulent(transaction))",
+              "natural": "Provided that a loan is approved, the transaction is not fraudulent."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A5 -> -A3)",
+              "prover9_expression": "(rejected(loan) -> -fraudulent(transaction))",
+              "natural": "Whenever a loan is rejected, the transaction is not fraudulent."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "A transaction is not fraudulent."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A2 -> G) -> A3)",
+              "prover9_expression": "(-(manages(banker, account) -> compliant(bank)) -> fraudulent(transaction))",
+              "natural": "If it is not the case that if a banker manages an account, then the bank is compliant, then the transaction is fraudulent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-fraudulent(transaction)",
+              "natural": "A transaction is not fraudulent."
+            }
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Whenever a banker manages an account, the bank is compliant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(works_for(banker, bank) | manages(banker, account))",
+              "natural": "Either a banker works for a bank, or a banker manages an account."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(works_for(banker, bank) -> compliant(bank))",
+              "natural": "If a banker works for a bank, then that bank is compliant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(manages(banker, account) -> compliant(bank))",
+              "natural": "Whenever a banker manages an account, the bank is compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(reviewed_by_compliance(investment) -> high_risk(investment))",
+              "natural": "Under the condition that an investment is reviewed by compliance, the investment is high risk."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> (A10 -> -A9))",
+              "prover9_expression": "(approved_by_director(investment) -> (sober_while_working(employee) -> -intoxicated_while_working(employee)))",
+              "natural": "Whenever an investment is approved by a director, if an employee is sober while working, then the employee is not intoxicated while working."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(reviewed_by_compliance(investment) | approved_by_director(investment))",
+              "natural": "Either an investment is reviewed by compliance, or it is approved by a director."
+            }
+          ],
+          "conclusion": "(A11 | (A10 -> -A9))",
+          "natural": "An investment is high risk, or if an employee is sober while working, then the employee is not intoxicated while working."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | (A10 -> -A9))",
+              "prover9_expression": "(high_risk(investment) | (sober_while_working(employee) -> -intoxicated_while_working(employee)))",
+              "natural": "An investment is high risk, or if an employee is sober while working, then the employee is not intoxicated while working."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A11",
+              "prover9_expression": "-high_risk(investment)",
+              "natural": "It is not the case that an investment is high risk."
+            }
+          ],
+          "conclusion": "(A10 -> -A9)",
+          "natural": "Provided that an employee is sober while working, the employee is not intoxicated while working."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(-G -> A10)",
+              "prover9_expression": "(-compliant(bank) -> sober_while_working(employee))",
+              "natural": "If the bank is not compliant, then an employee is sober while working."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> -A9)",
+              "prover9_expression": "(sober_while_working(employee) -> -intoxicated_while_working(employee))",
+              "natural": "Provided that an employee is sober while working, the employee is not intoxicated while working."
+            }
+          ],
+          "conclusion": "(-G -> -A9)",
+          "natural": "Under the condition that the bank is not compliant, an employee is not intoxicated while working."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(-G -> A9)",
+              "prover9_expression": "(-compliant(bank) -> intoxicated_while_working(employee))",
+              "natural": "Provided that the bank is not compliant, an employee is intoxicated while working."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A9)",
+              "prover9_expression": "(-compliant(bank) -> -intoxicated_while_working(employee))",
+              "natural": "Under the condition that the bank is not compliant, an employee is not intoxicated while working."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> A20)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> fined(bank))",
+              "natural": "Provided that it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank is fined."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A20 -> A19)",
+              "prover9_expression": "(fined(bank) -> regulatory_violation(bank))",
+              "natural": "If a bank is fined, then the bank has a regulatory violation."
+            }
+          ],
+          "conclusion": "(-(A18 -> (A14 -> A16)) -> A19)",
+          "natural": "If it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has a regulatory violation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> A19)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> regulatory_violation(bank))",
+              "natural": "If it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has a regulatory violation."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A19",
+              "prover9_expression": "-regulatory_violation(bank)",
+              "natural": "The bank does not have a regulatory violation."
+            }
+          ],
+          "conclusion": "(A18 -> (A14 -> A16))",
+          "natural": "Provided that a deposit is insured by FDIC, if the account is profitable, then the account is stable."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(has_insurance(deposit) -> insured_by_fdic(deposit))",
+              "natural": "If a deposit has insurance, then the deposit is insured by FDIC."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A14 -> A16))",
+              "prover9_expression": "(insured_by_fdic(deposit) -> (profitable(account) -> stable(account)))",
+              "natural": "Provided that a deposit is insured by FDIC, if the account is profitable, then the account is stable."
+            }
+          ],
+          "conclusion": "(A17 -> (A14 -> A16))",
+          "natural": "If a deposit has insurance, then if the account is profitable, the account is stable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> (A14 -> A16))",
+              "prover9_expression": "(has_insurance(deposit) -> (profitable(account) -> stable(account)))",
+              "natural": "If a deposit has insurance, then if the account is profitable, the account is stable."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A17",
+              "prover9_expression": "has_insurance(deposit)",
+              "natural": "A deposit has insurance."
+            }
+          ],
+          "conclusion": "(A14 -> A16)",
+          "natural": "If an account is profitable, then the account is stable."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A16)",
+              "prover9_expression": "(profitable(account) -> stable(account))",
+              "natural": "If an account is profitable, then the account is stable."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> G)",
+              "prover9_expression": "(stable(account) -> compliant(bank))",
+              "natural": "Under the condition that an account is stable, the bank is compliant."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "Provided that an account is profitable, the bank is compliant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(profitable(account) | growing(account))",
+              "natural": "An account is profitable, or the account is growing."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(profitable(account) -> compliant(bank))",
+              "natural": "Provided that an account is profitable, the bank is compliant."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(growing(account) -> compliant(bank))",
+              "natural": "If an account is growing, then the bank is compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A23 -> -A22)",
+              "prover9_expression": "(authorized_publication(report) -> -confidential_report(analyst))",
+              "natural": "Under the condition that a report has authorized publication, an analyst does not have a confidential report."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A23",
+              "prover9_expression": "authorized_publication(report)",
+              "natural": "A report has authorized publication."
+            }
+          ],
+          "conclusion": "-A22",
+          "natural": "An analyst does not have a confidential report."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A22 | -A21)",
+              "prover9_expression": "(confidential_report(analyst) | -published_report(analyst))",
+              "natural": "An analyst has a confidential report, or the analyst does not publish a report."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A22",
+              "prover9_expression": "-confidential_report(analyst)",
+              "natural": "An analyst does not have a confidential report."
+            }
+          ],
+          "conclusion": "-A21",
+          "natural": "An analyst does not publish a report."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A21 | (A10 -> -A9))",
+              "prover9_expression": "(published_report(analyst) | (sober_while_working(employee) -> -intoxicated_while_working(employee)))",
+              "natural": "An analyst publishes a report, or if an employee is sober while working, then the employee is not intoxicated while working."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A21",
+              "prover9_expression": "-published_report(analyst)",
+              "natural": "An analyst does not publish a report."
+            }
+          ],
+          "conclusion": "(A10 -> -A9)",
+          "natural": "Provided that an employee is sober while working, the employee is not intoxicated while working."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(-G -> A10)",
+              "prover9_expression": "(-compliant(bank) -> sober_while_working(employee))",
+              "natural": "If the bank is not compliant, then an employee is sober while working."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> -A9)",
+              "prover9_expression": "(sober_while_working(employee) -> -intoxicated_while_working(employee))",
+              "natural": "Provided that an employee is sober while working, the employee is not intoxicated while working."
+            }
+          ],
+          "conclusion": "(-G -> -A9)",
+          "natural": "Under the condition that the bank is not compliant, an employee is not intoxicated while working."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(-G -> A9)",
+              "prover9_expression": "(-compliant(bank) -> intoxicated_while_working(employee))",
+              "natural": "Provided that the bank is not compliant, an employee is intoxicated while working."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A9)",
+              "prover9_expression": "(-compliant(bank) -> -intoxicated_while_working(employee))",
+              "natural": "Under the condition that the bank is not compliant, an employee is not intoxicated while working."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> A25)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> completed_audit(bank))",
+              "natural": "Whenever it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank completes an audit."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A24)",
+              "prover9_expression": "(completed_audit(bank) -> internal_audit(bank))",
+              "natural": "If a bank completes an audit, then the bank has an internal audit."
+            }
+          ],
+          "conclusion": "(-(A18 -> (A14 -> A16)) -> A24)",
+          "natural": "Under the condition that it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has an internal audit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> A24)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> internal_audit(bank))",
+              "natural": "Under the condition that it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has an internal audit."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> -A24)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> -internal_audit(bank))",
+              "natural": "Provided that it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then it is not the case that the bank has an internal audit."
+            }
+          ],
+          "conclusion": "(A18 -> (A14 -> A16))",
+          "natural": "Provided that a deposit is insured by FDIC, if the account is profitable, then the account is stable."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(has_insurance(deposit) -> insured_by_fdic(deposit))",
+              "natural": "If a deposit has insurance, then the deposit is insured by FDIC."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A14 -> A16))",
+              "prover9_expression": "(insured_by_fdic(deposit) -> (profitable(account) -> stable(account)))",
+              "natural": "Provided that a deposit is insured by FDIC, if the account is profitable, then the account is stable."
+            }
+          ],
+          "conclusion": "(A17 -> (A14 -> A16))",
+          "natural": "If a deposit has insurance, then if the account is profitable, the account is stable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> (A14 -> A16))",
+              "prover9_expression": "(has_insurance(deposit) -> (profitable(account) -> stable(account)))",
+              "natural": "If a deposit has insurance, then if the account is profitable, the account is stable."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A17",
+              "prover9_expression": "has_insurance(deposit)",
+              "natural": "A deposit has insurance."
+            }
+          ],
+          "conclusion": "(A14 -> A16)",
+          "natural": "If an account is profitable, then the account is stable."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A16)",
+              "prover9_expression": "(profitable(account) -> stable(account))",
+              "natural": "If an account is profitable, then the account is stable."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> G)",
+              "prover9_expression": "(stable(account) -> compliant(bank))",
+              "natural": "Under the condition that an account is stable, the bank is compliant."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "Provided that an account is profitable, the bank is compliant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(profitable(account) | growing(account))",
+              "natural": "An account is profitable, or the account is growing."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(profitable(account) -> compliant(bank))",
+              "natural": "Provided that an account is profitable, the bank is compliant."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(growing(account) -> compliant(bank))",
+              "natural": "If an account is growing, then the bank is compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(A31 -> A30) -> A33)",
+              "prover9_expression": "(-(regular_examination(bank) -> regulatory_oversight(bank)) -> license_revoked(bank))",
+              "natural": "Under the condition that it is not the case that if the bank has a regular examination, then the bank has regulatory oversight, then the bank's license is revoked."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(-(A31 -> A30) -> -A33)",
+              "prover9_expression": "(-(regular_examination(bank) -> regulatory_oversight(bank)) -> -license_revoked(bank))",
+              "natural": "Whenever it is not the case that if the bank has a regular examination, then the bank has regulatory oversight, then it is not the case that the bank's license is revoked."
+            }
+          ],
+          "conclusion": "(A31 -> A30)",
+          "natural": "Under the condition that a bank has a regular examination, the bank has regulatory oversight."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A31 | A32)",
+              "prover9_expression": "(regular_examination(bank) | special_examination(bank))",
+              "natural": "A bank has a regular examination, or the bank has a special examination."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A31 -> A30)",
+              "prover9_expression": "(regular_examination(bank) -> regulatory_oversight(bank))",
+              "natural": "Under the condition that a bank has a regular examination, the bank has regulatory oversight."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A32 -> A30)",
+              "prover9_expression": "(special_examination(bank) -> regulatory_oversight(bank))",
+              "natural": "If a bank has a special examination, then the bank has regulatory oversight."
+            }
+          ],
+          "conclusion": "A30",
+          "natural": "A bank has regulatory oversight."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A30 -> (A28 -> A29))",
+              "prover9_expression": "(regulatory_oversight(bank) -> (criminal_charges(bank) -> civil_charges(bank)))",
+              "natural": "Provided that a bank has regulatory oversight, if the bank has criminal charges, then the bank has civil charges."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A30",
+              "prover9_expression": "regulatory_oversight(bank)",
+              "natural": "A bank has regulatory oversight."
+            }
+          ],
+          "conclusion": "(A28 -> A29)",
+          "natural": "If a bank has criminal charges, then the bank has civil charges."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A28 -> A29)",
+              "prover9_expression": "(criminal_charges(bank) -> civil_charges(bank))",
+              "natural": "If a bank has criminal charges, then the bank has civil charges."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A28 -> -A29)",
+              "prover9_expression": "(criminal_charges(bank) -> -civil_charges(bank))",
+              "natural": "If a bank has criminal charges, then the bank does not have civil charges."
+            }
+          ],
+          "conclusion": "-A28",
+          "natural": "A bank does not have criminal charges."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A28 | A27)",
+              "prover9_expression": "(criminal_charges(bank) | ongoing_investigation(regulator))",
+              "natural": "A bank has criminal charges, or a regulator has an ongoing investigation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A28",
+              "prover9_expression": "-criminal_charges(bank)",
+              "natural": "A bank does not have criminal charges."
+            }
+          ],
+          "conclusion": "A27",
+          "natural": "A regulator has an ongoing investigation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A27 -> (A26 -> A19))",
+              "prover9_expression": "(ongoing_investigation(regulator) -> (compliance_investigation(bank) -> regulatory_violation(bank)))",
+              "natural": "Whenever a regulator has an ongoing investigation, if the bank has a compliance investigation, then the bank has a regulatory violation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A27",
+              "prover9_expression": "ongoing_investigation(regulator)",
+              "natural": "A regulator has an ongoing investigation."
+            }
+          ],
+          "conclusion": "(A26 -> A19)",
+          "natural": "Provided that a bank has a compliance investigation, the bank has a regulatory violation."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> A26)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> compliance_investigation(bank))",
+              "natural": "If it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has a compliance investigation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A26 -> A19)",
+              "prover9_expression": "(compliance_investigation(bank) -> regulatory_violation(bank))",
+              "natural": "Provided that a bank has a compliance investigation, the bank has a regulatory violation."
+            }
+          ],
+          "conclusion": "(-(A18 -> (A14 -> A16)) -> A19)",
+          "natural": "If it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has a regulatory violation."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A18 -> (A14 -> A16)) -> A19)",
+              "prover9_expression": "(-(insured_by_fdic(deposit) -> (profitable(account) -> stable(account))) -> regulatory_violation(bank))",
+              "natural": "If it is not the case that if the deposit is insured by FDIC, then if the account is profitable, the account is stable, then the bank has a regulatory violation."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A19",
+              "prover9_expression": "-regulatory_violation(bank)",
+              "natural": "The bank does not have a regulatory violation."
+            }
+          ],
+          "conclusion": "(A18 -> (A14 -> A16))",
+          "natural": "Provided that a deposit is insured by FDIC, if the account is profitable, then the account is stable."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(has_insurance(deposit) -> insured_by_fdic(deposit))",
+              "natural": "If a deposit has insurance, then the deposit is insured by FDIC."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A14 -> A16))",
+              "prover9_expression": "(insured_by_fdic(deposit) -> (profitable(account) -> stable(account)))",
+              "natural": "Provided that a deposit is insured by FDIC, if the account is profitable, then the account is stable."
+            }
+          ],
+          "conclusion": "(A17 -> (A14 -> A16))",
+          "natural": "If a deposit has insurance, then if the account is profitable, the account is stable."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> (A14 -> A16))",
+              "prover9_expression": "(has_insurance(deposit) -> (profitable(account) -> stable(account)))",
+              "natural": "If a deposit has insurance, then if the account is profitable, the account is stable."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A17",
+              "prover9_expression": "has_insurance(deposit)",
+              "natural": "A deposit has insurance."
+            }
+          ],
+          "conclusion": "(A14 -> A16)",
+          "natural": "If an account is profitable, then the account is stable."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A16)",
+              "prover9_expression": "(profitable(account) -> stable(account))",
+              "natural": "If an account is profitable, then the account is stable."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> G)",
+              "prover9_expression": "(stable(account) -> compliant(bank))",
+              "natural": "Under the condition that an account is stable, the bank is compliant."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "Provided that an account is profitable, the bank is compliant."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(profitable(account) | growing(account))",
+              "natural": "An account is profitable, or the account is growing."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(profitable(account) -> compliant(bank))",
+              "natural": "Provided that an account is profitable, the bank is compliant."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(growing(account) -> compliant(bank))",
+              "natural": "If an account is growing, then the bank is compliant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A bank is compliant."
+        }
+      ]
+    }
+  ]
+}

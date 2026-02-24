@@ -1,0 +1,2748 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 12,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 4
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 3
+      },
+      "5": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(has_access(user, platform) | authorized_access(user))",
+        "natural": "Either the user has access to the platform or the user has authorized access."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → A10)",
+        "prover9_expression": "(security_alert_triggered(user) -> audit_log_updated(user))",
+        "natural": "In the event that a security alert is triggered for the user, the audit log is updated for the user."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → (¬(¬(¬G → A9) → A11) → ¬A12))",
+        "prover9_expression": "(access_monitoring_enabled(user) -> (-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> -system_lockdown_activated(user)))",
+        "natural": "When access monitoring is enabled for the user, it follows that if it is not the case that the absence of authorized access for the user leading to emergency override usage results in a security alert, then system lockdown is not activated for the user."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 → A13)",
+        "prover9_expression": "(real_time_monitoring(user) -> access_monitoring_enabled(user))",
+        "natural": "Provided that real-time monitoring is active for the user, access monitoring is enabled for the user."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(real_time_monitoring(user) | periodic_monitoring(user))",
+        "natural": "Either real-time monitoring is active for the user or periodic monitoring is active for the user."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A15 → A16)",
+        "prover9_expression": "(periodic_monitoring(user) -> behavior_analysis_enabled(user))",
+        "natural": "Whenever periodic monitoring is active for the user, behavior analysis is enabled for the user."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 → A13)",
+        "prover9_expression": "(behavior_analysis_enabled(user) -> access_monitoring_enabled(user))",
+        "natural": "Assuming behavior analysis is enabled for the user, access monitoring is enabled for the user."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → A43)",
+        "prover9_expression": "(valid_authorization(user) -> authorization_expired(user))",
+        "natural": "Given that the user has valid authorization, the user's authorization has expired."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9_expression": "(valid_authorization(user) | -has_access(user, platform))",
+        "natural": "Either the user has valid authorization or the user does not have access to the platform."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A20 → (A19 → A18))",
+        "prover9_expression": "(high_risk_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user)))",
+        "natural": "The user being under high-risk monitoring entails that if the supervisor is notified about the user, then manual review is required for the user."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A20 ∨ A21)",
+        "prover9_expression": "(high_risk_monitoring(user) | standard_monitoring(user))",
+        "natural": "The user is under high-risk monitoring or the user is under standard monitoring."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A22 → (A21 → (A19 → A18)))",
+        "prover9_expression": "(comprehensive_monitoring(user) -> (standard_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user))))",
+        "natural": "If the user is under comprehensive monitoring, then the user being under standard monitoring implies that the supervisor being notified about the user leads to manual review being required for the user."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A23 → G)",
+        "prover9_expression": "(access_granted(user) -> authorized_access(user))",
+        "natural": "Whenever access has been granted to the user, the user has authorized access."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A24 → A23)",
+        "prover9_expression": "(full_access(user) -> access_granted(user))",
+        "natural": "The user having full access implies that access has been granted to the user."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A24 ∨ A25)",
+        "prover9_expression": "(full_access(user) | restricted_access(user))",
+        "natural": "The user has full access or the user has restricted access."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A25 → A26)",
+        "prover9_expression": "(restricted_access(user) -> conditional_access(user))",
+        "natural": "Provided that the user has restricted access, the user has conditional access."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A26 → A67)",
+        "prover9_expression": "(conditional_access(user) -> project_specific_access(user))",
+        "natural": "When the user has conditional access, the user has project-specific access."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A27 → A23)",
+        "prover9_expression": "(time_limited_access(user) -> access_granted(user))",
+        "natural": "If the user has time-limited access, then access has been granted to the user."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A28 → A27)",
+        "prover9_expression": "(location_restricted_access(user) -> time_limited_access(user))",
+        "natural": "The user having location-restricted access implies that the user has time-limited access."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A29 → (A26 → A28))",
+        "prover9_expression": "(access_conditions_verified(user) -> (conditional_access(user) -> location_restricted_access(user)))",
+        "natural": "Provided that access conditions have been verified for the user, the user having conditional access results in the user having location-restricted access."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A3 → ¬A2)",
+        "prover9_expression": "(meets_conditions(user) -> -valid_authorization(user))",
+        "natural": "The user meeting all conditions leads to the user not having valid authorization."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A34 → (¬(A32 → (A31 → ¬A30)) → A33))",
+        "prover9_expression": "(security_protocol_activated(user) -> (-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> account_locked(user)))",
+        "natural": "The security protocol being activated for the user entails that if it is not the case that authentication failure for the user leads to the user's password expiring resulting in no biometric verification failure, then the user's account is locked."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A35 → A3)",
+        "prover9_expression": "(compliance_verified(user) -> meets_conditions(user))",
+        "natural": "If compliance has been verified for the user, then the user meets all conditions."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A36 → A38)",
+        "prover9_expression": "(policy_check_passed(user) -> internal_policy_compliance(user))",
+        "natural": "When the policy check has passed for the user, the user is in internal policy compliance."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A37 → A35)",
+        "prover9_expression": "(regulatory_compliance(user) -> compliance_verified(user))",
+        "natural": "The user being in regulatory compliance leads to compliance having been verified for the user."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(background_check_passed(user) | security_clearance_approved(user))",
+        "natural": "Either the user has passed the background check or the user has approved security clearance."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A40 → ¬A39)",
+        "prover9_expression": "(clean_record(user) -> -compliance_violation(user))",
+        "natural": "The user having a clean record leads to there being no compliance violation by the user."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A45 → A46)",
+        "prover9_expression": "(renewal_process_initiated(user) -> renewal_completed(user))",
+        "natural": "The renewal process being initiated for the user implies that the renewal process has been completed for the user."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A47 → ¬A46)",
+        "prover9_expression": "(access_revoked(user) -> -renewal_completed(user))",
+        "natural": "The user's access being revoked leads to the renewal process not having been completed for the user."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A49 ∨ (¬A47 → A48))",
+        "prover9_expression": "(review_completed(user) | (-access_revoked(user) -> access_suspended(user)))",
+        "natural": "Either the review has been completed for the user or if the user's access is not revoked, then the user's access is suspended."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A5 → A3)",
+        "prover9_expression": "(security_clearance_approved(user) -> meets_conditions(user))",
+        "natural": "The user having approved security clearance implies that the user meets all conditions."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A50 → (¬(A4 → A3) → A7))",
+        "prover9_expression": "(primary_review(user) -> (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+        "natural": "The user having undergone a primary review entails that if it is not the case that the user passing the background check leads to the user meeting all conditions, then the user is denied access."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A51 → (¬(A4 → A3) → A7))",
+        "prover9_expression": "(secondary_review(user) -> (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+        "natural": "Provided that the user has undergone a secondary review, it follows that if the user passing the background check does not imply the user meets all conditions, then the user is denied access."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A52 → A50)",
+        "prover9_expression": "(initial_assessment(user) -> primary_review(user))",
+        "natural": "If the user has undergone an initial assessment, then the user has undergone a primary review."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A53 → A51)",
+        "prover9_expression": "(followup_assessment(user) -> secondary_review(user))",
+        "natural": "The user having undergone a follow-up assessment implies that the user has undergone a secondary review."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A54 → (A52 ∨ A53))",
+        "prover9_expression": "(assessment_cycle_complete(user) -> (initial_assessment(user) | followup_assessment(user)))",
+        "natural": "The assessment cycle being complete for the user leads to the user having undergone an initial assessment or a follow-up assessment."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A55 ∨ A54)",
+        "prover9_expression": "(new_assessment_required(user) | assessment_cycle_complete(user))",
+        "natural": "Either a new assessment is required for the user or the assessment cycle is complete for the user."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A57 → ¬A56)",
+        "prover9_expression": "(policy_violation(user) -> -access_expired(user))",
+        "natural": "There being a policy violation by the user implies that the user's access has not expired."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A58 → ¬A56)",
+        "prover9_expression": "(security_breach(user) -> -access_expired(user))",
+        "natural": "Whenever there is a security breach involving the user, the user's access has not expired."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A59 ∨ (A57 ∨ A58))",
+        "prover9_expression": "(investigation_ongoing(user) | (policy_violation(user) | security_breach(user)))",
+        "natural": "Either an investigation is ongoing for the user, or there is a policy violation by the user, or there is a security breach involving the user."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A60 → A62)",
+        "prover9_expression": "(disciplinary_action(user) -> training_required(user))",
+        "natural": "Provided that disciplinary action has been taken against the user, training is required for the user."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A60 → ¬A61)",
+        "prover9_expression": "(disciplinary_action(user) -> -warning_issued(user))",
+        "natural": "The occurrence of disciplinary action against the user leads to no warning having been issued to the user."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A60 ∨ ¬A59)",
+        "prover9_expression": "(disciplinary_action(user) | -investigation_ongoing(user))",
+        "natural": "Either disciplinary action has been taken against the user or there is no investigation ongoing for the user."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A62 → A61)",
+        "prover9_expression": "(training_required(user) -> warning_issued(user))",
+        "natural": "Whenever training is required for the user, a warning has been issued to the user."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A63 → A27)",
+        "prover9_expression": "(department_restricted_access(user) -> time_limited_access(user))",
+        "natural": "The user having department-restricted access implies that the user has time-limited access."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A64 ∨ (A26 → A63))",
+        "prover9_expression": "(access_escalation(user) | (conditional_access(user) -> department_restricted_access(user)))",
+        "natural": "Either access escalation has occurred for the user or if the user has conditional access, then the user has department-restricted access."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A65 → ¬A64)",
+        "prover9_expression": "(privilege_abuse(user) -> -access_escalation(user))",
+        "natural": "There being privilege abuse by the user leads to no access escalation having occurred for the user."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A65 ∨ A66)",
+        "prover9_expression": "(privilege_abuse(user) | unauthorized_activity(user))",
+        "natural": "Either there has been privilege abuse by the user or there has been unauthorized activity by the user."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A66 → ¬A64)",
+        "prover9_expression": "(unauthorized_activity(user) -> -access_escalation(user))",
+        "natural": "Provided that there has been unauthorized activity by the user, access escalation has not occurred for the user."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(A68 → A23)",
+        "prover9_expression": "(data_restricted_access(user) -> access_granted(user))",
+        "natural": "Whenever the user has data-restricted access, access has been granted to the user."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(A69 → (A67 → A68))",
+        "prover9_expression": "(project_manager_approval(user) -> (project_specific_access(user) -> data_restricted_access(user)))",
+        "natural": "The project manager approving the user entails that if the user has project-specific access, then the user has data-restricted access."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(A7 → ¬A6)",
+        "prover9_expression": "(access_denied(user) -> -temporary_access_granted(user))",
+        "natural": "The user being denied access leads to the user not having been granted temporary access."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(A70 → (A67 → A68))",
+        "prover9_expression": "(team_lead_approval(user) -> (project_specific_access(user) -> data_restricted_access(user)))",
+        "natural": "Provided that the team lead has approved the user, it follows that the user having project-specific access results in the user having data-restricted access."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(¬(A17 → G) → A19)",
+        "prover9_expression": "(-(authorized_user(user) -> authorized_access(user)) -> supervisor_notified(user))",
+        "natural": "Assuming it is not the case that the user being authorized implies the user has authorized access, the supervisor has been notified about the user."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(¬(A17 → G) → ¬A18)",
+        "prover9_expression": "(-(authorized_user(user) -> authorized_access(user)) -> -manual_review_required(user))",
+        "natural": "The failure of the user being authorized to imply authorized access leads to no manual review being required for the user."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(¬(A2 → ¬A43) → ¬A44)",
+        "prover9_expression": "(-(valid_authorization(user) -> -authorization_expired(user)) -> -authorization_renewed(user))",
+        "natural": "Provided that it is not the case that valid authorization for the user implies no authorization expiration, then the user's authorization has not been renewed."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(¬(A32 → (A31 → ¬A30)) → ¬A33)",
+        "prover9_expression": "(-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> -account_locked(user))",
+        "natural": "If it is not the case that authentication failure for the user implies that password expiration leads to no biometric verification failure, then the user's account is not locked."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(¬(A38 → A37) → A39)",
+        "prover9_expression": "(-(internal_policy_compliance(user) -> regulatory_compliance(user)) -> compliance_violation(user))",
+        "natural": "The absence of internal policy compliance for the user implying regulatory compliance leads to a compliance violation by the user."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬(A4 → A3) → A6)",
+        "prover9_expression": "(-(background_check_passed(user) -> meets_conditions(user)) -> temporary_access_granted(user))",
+        "natural": "If it is not the case that the user passing the background check leads to the user meeting all conditions, then the user has been granted temporary access."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬(A41 ∨ (¬(A4 → A3) → A7)) → A42)",
+        "prover9_expression": "(-(automatic_review(user) | (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user))) -> manual_verification(user))",
+        "natural": "If it is not the case that automatic review is active for the user or the absence of the user passing the background check leading to meeting all conditions results in access denial, then manual verification is required for the user."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬(A69 ∨ A70) → A71)",
+        "prover9_expression": "(-(project_manager_approval(user) | team_lead_approval(user)) -> executive_approval_required(user))",
+        "natural": "Whenever it is not the case that the project manager has approved the user or the team lead has approved the user, then executive approval is required for the user."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(¬(¬(A2 → ¬A43) → A44) → A45)",
+        "prover9_expression": "(-(-(valid_authorization(user) -> -authorization_expired(user)) -> authorization_renewed(user)) -> renewal_process_initiated(user))",
+        "natural": "If it is not the case that the failure of valid authorization for the user to imply no authorization expiration leads to authorization renewal, then the renewal process has been initiated for the user."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(¬(¬(A4 → A3) → A7) → A8)",
+        "prover9_expression": "(-(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)) -> appeal_filed(user))",
+        "natural": "Provided that it is not the case that the absence of the user passing the background check leading to meeting all conditions results in access denial, then the user has filed an appeal."
+      },
+      {
+        "id": "Rule64",
+        "formal": "(¬(¬(A4 → A3) → A7) → ¬A8)",
+        "prover9_expression": "(-(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)) -> -appeal_filed(user))",
+        "natural": "The failure of the absence of the user passing the background check implying meeting all conditions to lead to access denial results in the user not having filed an appeal."
+      },
+      {
+        "id": "Rule65",
+        "formal": "(¬(¬(¬G → A9) → A11) → A12)",
+        "prover9_expression": "(-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> system_lockdown_activated(user))",
+        "natural": "If it is not the case that the absence of authorized access for the user leading to emergency override usage results in a security alert, then system lockdown has been activated for the user."
+      },
+      {
+        "id": "Rule66",
+        "formal": "(¬A23 → A56)",
+        "prover9_expression": "(-access_granted(user) -> access_expired(user))",
+        "natural": "If access has not been granted to the user, then the user's access has expired."
+      },
+      {
+        "id": "Rule67",
+        "formal": "(¬A47 → ¬A48)",
+        "prover9_expression": "(-access_revoked(user) -> -access_suspended(user))",
+        "natural": "The user's access not being revoked leads to the user's access not being suspended."
+      },
+      {
+        "id": "Rule68",
+        "formal": "(¬G → A30)",
+        "prover9_expression": "(-authorized_access(user) -> biometric_verification_failed(user))",
+        "natural": "The user not having authorized access implies that biometric verification has failed for the user."
+      },
+      {
+        "id": "Rule69",
+        "formal": "(¬G → A31)",
+        "prover9_expression": "(-authorized_access(user) -> password_expired(user))",
+        "natural": "If the user does not have authorized access, then the user's password has expired."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A17",
+        "prover9_expression": "authorized_user(user)",
+        "natural": "The user is authorized."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A22",
+        "prover9_expression": "comprehensive_monitoring(user)",
+        "natural": "The user is under comprehensive monitoring."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A29",
+        "prover9_expression": "access_conditions_verified(user)",
+        "natural": "Access conditions have been verified for the user."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A32",
+        "prover9_expression": "authentication_failed(user)",
+        "natural": "Authentication has failed for the user."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A34",
+        "prover9_expression": "security_protocol_activated(user)",
+        "natural": "The security protocol has been activated for the user."
+      },
+      {
+        "id": "Fact6",
+        "formal": "A36",
+        "prover9_expression": "policy_check_passed(user)",
+        "natural": "The policy check has passed for the user."
+      },
+      {
+        "id": "Fact7",
+        "formal": "A40",
+        "prover9_expression": "clean_record(user)",
+        "natural": "The user has a clean record."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A10",
+        "prover9_expression": "-audit_log_updated(user)",
+        "natural": "The audit log has not been updated for the user."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A41",
+        "prover9_expression": "-automatic_review(user)",
+        "natural": "Automatic review is not active for the user."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A42",
+        "prover9_expression": "-manual_verification(user)",
+        "natural": "Manual verification is not required for the user."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A49",
+        "prover9_expression": "-review_completed(user)",
+        "natural": "The review has not been completed for the user."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A55",
+        "prover9_expression": "-new_assessment_required(user)",
+        "natural": "A new assessment is not required for the user."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A71",
+        "prover9_expression": "-executive_approval_required(user)",
+        "natural": "Executive approval is not required for the user."
+      },
+      {
+        "id": "Fact14",
+        "formal": "¬A9",
+        "prover9_expression": "-emergency_override_used(user)",
+        "natural": "An emergency override has not been used for the user."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "authorized_access(user)",
+    "natural": "The user has authorized access."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A4 -> A3) -> A7) -> A8)",
+            "(-(-(A4 -> A3) -> A7) -> -A8)"
+          ],
+          "conclusion": "(-(A4 -> A3) -> A7)",
+          "natural": "Provided that it is not the case that the user passing the background check implies the user meets all conditions, the user is denied access."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A4 -> A3) -> A7)",
+            "(A7 -> -A6)"
+          ],
+          "conclusion": "(-(A4 -> A3) -> -A6)",
+          "natural": "The failure of the user passing the background check to result in the user meeting all conditions leads to the user not having been granted temporary access."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> A3) -> A6)",
+            "(-(A4 -> A3) -> -A6)"
+          ],
+          "conclusion": "(A4 -> A3)",
+          "natural": "If the user has passed the background check, then the user meets all conditions."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> A3)",
+            "(A5 -> A3)"
+          ],
+          "conclusion": "A3",
+          "natural": "The user meets all conditions."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A2)",
+            "A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "The user does not have valid authorization."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The user does not have access to the platform."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A15 -> A16)",
+            "(A16 -> A13)"
+          ],
+          "conclusion": "(A15 -> A13)",
+          "natural": "If periodic monitoring is active for the user, then access monitoring is enabled for the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> A13)",
+            "(A15 -> A13)"
+          ],
+          "conclusion": "A13",
+          "natural": "Access monitoring is enabled for the user."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> (-(-(-G -> A9) -> A11) -> -A12))",
+            "A13"
+          ],
+          "conclusion": "(-(-(-G -> A9) -> A11) -> -A12)",
+          "natural": "Provided that it is not the case that the absence of authorized access for the user implying emergency override usage leads to a security alert, then system lockdown has not been activated for the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-G -> A9) -> A11) -> A12)",
+            "(-(-(-G -> A9) -> A11) -> -A12)"
+          ],
+          "conclusion": "(-(-G -> A9) -> A11)",
+          "natural": "Whenever the absence of authorized access for the user leads to emergency override usage, a security alert has been triggered for the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-G -> A9) -> A11)",
+            "(A11 -> A10)"
+          ],
+          "conclusion": "(-(-G -> A9) -> A10)",
+          "natural": "The absence of authorized access for the user leading to emergency override usage implies that the audit log has been updated for the user."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A9) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(-G -> A9)",
+          "natural": "Whenever the user does not have authorized access, an emergency override has been used for the user."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A9)",
+            "-A9"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A22 -> (A21 -> (A19 -> A18)))",
+            "A22"
+          ],
+          "conclusion": "(A21 -> (A19 -> A18))",
+          "natural": "Provided that the user is under standard monitoring, it follows that the supervisor being notified about the user results in manual review being required for the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A20 | A21)",
+            "(A20 -> (A19 -> A18))",
+            "(A21 -> (A19 -> A18))"
+          ],
+          "conclusion": "(A19 -> A18)",
+          "natural": "The supervisor being notified about the user implies that manual review is required for the user."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A17 -> G) -> A19)",
+            "(A19 -> A18)"
+          ],
+          "conclusion": "(-(A17 -> G) -> A18)",
+          "natural": "If it is not the case that the user being authorized leads to the user having authorized access, then manual review is required for the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A17 -> G) -> A18)",
+            "(-(A17 -> G) -> -A18)"
+          ],
+          "conclusion": "(A17 -> G)",
+          "natural": "If the user is authorized, then the user has authorized access."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> G)",
+            "A17"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> (A26 -> A28))",
+            "A29"
+          ],
+          "conclusion": "(A26 -> A28)",
+          "natural": "Given that the user has conditional access, the user has location-restricted access."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A28)",
+            "(A28 -> A27)"
+          ],
+          "conclusion": "(A26 -> A27)",
+          "natural": "If the user has conditional access, then the user has time-limited access."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A27)",
+            "(A27 -> A23)"
+          ],
+          "conclusion": "(A26 -> A23)",
+          "natural": "The user having conditional access means that access has been granted to the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A25 -> A26)",
+            "(A26 -> A23)"
+          ],
+          "conclusion": "(A25 -> A23)",
+          "natural": "If the user has restricted access, then access has been granted to the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> A23)",
+            "(A25 -> A23)"
+          ],
+          "conclusion": "A23",
+          "natural": "Access has been granted to the user."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> G)",
+            "A23"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A34 -> (-(A32 -> (A31 -> -A30)) -> A33))",
+            "A34"
+          ],
+          "conclusion": "(-(A32 -> (A31 -> -A30)) -> A33)",
+          "natural": "Whenever it is not the case that authentication failure for the user leads to the user's password expiring resulting in no biometric verification failure, then the user's account is locked."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A32 -> (A31 -> -A30)) -> A33)",
+            "(-(A32 -> (A31 -> -A30)) -> -A33)"
+          ],
+          "conclusion": "(A32 -> (A31 -> -A30))",
+          "natural": "The occurrence of authentication failure for the user implies that if the user's password has expired, then biometric verification has not failed for the user."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A32 -> (A31 -> -A30))",
+            "A32"
+          ],
+          "conclusion": "(A31 -> -A30)",
+          "natural": "Whenever the user's password has expired, biometric verification has not failed for the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A31)",
+            "(A31 -> -A30)"
+          ],
+          "conclusion": "(-G -> -A30)",
+          "natural": "The user not having authorized access leads to biometric verification not having failed for the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A30)",
+            "(-G -> -A30)"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A40 -> -A39)",
+            "A40"
+          ],
+          "conclusion": "-A39",
+          "natural": "There is no compliance violation by the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A38 -> A37) -> A39)",
+            "-A39"
+          ],
+          "conclusion": "(A38 -> A37)",
+          "natural": "The user being in internal policy compliance implies that the user is in regulatory compliance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A36 -> A38)",
+            "(A38 -> A37)"
+          ],
+          "conclusion": "(A36 -> A37)",
+          "natural": "Provided that the policy check has passed for the user, the user is in regulatory compliance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A36 -> A37)",
+            "(A37 -> A35)"
+          ],
+          "conclusion": "(A36 -> A35)",
+          "natural": "The policy check passing for the user implies that compliance has been verified for the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A36 -> A35)",
+            "A36"
+          ],
+          "conclusion": "A35",
+          "natural": "Compliance has been verified for the user."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A35 -> A3)",
+            "A35"
+          ],
+          "conclusion": "A3",
+          "natural": "The user meets all conditions."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A2)",
+            "A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "The user does not have valid authorization."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The user does not have access to the platform."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A41 | (-(A4 -> A3) -> A7)) -> A42)",
+            "-A42"
+          ],
+          "conclusion": "(A41 | (-(A4 -> A3) -> A7))",
+          "natural": "Either automatic review is active for the user or if it is not the case that the user passing the background check results in the user meeting all conditions, then the user is denied access."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A41 | (-(A4 -> A3) -> A7))",
+            "-A41"
+          ],
+          "conclusion": "(-(A4 -> A3) -> A7)",
+          "natural": "Provided that it is not the case that the user passing the background check implies the user meets all conditions, the user is denied access."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A4 -> A3) -> A7)",
+            "(A7 -> -A6)"
+          ],
+          "conclusion": "(-(A4 -> A3) -> -A6)",
+          "natural": "The failure of the user passing the background check to result in the user meeting all conditions leads to the user not having been granted temporary access."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> A3) -> A6)",
+            "(-(A4 -> A3) -> -A6)"
+          ],
+          "conclusion": "(A4 -> A3)",
+          "natural": "If the user has passed the background check, then the user meets all conditions."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> A3)",
+            "(A5 -> A3)"
+          ],
+          "conclusion": "A3",
+          "natural": "The user meets all conditions."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A2)",
+            "A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "The user does not have valid authorization."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The user does not have access to the platform."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A49 | (-A47 -> A48))",
+            "-A49"
+          ],
+          "conclusion": "(-A47 -> A48)",
+          "natural": "Provided that the user's access has not been revoked, the user's access has been suspended."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A47 -> A48)",
+            "(-A47 -> -A48)"
+          ],
+          "conclusion": "A47",
+          "natural": "The user's access has been revoked."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A47 -> -A46)",
+            "A47"
+          ],
+          "conclusion": "-A46",
+          "natural": "The renewal process has not been completed for the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A45 -> A46)",
+            "-A46"
+          ],
+          "conclusion": "-A45",
+          "natural": "The renewal process has not been initiated for the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A2 -> -A43) -> A44) -> A45)",
+            "-A45"
+          ],
+          "conclusion": "(-(A2 -> -A43) -> A44)",
+          "natural": "If it is not the case that the user having valid authorization leads to the user's authorization not having expired, then the user's authorization has been renewed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A2 -> -A43) -> A44)",
+            "(-(A2 -> -A43) -> -A44)"
+          ],
+          "conclusion": "(A2 -> -A43)",
+          "natural": "The user having valid authorization leads to the user's authorization not having expired."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A2 -> A43)",
+            "(A2 -> -A43)"
+          ],
+          "conclusion": "-A2",
+          "natural": "The user does not have valid authorization."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The user does not have access to the platform."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A55 | A54)",
+            "-A55"
+          ],
+          "conclusion": "A54",
+          "natural": "The assessment cycle is complete for the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A54 -> (A52 | A53))",
+            "A54"
+          ],
+          "conclusion": "(A52 | A53)",
+          "natural": "Either the user has undergone an initial assessment or the user has undergone a follow-up assessment."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A52 -> A50)",
+            "(A53 -> A51)",
+            "(A52 | A53)"
+          ],
+          "conclusion": "(A50 | A51)",
+          "natural": "The user has undergone a primary review or the user has undergone a secondary review."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A50 | A51)",
+            "(A50 -> (-(A4 -> A3) -> A7))",
+            "(A51 -> (-(A4 -> A3) -> A7))"
+          ],
+          "conclusion": "(-(A4 -> A3) -> A7)",
+          "natural": "Provided that it is not the case that the user passing the background check implies the user meets all conditions, the user is denied access."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A4 -> A3) -> A7)",
+            "(A7 -> -A6)"
+          ],
+          "conclusion": "(-(A4 -> A3) -> -A6)",
+          "natural": "The failure of the user passing the background check to result in the user meeting all conditions leads to the user not having been granted temporary access."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> A3) -> A6)",
+            "(-(A4 -> A3) -> -A6)"
+          ],
+          "conclusion": "(A4 -> A3)",
+          "natural": "If the user has passed the background check, then the user meets all conditions."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> A3)",
+            "(A5 -> A3)"
+          ],
+          "conclusion": "A3",
+          "natural": "The user meets all conditions."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> -A2)",
+            "A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "The user does not have valid authorization."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The user does not have access to the platform."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A60 -> A62)",
+            "(A62 -> A61)"
+          ],
+          "conclusion": "(A60 -> A61)",
+          "natural": "If disciplinary action has been taken against the user, then a warning has been issued to the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A60 -> A61)",
+            "(A60 -> -A61)"
+          ],
+          "conclusion": "-A60",
+          "natural": "Disciplinary action has not been taken against the user."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A60 | -A59)",
+            "-A60"
+          ],
+          "conclusion": "-A59",
+          "natural": "There is no investigation ongoing for the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A59 | (A57 | A58))",
+            "-A59"
+          ],
+          "conclusion": "(A57 | A58)",
+          "natural": "Either there is a policy violation by the user or there is a security breach involving the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A57 | A58)",
+            "(A57 -> -A56)",
+            "(A58 -> -A56)"
+          ],
+          "conclusion": "-A56",
+          "natural": "The user's access has not expired."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A23 -> A56)",
+            "-A56"
+          ],
+          "conclusion": "A23",
+          "natural": "Access has been granted to the user."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> G)",
+            "A23"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A65 | A66)",
+            "(A65 -> -A64)",
+            "(A66 -> -A64)"
+          ],
+          "conclusion": "-A64",
+          "natural": "Access escalation has not occurred for the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A64 | (A26 -> A63))",
+            "-A64"
+          ],
+          "conclusion": "(A26 -> A63)",
+          "natural": "The user having conditional access leads to the user having department-restricted access."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A63)",
+            "(A63 -> A27)"
+          ],
+          "conclusion": "(A26 -> A27)",
+          "natural": "If the user has conditional access, then the user has time-limited access."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A27)",
+            "(A27 -> A23)"
+          ],
+          "conclusion": "(A26 -> A23)",
+          "natural": "The user having conditional access means that access has been granted to the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A25 -> A26)",
+            "(A26 -> A23)"
+          ],
+          "conclusion": "(A25 -> A23)",
+          "natural": "If the user has restricted access, then access has been granted to the user."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> A23)",
+            "(A25 -> A23)"
+          ],
+          "conclusion": "A23",
+          "natural": "Access has been granted to the user."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> G)",
+            "A23"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A69 | A70) -> A71)",
+            "-A71"
+          ],
+          "conclusion": "(A69 | A70)",
+          "natural": "Either the project manager has approved the user or the team lead has approved the user."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A69 | A70)",
+            "(A69 -> (A67 -> A68))",
+            "(A70 -> (A67 -> A68))"
+          ],
+          "conclusion": "(A67 -> A68)",
+          "natural": "The user having project-specific access implies that the user has data-restricted access."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A67 -> A68)",
+            "(A68 -> A23)"
+          ],
+          "conclusion": "(A67 -> A23)",
+          "natural": "If the user has project-specific access, then access has been granted to the user."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A26 -> A67)",
+            "(A67 -> A23)"
+          ],
+          "conclusion": "(A26 -> A23)",
+          "natural": "The user having conditional access means that access has been granted to the user."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A25 -> A26)",
+            "(A26 -> A23)"
+          ],
+          "conclusion": "(A25 -> A23)",
+          "natural": "If the user has restricted access, then access has been granted to the user."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> A23)",
+            "(A25 -> A23)"
+          ],
+          "conclusion": "A23",
+          "natural": "Access has been granted to the user."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> G)",
+            "A23"
+          ],
+          "conclusion": "G",
+          "natural": "The user has authorized access."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Secure Access Control System",
+    "atomic_facts": {
+      "A1": "has_access(user, platform)",
+      "A2": "valid_authorization(user)",
+      "A3": "meets_conditions(user)",
+      "A4": "background_check_passed(user)",
+      "A5": "security_clearance_approved(user)",
+      "A6": "temporary_access_granted(user)",
+      "A7": "access_denied(user)",
+      "A8": "appeal_filed(user)",
+      "A9": "emergency_override_used(user)",
+      "A10": "audit_log_updated(user)",
+      "A11": "security_alert_triggered(user)",
+      "A12": "system_lockdown_activated(user)",
+      "A13": "access_monitoring_enabled(user)",
+      "A14": "real_time_monitoring(user)",
+      "A15": "periodic_monitoring(user)",
+      "A16": "behavior_analysis_enabled(user)",
+      "A17": "authorized_user(user)",
+      "A18": "manual_review_required(user)",
+      "A19": "supervisor_notified(user)",
+      "A20": "high_risk_monitoring(user)",
+      "A21": "standard_monitoring(user)",
+      "A22": "comprehensive_monitoring(user)",
+      "A23": "access_granted(user)",
+      "A24": "full_access(user)",
+      "A25": "restricted_access(user)",
+      "A26": "conditional_access(user)",
+      "A27": "time_limited_access(user)",
+      "A28": "location_restricted_access(user)",
+      "A29": "access_conditions_verified(user)",
+      "A30": "biometric_verification_failed(user)",
+      "A31": "password_expired(user)",
+      "A32": "authentication_failed(user)",
+      "A33": "account_locked(user)",
+      "A34": "security_protocol_activated(user)",
+      "A35": "compliance_verified(user)",
+      "A36": "policy_check_passed(user)",
+      "A37": "regulatory_compliance(user)",
+      "A38": "internal_policy_compliance(user)",
+      "A39": "compliance_violation(user)",
+      "A40": "clean_record(user)",
+      "A41": "automatic_review(user)",
+      "A42": "manual_verification(user)",
+      "A43": "authorization_expired(user)",
+      "A44": "authorization_renewed(user)",
+      "A45": "renewal_process_initiated(user)",
+      "A46": "renewal_completed(user)",
+      "A47": "access_revoked(user)",
+      "A48": "access_suspended(user)",
+      "A49": "review_completed(user)",
+      "A50": "primary_review(user)",
+      "A51": "secondary_review(user)",
+      "A52": "initial_assessment(user)",
+      "A53": "followup_assessment(user)",
+      "A54": "assessment_cycle_complete(user)",
+      "A55": "new_assessment_required(user)",
+      "A56": "access_expired(user)",
+      "A57": "policy_violation(user)",
+      "A58": "security_breach(user)",
+      "A59": "investigation_ongoing(user)",
+      "A60": "disciplinary_action(user)",
+      "A61": "warning_issued(user)",
+      "A62": "training_required(user)",
+      "A63": "department_restricted_access(user)",
+      "A64": "access_escalation(user)",
+      "A65": "privilege_abuse(user)",
+      "A66": "unauthorized_activity(user)",
+      "A67": "project_specific_access(user)",
+      "A68": "data_restricted_access(user)",
+      "A69": "project_manager_approval(user)",
+      "A70": "team_lead_approval(user)",
+      "A71": "executive_approval_required(user)",
+      "G": "authorized_access(user)"
+    },
+    "natural_facts": {
+      "A1": "The user has access to the platform.",
+      "A2": "The user has valid authorization.",
+      "A3": "The user meets all conditions.",
+      "A4": "The user has passed the background check.",
+      "A5": "The user has approved security clearance.",
+      "A6": "The user has been granted temporary access.",
+      "A7": "The user is denied access.",
+      "A8": "The user has filed an appeal.",
+      "A9": "An emergency override has been used for the user.",
+      "A10": "The audit log has been updated for the user.",
+      "A11": "A security alert has been triggered for the user.",
+      "A12": "System lockdown has been activated for the user.",
+      "A13": "Access monitoring is enabled for the user.",
+      "A14": "Real-time monitoring is active for the user.",
+      "A15": "Periodic monitoring is active for the user.",
+      "A16": "Behavior analysis is enabled for the user.",
+      "A17": "The user is authorized.",
+      "A18": "Manual review is required for the user.",
+      "A19": "The supervisor has been notified about the user.",
+      "A20": "The user is under high-risk monitoring.",
+      "A21": "The user is under standard monitoring.",
+      "A22": "The user is under comprehensive monitoring.",
+      "A23": "Access has been granted to the user.",
+      "A24": "The user has full access.",
+      "A25": "The user has restricted access.",
+      "A26": "The user has conditional access.",
+      "A27": "The user has time-limited access.",
+      "A28": "The user has location-restricted access.",
+      "A29": "Access conditions have been verified for the user.",
+      "A30": "Biometric verification has failed for the user.",
+      "A31": "The user's password has expired.",
+      "A32": "Authentication has failed for the user.",
+      "A33": "The user's account is locked.",
+      "A34": "The security protocol has been activated for the user.",
+      "A35": "Compliance has been verified for the user.",
+      "A36": "The policy check has passed for the user.",
+      "A37": "The user is in regulatory compliance.",
+      "A38": "The user is in internal policy compliance.",
+      "A39": "There is a compliance violation by the user.",
+      "A40": "The user has a clean record.",
+      "A41": "Automatic review is active for the user.",
+      "A42": "Manual verification is required for the user.",
+      "A43": "The user's authorization has expired.",
+      "A44": "The user's authorization has been renewed.",
+      "A45": "The renewal process has been initiated for the user.",
+      "A46": "The renewal process has been completed for the user.",
+      "A47": "The user's access has been revoked.",
+      "A48": "The user's access has been suspended.",
+      "A49": "The review has been completed for the user.",
+      "A50": "The user has undergone a primary review.",
+      "A51": "The user has undergone a secondary review.",
+      "A52": "The user has undergone an initial assessment.",
+      "A53": "The user has undergone a follow-up assessment.",
+      "A54": "The assessment cycle is complete for the user.",
+      "A55": "A new assessment is required for the user.",
+      "A56": "The user's access has expired.",
+      "A57": "There is a policy violation by the user.",
+      "A58": "There is a security breach involving the user.",
+      "A59": "An investigation is ongoing for the user.",
+      "A60": "Disciplinary action has been taken against the user.",
+      "A61": "A warning has been issued to the user.",
+      "A62": "Training is required for the user.",
+      "A63": "The user has department-restricted access.",
+      "A64": "Access escalation has occurred for the user.",
+      "A65": "There has been privilege abuse by the user.",
+      "A66": "There has been unauthorized activity by the user.",
+      "A67": "The user has project-specific access.",
+      "A68": "The user has data-restricted access.",
+      "A69": "The project manager has approved the user.",
+      "A70": "The team lead has approved the user.",
+      "A71": "Executive approval is required for the user.",
+      "G": "The user has authorized access."
+    },
+    "prover9_expressions": [
+      "(has_access(user, platform) | authorized_access(user))",
+      "(security_alert_triggered(user) -> audit_log_updated(user))",
+      "(access_monitoring_enabled(user) -> (-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> -system_lockdown_activated(user)))",
+      "(real_time_monitoring(user) -> access_monitoring_enabled(user))",
+      "(real_time_monitoring(user) | periodic_monitoring(user))",
+      "(periodic_monitoring(user) -> access_monitoring_enabled(user))",
+      "(periodic_monitoring(user) -> behavior_analysis_enabled(user))",
+      "(behavior_analysis_enabled(user) -> access_monitoring_enabled(user))",
+      "(authorized_user(user) -> authorized_access(user))",
+      "(supervisor_notified(user) -> manual_review_required(user))",
+      "(valid_authorization(user) -> authorization_expired(user))",
+      "(valid_authorization(user) -> -authorization_expired(user))",
+      "(valid_authorization(user) | -has_access(user, platform))",
+      "(high_risk_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user)))",
+      "(high_risk_monitoring(user) | standard_monitoring(user))",
+      "(standard_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user)))",
+      "(comprehensive_monitoring(user) -> (standard_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user))))",
+      "(access_granted(user) -> authorized_access(user))",
+      "(full_access(user) -> access_granted(user))",
+      "(full_access(user) | restricted_access(user))",
+      "(restricted_access(user) -> access_granted(user))",
+      "(restricted_access(user) -> conditional_access(user))",
+      "(conditional_access(user) -> access_granted(user))",
+      "(conditional_access(user) -> time_limited_access(user))",
+      "(conditional_access(user) -> location_restricted_access(user))",
+      "(conditional_access(user) -> department_restricted_access(user))",
+      "(conditional_access(user) -> project_specific_access(user))",
+      "(time_limited_access(user) -> access_granted(user))",
+      "(location_restricted_access(user) -> time_limited_access(user))",
+      "(access_conditions_verified(user) -> (conditional_access(user) -> location_restricted_access(user)))",
+      "(meets_conditions(user) -> -valid_authorization(user))",
+      "(password_expired(user) -> -biometric_verification_failed(user))",
+      "(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user)))",
+      "(security_protocol_activated(user) -> (-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> account_locked(user)))",
+      "(compliance_verified(user) -> meets_conditions(user))",
+      "(policy_check_passed(user) -> compliance_verified(user))",
+      "(policy_check_passed(user) -> regulatory_compliance(user))",
+      "(policy_check_passed(user) -> internal_policy_compliance(user))",
+      "(regulatory_compliance(user) -> compliance_verified(user))",
+      "(internal_policy_compliance(user) -> regulatory_compliance(user))",
+      "(background_check_passed(user) -> meets_conditions(user))",
+      "(background_check_passed(user) | security_clearance_approved(user))",
+      "(clean_record(user) -> -compliance_violation(user))",
+      "(automatic_review(user) | (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+      "(renewal_process_initiated(user) -> renewal_completed(user))",
+      "(access_revoked(user) -> -renewal_completed(user))",
+      "(review_completed(user) | (-access_revoked(user) -> access_suspended(user)))",
+      "(security_clearance_approved(user) -> meets_conditions(user))",
+      "(primary_review(user) -> (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+      "(primary_review(user) | secondary_review(user))",
+      "(secondary_review(user) -> (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+      "(initial_assessment(user) -> primary_review(user))",
+      "(initial_assessment(user) | followup_assessment(user))",
+      "(followup_assessment(user) -> secondary_review(user))",
+      "(assessment_cycle_complete(user) -> (initial_assessment(user) | followup_assessment(user)))",
+      "(new_assessment_required(user) | assessment_cycle_complete(user))",
+      "(policy_violation(user) -> -access_expired(user))",
+      "(policy_violation(user) | security_breach(user))",
+      "(security_breach(user) -> -access_expired(user))",
+      "(investigation_ongoing(user) | (policy_violation(user) | security_breach(user)))",
+      "(disciplinary_action(user) -> warning_issued(user))",
+      "(disciplinary_action(user) -> training_required(user))",
+      "(disciplinary_action(user) -> -warning_issued(user))",
+      "(disciplinary_action(user) | -investigation_ongoing(user))",
+      "(training_required(user) -> warning_issued(user))",
+      "(department_restricted_access(user) -> time_limited_access(user))",
+      "(access_escalation(user) | (conditional_access(user) -> department_restricted_access(user)))",
+      "(privilege_abuse(user) -> -access_escalation(user))",
+      "(privilege_abuse(user) | unauthorized_activity(user))",
+      "(unauthorized_activity(user) -> -access_escalation(user))",
+      "(project_specific_access(user) -> access_granted(user))",
+      "(project_specific_access(user) -> data_restricted_access(user))",
+      "(data_restricted_access(user) -> access_granted(user))",
+      "(project_manager_approval(user) -> (project_specific_access(user) -> data_restricted_access(user)))",
+      "(project_manager_approval(user) | team_lead_approval(user))",
+      "(access_denied(user) -> -temporary_access_granted(user))",
+      "(team_lead_approval(user) -> (project_specific_access(user) -> data_restricted_access(user)))",
+      "(-(authorized_user(user) -> authorized_access(user)) -> manual_review_required(user))",
+      "(-(authorized_user(user) -> authorized_access(user)) -> supervisor_notified(user))",
+      "(-(authorized_user(user) -> authorized_access(user)) -> -manual_review_required(user))",
+      "(-(valid_authorization(user) -> -authorization_expired(user)) -> authorization_renewed(user))",
+      "(-(valid_authorization(user) -> -authorization_expired(user)) -> -authorization_renewed(user))",
+      "(-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> account_locked(user))",
+      "(-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> -account_locked(user))",
+      "(-(internal_policy_compliance(user) -> regulatory_compliance(user)) -> compliance_violation(user))",
+      "(-(background_check_passed(user) -> meets_conditions(user)) -> temporary_access_granted(user))",
+      "(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user))",
+      "(-(background_check_passed(user) -> meets_conditions(user)) -> -temporary_access_granted(user))",
+      "(-(automatic_review(user) | (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user))) -> manual_verification(user))",
+      "(-(project_manager_approval(user) | team_lead_approval(user)) -> executive_approval_required(user))",
+      "(-(-(valid_authorization(user) -> -authorization_expired(user)) -> authorization_renewed(user)) -> renewal_process_initiated(user))",
+      "(-(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)) -> appeal_filed(user))",
+      "(-(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)) -> -appeal_filed(user))",
+      "(-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> system_lockdown_activated(user))",
+      "(-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> -system_lockdown_activated(user))",
+      "(-(-authorized_access(user) -> emergency_override_used(user)) -> audit_log_updated(user))",
+      "(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user))",
+      "(-access_granted(user) -> access_expired(user))",
+      "(-access_revoked(user) -> access_suspended(user))",
+      "(-access_revoked(user) -> -access_suspended(user))",
+      "(-authorized_access(user) -> biometric_verification_failed(user))",
+      "(-authorized_access(user) -> password_expired(user))",
+      "(-authorized_access(user) -> emergency_override_used(user))",
+      "(-authorized_access(user) -> -biometric_verification_failed(user))",
+      "access_monitoring_enabled(user)",
+      "authorized_user(user)",
+      "comprehensive_monitoring(user)",
+      "access_granted(user)",
+      "access_conditions_verified(user)",
+      "meets_conditions(user)",
+      "authentication_failed(user)",
+      "security_protocol_activated(user)",
+      "compliance_verified(user)",
+      "policy_check_passed(user)",
+      "clean_record(user)",
+      "access_revoked(user)",
+      "assessment_cycle_complete(user)",
+      "authorized_access(user)",
+      "-has_access(user, platform)",
+      "-audit_log_updated(user)",
+      "-valid_authorization(user)",
+      "-compliance_violation(user)",
+      "-automatic_review(user)",
+      "-manual_verification(user)",
+      "-renewal_process_initiated(user)",
+      "-renewal_completed(user)",
+      "-review_completed(user)",
+      "-new_assessment_required(user)",
+      "-access_expired(user)",
+      "-investigation_ongoing(user)",
+      "-disciplinary_action(user)",
+      "-access_escalation(user)",
+      "-executive_approval_required(user)",
+      "-emergency_override_used(user)"
+    ],
+    "natural_expressions": [
+      "Either the user has access to the platform or the user has authorized access.",
+      "In the event that a security alert is triggered for the user, the audit log is updated for the user.",
+      "When access monitoring is enabled for the user, it follows that if it is not the case that the absence of authorized access for the user leading to emergency override usage results in a security alert, then system lockdown is not activated for the user.",
+      "Provided that real-time monitoring is active for the user, access monitoring is enabled for the user.",
+      "Either real-time monitoring is active for the user or periodic monitoring is active for the user.",
+      "If periodic monitoring is active for the user, then access monitoring is enabled for the user.",
+      "Whenever periodic monitoring is active for the user, behavior analysis is enabled for the user.",
+      "Assuming behavior analysis is enabled for the user, access monitoring is enabled for the user.",
+      "If the user is authorized, then the user has authorized access.",
+      "The supervisor being notified about the user implies that manual review is required for the user.",
+      "Given that the user has valid authorization, the user's authorization has expired.",
+      "The user having valid authorization leads to the user's authorization not having expired.",
+      "Either the user has valid authorization or the user does not have access to the platform.",
+      "The user being under high-risk monitoring entails that if the supervisor is notified about the user, then manual review is required for the user.",
+      "The user is under high-risk monitoring or the user is under standard monitoring.",
+      "Provided that the user is under standard monitoring, it follows that the supervisor being notified about the user results in manual review being required for the user.",
+      "If the user is under comprehensive monitoring, then the user being under standard monitoring implies that the supervisor being notified about the user leads to manual review being required for the user.",
+      "Whenever access has been granted to the user, the user has authorized access.",
+      "The user having full access implies that access has been granted to the user.",
+      "The user has full access or the user has restricted access.",
+      "If the user has restricted access, then access has been granted to the user.",
+      "Provided that the user has restricted access, the user has conditional access.",
+      "The user having conditional access means that access has been granted to the user.",
+      "If the user has conditional access, then the user has time-limited access.",
+      "Given that the user has conditional access, the user has location-restricted access.",
+      "The user having conditional access leads to the user having department-restricted access.",
+      "When the user has conditional access, the user has project-specific access.",
+      "If the user has time-limited access, then access has been granted to the user.",
+      "The user having location-restricted access implies that the user has time-limited access.",
+      "Provided that access conditions have been verified for the user, the user having conditional access results in the user having location-restricted access.",
+      "The user meeting all conditions leads to the user not having valid authorization.",
+      "Whenever the user's password has expired, biometric verification has not failed for the user.",
+      "The occurrence of authentication failure for the user implies that if the user's password has expired, then biometric verification has not failed for the user.",
+      "The security protocol being activated for the user entails that if it is not the case that authentication failure for the user leads to the user's password expiring resulting in no biometric verification failure, then the user's account is locked.",
+      "If compliance has been verified for the user, then the user meets all conditions.",
+      "The policy check passing for the user implies that compliance has been verified for the user.",
+      "Provided that the policy check has passed for the user, the user is in regulatory compliance.",
+      "When the policy check has passed for the user, the user is in internal policy compliance.",
+      "The user being in regulatory compliance leads to compliance having been verified for the user.",
+      "The user being in internal policy compliance implies that the user is in regulatory compliance.",
+      "If the user has passed the background check, then the user meets all conditions.",
+      "Either the user has passed the background check or the user has approved security clearance.",
+      "The user having a clean record leads to there being no compliance violation by the user.",
+      "Either automatic review is active for the user or if it is not the case that the user passing the background check results in the user meeting all conditions, then the user is denied access.",
+      "The renewal process being initiated for the user implies that the renewal process has been completed for the user.",
+      "The user's access being revoked leads to the renewal process not having been completed for the user.",
+      "Either the review has been completed for the user or if the user's access is not revoked, then the user's access is suspended.",
+      "The user having approved security clearance implies that the user meets all conditions.",
+      "The user having undergone a primary review entails that if it is not the case that the user passing the background check leads to the user meeting all conditions, then the user is denied access.",
+      "The user has undergone a primary review or the user has undergone a secondary review.",
+      "Provided that the user has undergone a secondary review, it follows that if the user passing the background check does not imply the user meets all conditions, then the user is denied access.",
+      "If the user has undergone an initial assessment, then the user has undergone a primary review.",
+      "Either the user has undergone an initial assessment or the user has undergone a follow-up assessment.",
+      "The user having undergone a follow-up assessment implies that the user has undergone a secondary review.",
+      "The assessment cycle being complete for the user leads to the user having undergone an initial assessment or a follow-up assessment.",
+      "Either a new assessment is required for the user or the assessment cycle is complete for the user.",
+      "There being a policy violation by the user implies that the user's access has not expired.",
+      "Either there is a policy violation by the user or there is a security breach involving the user.",
+      "Whenever there is a security breach involving the user, the user's access has not expired.",
+      "Either an investigation is ongoing for the user, or there is a policy violation by the user, or there is a security breach involving the user.",
+      "If disciplinary action has been taken against the user, then a warning has been issued to the user.",
+      "Provided that disciplinary action has been taken against the user, training is required for the user.",
+      "The occurrence of disciplinary action against the user leads to no warning having been issued to the user.",
+      "Either disciplinary action has been taken against the user or there is no investigation ongoing for the user.",
+      "Whenever training is required for the user, a warning has been issued to the user.",
+      "The user having department-restricted access implies that the user has time-limited access.",
+      "Either access escalation has occurred for the user or if the user has conditional access, then the user has department-restricted access.",
+      "There being privilege abuse by the user leads to no access escalation having occurred for the user.",
+      "Either there has been privilege abuse by the user or there has been unauthorized activity by the user.",
+      "Provided that there has been unauthorized activity by the user, access escalation has not occurred for the user.",
+      "If the user has project-specific access, then access has been granted to the user.",
+      "The user having project-specific access implies that the user has data-restricted access.",
+      "Whenever the user has data-restricted access, access has been granted to the user.",
+      "The project manager approving the user entails that if the user has project-specific access, then the user has data-restricted access.",
+      "Either the project manager has approved the user or the team lead has approved the user.",
+      "The user being denied access leads to the user not having been granted temporary access.",
+      "Provided that the team lead has approved the user, it follows that the user having project-specific access results in the user having data-restricted access.",
+      "If it is not the case that the user being authorized leads to the user having authorized access, then manual review is required for the user.",
+      "Assuming it is not the case that the user being authorized implies the user has authorized access, the supervisor has been notified about the user.",
+      "The failure of the user being authorized to imply authorized access leads to no manual review being required for the user.",
+      "If it is not the case that the user having valid authorization leads to the user's authorization not having expired, then the user's authorization has been renewed.",
+      "Provided that it is not the case that valid authorization for the user implies no authorization expiration, then the user's authorization has not been renewed.",
+      "Whenever it is not the case that authentication failure for the user leads to the user's password expiring resulting in no biometric verification failure, then the user's account is locked.",
+      "If it is not the case that authentication failure for the user implies that password expiration leads to no biometric verification failure, then the user's account is not locked.",
+      "The absence of internal policy compliance for the user implying regulatory compliance leads to a compliance violation by the user.",
+      "If it is not the case that the user passing the background check leads to the user meeting all conditions, then the user has been granted temporary access.",
+      "Provided that it is not the case that the user passing the background check implies the user meets all conditions, the user is denied access.",
+      "The failure of the user passing the background check to result in the user meeting all conditions leads to the user not having been granted temporary access.",
+      "If it is not the case that automatic review is active for the user or the absence of the user passing the background check leading to meeting all conditions results in access denial, then manual verification is required for the user.",
+      "Whenever it is not the case that the project manager has approved the user or the team lead has approved the user, then executive approval is required for the user.",
+      "If it is not the case that the failure of valid authorization for the user to imply no authorization expiration leads to authorization renewal, then the renewal process has been initiated for the user.",
+      "Provided that it is not the case that the absence of the user passing the background check leading to meeting all conditions results in access denial, then the user has filed an appeal.",
+      "The failure of the absence of the user passing the background check implying meeting all conditions to lead to access denial results in the user not having filed an appeal.",
+      "If it is not the case that the absence of authorized access for the user leading to emergency override usage results in a security alert, then system lockdown has been activated for the user.",
+      "Provided that it is not the case that the absence of authorized access for the user implying emergency override usage leads to a security alert, then system lockdown has not been activated for the user.",
+      "The absence of authorized access for the user leading to emergency override usage implies that the audit log has been updated for the user.",
+      "Whenever the absence of authorized access for the user leads to emergency override usage, a security alert has been triggered for the user.",
+      "If access has not been granted to the user, then the user's access has expired.",
+      "Provided that the user's access has not been revoked, the user's access has been suspended.",
+      "The user's access not being revoked leads to the user's access not being suspended.",
+      "The user not having authorized access implies that biometric verification has failed for the user.",
+      "If the user does not have authorized access, then the user's password has expired.",
+      "Whenever the user does not have authorized access, an emergency override has been used for the user.",
+      "The user not having authorized access leads to biometric verification not having failed for the user.",
+      "Access monitoring is enabled for the user.",
+      "The user is authorized.",
+      "The user is under comprehensive monitoring.",
+      "Access has been granted to the user.",
+      "Access conditions have been verified for the user.",
+      "The user meets all conditions.",
+      "Authentication has failed for the user.",
+      "The security protocol has been activated for the user.",
+      "Compliance has been verified for the user.",
+      "The policy check has passed for the user.",
+      "The user has a clean record.",
+      "The user's access has been revoked.",
+      "The assessment cycle is complete for the user.",
+      "The user has authorized access.",
+      "The user does not have access to the platform.",
+      "The audit log has not been updated for the user.",
+      "The user does not have valid authorization.",
+      "There is no compliance violation by the user.",
+      "Automatic review is not active for the user.",
+      "Manual verification is not required for the user.",
+      "The renewal process has not been initiated for the user.",
+      "The renewal process has not been completed for the user.",
+      "The review has not been completed for the user.",
+      "A new assessment is not required for the user.",
+      "The user's access has not expired.",
+      "There is no investigation ongoing for the user.",
+      "Disciplinary action has not been taken against the user.",
+      "Access escalation has not occurred for the user.",
+      "Executive approval is not required for the user.",
+      "An emergency override has not been used for the user."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(has_access(user, platform) | authorized_access(user))",
+        "natural": "Either the user has access to the platform or the user has authorized access."
+      },
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(security_alert_triggered(user) -> audit_log_updated(user))",
+        "natural": "In the event that a security alert is triggered for the user, the audit log is updated for the user."
+      },
+      "(A13 → (¬(¬(¬G → A9) → A11) → ¬A12))": {
+        "formal": "(A13 → (¬(¬(¬G → A9) → A11) → ¬A12))",
+        "prover9": "(A13 -> (-(-(-G -> A9) -> A11) -> -A12))",
+        "prover9_expression": "(access_monitoring_enabled(user) -> (-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> -system_lockdown_activated(user)))",
+        "natural": "When access monitoring is enabled for the user, it follows that if it is not the case that the absence of authorized access for the user leading to emergency override usage results in a security alert, then system lockdown is not activated for the user."
+      },
+      "(A14 → A13)": {
+        "formal": "(A14 → A13)",
+        "prover9": "(A14 -> A13)",
+        "prover9_expression": "(real_time_monitoring(user) -> access_monitoring_enabled(user))",
+        "natural": "Provided that real-time monitoring is active for the user, access monitoring is enabled for the user."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(real_time_monitoring(user) | periodic_monitoring(user))",
+        "natural": "Either real-time monitoring is active for the user or periodic monitoring is active for the user."
+      },
+      "(A15 → A13)": {
+        "formal": "(A15 → A13)",
+        "prover9": "(A15 -> A13)",
+        "prover9_expression": "(periodic_monitoring(user) -> access_monitoring_enabled(user))",
+        "natural": "If periodic monitoring is active for the user, then access monitoring is enabled for the user."
+      },
+      "(A15 → A16)": {
+        "formal": "(A15 → A16)",
+        "prover9": "(A15 -> A16)",
+        "prover9_expression": "(periodic_monitoring(user) -> behavior_analysis_enabled(user))",
+        "natural": "Whenever periodic monitoring is active for the user, behavior analysis is enabled for the user."
+      },
+      "(A16 → A13)": {
+        "formal": "(A16 → A13)",
+        "prover9": "(A16 -> A13)",
+        "prover9_expression": "(behavior_analysis_enabled(user) -> access_monitoring_enabled(user))",
+        "natural": "Assuming behavior analysis is enabled for the user, access monitoring is enabled for the user."
+      },
+      "(A17 → G)": {
+        "formal": "(A17 → G)",
+        "prover9": "(A17 -> G)",
+        "prover9_expression": "(authorized_user(user) -> authorized_access(user))",
+        "natural": "If the user is authorized, then the user has authorized access."
+      },
+      "(A19 → A18)": {
+        "formal": "(A19 → A18)",
+        "prover9": "(A19 -> A18)",
+        "prover9_expression": "(supervisor_notified(user) -> manual_review_required(user))",
+        "natural": "The supervisor being notified about the user implies that manual review is required for the user."
+      },
+      "(A2 → A43)": {
+        "formal": "(A2 → A43)",
+        "prover9": "(A2 -> A43)",
+        "prover9_expression": "(valid_authorization(user) -> authorization_expired(user))",
+        "natural": "Given that the user has valid authorization, the user's authorization has expired."
+      },
+      "(A2 → ¬A43)": {
+        "formal": "(A2 → ¬A43)",
+        "prover9": "(A2 -> -A43)",
+        "prover9_expression": "(valid_authorization(user) -> -authorization_expired(user))",
+        "natural": "The user having valid authorization leads to the user's authorization not having expired."
+      },
+      "(A2 ∨ ¬A1)": {
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9": "(A2 | -A1)",
+        "prover9_expression": "(valid_authorization(user) | -has_access(user, platform))",
+        "natural": "Either the user has valid authorization or the user does not have access to the platform."
+      },
+      "(A20 → (A19 → A18))": {
+        "formal": "(A20 → (A19 → A18))",
+        "prover9": "(A20 -> (A19 -> A18))",
+        "prover9_expression": "(high_risk_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user)))",
+        "natural": "The user being under high-risk monitoring entails that if the supervisor is notified about the user, then manual review is required for the user."
+      },
+      "(A20 ∨ A21)": {
+        "formal": "(A20 ∨ A21)",
+        "prover9": "(A20 | A21)",
+        "prover9_expression": "(high_risk_monitoring(user) | standard_monitoring(user))",
+        "natural": "The user is under high-risk monitoring or the user is under standard monitoring."
+      },
+      "(A21 → (A19 → A18))": {
+        "formal": "(A21 → (A19 → A18))",
+        "prover9": "(A21 -> (A19 -> A18))",
+        "prover9_expression": "(standard_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user)))",
+        "natural": "Provided that the user is under standard monitoring, it follows that the supervisor being notified about the user results in manual review being required for the user."
+      },
+      "(A22 → (A21 → (A19 → A18)))": {
+        "formal": "(A22 → (A21 → (A19 → A18)))",
+        "prover9": "(A22 -> (A21 -> (A19 -> A18)))",
+        "prover9_expression": "(comprehensive_monitoring(user) -> (standard_monitoring(user) -> (supervisor_notified(user) -> manual_review_required(user))))",
+        "natural": "If the user is under comprehensive monitoring, then the user being under standard monitoring implies that the supervisor being notified about the user leads to manual review being required for the user."
+      },
+      "(A23 → G)": {
+        "formal": "(A23 → G)",
+        "prover9": "(A23 -> G)",
+        "prover9_expression": "(access_granted(user) -> authorized_access(user))",
+        "natural": "Whenever access has been granted to the user, the user has authorized access."
+      },
+      "(A24 → A23)": {
+        "formal": "(A24 → A23)",
+        "prover9": "(A24 -> A23)",
+        "prover9_expression": "(full_access(user) -> access_granted(user))",
+        "natural": "The user having full access implies that access has been granted to the user."
+      },
+      "(A24 ∨ A25)": {
+        "formal": "(A24 ∨ A25)",
+        "prover9": "(A24 | A25)",
+        "prover9_expression": "(full_access(user) | restricted_access(user))",
+        "natural": "The user has full access or the user has restricted access."
+      },
+      "(A25 → A23)": {
+        "formal": "(A25 → A23)",
+        "prover9": "(A25 -> A23)",
+        "prover9_expression": "(restricted_access(user) -> access_granted(user))",
+        "natural": "If the user has restricted access, then access has been granted to the user."
+      },
+      "(A25 → A26)": {
+        "formal": "(A25 → A26)",
+        "prover9": "(A25 -> A26)",
+        "prover9_expression": "(restricted_access(user) -> conditional_access(user))",
+        "natural": "Provided that the user has restricted access, the user has conditional access."
+      },
+      "(A26 → A23)": {
+        "formal": "(A26 → A23)",
+        "prover9": "(A26 -> A23)",
+        "prover9_expression": "(conditional_access(user) -> access_granted(user))",
+        "natural": "The user having conditional access means that access has been granted to the user."
+      },
+      "(A26 → A27)": {
+        "formal": "(A26 → A27)",
+        "prover9": "(A26 -> A27)",
+        "prover9_expression": "(conditional_access(user) -> time_limited_access(user))",
+        "natural": "If the user has conditional access, then the user has time-limited access."
+      },
+      "(A26 → A28)": {
+        "formal": "(A26 → A28)",
+        "prover9": "(A26 -> A28)",
+        "prover9_expression": "(conditional_access(user) -> location_restricted_access(user))",
+        "natural": "Given that the user has conditional access, the user has location-restricted access."
+      },
+      "(A26 → A63)": {
+        "formal": "(A26 → A63)",
+        "prover9": "(A26 -> A63)",
+        "prover9_expression": "(conditional_access(user) -> department_restricted_access(user))",
+        "natural": "The user having conditional access leads to the user having department-restricted access."
+      },
+      "(A26 → A67)": {
+        "formal": "(A26 → A67)",
+        "prover9": "(A26 -> A67)",
+        "prover9_expression": "(conditional_access(user) -> project_specific_access(user))",
+        "natural": "When the user has conditional access, the user has project-specific access."
+      },
+      "(A27 → A23)": {
+        "formal": "(A27 → A23)",
+        "prover9": "(A27 -> A23)",
+        "prover9_expression": "(time_limited_access(user) -> access_granted(user))",
+        "natural": "If the user has time-limited access, then access has been granted to the user."
+      },
+      "(A28 → A27)": {
+        "formal": "(A28 → A27)",
+        "prover9": "(A28 -> A27)",
+        "prover9_expression": "(location_restricted_access(user) -> time_limited_access(user))",
+        "natural": "The user having location-restricted access implies that the user has time-limited access."
+      },
+      "(A29 → (A26 → A28))": {
+        "formal": "(A29 → (A26 → A28))",
+        "prover9": "(A29 -> (A26 -> A28))",
+        "prover9_expression": "(access_conditions_verified(user) -> (conditional_access(user) -> location_restricted_access(user)))",
+        "natural": "Provided that access conditions have been verified for the user, the user having conditional access results in the user having location-restricted access."
+      },
+      "(A3 → ¬A2)": {
+        "formal": "(A3 → ¬A2)",
+        "prover9": "(A3 -> -A2)",
+        "prover9_expression": "(meets_conditions(user) -> -valid_authorization(user))",
+        "natural": "The user meeting all conditions leads to the user not having valid authorization."
+      },
+      "(A31 → ¬A30)": {
+        "formal": "(A31 → ¬A30)",
+        "prover9": "(A31 -> -A30)",
+        "prover9_expression": "(password_expired(user) -> -biometric_verification_failed(user))",
+        "natural": "Whenever the user's password has expired, biometric verification has not failed for the user."
+      },
+      "(A32 → (A31 → ¬A30))": {
+        "formal": "(A32 → (A31 → ¬A30))",
+        "prover9": "(A32 -> (A31 -> -A30))",
+        "prover9_expression": "(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user)))",
+        "natural": "The occurrence of authentication failure for the user implies that if the user's password has expired, then biometric verification has not failed for the user."
+      },
+      "(A34 → (¬(A32 → (A31 → ¬A30)) → A33))": {
+        "formal": "(A34 → (¬(A32 → (A31 → ¬A30)) → A33))",
+        "prover9": "(A34 -> (-(A32 -> (A31 -> -A30)) -> A33))",
+        "prover9_expression": "(security_protocol_activated(user) -> (-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> account_locked(user)))",
+        "natural": "The security protocol being activated for the user entails that if it is not the case that authentication failure for the user leads to the user's password expiring resulting in no biometric verification failure, then the user's account is locked."
+      },
+      "(A35 → A3)": {
+        "formal": "(A35 → A3)",
+        "prover9": "(A35 -> A3)",
+        "prover9_expression": "(compliance_verified(user) -> meets_conditions(user))",
+        "natural": "If compliance has been verified for the user, then the user meets all conditions."
+      },
+      "(A36 → A35)": {
+        "formal": "(A36 → A35)",
+        "prover9": "(A36 -> A35)",
+        "prover9_expression": "(policy_check_passed(user) -> compliance_verified(user))",
+        "natural": "The policy check passing for the user implies that compliance has been verified for the user."
+      },
+      "(A36 → A37)": {
+        "formal": "(A36 → A37)",
+        "prover9": "(A36 -> A37)",
+        "prover9_expression": "(policy_check_passed(user) -> regulatory_compliance(user))",
+        "natural": "Provided that the policy check has passed for the user, the user is in regulatory compliance."
+      },
+      "(A36 → A38)": {
+        "formal": "(A36 → A38)",
+        "prover9": "(A36 -> A38)",
+        "prover9_expression": "(policy_check_passed(user) -> internal_policy_compliance(user))",
+        "natural": "When the policy check has passed for the user, the user is in internal policy compliance."
+      },
+      "(A37 → A35)": {
+        "formal": "(A37 → A35)",
+        "prover9": "(A37 -> A35)",
+        "prover9_expression": "(regulatory_compliance(user) -> compliance_verified(user))",
+        "natural": "The user being in regulatory compliance leads to compliance having been verified for the user."
+      },
+      "(A38 → A37)": {
+        "formal": "(A38 → A37)",
+        "prover9": "(A38 -> A37)",
+        "prover9_expression": "(internal_policy_compliance(user) -> regulatory_compliance(user))",
+        "natural": "The user being in internal policy compliance implies that the user is in regulatory compliance."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(background_check_passed(user) -> meets_conditions(user))",
+        "natural": "If the user has passed the background check, then the user meets all conditions."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(background_check_passed(user) | security_clearance_approved(user))",
+        "natural": "Either the user has passed the background check or the user has approved security clearance."
+      },
+      "(A40 → ¬A39)": {
+        "formal": "(A40 → ¬A39)",
+        "prover9": "(A40 -> -A39)",
+        "prover9_expression": "(clean_record(user) -> -compliance_violation(user))",
+        "natural": "The user having a clean record leads to there being no compliance violation by the user."
+      },
+      "(A41 ∨ (¬(A4 → A3) → A7))": {
+        "formal": "(A41 ∨ (¬(A4 → A3) → A7))",
+        "prover9": "(A41 | (-(A4 -> A3) -> A7))",
+        "prover9_expression": "(automatic_review(user) | (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+        "natural": "Either automatic review is active for the user or if it is not the case that the user passing the background check results in the user meeting all conditions, then the user is denied access."
+      },
+      "(A45 → A46)": {
+        "formal": "(A45 → A46)",
+        "prover9": "(A45 -> A46)",
+        "prover9_expression": "(renewal_process_initiated(user) -> renewal_completed(user))",
+        "natural": "The renewal process being initiated for the user implies that the renewal process has been completed for the user."
+      },
+      "(A47 → ¬A46)": {
+        "formal": "(A47 → ¬A46)",
+        "prover9": "(A47 -> -A46)",
+        "prover9_expression": "(access_revoked(user) -> -renewal_completed(user))",
+        "natural": "The user's access being revoked leads to the renewal process not having been completed for the user."
+      },
+      "(A49 ∨ (¬A47 → A48))": {
+        "formal": "(A49 ∨ (¬A47 → A48))",
+        "prover9": "(A49 | (-A47 -> A48))",
+        "prover9_expression": "(review_completed(user) | (-access_revoked(user) -> access_suspended(user)))",
+        "natural": "Either the review has been completed for the user or if the user's access is not revoked, then the user's access is suspended."
+      },
+      "(A5 → A3)": {
+        "formal": "(A5 → A3)",
+        "prover9": "(A5 -> A3)",
+        "prover9_expression": "(security_clearance_approved(user) -> meets_conditions(user))",
+        "natural": "The user having approved security clearance implies that the user meets all conditions."
+      },
+      "(A50 → (¬(A4 → A3) → A7))": {
+        "formal": "(A50 → (¬(A4 → A3) → A7))",
+        "prover9": "(A50 -> (-(A4 -> A3) -> A7))",
+        "prover9_expression": "(primary_review(user) -> (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+        "natural": "The user having undergone a primary review entails that if it is not the case that the user passing the background check leads to the user meeting all conditions, then the user is denied access."
+      },
+      "(A50 ∨ A51)": {
+        "formal": "(A50 ∨ A51)",
+        "prover9": "(A50 | A51)",
+        "prover9_expression": "(primary_review(user) | secondary_review(user))",
+        "natural": "The user has undergone a primary review or the user has undergone a secondary review."
+      },
+      "(A51 → (¬(A4 → A3) → A7))": {
+        "formal": "(A51 → (¬(A4 → A3) → A7))",
+        "prover9": "(A51 -> (-(A4 -> A3) -> A7))",
+        "prover9_expression": "(secondary_review(user) -> (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)))",
+        "natural": "Provided that the user has undergone a secondary review, it follows that if the user passing the background check does not imply the user meets all conditions, then the user is denied access."
+      },
+      "(A52 → A50)": {
+        "formal": "(A52 → A50)",
+        "prover9": "(A52 -> A50)",
+        "prover9_expression": "(initial_assessment(user) -> primary_review(user))",
+        "natural": "If the user has undergone an initial assessment, then the user has undergone a primary review."
+      },
+      "(A52 ∨ A53)": {
+        "formal": "(A52 ∨ A53)",
+        "prover9": "(A52 | A53)",
+        "prover9_expression": "(initial_assessment(user) | followup_assessment(user))",
+        "natural": "Either the user has undergone an initial assessment or the user has undergone a follow-up assessment."
+      },
+      "(A53 → A51)": {
+        "formal": "(A53 → A51)",
+        "prover9": "(A53 -> A51)",
+        "prover9_expression": "(followup_assessment(user) -> secondary_review(user))",
+        "natural": "The user having undergone a follow-up assessment implies that the user has undergone a secondary review."
+      },
+      "(A54 → (A52 ∨ A53))": {
+        "formal": "(A54 → (A52 ∨ A53))",
+        "prover9": "(A54 -> (A52 | A53))",
+        "prover9_expression": "(assessment_cycle_complete(user) -> (initial_assessment(user) | followup_assessment(user)))",
+        "natural": "The assessment cycle being complete for the user leads to the user having undergone an initial assessment or a follow-up assessment."
+      },
+      "(A55 ∨ A54)": {
+        "formal": "(A55 ∨ A54)",
+        "prover9": "(A55 | A54)",
+        "prover9_expression": "(new_assessment_required(user) | assessment_cycle_complete(user))",
+        "natural": "Either a new assessment is required for the user or the assessment cycle is complete for the user."
+      },
+      "(A57 → ¬A56)": {
+        "formal": "(A57 → ¬A56)",
+        "prover9": "(A57 -> -A56)",
+        "prover9_expression": "(policy_violation(user) -> -access_expired(user))",
+        "natural": "There being a policy violation by the user implies that the user's access has not expired."
+      },
+      "(A57 ∨ A58)": {
+        "formal": "(A57 ∨ A58)",
+        "prover9": "(A57 | A58)",
+        "prover9_expression": "(policy_violation(user) | security_breach(user))",
+        "natural": "Either there is a policy violation by the user or there is a security breach involving the user."
+      },
+      "(A58 → ¬A56)": {
+        "formal": "(A58 → ¬A56)",
+        "prover9": "(A58 -> -A56)",
+        "prover9_expression": "(security_breach(user) -> -access_expired(user))",
+        "natural": "Whenever there is a security breach involving the user, the user's access has not expired."
+      },
+      "(A59 ∨ (A57 ∨ A58))": {
+        "formal": "(A59 ∨ (A57 ∨ A58))",
+        "prover9": "(A59 | (A57 | A58))",
+        "prover9_expression": "(investigation_ongoing(user) | (policy_violation(user) | security_breach(user)))",
+        "natural": "Either an investigation is ongoing for the user, or there is a policy violation by the user, or there is a security breach involving the user."
+      },
+      "(A60 → A61)": {
+        "formal": "(A60 → A61)",
+        "prover9": "(A60 -> A61)",
+        "prover9_expression": "(disciplinary_action(user) -> warning_issued(user))",
+        "natural": "If disciplinary action has been taken against the user, then a warning has been issued to the user."
+      },
+      "(A60 → A62)": {
+        "formal": "(A60 → A62)",
+        "prover9": "(A60 -> A62)",
+        "prover9_expression": "(disciplinary_action(user) -> training_required(user))",
+        "natural": "Provided that disciplinary action has been taken against the user, training is required for the user."
+      },
+      "(A60 → ¬A61)": {
+        "formal": "(A60 → ¬A61)",
+        "prover9": "(A60 -> -A61)",
+        "prover9_expression": "(disciplinary_action(user) -> -warning_issued(user))",
+        "natural": "The occurrence of disciplinary action against the user leads to no warning having been issued to the user."
+      },
+      "(A60 ∨ ¬A59)": {
+        "formal": "(A60 ∨ ¬A59)",
+        "prover9": "(A60 | -A59)",
+        "prover9_expression": "(disciplinary_action(user) | -investigation_ongoing(user))",
+        "natural": "Either disciplinary action has been taken against the user or there is no investigation ongoing for the user."
+      },
+      "(A62 → A61)": {
+        "formal": "(A62 → A61)",
+        "prover9": "(A62 -> A61)",
+        "prover9_expression": "(training_required(user) -> warning_issued(user))",
+        "natural": "Whenever training is required for the user, a warning has been issued to the user."
+      },
+      "(A63 → A27)": {
+        "formal": "(A63 → A27)",
+        "prover9": "(A63 -> A27)",
+        "prover9_expression": "(department_restricted_access(user) -> time_limited_access(user))",
+        "natural": "The user having department-restricted access implies that the user has time-limited access."
+      },
+      "(A64 ∨ (A26 → A63))": {
+        "formal": "(A64 ∨ (A26 → A63))",
+        "prover9": "(A64 | (A26 -> A63))",
+        "prover9_expression": "(access_escalation(user) | (conditional_access(user) -> department_restricted_access(user)))",
+        "natural": "Either access escalation has occurred for the user or if the user has conditional access, then the user has department-restricted access."
+      },
+      "(A65 → ¬A64)": {
+        "formal": "(A65 → ¬A64)",
+        "prover9": "(A65 -> -A64)",
+        "prover9_expression": "(privilege_abuse(user) -> -access_escalation(user))",
+        "natural": "There being privilege abuse by the user leads to no access escalation having occurred for the user."
+      },
+      "(A65 ∨ A66)": {
+        "formal": "(A65 ∨ A66)",
+        "prover9": "(A65 | A66)",
+        "prover9_expression": "(privilege_abuse(user) | unauthorized_activity(user))",
+        "natural": "Either there has been privilege abuse by the user or there has been unauthorized activity by the user."
+      },
+      "(A66 → ¬A64)": {
+        "formal": "(A66 → ¬A64)",
+        "prover9": "(A66 -> -A64)",
+        "prover9_expression": "(unauthorized_activity(user) -> -access_escalation(user))",
+        "natural": "Provided that there has been unauthorized activity by the user, access escalation has not occurred for the user."
+      },
+      "(A67 → A23)": {
+        "formal": "(A67 → A23)",
+        "prover9": "(A67 -> A23)",
+        "prover9_expression": "(project_specific_access(user) -> access_granted(user))",
+        "natural": "If the user has project-specific access, then access has been granted to the user."
+      },
+      "(A67 → A68)": {
+        "formal": "(A67 → A68)",
+        "prover9": "(A67 -> A68)",
+        "prover9_expression": "(project_specific_access(user) -> data_restricted_access(user))",
+        "natural": "The user having project-specific access implies that the user has data-restricted access."
+      },
+      "(A68 → A23)": {
+        "formal": "(A68 → A23)",
+        "prover9": "(A68 -> A23)",
+        "prover9_expression": "(data_restricted_access(user) -> access_granted(user))",
+        "natural": "Whenever the user has data-restricted access, access has been granted to the user."
+      },
+      "(A69 → (A67 → A68))": {
+        "formal": "(A69 → (A67 → A68))",
+        "prover9": "(A69 -> (A67 -> A68))",
+        "prover9_expression": "(project_manager_approval(user) -> (project_specific_access(user) -> data_restricted_access(user)))",
+        "natural": "The project manager approving the user entails that if the user has project-specific access, then the user has data-restricted access."
+      },
+      "(A69 ∨ A70)": {
+        "formal": "(A69 ∨ A70)",
+        "prover9": "(A69 | A70)",
+        "prover9_expression": "(project_manager_approval(user) | team_lead_approval(user))",
+        "natural": "Either the project manager has approved the user or the team lead has approved the user."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(access_denied(user) -> -temporary_access_granted(user))",
+        "natural": "The user being denied access leads to the user not having been granted temporary access."
+      },
+      "(A70 → (A67 → A68))": {
+        "formal": "(A70 → (A67 → A68))",
+        "prover9": "(A70 -> (A67 -> A68))",
+        "prover9_expression": "(team_lead_approval(user) -> (project_specific_access(user) -> data_restricted_access(user)))",
+        "natural": "Provided that the team lead has approved the user, it follows that the user having project-specific access results in the user having data-restricted access."
+      },
+      "(¬(A17 → G) → A18)": {
+        "formal": "(¬(A17 → G) → A18)",
+        "prover9": "(-(A17 -> G) -> A18)",
+        "prover9_expression": "(-(authorized_user(user) -> authorized_access(user)) -> manual_review_required(user))",
+        "natural": "If it is not the case that the user being authorized leads to the user having authorized access, then manual review is required for the user."
+      },
+      "(¬(A17 → G) → A19)": {
+        "formal": "(¬(A17 → G) → A19)",
+        "prover9": "(-(A17 -> G) -> A19)",
+        "prover9_expression": "(-(authorized_user(user) -> authorized_access(user)) -> supervisor_notified(user))",
+        "natural": "Assuming it is not the case that the user being authorized implies the user has authorized access, the supervisor has been notified about the user."
+      },
+      "(¬(A17 → G) → ¬A18)": {
+        "formal": "(¬(A17 → G) → ¬A18)",
+        "prover9": "(-(A17 -> G) -> -A18)",
+        "prover9_expression": "(-(authorized_user(user) -> authorized_access(user)) -> -manual_review_required(user))",
+        "natural": "The failure of the user being authorized to imply authorized access leads to no manual review being required for the user."
+      },
+      "(¬(A2 → ¬A43) → A44)": {
+        "formal": "(¬(A2 → ¬A43) → A44)",
+        "prover9": "(-(A2 -> -A43) -> A44)",
+        "prover9_expression": "(-(valid_authorization(user) -> -authorization_expired(user)) -> authorization_renewed(user))",
+        "natural": "If it is not the case that the user having valid authorization leads to the user's authorization not having expired, then the user's authorization has been renewed."
+      },
+      "(¬(A2 → ¬A43) → ¬A44)": {
+        "formal": "(¬(A2 → ¬A43) → ¬A44)",
+        "prover9": "(-(A2 -> -A43) -> -A44)",
+        "prover9_expression": "(-(valid_authorization(user) -> -authorization_expired(user)) -> -authorization_renewed(user))",
+        "natural": "Provided that it is not the case that valid authorization for the user implies no authorization expiration, then the user's authorization has not been renewed."
+      },
+      "(¬(A32 → (A31 → ¬A30)) → A33)": {
+        "formal": "(¬(A32 → (A31 → ¬A30)) → A33)",
+        "prover9": "(-(A32 -> (A31 -> -A30)) -> A33)",
+        "prover9_expression": "(-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> account_locked(user))",
+        "natural": "Whenever it is not the case that authentication failure for the user leads to the user's password expiring resulting in no biometric verification failure, then the user's account is locked."
+      },
+      "(¬(A32 → (A31 → ¬A30)) → ¬A33)": {
+        "formal": "(¬(A32 → (A31 → ¬A30)) → ¬A33)",
+        "prover9": "(-(A32 -> (A31 -> -A30)) -> -A33)",
+        "prover9_expression": "(-(authentication_failed(user) -> (password_expired(user) -> -biometric_verification_failed(user))) -> -account_locked(user))",
+        "natural": "If it is not the case that authentication failure for the user implies that password expiration leads to no biometric verification failure, then the user's account is not locked."
+      },
+      "(¬(A38 → A37) → A39)": {
+        "formal": "(¬(A38 → A37) → A39)",
+        "prover9": "(-(A38 -> A37) -> A39)",
+        "prover9_expression": "(-(internal_policy_compliance(user) -> regulatory_compliance(user)) -> compliance_violation(user))",
+        "natural": "The absence of internal policy compliance for the user implying regulatory compliance leads to a compliance violation by the user."
+      },
+      "(¬(A4 → A3) → A6)": {
+        "formal": "(¬(A4 → A3) → A6)",
+        "prover9": "(-(A4 -> A3) -> A6)",
+        "prover9_expression": "(-(background_check_passed(user) -> meets_conditions(user)) -> temporary_access_granted(user))",
+        "natural": "If it is not the case that the user passing the background check leads to the user meeting all conditions, then the user has been granted temporary access."
+      },
+      "(¬(A4 → A3) → A7)": {
+        "formal": "(¬(A4 → A3) → A7)",
+        "prover9": "(-(A4 -> A3) -> A7)",
+        "prover9_expression": "(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user))",
+        "natural": "Provided that it is not the case that the user passing the background check implies the user meets all conditions, the user is denied access."
+      },
+      "(¬(A4 → A3) → ¬A6)": {
+        "formal": "(¬(A4 → A3) → ¬A6)",
+        "prover9": "(-(A4 -> A3) -> -A6)",
+        "prover9_expression": "(-(background_check_passed(user) -> meets_conditions(user)) -> -temporary_access_granted(user))",
+        "natural": "The failure of the user passing the background check to result in the user meeting all conditions leads to the user not having been granted temporary access."
+      },
+      "(¬(A41 ∨ (¬(A4 → A3) → A7)) → A42)": {
+        "formal": "(¬(A41 ∨ (¬(A4 → A3) → A7)) → A42)",
+        "prover9": "(-(A41 | (-(A4 -> A3) -> A7)) -> A42)",
+        "prover9_expression": "(-(automatic_review(user) | (-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user))) -> manual_verification(user))",
+        "natural": "If it is not the case that automatic review is active for the user or the absence of the user passing the background check leading to meeting all conditions results in access denial, then manual verification is required for the user."
+      },
+      "(¬(A69 ∨ A70) → A71)": {
+        "formal": "(¬(A69 ∨ A70) → A71)",
+        "prover9": "(-(A69 | A70) -> A71)",
+        "prover9_expression": "(-(project_manager_approval(user) | team_lead_approval(user)) -> executive_approval_required(user))",
+        "natural": "Whenever it is not the case that the project manager has approved the user or the team lead has approved the user, then executive approval is required for the user."
+      },
+      "(¬(¬(A2 → ¬A43) → A44) → A45)": {
+        "formal": "(¬(¬(A2 → ¬A43) → A44) → A45)",
+        "prover9": "(-(-(A2 -> -A43) -> A44) -> A45)",
+        "prover9_expression": "(-(-(valid_authorization(user) -> -authorization_expired(user)) -> authorization_renewed(user)) -> renewal_process_initiated(user))",
+        "natural": "If it is not the case that the failure of valid authorization for the user to imply no authorization expiration leads to authorization renewal, then the renewal process has been initiated for the user."
+      },
+      "(¬(¬(A4 → A3) → A7) → A8)": {
+        "formal": "(¬(¬(A4 → A3) → A7) → A8)",
+        "prover9": "(-(-(A4 -> A3) -> A7) -> A8)",
+        "prover9_expression": "(-(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)) -> appeal_filed(user))",
+        "natural": "Provided that it is not the case that the absence of the user passing the background check leading to meeting all conditions results in access denial, then the user has filed an appeal."
+      },
+      "(¬(¬(A4 → A3) → A7) → ¬A8)": {
+        "formal": "(¬(¬(A4 → A3) → A7) → ¬A8)",
+        "prover9": "(-(-(A4 -> A3) -> A7) -> -A8)",
+        "prover9_expression": "(-(-(background_check_passed(user) -> meets_conditions(user)) -> access_denied(user)) -> -appeal_filed(user))",
+        "natural": "The failure of the absence of the user passing the background check implying meeting all conditions to lead to access denial results in the user not having filed an appeal."
+      },
+      "(¬(¬(¬G → A9) → A11) → A12)": {
+        "formal": "(¬(¬(¬G → A9) → A11) → A12)",
+        "prover9": "(-(-(-G -> A9) -> A11) -> A12)",
+        "prover9_expression": "(-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> system_lockdown_activated(user))",
+        "natural": "If it is not the case that the absence of authorized access for the user leading to emergency override usage results in a security alert, then system lockdown has been activated for the user."
+      },
+      "(¬(¬(¬G → A9) → A11) → ¬A12)": {
+        "formal": "(¬(¬(¬G → A9) → A11) → ¬A12)",
+        "prover9": "(-(-(-G -> A9) -> A11) -> -A12)",
+        "prover9_expression": "(-(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user)) -> -system_lockdown_activated(user))",
+        "natural": "Provided that it is not the case that the absence of authorized access for the user implying emergency override usage leads to a security alert, then system lockdown has not been activated for the user."
+      },
+      "(¬(¬G → A9) → A10)": {
+        "formal": "(¬(¬G → A9) → A10)",
+        "prover9": "(-(-G -> A9) -> A10)",
+        "prover9_expression": "(-(-authorized_access(user) -> emergency_override_used(user)) -> audit_log_updated(user))",
+        "natural": "The absence of authorized access for the user leading to emergency override usage implies that the audit log has been updated for the user."
+      },
+      "(¬(¬G → A9) → A11)": {
+        "formal": "(¬(¬G → A9) → A11)",
+        "prover9": "(-(-G -> A9) -> A11)",
+        "prover9_expression": "(-(-authorized_access(user) -> emergency_override_used(user)) -> security_alert_triggered(user))",
+        "natural": "Whenever the absence of authorized access for the user leads to emergency override usage, a security alert has been triggered for the user."
+      },
+      "(¬A23 → A56)": {
+        "formal": "(¬A23 → A56)",
+        "prover9": "(-A23 -> A56)",
+        "prover9_expression": "(-access_granted(user) -> access_expired(user))",
+        "natural": "If access has not been granted to the user, then the user's access has expired."
+      },
+      "(¬A47 → A48)": {
+        "formal": "(¬A47 → A48)",
+        "prover9": "(-A47 -> A48)",
+        "prover9_expression": "(-access_revoked(user) -> access_suspended(user))",
+        "natural": "Provided that the user's access has not been revoked, the user's access has been suspended."
+      },
+      "(¬A47 → ¬A48)": {
+        "formal": "(¬A47 → ¬A48)",
+        "prover9": "(-A47 -> -A48)",
+        "prover9_expression": "(-access_revoked(user) -> -access_suspended(user))",
+        "natural": "The user's access not being revoked leads to the user's access not being suspended."
+      },
+      "(¬G → A30)": {
+        "formal": "(¬G → A30)",
+        "prover9": "(-G -> A30)",
+        "prover9_expression": "(-authorized_access(user) -> biometric_verification_failed(user))",
+        "natural": "The user not having authorized access implies that biometric verification has failed for the user."
+      },
+      "(¬G → A31)": {
+        "formal": "(¬G → A31)",
+        "prover9": "(-G -> A31)",
+        "prover9_expression": "(-authorized_access(user) -> password_expired(user))",
+        "natural": "If the user does not have authorized access, then the user's password has expired."
+      },
+      "(¬G → A9)": {
+        "formal": "(¬G → A9)",
+        "prover9": "(-G -> A9)",
+        "prover9_expression": "(-authorized_access(user) -> emergency_override_used(user))",
+        "natural": "Whenever the user does not have authorized access, an emergency override has been used for the user."
+      },
+      "(¬G → ¬A30)": {
+        "formal": "(¬G → ¬A30)",
+        "prover9": "(-G -> -A30)",
+        "prover9_expression": "(-authorized_access(user) -> -biometric_verification_failed(user))",
+        "natural": "The user not having authorized access leads to biometric verification not having failed for the user."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "access_monitoring_enabled(user)",
+        "natural": "Access monitoring is enabled for the user."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "authorized_user(user)",
+        "natural": "The user is authorized."
+      },
+      "A22": {
+        "formal": "A22",
+        "prover9": "A22",
+        "prover9_expression": "comprehensive_monitoring(user)",
+        "natural": "The user is under comprehensive monitoring."
+      },
+      "A23": {
+        "formal": "A23",
+        "prover9": "A23",
+        "prover9_expression": "access_granted(user)",
+        "natural": "Access has been granted to the user."
+      },
+      "A29": {
+        "formal": "A29",
+        "prover9": "A29",
+        "prover9_expression": "access_conditions_verified(user)",
+        "natural": "Access conditions have been verified for the user."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "meets_conditions(user)",
+        "natural": "The user meets all conditions."
+      },
+      "A32": {
+        "formal": "A32",
+        "prover9": "A32",
+        "prover9_expression": "authentication_failed(user)",
+        "natural": "Authentication has failed for the user."
+      },
+      "A34": {
+        "formal": "A34",
+        "prover9": "A34",
+        "prover9_expression": "security_protocol_activated(user)",
+        "natural": "The security protocol has been activated for the user."
+      },
+      "A35": {
+        "formal": "A35",
+        "prover9": "A35",
+        "prover9_expression": "compliance_verified(user)",
+        "natural": "Compliance has been verified for the user."
+      },
+      "A36": {
+        "formal": "A36",
+        "prover9": "A36",
+        "prover9_expression": "policy_check_passed(user)",
+        "natural": "The policy check has passed for the user."
+      },
+      "A40": {
+        "formal": "A40",
+        "prover9": "A40",
+        "prover9_expression": "clean_record(user)",
+        "natural": "The user has a clean record."
+      },
+      "A47": {
+        "formal": "A47",
+        "prover9": "A47",
+        "prover9_expression": "access_revoked(user)",
+        "natural": "The user's access has been revoked."
+      },
+      "A54": {
+        "formal": "A54",
+        "prover9": "A54",
+        "prover9_expression": "assessment_cycle_complete(user)",
+        "natural": "The assessment cycle is complete for the user."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "authorized_access(user)",
+        "natural": "The user has authorized access."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_access(user, platform)",
+        "natural": "The user does not have access to the platform."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-audit_log_updated(user)",
+        "natural": "The audit log has not been updated for the user."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-valid_authorization(user)",
+        "natural": "The user does not have valid authorization."
+      },
+      "¬A39": {
+        "formal": "¬A39",
+        "prover9": "-A39",
+        "prover9_expression": "-compliance_violation(user)",
+        "natural": "There is no compliance violation by the user."
+      },
+      "¬A41": {
+        "formal": "¬A41",
+        "prover9": "-A41",
+        "prover9_expression": "-automatic_review(user)",
+        "natural": "Automatic review is not active for the user."
+      },
+      "¬A42": {
+        "formal": "¬A42",
+        "prover9": "-A42",
+        "prover9_expression": "-manual_verification(user)",
+        "natural": "Manual verification is not required for the user."
+      },
+      "¬A45": {
+        "formal": "¬A45",
+        "prover9": "-A45",
+        "prover9_expression": "-renewal_process_initiated(user)",
+        "natural": "The renewal process has not been initiated for the user."
+      },
+      "¬A46": {
+        "formal": "¬A46",
+        "prover9": "-A46",
+        "prover9_expression": "-renewal_completed(user)",
+        "natural": "The renewal process has not been completed for the user."
+      },
+      "¬A49": {
+        "formal": "¬A49",
+        "prover9": "-A49",
+        "prover9_expression": "-review_completed(user)",
+        "natural": "The review has not been completed for the user."
+      },
+      "¬A55": {
+        "formal": "¬A55",
+        "prover9": "-A55",
+        "prover9_expression": "-new_assessment_required(user)",
+        "natural": "A new assessment is not required for the user."
+      },
+      "¬A56": {
+        "formal": "¬A56",
+        "prover9": "-A56",
+        "prover9_expression": "-access_expired(user)",
+        "natural": "The user's access has not expired."
+      },
+      "¬A59": {
+        "formal": "¬A59",
+        "prover9": "-A59",
+        "prover9_expression": "-investigation_ongoing(user)",
+        "natural": "There is no investigation ongoing for the user."
+      },
+      "¬A60": {
+        "formal": "¬A60",
+        "prover9": "-A60",
+        "prover9_expression": "-disciplinary_action(user)",
+        "natural": "Disciplinary action has not been taken against the user."
+      },
+      "¬A64": {
+        "formal": "¬A64",
+        "prover9": "-A64",
+        "prover9_expression": "-access_escalation(user)",
+        "natural": "Access escalation has not occurred for the user."
+      },
+      "¬A71": {
+        "formal": "¬A71",
+        "prover9": "-A71",
+        "prover9_expression": "-executive_approval_required(user)",
+        "natural": "Executive approval is not required for the user."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-emergency_override_used(user)",
+        "natural": "An emergency override has not been used for the user."
+      }
+    }
+  }
+}

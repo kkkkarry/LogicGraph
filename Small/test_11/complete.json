@@ -1,0 +1,301 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(present(Research_Team, Protected_Region) -> -infected(Deer_Population, Chronic_Wasting_Disease))",
+        "natural": "If the research team is present in the protected region, then the deer population is not infected with Chronic Wasting Disease"
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(present(Research_Team, Protected_Region) | blooming(Medicinal_Plant, Spring_Season))",
+        "natural": "Either the research team is present in the protected region or the medicinal plant is blooming during spring season"
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A4 → (A3 → ¬A1))",
+        "prover9_expression": "(approved(Conservation_Protocol, Wildlife_Agency) -> (blooming(Medicinal_Plant, Spring_Season) -> -infected(Deer_Population, Chronic_Wasting_Disease)))",
+        "natural": "Provided that the conservation protocol is approved by the wildlife agency, then if the medicinal plant is blooming during spring season, the deer population is not infected with Chronic Wasting Disease"
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → A7)",
+        "prover9_expression": "(funded(Research_Project, Conservation_Foundation) -> operational(Disease_Monitoring_System, Protected_Region))",
+        "natural": "If the research project is funded by the conservation foundation, then the disease monitoring system becomes operational in the protected region"
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A7 → (A5 → G))",
+        "prover9_expression": "(operational(Disease_Monitoring_System, Protected_Region) -> (deployed(Antibiotic_Dispensers, Water_Sources) -> controlled(Chronic_Wasting_Disease, Deer_Population)))",
+        "natural": "Once the disease monitoring system is operational in the protected region, then if antibiotic dispensers are deployed at water sources, Chronic Wasting Disease is controlled in the deer population"
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-controlled(Chronic_Wasting_Disease, Deer_Population) -> infected(Deer_Population, Chronic_Wasting_Disease))",
+        "natural": "If Chronic Wasting Disease is not controlled in the deer population, then the deer population is infected with Chronic Wasting Disease"
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A4",
+        "prover9_expression": "approved(Conservation_Protocol, Wildlife_Agency)",
+        "natural": "The conservation protocol is approved by the wildlife agency"
+      },
+      {
+        "id": "Fact2",
+        "formal": "A5",
+        "prover9_expression": "deployed(Antibiotic_Dispensers, Water_Sources)",
+        "natural": "Antibiotic dispensers are deployed at water sources"
+      },
+      {
+        "id": "Fact3",
+        "formal": "A6",
+        "prover9_expression": "funded(Research_Project, Conservation_Foundation)",
+        "natural": "The research project is funded by the conservation foundation"
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "controlled(Chronic_Wasting_Disease, Deer_Population)",
+    "natural": "Chronic Wasting Disease is controlled in the deer population"
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 -> -A1))",
+            "A4"
+          ],
+          "conclusion": "(A3 -> -A1)",
+          "natural": "If the medicinal plant is blooming during spring season, then the deer population is not infected with Chronic Wasting Disease"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "The deer population is not infected with Chronic Wasting Disease"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Chronic Wasting Disease is controlled in the deer population"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A6 -> A7)",
+            "(A7 -> (A5 -> G))"
+          ],
+          "conclusion": "(A6 -> (A5 -> G))",
+          "natural": "Under the condition that the research project is funded by the conservation foundation, then if antibiotic dispensers are deployed at water sources, Chronic Wasting Disease is controlled in the deer population"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> (A5 -> G))",
+            "A6"
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "Should antibiotic dispensers be deployed at water sources, then Chronic Wasting Disease becomes controlled in the deer population"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> G)",
+            "A5"
+          ],
+          "conclusion": "G",
+          "natural": "Chronic Wasting Disease is controlled in the deer population"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "infected(Deer_Population, Chronic_Wasting_Disease)",
+      "A2": "present(Research_Team, Protected_Region)",
+      "A3": "blooming(Medicinal_Plant, Spring_Season)",
+      "A4": "approved(Conservation_Protocol, Wildlife_Agency)",
+      "A5": "deployed(Antibiotic_Dispensers, Water_Sources)",
+      "A6": "funded(Research_Project, Conservation_Foundation)",
+      "A7": "operational(Disease_Monitoring_System, Protected_Region)",
+      "G": "controlled(Chronic_Wasting_Disease, Deer_Population)"
+    },
+    "natural_facts": {
+      "A1": "The deer population is infected with Chronic Wasting Disease",
+      "A2": "The research team is present in the protected region",
+      "A3": "The medicinal plant is blooming during spring season",
+      "A4": "The conservation protocol is approved by the wildlife agency",
+      "A5": "Antibiotic dispensers are deployed at water sources",
+      "A6": "The research project is funded by the conservation foundation",
+      "A7": "The disease monitoring system is operational in the protected region",
+      "G": "Chronic Wasting Disease is controlled in the deer population"
+    },
+    "prover9_expressions": [
+      "(present(Research_Team, Protected_Region) → ¬infected(Deer_Population, Chronic_Wasting_Disease))",
+      "(present(Research_Team, Protected_Region) ∨ blooming(Medicinal_Plant, Spring_Season))",
+      "(blooming(Medicinal_Plant, Spring_Season) → ¬infected(Deer_Population, Chronic_Wasting_Disease))",
+      "(approved(Conservation_Protocol, Wildlife_Agency) → (blooming(Medicinal_Plant, Spring_Season) → ¬infected(Deer_Population, Chronic_Wasting_Disease)))",
+      "(deployed(Antibiotic_Dispensers, Water_Sources) → controlled(Chronic_Wasting_Disease, Deer_Population))",
+      "(funded(Research_Project, Conservation_Foundation) → (deployed(Antibiotic_Dispensers, Water_Sources) → controlled(Chronic_Wasting_Disease, Deer_Population)))",
+      "(funded(Research_Project, Conservation_Foundation) → operational(Disease_Monitoring_System, Protected_Region))",
+      "(operational(Disease_Monitoring_System, Protected_Region) → (deployed(Antibiotic_Dispensers, Water_Sources) → controlled(Chronic_Wasting_Disease, Deer_Population)))",
+      "(¬controlled(Chronic_Wasting_Disease, Deer_Population) → infected(Deer_Population, Chronic_Wasting_Disease))",
+      "approved(Conservation_Protocol, Wildlife_Agency)",
+      "deployed(Antibiotic_Dispensers, Water_Sources)",
+      "funded(Research_Project, Conservation_Foundation)",
+      "controlled(Chronic_Wasting_Disease, Deer_Population)",
+      "¬infected(Deer_Population, Chronic_Wasting_Disease)"
+    ],
+    "natural_expressions": [
+      "If the research team is present in the protected region, then the deer population is not infected with Chronic Wasting Disease",
+      "Either the research team is present in the protected region or the medicinal plant is blooming during spring season",
+      "If the medicinal plant is blooming during spring season, then the deer population is not infected with Chronic Wasting Disease",
+      "Provided that the conservation protocol is approved by the wildlife agency, then if the medicinal plant is blooming during spring season, the deer population is not infected with Chronic Wasting Disease",
+      "Should antibiotic dispensers be deployed at water sources, then Chronic Wasting Disease becomes controlled in the deer population",
+      "Under the condition that the research project is funded by the conservation foundation, then if antibiotic dispensers are deployed at water sources, Chronic Wasting Disease is controlled in the deer population",
+      "If the research project is funded by the conservation foundation, then the disease monitoring system becomes operational in the protected region",
+      "Once the disease monitoring system is operational in the protected region, then if antibiotic dispensers are deployed at water sources, Chronic Wasting Disease is controlled in the deer population",
+      "If Chronic Wasting Disease is not controlled in the deer population, then the deer population is infected with Chronic Wasting Disease",
+      "The conservation protocol is approved by the wildlife agency",
+      "Antibiotic dispensers are deployed at water sources",
+      "The research project is funded by the conservation foundation",
+      "Chronic Wasting Disease is controlled in the deer population",
+      "The deer population is not infected with Chronic Wasting Disease"
+    ],
+    "node_mappings": {
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(present(Research_Team, Protected_Region) -> -infected(Deer_Population, Chronic_Wasting_Disease))",
+        "natural": "If the research team is present in the protected region, then the deer population is not infected with Chronic Wasting Disease"
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(present(Research_Team, Protected_Region) | blooming(Medicinal_Plant, Spring_Season))",
+        "natural": "Either the research team is present in the protected region or the medicinal plant is blooming during spring season"
+      },
+      "(A3 → ¬A1)": {
+        "formal": "(A3 → ¬A1)",
+        "prover9": "(A3 -> -A1)",
+        "prover9_expression": "(blooming(Medicinal_Plant, Spring_Season) -> -infected(Deer_Population, Chronic_Wasting_Disease))",
+        "natural": "If the medicinal plant is blooming during spring season, then the deer population is not infected with Chronic Wasting Disease"
+      },
+      "(A4 → (A3 → ¬A1))": {
+        "formal": "(A4 → (A3 → ¬A1))",
+        "prover9": "(A4 -> (A3 -> -A1))",
+        "prover9_expression": "(approved(Conservation_Protocol, Wildlife_Agency) -> (blooming(Medicinal_Plant, Spring_Season) -> -infected(Deer_Population, Chronic_Wasting_Disease)))",
+        "natural": "Provided that the conservation protocol is approved by the wildlife agency, then if the medicinal plant is blooming during spring season, the deer population is not infected with Chronic Wasting Disease"
+      },
+      "(A5 → G)": {
+        "formal": "(A5 → G)",
+        "prover9": "(A5 -> G)",
+        "prover9_expression": "(deployed(Antibiotic_Dispensers, Water_Sources) -> controlled(Chronic_Wasting_Disease, Deer_Population))",
+        "natural": "Should antibiotic dispensers be deployed at water sources, then Chronic Wasting Disease becomes controlled in the deer population"
+      },
+      "(A6 → (A5 → G))": {
+        "formal": "(A6 → (A5 → G))",
+        "prover9": "(A6 -> (A5 -> G))",
+        "prover9_expression": "(funded(Research_Project, Conservation_Foundation) -> (deployed(Antibiotic_Dispensers, Water_Sources) -> controlled(Chronic_Wasting_Disease, Deer_Population)))",
+        "natural": "Under the condition that the research project is funded by the conservation foundation, then if antibiotic dispensers are deployed at water sources, Chronic Wasting Disease is controlled in the deer population"
+      },
+      "(A6 → A7)": {
+        "formal": "(A6 → A7)",
+        "prover9": "(A6 -> A7)",
+        "prover9_expression": "(funded(Research_Project, Conservation_Foundation) -> operational(Disease_Monitoring_System, Protected_Region))",
+        "natural": "If the research project is funded by the conservation foundation, then the disease monitoring system becomes operational in the protected region"
+      },
+      "(A7 → (A5 → G))": {
+        "formal": "(A7 → (A5 → G))",
+        "prover9": "(A7 -> (A5 -> G))",
+        "prover9_expression": "(operational(Disease_Monitoring_System, Protected_Region) -> (deployed(Antibiotic_Dispensers, Water_Sources) -> controlled(Chronic_Wasting_Disease, Deer_Population)))",
+        "natural": "Once the disease monitoring system is operational in the protected region, then if antibiotic dispensers are deployed at water sources, Chronic Wasting Disease is controlled in the deer population"
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-controlled(Chronic_Wasting_Disease, Deer_Population) -> infected(Deer_Population, Chronic_Wasting_Disease))",
+        "natural": "If Chronic Wasting Disease is not controlled in the deer population, then the deer population is infected with Chronic Wasting Disease"
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "approved(Conservation_Protocol, Wildlife_Agency)",
+        "natural": "The conservation protocol is approved by the wildlife agency"
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "deployed(Antibiotic_Dispensers, Water_Sources)",
+        "natural": "Antibiotic dispensers are deployed at water sources"
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "funded(Research_Project, Conservation_Foundation)",
+        "natural": "The research project is funded by the conservation foundation"
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "controlled(Chronic_Wasting_Disease, Deer_Population)",
+        "natural": "Chronic Wasting Disease is controlled in the deer population"
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-infected(Deer_Population, Chronic_Wasting_Disease)",
+        "natural": "The deer population is not infected with Chronic Wasting Disease"
+      }
+    }
+  }
+}

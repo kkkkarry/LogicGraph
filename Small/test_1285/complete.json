@@ -1,0 +1,744 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A9)",
+        "prover9_expression": "(monitoring_increased(region) -> cleanup_begun(event))",
+        "natural": "If monitoring has been increased in the region, then cleanup has begun for the event."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (¬(¬G → A8) → A10))",
+        "prover9_expression": "(inspection_passed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+        "natural": "Provided that the plant has passed inspection, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(inspection_passed(plant) | safety_certified(facility))",
+        "natural": "Either the plant has passed inspection or the facility is safety certified."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → (¬(¬G → A8) → A10))",
+        "prover9_expression": "(safety_certified(facility) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+        "natural": "Under the condition that the facility is safety certified, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → (¬(¬G → A8) → A9))",
+        "prover9_expression": "(repairs_completed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event)))",
+        "natural": "Whenever repairs have been completed at the plant, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then cleanup has begun for the event."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 → A13)",
+        "prover9_expression": "(systems_restored(facility) -> repairs_completed(plant))",
+        "natural": "If systems have been restored at the facility, then repairs have been completed at the plant."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A17 → A19)",
+        "prover9_expression": "(response_successful(event) -> all_clear_given(region))",
+        "natural": "If the response to the event was successful, then an all-clear has been given for the region."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → (A16 ∨ (¬A14 → A15)))",
+        "prover9_expression": "(operations_resumed(plant) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+        "natural": "Under the condition that operations have resumed at the plant, it follows that either automation is functional at the facility or, given that systems are not restored at the facility, a manual override has been used at the facility."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A2 → (¬G → A1))",
+        "prover9_expression": "(evacuation_ordered(facility) -> (-government_alert(event) -> contaminated(region, substance)))",
+        "natural": "Whenever an evacuation has been ordered for the facility, if there is no government alert for the event, then the region is contaminated with the substance."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(evacuation_ordered(facility) | containment_breached(plant))",
+        "natural": "An evacuation has been ordered for the facility, or containment has been breached at the plant."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A5 → (A4 ∨ (A3 → (¬G → A1))))",
+        "prover9_expression": "(alert_issued(event) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+        "natural": "If an alert has been issued for the event, then either the backup system has been activated at the facility or, under the condition that containment has been breached at the plant, the absence of a government alert for the event leads to the region being contaminated with the substance."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A6 → (A4 ∨ (A3 → (¬G → A1))))",
+        "prover9_expression": "(emergency_declared(region) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+        "natural": "Provided that an emergency has been declared for the region, it follows that either the backup system has been activated at the facility or, given that containment has been breached at the plant, the absence of a government alert for the event results in the region being contaminated with the substance."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A7 ∨ (A5 ∨ A6))",
+        "prover9_expression": "(shelter_opened(facility) | (alert_issued(event) | emergency_declared(region)))",
+        "natural": "A shelter has been opened at the facility, or an alert has been issued for the event, or an emergency has been declared for the region."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(¬(A19 → A18) → A20)",
+        "prover9_expression": "(-(all_clear_given(region) -> operations_resumed(plant)) -> investigation_launched(event))",
+        "natural": "If it is not the case that an all-clear for the region implies operations have resumed at the plant, then an investigation has been launched for the event."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬(¬G → A8) → ¬A9)",
+        "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> -cleanup_begun(event))",
+        "natural": "Under the condition that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has not begun for the event."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A17",
+        "prover9_expression": "response_successful(event)",
+        "natural": "The response to the event was successful."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A1",
+        "prover9_expression": "-contaminated(region, substance)",
+        "natural": "It is not the case that the region is contaminated with the substance."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A15",
+        "prover9_expression": "-manual_override_used(facility)",
+        "natural": "A manual override has not been used at the facility."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A16",
+        "prover9_expression": "-automation_functional(facility)",
+        "natural": "Automation is not functional at the facility."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A20",
+        "prover9_expression": "-investigation_launched(event)",
+        "natural": "An investigation has not been launched for the event."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A4",
+        "prover9_expression": "-backup_activated(facility)",
+        "natural": "The backup system has not been activated at the facility."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A7",
+        "prover9_expression": "-shelter_opened(facility)",
+        "natural": "A shelter has not been opened at the facility."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A8",
+        "prover9_expression": "-spill_contained(substance)",
+        "natural": "The spill of the substance is not contained."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "government_alert(event)",
+    "natural": "A government alert has been issued for the event."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (A5 | A6))",
+            "-A7"
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "An alert has been issued for the event, or an emergency has been declared for the region."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (A4 | (A3 -> (-G -> A1))))",
+            "(A6 -> (A4 | (A3 -> (-G -> A1))))"
+          ],
+          "conclusion": "(A4 | (A3 -> (-G -> A1)))",
+          "natural": "The backup system has been activated at the facility, or else if containment has been breached at the plant, then the absence of a government alert for the event implies the region is contaminated with the substance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A3 -> (-G -> A1)))",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> (-G -> A1))",
+          "natural": "Should containment be breached at the plant, then if there is no government alert for the event, the region is contaminated with the substance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> (-G -> A1))",
+            "(A3 -> (-G -> A1))"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If there is no government alert for the event, then the region is contaminated with the substance."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A government alert has been issued for the event."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> (-(-G -> A8) -> A10))",
+            "(A12 -> (-(-G -> A8) -> A10))"
+          ],
+          "conclusion": "(-(-G -> A8) -> A10)",
+          "natural": "If it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-G -> A8) -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(-(-G -> A8) -> A9)",
+          "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A8) -> A9)",
+            "(-(-G -> A8) -> -A9)"
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A8)",
+            "-A8"
+          ],
+          "conclusion": "G",
+          "natural": "A government alert has been issued for the event."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A19 -> A18) -> A20)",
+            "-A20"
+          ],
+          "conclusion": "(A19 -> A18)",
+          "natural": "If an all-clear has been given for the region, then operations have resumed at the plant."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A17 -> A19)",
+            "(A19 -> A18)"
+          ],
+          "conclusion": "(A17 -> A18)",
+          "natural": "Provided that the response to the event was successful, operations have resumed at the plant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A17 -> A18)",
+            "(A18 -> (A16 | (-A14 -> A15)))"
+          ],
+          "conclusion": "(A17 -> (A16 | (-A14 -> A15)))",
+          "natural": "Should the response to the event be successful, then either automation is functional at the facility or, in case systems are not restored at the facility, a manual override has been used at the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> (A16 | (-A14 -> A15)))",
+            "A17"
+          ],
+          "conclusion": "(A16 | (-A14 -> A15))",
+          "natural": "Automation is functional at the facility, or else if systems are not restored at the facility, then a manual override has been used at the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A16 | (-A14 -> A15))",
+            "-A16"
+          ],
+          "conclusion": "(-A14 -> A15)",
+          "natural": "If systems are not restored at the facility, then a manual override has been used at the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A14 -> A15)",
+            "-A15"
+          ],
+          "conclusion": "A14",
+          "natural": "Systems have been restored at the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> A13)",
+            "A14"
+          ],
+          "conclusion": "A13",
+          "natural": "Repairs have been completed at the plant."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> (-(-G -> A8) -> A9))",
+            "A13"
+          ],
+          "conclusion": "(-(-G -> A8) -> A9)",
+          "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A8) -> A9)",
+            "(-(-G -> A8) -> -A9)"
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A8)",
+            "-A8"
+          ],
+          "conclusion": "G",
+          "natural": "A government alert has been issued for the event."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Environmental Disaster Response",
+    "atomic_facts": {
+      "A1": "contaminated(region, substance)",
+      "A2": "evacuation_ordered(facility)",
+      "A3": "containment_breached(plant)",
+      "A4": "backup_activated(facility)",
+      "A5": "alert_issued(event)",
+      "A6": "emergency_declared(region)",
+      "A7": "shelter_opened(facility)",
+      "A8": "spill_contained(substance)",
+      "A9": "cleanup_begun(event)",
+      "A10": "monitoring_increased(region)",
+      "A11": "inspection_passed(plant)",
+      "A12": "safety_certified(facility)",
+      "A13": "repairs_completed(plant)",
+      "A14": "systems_restored(facility)",
+      "A15": "manual_override_used(facility)",
+      "A16": "automation_functional(facility)",
+      "A17": "response_successful(event)",
+      "A18": "operations_resumed(plant)",
+      "A19": "all_clear_given(region)",
+      "A20": "investigation_launched(event)",
+      "G": "government_alert(event)"
+    },
+    "natural_facts": {
+      "A1": "The region is contaminated with the substance.",
+      "A2": "An evacuation has been ordered for the facility.",
+      "A3": "Containment has been breached at the plant.",
+      "A4": "The backup system has been activated at the facility.",
+      "A5": "An alert has been issued for the event.",
+      "A6": "An emergency has been declared for the region.",
+      "A7": "A shelter has been opened at the facility.",
+      "A8": "The spill of the substance has been contained.",
+      "A9": "Cleanup has begun for the event.",
+      "A10": "Monitoring has been increased in the region.",
+      "A11": "The plant has passed inspection.",
+      "A12": "The facility is safety certified.",
+      "A13": "Repairs have been completed at the plant.",
+      "A14": "Systems have been restored at the facility.",
+      "A15": "A manual override has been used at the facility.",
+      "A16": "Automation is functional at the facility.",
+      "A17": "The response to the event was successful.",
+      "A18": "Operations have resumed at the plant.",
+      "A19": "An all-clear has been given for the region.",
+      "A20": "An investigation has been launched for the event.",
+      "G": "A government alert has been issued for the event."
+    },
+    "prover9_expressions": [
+      "(monitoring_increased(region) -> cleanup_begun(event))",
+      "(inspection_passed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+      "(inspection_passed(plant) | safety_certified(facility))",
+      "(safety_certified(facility) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+      "(repairs_completed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event)))",
+      "(systems_restored(facility) -> repairs_completed(plant))",
+      "(automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility)))",
+      "(response_successful(event) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+      "(response_successful(event) -> operations_resumed(plant))",
+      "(response_successful(event) -> all_clear_given(region))",
+      "(operations_resumed(plant) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+      "(all_clear_given(region) -> operations_resumed(plant))",
+      "(evacuation_ordered(facility) -> (-government_alert(event) -> contaminated(region, substance)))",
+      "(evacuation_ordered(facility) | containment_breached(plant))",
+      "(containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))",
+      "(backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance))))",
+      "(alert_issued(event) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+      "(alert_issued(event) | emergency_declared(region))",
+      "(emergency_declared(region) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+      "(shelter_opened(facility) | (alert_issued(event) | emergency_declared(region)))",
+      "(-(all_clear_given(region) -> operations_resumed(plant)) -> investigation_launched(event))",
+      "(-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region))",
+      "(-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event))",
+      "(-(-government_alert(event) -> spill_contained(substance)) -> -cleanup_begun(event))",
+      "(-systems_restored(facility) -> manual_override_used(facility))",
+      "(-government_alert(event) -> contaminated(region, substance))",
+      "(-government_alert(event) -> spill_contained(substance))",
+      "repairs_completed(plant)",
+      "systems_restored(facility)",
+      "response_successful(event)",
+      "government_alert(event)",
+      "-contaminated(region, substance)",
+      "-manual_override_used(facility)",
+      "-automation_functional(facility)",
+      "-investigation_launched(event)",
+      "-backup_activated(facility)",
+      "-shelter_opened(facility)",
+      "-spill_contained(substance)"
+    ],
+    "natural_expressions": [
+      "If monitoring has been increased in the region, then cleanup has begun for the event.",
+      "Provided that the plant has passed inspection, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region.",
+      "Either the plant has passed inspection or the facility is safety certified.",
+      "Under the condition that the facility is safety certified, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region.",
+      "Whenever repairs have been completed at the plant, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then cleanup has begun for the event.",
+      "If systems have been restored at the facility, then repairs have been completed at the plant.",
+      "Automation is functional at the facility, or else if systems are not restored at the facility, then a manual override has been used at the facility.",
+      "Should the response to the event be successful, then either automation is functional at the facility or, in case systems are not restored at the facility, a manual override has been used at the facility.",
+      "Provided that the response to the event was successful, operations have resumed at the plant.",
+      "If the response to the event was successful, then an all-clear has been given for the region.",
+      "Under the condition that operations have resumed at the plant, it follows that either automation is functional at the facility or, given that systems are not restored at the facility, a manual override has been used at the facility.",
+      "If an all-clear has been given for the region, then operations have resumed at the plant.",
+      "Whenever an evacuation has been ordered for the facility, if there is no government alert for the event, then the region is contaminated with the substance.",
+      "An evacuation has been ordered for the facility, or containment has been breached at the plant.",
+      "Should containment be breached at the plant, then if there is no government alert for the event, the region is contaminated with the substance.",
+      "The backup system has been activated at the facility, or else if containment has been breached at the plant, then the absence of a government alert for the event implies the region is contaminated with the substance.",
+      "If an alert has been issued for the event, then either the backup system has been activated at the facility or, under the condition that containment has been breached at the plant, the absence of a government alert for the event leads to the region being contaminated with the substance.",
+      "An alert has been issued for the event, or an emergency has been declared for the region.",
+      "Provided that an emergency has been declared for the region, it follows that either the backup system has been activated at the facility or, given that containment has been breached at the plant, the absence of a government alert for the event results in the region being contaminated with the substance.",
+      "A shelter has been opened at the facility, or an alert has been issued for the event, or an emergency has been declared for the region.",
+      "If it is not the case that an all-clear for the region implies operations have resumed at the plant, then an investigation has been launched for the event.",
+      "If it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region.",
+      "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event.",
+      "Under the condition that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has not begun for the event.",
+      "If systems are not restored at the facility, then a manual override has been used at the facility.",
+      "If there is no government alert for the event, then the region is contaminated with the substance.",
+      "Should there be no government alert for the event, then the spill of the substance is contained.",
+      "Repairs have been completed at the plant.",
+      "Systems have been restored at the facility.",
+      "The response to the event was successful.",
+      "A government alert has been issued for the event.",
+      "It is not the case that the region is contaminated with the substance.",
+      "A manual override has not been used at the facility.",
+      "Automation is not functional at the facility.",
+      "An investigation has not been launched for the event.",
+      "The backup system has not been activated at the facility.",
+      "A shelter has not been opened at the facility.",
+      "The spill of the substance is not contained."
+    ],
+    "node_mappings": {
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(monitoring_increased(region) -> cleanup_begun(event))",
+        "natural": "If monitoring has been increased in the region, then cleanup has begun for the event."
+      },
+      "(A11 → (¬(¬G → A8) → A10))": {
+        "formal": "(A11 → (¬(¬G → A8) → A10))",
+        "prover9": "(A11 -> (-(-G -> A8) -> A10))",
+        "prover9_expression": "(inspection_passed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+        "natural": "Provided that the plant has passed inspection, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(inspection_passed(plant) | safety_certified(facility))",
+        "natural": "Either the plant has passed inspection or the facility is safety certified."
+      },
+      "(A12 → (¬(¬G → A8) → A10))": {
+        "formal": "(A12 → (¬(¬G → A8) → A10))",
+        "prover9": "(A12 -> (-(-G -> A8) -> A10))",
+        "prover9_expression": "(safety_certified(facility) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+        "natural": "Under the condition that the facility is safety certified, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+      },
+      "(A13 → (¬(¬G → A8) → A9))": {
+        "formal": "(A13 → (¬(¬G → A8) → A9))",
+        "prover9": "(A13 -> (-(-G -> A8) -> A9))",
+        "prover9_expression": "(repairs_completed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event)))",
+        "natural": "Whenever repairs have been completed at the plant, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then cleanup has begun for the event."
+      },
+      "(A14 → A13)": {
+        "formal": "(A14 → A13)",
+        "prover9": "(A14 -> A13)",
+        "prover9_expression": "(systems_restored(facility) -> repairs_completed(plant))",
+        "natural": "If systems have been restored at the facility, then repairs have been completed at the plant."
+      },
+      "(A16 ∨ (¬A14 → A15))": {
+        "formal": "(A16 ∨ (¬A14 → A15))",
+        "prover9": "(A16 | (-A14 -> A15))",
+        "prover9_expression": "(automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility)))",
+        "natural": "Automation is functional at the facility, or else if systems are not restored at the facility, then a manual override has been used at the facility."
+      },
+      "(A17 → (A16 ∨ (¬A14 → A15)))": {
+        "formal": "(A17 → (A16 ∨ (¬A14 → A15)))",
+        "prover9": "(A17 -> (A16 | (-A14 -> A15)))",
+        "prover9_expression": "(response_successful(event) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+        "natural": "Should the response to the event be successful, then either automation is functional at the facility or, in case systems are not restored at the facility, a manual override has been used at the facility."
+      },
+      "(A17 → A18)": {
+        "formal": "(A17 → A18)",
+        "prover9": "(A17 -> A18)",
+        "prover9_expression": "(response_successful(event) -> operations_resumed(plant))",
+        "natural": "Provided that the response to the event was successful, operations have resumed at the plant."
+      },
+      "(A17 → A19)": {
+        "formal": "(A17 → A19)",
+        "prover9": "(A17 -> A19)",
+        "prover9_expression": "(response_successful(event) -> all_clear_given(region))",
+        "natural": "If the response to the event was successful, then an all-clear has been given for the region."
+      },
+      "(A18 → (A16 ∨ (¬A14 → A15)))": {
+        "formal": "(A18 → (A16 ∨ (¬A14 → A15)))",
+        "prover9": "(A18 -> (A16 | (-A14 -> A15)))",
+        "prover9_expression": "(operations_resumed(plant) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+        "natural": "Under the condition that operations have resumed at the plant, it follows that either automation is functional at the facility or, given that systems are not restored at the facility, a manual override has been used at the facility."
+      },
+      "(A19 → A18)": {
+        "formal": "(A19 → A18)",
+        "prover9": "(A19 -> A18)",
+        "prover9_expression": "(all_clear_given(region) -> operations_resumed(plant))",
+        "natural": "If an all-clear has been given for the region, then operations have resumed at the plant."
+      },
+      "(A2 → (¬G → A1))": {
+        "formal": "(A2 → (¬G → A1))",
+        "prover9": "(A2 -> (-G -> A1))",
+        "prover9_expression": "(evacuation_ordered(facility) -> (-government_alert(event) -> contaminated(region, substance)))",
+        "natural": "Whenever an evacuation has been ordered for the facility, if there is no government alert for the event, then the region is contaminated with the substance."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(evacuation_ordered(facility) | containment_breached(plant))",
+        "natural": "An evacuation has been ordered for the facility, or containment has been breached at the plant."
+      },
+      "(A3 → (¬G → A1))": {
+        "formal": "(A3 → (¬G → A1))",
+        "prover9": "(A3 -> (-G -> A1))",
+        "prover9_expression": "(containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))",
+        "natural": "Should containment be breached at the plant, then if there is no government alert for the event, the region is contaminated with the substance."
+      },
+      "(A4 ∨ (A3 → (¬G → A1)))": {
+        "formal": "(A4 ∨ (A3 → (¬G → A1)))",
+        "prover9": "(A4 | (A3 -> (-G -> A1)))",
+        "prover9_expression": "(backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance))))",
+        "natural": "The backup system has been activated at the facility, or else if containment has been breached at the plant, then the absence of a government alert for the event implies the region is contaminated with the substance."
+      },
+      "(A5 → (A4 ∨ (A3 → (¬G → A1))))": {
+        "formal": "(A5 → (A4 ∨ (A3 → (¬G → A1))))",
+        "prover9": "(A5 -> (A4 | (A3 -> (-G -> A1))))",
+        "prover9_expression": "(alert_issued(event) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+        "natural": "If an alert has been issued for the event, then either the backup system has been activated at the facility or, under the condition that containment has been breached at the plant, the absence of a government alert for the event leads to the region being contaminated with the substance."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(alert_issued(event) | emergency_declared(region))",
+        "natural": "An alert has been issued for the event, or an emergency has been declared for the region."
+      },
+      "(A6 → (A4 ∨ (A3 → (¬G → A1))))": {
+        "formal": "(A6 → (A4 ∨ (A3 → (¬G → A1))))",
+        "prover9": "(A6 -> (A4 | (A3 -> (-G -> A1))))",
+        "prover9_expression": "(emergency_declared(region) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+        "natural": "Provided that an emergency has been declared for the region, it follows that either the backup system has been activated at the facility or, given that containment has been breached at the plant, the absence of a government alert for the event results in the region being contaminated with the substance."
+      },
+      "(A7 ∨ (A5 ∨ A6))": {
+        "formal": "(A7 ∨ (A5 ∨ A6))",
+        "prover9": "(A7 | (A5 | A6))",
+        "prover9_expression": "(shelter_opened(facility) | (alert_issued(event) | emergency_declared(region)))",
+        "natural": "A shelter has been opened at the facility, or an alert has been issued for the event, or an emergency has been declared for the region."
+      },
+      "(¬(A19 → A18) → A20)": {
+        "formal": "(¬(A19 → A18) → A20)",
+        "prover9": "(-(A19 -> A18) -> A20)",
+        "prover9_expression": "(-(all_clear_given(region) -> operations_resumed(plant)) -> investigation_launched(event))",
+        "natural": "If it is not the case that an all-clear for the region implies operations have resumed at the plant, then an investigation has been launched for the event."
+      },
+      "(¬(¬G → A8) → A10)": {
+        "formal": "(¬(¬G → A8) → A10)",
+        "prover9": "(-(-G -> A8) -> A10)",
+        "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region))",
+        "natural": "If it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+      },
+      "(¬(¬G → A8) → A9)": {
+        "formal": "(¬(¬G → A8) → A9)",
+        "prover9": "(-(-G -> A8) -> A9)",
+        "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event))",
+        "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+      },
+      "(¬(¬G → A8) → ¬A9)": {
+        "formal": "(¬(¬G → A8) → ¬A9)",
+        "prover9": "(-(-G -> A8) -> -A9)",
+        "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> -cleanup_begun(event))",
+        "natural": "Under the condition that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has not begun for the event."
+      },
+      "(¬A14 → A15)": {
+        "formal": "(¬A14 → A15)",
+        "prover9": "(-A14 -> A15)",
+        "prover9_expression": "(-systems_restored(facility) -> manual_override_used(facility))",
+        "natural": "If systems are not restored at the facility, then a manual override has been used at the facility."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-government_alert(event) -> contaminated(region, substance))",
+        "natural": "If there is no government alert for the event, then the region is contaminated with the substance."
+      },
+      "(¬G → A8)": {
+        "formal": "(¬G → A8)",
+        "prover9": "(-G -> A8)",
+        "prover9_expression": "(-government_alert(event) -> spill_contained(substance))",
+        "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "repairs_completed(plant)",
+        "natural": "Repairs have been completed at the plant."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "systems_restored(facility)",
+        "natural": "Systems have been restored at the facility."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "response_successful(event)",
+        "natural": "The response to the event was successful."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "government_alert(event)",
+        "natural": "A government alert has been issued for the event."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-contaminated(region, substance)",
+        "natural": "It is not the case that the region is contaminated with the substance."
+      },
+      "¬A15": {
+        "formal": "¬A15",
+        "prover9": "-A15",
+        "prover9_expression": "-manual_override_used(facility)",
+        "natural": "A manual override has not been used at the facility."
+      },
+      "¬A16": {
+        "formal": "¬A16",
+        "prover9": "-A16",
+        "prover9_expression": "-automation_functional(facility)",
+        "natural": "Automation is not functional at the facility."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-investigation_launched(event)",
+        "natural": "An investigation has not been launched for the event."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-backup_activated(facility)",
+        "natural": "The backup system has not been activated at the facility."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-shelter_opened(facility)",
+        "natural": "A shelter has not been opened at the facility."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-spill_contained(substance)",
+        "natural": "The spill of the substance is not contained."
+      }
+    }
+  }
+}

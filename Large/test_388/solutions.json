@@ -1,0 +1,1239 @@
+{
+  "solution_stats": {
+    "total_solutions": 10,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 10,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(driver_available(driver) -> vehicle_operational(driver))",
+              "natural": "The driver being available implies that the driver's vehicle is operational."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A6 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(vehicle_operational(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "The driver's vehicle being operational implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            }
+          ],
+          "conclusion": "(A5 -> (A3 | (-A1 -> A2)))",
+          "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(delivery_assigned(driver, order) -> driver_available(driver))",
+              "natural": "A driver being assigned to the order implies that the driver is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            }
+          ],
+          "conclusion": "(A4 -> (A3 | (-A1 -> A2)))",
+          "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(delivery_assigned(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A4",
+              "prover9_expression": "delivery_assigned(driver, order)",
+              "natural": "A driver has been assigned to the order."
+            }
+          ],
+          "conclusion": "(A3 | (-A1 -> A2))",
+          "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | (-A1 -> A2))",
+              "prover9_expression": "(payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))",
+              "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A3",
+              "prover9_expression": "-payment_processed(customer)",
+              "natural": "It is not the case that payment has been processed for the customer."
+            }
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A1 -> A2)",
+              "prover9_expression": "(-has_order(customer, restaurant) -> order_cancelled(customer))",
+              "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(-A1 -> -A2)",
+              "prover9_expression": "(-has_order(customer, restaurant) -> -order_cancelled(customer))",
+              "natural": "Should the customer not have placed an order with the restaurant, then the customer has not cancelled the order."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The customer has placed an order with the restaurant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_order(customer, restaurant) -> delivery_successful(order))",
+              "natural": "If the customer has placed an order with the restaurant, then the delivery of the order is successful."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_order(customer, restaurant)",
+              "natural": "The customer has placed an order with the restaurant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(-(-(-(A7 | G) -> -A8) -> -A9) -> A10)",
+              "prover9_expression": "(-(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer)) -> complaint_filed(customer))",
+              "natural": "If it is not the case that the failure of the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed to imply the customer not being refunded leads to the customer not being refunded, then the customer has filed a complaint."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A10",
+              "prover9_expression": "-complaint_filed(customer)",
+              "natural": "It is not the case that the customer has filed a complaint."
+            }
+          ],
+          "conclusion": "(-(-(A7 | G) -> -A8) -> -A9)",
+          "natural": "Provided it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has not been refunded."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(-(-(A7 | G) -> -A8) -> A9)",
+              "prover9_expression": "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> customer_refunded(customer))",
+              "natural": "In the event that it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has been refunded."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A7 | G) -> -A8) -> -A9)",
+              "prover9_expression": "(-(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)) -> -customer_refunded(customer))",
+              "natural": "Provided it is not the case that the failure of either the restaurant has prepared the food or the delivery of the order is successful to imply the delivery of the order is not delayed leads to the customer not being refunded, then the customer has not been refunded."
+            }
+          ],
+          "conclusion": "(-(A7 | G) -> -A8)",
+          "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(-(A7 | G) -> A8)",
+              "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> delivery_delayed(order))",
+              "natural": "If it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is delayed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 | G) -> -A8)",
+              "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order))",
+              "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+            }
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | G)",
+              "prover9_expression": "(food_prepared(restaurant) | delivery_successful(order))",
+              "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A7",
+              "prover9_expression": "-food_prepared(restaurant)",
+              "natural": "It is not the case that the restaurant has prepared the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-(A12 -> (A11 | G)) -> A13)",
+              "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> legal_violation(restaurant))",
+              "natural": "If it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has committed a legal violation."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(A12 -> (A11 | G)) -> -A13)",
+              "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -legal_violation(restaurant))",
+              "natural": "Provided it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant has not committed a legal violation."
+            }
+          ],
+          "conclusion": "(A12 -> (A11 | G))",
+          "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (A11 | G))",
+              "prover9_expression": "(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order)))",
+              "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "age_verified(customer)",
+              "natural": "The customer's age has been verified."
+            }
+          ],
+          "conclusion": "(A11 | G)",
+          "natural": "Either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | G)",
+              "prover9_expression": "(alcohol_included(order) | delivery_successful(order))",
+              "natural": "Either the order includes alcohol or the delivery of the order is successful."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A11",
+              "prover9_expression": "-alcohol_included(order)",
+              "natural": "It is not the case that the order includes alcohol."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A18 -> A17)",
+              "prover9_expression": "(customer_home(customer) -> delivery_completed(order))",
+              "natural": "If the customer is at home, then the delivery of the order has been completed."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A19 -> (-(A14 -> A15) -> -A16))",
+              "prover9_expression": "(customer_contacted(driver) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+              "natural": "Should the driver have contacted the customer, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A18 | A19)",
+              "prover9_expression": "(customer_home(customer) | customer_contacted(driver))",
+              "natural": "Either the customer is at home or the driver has contacted the customer."
+            }
+          ],
+          "conclusion": "(A17 | (-(A14 -> A15) -> -A16))",
+          "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 | (-(A14 -> A15) -> -A16))",
+              "prover9_expression": "(delivery_completed(order) | (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+              "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A17",
+              "prover9_expression": "-delivery_completed(order)",
+              "natural": "It is not the case that the delivery of the order has been completed."
+            }
+          ],
+          "conclusion": "(-(A14 -> A15) -> -A16)",
+          "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A14 -> A15) -> A16)",
+              "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> navigation_error(driver))",
+              "natural": "If it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has made a navigation error."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A14 -> A15) -> -A16)",
+              "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver))",
+              "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+            }
+          ],
+          "conclusion": "(A14 -> A15)",
+          "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(device_charged(driver) -> gps_functional(driver))",
+              "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(gps_functional(driver) -> delivery_successful(order))",
+              "natural": "Assuming the driver's GPS is functional, the delivery of the order is successful."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(device_charged(driver) -> delivery_successful(order))",
+              "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A14",
+              "prover9_expression": "device_charged(driver)",
+              "natural": "The driver's device is charged."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(-(A5 -> (A3 | (-A1 -> A2))) -> A21)",
+              "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> traffic_avoided(driver))",
+              "natural": "In the event that it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver has avoided traffic."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A21 -> A20)",
+              "prover9_expression": "(traffic_avoided(driver) -> route_optimized(driver))",
+              "natural": "The driver has avoided traffic only if the driver's route has been optimized."
+            }
+          ],
+          "conclusion": "(-(A5 -> (A3 | (-A1 -> A2))) -> A20)",
+          "natural": "If it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has been optimized."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A5 -> (A3 | (-A1 -> A2))) -> A20)",
+              "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> route_optimized(driver))",
+              "natural": "If it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has been optimized."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(-(A5 -> (A3 | (-A1 -> A2))) -> -A20)",
+              "prover9_expression": "(-(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))) -> -route_optimized(driver))",
+              "natural": "Provided it is not the case that the driver being available implies either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order, then the driver's route has not been optimized."
+            }
+          ],
+          "conclusion": "(A5 -> (A3 | (-A1 -> A2)))",
+          "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(delivery_assigned(driver, order) -> driver_available(driver))",
+              "natural": "A driver being assigned to the order implies that the driver is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(driver_available(driver) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "The driver being available implies that either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            }
+          ],
+          "conclusion": "(A4 -> (A3 | (-A1 -> A2)))",
+          "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(delivery_assigned(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A4",
+              "prover9_expression": "delivery_assigned(driver, order)",
+              "natural": "A driver has been assigned to the order."
+            }
+          ],
+          "conclusion": "(A3 | (-A1 -> A2))",
+          "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | (-A1 -> A2))",
+              "prover9_expression": "(payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))",
+              "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A3",
+              "prover9_expression": "-payment_processed(customer)",
+              "natural": "It is not the case that payment has been processed for the customer."
+            }
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A1 -> A2)",
+              "prover9_expression": "(-has_order(customer, restaurant) -> order_cancelled(customer))",
+              "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(-A1 -> -A2)",
+              "prover9_expression": "(-has_order(customer, restaurant) -> -order_cancelled(customer))",
+              "natural": "Should the customer not have placed an order with the restaurant, then the customer has not cancelled the order."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The customer has placed an order with the restaurant."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_order(customer, restaurant) -> delivery_successful(order))",
+              "natural": "If the customer has placed an order with the restaurant, then the delivery of the order is successful."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_order(customer, restaurant)",
+              "natural": "The customer has placed an order with the restaurant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(weather_good(area) | weather_bad(area))",
+              "natural": "Either the weather in the area is good or the weather in the area is bad."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A25 -> (A4 -> A24))",
+              "prover9_expression": "(weather_good(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+              "natural": "Given that the weather in the area is good, if a driver has been assigned to the order, then the driver is approaching the destination."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A26 -> (A4 -> A24))",
+              "prover9_expression": "(weather_bad(area) -> (delivery_assigned(driver, order) -> approaching_destination(driver)))",
+              "natural": "In cases where the weather in the area is bad, if a driver has been assigned to the order, the driver is approaching the destination."
+            }
+          ],
+          "conclusion": "(A4 -> A24)",
+          "natural": "A driver being assigned to the order implies that the driver is approaching the destination."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A24)",
+              "prover9_expression": "(delivery_assigned(driver, order) -> approaching_destination(driver))",
+              "natural": "A driver being assigned to the order implies that the driver is approaching the destination."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A24 -> A23)",
+              "prover9_expression": "(approaching_destination(driver) -> en_route(driver))",
+              "natural": "The driver approaching the destination necessitates that the driver is en route."
+            }
+          ],
+          "conclusion": "(A4 -> A23)",
+          "natural": "A driver being assigned to the order implies that the driver is en route."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A23)",
+              "prover9_expression": "(delivery_assigned(driver, order) -> en_route(driver))",
+              "natural": "A driver being assigned to the order implies that the driver is en route."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A23 -> A22)",
+              "prover9_expression": "(en_route(driver) -> delivery_started(driver, order))",
+              "natural": "The driver being en route implies that the driver has started the delivery for the order."
+            }
+          ],
+          "conclusion": "(A4 -> A22)",
+          "natural": "A driver being assigned to the order implies that the driver has started the delivery for the order."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A22)",
+              "prover9_expression": "(delivery_assigned(driver, order) -> delivery_started(driver, order))",
+              "natural": "A driver being assigned to the order implies that the driver has started the delivery for the order."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A22 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(delivery_started(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "When the driver has started the delivery for the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            }
+          ],
+          "conclusion": "(A4 -> (A3 | (-A1 -> A2)))",
+          "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 | (-A1 -> A2)))",
+              "prover9_expression": "(delivery_assigned(driver, order) -> (payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer))))",
+              "natural": "When a driver has been assigned to the order, either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A4",
+              "prover9_expression": "delivery_assigned(driver, order)",
+              "natural": "A driver has been assigned to the order."
+            }
+          ],
+          "conclusion": "(A3 | (-A1 -> A2))",
+          "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | (-A1 -> A2))",
+              "prover9_expression": "(payment_processed(customer) | (-has_order(customer, restaurant) -> order_cancelled(customer)))",
+              "natural": "Either payment has been processed for the customer or, if the customer has not placed an order with the restaurant, the customer has cancelled the order."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A3",
+              "prover9_expression": "-payment_processed(customer)",
+              "natural": "It is not the case that payment has been processed for the customer."
+            }
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A1 -> A2)",
+              "prover9_expression": "(-has_order(customer, restaurant) -> order_cancelled(customer))",
+              "natural": "If the customer has not placed an order with the restaurant, then the customer has cancelled the order."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(-A1 -> -A2)",
+              "prover9_expression": "(-has_order(customer, restaurant) -> -order_cancelled(customer))",
+              "natural": "Should the customer not have placed an order with the restaurant, then the customer has not cancelled the order."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The customer has placed an order with the restaurant."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_order(customer, restaurant) -> delivery_successful(order))",
+              "natural": "If the customer has placed an order with the restaurant, then the delivery of the order is successful."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_order(customer, restaurant)",
+              "natural": "The customer has placed an order with the restaurant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A27 -> A28)",
+              "prover9_expression": "(temperature_maintained(order) -> insulated_bag_used(driver))",
+              "natural": "Whenever the temperature of the order has been maintained, the driver has used an insulated bag."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A28 -> (-(A7 | G) -> -A8))",
+              "prover9_expression": "(insulated_bag_used(driver) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+              "natural": "The driver having used an insulated bag implies that, if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+            }
+          ],
+          "conclusion": "(A27 -> (-(A7 | G) -> -A8))",
+          "natural": "Provided the temperature of the order has been maintained, then if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, the delivery of the order is not delayed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> (-(A7 | G) -> -A8))",
+              "prover9_expression": "(temperature_maintained(order) -> (-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order)))",
+              "natural": "Provided the temperature of the order has been maintained, then if it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, the delivery of the order is not delayed."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A27",
+              "prover9_expression": "temperature_maintained(order)",
+              "natural": "The temperature of the order has been maintained."
+            }
+          ],
+          "conclusion": "(-(A7 | G) -> -A8)",
+          "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(-(A7 | G) -> A8)",
+              "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> delivery_delayed(order))",
+              "natural": "If it is not the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is delayed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 | G) -> -A8)",
+              "prover9_expression": "(-(food_prepared(restaurant) | delivery_successful(order)) -> -delivery_delayed(order))",
+              "natural": "Should it not be the case that either the restaurant has prepared the food or the delivery of the order is successful, then the delivery of the order is not delayed."
+            }
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | G)",
+              "prover9_expression": "(food_prepared(restaurant) | delivery_successful(order))",
+              "natural": "Either the restaurant has prepared the food or the delivery of the order is successful."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A7",
+              "prover9_expression": "-food_prepared(restaurant)",
+              "natural": "It is not the case that the restaurant has prepared the food."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A32 | A33)",
+              "prover9_expression": "(inspection_passed(restaurant) | inspection_failed(restaurant))",
+              "natural": "Either the restaurant has passed inspection or the restaurant has failed inspection."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A32 -> (-(-(A12 -> (A11 | G)) -> A30) -> A31))",
+              "prover9_expression": "(inspection_passed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+              "natural": "If the restaurant has passed inspection, then provided that it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A33 -> (-(-(A12 -> (A11 | G)) -> A30) -> A31))",
+              "prover9_expression": "(inspection_failed(restaurant) -> (-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant)))",
+              "natural": "Should the restaurant have failed inspection, then if it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, a fine has been issued to the restaurant."
+            }
+          ],
+          "conclusion": "(-(-(A12 -> (A11 | G)) -> A30) -> A31)",
+          "natural": "If it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, then a fine has been issued to the restaurant."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A12 -> (A11 | G)) -> A30) -> A31)",
+              "prover9_expression": "(-(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant)) -> fine_issued(restaurant))",
+              "natural": "If it is not the case that the failure of the customer's age being verified to imply either the order includes alcohol or the delivery of the order is successful leads to the restaurant's license being suspended, then a fine has been issued to the restaurant."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A31",
+              "prover9_expression": "-fine_issued(restaurant)",
+              "natural": "It is not the case that a fine has been issued to the restaurant."
+            }
+          ],
+          "conclusion": "(-(A12 -> (A11 | G)) -> A30)",
+          "natural": "In the event that it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is suspended."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A12 -> (A11 | G)) -> A30)",
+              "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_suspended(restaurant))",
+              "natural": "In the event that it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is suspended."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A30 -> A29)",
+              "prover9_expression": "(license_suspended(restaurant) -> license_valid(restaurant))",
+              "natural": "The restaurant's license being suspended implies that the restaurant's license is valid."
+            }
+          ],
+          "conclusion": "(-(A12 -> (A11 | G)) -> A29)",
+          "natural": "Should it not be the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is valid."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A12 -> (A11 | G)) -> A29)",
+              "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> license_valid(restaurant))",
+              "natural": "Should it not be the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is valid."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(-(A12 -> (A11 | G)) -> -A29)",
+              "prover9_expression": "(-(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order))) -> -license_valid(restaurant))",
+              "natural": "Assuming it is not the case that the customer's age being verified implies either the order includes alcohol or the delivery of the order is successful, then the restaurant's license is not valid."
+            }
+          ],
+          "conclusion": "(A12 -> (A11 | G))",
+          "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (A11 | G))",
+              "prover9_expression": "(age_verified(customer) -> (alcohol_included(order) | delivery_successful(order)))",
+              "natural": "Provided that the customer's age has been verified, it follows that either the order includes alcohol or the delivery of the order is successful."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "age_verified(customer)",
+              "natural": "The customer's age has been verified."
+            }
+          ],
+          "conclusion": "(A11 | G)",
+          "natural": "Either the order includes alcohol or the delivery of the order is successful."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | G)",
+              "prover9_expression": "(alcohol_included(order) | delivery_successful(order))",
+              "natural": "Either the order includes alcohol or the delivery of the order is successful."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A11",
+              "prover9_expression": "-alcohol_included(order)",
+              "natural": "It is not the case that the order includes alcohol."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(-A36 -> A37)",
+              "prover9_expression": "(-rating_submitted(customer) -> rating_skipped(customer))",
+              "natural": "In cases where the customer has not submitted a rating, then the customer has skipped the rating."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A37",
+              "prover9_expression": "-rating_skipped(customer)",
+              "natural": "It is not the case that the customer has skipped the rating."
+            }
+          ],
+          "conclusion": "A36",
+          "natural": "The customer has submitted a rating."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A36 -> (A34 | A35))",
+              "prover9_expression": "(rating_submitted(customer) -> (customer_satisfied(customer) | customer_complained(customer)))",
+              "natural": "The customer having submitted a rating implies that either the customer is satisfied or the customer has complained."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A36",
+              "prover9_expression": "rating_submitted(customer)",
+              "natural": "The customer has submitted a rating."
+            }
+          ],
+          "conclusion": "(A34 | A35)",
+          "natural": "Either the customer is satisfied or the customer has complained."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A34 -> A17)",
+              "prover9_expression": "(customer_satisfied(customer) -> delivery_completed(order))",
+              "natural": "The customer being satisfied implies that the delivery of the order has been completed."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A35 -> (-(A14 -> A15) -> -A16))",
+              "prover9_expression": "(customer_complained(customer) -> (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+              "natural": "In the event that the customer has complained, then if it is not the case that the driver's device being charged implies the driver's GPS is functional, the driver has not made a navigation error."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A34 | A35)",
+              "prover9_expression": "(customer_satisfied(customer) | customer_complained(customer))",
+              "natural": "Either the customer is satisfied or the customer has complained."
+            }
+          ],
+          "conclusion": "(A17 | (-(A14 -> A15) -> -A16))",
+          "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 | (-(A14 -> A15) -> -A16))",
+              "prover9_expression": "(delivery_completed(order) | (-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver)))",
+              "natural": "Either the delivery of the order has been completed, or if it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A17",
+              "prover9_expression": "-delivery_completed(order)",
+              "natural": "It is not the case that the delivery of the order has been completed."
+            }
+          ],
+          "conclusion": "(-(A14 -> A15) -> -A16)",
+          "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A14 -> A15) -> A16)",
+              "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> navigation_error(driver))",
+              "natural": "If it is not the case that the driver's device being charged implies the driver's GPS is functional, then the driver has made a navigation error."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A14 -> A15) -> -A16)",
+              "prover9_expression": "(-(device_charged(driver) -> gps_functional(driver)) -> -navigation_error(driver))",
+              "natural": "Should it not be the case that the driver's device being charged implies the driver's GPS is functional, then the driver has not made a navigation error."
+            }
+          ],
+          "conclusion": "(A14 -> A15)",
+          "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(device_charged(driver) -> gps_functional(driver))",
+              "natural": "Whenever the driver's device is charged, the driver's GPS is functional."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(gps_functional(driver) -> delivery_successful(order))",
+              "natural": "Assuming the driver's GPS is functional, the delivery of the order is successful."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(device_charged(driver) -> delivery_successful(order))",
+              "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A14",
+              "prover9_expression": "device_charged(driver)",
+              "natural": "The driver's device is charged."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-(A39 | A40) -> A41)",
+              "prover9_expression": "(-(backup_device(driver) | charging_station_nearby(area)) -> delivery_paused(order))",
+              "natural": "If it is not the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is paused."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(-(A39 | A40) -> -A41)",
+              "prover9_expression": "(-(backup_device(driver) | charging_station_nearby(area)) -> -delivery_paused(order))",
+              "natural": "Should it not be the case that either the driver has a backup device or there is a charging station nearby in the area, then the delivery of the order is not paused."
+            }
+          ],
+          "conclusion": "(A39 | A40)",
+          "natural": "Either the driver has a backup device or there is a charging station nearby in the area."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A39 | A40)",
+              "prover9_expression": "(backup_device(driver) | charging_station_nearby(area))",
+              "natural": "Either the driver has a backup device or there is a charging station nearby in the area."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A39 -> (-(A14 -> G) -> A38))",
+              "prover9_expression": "(backup_device(driver) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+              "natural": "The driver having a backup device implies that, if it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A40 -> (-(A14 -> G) -> A38))",
+              "prover9_expression": "(charging_station_nearby(area) -> (-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver)))",
+              "natural": "If there is a charging station nearby in the area, then provided that it is not the case that the driver's device being charged implies the delivery of the order is successful, the driver's battery is low."
+            }
+          ],
+          "conclusion": "(-(A14 -> G) -> A38)",
+          "natural": "In cases where it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A14 -> G) -> A38)",
+              "prover9_expression": "(-(device_charged(driver) -> delivery_successful(order)) -> battery_low(driver))",
+              "natural": "In cases where it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is low."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(-(A14 -> G) -> -A38)",
+              "prover9_expression": "(-(device_charged(driver) -> delivery_successful(order)) -> -battery_low(driver))",
+              "natural": "Provided it is not the case that the driver's device being charged implies the delivery of the order is successful, then the driver's battery is not low."
+            }
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(device_charged(driver) -> delivery_successful(order))",
+              "natural": "In the event that the driver's device is charged, the delivery of the order is successful."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A14",
+              "prover9_expression": "device_charged(driver)",
+              "natural": "The driver's device is charged."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of the order is successful."
+        }
+      ]
+    }
+  ]
+}

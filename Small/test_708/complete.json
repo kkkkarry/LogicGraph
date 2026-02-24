@@ -1,0 +1,619 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(uses_investor(tool1, analysis_tool) | uses_investor(tool2, analysis_tool))",
+        "natural": "The investor uses Tool 1 as an analysis tool, or the investor uses Tool 2 as an analysis tool."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(violates_investor(regulations) -> fined_investor(regulatory_body))",
+        "natural": "If the investor violates regulations, then the investor is fined by the regulatory body."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 → ¬A11)",
+        "prover9_expression": "(violates_investor(regulations) -> -fined_investor(regulatory_body))",
+        "natural": "Under the condition that the investor violates regulations, the investor is not fined by the regulatory body."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → ¬A10)",
+        "prover9_expression": "(discloses_investor(conflicts) -> -violates_investor(regulations))",
+        "natural": "If the investor discloses conflicts, then it is not the case that the investor violates regulations."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → ¬A10)",
+        "prover9_expression": "(consults_investor(compliance_officer) -> -violates_investor(regulations))",
+        "natural": "Provided that the investor consults a compliance officer, the investor does not violate regulations."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 ∨ (A12 ∨ A13))",
+        "prover9_expression": "(under_investigation_investor(authorities) | (discloses_investor(conflicts) | consults_investor(compliance_officer)))",
+        "natural": "The investor is under investigation by the authorities, or the investor discloses conflicts, or the investor consults a compliance officer."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A15 → ¬A14)",
+        "prover9_expression": "(compliant_investor(regulations) -> -under_investigation_investor(authorities))",
+        "natural": "If the investor is compliant with regulations, then the investor is not under investigation by the authorities."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(uses_investor(tool2, analysis_tool) -> successful_investor(portfolio))",
+        "natural": "Whenever the investor uses Tool 2 as an analysis tool, the portfolio is successful."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A3 → G)",
+        "prover9_expression": "(profitable_investor(financial_product1) -> successful_investor(portfolio))",
+        "natural": "If Financial Product 1 is profitable, then the portfolio is successful."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A4 → A3)",
+        "prover9_expression": "(profitable_investor(financial_product2) -> profitable_investor(financial_product1))",
+        "natural": "Under the condition that Financial Product 2 is profitable, Financial Product 1 is profitable."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A6 ∨ (A5 → (A1 → A4)))",
+        "prover9_expression": "(has_license_investor(premium_service) | (has_access_investor(advanced_data) -> (uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2))))",
+        "natural": "The investor holds a license for premium service, or if the investor has access to advanced data, then whenever the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(attends_investor(event1) | attends_investor(event2))",
+        "natural": "The investor attends Event 1, or the investor attends Event 2."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A8 → G)",
+        "prover9_expression": "(attends_investor(event2) -> successful_investor(portfolio))",
+        "natural": "If the investor attends Event 2, then the portfolio is successful."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A9 → G)",
+        "prover9_expression": "(gains_network_investor(contacts) -> successful_investor(portfolio))",
+        "natural": "Whenever the investor gains contacts through networking, the portfolio is successful."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬(A7 → A9) → A10)",
+        "prover9_expression": "(-(attends_investor(event1) -> gains_network_investor(contacts)) -> violates_investor(regulations))",
+        "natural": "If it is not the case that if the investor attends Event 1, then the investor gains contacts through networking, then the investor violates regulations."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(¬A15 → A16)",
+        "prover9_expression": "(-compliant_investor(regulations) -> banned_investor(trading))",
+        "natural": "If the investor is not compliant with regulations, then the investor is banned from trading."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A5",
+        "prover9_expression": "has_access_investor(advanced_data)",
+        "natural": "The investor has access to advanced data."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A16",
+        "prover9_expression": "-banned_investor(trading)",
+        "natural": "The investor is not banned from trading."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A6",
+        "prover9_expression": "-has_license_investor(premium_service)",
+        "natural": "The investor does not hold a license for premium service."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "successful_investor(portfolio)",
+    "natural": "The investor is successful in their portfolio."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (A5 -> (A1 -> A4)))",
+            "-A6"
+          ],
+          "conclusion": "(A5 -> (A1 -> A4))",
+          "natural": "If the investor has access to advanced data, then whenever the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> (A1 -> A4))",
+            "A5"
+          ],
+          "conclusion": "(A1 -> A4)",
+          "natural": "Provided that the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(A1 -> A3)",
+          "natural": "If the investor uses Tool 1 as an analysis tool, then Financial Product 1 is profitable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the investor uses Tool 1 as an analysis tool, the portfolio is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The investor is successful in their portfolio."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A10 -> -A11)"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the investor violates regulations."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 -> A9) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A7 -> A9)",
+          "natural": "If the investor attends Event 1, then the investor gains contacts through networking."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A9)",
+            "(A9 -> G)"
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Provided that the investor attends Event 1, the portfolio is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> G)",
+            "(A8 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The investor is successful in their portfolio."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A15 -> A16)",
+            "-A16"
+          ],
+          "conclusion": "A15",
+          "natural": "The investor is compliant with regulations."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A15 -> -A14)",
+            "A15"
+          ],
+          "conclusion": "-A14",
+          "natural": "The investor is not under investigation by the authorities."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A14 | (A12 | A13))",
+            "-A14"
+          ],
+          "conclusion": "(A12 | A13)",
+          "natural": "Either the investor discloses conflicts, or the investor consults a compliance officer."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> -A10)",
+            "(A13 -> -A10)"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the investor violates regulations."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 -> A9) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A7 -> A9)",
+          "natural": "If the investor attends Event 1, then the investor gains contacts through networking."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A9)",
+            "(A9 -> G)"
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Provided that the investor attends Event 1, the portfolio is successful."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> G)",
+            "(A8 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The investor is successful in their portfolio."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Financial Investment",
+    "atomic_facts": {
+      "A1": "uses_investor(tool1, analysis_tool)",
+      "A2": "uses_investor(tool2, analysis_tool)",
+      "A3": "profitable_investor(financial_product1)",
+      "A4": "profitable_investor(financial_product2)",
+      "A5": "has_access_investor(advanced_data)",
+      "A6": "has_license_investor(premium_service)",
+      "A7": "attends_investor(event1)",
+      "A8": "attends_investor(event2)",
+      "A9": "gains_network_investor(contacts)",
+      "A10": "violates_investor(regulations)",
+      "A11": "fined_investor(regulatory_body)",
+      "A12": "discloses_investor(conflicts)",
+      "A13": "consults_investor(compliance_officer)",
+      "A14": "under_investigation_investor(authorities)",
+      "A15": "compliant_investor(regulations)",
+      "A16": "banned_investor(trading)",
+      "G": "successful_investor(portfolio)"
+    },
+    "natural_facts": {
+      "A1": "The investor uses Tool 1 as an analysis tool.",
+      "A2": "The investor uses Tool 2 as an analysis tool.",
+      "A3": "The investor finds Financial Product 1 profitable.",
+      "A4": "The investor finds Financial Product 2 profitable.",
+      "A5": "The investor has access to advanced data.",
+      "A6": "The investor holds a license for premium service.",
+      "A7": "The investor attends Event 1.",
+      "A8": "The investor attends Event 2.",
+      "A9": "The investor gains contacts through networking.",
+      "A10": "The investor violates regulations.",
+      "A11": "The investor is fined by the regulatory body.",
+      "A12": "The investor discloses conflicts.",
+      "A13": "The investor consults a compliance officer.",
+      "A14": "The investor is under investigation by the authorities.",
+      "A15": "The investor is compliant with regulations.",
+      "A16": "The investor is banned from trading.",
+      "G": "The investor is successful in their portfolio."
+    },
+    "prover9_expressions": [
+      "(uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product1))",
+      "(uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2))",
+      "(uses_investor(tool1, analysis_tool) -> successful_investor(portfolio))",
+      "(uses_investor(tool1, analysis_tool) | uses_investor(tool2, analysis_tool))",
+      "(violates_investor(regulations) -> fined_investor(regulatory_body))",
+      "(violates_investor(regulations) -> -fined_investor(regulatory_body))",
+      "(discloses_investor(conflicts) -> -violates_investor(regulations))",
+      "(discloses_investor(conflicts) | consults_investor(compliance_officer))",
+      "(consults_investor(compliance_officer) -> -violates_investor(regulations))",
+      "(under_investigation_investor(authorities) | (discloses_investor(conflicts) | consults_investor(compliance_officer)))",
+      "(compliant_investor(regulations) -> -under_investigation_investor(authorities))",
+      "(uses_investor(tool2, analysis_tool) -> successful_investor(portfolio))",
+      "(profitable_investor(financial_product1) -> successful_investor(portfolio))",
+      "(profitable_investor(financial_product2) -> profitable_investor(financial_product1))",
+      "(has_access_investor(advanced_data) -> (uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2)))",
+      "(has_license_investor(premium_service) | (has_access_investor(advanced_data) -> (uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2))))",
+      "(attends_investor(event1) -> gains_network_investor(contacts))",
+      "(attends_investor(event1) -> successful_investor(portfolio))",
+      "(attends_investor(event1) | attends_investor(event2))",
+      "(attends_investor(event2) -> successful_investor(portfolio))",
+      "(gains_network_investor(contacts) -> successful_investor(portfolio))",
+      "(-(attends_investor(event1) -> gains_network_investor(contacts)) -> violates_investor(regulations))",
+      "(-compliant_investor(regulations) -> banned_investor(trading))",
+      "compliant_investor(regulations)",
+      "has_access_investor(advanced_data)",
+      "successful_investor(portfolio)",
+      "-violates_investor(regulations)",
+      "-under_investigation_investor(authorities)",
+      "-banned_investor(trading)",
+      "-has_license_investor(premium_service)"
+    ],
+    "natural_expressions": [
+      "If the investor uses Tool 1 as an analysis tool, then Financial Product 1 is profitable.",
+      "Provided that the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable.",
+      "Whenever the investor uses Tool 1 as an analysis tool, the portfolio is successful.",
+      "The investor uses Tool 1 as an analysis tool, or the investor uses Tool 2 as an analysis tool.",
+      "If the investor violates regulations, then the investor is fined by the regulatory body.",
+      "Under the condition that the investor violates regulations, the investor is not fined by the regulatory body.",
+      "If the investor discloses conflicts, then it is not the case that the investor violates regulations.",
+      "Either the investor discloses conflicts, or the investor consults a compliance officer.",
+      "Provided that the investor consults a compliance officer, the investor does not violate regulations.",
+      "The investor is under investigation by the authorities, or the investor discloses conflicts, or the investor consults a compliance officer.",
+      "If the investor is compliant with regulations, then the investor is not under investigation by the authorities.",
+      "Whenever the investor uses Tool 2 as an analysis tool, the portfolio is successful.",
+      "If Financial Product 1 is profitable, then the portfolio is successful.",
+      "Under the condition that Financial Product 2 is profitable, Financial Product 1 is profitable.",
+      "If the investor has access to advanced data, then whenever the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable.",
+      "The investor holds a license for premium service, or if the investor has access to advanced data, then whenever the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable.",
+      "If the investor attends Event 1, then the investor gains contacts through networking.",
+      "Provided that the investor attends Event 1, the portfolio is successful.",
+      "The investor attends Event 1, or the investor attends Event 2.",
+      "If the investor attends Event 2, then the portfolio is successful.",
+      "Whenever the investor gains contacts through networking, the portfolio is successful.",
+      "If it is not the case that if the investor attends Event 1, then the investor gains contacts through networking, then the investor violates regulations.",
+      "If the investor is not compliant with regulations, then the investor is banned from trading.",
+      "The investor is compliant with regulations.",
+      "The investor has access to advanced data.",
+      "The investor is successful in their portfolio.",
+      "It is not the case that the investor violates regulations.",
+      "The investor is not under investigation by the authorities.",
+      "The investor is not banned from trading.",
+      "The investor does not hold a license for premium service."
+    ],
+    "node_mappings": {
+      "(A1 → A3)": {
+        "formal": "(A1 → A3)",
+        "prover9": "(A1 -> A3)",
+        "prover9_expression": "(uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product1))",
+        "natural": "If the investor uses Tool 1 as an analysis tool, then Financial Product 1 is profitable."
+      },
+      "(A1 → A4)": {
+        "formal": "(A1 → A4)",
+        "prover9": "(A1 -> A4)",
+        "prover9_expression": "(uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2))",
+        "natural": "Provided that the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(uses_investor(tool1, analysis_tool) -> successful_investor(portfolio))",
+        "natural": "Whenever the investor uses Tool 1 as an analysis tool, the portfolio is successful."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(uses_investor(tool1, analysis_tool) | uses_investor(tool2, analysis_tool))",
+        "natural": "The investor uses Tool 1 as an analysis tool, or the investor uses Tool 2 as an analysis tool."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(violates_investor(regulations) -> fined_investor(regulatory_body))",
+        "natural": "If the investor violates regulations, then the investor is fined by the regulatory body."
+      },
+      "(A10 → ¬A11)": {
+        "formal": "(A10 → ¬A11)",
+        "prover9": "(A10 -> -A11)",
+        "prover9_expression": "(violates_investor(regulations) -> -fined_investor(regulatory_body))",
+        "natural": "Under the condition that the investor violates regulations, the investor is not fined by the regulatory body."
+      },
+      "(A12 → ¬A10)": {
+        "formal": "(A12 → ¬A10)",
+        "prover9": "(A12 -> -A10)",
+        "prover9_expression": "(discloses_investor(conflicts) -> -violates_investor(regulations))",
+        "natural": "If the investor discloses conflicts, then it is not the case that the investor violates regulations."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(discloses_investor(conflicts) | consults_investor(compliance_officer))",
+        "natural": "Either the investor discloses conflicts, or the investor consults a compliance officer."
+      },
+      "(A13 → ¬A10)": {
+        "formal": "(A13 → ¬A10)",
+        "prover9": "(A13 -> -A10)",
+        "prover9_expression": "(consults_investor(compliance_officer) -> -violates_investor(regulations))",
+        "natural": "Provided that the investor consults a compliance officer, the investor does not violate regulations."
+      },
+      "(A14 ∨ (A12 ∨ A13))": {
+        "formal": "(A14 ∨ (A12 ∨ A13))",
+        "prover9": "(A14 | (A12 | A13))",
+        "prover9_expression": "(under_investigation_investor(authorities) | (discloses_investor(conflicts) | consults_investor(compliance_officer)))",
+        "natural": "The investor is under investigation by the authorities, or the investor discloses conflicts, or the investor consults a compliance officer."
+      },
+      "(A15 → ¬A14)": {
+        "formal": "(A15 → ¬A14)",
+        "prover9": "(A15 -> -A14)",
+        "prover9_expression": "(compliant_investor(regulations) -> -under_investigation_investor(authorities))",
+        "natural": "If the investor is compliant with regulations, then the investor is not under investigation by the authorities."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(uses_investor(tool2, analysis_tool) -> successful_investor(portfolio))",
+        "natural": "Whenever the investor uses Tool 2 as an analysis tool, the portfolio is successful."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(profitable_investor(financial_product1) -> successful_investor(portfolio))",
+        "natural": "If Financial Product 1 is profitable, then the portfolio is successful."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(profitable_investor(financial_product2) -> profitable_investor(financial_product1))",
+        "natural": "Under the condition that Financial Product 2 is profitable, Financial Product 1 is profitable."
+      },
+      "(A5 → (A1 → A4))": {
+        "formal": "(A5 → (A1 → A4))",
+        "prover9": "(A5 -> (A1 -> A4))",
+        "prover9_expression": "(has_access_investor(advanced_data) -> (uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2)))",
+        "natural": "If the investor has access to advanced data, then whenever the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable."
+      },
+      "(A6 ∨ (A5 → (A1 → A4)))": {
+        "formal": "(A6 ∨ (A5 → (A1 → A4)))",
+        "prover9": "(A6 | (A5 -> (A1 -> A4)))",
+        "prover9_expression": "(has_license_investor(premium_service) | (has_access_investor(advanced_data) -> (uses_investor(tool1, analysis_tool) -> profitable_investor(financial_product2))))",
+        "natural": "The investor holds a license for premium service, or if the investor has access to advanced data, then whenever the investor uses Tool 1 as an analysis tool, Financial Product 2 is profitable."
+      },
+      "(A7 → A9)": {
+        "formal": "(A7 → A9)",
+        "prover9": "(A7 -> A9)",
+        "prover9_expression": "(attends_investor(event1) -> gains_network_investor(contacts))",
+        "natural": "If the investor attends Event 1, then the investor gains contacts through networking."
+      },
+      "(A7 → G)": {
+        "formal": "(A7 → G)",
+        "prover9": "(A7 -> G)",
+        "prover9_expression": "(attends_investor(event1) -> successful_investor(portfolio))",
+        "natural": "Provided that the investor attends Event 1, the portfolio is successful."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(attends_investor(event1) | attends_investor(event2))",
+        "natural": "The investor attends Event 1, or the investor attends Event 2."
+      },
+      "(A8 → G)": {
+        "formal": "(A8 → G)",
+        "prover9": "(A8 -> G)",
+        "prover9_expression": "(attends_investor(event2) -> successful_investor(portfolio))",
+        "natural": "If the investor attends Event 2, then the portfolio is successful."
+      },
+      "(A9 → G)": {
+        "formal": "(A9 → G)",
+        "prover9": "(A9 -> G)",
+        "prover9_expression": "(gains_network_investor(contacts) -> successful_investor(portfolio))",
+        "natural": "Whenever the investor gains contacts through networking, the portfolio is successful."
+      },
+      "(¬(A7 → A9) → A10)": {
+        "formal": "(¬(A7 → A9) → A10)",
+        "prover9": "(-(A7 -> A9) -> A10)",
+        "prover9_expression": "(-(attends_investor(event1) -> gains_network_investor(contacts)) -> violates_investor(regulations))",
+        "natural": "If it is not the case that if the investor attends Event 1, then the investor gains contacts through networking, then the investor violates regulations."
+      },
+      "(¬A15 → A16)": {
+        "formal": "(¬A15 → A16)",
+        "prover9": "(-A15 -> A16)",
+        "prover9_expression": "(-compliant_investor(regulations) -> banned_investor(trading))",
+        "natural": "If the investor is not compliant with regulations, then the investor is banned from trading."
+      },
+      "A15": {
+        "formal": "A15",
+        "prover9": "A15",
+        "prover9_expression": "compliant_investor(regulations)",
+        "natural": "The investor is compliant with regulations."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "has_access_investor(advanced_data)",
+        "natural": "The investor has access to advanced data."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "successful_investor(portfolio)",
+        "natural": "The investor is successful in their portfolio."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-violates_investor(regulations)",
+        "natural": "It is not the case that the investor violates regulations."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-under_investigation_investor(authorities)",
+        "natural": "The investor is not under investigation by the authorities."
+      },
+      "¬A16": {
+        "formal": "¬A16",
+        "prover9": "-A16",
+        "prover9_expression": "-banned_investor(trading)",
+        "natural": "The investor is not banned from trading."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-has_license_investor(premium_service)",
+        "natural": "The investor does not hold a license for premium service."
+      }
+    }
+  }
+}

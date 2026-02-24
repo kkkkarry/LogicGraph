@@ -1,0 +1,521 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(attends(person, show) | presents(person, artwork))",
+        "natural": "Either a person attends a show or a person presents an artwork."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → (A9 ∨ (A8 → (A7 → (A1 → G)))))",
+        "prover9_expression": "(curator_decision(artwork) -> (alternative_show(show) | (approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show))))))",
+        "natural": "Provided that a curator makes a decision about an artwork, either there is an alternative show or, if the artwork is approved, then whenever the show is scheduled, it follows that if a person attends the show, the show is successful."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → ¬A4)",
+        "prover9_expression": "(safety_check(device) -> -power_on(device))",
+        "natural": "Whenever a safety check is performed on a device, the device is not powered on."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → A11)",
+        "prover9_expression": "(inspection(device) -> safety_check(device))",
+        "natural": "If an inspection is performed on a device, then a safety check is performed on the device."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(presents(person, artwork) -> successful(show))",
+        "natural": "Should a person present an artwork, the show is successful."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A4 ∨ G)",
+        "prover9_expression": "(power_on(device) | successful(show))",
+        "natural": "Either a device is powered on or the show is successful."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A5 ∨ ¬A4)",
+        "prover9_expression": "(malfunction(device) | -power_on(device))",
+        "natural": "A device malfunctions or it is not the case that the device is powered on."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A6 → ¬A5)",
+        "prover9_expression": "(repair(device) -> -malfunction(device))",
+        "natural": "In the event that a device is repaired, the device does not malfunction."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9_expression": "(-(attends(person, show) -> successful(show)) -> technical_issue(device))",
+        "natural": "If it is not the case that a person attending a show implies the show is successful, then a device has a technical issue."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A1 → G) → ¬A3)",
+        "prover9_expression": "(-(attends(person, show) -> successful(show)) -> -technical_issue(device))",
+        "natural": "Should it not be true that a person attending a show leads to the show being successful, then a device does not have a technical issue."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A10",
+        "prover9_expression": "curator_decision(artwork)",
+        "natural": "A curator makes a decision about an artwork."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A12",
+        "prover9_expression": "inspection(device)",
+        "natural": "An inspection is performed on a device."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A6",
+        "prover9_expression": "repair(device)",
+        "natural": "A device is repaired."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A7",
+        "prover9_expression": "scheduled(show)",
+        "natural": "A show is scheduled."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A8",
+        "prover9_expression": "approved(artwork)",
+        "natural": "An artwork is approved."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A9",
+        "prover9_expression": "-alternative_show(show)",
+        "natural": "There is no alternative show."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "successful(show)",
+    "natural": "A show is successful."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(-(A1 -> G) -> -A3)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If a person attends a show, then the show is successful."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "A show is successful."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> -A5)",
+            "A6"
+          ],
+          "conclusion": "-A5",
+          "natural": "A device does not malfunction."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A5 | -A4)",
+            "-A5"
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that a device is powered on."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | G)",
+            "-A4"
+          ],
+          "conclusion": "G",
+          "natural": "A show is successful."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A9 | (A8 -> (A7 -> (A1 -> G)))))",
+            "A10"
+          ],
+          "conclusion": "(A9 | (A8 -> (A7 -> (A1 -> G))))",
+          "natural": "Either there is an alternative show or, if the artwork is approved, then whenever the show is scheduled, it follows that if a person attends the show, the show is successful."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (A8 -> (A7 -> (A1 -> G))))",
+            "-A9"
+          ],
+          "conclusion": "(A8 -> (A7 -> (A1 -> G)))",
+          "natural": "Assuming an artwork is approved, then provided the show is scheduled, if a person attends the show, the show is successful."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> (A7 -> (A1 -> G)))",
+            "A8"
+          ],
+          "conclusion": "(A7 -> (A1 -> G))",
+          "natural": "Given that a show is scheduled, if a person attends the show, then the show is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> (A1 -> G))",
+            "A7"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If a person attends a show, then the show is successful."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "A show is successful."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> A11)",
+            "A12"
+          ],
+          "conclusion": "A11",
+          "natural": "A safety check is performed on a device."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> -A4)",
+            "A11"
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that a device is powered on."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | G)",
+            "-A4"
+          ],
+          "conclusion": "G",
+          "natural": "A show is successful."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Art Exhibition",
+    "atomic_facts": {
+      "A1": "attends(person, show)",
+      "A2": "presents(person, artwork)",
+      "A3": "technical_issue(device)",
+      "A4": "power_on(device)",
+      "A5": "malfunction(device)",
+      "A6": "repair(device)",
+      "A7": "scheduled(show)",
+      "A8": "approved(artwork)",
+      "A9": "alternative_show(show)",
+      "A10": "curator_decision(artwork)",
+      "A11": "safety_check(device)",
+      "A12": "inspection(device)",
+      "G": "successful(show)"
+    },
+    "natural_facts": {
+      "A1": "A person attends a show.",
+      "A2": "A person presents an artwork.",
+      "A3": "A device has a technical issue.",
+      "A4": "A device is powered on.",
+      "A5": "A device malfunctions.",
+      "A6": "A device is repaired.",
+      "A7": "A show is scheduled.",
+      "A8": "An artwork is approved.",
+      "A9": "There is an alternative show.",
+      "A10": "A curator makes a decision about an artwork.",
+      "A11": "A safety check is performed on a device.",
+      "A12": "An inspection is performed on a device.",
+      "G": "A show is successful."
+    },
+    "prover9_expressions": [
+      "(attends(person, show) -> successful(show))",
+      "(attends(person, show) | presents(person, artwork))",
+      "(curator_decision(artwork) -> (alternative_show(show) | (approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show))))))",
+      "(safety_check(device) -> -power_on(device))",
+      "(inspection(device) -> safety_check(device))",
+      "(presents(person, artwork) -> successful(show))",
+      "(power_on(device) | successful(show))",
+      "(malfunction(device) | -power_on(device))",
+      "(repair(device) -> -malfunction(device))",
+      "(scheduled(show) -> (attends(person, show) -> successful(show)))",
+      "(approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show))))",
+      "(alternative_show(show) | (approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show)))))",
+      "(-(attends(person, show) -> successful(show)) -> technical_issue(device))",
+      "(-(attends(person, show) -> successful(show)) -> -technical_issue(device))",
+      "curator_decision(artwork)",
+      "safety_check(device)",
+      "inspection(device)",
+      "repair(device)",
+      "scheduled(show)",
+      "approved(artwork)",
+      "successful(show)",
+      "-power_on(device)",
+      "-malfunction(device)",
+      "-alternative_show(show)"
+    ],
+    "natural_expressions": [
+      "If a person attends a show, then the show is successful.",
+      "Either a person attends a show or a person presents an artwork.",
+      "Provided that a curator makes a decision about an artwork, either there is an alternative show or, if the artwork is approved, then whenever the show is scheduled, it follows that if a person attends the show, the show is successful.",
+      "Whenever a safety check is performed on a device, the device is not powered on.",
+      "If an inspection is performed on a device, then a safety check is performed on the device.",
+      "Should a person present an artwork, the show is successful.",
+      "Either a device is powered on or the show is successful.",
+      "A device malfunctions or it is not the case that the device is powered on.",
+      "In the event that a device is repaired, the device does not malfunction.",
+      "Given that a show is scheduled, if a person attends the show, then the show is successful.",
+      "Assuming an artwork is approved, then provided the show is scheduled, if a person attends the show, the show is successful.",
+      "Either there is an alternative show or, if the artwork is approved, then whenever the show is scheduled, it follows that if a person attends the show, the show is successful.",
+      "If it is not the case that a person attending a show implies the show is successful, then a device has a technical issue.",
+      "Should it not be true that a person attending a show leads to the show being successful, then a device does not have a technical issue.",
+      "A curator makes a decision about an artwork.",
+      "A safety check is performed on a device.",
+      "An inspection is performed on a device.",
+      "A device is repaired.",
+      "A show is scheduled.",
+      "An artwork is approved.",
+      "A show is successful.",
+      "It is not the case that a device is powered on.",
+      "A device does not malfunction.",
+      "There is no alternative show."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(attends(person, show) -> successful(show))",
+        "natural": "If a person attends a show, then the show is successful."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(attends(person, show) | presents(person, artwork))",
+        "natural": "Either a person attends a show or a person presents an artwork."
+      },
+      "(A10 → (A9 ∨ (A8 → (A7 → (A1 → G)))))": {
+        "formal": "(A10 → (A9 ∨ (A8 → (A7 → (A1 → G)))))",
+        "prover9": "(A10 -> (A9 | (A8 -> (A7 -> (A1 -> G)))))",
+        "prover9_expression": "(curator_decision(artwork) -> (alternative_show(show) | (approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show))))))",
+        "natural": "Provided that a curator makes a decision about an artwork, either there is an alternative show or, if the artwork is approved, then whenever the show is scheduled, it follows that if a person attends the show, the show is successful."
+      },
+      "(A11 → ¬A4)": {
+        "formal": "(A11 → ¬A4)",
+        "prover9": "(A11 -> -A4)",
+        "prover9_expression": "(safety_check(device) -> -power_on(device))",
+        "natural": "Whenever a safety check is performed on a device, the device is not powered on."
+      },
+      "(A12 → A11)": {
+        "formal": "(A12 → A11)",
+        "prover9": "(A12 -> A11)",
+        "prover9_expression": "(inspection(device) -> safety_check(device))",
+        "natural": "If an inspection is performed on a device, then a safety check is performed on the device."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(presents(person, artwork) -> successful(show))",
+        "natural": "Should a person present an artwork, the show is successful."
+      },
+      "(A4 ∨ G)": {
+        "formal": "(A4 ∨ G)",
+        "prover9": "(A4 | G)",
+        "prover9_expression": "(power_on(device) | successful(show))",
+        "natural": "Either a device is powered on or the show is successful."
+      },
+      "(A5 ∨ ¬A4)": {
+        "formal": "(A5 ∨ ¬A4)",
+        "prover9": "(A5 | -A4)",
+        "prover9_expression": "(malfunction(device) | -power_on(device))",
+        "natural": "A device malfunctions or it is not the case that the device is powered on."
+      },
+      "(A6 → ¬A5)": {
+        "formal": "(A6 → ¬A5)",
+        "prover9": "(A6 -> -A5)",
+        "prover9_expression": "(repair(device) -> -malfunction(device))",
+        "natural": "In the event that a device is repaired, the device does not malfunction."
+      },
+      "(A7 → (A1 → G))": {
+        "formal": "(A7 → (A1 → G))",
+        "prover9": "(A7 -> (A1 -> G))",
+        "prover9_expression": "(scheduled(show) -> (attends(person, show) -> successful(show)))",
+        "natural": "Given that a show is scheduled, if a person attends the show, then the show is successful."
+      },
+      "(A8 → (A7 → (A1 → G)))": {
+        "formal": "(A8 → (A7 → (A1 → G)))",
+        "prover9": "(A8 -> (A7 -> (A1 -> G)))",
+        "prover9_expression": "(approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show))))",
+        "natural": "Assuming an artwork is approved, then provided the show is scheduled, if a person attends the show, the show is successful."
+      },
+      "(A9 ∨ (A8 → (A7 → (A1 → G))))": {
+        "formal": "(A9 ∨ (A8 → (A7 → (A1 → G))))",
+        "prover9": "(A9 | (A8 -> (A7 -> (A1 -> G))))",
+        "prover9_expression": "(alternative_show(show) | (approved(artwork) -> (scheduled(show) -> (attends(person, show) -> successful(show)))))",
+        "natural": "Either there is an alternative show or, if the artwork is approved, then whenever the show is scheduled, it follows that if a person attends the show, the show is successful."
+      },
+      "(¬(A1 → G) → A3)": {
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9": "(-(A1 -> G) -> A3)",
+        "prover9_expression": "(-(attends(person, show) -> successful(show)) -> technical_issue(device))",
+        "natural": "If it is not the case that a person attending a show implies the show is successful, then a device has a technical issue."
+      },
+      "(¬(A1 → G) → ¬A3)": {
+        "formal": "(¬(A1 → G) → ¬A3)",
+        "prover9": "(-(A1 -> G) -> -A3)",
+        "prover9_expression": "(-(attends(person, show) -> successful(show)) -> -technical_issue(device))",
+        "natural": "Should it not be true that a person attending a show leads to the show being successful, then a device does not have a technical issue."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "curator_decision(artwork)",
+        "natural": "A curator makes a decision about an artwork."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "safety_check(device)",
+        "natural": "A safety check is performed on a device."
+      },
+      "A12": {
+        "formal": "A12",
+        "prover9": "A12",
+        "prover9_expression": "inspection(device)",
+        "natural": "An inspection is performed on a device."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "repair(device)",
+        "natural": "A device is repaired."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "scheduled(show)",
+        "natural": "A show is scheduled."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "approved(artwork)",
+        "natural": "An artwork is approved."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "successful(show)",
+        "natural": "A show is successful."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-power_on(device)",
+        "natural": "It is not the case that a device is powered on."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-malfunction(device)",
+        "natural": "A device does not malfunction."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-alternative_show(show)",
+        "natural": "There is no alternative show."
+      }
+    }
+  }
+}

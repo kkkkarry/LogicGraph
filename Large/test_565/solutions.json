@@ -1,0 +1,1695 @@
+{
+  "solution_stats": {
+    "total_solutions": 10,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 12
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 10,
+        "steps_count": 12
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(violates_regulation(transportation) | requires_shutdown(production_line))",
+              "natural": "Either transportation violates regulation or production line requires shutdown."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A4 -> (A3 | (-G -> A2)))",
+              "prover9_expression": "(violates_regulation(transportation) -> (fails_inspection(chemical_plant) | (-regulatory_approval_granted(chemical_operations) -> exceeds_limit(alcohol_concentration))))",
+              "natural": "Whenever transportation violates regulation, either chemical plant fails inspection or if regulatory approval is not granted for chemical operations, then alcohol concentration exceeds the limit."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A5 -> (A3 | (-G -> A2)))",
+              "prover9_expression": "(requires_shutdown(production_line) -> (fails_inspection(chemical_plant) | (-regulatory_approval_granted(chemical_operations) -> exceeds_limit(alcohol_concentration))))",
+              "natural": "Provided that production line requires shutdown, either chemical plant fails inspection or if regulatory approval is not granted for chemical operations, then alcohol concentration exceeds the limit."
+            }
+          ],
+          "conclusion": "(A3 | (-G -> A2))",
+          "natural": "Either chemical plant fails inspection or if regulatory approval is not granted for chemical operations, then alcohol concentration exceeds the limit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | (-G -> A2))",
+              "prover9_expression": "(fails_inspection(chemical_plant) | (-regulatory_approval_granted(chemical_operations) -> exceeds_limit(alcohol_concentration)))",
+              "natural": "Either chemical plant fails inspection or if regulatory approval is not granted for chemical operations, then alcohol concentration exceeds the limit."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A3",
+              "prover9_expression": "-fails_inspection(chemical_plant)",
+              "natural": "Chemical plant does not fail inspection."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Under the condition that regulatory approval is not granted for chemical operations, alcohol concentration exceeds the limit."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> exceeds_limit(alcohol_concentration))",
+              "natural": "Under the condition that regulatory approval is not granted for chemical operations, alcohol concentration exceeds the limit."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(exceeds_limit(alcohol_concentration) -> requires_approval(ethanol_production))",
+              "natural": "Whenever alcohol concentration exceeds the limit, ethanol production requires approval."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If regulatory approval is not granted for chemical operations, then ethanol production requires approval."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> requires_approval(ethanol_production))",
+              "natural": "If regulatory approval is not granted for chemical operations, then ethanol production requires approval."
+            },
+            {
+              "id": "Rule66",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> -requires_approval(ethanol_production))",
+              "natural": "Provided that regulatory approval is not granted for chemical operations, ethanol production does not require approval."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule57",
+              "prover9": "(-(-(A7 -> G) -> A9) -> A11)",
+              "prover9_expression": "(-(-(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations)) -> triggers_alarm(pressure_sensor)) -> evacuation_ordered(production_facility))",
+              "natural": "If it is not the case that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations leads to pressure sensor triggering an alarm, evacuation is ordered for production facility."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> -A10)",
+              "prover9_expression": "(evacuation_ordered(production_facility) -> -emergency_response_activated(incident_coordination))",
+              "natural": "If evacuation is ordered for the production facility, then emergency response is not activated for incident coordination."
+            }
+          ],
+          "conclusion": "(-(-(A7 -> G) -> A9) -> -A10)",
+          "natural": "Whenever it is not the case that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations leads to pressure sensor triggering an alarm, emergency response is not activated for incident coordination."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule56",
+              "prover9": "(-(-(A7 -> G) -> A9) -> A10)",
+              "prover9_expression": "(-(-(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations)) -> triggers_alarm(pressure_sensor)) -> emergency_response_activated(incident_coordination))",
+              "natural": "Provided that it is not the case that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations leads to pressure sensor triggering an alarm, emergency response is activated for incident coordination."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A7 -> G) -> A9) -> -A10)",
+              "prover9_expression": "(-(-(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations)) -> triggers_alarm(pressure_sensor)) -> -emergency_response_activated(incident_coordination))",
+              "natural": "Whenever it is not the case that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations leads to pressure sensor triggering an alarm, emergency response is not activated for incident coordination."
+            }
+          ],
+          "conclusion": "(-(A7 -> G) -> A9)",
+          "natural": "If it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations, pressure sensor triggers an alarm."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 -> G) -> A9)",
+              "prover9_expression": "(-(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations)) -> triggers_alarm(pressure_sensor))",
+              "natural": "If it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations, pressure sensor triggers an alarm."
+            },
+            {
+              "id": "Rule44",
+              "prover9": "(A9 -> -A8)",
+              "prover9_expression": "(triggers_alarm(pressure_sensor) -> -causes_spill(leak_detection_failure))",
+              "natural": "If pressure sensor triggers an alarm, then leak detection failure does not cause a spill."
+            }
+          ],
+          "conclusion": "(-(A7 -> G) -> -A8)",
+          "natural": "Under the condition that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations, leak detection failure does not cause a spill."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule53",
+              "prover9": "(-(A7 -> G) -> A8)",
+              "prover9_expression": "(-(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations)) -> causes_spill(leak_detection_failure))",
+              "natural": "Provided that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations, leak detection failure causes a spill."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 -> G) -> -A8)",
+              "prover9_expression": "(-(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations)) -> -causes_spill(leak_detection_failure))",
+              "natural": "Under the condition that it is not the case that equipment malfunction in distillation unit implies regulatory approval is granted for chemical operations, leak detection failure does not cause a spill."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "Whenever distillation unit experiences equipment malfunction, regulatory approval is granted for chemical operations."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(has_leak(ethanol_storage) | equipment_malfunction(distillation_unit))",
+              "natural": "Either ethanol storage has a leak or distillation unit experiences equipment malfunction."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(has_leak(ethanol_storage) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "If ethanol storage has a leak, then regulatory approval is granted for chemical operations."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(equipment_malfunction(distillation_unit) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Whenever distillation unit experiences equipment malfunction, regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A16 -> A18)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> investigation_report_submitted(regulatory_agency))",
+              "natural": "Under the condition that incident investigation is initiated for safety breach, investigation report is submitted to regulatory agency."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A18 -> A17)",
+              "prover9_expression": "(investigation_report_submitted(regulatory_agency) -> root_cause_identified(equipment_failure))",
+              "natural": "If investigation report is submitted to regulatory agency, then root cause is identified for equipment failure."
+            }
+          ],
+          "conclusion": "(A16 -> A17)",
+          "natural": "If incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure))",
+              "natural": "If incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> A15)",
+              "prover9_expression": "(root_cause_identified(equipment_failure) -> corrective_action_implemented(process_improvement))",
+              "natural": "Provided that root cause is identified for equipment failure, corrective action is implemented for process improvement."
+            }
+          ],
+          "conclusion": "(A16 -> A15)",
+          "natural": "Whenever incident investigation is initiated for safety breach, corrective action is implemented for process improvement."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A13 -> A14) -> A16)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> incident_investigation_initiated(safety_breach))",
+              "natural": "If it is not the case that safety audit being scheduled for quarterly review implies compliance check passes for material handling, then incident investigation is initiated for safety breach."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> corrective_action_implemented(process_improvement))",
+              "natural": "Whenever incident investigation is initiated for safety breach, corrective action is implemented for process improvement."
+            }
+          ],
+          "conclusion": "(-(A13 -> A14) -> A15)",
+          "natural": "Provided that it is not the case that if safety audit is scheduled for quarterly review then compliance check passes for material handling, corrective action is implemented for process improvement."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> A14) -> A15)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> corrective_action_implemented(process_improvement))",
+              "natural": "Provided that it is not the case that if safety audit is scheduled for quarterly review then compliance check passes for material handling, corrective action is implemented for process improvement."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(-(A13 -> A14) -> -A15)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> -corrective_action_implemented(process_improvement))",
+              "natural": "Under the condition that it is not the case that safety audit being scheduled for quarterly review implies compliance check passes for material handling, corrective action is not implemented for process improvement."
+            }
+          ],
+          "conclusion": "(A13 -> A14)",
+          "natural": "Whenever safety audit is scheduled for quarterly review, compliance check passes for material handling."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A14)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling))",
+              "natural": "Whenever safety audit is scheduled for quarterly review, compliance check passes for material handling."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(compliance_check_passed(material_handling) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that compliance check passes for material handling, regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) | safety_audit_scheduled(quarterly_review))",
+              "natural": "Either risk assessment is complete for hazard analysis or safety audit is scheduled for quarterly review."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> G)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that risk assessment is complete for hazard analysis, regulatory approval is granted for chemical operations."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A23 | A24)",
+              "prover9_expression": "(new_guidelines_implemented(safety_manual) | procedure_revision_completed(operating_instructions))",
+              "natural": "Either new guidelines are implemented in the safety manual or procedure revision is completed for operating instructions."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A23 -> (A22 -> A21))",
+              "prover9_expression": "(new_guidelines_implemented(safety_manual) -> (training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage)))",
+              "natural": "Under the condition that new guidelines are implemented in the safety manual, if training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A24 -> (A22 -> A21))",
+              "prover9_expression": "(procedure_revision_completed(operating_instructions) -> (training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage)))",
+              "natural": "Provided that procedure revision is completed for operating instructions, if training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            }
+          ],
+          "conclusion": "(A22 -> A21)",
+          "natural": "If training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule60",
+              "prover9": "(-(-(-G -> A19) -> A20) -> A22)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> training_session_scheduled(handling_procedures))",
+              "natural": "Under the condition that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, training session is scheduled for handling procedures."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A21)",
+              "prover9_expression": "(training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage))",
+              "natural": "If training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A19) -> A20) -> A21)",
+          "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is updated for chemical storage."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A19) -> A20) -> A21)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> safety_protocol_updated(chemical_storage))",
+              "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is updated for chemical storage."
+            },
+            {
+              "id": "Rule61",
+              "prover9": "(-(-(-G -> A19) -> A20) -> -A21)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> -safety_protocol_updated(chemical_storage))",
+              "natural": "If it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is not updated for chemical storage."
+            }
+          ],
+          "conclusion": "(-(-G -> A19) -> A20)",
+          "natural": "If it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is mandated in handling area."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A19) -> A20)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area))",
+              "natural": "If it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is mandated in handling area."
+            },
+            {
+              "id": "Rule63",
+              "prover9": "(-(-G -> A19) -> -A20)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> -personal_protective_equipment_mandated(handling_area))",
+              "natural": "Provided that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is not mandated in handling area."
+            }
+          ],
+          "conclusion": "(-G -> A19)",
+          "natural": "Provided that regulatory approval is not granted for chemical operations, exposure monitoring is required for worker safety."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A19)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety))",
+              "natural": "Provided that regulatory approval is not granted for chemical operations, exposure monitoring is required for worker safety."
+            },
+            {
+              "id": "Rule67",
+              "prover9": "(-G -> -A19)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> -exposure_monitoring_required(worker_safety))",
+              "natural": "Under the condition that regulatory approval is not granted for chemical operations, exposure monitoring is not required for worker safety."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A31 | A32)",
+              "prover9_expression": "(additional_funding_approved(safety_upgrade) | implementation_timeline_adjusted(upgrade_schedule))",
+              "natural": "Either additional funding is approved for safety upgrade or implementation timeline is adjusted for upgrade schedule."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A31 -> A30)",
+              "prover9_expression": "(additional_funding_approved(safety_upgrade) -> compliance_deadline_extended(implementation_period))",
+              "natural": "Provided that additional funding is approved for safety upgrade, compliance deadline is extended for implementation period."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A32 -> A30)",
+              "prover9_expression": "(implementation_timeline_adjusted(upgrade_schedule) -> compliance_deadline_extended(implementation_period))",
+              "natural": "Whenever implementation timeline is adjusted for upgrade schedule, compliance deadline is extended for implementation period."
+            }
+          ],
+          "conclusion": "A30",
+          "natural": "Compliance deadline is extended for implementation period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A30 -> -A29)",
+              "prover9_expression": "(compliance_deadline_extended(implementation_period) -> -regulatory_waiver_granted(temporary_exception))",
+              "natural": "If compliance deadline is extended for implementation period, then regulatory waiver is not granted for temporary exception."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A30",
+              "prover9_expression": "compliance_deadline_extended(implementation_period)",
+              "natural": "Compliance deadline is extended for implementation period."
+            }
+          ],
+          "conclusion": "-A29",
+          "natural": "Regulatory waiver is not granted for temporary exception."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A29 | (-(-(-G -> -A25) -> A27) -> A28))",
+              "prover9_expression": "(regulatory_waiver_granted(temporary_exception) | (-(-(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process)) -> disposal_restriction_imposed(hazardous_material)) -> alternative_disposal_method_approved(recycling_process)))",
+              "natural": "Either regulatory waiver is granted for temporary exception, or if it is not the case that not granting regulatory approval for chemical operations implies not requiring environmental impact assessment for disposal process, and this leads to disposal restriction being imposed for hazardous material, then alternative disposal method is approved for recycling process."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A29",
+              "prover9_expression": "-regulatory_waiver_granted(temporary_exception)",
+              "natural": "Regulatory waiver is not granted for temporary exception."
+            }
+          ],
+          "conclusion": "(-(-(-G -> -A25) -> A27) -> A28)",
+          "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process leads to disposal restriction being imposed for hazardous material, alternative disposal method is approved for recycling process."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> -A25) -> A27) -> A28)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process)) -> disposal_restriction_imposed(hazardous_material)) -> alternative_disposal_method_approved(recycling_process))",
+              "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process leads to disposal restriction being imposed for hazardous material, alternative disposal method is approved for recycling process."
+            },
+            {
+              "id": "Rule62",
+              "prover9": "(-(-(-G -> -A25) -> A27) -> -A28)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process)) -> disposal_restriction_imposed(hazardous_material)) -> -alternative_disposal_method_approved(recycling_process))",
+              "natural": "Under the condition that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process leads to disposal restriction being imposed for hazardous material, alternative disposal method is not approved for recycling process."
+            }
+          ],
+          "conclusion": "(-(-G -> -A25) -> A27)",
+          "natural": "If it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process, disposal restriction is imposed for hazardous material."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A25) -> A27)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process)) -> disposal_restriction_imposed(hazardous_material))",
+              "natural": "If it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process, disposal restriction is imposed for hazardous material."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A27 -> -A26)",
+              "prover9_expression": "(disposal_restriction_imposed(hazardous_material) -> -disposal_permit_granted(waste_management))",
+              "natural": "If disposal restriction is imposed for hazardous material, then disposal permit is not granted for waste management."
+            }
+          ],
+          "conclusion": "(-(-G -> -A25) -> -A26)",
+          "natural": "Provided that it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process, disposal permit is not granted for waste management."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule64",
+              "prover9": "(-(-G -> -A25) -> A26)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process)) -> disposal_permit_granted(waste_management))",
+              "natural": "Under the condition that it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process, disposal permit is granted for waste management."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A25) -> -A26)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process)) -> -disposal_permit_granted(waste_management))",
+              "natural": "Provided that it is not the case that not granting regulatory approval for chemical operations implies environmental impact assessment is not required for disposal process, disposal permit is not granted for waste management."
+            }
+          ],
+          "conclusion": "(-G -> -A25)",
+          "natural": "If regulatory approval is not granted for chemical operations, then environmental impact assessment is not required for disposal process."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule65",
+              "prover9": "(-G -> A25)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> environmental_impact_assessment_required(disposal_process))",
+              "natural": "If regulatory approval is not granted for chemical operations, then environmental impact assessment is required for disposal process."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A25)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> -environmental_impact_assessment_required(disposal_process))",
+              "natural": "If regulatory approval is not granted for chemical operations, then environmental impact assessment is not required for disposal process."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A39 -> A40)",
+              "prover9_expression": "(criminal_charges_filed(safety_negligence) -> civil_penalty_assessed(regulatory_breach))",
+              "natural": "If criminal charges are filed for safety negligence, then civil penalty is assessed for regulatory breach."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A39 -> -A40)",
+              "prover9_expression": "(criminal_charges_filed(safety_negligence) -> -civil_penalty_assessed(regulatory_breach))",
+              "natural": "Provided that criminal charges are filed for safety negligence, civil penalty is not assessed for regulatory breach."
+            }
+          ],
+          "conclusion": "-A39",
+          "natural": "Criminal charges are not filed for safety negligence."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-(A38 -> -A37) -> A39)",
+              "prover9_expression": "(-(license_suspended(operating_permit) -> -fine_imposed(compliance_authority)) -> criminal_charges_filed(safety_negligence))",
+              "natural": "If it is not the case that license being suspended for operating permit implies fine is not imposed by compliance authority, then criminal charges are filed for safety negligence."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A39",
+              "prover9_expression": "-criminal_charges_filed(safety_negligence)",
+              "natural": "Criminal charges are not filed for safety negligence."
+            }
+          ],
+          "conclusion": "(A38 -> -A37)",
+          "natural": "Whenever license is suspended for operating permit, fine is not imposed by compliance authority."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A36 -> A38)",
+              "prover9_expression": "(legal_action_initiated(regulatory_violation) -> license_suspended(operating_permit))",
+              "natural": "If legal action is initiated for regulatory violation, then license is suspended for operating permit."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A38 -> -A37)",
+              "prover9_expression": "(license_suspended(operating_permit) -> -fine_imposed(compliance_authority))",
+              "natural": "Whenever license is suspended for operating permit, fine is not imposed by compliance authority."
+            }
+          ],
+          "conclusion": "(A36 -> -A37)",
+          "natural": "Under the condition that legal action is initiated for regulatory violation, fine is not imposed by compliance authority."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A36 -> A37)",
+              "prover9_expression": "(legal_action_initiated(regulatory_violation) -> fine_imposed(compliance_authority))",
+              "natural": "Provided that legal action is initiated for regulatory violation, fine is imposed by compliance authority."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> -A37)",
+              "prover9_expression": "(legal_action_initiated(regulatory_violation) -> -fine_imposed(compliance_authority))",
+              "natural": "Under the condition that legal action is initiated for regulatory violation, fine is not imposed by compliance authority."
+            }
+          ],
+          "conclusion": "-A36",
+          "natural": "Legal action is not initiated for regulatory violation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-(-(A33 -> (A16 -> A17)) -> A35) -> A36)",
+              "prover9_expression": "(-(-(safety_committee_reviewed(incident_report) -> (incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure))) -> investigation_findings_disputed(management_review)) -> legal_action_initiated(regulatory_violation))",
+              "natural": "Provided that it is not the case that it is not the case that safety committee reviewing incident report implies that if incident investigation is initiated for safety breach then root cause is identified for equipment failure leads to investigation findings being disputed in management review, legal action is initiated for regulatory violation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A36",
+              "prover9_expression": "-legal_action_initiated(regulatory_violation)",
+              "natural": "Legal action is not initiated for regulatory violation."
+            }
+          ],
+          "conclusion": "(-(A33 -> (A16 -> A17)) -> A35)",
+          "natural": "Under the condition that it is not the case that safety committee reviewing incident report implies that if incident investigation is initiated for safety breach then root cause is identified for equipment failure, investigation findings are disputed in management review."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A33 -> (A16 -> A17)) -> A35)",
+              "prover9_expression": "(-(safety_committee_reviewed(incident_report) -> (incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure))) -> investigation_findings_disputed(management_review))",
+              "natural": "Under the condition that it is not the case that safety committee reviewing incident report implies that if incident investigation is initiated for safety breach then root cause is identified for equipment failure, investigation findings are disputed in management review."
+            },
+            {
+              "id": "Rule48",
+              "prover9": "(-(A33 -> (A16 -> A17)) -> -A35)",
+              "prover9_expression": "(-(safety_committee_reviewed(incident_report) -> (incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure))) -> -investigation_findings_disputed(management_review))",
+              "natural": "Provided that it is not the case that safety committee reviewing incident report implies that if incident investigation is initiated for safety breach then root cause is identified for equipment failure, investigation findings are not disputed in management review."
+            }
+          ],
+          "conclusion": "(A33 -> (A16 -> A17))",
+          "natural": "Under the condition that safety committee reviews incident report, if incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A33 | A34)",
+              "prover9_expression": "(safety_committee_reviewed(incident_report) | external_consultant_hired(safety_analysis))",
+              "natural": "Either safety committee reviews incident report or external consultant is hired for safety analysis."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A33 -> (A16 -> A17))",
+              "prover9_expression": "(safety_committee_reviewed(incident_report) -> (incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure)))",
+              "natural": "Under the condition that safety committee reviews incident report, if incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A34 -> (A16 -> A17))",
+              "prover9_expression": "(external_consultant_hired(safety_analysis) -> (incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure)))",
+              "natural": "If external consultant is hired for safety analysis, then provided that incident investigation is initiated for safety breach, root cause is identified for equipment failure."
+            }
+          ],
+          "conclusion": "(A16 -> A17)",
+          "natural": "If incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure))",
+              "natural": "If incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> A15)",
+              "prover9_expression": "(root_cause_identified(equipment_failure) -> corrective_action_implemented(process_improvement))",
+              "natural": "Provided that root cause is identified for equipment failure, corrective action is implemented for process improvement."
+            }
+          ],
+          "conclusion": "(A16 -> A15)",
+          "natural": "Whenever incident investigation is initiated for safety breach, corrective action is implemented for process improvement."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A13 -> A14) -> A16)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> incident_investigation_initiated(safety_breach))",
+              "natural": "If it is not the case that safety audit being scheduled for quarterly review implies compliance check passes for material handling, then incident investigation is initiated for safety breach."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> corrective_action_implemented(process_improvement))",
+              "natural": "Whenever incident investigation is initiated for safety breach, corrective action is implemented for process improvement."
+            }
+          ],
+          "conclusion": "(-(A13 -> A14) -> A15)",
+          "natural": "Provided that it is not the case that if safety audit is scheduled for quarterly review then compliance check passes for material handling, corrective action is implemented for process improvement."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> A14) -> A15)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> corrective_action_implemented(process_improvement))",
+              "natural": "Provided that it is not the case that if safety audit is scheduled for quarterly review then compliance check passes for material handling, corrective action is implemented for process improvement."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(-(A13 -> A14) -> -A15)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> -corrective_action_implemented(process_improvement))",
+              "natural": "Under the condition that it is not the case that safety audit being scheduled for quarterly review implies compliance check passes for material handling, corrective action is not implemented for process improvement."
+            }
+          ],
+          "conclusion": "(A13 -> A14)",
+          "natural": "Whenever safety audit is scheduled for quarterly review, compliance check passes for material handling."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A14)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling))",
+              "natural": "Whenever safety audit is scheduled for quarterly review, compliance check passes for material handling."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(compliance_check_passed(material_handling) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that compliance check passes for material handling, regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) | safety_audit_scheduled(quarterly_review))",
+              "natural": "Either risk assessment is complete for hazard analysis or safety audit is scheduled for quarterly review."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> G)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that risk assessment is complete for hazard analysis, regulatory approval is granted for chemical operations."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-(-(-(A44 -> (A42 -> A43)) -> -A45) -> A46) -> A47)",
+              "prover9_expression": "(-(-(-(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))) -> -maintenance_budget_approved(upgrade_funding)) -> maintenance_contract_renewed(service_agreement)) -> maintenance_schedule_optimized(service_intervals))",
+              "natural": "Under the condition that it is not the case that it is not the case that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration leads to maintenance budget not being approved for upgrade funding leads to maintenance contract being renewed for service agreement, maintenance schedule is optimized for service intervals."
+            },
+            {
+              "id": "Rule59",
+              "prover9": "(-(-(-(A44 -> (A42 -> A43)) -> -A45) -> A46) -> -A47)",
+              "prover9_expression": "(-(-(-(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))) -> -maintenance_budget_approved(upgrade_funding)) -> maintenance_contract_renewed(service_agreement)) -> -maintenance_schedule_optimized(service_intervals))",
+              "natural": "If it is not the case that it is not the case that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration leads to maintenance budget not being approved for upgrade funding leads to maintenance contract being renewed for service agreement, maintenance schedule is not optimized for service intervals."
+            }
+          ],
+          "conclusion": "(-(-(A44 -> (A42 -> A43)) -> -A45) -> A46)",
+          "natural": "If it is not the case that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration leads to maintenance budget not being approved for upgrade funding, maintenance contract is renewed for service agreement."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A44 -> (A42 -> A43)) -> -A45) -> A46)",
+              "prover9_expression": "(-(-(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))) -> -maintenance_budget_approved(upgrade_funding)) -> maintenance_contract_renewed(service_agreement))",
+              "natural": "If it is not the case that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration leads to maintenance budget not being approved for upgrade funding, maintenance contract is renewed for service agreement."
+            },
+            {
+              "id": "Rule55",
+              "prover9": "(-(-(A44 -> (A42 -> A43)) -> -A45) -> -A46)",
+              "prover9_expression": "(-(-(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))) -> -maintenance_budget_approved(upgrade_funding)) -> -maintenance_contract_renewed(service_agreement))",
+              "natural": "Under the condition that it is not the case that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration leads to maintenance budget not being approved for upgrade funding, maintenance contract is not renewed for service agreement."
+            }
+          ],
+          "conclusion": "(-(A44 -> (A42 -> A43)) -> -A45)",
+          "natural": "Provided that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration, maintenance budget is not approved for upgrade funding."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-(A44 -> (A42 -> A43)) -> A45)",
+              "prover9_expression": "(-(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))) -> maintenance_budget_approved(upgrade_funding))",
+              "natural": "Whenever it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration, maintenance budget is approved for upgrade funding."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A44 -> (A42 -> A43)) -> -A45)",
+              "prover9_expression": "(-(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))) -> -maintenance_budget_approved(upgrade_funding))",
+              "natural": "Provided that it is not the case that maintenance audit being conducted for equipment review implies that if maintenance is overdue for equipment inspection then preventive maintenance is scheduled for equipment calibration, maintenance budget is not approved for upgrade funding."
+            }
+          ],
+          "conclusion": "(A44 -> (A42 -> A43))",
+          "natural": "Under the condition that maintenance audit is conducted for equipment review, if maintenance is overdue for equipment inspection, then preventive maintenance is scheduled for equipment calibration."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A44 -> (A42 -> A43))",
+              "prover9_expression": "(maintenance_audit_conducted(equipment_review) -> (maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration)))",
+              "natural": "Under the condition that maintenance audit is conducted for equipment review, if maintenance is overdue for equipment inspection, then preventive maintenance is scheduled for equipment calibration."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A44",
+              "prover9_expression": "maintenance_audit_conducted(equipment_review)",
+              "natural": "Maintenance audit is conducted for equipment review."
+            }
+          ],
+          "conclusion": "(A42 -> A43)",
+          "natural": "Provided that maintenance is overdue for equipment inspection, preventive maintenance is scheduled for equipment calibration."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A42 -> A43)",
+              "prover9_expression": "(maintenance_overdue(equipment_inspection) -> preventive_maintenance_scheduled(equipment_calibration))",
+              "natural": "Provided that maintenance is overdue for equipment inspection, preventive maintenance is scheduled for equipment calibration."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A43",
+              "prover9_expression": "-preventive_maintenance_scheduled(equipment_calibration)",
+              "natural": "Preventive maintenance is not scheduled for equipment calibration."
+            }
+          ],
+          "conclusion": "-A42",
+          "natural": "Maintenance is not overdue for equipment inspection."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(A42 | (A13 -> A41))",
+              "prover9_expression": "(maintenance_overdue(equipment_inspection) | (safety_audit_scheduled(quarterly_review) -> certification_maintained(safety_standard)))",
+              "natural": "Either maintenance is overdue for equipment inspection or if safety audit is scheduled for quarterly review, then certification is maintained for safety standard."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A42",
+              "prover9_expression": "-maintenance_overdue(equipment_inspection)",
+              "natural": "Maintenance is not overdue for equipment inspection."
+            }
+          ],
+          "conclusion": "(A13 -> A41)",
+          "natural": "Under the condition that safety audit is scheduled for quarterly review, certification is maintained for safety standard."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A41)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> certification_maintained(safety_standard))",
+              "natural": "Under the condition that safety audit is scheduled for quarterly review, certification is maintained for safety standard."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(A41 -> G)",
+              "prover9_expression": "(certification_maintained(safety_standard) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "If certification is maintained for safety standard, then regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) | safety_audit_scheduled(quarterly_review))",
+              "natural": "Either risk assessment is complete for hazard analysis or safety audit is scheduled for quarterly review."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> G)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that risk assessment is complete for hazard analysis, regulatory approval is granted for chemical operations."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule47",
+              "prover9": "(-(A16 -> A17) -> A51)",
+              "prover9_expression": "(-(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure)) -> progress_monitoring_initiated(implementation_tracking))",
+              "natural": "If it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, then progress monitoring is initiated for implementation tracking."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(A51 -> A50)",
+              "prover9_expression": "(progress_monitoring_initiated(implementation_tracking) -> implementation_timeline_established(correction_schedule))",
+              "natural": "If progress monitoring is initiated for implementation tracking, then implementation timeline is established for correction schedule."
+            }
+          ],
+          "conclusion": "(-(A16 -> A17) -> A50)",
+          "natural": "Whenever it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, implementation timeline is established for correction schedule."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 -> A17) -> A50)",
+              "prover9_expression": "(-(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure)) -> implementation_timeline_established(correction_schedule))",
+              "natural": "Whenever it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, implementation timeline is established for correction schedule."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A50 -> A49)",
+              "prover9_expression": "(implementation_timeline_established(correction_schedule) -> corrective_measures_documented(improvement_plan))",
+              "natural": "Whenever implementation timeline is established for correction schedule, corrective measures are documented for improvement plan."
+            }
+          ],
+          "conclusion": "(-(A16 -> A17) -> A49)",
+          "natural": "Provided that it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, corrective measures are documented for improvement plan."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 -> A17) -> A49)",
+              "prover9_expression": "(-(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure)) -> corrective_measures_documented(improvement_plan))",
+              "natural": "Provided that it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, corrective measures are documented for improvement plan."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A49 -> A48)",
+              "prover9_expression": "(corrective_measures_documented(improvement_plan) -> incident_documentation_completed(investigation_file))",
+              "natural": "If corrective measures are documented for improvement plan, then incident documentation is completed for investigation file."
+            }
+          ],
+          "conclusion": "(-(A16 -> A17) -> A48)",
+          "natural": "If it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, then incident documentation is completed for investigation file."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 -> A17) -> A48)",
+              "prover9_expression": "(-(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure)) -> incident_documentation_completed(investigation_file))",
+              "natural": "If it is not the case that incident investigation being initiated for safety breach implies root cause is identified for equipment failure, then incident documentation is completed for investigation file."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A48",
+              "prover9_expression": "-incident_documentation_completed(investigation_file)",
+              "natural": "Incident documentation is not completed for investigation file."
+            }
+          ],
+          "conclusion": "(A16 -> A17)",
+          "natural": "If incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> root_cause_identified(equipment_failure))",
+              "natural": "If incident investigation is initiated for safety breach, then root cause is identified for equipment failure."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A17 -> A15)",
+              "prover9_expression": "(root_cause_identified(equipment_failure) -> corrective_action_implemented(process_improvement))",
+              "natural": "Provided that root cause is identified for equipment failure, corrective action is implemented for process improvement."
+            }
+          ],
+          "conclusion": "(A16 -> A15)",
+          "natural": "Whenever incident investigation is initiated for safety breach, corrective action is implemented for process improvement."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A13 -> A14) -> A16)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> incident_investigation_initiated(safety_breach))",
+              "natural": "If it is not the case that safety audit being scheduled for quarterly review implies compliance check passes for material handling, then incident investigation is initiated for safety breach."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A15)",
+              "prover9_expression": "(incident_investigation_initiated(safety_breach) -> corrective_action_implemented(process_improvement))",
+              "natural": "Whenever incident investigation is initiated for safety breach, corrective action is implemented for process improvement."
+            }
+          ],
+          "conclusion": "(-(A13 -> A14) -> A15)",
+          "natural": "Provided that it is not the case that if safety audit is scheduled for quarterly review then compliance check passes for material handling, corrective action is implemented for process improvement."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> A14) -> A15)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> corrective_action_implemented(process_improvement))",
+              "natural": "Provided that it is not the case that if safety audit is scheduled for quarterly review then compliance check passes for material handling, corrective action is implemented for process improvement."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(-(A13 -> A14) -> -A15)",
+              "prover9_expression": "(-(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling)) -> -corrective_action_implemented(process_improvement))",
+              "natural": "Under the condition that it is not the case that safety audit being scheduled for quarterly review implies compliance check passes for material handling, corrective action is not implemented for process improvement."
+            }
+          ],
+          "conclusion": "(A13 -> A14)",
+          "natural": "Whenever safety audit is scheduled for quarterly review, compliance check passes for material handling."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A14)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> compliance_check_passed(material_handling))",
+              "natural": "Whenever safety audit is scheduled for quarterly review, compliance check passes for material handling."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> G)",
+              "prover9_expression": "(compliance_check_passed(material_handling) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that compliance check passes for material handling, regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) | safety_audit_scheduled(quarterly_review))",
+              "natural": "Either risk assessment is complete for hazard analysis or safety audit is scheduled for quarterly review."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> G)",
+              "prover9_expression": "(risk_assessment_complete(hazard_analysis) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "Provided that risk assessment is complete for hazard analysis, regulatory approval is granted for chemical operations."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(safety_audit_scheduled(quarterly_review) -> regulatory_approval_granted(chemical_operations))",
+              "natural": "If safety audit is scheduled for quarterly review, then regulatory approval is granted for chemical operations."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(A52 -> A54)",
+              "prover9_expression": "(material_safety_data_updated(chemical_inventory) -> storage_requirements_modified(chemical_containment))",
+              "natural": "Under the condition that material safety data is updated for chemical inventory, storage requirements are modified for chemical containment."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(A54 -> A53)",
+              "prover9_expression": "(storage_requirements_modified(chemical_containment) -> handling_instructions_revised(safety_data_sheet))",
+              "natural": "If storage requirements are modified for chemical containment, then handling instructions are revised for safety data sheet."
+            }
+          ],
+          "conclusion": "(A52 -> A53)",
+          "natural": "Provided that material safety data is updated for chemical inventory, handling instructions are revised for safety data sheet."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A52 -> A53)",
+              "prover9_expression": "(material_safety_data_updated(chemical_inventory) -> handling_instructions_revised(safety_data_sheet))",
+              "natural": "Provided that material safety data is updated for chemical inventory, handling instructions are revised for safety data sheet."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A53",
+              "prover9_expression": "-handling_instructions_revised(safety_data_sheet)",
+              "natural": "Handling instructions are not revised for safety data sheet."
+            }
+          ],
+          "conclusion": "-A52",
+          "natural": "Material safety data is not updated for chemical inventory."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A52 | (A22 -> A21))",
+              "prover9_expression": "(material_safety_data_updated(chemical_inventory) | (training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage)))",
+              "natural": "Either material safety data is updated for chemical inventory or if training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A52",
+              "prover9_expression": "-material_safety_data_updated(chemical_inventory)",
+              "natural": "Material safety data is not updated for chemical inventory."
+            }
+          ],
+          "conclusion": "(A22 -> A21)",
+          "natural": "If training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule60",
+              "prover9": "(-(-(-G -> A19) -> A20) -> A22)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> training_session_scheduled(handling_procedures))",
+              "natural": "Under the condition that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, training session is scheduled for handling procedures."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A21)",
+              "prover9_expression": "(training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage))",
+              "natural": "If training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A19) -> A20) -> A21)",
+          "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is updated for chemical storage."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A19) -> A20) -> A21)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> safety_protocol_updated(chemical_storage))",
+              "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is updated for chemical storage."
+            },
+            {
+              "id": "Rule61",
+              "prover9": "(-(-(-G -> A19) -> A20) -> -A21)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> -safety_protocol_updated(chemical_storage))",
+              "natural": "If it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is not updated for chemical storage."
+            }
+          ],
+          "conclusion": "(-(-G -> A19) -> A20)",
+          "natural": "If it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is mandated in handling area."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A19) -> A20)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area))",
+              "natural": "If it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is mandated in handling area."
+            },
+            {
+              "id": "Rule63",
+              "prover9": "(-(-G -> A19) -> -A20)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> -personal_protective_equipment_mandated(handling_area))",
+              "natural": "Provided that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is not mandated in handling area."
+            }
+          ],
+          "conclusion": "(-G -> A19)",
+          "natural": "Provided that regulatory approval is not granted for chemical operations, exposure monitoring is required for worker safety."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A19)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety))",
+              "natural": "Provided that regulatory approval is not granted for chemical operations, exposure monitoring is required for worker safety."
+            },
+            {
+              "id": "Rule67",
+              "prover9": "(-G -> -A19)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> -exposure_monitoring_required(worker_safety))",
+              "natural": "Under the condition that regulatory approval is not granted for chemical operations, exposure monitoring is not required for worker safety."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule43",
+              "prover9": "(A64 | -A63)",
+              "prover9_expression": "(drill_certification_granted(response_team) | -drill_evaluation_completed(performance_review))",
+              "natural": "Either drill certification is granted to response team or drill evaluation is not completed for performance review."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A64",
+              "prover9_expression": "-drill_certification_granted(response_team)",
+              "natural": "Drill certification is not granted to response team."
+            }
+          ],
+          "conclusion": "-A63",
+          "natural": "Drill evaluation is not completed for performance review."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule52",
+              "prover9": "(-(A62 -> (A60 -> -A59)) -> A63)",
+              "prover9_expression": "(-(external_evaluator_hired(drill_assessment) -> (safety_drill_scheduled(quarterly_exercise) -> -emergency_drill_failed(response_evaluation))) -> drill_evaluation_completed(performance_review))",
+              "natural": "If it is not the case that external evaluator being hired for drill assessment implies that if safety drill is scheduled for quarterly exercise then emergency drill does not fail for response evaluation, drill evaluation is completed for performance review."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A63",
+              "prover9_expression": "-drill_evaluation_completed(performance_review)",
+              "natural": "Drill evaluation is not completed for performance review."
+            }
+          ],
+          "conclusion": "(A62 -> (A60 -> -A59))",
+          "natural": "If external evaluator is hired for drill assessment, then provided that safety drill is scheduled for quarterly exercise, emergency drill does not fail for response evaluation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule42",
+              "prover9": "(A61 | A62)",
+              "prover9_expression": "(drill_coordinator_assigned(training_supervisor) | external_evaluator_hired(drill_assessment))",
+              "natural": "Either drill coordinator is assigned to training supervisor or external evaluator is hired for drill assessment."
+            },
+            {
+              "id": "Rule41",
+              "prover9": "(A61 -> (A60 -> -A59))",
+              "prover9_expression": "(drill_coordinator_assigned(training_supervisor) -> (safety_drill_scheduled(quarterly_exercise) -> -emergency_drill_failed(response_evaluation)))",
+              "natural": "Under the condition that drill coordinator is assigned to training supervisor, if safety drill is scheduled for quarterly exercise, then emergency drill does not fail for response evaluation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A62 -> (A60 -> -A59))",
+              "prover9_expression": "(external_evaluator_hired(drill_assessment) -> (safety_drill_scheduled(quarterly_exercise) -> -emergency_drill_failed(response_evaluation)))",
+              "natural": "If external evaluator is hired for drill assessment, then provided that safety drill is scheduled for quarterly exercise, emergency drill does not fail for response evaluation."
+            }
+          ],
+          "conclusion": "(A60 -> -A59)",
+          "natural": "Provided that safety drill is scheduled for quarterly exercise, emergency drill does not fail for response evaluation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A60 -> -A59)",
+              "prover9_expression": "(safety_drill_scheduled(quarterly_exercise) -> -emergency_drill_failed(response_evaluation))",
+              "natural": "Provided that safety drill is scheduled for quarterly exercise, emergency drill does not fail for response evaluation."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A60",
+              "prover9_expression": "safety_drill_scheduled(quarterly_exercise)",
+              "natural": "Safety drill is scheduled for quarterly exercise."
+            }
+          ],
+          "conclusion": "-A59",
+          "natural": "Emergency drill does not fail for response evaluation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule51",
+              "prover9": "(-(A57 -> (A55 -> -A56)) -> A59)",
+              "prover9_expression": "(-(response_team_trained(emergency_procedures) -> (emergency_response_plan_reviewed(evacuation_procedure) -> -drill_simulation_conducted(emergency_response))) -> emergency_drill_failed(response_evaluation))",
+              "natural": "Under the condition that it is not the case that response team being trained for emergency procedures implies that if emergency response plan is reviewed for evacuation procedure then drill simulation is not conducted for emergency response, emergency drill fails for response evaluation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A59",
+              "prover9_expression": "-emergency_drill_failed(response_evaluation)",
+              "natural": "Emergency drill does not fail for response evaluation."
+            }
+          ],
+          "conclusion": "(A57 -> (A55 -> -A56))",
+          "natural": "Under the condition that response team is trained for emergency procedures, if emergency response plan is reviewed for evacuation procedure, then drill simulation is not conducted for emergency response."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A57 | A58)",
+              "prover9_expression": "(response_team_trained(emergency_procedures) | equipment_inspected(emergency_systems))",
+              "natural": "Either response team is trained for emergency procedures or equipment is inspected for emergency systems."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A57 -> (A55 -> -A56))",
+              "prover9_expression": "(response_team_trained(emergency_procedures) -> (emergency_response_plan_reviewed(evacuation_procedure) -> -drill_simulation_conducted(emergency_response)))",
+              "natural": "Under the condition that response team is trained for emergency procedures, if emergency response plan is reviewed for evacuation procedure, then drill simulation is not conducted for emergency response."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(A58 -> (A55 -> -A56))",
+              "prover9_expression": "(equipment_inspected(emergency_systems) -> (emergency_response_plan_reviewed(evacuation_procedure) -> -drill_simulation_conducted(emergency_response)))",
+              "natural": "Whenever equipment is inspected for emergency systems, if emergency response plan is reviewed for evacuation procedure, then drill simulation is not conducted for emergency response."
+            }
+          ],
+          "conclusion": "(A55 -> -A56)",
+          "natural": "If emergency response plan is reviewed for evacuation procedure, then drill simulation is not conducted for emergency response."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(A55 -> A56)",
+              "prover9_expression": "(emergency_response_plan_reviewed(evacuation_procedure) -> drill_simulation_conducted(emergency_response))",
+              "natural": "Provided that emergency response plan is reviewed for evacuation procedure, drill simulation is conducted for emergency response."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A55 -> -A56)",
+              "prover9_expression": "(emergency_response_plan_reviewed(evacuation_procedure) -> -drill_simulation_conducted(emergency_response))",
+              "natural": "If emergency response plan is reviewed for evacuation procedure, then drill simulation is not conducted for emergency response."
+            }
+          ],
+          "conclusion": "-A55",
+          "natural": "Emergency response plan is not reviewed for evacuation procedure."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(A55 | (A22 -> A21))",
+              "prover9_expression": "(emergency_response_plan_reviewed(evacuation_procedure) | (training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage)))",
+              "natural": "Either emergency response plan is reviewed for evacuation procedure or if training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A55",
+              "prover9_expression": "-emergency_response_plan_reviewed(evacuation_procedure)",
+              "natural": "Emergency response plan is not reviewed for evacuation procedure."
+            }
+          ],
+          "conclusion": "(A22 -> A21)",
+          "natural": "If training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule60",
+              "prover9": "(-(-(-G -> A19) -> A20) -> A22)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> training_session_scheduled(handling_procedures))",
+              "natural": "Under the condition that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, training session is scheduled for handling procedures."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A21)",
+              "prover9_expression": "(training_session_scheduled(handling_procedures) -> safety_protocol_updated(chemical_storage))",
+              "natural": "If training session is scheduled for handling procedures, then safety protocol is updated for chemical storage."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A19) -> A20) -> A21)",
+          "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is updated for chemical storage."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A19) -> A20) -> A21)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> safety_protocol_updated(chemical_storage))",
+              "natural": "Provided that it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is updated for chemical storage."
+            },
+            {
+              "id": "Rule61",
+              "prover9": "(-(-(-G -> A19) -> A20) -> -A21)",
+              "prover9_expression": "(-(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area)) -> -safety_protocol_updated(chemical_storage))",
+              "natural": "If it is not the case that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety leads to personal protective equipment being mandated in handling area, safety protocol is not updated for chemical storage."
+            }
+          ],
+          "conclusion": "(-(-G -> A19) -> A20)",
+          "natural": "If it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is mandated in handling area."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A19) -> A20)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> personal_protective_equipment_mandated(handling_area))",
+              "natural": "If it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is mandated in handling area."
+            },
+            {
+              "id": "Rule63",
+              "prover9": "(-(-G -> A19) -> -A20)",
+              "prover9_expression": "(-(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety)) -> -personal_protective_equipment_mandated(handling_area))",
+              "natural": "Provided that it is not the case that not granting regulatory approval for chemical operations implies exposure monitoring is required for worker safety, personal protective equipment is not mandated in handling area."
+            }
+          ],
+          "conclusion": "(-G -> A19)",
+          "natural": "Provided that regulatory approval is not granted for chemical operations, exposure monitoring is required for worker safety."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A19)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> exposure_monitoring_required(worker_safety))",
+              "natural": "Provided that regulatory approval is not granted for chemical operations, exposure monitoring is required for worker safety."
+            },
+            {
+              "id": "Rule67",
+              "prover9": "(-G -> -A19)",
+              "prover9_expression": "(-regulatory_approval_granted(chemical_operations) -> -exposure_monitoring_required(worker_safety))",
+              "natural": "Under the condition that regulatory approval is not granted for chemical operations, exposure monitoring is not required for worker safety."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Regulatory approval is granted for chemical operations."
+        }
+      ]
+    }
+  ]
+}

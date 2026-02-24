@@ -1,0 +1,404 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 ∨ (¬(A7 ∨ A8) → A9))",
+        "prover9_expression": "(containment_breach(hazardous_material) | (-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers)))",
+        "natural": "There is a containment breach of hazardous material, or if it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, then manual evacuation was initiated by volunteers."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A2 → A4)",
+        "prover9_expression": "(earthquake_occurred(region) -> seismic_sensors_detected(magnitude))",
+        "natural": "Under the condition that an earthquake occurred in the region, seismic sensors detected a magnitude."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 → A1)",
+        "prover9_expression": "(tsunami_warning_issued(coast) -> evacuated(area))",
+        "natural": "If a tsunami warning was issued for the coast, then the area has been evacuated."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → A3)",
+        "prover9_expression": "(seismic_sensors_detected(magnitude) -> tsunami_warning_issued(coast))",
+        "natural": "Assuming that seismic sensors detected a magnitude, a tsunami warning is issued for the coast."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A5 → G)",
+        "prover9_expression": "(power_outage(facility) -> emergency_protocols_activated(agency))",
+        "natural": "In the event of a power outage at the facility, emergency protocols are activated by the agency."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A7 → (¬A5 → A6))",
+        "prover9_expression": "(evacuation_order_issued(authority) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+        "natural": "If an evacuation order was issued by the authority, then given that there is no power outage at the facility, the backup generator is activated in the building."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A8 → (¬A5 → A6))",
+        "prover9_expression": "(emergency_broadcast_sent(system) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+        "natural": "Should an emergency broadcast be sent through the system, then on the condition that there is no power outage at the facility, the backup generator is activated in the building."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬A5 → ¬A6)",
+        "prover9_expression": "(-power_outage(facility) -> -backup_generator_activated(building))",
+        "natural": "In cases where there is no power outage at the facility, it is not the case that the backup generator is activated in the building."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬G → A2)",
+        "prover9_expression": "(-emergency_protocols_activated(agency) -> earthquake_occurred(region))",
+        "natural": "Under the condition that emergency protocols are not activated by the agency, an earthquake occurred in the region."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A1",
+        "prover9_expression": "-evacuated(area)",
+        "natural": "It is not the case that the area has been evacuated."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A10",
+        "prover9_expression": "-containment_breach(hazardous_material)",
+        "natural": "There is no containment breach of hazardous material."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A9",
+        "prover9_expression": "-manual_evacuation_initiated(volunteers)",
+        "natural": "Manual evacuation was not initiated by volunteers."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "emergency_protocols_activated(agency)",
+    "natural": "Emergency protocols have been activated by the agency."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "Whenever an earthquake occurs in the region, a tsunami warning is issued for the coast."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that an earthquake occurred in the region, the area has been evacuated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> A1)"
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Whenever emergency protocols are not activated by the agency, the area has been evacuated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Emergency protocols have been activated by the agency."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (-(A7 | A8) -> A9))",
+            "-A10"
+          ],
+          "conclusion": "(-(A7 | A8) -> A9)",
+          "natural": "In the situation where it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, manual evacuation is initiated by volunteers."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 | A8) -> A9)",
+            "-A9"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either an evacuation order was issued by the authority or an emergency broadcast was sent through the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> (-A5 -> A6))",
+            "(A8 -> (-A5 -> A6))"
+          ],
+          "conclusion": "(-A5 -> A6)",
+          "natural": "Provided there is no power outage at the facility, the backup generator is activated in the building."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A5 -> A6)",
+            "(-A5 -> -A6)"
+          ],
+          "conclusion": "A5",
+          "natural": "There is a power outage at the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A5 -> G)",
+            "A5"
+          ],
+          "conclusion": "G",
+          "natural": "Emergency protocols have been activated by the agency."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Disaster Response",
+    "atomic_facts": {
+      "A1": "evacuated(area)",
+      "A2": "earthquake_occurred(region)",
+      "A3": "tsunami_warning_issued(coast)",
+      "A4": "seismic_sensors_detected(magnitude)",
+      "A5": "power_outage(facility)",
+      "A6": "backup_generator_activated(building)",
+      "A7": "evacuation_order_issued(authority)",
+      "A8": "emergency_broadcast_sent(system)",
+      "A9": "manual_evacuation_initiated(volunteers)",
+      "A10": "containment_breach(hazardous_material)",
+      "G": "emergency_protocols_activated(agency)"
+    },
+    "natural_facts": {
+      "A1": "The area has been evacuated.",
+      "A2": "An earthquake occurred in the region.",
+      "A3": "A tsunami warning was issued for the coast.",
+      "A4": "Seismic sensors detected a magnitude.",
+      "A5": "There is a power outage at the facility.",
+      "A6": "The backup generator was activated in the building.",
+      "A7": "An evacuation order was issued by the authority.",
+      "A8": "An emergency broadcast was sent through the system.",
+      "A9": "Manual evacuation was initiated by volunteers.",
+      "A10": "There was a containment breach of hazardous material.",
+      "G": "Emergency protocols have been activated by the agency."
+    },
+    "prover9_expressions": [
+      "(containment_breach(hazardous_material) | (-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers)))",
+      "(earthquake_occurred(region) -> evacuated(area))",
+      "(earthquake_occurred(region) -> tsunami_warning_issued(coast))",
+      "(earthquake_occurred(region) -> seismic_sensors_detected(magnitude))",
+      "(tsunami_warning_issued(coast) -> evacuated(area))",
+      "(seismic_sensors_detected(magnitude) -> tsunami_warning_issued(coast))",
+      "(power_outage(facility) -> emergency_protocols_activated(agency))",
+      "(evacuation_order_issued(authority) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+      "(evacuation_order_issued(authority) | emergency_broadcast_sent(system))",
+      "(emergency_broadcast_sent(system) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+      "(-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers))",
+      "(-power_outage(facility) -> backup_generator_activated(building))",
+      "(-power_outage(facility) -> -backup_generator_activated(building))",
+      "(-emergency_protocols_activated(agency) -> evacuated(area))",
+      "(-emergency_protocols_activated(agency) -> earthquake_occurred(region))",
+      "power_outage(facility)",
+      "emergency_protocols_activated(agency)",
+      "-evacuated(area)",
+      "-containment_breach(hazardous_material)",
+      "-manual_evacuation_initiated(volunteers)"
+    ],
+    "natural_expressions": [
+      "There is a containment breach of hazardous material, or if it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, then manual evacuation was initiated by volunteers.",
+      "Provided that an earthquake occurred in the region, the area has been evacuated.",
+      "Whenever an earthquake occurs in the region, a tsunami warning is issued for the coast.",
+      "Under the condition that an earthquake occurred in the region, seismic sensors detected a magnitude.",
+      "If a tsunami warning was issued for the coast, then the area has been evacuated.",
+      "Assuming that seismic sensors detected a magnitude, a tsunami warning is issued for the coast.",
+      "In the event of a power outage at the facility, emergency protocols are activated by the agency.",
+      "If an evacuation order was issued by the authority, then given that there is no power outage at the facility, the backup generator is activated in the building.",
+      "Either an evacuation order was issued by the authority or an emergency broadcast was sent through the system.",
+      "Should an emergency broadcast be sent through the system, then on the condition that there is no power outage at the facility, the backup generator is activated in the building.",
+      "In the situation where it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, manual evacuation is initiated by volunteers.",
+      "Provided there is no power outage at the facility, the backup generator is activated in the building.",
+      "In cases where there is no power outage at the facility, it is not the case that the backup generator is activated in the building.",
+      "Whenever emergency protocols are not activated by the agency, the area has been evacuated.",
+      "Under the condition that emergency protocols are not activated by the agency, an earthquake occurred in the region.",
+      "There is a power outage at the facility.",
+      "Emergency protocols have been activated by the agency.",
+      "It is not the case that the area has been evacuated.",
+      "There is no containment breach of hazardous material.",
+      "Manual evacuation was not initiated by volunteers."
+    ],
+    "node_mappings": {
+      "(A10 ∨ (¬(A7 ∨ A8) → A9))": {
+        "formal": "(A10 ∨ (¬(A7 ∨ A8) → A9))",
+        "prover9": "(A10 | (-(A7 | A8) -> A9))",
+        "prover9_expression": "(containment_breach(hazardous_material) | (-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers)))",
+        "natural": "There is a containment breach of hazardous material, or if it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, then manual evacuation was initiated by volunteers."
+      },
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(earthquake_occurred(region) -> evacuated(area))",
+        "natural": "Provided that an earthquake occurred in the region, the area has been evacuated."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(earthquake_occurred(region) -> tsunami_warning_issued(coast))",
+        "natural": "Whenever an earthquake occurs in the region, a tsunami warning is issued for the coast."
+      },
+      "(A2 → A4)": {
+        "formal": "(A2 → A4)",
+        "prover9": "(A2 -> A4)",
+        "prover9_expression": "(earthquake_occurred(region) -> seismic_sensors_detected(magnitude))",
+        "natural": "Under the condition that an earthquake occurred in the region, seismic sensors detected a magnitude."
+      },
+      "(A3 → A1)": {
+        "formal": "(A3 → A1)",
+        "prover9": "(A3 -> A1)",
+        "prover9_expression": "(tsunami_warning_issued(coast) -> evacuated(area))",
+        "natural": "If a tsunami warning was issued for the coast, then the area has been evacuated."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(seismic_sensors_detected(magnitude) -> tsunami_warning_issued(coast))",
+        "natural": "Assuming that seismic sensors detected a magnitude, a tsunami warning is issued for the coast."
+      },
+      "(A5 → G)": {
+        "formal": "(A5 → G)",
+        "prover9": "(A5 -> G)",
+        "prover9_expression": "(power_outage(facility) -> emergency_protocols_activated(agency))",
+        "natural": "In the event of a power outage at the facility, emergency protocols are activated by the agency."
+      },
+      "(A7 → (¬A5 → A6))": {
+        "formal": "(A7 → (¬A5 → A6))",
+        "prover9": "(A7 -> (-A5 -> A6))",
+        "prover9_expression": "(evacuation_order_issued(authority) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+        "natural": "If an evacuation order was issued by the authority, then given that there is no power outage at the facility, the backup generator is activated in the building."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(evacuation_order_issued(authority) | emergency_broadcast_sent(system))",
+        "natural": "Either an evacuation order was issued by the authority or an emergency broadcast was sent through the system."
+      },
+      "(A8 → (¬A5 → A6))": {
+        "formal": "(A8 → (¬A5 → A6))",
+        "prover9": "(A8 -> (-A5 -> A6))",
+        "prover9_expression": "(emergency_broadcast_sent(system) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+        "natural": "Should an emergency broadcast be sent through the system, then on the condition that there is no power outage at the facility, the backup generator is activated in the building."
+      },
+      "(¬(A7 ∨ A8) → A9)": {
+        "formal": "(¬(A7 ∨ A8) → A9)",
+        "prover9": "(-(A7 | A8) -> A9)",
+        "prover9_expression": "(-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers))",
+        "natural": "In the situation where it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, manual evacuation is initiated by volunteers."
+      },
+      "(¬A5 → A6)": {
+        "formal": "(¬A5 → A6)",
+        "prover9": "(-A5 -> A6)",
+        "prover9_expression": "(-power_outage(facility) -> backup_generator_activated(building))",
+        "natural": "Provided there is no power outage at the facility, the backup generator is activated in the building."
+      },
+      "(¬A5 → ¬A6)": {
+        "formal": "(¬A5 → ¬A6)",
+        "prover9": "(-A5 -> -A6)",
+        "prover9_expression": "(-power_outage(facility) -> -backup_generator_activated(building))",
+        "natural": "In cases where there is no power outage at the facility, it is not the case that the backup generator is activated in the building."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-emergency_protocols_activated(agency) -> evacuated(area))",
+        "natural": "Whenever emergency protocols are not activated by the agency, the area has been evacuated."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-emergency_protocols_activated(agency) -> earthquake_occurred(region))",
+        "natural": "Under the condition that emergency protocols are not activated by the agency, an earthquake occurred in the region."
+      },
+      "A5": {
+        "formal": "A5",
+        "prover9": "A5",
+        "prover9_expression": "power_outage(facility)",
+        "natural": "There is a power outage at the facility."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "emergency_protocols_activated(agency)",
+        "natural": "Emergency protocols have been activated by the agency."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-evacuated(area)",
+        "natural": "It is not the case that the area has been evacuated."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-containment_breach(hazardous_material)",
+        "natural": "There is no containment breach of hazardous material."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-manual_evacuation_initiated(volunteers)",
+        "natural": "Manual evacuation was not initiated by volunteers."
+      }
+    }
+  }
+}

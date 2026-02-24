@@ -1,0 +1,423 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A5 | (A3 | A4))",
+              "prover9_expression": "(on_market(drug) | (approved(manufacturing_process) | approved(quality_control)))",
+              "natural": "The drug is on the market, or the manufacturing process is approved, or the quality control is approved."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A5",
+              "prover9_expression": "-on_market(drug)",
+              "natural": "The drug is not on the market."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the manufacturing process is approved or the quality control is approved."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(approved(manufacturing_process) | approved(quality_control))",
+              "natural": "Either the manufacturing process is approved or the quality control is approved."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A3 -> -A2)",
+              "prover9_expression": "(approved(manufacturing_process) -> -failed(clinical_trial))",
+              "natural": "If the manufacturing process is approved, then the clinical trial does not fail."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> -A2)",
+              "prover9_expression": "(approved(quality_control) -> -failed(clinical_trial))",
+              "natural": "Provided that the quality control is approved, the clinical trial does not fail."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The clinical trial did not fail."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-funded(project) -> approved(clinical_trial)) -> failed(clinical_trial))",
+              "natural": "If it is not the case that the project not being funded implies an approved clinical trial, then the clinical trial fails."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-failed(clinical_trial)",
+              "natural": "The clinical trial did not fail."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that the project is not funded, the clinical trial is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-funded(project) -> approved(clinical_trial))",
+              "natural": "Provided that the project is not funded, the clinical trial is approved."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-funded(project) -> -approved(clinical_trial))",
+              "natural": "If the project is not funded, then the clinical trial is not approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The project is funded."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A8 -> A11)",
+              "prover9_expression": "(approved(regulatory_submission) -> calibrated(electronic_device))",
+              "natural": "If the regulatory submission is approved, then the electronic device is calibrated."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(calibrated(electronic_device) -> meets_standards(electronic_device))",
+              "natural": "Whenever the electronic device is calibrated, it meets standards."
+            }
+          ],
+          "conclusion": "(A8 -> A10)",
+          "natural": "Whenever the regulatory submission is approved, the electronic device meets standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A10)",
+              "prover9_expression": "(approved(regulatory_submission) -> meets_standards(electronic_device))",
+              "natural": "Whenever the regulatory submission is approved, the electronic device meets standards."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> -A7)",
+              "prover9_expression": "(meets_standards(electronic_device) -> -recalled(drug))",
+              "natural": "Provided that the electronic device meets standards, the drug is not recalled."
+            }
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "Under the condition that the regulatory submission is approved, the drug is not recalled."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(approved(regulatory_submission) | approved(alternative_submission))",
+              "natural": "Either the regulatory submission is approved or the alternative submission is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(approved(regulatory_submission) -> -recalled(drug))",
+              "natural": "Under the condition that the regulatory submission is approved, the drug is not recalled."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A9 -> -A7)",
+              "prover9_expression": "(approved(alternative_submission) -> -recalled(drug))",
+              "natural": "Provided that the alternative submission is approved, the drug is not recalled."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The drug is not recalled."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-(A6 | (A3 | A4)) -> A7)",
+              "prover9_expression": "(-(profitable(drug) | (approved(manufacturing_process) | approved(quality_control))) -> recalled(drug))",
+              "natural": "Whenever it is false that the drug is profitable or the manufacturing process is approved or the quality control is approved, the drug is recalled."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-recalled(drug)",
+              "natural": "The drug is not recalled."
+            }
+          ],
+          "conclusion": "(A6 | (A3 | A4))",
+          "natural": "The drug is profitable, or the manufacturing process is approved, or the quality control is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 | (A3 | A4))",
+              "prover9_expression": "(profitable(drug) | (approved(manufacturing_process) | approved(quality_control)))",
+              "natural": "The drug is profitable, or the manufacturing process is approved, or the quality control is approved."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A6",
+              "prover9_expression": "-profitable(drug)",
+              "natural": "The drug is not profitable."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the manufacturing process is approved or the quality control is approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(approved(manufacturing_process) | approved(quality_control))",
+              "natural": "Either the manufacturing process is approved or the quality control is approved."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A3 -> -A2)",
+              "prover9_expression": "(approved(manufacturing_process) -> -failed(clinical_trial))",
+              "natural": "If the manufacturing process is approved, then the clinical trial does not fail."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> -A2)",
+              "prover9_expression": "(approved(quality_control) -> -failed(clinical_trial))",
+              "natural": "Provided that the quality control is approved, the clinical trial does not fail."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The clinical trial did not fail."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-funded(project) -> approved(clinical_trial)) -> failed(clinical_trial))",
+              "natural": "If it is not the case that the project not being funded implies an approved clinical trial, then the clinical trial fails."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-failed(clinical_trial)",
+              "natural": "The clinical trial did not fail."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that the project is not funded, the clinical trial is approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-funded(project) -> approved(clinical_trial))",
+              "natural": "Provided that the project is not funded, the clinical trial is approved."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-funded(project) -> -approved(clinical_trial))",
+              "natural": "If the project is not funded, then the clinical trial is not approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The project is funded."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(-(A14 -> (A13 -> (A12 | -A2))) -> A15)",
+              "prover9_expression": "(-(certified(technician) -> (trained(technician) -> (patented(artwork) | -failed(clinical_trial)))) -> terminated(project))",
+              "natural": "If it is not the case that the certified technician implies that a trained technician leads to either patented artwork or no clinical trial failure, then the project is terminated."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A15",
+              "prover9_expression": "-terminated(project)",
+              "natural": "The project is not terminated."
+            }
+          ],
+          "conclusion": "(A14 -> (A13 -> (A12 | -A2)))",
+          "natural": "Under the condition that the technician is certified, it follows that if the technician is trained, then either the artwork is patented or the clinical trial did not fail."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (A13 -> (A12 | -A2)))",
+              "prover9_expression": "(certified(technician) -> (trained(technician) -> (patented(artwork) | -failed(clinical_trial))))",
+              "natural": "Under the condition that the technician is certified, it follows that if the technician is trained, then either the artwork is patented or the clinical trial did not fail."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A14",
+              "prover9_expression": "certified(technician)",
+              "natural": "The technician is certified."
+            }
+          ],
+          "conclusion": "(A13 -> (A12 | -A2))",
+          "natural": "If the technician is trained, then either the artwork is patented or the clinical trial did not fail."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> (A12 | -A2))",
+              "prover9_expression": "(trained(technician) -> (patented(artwork) | -failed(clinical_trial)))",
+              "natural": "If the technician is trained, then either the artwork is patented or the clinical trial did not fail."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "trained(technician)",
+              "natural": "The technician is trained."
+            }
+          ],
+          "conclusion": "(A12 | -A2)",
+          "natural": "Either the artwork is patented or the clinical trial did not fail."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | -A2)",
+              "prover9_expression": "(patented(artwork) | -failed(clinical_trial))",
+              "natural": "Either the artwork is patented or the clinical trial did not fail."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A12",
+              "prover9_expression": "-patented(artwork)",
+              "natural": "It is not the case that the artwork is patented."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The clinical trial did not fail."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-(-G -> A1) -> A2)",
+              "prover9_expression": "(-(-funded(project) -> approved(clinical_trial)) -> failed(clinical_trial))",
+              "natural": "If it is not the case that the project not being funded implies an approved clinical trial, then the clinical trial fails."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-failed(clinical_trial)",
+              "natural": "The clinical trial did not fail."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that the project is not funded, the clinical trial is approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-funded(project) -> approved(clinical_trial))",
+              "natural": "Provided that the project is not funded, the clinical trial is approved."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-funded(project) -> -approved(clinical_trial))",
+              "natural": "If the project is not funded, then the clinical trial is not approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The project is funded."
+        }
+      ]
+    }
+  ]
+}

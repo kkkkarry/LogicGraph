@@ -1,0 +1,829 @@
+{
+  "solution_stats": {
+    "total_solutions": 8,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A4 -> -A3)",
+              "prover9_expression": "(system_operational(server) -> -forecast_reliable(model))",
+              "natural": "If the server system is operational, then the model forecast is not reliable."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A4",
+              "prover9_expression": "system_operational(server)",
+              "natural": "The server system is operational."
+            }
+          ],
+          "conclusion": "-A3",
+          "natural": "The model forecast is not reliable."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A3 | (A2 -> -A1))",
+              "prover9_expression": "(forecast_reliable(model) | (data_accurate(satellite) -> -sensor_malfunctioning(radar)))",
+              "natural": "Either the model forecast is reliable, or if the satellite data is accurate, then the radar is not sensor malfunctioning."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A3",
+              "prover9_expression": "-forecast_reliable(model)",
+              "natural": "The model forecast is not reliable."
+            }
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If the satellite data is accurate, then the radar is not sensor malfunctioning."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(data_accurate(satellite) -> -sensor_malfunctioning(radar))",
+              "natural": "If the satellite data is accurate, then the radar is not sensor malfunctioning."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A2",
+              "prover9_expression": "data_accurate(satellite)",
+              "natural": "The satellite data is accurate."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "The radar is not sensor malfunctioning."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_stable(power) -> sensor_malfunctioning(radar))",
+              "natural": "If the power grid is not stable, then the radar is sensor malfunctioning."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-sensor_malfunctioning(radar)",
+              "natural": "The radar is not sensor malfunctioning."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(protocol_executed(emergency) -> warning_issued(tornado))",
+              "natural": "Whenever an emergency protocol has been executed, a tornado warning has been issued."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A8)",
+              "prover9_expression": "(broadcast_interrupted(tv_network) -> alert_sent(public))",
+              "natural": "If the TV network broadcast is interrupted, then a public alert has been sent."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(protocol_executed(emergency) | broadcast_interrupted(tv_network))",
+              "natural": "Either an emergency protocol has been executed, or the TV network broadcast is interrupted."
+            }
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either a tornado warning has been issued, or a public alert has been sent."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(warning_issued(tornado) | alert_sent(public))",
+              "natural": "Either a tornado warning has been issued, or a public alert has been sent."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A7 -> (A6 -> -A5))",
+              "prover9_expression": "(warning_issued(tornado) -> (backup_active(generator) -> -power_outage(station)))",
+              "natural": "If a tornado warning has been issued, then if the generator backup is active, the station does not have a power outage."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A8 -> (A6 -> -A5))",
+              "prover9_expression": "(alert_sent(public) -> (backup_active(generator) -> -power_outage(station)))",
+              "natural": "Under the condition that a public alert has been sent, then if the generator backup is active, the station does not have a power outage."
+            }
+          ],
+          "conclusion": "(A6 -> -A5)",
+          "natural": "Provided that the generator backup is active, then the station does not have a power outage."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> -A5)",
+              "prover9_expression": "(backup_active(generator) -> -power_outage(station))",
+              "natural": "Provided that the generator backup is active, then the station does not have a power outage."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "A6",
+              "prover9_expression": "backup_active(generator)",
+              "natural": "The generator backup is active."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The station does not have a power outage."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A5)",
+              "prover9_expression": "(-grid_stable(power) -> power_outage(station))",
+              "natural": "Under the condition that the power grid is not stable, then the station has a power outage."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-power_outage(station)",
+              "natural": "The station does not have a power outage."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(-(A13 | (A12 -> (-G -> A11))) -> A15)",
+              "prover9_expression": "(-(analysis_complete(radar_data) | (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path)))) -> prediction_improved(storm_track))",
+              "natural": "Provided that it is not the case that either radar data analysis is complete or if satellite feed data has been received, then under the condition that the power grid is not stable, the storm path prediction is correct, then the storm track prediction has improved."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A15 -> A14)",
+              "prover9_expression": "(prediction_improved(storm_track) -> model_updated(forecast))",
+              "natural": "Whenever the storm track prediction has improved, the forecast model has been updated."
+            }
+          ],
+          "conclusion": "(-(A13 | (A12 -> (-G -> A11))) -> A14)",
+          "natural": "If it is not the case that either radar data analysis is complete or if satellite feed data has been received, then provided that the power grid is not stable, the storm path prediction is correct, then the forecast model has been updated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 | (A12 -> (-G -> A11))) -> A14)",
+              "prover9_expression": "(-(analysis_complete(radar_data) | (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path)))) -> model_updated(forecast))",
+              "natural": "If it is not the case that either radar data analysis is complete or if satellite feed data has been received, then provided that the power grid is not stable, the storm path prediction is correct, then the forecast model has been updated."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A14",
+              "prover9_expression": "-model_updated(forecast)",
+              "natural": "The forecast model has not been updated."
+            }
+          ],
+          "conclusion": "(A13 | (A12 -> (-G -> A11)))",
+          "natural": "Either radar data analysis is complete, or if satellite feed data has been received, then under the condition that the power grid is not stable, the storm path prediction is correct."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | (A12 -> (-G -> A11)))",
+              "prover9_expression": "(analysis_complete(radar_data) | (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path))))",
+              "natural": "Either radar data analysis is complete, or if satellite feed data has been received, then under the condition that the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A13",
+              "prover9_expression": "-analysis_complete(radar_data)",
+              "natural": "Radar data analysis is not complete."
+            }
+          ],
+          "conclusion": "(A12 -> (-G -> A11))",
+          "natural": "Provided that satellite feed data has been received, then in case the power grid is not stable, the storm path prediction is correct."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (-G -> A11))",
+              "prover9_expression": "(data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path)))",
+              "natural": "Provided that satellite feed data has been received, then in case the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "data_received(satellite_feed)",
+              "natural": "Satellite feed data has been received."
+            }
+          ],
+          "conclusion": "(-G -> A11)",
+          "natural": "Provided that the power grid is not stable, then the storm path prediction is correct."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_stable(power) -> prediction_correct(storm_path))",
+              "natural": "Provided that the power grid is not stable, then the storm path prediction is correct."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> -A11)",
+              "prover9_expression": "(-grid_stable(power) -> -prediction_correct(storm_path))",
+              "natural": "If the power grid is not stable, then the storm path prediction is not correct."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(-(A20 -> -A17) -> A21)",
+              "prover9_expression": "(-(simulation_running(drill) -> -transmission_blocked(emergency_signal)) -> confusion_occurred(staff))",
+              "natural": "If it is not the case that if a drill simulation is running, then the emergency signal transmission is not blocked, then staff confusion has occurred."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(-(A20 -> -A17) -> -A21)",
+              "prover9_expression": "(-(simulation_running(drill) -> -transmission_blocked(emergency_signal)) -> -confusion_occurred(staff))",
+              "natural": "Under the condition that it is not the case that if a drill simulation is running, then the emergency signal transmission is not blocked, then staff confusion has not occurred."
+            }
+          ],
+          "conclusion": "(A20 -> -A17)",
+          "natural": "Whenever a drill simulation is running, the emergency signal transmission is not blocked."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A19 -> A20)",
+              "prover9_expression": "(test_mode_active(alerts) -> simulation_running(drill))",
+              "natural": "If the alerts test mode is active, then a drill simulation is running."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> -A17)",
+              "prover9_expression": "(simulation_running(drill) -> -transmission_blocked(emergency_signal))",
+              "natural": "Whenever a drill simulation is running, the emergency signal transmission is not blocked."
+            }
+          ],
+          "conclusion": "(A19 -> -A17)",
+          "natural": "Provided that the alerts test mode is active, the emergency signal transmission is not blocked."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A18 | A19)",
+              "prover9_expression": "(maintenance_scheduled(system) | test_mode_active(alerts))",
+              "natural": "Either system maintenance is scheduled, or the alerts test mode is active."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A18 -> -A17)",
+              "prover9_expression": "(maintenance_scheduled(system) -> -transmission_blocked(emergency_signal))",
+              "natural": "Under the condition that system maintenance is scheduled, the emergency signal transmission is not blocked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> -A17)",
+              "prover9_expression": "(test_mode_active(alerts) -> -transmission_blocked(emergency_signal))",
+              "natural": "Provided that the alerts test mode is active, the emergency signal transmission is not blocked."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The emergency signal transmission is not blocked."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A17 | (A16 | G))",
+              "prover9_expression": "(transmission_blocked(emergency_signal) | (manual_override_enabled(operator) | grid_stable(power)))",
+              "natural": "Either the emergency signal transmission is blocked, or the operator has enabled manual override, or the power grid is stable."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-transmission_blocked(emergency_signal)",
+              "natural": "The emergency signal transmission is not blocked."
+            }
+          ],
+          "conclusion": "(A16 | G)",
+          "natural": "Either the operator has enabled manual override, or the power grid is stable."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 | G)",
+              "prover9_expression": "(manual_override_enabled(operator) | grid_stable(power))",
+              "natural": "Either the operator has enabled manual override, or the power grid is stable."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A16",
+              "prover9_expression": "-manual_override_enabled(operator)",
+              "natural": "The operator has not enabled manual override."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(A22 | -A5) -> A23)",
+              "prover9_expression": "(-(repair_completed(equipment) | -power_outage(station)) -> inspection_passed(system))",
+              "natural": "Provided that it is not the case that either equipment repair is completed or it is not the case that the station has a power outage, then the system has passed inspection."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A23",
+              "prover9_expression": "-inspection_passed(system)",
+              "natural": "The system has not passed inspection."
+            }
+          ],
+          "conclusion": "(A22 | -A5)",
+          "natural": "Either equipment repair is completed, or it is not the case that the station has a power outage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | -A5)",
+              "prover9_expression": "(repair_completed(equipment) | -power_outage(station))",
+              "natural": "Either equipment repair is completed, or it is not the case that the station has a power outage."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A22",
+              "prover9_expression": "-repair_completed(equipment)",
+              "natural": "Equipment repair is not completed."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The station does not have a power outage."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A5)",
+              "prover9_expression": "(-grid_stable(power) -> power_outage(station))",
+              "natural": "Under the condition that the power grid is not stable, then the station has a power outage."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-power_outage(station)",
+              "natural": "The station does not have a power outage."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(-(A25 | -A24) -> A26)",
+              "prover9_expression": "(-(generator_fueled(backup) | -power_restored(station)) -> fuel_supplied(generator))",
+              "natural": "If it is not the case that either the backup generator has been fueled or it is not the case that the station power has been restored, then the generator has been supplied with fuel."
+            },
+            {
+              "id": "Fact12",
+              "prover9": "-A26",
+              "prover9_expression": "-fuel_supplied(generator)",
+              "natural": "The generator has not been supplied with fuel."
+            }
+          ],
+          "conclusion": "(A25 | -A24)",
+          "natural": "Either the backup generator has been fueled, or it is not the case that the station power has been restored."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 | -A24)",
+              "prover9_expression": "(generator_fueled(backup) | -power_restored(station))",
+              "natural": "Either the backup generator has been fueled, or it is not the case that the station power has been restored."
+            },
+            {
+              "id": "Fact11",
+              "prover9": "-A25",
+              "prover9_expression": "-generator_fueled(backup)",
+              "natural": "The backup generator has not been fueled."
+            }
+          ],
+          "conclusion": "-A24",
+          "natural": "The station power has not been restored."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(A6 -> -A5) -> A24)",
+              "prover9_expression": "(-(backup_active(generator) -> -power_outage(station)) -> power_restored(station))",
+              "natural": "If it is not the case that if the generator backup is active, then the station does not have a power outage, then the station power has been restored."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A24",
+              "prover9_expression": "-power_restored(station)",
+              "natural": "The station power has not been restored."
+            }
+          ],
+          "conclusion": "(A6 -> -A5)",
+          "natural": "Provided that the generator backup is active, then the station does not have a power outage."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> -A5)",
+              "prover9_expression": "(backup_active(generator) -> -power_outage(station))",
+              "natural": "Provided that the generator backup is active, then the station does not have a power outage."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "A6",
+              "prover9_expression": "backup_active(generator)",
+              "natural": "The generator backup is active."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The station does not have a power outage."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A5)",
+              "prover9_expression": "(-grid_stable(power) -> power_outage(station))",
+              "natural": "Under the condition that the power grid is not stable, then the station has a power outage."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-power_outage(station)",
+              "natural": "The station does not have a power outage."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A28 -> (A27 | (A13 | (A12 -> (-G -> A11)))))",
+              "prover9_expression": "(verification_passed(satellite_data) -> (review_finished(data_quality) | (analysis_complete(radar_data) | (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path))))))",
+              "natural": "Provided that satellite data verification has passed, then either data quality review is finished, or radar data analysis is complete, or if satellite feed data has been received, then under the condition that the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A28",
+              "prover9_expression": "verification_passed(satellite_data)",
+              "natural": "Satellite data verification has passed."
+            }
+          ],
+          "conclusion": "(A27 | (A13 | (A12 -> (-G -> A11))))",
+          "natural": "Either data quality review is finished, or radar data analysis is complete, or if satellite feed data has been received, then given that the power grid is not stable, the storm path prediction is correct."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A27 | (A13 | (A12 -> (-G -> A11))))",
+              "prover9_expression": "(review_finished(data_quality) | (analysis_complete(radar_data) | (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path)))))",
+              "natural": "Either data quality review is finished, or radar data analysis is complete, or if satellite feed data has been received, then given that the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact13",
+              "prover9": "-A27",
+              "prover9_expression": "-review_finished(data_quality)",
+              "natural": "Data quality review is not finished."
+            }
+          ],
+          "conclusion": "(A13 | (A12 -> (-G -> A11)))",
+          "natural": "Either radar data analysis is complete, or if satellite feed data has been received, then under the condition that the power grid is not stable, the storm path prediction is correct."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | (A12 -> (-G -> A11)))",
+              "prover9_expression": "(analysis_complete(radar_data) | (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path))))",
+              "natural": "Either radar data analysis is complete, or if satellite feed data has been received, then under the condition that the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A13",
+              "prover9_expression": "-analysis_complete(radar_data)",
+              "natural": "Radar data analysis is not complete."
+            }
+          ],
+          "conclusion": "(A12 -> (-G -> A11))",
+          "natural": "Provided that satellite feed data has been received, then in case the power grid is not stable, the storm path prediction is correct."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (-G -> A11))",
+              "prover9_expression": "(data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path)))",
+              "natural": "Provided that satellite feed data has been received, then in case the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "data_received(satellite_feed)",
+              "natural": "Satellite feed data has been received."
+            }
+          ],
+          "conclusion": "(-G -> A11)",
+          "natural": "Provided that the power grid is not stable, then the storm path prediction is correct."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_stable(power) -> prediction_correct(storm_path))",
+              "natural": "Provided that the power grid is not stable, then the storm path prediction is correct."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> -A11)",
+              "prover9_expression": "(-grid_stable(power) -> -prediction_correct(storm_path))",
+              "natural": "If the power grid is not stable, then the storm path prediction is not correct."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A29 | A30) -> A31)",
+              "prover9_expression": "(-(cross_check_done(sensor_network) | validation_performed(radar_network)) -> discrepancy_found(measurements))",
+              "natural": "Under the condition that it is not the case that either sensor network cross-check has been done or radar network validation has been performed, then a discrepancy has been found in the measurements."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(-(A29 | A30) -> -A31)",
+              "prover9_expression": "(-(cross_check_done(sensor_network) | validation_performed(radar_network)) -> -discrepancy_found(measurements))",
+              "natural": "Provided that it is not the case that either sensor network cross-check has been done or radar network validation has been performed, then a discrepancy has not been found in the measurements."
+            }
+          ],
+          "conclusion": "(A29 | A30)",
+          "natural": "Either sensor network cross-check has been done, or radar network validation has been performed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A29 | A30)",
+              "prover9_expression": "(cross_check_done(sensor_network) | validation_performed(radar_network))",
+              "natural": "Either sensor network cross-check has been done, or radar network validation has been performed."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A29 -> (A12 -> (-G -> A11)))",
+              "prover9_expression": "(cross_check_done(sensor_network) -> (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path))))",
+              "natural": "If sensor network cross-check has been done, then if satellite feed data has been received, then whenever the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A30 -> (A12 -> (-G -> A11)))",
+              "prover9_expression": "(validation_performed(radar_network) -> (data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path))))",
+              "natural": "Under the condition that radar network validation has been performed, then provided that satellite feed data has been received, then if the power grid is not stable, the storm path prediction is correct."
+            }
+          ],
+          "conclusion": "(A12 -> (-G -> A11))",
+          "natural": "Provided that satellite feed data has been received, then in case the power grid is not stable, the storm path prediction is correct."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (-G -> A11))",
+              "prover9_expression": "(data_received(satellite_feed) -> (-grid_stable(power) -> prediction_correct(storm_path)))",
+              "natural": "Provided that satellite feed data has been received, then in case the power grid is not stable, the storm path prediction is correct."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "data_received(satellite_feed)",
+              "natural": "Satellite feed data has been received."
+            }
+          ],
+          "conclusion": "(-G -> A11)",
+          "natural": "Provided that the power grid is not stable, then the storm path prediction is correct."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_stable(power) -> prediction_correct(storm_path))",
+              "natural": "Provided that the power grid is not stable, then the storm path prediction is correct."
+            },
+            {
+              "id": "Rule26",
+              "prover9": "(-G -> -A11)",
+              "prover9_expression": "(-grid_stable(power) -> -prediction_correct(storm_path))",
+              "natural": "If the power grid is not stable, then the storm path prediction is not correct."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power grid is stable."
+        }
+      ]
+    }
+  ]
+}

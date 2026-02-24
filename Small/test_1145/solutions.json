@@ -1,0 +1,389 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(equipment_ready(lighting_rig,main_stage) -> equipment_ready(speaker_system,main_stage))",
+              "natural": "Both the lighting rig equipment is ready on the main stage and the speaker system equipment is ready on the main stage."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A6 -> A1)",
+              "prover9_expression": "(equipment_ready(speaker_system,main_stage) -> authorized(venue_manager,main_stage))",
+              "natural": "If the speaker system equipment is ready on the main stage, then the venue manager is authorized for the main stage."
+            }
+          ],
+          "conclusion": "(A5 -> A1)",
+          "natural": "Under the condition that the lighting rig equipment is ready on the main stage, the venue manager is authorized for the main stage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A3 -> A5)",
+              "prover9_expression": "(has_technical_crew(production,lighting) -> equipment_ready(lighting_rig,main_stage))",
+              "natural": "If the production has a technical crew for lighting, the lighting rig equipment is ready on the main stage."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A1)",
+              "prover9_expression": "(equipment_ready(lighting_rig,main_stage) -> authorized(venue_manager,main_stage))",
+              "natural": "Under the condition that the lighting rig equipment is ready on the main stage, the venue manager is authorized for the main stage."
+            }
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Should the production have a technical crew for lighting, then the venue manager is authorized for the main stage."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(has_technical_crew(production,lighting) -> authorized(venue_manager,main_stage))",
+              "natural": "Should the production have a technical crew for lighting, then the venue manager is authorized for the main stage."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(has_technical_crew(production,sound) -> authorized(venue_manager,backstage))",
+              "natural": "Provided that the production has a technical crew for sound, the venue manager is authorized for backstage."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(has_technical_crew(production,lighting) | has_technical_crew(production,sound))",
+              "natural": "The production has a technical crew for either lighting or sound."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "The venue manager is authorized for either the main stage or backstage."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(authorized(venue_manager,main_stage) | authorized(venue_manager,backstage))",
+              "natural": "The venue manager is authorized for either the main stage or backstage."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(authorized(venue_manager,main_stage) -> show_proceeds(main_performance))",
+              "natural": "If the venue manager is authorized for the main stage, then the main performance show proceeds."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(authorized(venue_manager,backstage) -> show_proceeds(main_performance))",
+              "natural": "Given that the venue manager is authorized for backstage, the main performance show proceeds."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The main performance show proceeds."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-(A12 -> A13) -> A14)",
+              "prover9_expression": "(-(contract_signed(headliner_band) -> deposit_paid(promoter)) -> lawsuit_filed(venue_owner))",
+              "natural": "In the event that it is not the case that if the headliner band has signed the contract then the promoter has paid the deposit, the venue owner has filed a lawsuit."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A14",
+              "prover9_expression": "-lawsuit_filed(venue_owner)",
+              "natural": "The venue owner has not filed a lawsuit."
+            }
+          ],
+          "conclusion": "(A12 -> A13)",
+          "natural": "Under the condition that the headliner band has signed the contract, the promoter has paid the deposit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> A13)",
+              "prover9_expression": "(contract_signed(headliner_band) -> deposit_paid(promoter))",
+              "natural": "Under the condition that the headliner band has signed the contract, the promoter has paid the deposit."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (A11 -> A10))",
+              "prover9_expression": "(deposit_paid(promoter) -> (refund_issued(ticket_holders) -> show_cancelled(headliner_performance)))",
+              "natural": "If the promoter has paid the deposit, then whenever a refund is issued to ticket holders, the headliner performance show is cancelled."
+            }
+          ],
+          "conclusion": "(A12 -> (A11 -> A10))",
+          "natural": "Whenever the headliner band has signed the contract, then if a refund is issued to ticket holders, the headliner performance show is cancelled."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (A11 -> A10))",
+              "prover9_expression": "(contract_signed(headliner_band) -> (refund_issued(ticket_holders) -> show_cancelled(headliner_performance)))",
+              "natural": "Whenever the headliner band has signed the contract, then if a refund is issued to ticket holders, the headliner performance show is cancelled."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A12",
+              "prover9_expression": "contract_signed(headliner_band)",
+              "natural": "The headliner band has signed the contract."
+            }
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that a refund is issued to ticket holders, the headliner performance show is cancelled."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(-(A9 -> (A7 | G)) -> A11)",
+              "prover9_expression": "(-(safety_drill_completed(staff) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance))) -> refund_issued(ticket_holders))",
+              "natural": "Should it not hold that if the staff have completed the safety drill then the emergency exit is clear in the east wing or the main performance show proceeds, a refund is issued to ticket holders."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(refund_issued(ticket_holders) -> show_cancelled(headliner_performance))",
+              "natural": "Provided that a refund is issued to ticket holders, the headliner performance show is cancelled."
+            }
+          ],
+          "conclusion": "(-(A9 -> (A7 | G)) -> A10)",
+          "natural": "If it is not the case that if the staff have completed the safety drill then the emergency exit is clear in the east wing or the main performance show proceeds, then the headliner performance show is cancelled."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A9 -> (A7 | G)) -> A10)",
+              "prover9_expression": "(-(safety_drill_completed(staff) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance))) -> show_cancelled(headliner_performance))",
+              "natural": "If it is not the case that if the staff have completed the safety drill then the emergency exit is clear in the east wing or the main performance show proceeds, then the headliner performance show is cancelled."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A10",
+              "prover9_expression": "-show_cancelled(headliner_performance)",
+              "natural": "It is not the case that the headliner performance show is cancelled."
+            }
+          ],
+          "conclusion": "(A9 -> (A7 | G))",
+          "natural": "If the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(fire_inspection_passed(venue) | safety_drill_completed(staff))",
+              "natural": "Either the venue has passed the fire inspection or the staff have completed the safety drill."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A8 -> (A7 | G))",
+              "prover9_expression": "(fire_inspection_passed(venue) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance)))",
+              "natural": "Whenever the venue has passed the fire inspection, then the emergency exit is clear in the east wing or the main performance show proceeds."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A7 | G))",
+              "prover9_expression": "(safety_drill_completed(staff) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance)))",
+              "natural": "If the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+            }
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "The emergency exit is clear in the east wing or the main performance show proceeds."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | G)",
+              "prover9_expression": "(emergency_exit_clear(east_wing) | show_proceeds(main_performance))",
+              "natural": "The emergency exit is clear in the east wing or the main performance show proceeds."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A7",
+              "prover9_expression": "-emergency_exit_clear(east_wing)",
+              "natural": "The emergency exit is not clear in the east wing."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The main performance show proceeds."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(power_outage(grid_failure) -> backup_generator_active(venue))",
+              "natural": "In the event of a power outage due to grid failure, the backup generator is active at the venue."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A17",
+              "prover9_expression": "-backup_generator_active(venue)",
+              "natural": "The backup generator is not active at the venue."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "There is no power outage due to grid failure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A16 | (A15 | (A9 -> (A7 | G))))",
+              "prover9_expression": "(power_outage(grid_failure) | (weather_alert(severe_storm) | (safety_drill_completed(staff) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance)))))",
+              "natural": "Either there is a power outage due to grid failure, or there is a weather alert for a severe storm, or if the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-power_outage(grid_failure)",
+              "natural": "There is no power outage due to grid failure."
+            }
+          ],
+          "conclusion": "(A15 | (A9 -> (A7 | G)))",
+          "natural": "Either there is a weather alert for a severe storm, or if the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A15 | (A9 -> (A7 | G)))",
+              "prover9_expression": "(weather_alert(severe_storm) | (safety_drill_completed(staff) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance))))",
+              "natural": "Either there is a weather alert for a severe storm, or if the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A15",
+              "prover9_expression": "-weather_alert(severe_storm)",
+              "natural": "There is no weather alert for a severe storm."
+            }
+          ],
+          "conclusion": "(A9 -> (A7 | G))",
+          "natural": "If the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(fire_inspection_passed(venue) | safety_drill_completed(staff))",
+              "natural": "Either the venue has passed the fire inspection or the staff have completed the safety drill."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A8 -> (A7 | G))",
+              "prover9_expression": "(fire_inspection_passed(venue) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance)))",
+              "natural": "Whenever the venue has passed the fire inspection, then the emergency exit is clear in the east wing or the main performance show proceeds."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A7 | G))",
+              "prover9_expression": "(safety_drill_completed(staff) -> (emergency_exit_clear(east_wing) | show_proceeds(main_performance)))",
+              "natural": "If the staff have completed the safety drill, then the emergency exit is clear in the east wing or the main performance show proceeds."
+            }
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "The emergency exit is clear in the east wing or the main performance show proceeds."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | G)",
+              "prover9_expression": "(emergency_exit_clear(east_wing) | show_proceeds(main_performance))",
+              "natural": "The emergency exit is clear in the east wing or the main performance show proceeds."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A7",
+              "prover9_expression": "-emergency_exit_clear(east_wing)",
+              "natural": "The emergency exit is not clear in the east wing."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The main performance show proceeds."
+        }
+      ]
+    }
+  ]
+}

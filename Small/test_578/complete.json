@@ -1,0 +1,949 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → (¬(¬G → A8) → A9))",
+        "prover9_expression": "(manual_approval(authorization1, vehicle1) -> (-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1)))",
+        "natural": "Provided that authorization1 grants manual approval to vehicle1, if it is not the case that vehicle1 is not authorized for substance1 implies authorization1 has emergency override, then vehicle1 has maintenance scheduled"
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (¬(¬G → A8) → A9))",
+        "prover9_expression": "(automated_approval(vehicle1) -> (-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1)))",
+        "natural": "When vehicle1 receives automated approval occurs, if the absence of vehicle1 being unauthorized for substance1 leads to authorization1 having emergency override, then vehicle1 has maintenance scheduled"
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A14 → (A13 ∨ G))",
+        "prover9_expression": "(operational(vehicle1) -> (routine_operation(vehicle1) | authorized(vehicle1, substance1)))",
+        "natural": "Under the condition that vehicle1 is operational, vehicle1 is in routine operation or vehicle1 is authorized for substance1"
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A15 → A14)",
+        "prover9_expression": "(fuel_adequate(vehicle1) -> operational(vehicle1))",
+        "natural": "Provided that vehicle1 has adequate fuel, vehicle1 is operational"
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 ∨ A16)",
+        "prover9_expression": "(fuel_adequate(vehicle1) | battery_adequate(vehicle1))",
+        "natural": "Either vehicle1 has adequate fuel, or vehicle1 has adequate battery"
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A17 → (A16 → A14))",
+        "prover9_expression": "(fuel_system_ok(vehicle1) -> (battery_adequate(vehicle1) -> operational(vehicle1)))",
+        "natural": "Whenever vehicle1's fuel system is okay, then vehicle1 having adequate battery implies vehicle1 is operational"
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A17 ∨ A18)",
+        "prover9_expression": "(fuel_system_ok(vehicle1) | battery_system_ok(vehicle1))",
+        "natural": "Vehicle1's fuel system is okay, or vehicle1's battery system is okay"
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → (A16 → A14))",
+        "prover9_expression": "(battery_system_ok(vehicle1) -> (battery_adequate(vehicle1) -> operational(vehicle1)))",
+        "natural": "Given that vehicle1's battery system is okay, if vehicle1 has adequate battery, then vehicle1 is operational"
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A19 → A20)",
+        "prover9_expression": "(malfunction_detected(vehicle1) -> system_failure(vehicle1))",
+        "natural": "If a malfunction is detected in vehicle1, then vehicle1 has system failure"
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A21 → A23)",
+        "prover9_expression": "(sensor_fault(vehicle1) -> navigation_error(vehicle1))",
+        "natural": "When vehicle1 has sensor fault occurs, vehicle1 has navigation error"
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A21 → ¬A22)",
+        "prover9_expression": "(sensor_fault(vehicle1) -> -position_error(vehicle1))",
+        "natural": "If vehicle1 has sensor fault, then vehicle1 does not have position error"
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A24 → (A23 → A22))",
+        "prover9_expression": "(gps_issue(vehicle1) -> (navigation_error(vehicle1) -> position_error(vehicle1)))",
+        "natural": "Provided that vehicle1 has GPS issue, if vehicle1 has navigation error, then vehicle1 has position error"
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A25 → (A23 → A22))",
+        "prover9_expression": "(inertial_issue(vehicle1) -> (navigation_error(vehicle1) -> position_error(vehicle1)))",
+        "natural": "If vehicle1 has inertial issue, then vehicle1 having navigation error implies vehicle1 has position error"
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A26 ∨ (A24 ∨ A25))",
+        "prover9_expression": "(external_interference(vehicle1) | (gps_issue(vehicle1) | inertial_issue(vehicle1)))",
+        "natural": "Vehicle1 experiences external interference, or vehicle1 has GPS issue, or vehicle1 has inertial issue"
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(has_contamination(vehicle1, substance1) -> contaminated(vehicle1))",
+        "natural": "If vehicle1 has contamination from substance1, then vehicle1 is contaminated"
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A6 → A7)",
+        "prover9_expression": "(requires_inspection(vehicle1) -> inspected(vehicle1))",
+        "natural": "Whenever vehicle1 requires inspection, vehicle1 is inspected"
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A6 ∨ ¬A5)",
+        "prover9_expression": "(requires_inspection(vehicle1) | -contaminated(vehicle1))",
+        "natural": "Either vehicle1 requires inspection, or vehicle1 is not contaminated"
+      },
+      {
+        "id": "Rule18",
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9_expression": "(-(approved(vehicle1, substance1) -> authorized(vehicle1, substance1)) -> under_review(vehicle1, facility1))",
+        "natural": "Provided that the implication from vehicle1 being approved for substance1 to vehicle1 being authorized for substance1 does not hold, vehicle1 is under review at facility1"
+      },
+      {
+        "id": "Rule19",
+        "formal": "(¬(A10 ∨ A11) → A12)",
+        "prover9_expression": "(-(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1)) -> approval_error(vehicle1))",
+        "natural": "When it is not the case that either authorization1 grants manual approval to vehicle1 or vehicle1 receives automated approval occurs, vehicle1 has an approval error"
+      },
+      {
+        "id": "Rule20",
+        "formal": "(¬(A10 ∨ A11) → ¬A12)",
+        "prover9_expression": "(-(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1)) -> -approval_error(vehicle1))",
+        "natural": "If authorization1 granting manual approval to vehicle1 or vehicle1 receiving automated approval does not hold, then vehicle1 does not have an approval error"
+      },
+      {
+        "id": "Rule21",
+        "formal": "(¬(A19 → ¬A20) → A21)",
+        "prover9_expression": "(-(malfunction_detected(vehicle1) -> -system_failure(vehicle1)) -> sensor_fault(vehicle1))",
+        "natural": "Under the condition that a malfunction being detected in vehicle1 implying no system failure in vehicle1 is false, vehicle1 has sensor fault"
+      },
+      {
+        "id": "Rule22",
+        "formal": "(¬(A3 → A2) → A4)",
+        "prover9_expression": "(-(under_review(vehicle1, facility1) -> denied_access(vehicle1, facility1)) -> has_contamination(vehicle1, substance1))",
+        "natural": "Provided that vehicle1 being under review at facility1 leading to denied access to facility1 is not true, vehicle1 has contamination from substance1"
+      },
+      {
+        "id": "Rule23",
+        "formal": "(¬(¬G → A8) → ¬A9)",
+        "prover9_expression": "(-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> -maintenance_scheduled(vehicle1))",
+        "natural": "When vehicle1 not being authorized for substance1 implying authorization1 has emergency override does not hold, vehicle1 does not have maintenance scheduled"
+      },
+      {
+        "id": "Rule24",
+        "formal": "(¬A14 → A19)",
+        "prover9_expression": "(-operational(vehicle1) -> malfunction_detected(vehicle1))",
+        "natural": "If vehicle1 is not operational, then a malfunction is detected in vehicle1"
+      },
+      {
+        "id": "Rule25",
+        "formal": "(¬G → ¬A8)",
+        "prover9_expression": "(-authorized(vehicle1, substance1) -> -emergency_override(authorization1))",
+        "natural": "Under the condition that vehicle1 is not authorized for substance1, authorization1 does not have emergency override"
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "approved(vehicle1, substance1)",
+        "natural": "Vehicle1 is approved for substance1"
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A13",
+        "prover9_expression": "-routine_operation(vehicle1)",
+        "natural": "It is not the case that vehicle1 is in routine operation"
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A2",
+        "prover9_expression": "-denied_access(vehicle1, facility1)",
+        "natural": "Vehicle1 is not denied access to facility1"
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A26",
+        "prover9_expression": "-external_interference(vehicle1)",
+        "natural": "Vehicle1 does not experience external interference"
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A7",
+        "prover9_expression": "-inspected(vehicle1)",
+        "natural": "Vehicle1 is not inspected"
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "authorized(vehicle1, substance1)",
+    "natural": "Vehicle1 is authorized for substance1"
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A6 -> A7)",
+            "-A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "Vehicle1 does not require inspection"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | -A5)",
+            "-A6"
+          ],
+          "conclusion": "-A5",
+          "natural": "Vehicle1 is not contaminated"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A4 -> A5)",
+            "-A5"
+          ],
+          "conclusion": "-A4",
+          "natural": "Vehicle1 does not have contamination from substance1"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 -> A2) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Under the condition that vehicle1 is under review at facility1, vehicle1 is denied access to facility1"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 -> G) -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-(A1 -> G) -> A2)",
+          "natural": "If it is not the case that vehicle1 being approved for substance1 implies vehicle1 is authorized for substance1, then vehicle1 is denied access to facility1"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 -> G) -> A2)",
+            "-A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If vehicle1 is approved for substance1, then vehicle1 is authorized for substance1"
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Vehicle1 is authorized for substance1"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A10 | A11) -> A12)",
+            "(-(A10 | A11) -> -A12)"
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "Either authorization1 grants manual approval to vehicle1, or vehicle1 receives automated approval"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> (-(-G -> A8) -> A9))",
+            "(A11 -> (-(-G -> A8) -> A9))"
+          ],
+          "conclusion": "(-(-G -> A8) -> A9)",
+          "natural": "If the absence of vehicle1 being authorized for substance1 does not lead to authorization1 having emergency override, then vehicle1 has maintenance scheduled"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A8) -> A9)",
+            "(-(-G -> A8) -> -A9)"
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "Provided that vehicle1 is not authorized for substance1, authorization1 has emergency override"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A8)",
+            "(-G -> -A8)"
+          ],
+          "conclusion": "G",
+          "natural": "Vehicle1 is authorized for substance1"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> (A16 -> A14))",
+            "(A18 -> (A16 -> A14))"
+          ],
+          "conclusion": "(A16 -> A14)",
+          "natural": "If vehicle1 has adequate battery, then vehicle1 is operational"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A15 | A16)",
+            "(A15 -> A14)",
+            "(A16 -> A14)"
+          ],
+          "conclusion": "A14",
+          "natural": "Vehicle1 is operational"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> (A13 | G))",
+            "A14"
+          ],
+          "conclusion": "(A13 | G)",
+          "natural": "Vehicle1 is in routine operation, or vehicle1 is authorized for substance1"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | G)",
+            "-A13"
+          ],
+          "conclusion": "G",
+          "natural": "Vehicle1 is authorized for substance1"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A26 | (A24 | A25))",
+            "-A26"
+          ],
+          "conclusion": "(A24 | A25)",
+          "natural": "Either vehicle1 has GPS issue, or vehicle1 has inertial issue"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A24 | A25)",
+            "(A24 -> (A23 -> A22))",
+            "(A25 -> (A23 -> A22))"
+          ],
+          "conclusion": "(A23 -> A22)",
+          "natural": "Whenever vehicle1 has navigation error, vehicle1 has position error"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A21 -> A23)",
+            "(A23 -> A22)"
+          ],
+          "conclusion": "(A21 -> A22)",
+          "natural": "Under the condition that vehicle1 has sensor fault, vehicle1 has position error"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A21 -> A22)",
+            "(A21 -> -A22)"
+          ],
+          "conclusion": "-A21",
+          "natural": "Vehicle1 does not have sensor fault"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A19 -> -A20) -> A21)",
+            "-A21"
+          ],
+          "conclusion": "(A19 -> -A20)",
+          "natural": "Provided that a malfunction is detected in vehicle1, it is not the case that vehicle1 has system failure"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A19 -> A20)",
+            "(A19 -> -A20)"
+          ],
+          "conclusion": "-A19",
+          "natural": "A malfunction is not detected in vehicle1"
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A14 -> A19)",
+            "-A19"
+          ],
+          "conclusion": "A14",
+          "natural": "Vehicle1 is operational"
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> (A13 | G))",
+            "A14"
+          ],
+          "conclusion": "(A13 | G)",
+          "natural": "Vehicle1 is in routine operation, or vehicle1 is authorized for substance1"
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | G)",
+            "-A13"
+          ],
+          "conclusion": "G",
+          "natural": "Vehicle1 is authorized for substance1"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Transportation Logistics",
+    "atomic_facts": {
+      "A1": "approved(vehicle1, substance1)",
+      "A2": "denied_access(vehicle1, facility1)",
+      "A3": "under_review(vehicle1, facility1)",
+      "A4": "has_contamination(vehicle1, substance1)",
+      "A5": "contaminated(vehicle1)",
+      "A6": "requires_inspection(vehicle1)",
+      "A7": "inspected(vehicle1)",
+      "A8": "emergency_override(authorization1)",
+      "A9": "maintenance_scheduled(vehicle1)",
+      "A10": "manual_approval(authorization1, vehicle1)",
+      "A11": "automated_approval(vehicle1)",
+      "A12": "approval_error(vehicle1)",
+      "A13": "routine_operation(vehicle1)",
+      "A14": "operational(vehicle1)",
+      "A15": "fuel_adequate(vehicle1)",
+      "A16": "battery_adequate(vehicle1)",
+      "A17": "fuel_system_ok(vehicle1)",
+      "A18": "battery_system_ok(vehicle1)",
+      "A19": "malfunction_detected(vehicle1)",
+      "A20": "system_failure(vehicle1)",
+      "A21": "sensor_fault(vehicle1)",
+      "A22": "position_error(vehicle1)",
+      "A23": "navigation_error(vehicle1)",
+      "A24": "gps_issue(vehicle1)",
+      "A25": "inertial_issue(vehicle1)",
+      "A26": "external_interference(vehicle1)",
+      "G": "authorized(vehicle1, substance1)"
+    },
+    "natural_facts": {
+      "A1": "Vehicle1 is approved for substance1",
+      "A2": "Vehicle1 is denied access to facility1",
+      "A3": "Vehicle1 is under review at facility1",
+      "A4": "Vehicle1 has contamination from substance1",
+      "A5": "Vehicle1 is contaminated",
+      "A6": "Vehicle1 requires inspection",
+      "A7": "Vehicle1 is inspected",
+      "A8": "Authorization1 has emergency override",
+      "A9": "Vehicle1 has maintenance scheduled",
+      "A10": "Authorization1 grants manual approval to vehicle1",
+      "A11": "Vehicle1 receives automated approval",
+      "A12": "Vehicle1 has an approval error",
+      "A13": "Vehicle1 is in routine operation",
+      "A14": "Vehicle1 is operational",
+      "A15": "Vehicle1 has adequate fuel",
+      "A16": "Vehicle1 has adequate battery",
+      "A17": "Vehicle1's fuel system is okay",
+      "A18": "Vehicle1's battery system is okay",
+      "A19": "A malfunction is detected in vehicle1",
+      "A20": "Vehicle1 has system failure",
+      "A21": "Vehicle1 has sensor fault",
+      "A22": "Vehicle1 has position error",
+      "A23": "Vehicle1 has navigation error",
+      "A24": "Vehicle1 has GPS issue",
+      "A25": "Vehicle1 has inertial issue",
+      "A26": "Vehicle1 experiences external interference",
+      "G": "Vehicle1 is authorized for substance1"
+    },
+    "prover9_expressions": [
+      "(approved(vehicle1, substance1) -> authorized(vehicle1, substance1))",
+      "(manual_approval(authorization1, vehicle1) -> (-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1)))",
+      "(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1))",
+      "(automated_approval(vehicle1) -> (-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1)))",
+      "(routine_operation(vehicle1) | authorized(vehicle1, substance1))",
+      "(operational(vehicle1) -> (routine_operation(vehicle1) | authorized(vehicle1, substance1)))",
+      "(fuel_adequate(vehicle1) -> operational(vehicle1))",
+      "(fuel_adequate(vehicle1) | battery_adequate(vehicle1))",
+      "(battery_adequate(vehicle1) -> operational(vehicle1))",
+      "(fuel_system_ok(vehicle1) -> (battery_adequate(vehicle1) -> operational(vehicle1)))",
+      "(fuel_system_ok(vehicle1) | battery_system_ok(vehicle1))",
+      "(battery_system_ok(vehicle1) -> (battery_adequate(vehicle1) -> operational(vehicle1)))",
+      "(malfunction_detected(vehicle1) -> system_failure(vehicle1))",
+      "(malfunction_detected(vehicle1) -> -system_failure(vehicle1))",
+      "(sensor_fault(vehicle1) -> position_error(vehicle1))",
+      "(sensor_fault(vehicle1) -> navigation_error(vehicle1))",
+      "(sensor_fault(vehicle1) -> -position_error(vehicle1))",
+      "(navigation_error(vehicle1) -> position_error(vehicle1))",
+      "(gps_issue(vehicle1) -> (navigation_error(vehicle1) -> position_error(vehicle1)))",
+      "(gps_issue(vehicle1) | inertial_issue(vehicle1))",
+      "(inertial_issue(vehicle1) -> (navigation_error(vehicle1) -> position_error(vehicle1)))",
+      "(external_interference(vehicle1) | (gps_issue(vehicle1) | inertial_issue(vehicle1)))",
+      "(under_review(vehicle1, facility1) -> denied_access(vehicle1, facility1))",
+      "(has_contamination(vehicle1, substance1) -> contaminated(vehicle1))",
+      "(requires_inspection(vehicle1) -> inspected(vehicle1))",
+      "(requires_inspection(vehicle1) | -contaminated(vehicle1))",
+      "(-(approved(vehicle1, substance1) -> authorized(vehicle1, substance1)) -> denied_access(vehicle1, facility1))",
+      "(-(approved(vehicle1, substance1) -> authorized(vehicle1, substance1)) -> under_review(vehicle1, facility1))",
+      "(-(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1)) -> approval_error(vehicle1))",
+      "(-(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1)) -> -approval_error(vehicle1))",
+      "(-(malfunction_detected(vehicle1) -> -system_failure(vehicle1)) -> sensor_fault(vehicle1))",
+      "(-(under_review(vehicle1, facility1) -> denied_access(vehicle1, facility1)) -> has_contamination(vehicle1, substance1))",
+      "(-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1))",
+      "(-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> -maintenance_scheduled(vehicle1))",
+      "(-operational(vehicle1) -> malfunction_detected(vehicle1))",
+      "(-authorized(vehicle1, substance1) -> emergency_override(authorization1))",
+      "(-authorized(vehicle1, substance1) -> -emergency_override(authorization1))",
+      "approved(vehicle1, substance1)",
+      "operational(vehicle1)",
+      "authorized(vehicle1, substance1)",
+      "-routine_operation(vehicle1)",
+      "-malfunction_detected(vehicle1)",
+      "-denied_access(vehicle1, facility1)",
+      "-sensor_fault(vehicle1)",
+      "-external_interference(vehicle1)",
+      "-has_contamination(vehicle1, substance1)",
+      "-contaminated(vehicle1)",
+      "-requires_inspection(vehicle1)",
+      "-inspected(vehicle1)"
+    ],
+    "natural_expressions": [
+      "If vehicle1 is approved for substance1, then vehicle1 is authorized for substance1",
+      "Provided that authorization1 grants manual approval to vehicle1, if it is not the case that vehicle1 is not authorized for substance1 implies authorization1 has emergency override, then vehicle1 has maintenance scheduled",
+      "Either authorization1 grants manual approval to vehicle1, or vehicle1 receives automated approval",
+      "When vehicle1 receives automated approval occurs, if the absence of vehicle1 being unauthorized for substance1 leads to authorization1 having emergency override, then vehicle1 has maintenance scheduled",
+      "Vehicle1 is in routine operation, or vehicle1 is authorized for substance1",
+      "Under the condition that vehicle1 is operational, vehicle1 is in routine operation or vehicle1 is authorized for substance1",
+      "Provided that vehicle1 has adequate fuel, vehicle1 is operational",
+      "Either vehicle1 has adequate fuel, or vehicle1 has adequate battery",
+      "If vehicle1 has adequate battery, then vehicle1 is operational",
+      "Whenever vehicle1's fuel system is okay, then vehicle1 having adequate battery implies vehicle1 is operational",
+      "Vehicle1's fuel system is okay, or vehicle1's battery system is okay",
+      "Given that vehicle1's battery system is okay, if vehicle1 has adequate battery, then vehicle1 is operational",
+      "If a malfunction is detected in vehicle1, then vehicle1 has system failure",
+      "Provided that a malfunction is detected in vehicle1, it is not the case that vehicle1 has system failure",
+      "Under the condition that vehicle1 has sensor fault, vehicle1 has position error",
+      "When vehicle1 has sensor fault occurs, vehicle1 has navigation error",
+      "If vehicle1 has sensor fault, then vehicle1 does not have position error",
+      "Whenever vehicle1 has navigation error, vehicle1 has position error",
+      "Provided that vehicle1 has GPS issue, if vehicle1 has navigation error, then vehicle1 has position error",
+      "Either vehicle1 has GPS issue, or vehicle1 has inertial issue",
+      "If vehicle1 has inertial issue, then vehicle1 having navigation error implies vehicle1 has position error",
+      "Vehicle1 experiences external interference, or vehicle1 has GPS issue, or vehicle1 has inertial issue",
+      "Under the condition that vehicle1 is under review at facility1, vehicle1 is denied access to facility1",
+      "If vehicle1 has contamination from substance1, then vehicle1 is contaminated",
+      "Whenever vehicle1 requires inspection, vehicle1 is inspected",
+      "Either vehicle1 requires inspection, or vehicle1 is not contaminated",
+      "If it is not the case that vehicle1 being approved for substance1 implies vehicle1 is authorized for substance1, then vehicle1 is denied access to facility1",
+      "Provided that the implication from vehicle1 being approved for substance1 to vehicle1 being authorized for substance1 does not hold, vehicle1 is under review at facility1",
+      "When it is not the case that either authorization1 grants manual approval to vehicle1 or vehicle1 receives automated approval occurs, vehicle1 has an approval error",
+      "If authorization1 granting manual approval to vehicle1 or vehicle1 receiving automated approval does not hold, then vehicle1 does not have an approval error",
+      "Under the condition that a malfunction being detected in vehicle1 implying no system failure in vehicle1 is false, vehicle1 has sensor fault",
+      "Provided that vehicle1 being under review at facility1 leading to denied access to facility1 is not true, vehicle1 has contamination from substance1",
+      "If the absence of vehicle1 being authorized for substance1 does not lead to authorization1 having emergency override, then vehicle1 has maintenance scheduled",
+      "When vehicle1 not being authorized for substance1 implying authorization1 has emergency override does not hold, vehicle1 does not have maintenance scheduled",
+      "If vehicle1 is not operational, then a malfunction is detected in vehicle1",
+      "Provided that vehicle1 is not authorized for substance1, authorization1 has emergency override",
+      "Under the condition that vehicle1 is not authorized for substance1, authorization1 does not have emergency override",
+      "Vehicle1 is approved for substance1",
+      "Vehicle1 is operational",
+      "Vehicle1 is authorized for substance1",
+      "It is not the case that vehicle1 is in routine operation",
+      "A malfunction is not detected in vehicle1",
+      "Vehicle1 is not denied access to facility1",
+      "Vehicle1 does not have sensor fault",
+      "Vehicle1 does not experience external interference",
+      "Vehicle1 does not have contamination from substance1",
+      "Vehicle1 is not contaminated",
+      "Vehicle1 does not require inspection",
+      "Vehicle1 is not inspected"
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(approved(vehicle1, substance1) -> authorized(vehicle1, substance1))",
+        "natural": "If vehicle1 is approved for substance1, then vehicle1 is authorized for substance1"
+      },
+      "(A10 → (¬(¬G → A8) → A9))": {
+        "formal": "(A10 → (¬(¬G → A8) → A9))",
+        "prover9": "(A10 -> (-(-G -> A8) -> A9))",
+        "prover9_expression": "(manual_approval(authorization1, vehicle1) -> (-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1)))",
+        "natural": "Provided that authorization1 grants manual approval to vehicle1, if it is not the case that vehicle1 is not authorized for substance1 implies authorization1 has emergency override, then vehicle1 has maintenance scheduled"
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1))",
+        "natural": "Either authorization1 grants manual approval to vehicle1, or vehicle1 receives automated approval"
+      },
+      "(A11 → (¬(¬G → A8) → A9))": {
+        "formal": "(A11 → (¬(¬G → A8) → A9))",
+        "prover9": "(A11 -> (-(-G -> A8) -> A9))",
+        "prover9_expression": "(automated_approval(vehicle1) -> (-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1)))",
+        "natural": "When vehicle1 receives automated approval occurs, if the absence of vehicle1 being unauthorized for substance1 leads to authorization1 having emergency override, then vehicle1 has maintenance scheduled"
+      },
+      "(A13 ∨ G)": {
+        "formal": "(A13 ∨ G)",
+        "prover9": "(A13 | G)",
+        "prover9_expression": "(routine_operation(vehicle1) | authorized(vehicle1, substance1))",
+        "natural": "Vehicle1 is in routine operation, or vehicle1 is authorized for substance1"
+      },
+      "(A14 → (A13 ∨ G))": {
+        "formal": "(A14 → (A13 ∨ G))",
+        "prover9": "(A14 -> (A13 | G))",
+        "prover9_expression": "(operational(vehicle1) -> (routine_operation(vehicle1) | authorized(vehicle1, substance1)))",
+        "natural": "Under the condition that vehicle1 is operational, vehicle1 is in routine operation or vehicle1 is authorized for substance1"
+      },
+      "(A15 → A14)": {
+        "formal": "(A15 → A14)",
+        "prover9": "(A15 -> A14)",
+        "prover9_expression": "(fuel_adequate(vehicle1) -> operational(vehicle1))",
+        "natural": "Provided that vehicle1 has adequate fuel, vehicle1 is operational"
+      },
+      "(A15 ∨ A16)": {
+        "formal": "(A15 ∨ A16)",
+        "prover9": "(A15 | A16)",
+        "prover9_expression": "(fuel_adequate(vehicle1) | battery_adequate(vehicle1))",
+        "natural": "Either vehicle1 has adequate fuel, or vehicle1 has adequate battery"
+      },
+      "(A16 → A14)": {
+        "formal": "(A16 → A14)",
+        "prover9": "(A16 -> A14)",
+        "prover9_expression": "(battery_adequate(vehicle1) -> operational(vehicle1))",
+        "natural": "If vehicle1 has adequate battery, then vehicle1 is operational"
+      },
+      "(A17 → (A16 → A14))": {
+        "formal": "(A17 → (A16 → A14))",
+        "prover9": "(A17 -> (A16 -> A14))",
+        "prover9_expression": "(fuel_system_ok(vehicle1) -> (battery_adequate(vehicle1) -> operational(vehicle1)))",
+        "natural": "Whenever vehicle1's fuel system is okay, then vehicle1 having adequate battery implies vehicle1 is operational"
+      },
+      "(A17 ∨ A18)": {
+        "formal": "(A17 ∨ A18)",
+        "prover9": "(A17 | A18)",
+        "prover9_expression": "(fuel_system_ok(vehicle1) | battery_system_ok(vehicle1))",
+        "natural": "Vehicle1's fuel system is okay, or vehicle1's battery system is okay"
+      },
+      "(A18 → (A16 → A14))": {
+        "formal": "(A18 → (A16 → A14))",
+        "prover9": "(A18 -> (A16 -> A14))",
+        "prover9_expression": "(battery_system_ok(vehicle1) -> (battery_adequate(vehicle1) -> operational(vehicle1)))",
+        "natural": "Given that vehicle1's battery system is okay, if vehicle1 has adequate battery, then vehicle1 is operational"
+      },
+      "(A19 → A20)": {
+        "formal": "(A19 → A20)",
+        "prover9": "(A19 -> A20)",
+        "prover9_expression": "(malfunction_detected(vehicle1) -> system_failure(vehicle1))",
+        "natural": "If a malfunction is detected in vehicle1, then vehicle1 has system failure"
+      },
+      "(A19 → ¬A20)": {
+        "formal": "(A19 → ¬A20)",
+        "prover9": "(A19 -> -A20)",
+        "prover9_expression": "(malfunction_detected(vehicle1) -> -system_failure(vehicle1))",
+        "natural": "Provided that a malfunction is detected in vehicle1, it is not the case that vehicle1 has system failure"
+      },
+      "(A21 → A22)": {
+        "formal": "(A21 → A22)",
+        "prover9": "(A21 -> A22)",
+        "prover9_expression": "(sensor_fault(vehicle1) -> position_error(vehicle1))",
+        "natural": "Under the condition that vehicle1 has sensor fault, vehicle1 has position error"
+      },
+      "(A21 → A23)": {
+        "formal": "(A21 → A23)",
+        "prover9": "(A21 -> A23)",
+        "prover9_expression": "(sensor_fault(vehicle1) -> navigation_error(vehicle1))",
+        "natural": "When vehicle1 has sensor fault occurs, vehicle1 has navigation error"
+      },
+      "(A21 → ¬A22)": {
+        "formal": "(A21 → ¬A22)",
+        "prover9": "(A21 -> -A22)",
+        "prover9_expression": "(sensor_fault(vehicle1) -> -position_error(vehicle1))",
+        "natural": "If vehicle1 has sensor fault, then vehicle1 does not have position error"
+      },
+      "(A23 → A22)": {
+        "formal": "(A23 → A22)",
+        "prover9": "(A23 -> A22)",
+        "prover9_expression": "(navigation_error(vehicle1) -> position_error(vehicle1))",
+        "natural": "Whenever vehicle1 has navigation error, vehicle1 has position error"
+      },
+      "(A24 → (A23 → A22))": {
+        "formal": "(A24 → (A23 → A22))",
+        "prover9": "(A24 -> (A23 -> A22))",
+        "prover9_expression": "(gps_issue(vehicle1) -> (navigation_error(vehicle1) -> position_error(vehicle1)))",
+        "natural": "Provided that vehicle1 has GPS issue, if vehicle1 has navigation error, then vehicle1 has position error"
+      },
+      "(A24 ∨ A25)": {
+        "formal": "(A24 ∨ A25)",
+        "prover9": "(A24 | A25)",
+        "prover9_expression": "(gps_issue(vehicle1) | inertial_issue(vehicle1))",
+        "natural": "Either vehicle1 has GPS issue, or vehicle1 has inertial issue"
+      },
+      "(A25 → (A23 → A22))": {
+        "formal": "(A25 → (A23 → A22))",
+        "prover9": "(A25 -> (A23 -> A22))",
+        "prover9_expression": "(inertial_issue(vehicle1) -> (navigation_error(vehicle1) -> position_error(vehicle1)))",
+        "natural": "If vehicle1 has inertial issue, then vehicle1 having navigation error implies vehicle1 has position error"
+      },
+      "(A26 ∨ (A24 ∨ A25))": {
+        "formal": "(A26 ∨ (A24 ∨ A25))",
+        "prover9": "(A26 | (A24 | A25))",
+        "prover9_expression": "(external_interference(vehicle1) | (gps_issue(vehicle1) | inertial_issue(vehicle1)))",
+        "natural": "Vehicle1 experiences external interference, or vehicle1 has GPS issue, or vehicle1 has inertial issue"
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(under_review(vehicle1, facility1) -> denied_access(vehicle1, facility1))",
+        "natural": "Under the condition that vehicle1 is under review at facility1, vehicle1 is denied access to facility1"
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(has_contamination(vehicle1, substance1) -> contaminated(vehicle1))",
+        "natural": "If vehicle1 has contamination from substance1, then vehicle1 is contaminated"
+      },
+      "(A6 → A7)": {
+        "formal": "(A6 → A7)",
+        "prover9": "(A6 -> A7)",
+        "prover9_expression": "(requires_inspection(vehicle1) -> inspected(vehicle1))",
+        "natural": "Whenever vehicle1 requires inspection, vehicle1 is inspected"
+      },
+      "(A6 ∨ ¬A5)": {
+        "formal": "(A6 ∨ ¬A5)",
+        "prover9": "(A6 | -A5)",
+        "prover9_expression": "(requires_inspection(vehicle1) | -contaminated(vehicle1))",
+        "natural": "Either vehicle1 requires inspection, or vehicle1 is not contaminated"
+      },
+      "(¬(A1 → G) → A2)": {
+        "formal": "(¬(A1 → G) → A2)",
+        "prover9": "(-(A1 -> G) -> A2)",
+        "prover9_expression": "(-(approved(vehicle1, substance1) -> authorized(vehicle1, substance1)) -> denied_access(vehicle1, facility1))",
+        "natural": "If it is not the case that vehicle1 being approved for substance1 implies vehicle1 is authorized for substance1, then vehicle1 is denied access to facility1"
+      },
+      "(¬(A1 → G) → A3)": {
+        "formal": "(¬(A1 → G) → A3)",
+        "prover9": "(-(A1 -> G) -> A3)",
+        "prover9_expression": "(-(approved(vehicle1, substance1) -> authorized(vehicle1, substance1)) -> under_review(vehicle1, facility1))",
+        "natural": "Provided that the implication from vehicle1 being approved for substance1 to vehicle1 being authorized for substance1 does not hold, vehicle1 is under review at facility1"
+      },
+      "(¬(A10 ∨ A11) → A12)": {
+        "formal": "(¬(A10 ∨ A11) → A12)",
+        "prover9": "(-(A10 | A11) -> A12)",
+        "prover9_expression": "(-(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1)) -> approval_error(vehicle1))",
+        "natural": "When it is not the case that either authorization1 grants manual approval to vehicle1 or vehicle1 receives automated approval occurs, vehicle1 has an approval error"
+      },
+      "(¬(A10 ∨ A11) → ¬A12)": {
+        "formal": "(¬(A10 ∨ A11) → ¬A12)",
+        "prover9": "(-(A10 | A11) -> -A12)",
+        "prover9_expression": "(-(manual_approval(authorization1, vehicle1) | automated_approval(vehicle1)) -> -approval_error(vehicle1))",
+        "natural": "If authorization1 granting manual approval to vehicle1 or vehicle1 receiving automated approval does not hold, then vehicle1 does not have an approval error"
+      },
+      "(¬(A19 → ¬A20) → A21)": {
+        "formal": "(¬(A19 → ¬A20) → A21)",
+        "prover9": "(-(A19 -> -A20) -> A21)",
+        "prover9_expression": "(-(malfunction_detected(vehicle1) -> -system_failure(vehicle1)) -> sensor_fault(vehicle1))",
+        "natural": "Under the condition that a malfunction being detected in vehicle1 implying no system failure in vehicle1 is false, vehicle1 has sensor fault"
+      },
+      "(¬(A3 → A2) → A4)": {
+        "formal": "(¬(A3 → A2) → A4)",
+        "prover9": "(-(A3 -> A2) -> A4)",
+        "prover9_expression": "(-(under_review(vehicle1, facility1) -> denied_access(vehicle1, facility1)) -> has_contamination(vehicle1, substance1))",
+        "natural": "Provided that vehicle1 being under review at facility1 leading to denied access to facility1 is not true, vehicle1 has contamination from substance1"
+      },
+      "(¬(¬G → A8) → A9)": {
+        "formal": "(¬(¬G → A8) → A9)",
+        "prover9": "(-(-G -> A8) -> A9)",
+        "prover9_expression": "(-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> maintenance_scheduled(vehicle1))",
+        "natural": "If the absence of vehicle1 being authorized for substance1 does not lead to authorization1 having emergency override, then vehicle1 has maintenance scheduled"
+      },
+      "(¬(¬G → A8) → ¬A9)": {
+        "formal": "(¬(¬G → A8) → ¬A9)",
+        "prover9": "(-(-G -> A8) -> -A9)",
+        "prover9_expression": "(-(-authorized(vehicle1, substance1) -> emergency_override(authorization1)) -> -maintenance_scheduled(vehicle1))",
+        "natural": "When vehicle1 not being authorized for substance1 implying authorization1 has emergency override does not hold, vehicle1 does not have maintenance scheduled"
+      },
+      "(¬A14 → A19)": {
+        "formal": "(¬A14 → A19)",
+        "prover9": "(-A14 -> A19)",
+        "prover9_expression": "(-operational(vehicle1) -> malfunction_detected(vehicle1))",
+        "natural": "If vehicle1 is not operational, then a malfunction is detected in vehicle1"
+      },
+      "(¬G → A8)": {
+        "formal": "(¬G → A8)",
+        "prover9": "(-G -> A8)",
+        "prover9_expression": "(-authorized(vehicle1, substance1) -> emergency_override(authorization1))",
+        "natural": "Provided that vehicle1 is not authorized for substance1, authorization1 has emergency override"
+      },
+      "(¬G → ¬A8)": {
+        "formal": "(¬G → ¬A8)",
+        "prover9": "(-G -> -A8)",
+        "prover9_expression": "(-authorized(vehicle1, substance1) -> -emergency_override(authorization1))",
+        "natural": "Under the condition that vehicle1 is not authorized for substance1, authorization1 does not have emergency override"
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "approved(vehicle1, substance1)",
+        "natural": "Vehicle1 is approved for substance1"
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "operational(vehicle1)",
+        "natural": "Vehicle1 is operational"
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "authorized(vehicle1, substance1)",
+        "natural": "Vehicle1 is authorized for substance1"
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-routine_operation(vehicle1)",
+        "natural": "It is not the case that vehicle1 is in routine operation"
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-malfunction_detected(vehicle1)",
+        "natural": "A malfunction is not detected in vehicle1"
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-denied_access(vehicle1, facility1)",
+        "natural": "Vehicle1 is not denied access to facility1"
+      },
+      "¬A21": {
+        "formal": "¬A21",
+        "prover9": "-A21",
+        "prover9_expression": "-sensor_fault(vehicle1)",
+        "natural": "Vehicle1 does not have sensor fault"
+      },
+      "¬A26": {
+        "formal": "¬A26",
+        "prover9": "-A26",
+        "prover9_expression": "-external_interference(vehicle1)",
+        "natural": "Vehicle1 does not experience external interference"
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-has_contamination(vehicle1, substance1)",
+        "natural": "Vehicle1 does not have contamination from substance1"
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-contaminated(vehicle1)",
+        "natural": "Vehicle1 is not contaminated"
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-requires_inspection(vehicle1)",
+        "natural": "Vehicle1 does not require inspection"
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-inspected(vehicle1)",
+        "natural": "Vehicle1 is not inspected"
+      }
+    }
+  }
+}

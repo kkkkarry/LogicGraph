@@ -1,0 +1,917 @@
+{
+  "solution_stats": {
+    "total_solutions": 5,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 10
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(A9 -> A8)",
+              "prover9_expression": "(maintenance_scheduled(medical_device) -> backup_active(medical_device))",
+              "natural": "Under the condition that maintenance is scheduled for the medical device, the backup is active for the medical device."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> -A7)",
+              "prover9_expression": "(maintenance_unscheduled(medical_device) -> -system_failure(medical_device))",
+              "natural": "Whenever maintenance is unscheduled for the medical device, it is not the case that there is a system failure of the medical device."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(maintenance_scheduled(medical_device) | maintenance_unscheduled(medical_device))",
+              "natural": "Either maintenance is scheduled for the medical device or maintenance is unscheduled for the medical device."
+            }
+          ],
+          "conclusion": "(A8 | -A7)",
+          "natural": "Either the backup is active for the medical device or it is not the case that there is a system failure of the medical device."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | -A7)",
+              "prover9_expression": "(backup_active(medical_device) | -system_failure(medical_device))",
+              "natural": "Either the backup is active for the medical device or it is not the case that there is a system failure of the medical device."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A8",
+              "prover9_expression": "-backup_active(medical_device)",
+              "natural": "It is not the case that the backup is active for the medical device."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "It is not the case that there is a system failure of the medical device."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-(A5 | A6) -> A7)",
+              "prover9_expression": "(-(alert_triggered(medical_device) | alert_triggered(server)) -> system_failure(medical_device))",
+              "natural": "If it is not the case that either an alert is triggered by the medical device or an alert is triggered by the server, there is a system failure of the medical device."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-system_failure(medical_device)",
+              "natural": "It is not the case that there is a system failure of the medical device."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either an alert is triggered by the medical device or an alert is triggered by the server."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A5 -> A3)",
+              "prover9_expression": "(alert_triggered(medical_device) -> data_processed(patient_vitals, server))",
+              "natural": "Provided that an alert is triggered by the medical device, patient vitals are processed by the server."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(alert_triggered(server) -> data_processed(medical_records, server))",
+              "natural": "If an alert is triggered by the server, then medical records are processed by the server."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(alert_triggered(medical_device) | alert_triggered(server))",
+              "natural": "Either an alert is triggered by the medical device or an alert is triggered by the server."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(data_processed(patient_vitals, server) | data_processed(medical_records, server))",
+              "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A3 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(patient_vitals, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "If patient vitals are processed by the server, then either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A4 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(medical_records, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "Whenever medical records are processed by the server, either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device))",
+              "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) -> patient_safe(patient))",
+              "natural": "Provided that patient vitals are monitored by the medical device, the patient is safe."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(monitored(medical_records, medical_device) -> patient_safe(patient))",
+              "natural": "If medical records are monitored by the medical device, then the patient is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is safe."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A19 | -A18)",
+              "prover9_expression": "(network_error(medical_device) | -software_error(medical_device))",
+              "natural": "There is a network error of the medical device or it is not the case that there is a software error of the medical device."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A19",
+              "prover9_expression": "-network_error(medical_device)",
+              "natural": "It is not the case that there is a network error of the medical device."
+            }
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that there is a software error of the medical device."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A18 | (A17 | (A15 -> -A16)))",
+              "prover9_expression": "(software_error(medical_device) | (hardware_error(medical_device) | (conflict_detected(medical_device) -> -normal_operation(medical_device))))",
+              "natural": "There is a software error of the medical device or there is a hardware error of the medical device or, under the condition that a conflict is detected by the medical device, the medical device is not in normal operation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A18",
+              "prover9_expression": "-software_error(medical_device)",
+              "natural": "It is not the case that there is a software error of the medical device."
+            }
+          ],
+          "conclusion": "(A17 | (A15 -> -A16))",
+          "natural": "There is a hardware error of the medical device or, if a conflict is detected by the medical device, then the medical device is not in normal operation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 | (A15 -> -A16))",
+              "prover9_expression": "(hardware_error(medical_device) | (conflict_detected(medical_device) -> -normal_operation(medical_device)))",
+              "natural": "There is a hardware error of the medical device or, if a conflict is detected by the medical device, then the medical device is not in normal operation."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A17",
+              "prover9_expression": "-hardware_error(medical_device)",
+              "natural": "It is not the case that there is a hardware error of the medical device."
+            }
+          ],
+          "conclusion": "(A15 -> -A16)",
+          "natural": "Provided that a conflict is detected by the medical device, it is not the case that the medical device is in normal operation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A15 -> A16)",
+              "prover9_expression": "(conflict_detected(medical_device) -> normal_operation(medical_device))",
+              "natural": "Whenever a conflict is detected by the medical device, the medical device is in normal operation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A15 -> -A16)",
+              "prover9_expression": "(conflict_detected(medical_device) -> -normal_operation(medical_device))",
+              "natural": "Provided that a conflict is detected by the medical device, it is not the case that the medical device is in normal operation."
+            }
+          ],
+          "conclusion": "-A15",
+          "natural": "It is not the case that a conflict is detected by the medical device."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A13 -> A11) -> A15)",
+              "prover9_expression": "(-(analysis_complete(patient_vitals) -> data_available(patient_vitals)) -> conflict_detected(medical_device))",
+              "natural": "If it is not the case that, if analysis is complete for patient vitals, then data is available for patient vitals, a conflict is detected by the medical device."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A15",
+              "prover9_expression": "-conflict_detected(medical_device)",
+              "natural": "It is not the case that a conflict is detected by the medical device."
+            }
+          ],
+          "conclusion": "(A13 -> A11)",
+          "natural": "Provided that analysis is complete for patient vitals, data is available for patient vitals."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(analysis_complete(patient_vitals) -> data_available(patient_vitals))",
+              "natural": "Provided that analysis is complete for patient vitals, data is available for patient vitals."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A14 -> A12)",
+              "prover9_expression": "(analysis_complete(medical_records) -> data_available(medical_records))",
+              "natural": "If analysis is complete for medical records, then data is available for medical records."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(analysis_complete(patient_vitals) | analysis_complete(medical_records))",
+              "natural": "Either analysis is complete for patient vitals or analysis is complete for medical records."
+            }
+          ],
+          "conclusion": "(A11 | A12)",
+          "natural": "Data is available for patient vitals or data is available for medical records."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(data_available(patient_vitals) | data_available(medical_records))",
+              "natural": "Data is available for patient vitals or data is available for medical records."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> (A1 | A2))",
+              "prover9_expression": "(data_available(patient_vitals) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "If data is available for patient vitals, then either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> (A1 | A2))",
+              "prover9_expression": "(data_available(medical_records) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "Under the condition that data is available for medical records, either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device))",
+              "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) -> patient_safe(patient))",
+              "natural": "Provided that patient vitals are monitored by the medical device, the patient is safe."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(monitored(medical_records, medical_device) -> patient_safe(patient))",
+              "natural": "If medical records are monitored by the medical device, then the patient is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is safe."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A27 -> A28)",
+              "prover9_expression": "(hospital_notified(patient) -> family_contacted(patient))",
+              "natural": "If a hospital is notified for the patient, then family is contacted for the patient."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A28 -> A26)",
+              "prover9_expression": "(family_contacted(patient) -> ambulance_dispatched(patient))",
+              "natural": "Whenever family is contacted for the patient, an ambulance is dispatched for the patient."
+            }
+          ],
+          "conclusion": "(A27 -> A26)",
+          "natural": "Provided that a hospital is notified for the patient, an ambulance is dispatched for the patient."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(A24 -> (A21 | (A20 -> (A3 | A4)))) -> A27)",
+              "prover9_expression": "(-(specialist_referred(patient) -> (risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server))))) -> hospital_notified(patient))",
+              "natural": "If it is not the case that, if a specialist is referred for the patient, then risk is high for the patient or, under the condition that risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server, a hospital is notified for the patient."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> A26)",
+              "prover9_expression": "(hospital_notified(patient) -> ambulance_dispatched(patient))",
+              "natural": "Provided that a hospital is notified for the patient, an ambulance is dispatched for the patient."
+            }
+          ],
+          "conclusion": "(-(A24 -> (A21 | (A20 -> (A3 | A4)))) -> A26)",
+          "natural": "Under the condition that it is not the case that, if a specialist is referred for the patient, then risk is high for the patient or, provided that risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server, an ambulance is dispatched for the patient."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A24 -> (A21 | (A20 -> (A3 | A4)))) -> A26)",
+              "prover9_expression": "(-(specialist_referred(patient) -> (risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server))))) -> ambulance_dispatched(patient))",
+              "natural": "Under the condition that it is not the case that, if a specialist is referred for the patient, then risk is high for the patient or, provided that risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server, an ambulance is dispatched for the patient."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A26 -> A25)",
+              "prover9_expression": "(ambulance_dispatched(patient) -> emergency_alert_sent(patient))",
+              "natural": "Under the condition that an ambulance is dispatched for the patient, an emergency alert is sent for the patient."
+            }
+          ],
+          "conclusion": "(-(A24 -> (A21 | (A20 -> (A3 | A4)))) -> A25)",
+          "natural": "Provided that it is not the case that, if a specialist is referred for the patient, then risk is high for the patient or, whenever risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server, an emergency alert is sent for the patient."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A24 -> (A21 | (A20 -> (A3 | A4)))) -> A25)",
+              "prover9_expression": "(-(specialist_referred(patient) -> (risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server))))) -> emergency_alert_sent(patient))",
+              "natural": "Provided that it is not the case that, if a specialist is referred for the patient, then risk is high for the patient or, whenever risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server, an emergency alert is sent for the patient."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A25",
+              "prover9_expression": "-emergency_alert_sent(patient)",
+              "natural": "It is not the case that an emergency alert is sent for the patient."
+            }
+          ],
+          "conclusion": "(A24 -> (A21 | (A20 -> (A3 | A4))))",
+          "natural": "If a specialist is referred for the patient, then risk is high for the patient or, whenever risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A22 -> A24)",
+              "prover9_expression": "(treatment_recommended(patient) -> specialist_referred(patient))",
+              "natural": "If treatment is recommended for the patient, then a specialist is referred for the patient."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A24 -> (A21 | (A20 -> (A3 | A4))))",
+              "prover9_expression": "(specialist_referred(patient) -> (risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server)))))",
+              "natural": "If a specialist is referred for the patient, then risk is high for the patient or, whenever risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server."
+            }
+          ],
+          "conclusion": "(A22 -> (A21 | (A20 -> (A3 | A4))))",
+          "natural": "Whenever treatment is recommended for the patient, risk is high for the patient or, provided that risk is assessed for the patient, then either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A22 | A23)",
+              "prover9_expression": "(treatment_recommended(patient) | monitoring_increased(patient))",
+              "natural": "Either treatment is recommended for the patient or monitoring is increased for the patient."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> (A21 | (A20 -> (A3 | A4))))",
+              "prover9_expression": "(treatment_recommended(patient) -> (risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server)))))",
+              "natural": "Whenever treatment is recommended for the patient, risk is high for the patient or, provided that risk is assessed for the patient, then either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A23 -> (A21 | (A20 -> (A3 | A4))))",
+              "prover9_expression": "(monitoring_increased(patient) -> (risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server)))))",
+              "natural": "Provided that monitoring is increased for the patient, risk is high for the patient or, under the condition that risk is assessed for the patient, then either patient vitals are processed by the server or medical records are processed by the server."
+            }
+          ],
+          "conclusion": "(A21 | (A20 -> (A3 | A4)))",
+          "natural": "Risk is high for the patient or, if risk is assessed for the patient, then either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A21 | (A20 -> (A3 | A4)))",
+              "prover9_expression": "(risk_high(patient) | (risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server))))",
+              "natural": "Risk is high for the patient or, if risk is assessed for the patient, then either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A21",
+              "prover9_expression": "-risk_high(patient)",
+              "natural": "It is not the case that risk is high for the patient."
+            }
+          ],
+          "conclusion": "(A20 -> (A3 | A4))",
+          "natural": "Provided that risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> (A3 | A4))",
+              "prover9_expression": "(risk_assessed(patient) -> (data_processed(patient_vitals, server) | data_processed(medical_records, server)))",
+              "natural": "Provided that risk is assessed for the patient, either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A20",
+              "prover9_expression": "risk_assessed(patient)",
+              "natural": "Risk is assessed for the patient."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(data_processed(patient_vitals, server) | data_processed(medical_records, server))",
+              "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A3 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(patient_vitals, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "If patient vitals are processed by the server, then either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A4 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(medical_records, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "Whenever medical records are processed by the server, either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device))",
+              "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) -> patient_safe(patient))",
+              "natural": "Provided that patient vitals are monitored by the medical device, the patient is safe."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(monitored(medical_records, medical_device) -> patient_safe(patient))",
+              "natural": "If medical records are monitored by the medical device, then the patient is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is safe."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A30 -> A31)",
+              "prover9_expression": "(calibration_needed(medical_device) -> calibration_complete(medical_device))",
+              "natural": "Provided that calibration is needed for the medical device, calibration is complete for the medical device."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A30 -> -A31)",
+              "prover9_expression": "(calibration_needed(medical_device) -> -calibration_complete(medical_device))",
+              "natural": "Under the condition that calibration is needed for the medical device, it is not the case that calibration is complete for the medical device."
+            }
+          ],
+          "conclusion": "-A30",
+          "natural": "It is not the case that calibration is needed for the medical device."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(-(-(A5 | A6) -> A29) -> A30)",
+              "prover9_expression": "(-(-(alert_triggered(medical_device) | alert_triggered(server)) -> manual_override(medical_device)) -> calibration_needed(medical_device))",
+              "natural": "Provided that it is not the case that, if it is not the case that either an alert is triggered by the medical device or an alert is triggered by the server, then manual override occurs for the medical device, calibration is needed for the medical device."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A30",
+              "prover9_expression": "-calibration_needed(medical_device)",
+              "natural": "It is not the case that calibration is needed for the medical device."
+            }
+          ],
+          "conclusion": "(-(A5 | A6) -> A29)",
+          "natural": "Provided that it is not the case that either an alert is triggered by the medical device or an alert is triggered by the server, manual override occurs for the medical device."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A5 | A6) -> A29)",
+              "prover9_expression": "(-(alert_triggered(medical_device) | alert_triggered(server)) -> manual_override(medical_device))",
+              "natural": "Provided that it is not the case that either an alert is triggered by the medical device or an alert is triggered by the server, manual override occurs for the medical device."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(-(A5 | A6) -> -A29)",
+              "prover9_expression": "(-(alert_triggered(medical_device) | alert_triggered(server)) -> -manual_override(medical_device))",
+              "natural": "Whenever it is not the case that either an alert is triggered by the medical device or an alert is triggered by the server, it is not the case that manual override occurs for the medical device."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either an alert is triggered by the medical device or an alert is triggered by the server."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A5 -> A3)",
+              "prover9_expression": "(alert_triggered(medical_device) -> data_processed(patient_vitals, server))",
+              "natural": "Provided that an alert is triggered by the medical device, patient vitals are processed by the server."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(alert_triggered(server) -> data_processed(medical_records, server))",
+              "natural": "If an alert is triggered by the server, then medical records are processed by the server."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(alert_triggered(medical_device) | alert_triggered(server))",
+              "natural": "Either an alert is triggered by the medical device or an alert is triggered by the server."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(data_processed(patient_vitals, server) | data_processed(medical_records, server))",
+              "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A3 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(patient_vitals, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "If patient vitals are processed by the server, then either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A4 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(medical_records, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "Whenever medical records are processed by the server, either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device))",
+              "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) -> patient_safe(patient))",
+              "natural": "Provided that patient vitals are monitored by the medical device, the patient is safe."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(monitored(medical_records, medical_device) -> patient_safe(patient))",
+              "natural": "If medical records are monitored by the medical device, then the patient is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is safe."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A34 -> A32)",
+              "prover9_expression": "(automated_check(medical_device) -> diagnostic_run(medical_device))",
+              "natural": "Provided that an automated check is performed for the medical device, a diagnostic is run for the medical device."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A35 -> A33)",
+              "prover9_expression": "(manual_check(medical_device) -> diagnostic_skipped(medical_device))",
+              "natural": "If a manual check is performed for the medical device, then a diagnostic is skipped for the medical device."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A34 | A35)",
+              "prover9_expression": "(automated_check(medical_device) | manual_check(medical_device))",
+              "natural": "Either an automated check is performed for the medical device or a manual check is performed for the medical device."
+            }
+          ],
+          "conclusion": "(A32 | A33)",
+          "natural": "Either a diagnostic is run for the medical device or a diagnostic is skipped for the medical device."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A32 -> A8)",
+              "prover9_expression": "(diagnostic_run(medical_device) -> backup_active(medical_device))",
+              "natural": "Whenever a diagnostic is run for the medical device, the backup is active for the medical device."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A33 -> -A7)",
+              "prover9_expression": "(diagnostic_skipped(medical_device) -> -system_failure(medical_device))",
+              "natural": "If a diagnostic is skipped for the medical device, then it is not the case that there is a system failure of the medical device."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A32 | A33)",
+              "prover9_expression": "(diagnostic_run(medical_device) | diagnostic_skipped(medical_device))",
+              "natural": "Either a diagnostic is run for the medical device or a diagnostic is skipped for the medical device."
+            }
+          ],
+          "conclusion": "(A8 | -A7)",
+          "natural": "Either the backup is active for the medical device or it is not the case that there is a system failure of the medical device."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | -A7)",
+              "prover9_expression": "(backup_active(medical_device) | -system_failure(medical_device))",
+              "natural": "Either the backup is active for the medical device or it is not the case that there is a system failure of the medical device."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A8",
+              "prover9_expression": "-backup_active(medical_device)",
+              "natural": "It is not the case that the backup is active for the medical device."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "It is not the case that there is a system failure of the medical device."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-(A5 | A6) -> A7)",
+              "prover9_expression": "(-(alert_triggered(medical_device) | alert_triggered(server)) -> system_failure(medical_device))",
+              "natural": "If it is not the case that either an alert is triggered by the medical device or an alert is triggered by the server, there is a system failure of the medical device."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-system_failure(medical_device)",
+              "natural": "It is not the case that there is a system failure of the medical device."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Either an alert is triggered by the medical device or an alert is triggered by the server."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A5 -> A3)",
+              "prover9_expression": "(alert_triggered(medical_device) -> data_processed(patient_vitals, server))",
+              "natural": "Provided that an alert is triggered by the medical device, patient vitals are processed by the server."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A6 -> A4)",
+              "prover9_expression": "(alert_triggered(server) -> data_processed(medical_records, server))",
+              "natural": "If an alert is triggered by the server, then medical records are processed by the server."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(alert_triggered(medical_device) | alert_triggered(server))",
+              "natural": "Either an alert is triggered by the medical device or an alert is triggered by the server."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(data_processed(patient_vitals, server) | data_processed(medical_records, server))",
+              "natural": "Either patient vitals are processed by the server or medical records are processed by the server."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A3 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(patient_vitals, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "If patient vitals are processed by the server, then either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A4 -> (A1 | A2))",
+              "prover9_expression": "(data_processed(medical_records, server) -> (monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device)))",
+              "natural": "Whenever medical records are processed by the server, either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) | monitored(medical_records, medical_device))",
+              "natural": "Either patient vitals are monitored by the medical device or medical records are monitored by the medical device."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(monitored(patient_vitals, medical_device) -> patient_safe(patient))",
+              "natural": "Provided that patient vitals are monitored by the medical device, the patient is safe."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(monitored(medical_records, medical_device) -> patient_safe(patient))",
+              "natural": "If medical records are monitored by the medical device, then the patient is safe."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient is safe."
+        }
+      ]
+    }
+  ]
+}

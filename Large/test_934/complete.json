@@ -1,0 +1,2536 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 11,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 4
+      },
+      "3": {
+        "core": 1,
+        "branch": 1
+      },
+      "4": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(contaminated(sample, chemical) -> usable(sample, experiment))",
+        "natural": "Whenever the sample is contaminated with the chemical, the sample is usable for the experiment."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 → (A10 → ¬A11))",
+        "prover9_expression": "(detects_contamination(lab_tech, sample) -> (contaminated(sample, chemical) -> -usable(sample, experiment)))",
+        "natural": "If the lab technician detected contamination in the sample, then under the condition that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → (A10 → ¬A11))",
+        "prover9_expression": "(suspects_contamination(researcher, sample) -> (contaminated(sample, chemical) -> -usable(sample, experiment)))",
+        "natural": "If the researcher suspected contamination in the sample, then provided that the sample is contaminated with the chemical, the sample is not usable for the experiment."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 ∨ (A12 ∨ A13))",
+        "prover9_expression": "(confirms_purity(qc_lab, sample) | (detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)))",
+        "natural": "Either the QC lab confirmed the purity of the sample, or either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A16 → A18)",
+        "prover9_expression": "(submits_paper(author, journal) -> accepts_journal(paper, publication))",
+        "natural": "If the author submitted the paper to the journal, then the journal accepted the paper for publication."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A16 ∨ A17)",
+        "prover9_expression": "(submits_paper(author, journal) | presents_conference(speaker, findings))",
+        "natural": "Either the author submitted the paper to the journal, or the speaker presented the findings at the conference."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A17 → (A15 ∨ G))",
+        "prover9_expression": "(presents_conference(speaker, findings) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+        "natural": "Provided that the speaker presented the findings at the conference, then either the team published the findings in the journal or the research is successful with the outcome."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → ¬A3)",
+        "prover9_expression": "(has_skill(smith, technique) -> -masters(smith, technique))",
+        "natural": "If Smith has skill in the technique, then it is not the case that Smith masters the technique."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A2 ∨ (A1 → G))",
+        "prover9_expression": "(has_skill(smith, technique) | (published(jones, paper) -> successful(research, outcome)))",
+        "natural": "Either Smith has skill in the technique, or if Jones published the paper then the research is successful with the outcome."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A21 → (A20 ∨ (¬(A18 → (A15 ∨ G)) → A19)))",
+        "prover9_expression": "(audits_research(committee, lab) -> (investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))))",
+        "natural": "If the committee audited the research in the lab, then either the agency investigated the funding of the project or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A22 → (A20 ∨ (¬(A18 → (A15 ∨ G)) → A19)))",
+        "prover9_expression": "(reviews_methodology(expert, study) -> (investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))))",
+        "natural": "Whenever the expert reviewed the methodology of the study, then either the agency investigated the funding of the project or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A23 → (A21 ∨ A22))",
+        "prover9_expression": "(monitors_ethics(board, research) -> (audits_research(committee, lab) | reviews_methodology(expert, study)))",
+        "natural": "If the board monitored the ethics of the research, then either the committee audited the research in the lab or the expert reviewed the methodology of the study."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A26 ∨ A27)",
+        "prover9_expression": "(violates_protocol(lab_assistant, procedure) | breaches_guidelines(technician, safety))",
+        "natural": "Either the lab assistant violated the protocol procedure, or the technician breached the safety guidelines."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A27 → ¬A25)",
+        "prover9_expression": "(breaches_guidelines(technician, safety) -> -faces_sanctions(researcher, misconduct))",
+        "natural": "If the technician breached the safety guidelines, then the researcher does not face sanctions for misconduct."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A32 → A33)",
+        "prover9_expression": "(evaluates_methodology(reviewer, paper) -> assesses_validity(editor, research))",
+        "natural": "Whenever the reviewer evaluated the methodology of the paper, then the editor assessed the validity of the research."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A33 → (¬(¬(A12 ∨ A13) → A30) → ¬A31))",
+        "prover9_expression": "(assesses_validity(editor, research) -> (-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study)))",
+        "natural": "Provided that the editor assessed the validity of the research, then if it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample, then it is not the case that the peer validated the results of the study."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A36 → A35)",
+        "prover9_expression": "(improves_technique(lab, procedure) -> optimizes_protocol(researcher, method))",
+        "natural": "If the lab improved the technique procedure, then the researcher optimized the protocol method."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A38 → (A37 → A36))",
+        "prover9_expression": "(supervises_experiment(pi, student) -> (refines_process(team, workflow) -> improves_technique(lab, procedure)))",
+        "natural": "Provided that the PI supervised the experiment student, then if the team refined the process workflow, the lab improved the technique procedure."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A39 → (A7 ∨ A8))",
+        "prover9_expression": "(cultures_cells(biologist, line) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "If the biologist cultured the cells line, then either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A39 ∨ A40)",
+        "prover9_expression": "(cultures_cells(biologist, line) | purifies_protein(technician, sample))",
+        "natural": "Either the biologist cultured the cells line, or the technician purified the protein sample."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(funded(nsf, project) -> approved(nsf, project))",
+        "natural": "If NSF funded the project, then NSF approved the project."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A41 → (A7 ∨ A8))",
+        "prover9_expression": "(characterizes_molecule(chemist, compound) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "If the chemist characterized the molecule compound, then either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A42 ∨ (A40 → A41))",
+        "prover9_expression": "(confirms_structure(analyst, molecule) | (purifies_protein(technician, sample) -> characterizes_molecule(chemist, compound)))",
+        "natural": "Either the analyst confirmed the structure of the molecule, or if the technician purified the protein sample, then the chemist characterized the molecule compound."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A44 → A43)",
+        "prover9_expression": "(runs_spectroscopy(technician, sample) -> verifies_composition(specialist, substance))",
+        "natural": "Whenever the technician ran spectroscopy on the sample, then the specialist verified the composition of the substance."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A44 ∨ A45)",
+        "prover9_expression": "(runs_spectroscopy(technician, sample) | performs_chromatography(lab, analysis))",
+        "natural": "Either the technician ran spectroscopy on the sample, or the lab performed chromatography in the analysis."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A45 → ¬A42)",
+        "prover9_expression": "(performs_chromatography(lab, analysis) -> -confirms_structure(analyst, molecule))",
+        "natural": "If the lab performed chromatography in the analysis, then it is not the case that the analyst confirmed the structure of the molecule."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A46 ∨ A47)",
+        "prover9_expression": "(identifies_contaminant(analyst, impurity) | detects_impurity(instrument, sample))",
+        "natural": "Either the analyst identified the contaminant impurity, or the instrument detected an impurity in the sample."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A47 → ¬A10)",
+        "prover9_expression": "(detects_impurity(instrument, sample) -> -contaminated(sample, chemical))",
+        "natural": "Under the condition that the instrument detected an impurity in the sample, then the sample is not contaminated with the chemical."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A48 → (A46 → ¬A10))",
+        "prover9_expression": "(reports_contamination(technician, finding) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+        "natural": "If the technician reported the contamination finding, then if the analyst identified the contaminant impurity, it is not the case that the sample is contaminated with the chemical."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A48 ∨ A49)",
+        "prover9_expression": "(reports_contamination(technician, finding) | alerts_supervisor(staff, issue))",
+        "natural": "Either the technician reported the contamination finding, or the staff alerted the supervisor about the issue."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A5 → (A2 → A3))",
+        "prover9_expression": "(approved(nsf, project) -> (has_skill(smith, technique) -> masters(smith, technique)))",
+        "natural": "Under the condition that NSF approved the project, then if Smith has skill in the technique, Smith masters the technique."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A50 → (A46 → ¬A10))",
+        "prover9_expression": "(halts_experiment(researcher, procedure) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+        "natural": "Whenever the researcher halted the experiment procedure, then if the analyst identified the contaminant impurity, it is not the case that the sample is contaminated with the chemical."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A51 → A50)",
+        "prover9_expression": "(quarantines_sample(lab, material) -> halts_experiment(researcher, procedure))",
+        "natural": "If the lab quarantined the sample material, then the researcher halted the experiment procedure."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A52 ∨ A53)",
+        "prover9_expression": "(follows_protocol(team, guidelines) | implements_procedure(technician, protocol))",
+        "natural": "Either the team followed the protocol guidelines, or the technician implemented the procedure protocol."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A53 → (A49 → A51))",
+        "prover9_expression": "(implements_procedure(technician, protocol) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material)))",
+        "natural": "Under the condition that the technician implemented the procedure protocol, then if the staff alerted the supervisor about the issue, the lab quarantined the sample material."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A55 → ¬A54)",
+        "prover9_expression": "(violates_safety(personnel, regulation) -> -ignores_protocol(researcher, rules))",
+        "natural": "If the personnel violated the safety regulation, then it is not the case that the researcher ignored the protocol rules."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A55 ∨ A56)",
+        "prover9_expression": "(violates_safety(personnel, regulation) | breaches_containment(staff, area))",
+        "natural": "Either the personnel violated the safety regulation, or the staff breached the containment area."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A56 → ¬A54)",
+        "prover9_expression": "(breaches_containment(staff, area) -> -ignores_protocol(researcher, rules))",
+        "natural": "Whenever the staff breached the containment area, then the researcher does not ignore the protocol rules."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A58 → A57)",
+        "prover9_expression": "(certifies_training(institution, employee) -> trains_personnel(lab, safety))",
+        "natural": "Provided that the institution certified the training of the employee, then the lab trained the personnel on safety."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A59 ∨ A60)",
+        "prover9_expression": "(falsifies_data(scientist, results) | manipulates_results(researcher, data))",
+        "natural": "Either the scientist falsified the data results, or the researcher manipulated the results data."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A6 → G)",
+        "prover9_expression": "(discovers(team, compound) -> successful(research, outcome))",
+        "natural": "Under the condition that the team discovered the compound, then the research is successful with the outcome."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A60 → ¬A25)",
+        "prover9_expression": "(manipulates_results(researcher, data) -> -faces_sanctions(researcher, misconduct))",
+        "natural": "Whenever the researcher manipulated the results data, then the researcher does not face sanctions for misconduct."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A62 → A61)",
+        "prover9_expression": "(reviews_evidence(panel, documents) -> investigates_misconduct(committee, case))",
+        "natural": "If the panel reviewed the evidence documents, then the committee investigated the misconduct case."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A65 → ¬A64)",
+        "prover9_expression": "(continues_inquiry(committee, investigation) -> -concludes_investigation(board, inquiry))",
+        "natural": "Under the condition that the committee continued the inquiry investigation, then it is not the case that the board concluded the investigation inquiry."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A66 → A67)",
+        "prover9_expression": "(admits_error(researcher, mistake) -> corrects_record(scientist, publication))",
+        "natural": "If the researcher admitted the error mistake, then the scientist corrected the record publication."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A66 → ¬A67)",
+        "prover9_expression": "(admits_error(researcher, mistake) -> -corrects_record(scientist, publication))",
+        "natural": "Whenever the researcher admitted the error mistake, then it is not the case that the scientist corrected the record publication."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A66 ∨ ¬A25)",
+        "prover9_expression": "(admits_error(researcher, mistake) | -faces_sanctions(researcher, misconduct))",
+        "natural": "Either the researcher admitted the error mistake, or it is not the case that the researcher faces sanctions for misconduct."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A7 → A6)",
+        "prover9_expression": "(synthesizes(chemist, compound) -> discovers(team, compound))",
+        "natural": "Provided that the chemist synthesized the compound, then the team discovered the compound."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A8 → A6)",
+        "prover9_expression": "(isolates(biologist, compound) -> discovers(team, compound))",
+        "natural": "If the biologist isolated the compound, then the team discovered the compound."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(¬(A12 ∨ A13) → ¬A30)",
+        "prover9_expression": "(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> -tests_alternative(method, sample))",
+        "natural": "Under the condition that it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then it is not the case that the method tested the alternative sample."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(¬(A21 ∨ A22) → A58)",
+        "prover9_expression": "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> certifies_training(institution, employee))",
+        "natural": "If it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then the institution certified the training of the employee."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(¬(A21 ∨ A22) → ¬A57)",
+        "prover9_expression": "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> -trains_personnel(lab, safety))",
+        "natural": "Under the condition that it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then it is not the case that the lab trained the personnel on safety."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(¬(A28 → (A26 → ¬A25)) → A29)",
+        "prover9_expression": "(-(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))) -> reports_anomaly(staff, findings))",
+        "natural": "If it is not the case that if the supervisor documented the violation incident then if the lab assistant violated the protocol procedure, it is not the case that the researcher faces sanctions for misconduct, then the staff reported the anomaly findings."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(¬(A28 → (A26 → ¬A25)) → ¬A29)",
+        "prover9_expression": "(-(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))) -> -reports_anomaly(staff, findings))",
+        "natural": "Whenever it is not the case that if the supervisor documented the violation incident then if the lab assistant violated the protocol procedure, the researcher does not face sanctions for misconduct, then it is not the case that the staff reported the anomaly findings."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(¬(A34 ∨ (A7 ∨ A8)) → A37)",
+        "prover9_expression": "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> refines_process(team, workflow))",
+        "natural": "Under the condition that it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the team refined the process workflow."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(¬(A34 ∨ (A7 ∨ A8)) → ¬A35)",
+        "prover9_expression": "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> -optimizes_protocol(researcher, method))",
+        "natural": "Whenever it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then it is not the case that the researcher optimized the protocol method."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(¬(A52 → (A49 → A51)) → A54)",
+        "prover9_expression": "(-(follows_protocol(team, guidelines) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material))) -> ignores_protocol(researcher, rules))",
+        "natural": "If it is not the case that if the team followed the protocol guidelines then if the staff alerted the supervisor about the issue, the lab quarantined the sample material, then the researcher ignored the protocol rules."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(¬(A59 → ¬A25) → A63)",
+        "prover9_expression": "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> interviews_witnesses(investigator, personnel))",
+        "natural": "If it is not the case that if the scientist falsified the data results then it is not the case that the researcher faces sanctions for misconduct, then the investigator interviewed the witnesses personnel."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬(A63 → A62) → A64)",
+        "prover9_expression": "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> concludes_investigation(board, inquiry))",
+        "natural": "Whenever it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then the board concluded the investigation inquiry."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬(A63 → A62) → A65)",
+        "prover9_expression": "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> continues_inquiry(committee, investigation))",
+        "natural": "Provided that it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then the committee continued the inquiry investigation."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬(A9 ∨ (A7 ∨ A8)) → A10)",
+        "prover9_expression": "(-(analyzes(data, compound) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> contaminated(sample, chemical))",
+        "natural": "Under the condition that it is not the case that either the data analyzed the compound or either the chemist synthesized the compound or the biologist isolated the compound, then the sample is contaminated with the chemical."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(¬(¬(A12 ∨ A13) → A30) → A31)",
+        "prover9_expression": "(-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> validates_results(peer, study))",
+        "natural": "If it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample then the method tested the alternative sample, then the peer validated the results of the study."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(¬(¬G → A24) → A25)",
+        "prover9_expression": "(-(-successful(research, outcome) -> receives_funding(lab, grant)) -> faces_sanctions(researcher, misconduct))",
+        "natural": "If it is not the case that if it is not the case that the research is successful with the outcome then the lab received funding from the grant, then the researcher faces sanctions for misconduct."
+      },
+      {
+        "id": "Rule64",
+        "formal": "(¬G → ¬A24)",
+        "prover9_expression": "(-successful(research, outcome) -> -receives_funding(lab, grant))",
+        "natural": "If it is not the case that the research is successful with the outcome, then it is not the case that the lab received funding from the grant."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "published(jones, paper)",
+        "natural": "Jones published the paper."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A23",
+        "prover9_expression": "monitors_ethics(board, research)",
+        "natural": "The board monitored the ethics of the research."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A28",
+        "prover9_expression": "documents_violation(supervisor, incident)",
+        "natural": "The supervisor documented the violation incident."
+      },
+      {
+        "id": "Fact4",
+        "formal": "A32",
+        "prover9_expression": "evaluates_methodology(reviewer, paper)",
+        "natural": "The reviewer evaluated the methodology of the paper."
+      },
+      {
+        "id": "Fact5",
+        "formal": "A38",
+        "prover9_expression": "supervises_experiment(pi, student)",
+        "natural": "The PI supervised the experiment student."
+      },
+      {
+        "id": "Fact6",
+        "formal": "A4",
+        "prover9_expression": "funded(nsf, project)",
+        "natural": "NSF funded the project."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A14",
+        "prover9_expression": "-confirms_purity(qc_lab, sample)",
+        "natural": "It is not the case that the QC lab confirmed the purity of the sample."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A15",
+        "prover9_expression": "-publishes_findings(team, journal)",
+        "natural": "The team did not publish the findings in the journal."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A19",
+        "prover9_expression": "-retracts_study(institution, paper)",
+        "natural": "It is not the case that the institution retracted the study paper."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A20",
+        "prover9_expression": "-investigates_funding(agency, project)",
+        "natural": "The agency did not investigate the funding of the project."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A34",
+        "prover9_expression": "-develops_assay(scientist, test)",
+        "natural": "The scientist did not develop the assay test."
+      },
+      {
+        "id": "Fact12",
+        "formal": "¬A43",
+        "prover9_expression": "-verifies_composition(specialist, substance)",
+        "natural": "The specialist did not verify the composition of the substance."
+      },
+      {
+        "id": "Fact13",
+        "formal": "¬A61",
+        "prover9_expression": "-investigates_misconduct(committee, case)",
+        "natural": "The committee did not investigate the misconduct case."
+      },
+      {
+        "id": "Fact14",
+        "formal": "¬A9",
+        "prover9_expression": "-analyzes(data, compound)",
+        "natural": "The data did not analyze the compound."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "successful(research, outcome)",
+    "natural": "The research is successful with the outcome."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A2 -> A3))"
+          ],
+          "conclusion": "(A4 -> (A2 -> A3))",
+          "natural": "Under the condition that NSF funded the project, then if Smith has skill in the technique, Smith masters the technique."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A2 -> A3))",
+            "A4"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "Whenever Smith has skill in the technique, then Smith masters the technique."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A2 -> -A3)"
+          ],
+          "conclusion": "-A2",
+          "natural": "Smith does not have skill in the technique."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 -> G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If Jones published the paper, then the research is successful with the outcome."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A14 | (A12 | A13))",
+            "-A14"
+          ],
+          "conclusion": "(A12 | A13)",
+          "natural": "Either the lab technician detected contamination in the sample, or the researcher suspected contamination in the sample."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> (A10 -> -A11))",
+            "(A13 -> (A10 -> -A11))"
+          ],
+          "conclusion": "(A10 -> -A11)",
+          "natural": "Provided that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A10 -> -A11)"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the sample is contaminated with the chemical."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 | (A7 | A8)) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 | (A7 | A8))",
+          "natural": "Either the data analyzed the compound, or either the chemist synthesized the compound or the biologist isolated the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (A7 | A8))",
+            "-A9"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either the chemist synthesized the compound, or the biologist isolated the compound."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> A6)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "A6",
+          "natural": "The team discovered the compound."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> (A21 | A22))",
+            "A23"
+          ],
+          "conclusion": "(A21 | A22)",
+          "natural": "Either the committee audited the research in the lab, or the expert reviewed the methodology of the study."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 | (-(A18 -> (A15 | G)) -> A19)))",
+            "(A22 -> (A20 | (-(A18 -> (A15 | G)) -> A19)))"
+          ],
+          "conclusion": "(A20 | (-(A18 -> (A15 | G)) -> A19))",
+          "natural": "Either the agency investigated the funding of the project, or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A20 | (-(A18 -> (A15 | G)) -> A19))",
+            "-A20"
+          ],
+          "conclusion": "(-(A18 -> (A15 | G)) -> A19)",
+          "natural": "If it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A18 -> (A15 | G)) -> A19)",
+            "-A19"
+          ],
+          "conclusion": "(A18 -> (A15 | G))",
+          "natural": "If the journal accepted the paper for publication, then either the team published the findings in the journal or the research is successful with the outcome."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A16 -> A18)",
+            "(A18 -> (A15 | G))"
+          ],
+          "conclusion": "(A16 -> (A15 | G))",
+          "natural": "Whenever the author submitted the paper to the journal, then either the team published the findings in the journal or the research is successful with the outcome."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A16 | A17)",
+            "(A16 -> (A15 | G))",
+            "(A17 -> (A15 | G))"
+          ],
+          "conclusion": "(A15 | G)",
+          "natural": "Either the team published the findings in the journal, or the research is successful with the outcome."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A15 | G)",
+            "-A15"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A28 -> (A26 -> -A25)) -> A29)",
+            "(-(A28 -> (A26 -> -A25)) -> -A29)"
+          ],
+          "conclusion": "(A28 -> (A26 -> -A25))",
+          "natural": "Under the condition that the supervisor documented the violation incident, then if the lab assistant violated the protocol procedure, it is not the case that the researcher faces sanctions for misconduct."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A28 -> (A26 -> -A25))",
+            "A28"
+          ],
+          "conclusion": "(A26 -> -A25)",
+          "natural": "Provided that the lab assistant violated the protocol procedure, then it is not the case that the researcher faces sanctions for misconduct."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A26 | A27)",
+            "(A26 -> -A25)",
+            "(A27 -> -A25)"
+          ],
+          "conclusion": "-A25",
+          "natural": "The researcher does not face sanctions for misconduct."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A24) -> A25)",
+            "-A25"
+          ],
+          "conclusion": "(-G -> A24)",
+          "natural": "Whenever it is not the case that the research is successful with the outcome, then the lab received funding from the grant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A24)",
+            "(-G -> -A24)"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A33)",
+            "(A33 -> (-(-(A12 | A13) -> A30) -> -A31))"
+          ],
+          "conclusion": "(A32 -> (-(-(A12 | A13) -> A30) -> -A31))",
+          "natural": "If the reviewer evaluated the methodology of the paper, then if it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample, then it is not the case that the peer validated the results of the study."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A32 -> (-(-(A12 | A13) -> A30) -> -A31))",
+            "A32"
+          ],
+          "conclusion": "(-(-(A12 | A13) -> A30) -> -A31)",
+          "natural": "Provided that it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample then the method tested the alternative sample, then it is not the case that the peer validated the results of the study."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A12 | A13) -> A30) -> A31)",
+            "(-(-(A12 | A13) -> A30) -> -A31)"
+          ],
+          "conclusion": "(-(A12 | A13) -> A30)",
+          "natural": "If it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A12 | A13) -> A30)",
+            "(-(A12 | A13) -> -A30)"
+          ],
+          "conclusion": "(A12 | A13)",
+          "natural": "Either the lab technician detected contamination in the sample, or the researcher suspected contamination in the sample."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> (A10 -> -A11))",
+            "(A13 -> (A10 -> -A11))"
+          ],
+          "conclusion": "(A10 -> -A11)",
+          "natural": "Provided that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A10 -> -A11)"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the sample is contaminated with the chemical."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 | (A7 | A8)) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 | (A7 | A8))",
+          "natural": "Either the data analyzed the compound, or either the chemist synthesized the compound or the biologist isolated the compound."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (A7 | A8))",
+            "-A9"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either the chemist synthesized the compound, or the biologist isolated the compound."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> A6)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "A6",
+          "natural": "The team discovered the compound."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A38 -> (A37 -> A36))",
+            "A38"
+          ],
+          "conclusion": "(A37 -> A36)",
+          "natural": "Whenever the team refined the process workflow, then the lab improved the technique procedure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A34 | (A7 | A8)) -> A37)",
+            "(A37 -> A36)"
+          ],
+          "conclusion": "(-(A34 | (A7 | A8)) -> A36)",
+          "natural": "If it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the lab improved the technique procedure."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A34 | (A7 | A8)) -> A36)",
+            "(A36 -> A35)"
+          ],
+          "conclusion": "(-(A34 | (A7 | A8)) -> A35)",
+          "natural": "Provided that it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the researcher optimized the protocol method."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A34 | (A7 | A8)) -> A35)",
+            "(-(A34 | (A7 | A8)) -> -A35)"
+          ],
+          "conclusion": "(A34 | (A7 | A8))",
+          "natural": "Either the scientist developed the assay test, or either the chemist synthesized the compound or the biologist isolated the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A34 | (A7 | A8))",
+            "-A34"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either the chemist synthesized the compound, or the biologist isolated the compound."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> A6)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "A6",
+          "natural": "The team discovered the compound."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A44 -> A43)",
+            "(A45 -> -A42)",
+            "(A44 | A45)"
+          ],
+          "conclusion": "(A43 | -A42)",
+          "natural": "Either the specialist verified the composition of the substance, or it is not the case that the analyst confirmed the structure of the molecule."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A43 | -A42)",
+            "-A43"
+          ],
+          "conclusion": "-A42",
+          "natural": "It is not the case that the analyst confirmed the structure of the molecule."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A42 | (A40 -> A41))",
+            "-A42"
+          ],
+          "conclusion": "(A40 -> A41)",
+          "natural": "Provided that the technician purified the protein sample, then the chemist characterized the molecule compound."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A40 -> A41)",
+            "(A41 -> (A7 | A8))"
+          ],
+          "conclusion": "(A40 -> (A7 | A8))",
+          "natural": "Whenever the technician purified the protein sample, then either the chemist synthesized the compound or the biologist isolated the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A39 | A40)",
+            "(A39 -> (A7 | A8))",
+            "(A40 -> (A7 | A8))"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either the chemist synthesized the compound, or the biologist isolated the compound."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> A6)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "A6",
+          "natural": "The team discovered the compound."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A55 | A56)",
+            "(A55 -> -A54)",
+            "(A56 -> -A54)"
+          ],
+          "conclusion": "-A54",
+          "natural": "The researcher does not ignore the protocol rules."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A52 -> (A49 -> A51)) -> A54)",
+            "-A54"
+          ],
+          "conclusion": "(A52 -> (A49 -> A51))",
+          "natural": "Provided that the team followed the protocol guidelines, then if the staff alerted the supervisor about the issue, the lab quarantined the sample material."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A52 | A53)",
+            "(A52 -> (A49 -> A51))",
+            "(A53 -> (A49 -> A51))"
+          ],
+          "conclusion": "(A49 -> A51)",
+          "natural": "If the staff alerted the supervisor about the issue, then the lab quarantined the sample material."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A49 -> A51)",
+            "(A51 -> A50)"
+          ],
+          "conclusion": "(A49 -> A50)",
+          "natural": "Provided that the staff alerted the supervisor about the issue, then the researcher halted the experiment procedure."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A49 -> A50)",
+            "(A50 -> (A46 -> -A10))"
+          ],
+          "conclusion": "(A49 -> (A46 -> -A10))",
+          "natural": "Whenever the staff alerted the supervisor about the issue, then if the analyst identified the contaminant impurity, the sample is not contaminated with the chemical."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A48 | A49)",
+            "(A48 -> (A46 -> -A10))",
+            "(A49 -> (A46 -> -A10))"
+          ],
+          "conclusion": "(A46 -> -A10)",
+          "natural": "Provided that the analyst identified the contaminant impurity, then it is not the case that the sample is contaminated with the chemical."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A46 | A47)",
+            "(A46 -> -A10)",
+            "(A47 -> -A10)"
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the sample is contaminated with the chemical."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 | (A7 | A8)) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 | (A7 | A8))",
+          "natural": "Either the data analyzed the compound, or either the chemist synthesized the compound or the biologist isolated the compound."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (A7 | A8))",
+            "-A9"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either the chemist synthesized the compound, or the biologist isolated the compound."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> A6)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "A6",
+          "natural": "The team discovered the compound."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A21 | A22) -> A58)",
+            "(A58 -> A57)"
+          ],
+          "conclusion": "(-(A21 | A22) -> A57)",
+          "natural": "Provided that it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then the lab trained the personnel on safety."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A21 | A22) -> A57)",
+            "(-(A21 | A22) -> -A57)"
+          ],
+          "conclusion": "(A21 | A22)",
+          "natural": "Either the committee audited the research in the lab, or the expert reviewed the methodology of the study."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A21 | A22)",
+            "(A21 -> (A20 | (-(A18 -> (A15 | G)) -> A19)))",
+            "(A22 -> (A20 | (-(A18 -> (A15 | G)) -> A19)))"
+          ],
+          "conclusion": "(A20 | (-(A18 -> (A15 | G)) -> A19))",
+          "natural": "Either the agency investigated the funding of the project, or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A20 | (-(A18 -> (A15 | G)) -> A19))",
+            "-A20"
+          ],
+          "conclusion": "(-(A18 -> (A15 | G)) -> A19)",
+          "natural": "If it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A18 -> (A15 | G)) -> A19)",
+            "-A19"
+          ],
+          "conclusion": "(A18 -> (A15 | G))",
+          "natural": "If the journal accepted the paper for publication, then either the team published the findings in the journal or the research is successful with the outcome."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A16 -> A18)",
+            "(A18 -> (A15 | G))"
+          ],
+          "conclusion": "(A16 -> (A15 | G))",
+          "natural": "Whenever the author submitted the paper to the journal, then either the team published the findings in the journal or the research is successful with the outcome."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A16 | A17)",
+            "(A16 -> (A15 | G))",
+            "(A17 -> (A15 | G))"
+          ],
+          "conclusion": "(A15 | G)",
+          "natural": "Either the team published the findings in the journal, or the research is successful with the outcome."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A15 | G)",
+            "-A15"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A63 -> A62) -> A65)",
+            "(A65 -> -A64)"
+          ],
+          "conclusion": "(-(A63 -> A62) -> -A64)",
+          "natural": "If it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then it is not the case that the board concluded the investigation inquiry."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A63 -> A62) -> A64)",
+            "(-(A63 -> A62) -> -A64)"
+          ],
+          "conclusion": "(A63 -> A62)",
+          "natural": "Provided that the investigator interviewed the witnesses personnel, then the panel reviewed the evidence documents."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A59 -> -A25) -> A63)",
+            "(A63 -> A62)"
+          ],
+          "conclusion": "(-(A59 -> -A25) -> A62)",
+          "natural": "Under the condition that it is not the case that if the scientist falsified the data results then the researcher does not face sanctions for misconduct, then the panel reviewed the evidence documents."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A59 -> -A25) -> A62)",
+            "(A62 -> A61)"
+          ],
+          "conclusion": "(-(A59 -> -A25) -> A61)",
+          "natural": "Provided that it is not the case that if the scientist falsified the data results then it is not the case that the researcher faces sanctions for misconduct, then the committee investigated the misconduct case."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A59 -> -A25) -> A61)",
+            "-A61"
+          ],
+          "conclusion": "(A59 -> -A25)",
+          "natural": "If the scientist falsified the data results, then it is not the case that the researcher faces sanctions for misconduct."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A59 | A60)",
+            "(A59 -> -A25)",
+            "(A60 -> -A25)"
+          ],
+          "conclusion": "-A25",
+          "natural": "The researcher does not face sanctions for misconduct."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A24) -> A25)",
+            "-A25"
+          ],
+          "conclusion": "(-G -> A24)",
+          "natural": "Whenever it is not the case that the research is successful with the outcome, then the lab received funding from the grant."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A24)",
+            "(-G -> -A24)"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A66 -> A67)",
+            "(A66 -> -A67)"
+          ],
+          "conclusion": "-A66",
+          "natural": "The researcher did not admit the error mistake."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A66 | -A25)",
+            "-A66"
+          ],
+          "conclusion": "-A25",
+          "natural": "The researcher does not face sanctions for misconduct."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A24) -> A25)",
+            "-A25"
+          ],
+          "conclusion": "(-G -> A24)",
+          "natural": "Whenever it is not the case that the research is successful with the outcome, then the lab received funding from the grant."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A24)",
+            "(-G -> -A24)"
+          ],
+          "conclusion": "G",
+          "natural": "The research is successful with the outcome."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Scientific Research",
+    "atomic_facts": {
+      "A1": "published(jones, paper)",
+      "A2": "has_skill(smith, technique)",
+      "A3": "masters(smith, technique)",
+      "A4": "funded(nsf, project)",
+      "A5": "approved(nsf, project)",
+      "A6": "discovers(team, compound)",
+      "A7": "synthesizes(chemist, compound)",
+      "A8": "isolates(biologist, compound)",
+      "A9": "analyzes(data, compound)",
+      "A10": "contaminated(sample, chemical)",
+      "A11": "usable(sample, experiment)",
+      "A12": "detects_contamination(lab_tech, sample)",
+      "A13": "suspects_contamination(researcher, sample)",
+      "A14": "confirms_purity(qc_lab, sample)",
+      "A15": "publishes_findings(team, journal)",
+      "A16": "submits_paper(author, journal)",
+      "A17": "presents_conference(speaker, findings)",
+      "A18": "accepts_journal(paper, publication)",
+      "A19": "retracts_study(institution, paper)",
+      "A20": "investigates_funding(agency, project)",
+      "A21": "audits_research(committee, lab)",
+      "A22": "reviews_methodology(expert, study)",
+      "A23": "monitors_ethics(board, research)",
+      "A24": "receives_funding(lab, grant)",
+      "A25": "faces_sanctions(researcher, misconduct)",
+      "A26": "violates_protocol(lab_assistant, procedure)",
+      "A27": "breaches_guidelines(technician, safety)",
+      "A28": "documents_violation(supervisor, incident)",
+      "A29": "reports_anomaly(staff, findings)",
+      "A30": "tests_alternative(method, sample)",
+      "A31": "validates_results(peer, study)",
+      "A32": "evaluates_methodology(reviewer, paper)",
+      "A33": "assesses_validity(editor, research)",
+      "A34": "develops_assay(scientist, test)",
+      "A35": "optimizes_protocol(researcher, method)",
+      "A36": "improves_technique(lab, procedure)",
+      "A37": "refines_process(team, workflow)",
+      "A38": "supervises_experiment(pi, student)",
+      "A39": "cultures_cells(biologist, line)",
+      "A40": "purifies_protein(technician, sample)",
+      "A41": "characterizes_molecule(chemist, compound)",
+      "A42": "confirms_structure(analyst, molecule)",
+      "A43": "verifies_composition(specialist, substance)",
+      "A44": "runs_spectroscopy(technician, sample)",
+      "A45": "performs_chromatography(lab, analysis)",
+      "A46": "identifies_contaminant(analyst, impurity)",
+      "A47": "detects_impurity(instrument, sample)",
+      "A48": "reports_contamination(technician, finding)",
+      "A49": "alerts_supervisor(staff, issue)",
+      "A50": "halts_experiment(researcher, procedure)",
+      "A51": "quarantines_sample(lab, material)",
+      "A52": "follows_protocol(team, guidelines)",
+      "A53": "implements_procedure(technician, protocol)",
+      "A54": "ignores_protocol(researcher, rules)",
+      "A55": "violates_safety(personnel, regulation)",
+      "A56": "breaches_containment(staff, area)",
+      "A57": "trains_personnel(lab, safety)",
+      "A58": "certifies_training(institution, employee)",
+      "A59": "falsifies_data(scientist, results)",
+      "A60": "manipulates_results(researcher, data)",
+      "A61": "investigates_misconduct(committee, case)",
+      "A62": "reviews_evidence(panel, documents)",
+      "A63": "interviews_witnesses(investigator, personnel)",
+      "A64": "concludes_investigation(board, inquiry)",
+      "A65": "continues_inquiry(committee, investigation)",
+      "A66": "admits_error(researcher, mistake)",
+      "A67": "corrects_record(scientist, publication)",
+      "G": "successful(research, outcome)"
+    },
+    "natural_facts": {
+      "A1": "Jones published the paper.",
+      "A2": "Smith has skill in the technique.",
+      "A3": "Smith masters the technique.",
+      "A4": "NSF funded the project.",
+      "A5": "NSF approved the project.",
+      "A6": "The team discovered the compound.",
+      "A7": "The chemist synthesized the compound.",
+      "A8": "The biologist isolated the compound.",
+      "A9": "The data analyzed the compound.",
+      "A10": "The sample was contaminated with the chemical.",
+      "A11": "The sample is usable for the experiment.",
+      "A12": "The lab technician detected contamination in the sample.",
+      "A13": "The researcher suspected contamination in the sample.",
+      "A14": "The QC lab confirmed the purity of the sample.",
+      "A15": "The team published the findings in the journal.",
+      "A16": "The author submitted the paper to the journal.",
+      "A17": "The speaker presented the findings at the conference.",
+      "A18": "The journal accepted the paper for publication.",
+      "A19": "The institution retracted the study paper.",
+      "A20": "The agency investigated the funding of the project.",
+      "A21": "The committee audited the research in the lab.",
+      "A22": "The expert reviewed the methodology of the study.",
+      "A23": "The board monitored the ethics of the research.",
+      "A24": "The lab received funding from the grant.",
+      "A25": "The researcher faces sanctions for misconduct.",
+      "A26": "The lab assistant violated the protocol procedure.",
+      "A27": "The technician breached the safety guidelines.",
+      "A28": "The supervisor documented the violation incident.",
+      "A29": "The staff reported the anomaly findings.",
+      "A30": "The method tested the alternative sample.",
+      "A31": "The peer validated the results of the study.",
+      "A32": "The reviewer evaluated the methodology of the paper.",
+      "A33": "The editor assessed the validity of the research.",
+      "A34": "The scientist developed the assay test.",
+      "A35": "The researcher optimized the protocol method.",
+      "A36": "The lab improved the technique procedure.",
+      "A37": "The team refined the process workflow.",
+      "A38": "The PI supervised the experiment student.",
+      "A39": "The biologist cultured the cells line.",
+      "A40": "The technician purified the protein sample.",
+      "A41": "The chemist characterized the molecule compound.",
+      "A42": "The analyst confirmed the structure of the molecule.",
+      "A43": "The specialist verified the composition of the substance.",
+      "A44": "The technician ran spectroscopy on the sample.",
+      "A45": "The lab performed chromatography in the analysis.",
+      "A46": "The analyst identified the contaminant impurity.",
+      "A47": "The instrument detected an impurity in the sample.",
+      "A48": "The technician reported the contamination finding.",
+      "A49": "The staff alerted the supervisor about the issue.",
+      "A50": "The researcher halted the experiment procedure.",
+      "A51": "The lab quarantined the sample material.",
+      "A52": "The team followed the protocol guidelines.",
+      "A53": "The technician implemented the procedure protocol.",
+      "A54": "The researcher ignored the protocol rules.",
+      "A55": "The personnel violated the safety regulation.",
+      "A56": "The staff breached the containment area.",
+      "A57": "The lab trained the personnel on safety.",
+      "A58": "The institution certified the training of the employee.",
+      "A59": "The scientist falsified the data results.",
+      "A60": "The researcher manipulated the results data.",
+      "A61": "The committee investigated the misconduct case.",
+      "A62": "The panel reviewed the evidence documents.",
+      "A63": "The investigator interviewed the witnesses personnel.",
+      "A64": "The board concluded the investigation inquiry.",
+      "A65": "The committee continued the inquiry investigation.",
+      "A66": "The researcher admitted the error mistake.",
+      "A67": "The scientist corrected the record publication.",
+      "G": "The research is successful with the outcome."
+    },
+    "prover9_expressions": [
+      "(published(jones, paper) -> successful(research, outcome))",
+      "(contaminated(sample, chemical) -> usable(sample, experiment))",
+      "(contaminated(sample, chemical) -> -usable(sample, experiment))",
+      "(detects_contamination(lab_tech, sample) -> (contaminated(sample, chemical) -> -usable(sample, experiment)))",
+      "(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample))",
+      "(suspects_contamination(researcher, sample) -> (contaminated(sample, chemical) -> -usable(sample, experiment)))",
+      "(confirms_purity(qc_lab, sample) | (detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)))",
+      "(publishes_findings(team, journal) | successful(research, outcome))",
+      "(submits_paper(author, journal) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+      "(submits_paper(author, journal) -> accepts_journal(paper, publication))",
+      "(submits_paper(author, journal) | presents_conference(speaker, findings))",
+      "(presents_conference(speaker, findings) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+      "(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+      "(has_skill(smith, technique) -> masters(smith, technique))",
+      "(has_skill(smith, technique) -> -masters(smith, technique))",
+      "(has_skill(smith, technique) | (published(jones, paper) -> successful(research, outcome)))",
+      "(investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper)))",
+      "(audits_research(committee, lab) -> (investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))))",
+      "(audits_research(committee, lab) | reviews_methodology(expert, study))",
+      "(reviews_methodology(expert, study) -> (investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))))",
+      "(monitors_ethics(board, research) -> (audits_research(committee, lab) | reviews_methodology(expert, study)))",
+      "(violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))",
+      "(violates_protocol(lab_assistant, procedure) | breaches_guidelines(technician, safety))",
+      "(breaches_guidelines(technician, safety) -> -faces_sanctions(researcher, misconduct))",
+      "(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct)))",
+      "(evaluates_methodology(reviewer, paper) -> (-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study)))",
+      "(evaluates_methodology(reviewer, paper) -> assesses_validity(editor, research))",
+      "(assesses_validity(editor, research) -> (-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study)))",
+      "(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+      "(improves_technique(lab, procedure) -> optimizes_protocol(researcher, method))",
+      "(refines_process(team, workflow) -> improves_technique(lab, procedure))",
+      "(supervises_experiment(pi, student) -> (refines_process(team, workflow) -> improves_technique(lab, procedure)))",
+      "(cultures_cells(biologist, line) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+      "(cultures_cells(biologist, line) | purifies_protein(technician, sample))",
+      "(funded(nsf, project) -> (has_skill(smith, technique) -> masters(smith, technique)))",
+      "(funded(nsf, project) -> approved(nsf, project))",
+      "(purifies_protein(technician, sample) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+      "(purifies_protein(technician, sample) -> characterizes_molecule(chemist, compound))",
+      "(characterizes_molecule(chemist, compound) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+      "(confirms_structure(analyst, molecule) | (purifies_protein(technician, sample) -> characterizes_molecule(chemist, compound)))",
+      "(verifies_composition(specialist, substance) | -confirms_structure(analyst, molecule))",
+      "(runs_spectroscopy(technician, sample) -> verifies_composition(specialist, substance))",
+      "(runs_spectroscopy(technician, sample) | performs_chromatography(lab, analysis))",
+      "(performs_chromatography(lab, analysis) -> -confirms_structure(analyst, molecule))",
+      "(identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical))",
+      "(identifies_contaminant(analyst, impurity) | detects_impurity(instrument, sample))",
+      "(detects_impurity(instrument, sample) -> -contaminated(sample, chemical))",
+      "(reports_contamination(technician, finding) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+      "(reports_contamination(technician, finding) | alerts_supervisor(staff, issue))",
+      "(alerts_supervisor(staff, issue) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+      "(alerts_supervisor(staff, issue) -> halts_experiment(researcher, procedure))",
+      "(alerts_supervisor(staff, issue) -> quarantines_sample(lab, material))",
+      "(approved(nsf, project) -> (has_skill(smith, technique) -> masters(smith, technique)))",
+      "(halts_experiment(researcher, procedure) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+      "(quarantines_sample(lab, material) -> halts_experiment(researcher, procedure))",
+      "(follows_protocol(team, guidelines) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material)))",
+      "(follows_protocol(team, guidelines) | implements_procedure(technician, protocol))",
+      "(implements_procedure(technician, protocol) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material)))",
+      "(violates_safety(personnel, regulation) -> -ignores_protocol(researcher, rules))",
+      "(violates_safety(personnel, regulation) | breaches_containment(staff, area))",
+      "(breaches_containment(staff, area) -> -ignores_protocol(researcher, rules))",
+      "(certifies_training(institution, employee) -> trains_personnel(lab, safety))",
+      "(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct))",
+      "(falsifies_data(scientist, results) | manipulates_results(researcher, data))",
+      "(discovers(team, compound) -> successful(research, outcome))",
+      "(manipulates_results(researcher, data) -> -faces_sanctions(researcher, misconduct))",
+      "(reviews_evidence(panel, documents) -> investigates_misconduct(committee, case))",
+      "(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents))",
+      "(continues_inquiry(committee, investigation) -> -concludes_investigation(board, inquiry))",
+      "(admits_error(researcher, mistake) -> corrects_record(scientist, publication))",
+      "(admits_error(researcher, mistake) -> -corrects_record(scientist, publication))",
+      "(admits_error(researcher, mistake) | -faces_sanctions(researcher, misconduct))",
+      "(synthesizes(chemist, compound) -> discovers(team, compound))",
+      "(synthesizes(chemist, compound) | isolates(biologist, compound))",
+      "(isolates(biologist, compound) -> discovers(team, compound))",
+      "(analyzes(data, compound) | (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+      "(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample))",
+      "(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> -tests_alternative(method, sample))",
+      "(-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))",
+      "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> trains_personnel(lab, safety))",
+      "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> certifies_training(institution, employee))",
+      "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> -trains_personnel(lab, safety))",
+      "(-(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))) -> reports_anomaly(staff, findings))",
+      "(-(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))) -> -reports_anomaly(staff, findings))",
+      "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> optimizes_protocol(researcher, method))",
+      "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> improves_technique(lab, procedure))",
+      "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> refines_process(team, workflow))",
+      "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> -optimizes_protocol(researcher, method))",
+      "(-(follows_protocol(team, guidelines) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material))) -> ignores_protocol(researcher, rules))",
+      "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> investigates_misconduct(committee, case))",
+      "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> reviews_evidence(panel, documents))",
+      "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> interviews_witnesses(investigator, personnel))",
+      "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> concludes_investigation(board, inquiry))",
+      "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> continues_inquiry(committee, investigation))",
+      "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> -concludes_investigation(board, inquiry))",
+      "(-(analyzes(data, compound) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> contaminated(sample, chemical))",
+      "(-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> validates_results(peer, study))",
+      "(-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study))",
+      "(-(-successful(research, outcome) -> receives_funding(lab, grant)) -> faces_sanctions(researcher, misconduct))",
+      "(-successful(research, outcome) -> receives_funding(lab, grant))",
+      "(-successful(research, outcome) -> -receives_funding(lab, grant))",
+      "published(jones, paper)",
+      "monitors_ethics(board, research)",
+      "documents_violation(supervisor, incident)",
+      "evaluates_methodology(reviewer, paper)",
+      "supervises_experiment(pi, student)",
+      "funded(nsf, project)",
+      "discovers(team, compound)",
+      "successful(research, outcome)",
+      "-contaminated(sample, chemical)",
+      "-confirms_purity(qc_lab, sample)",
+      "-publishes_findings(team, journal)",
+      "-retracts_study(institution, paper)",
+      "-has_skill(smith, technique)",
+      "-investigates_funding(agency, project)",
+      "-faces_sanctions(researcher, misconduct)",
+      "-develops_assay(scientist, test)",
+      "-confirms_structure(analyst, molecule)",
+      "-verifies_composition(specialist, substance)",
+      "-ignores_protocol(researcher, rules)",
+      "-investigates_misconduct(committee, case)",
+      "-admits_error(researcher, mistake)",
+      "-analyzes(data, compound)"
+    ],
+    "natural_expressions": [
+      "If Jones published the paper, then the research is successful with the outcome.",
+      "Whenever the sample is contaminated with the chemical, the sample is usable for the experiment.",
+      "Provided that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment.",
+      "If the lab technician detected contamination in the sample, then under the condition that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment.",
+      "Either the lab technician detected contamination in the sample, or the researcher suspected contamination in the sample.",
+      "If the researcher suspected contamination in the sample, then provided that the sample is contaminated with the chemical, the sample is not usable for the experiment.",
+      "Either the QC lab confirmed the purity of the sample, or either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample.",
+      "Either the team published the findings in the journal, or the research is successful with the outcome.",
+      "Whenever the author submitted the paper to the journal, then either the team published the findings in the journal or the research is successful with the outcome.",
+      "If the author submitted the paper to the journal, then the journal accepted the paper for publication.",
+      "Either the author submitted the paper to the journal, or the speaker presented the findings at the conference.",
+      "Provided that the speaker presented the findings at the conference, then either the team published the findings in the journal or the research is successful with the outcome.",
+      "If the journal accepted the paper for publication, then either the team published the findings in the journal or the research is successful with the outcome.",
+      "Whenever Smith has skill in the technique, then Smith masters the technique.",
+      "If Smith has skill in the technique, then it is not the case that Smith masters the technique.",
+      "Either Smith has skill in the technique, or if Jones published the paper then the research is successful with the outcome.",
+      "Either the agency investigated the funding of the project, or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper.",
+      "If the committee audited the research in the lab, then either the agency investigated the funding of the project or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper.",
+      "Either the committee audited the research in the lab, or the expert reviewed the methodology of the study.",
+      "Whenever the expert reviewed the methodology of the study, then either the agency investigated the funding of the project or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper.",
+      "If the board monitored the ethics of the research, then either the committee audited the research in the lab or the expert reviewed the methodology of the study.",
+      "Provided that the lab assistant violated the protocol procedure, then it is not the case that the researcher faces sanctions for misconduct.",
+      "Either the lab assistant violated the protocol procedure, or the technician breached the safety guidelines.",
+      "If the technician breached the safety guidelines, then the researcher does not face sanctions for misconduct.",
+      "Under the condition that the supervisor documented the violation incident, then if the lab assistant violated the protocol procedure, it is not the case that the researcher faces sanctions for misconduct.",
+      "If the reviewer evaluated the methodology of the paper, then if it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample, then it is not the case that the peer validated the results of the study.",
+      "Whenever the reviewer evaluated the methodology of the paper, then the editor assessed the validity of the research.",
+      "Provided that the editor assessed the validity of the research, then if it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample, then it is not the case that the peer validated the results of the study.",
+      "Either the scientist developed the assay test, or either the chemist synthesized the compound or the biologist isolated the compound.",
+      "If the lab improved the technique procedure, then the researcher optimized the protocol method.",
+      "Whenever the team refined the process workflow, then the lab improved the technique procedure.",
+      "Provided that the PI supervised the experiment student, then if the team refined the process workflow, the lab improved the technique procedure.",
+      "If the biologist cultured the cells line, then either the chemist synthesized the compound or the biologist isolated the compound.",
+      "Either the biologist cultured the cells line, or the technician purified the protein sample.",
+      "Under the condition that NSF funded the project, then if Smith has skill in the technique, Smith masters the technique.",
+      "If NSF funded the project, then NSF approved the project.",
+      "Whenever the technician purified the protein sample, then either the chemist synthesized the compound or the biologist isolated the compound.",
+      "Provided that the technician purified the protein sample, then the chemist characterized the molecule compound.",
+      "If the chemist characterized the molecule compound, then either the chemist synthesized the compound or the biologist isolated the compound.",
+      "Either the analyst confirmed the structure of the molecule, or if the technician purified the protein sample, then the chemist characterized the molecule compound.",
+      "Either the specialist verified the composition of the substance, or it is not the case that the analyst confirmed the structure of the molecule.",
+      "Whenever the technician ran spectroscopy on the sample, then the specialist verified the composition of the substance.",
+      "Either the technician ran spectroscopy on the sample, or the lab performed chromatography in the analysis.",
+      "If the lab performed chromatography in the analysis, then it is not the case that the analyst confirmed the structure of the molecule.",
+      "Provided that the analyst identified the contaminant impurity, then it is not the case that the sample is contaminated with the chemical.",
+      "Either the analyst identified the contaminant impurity, or the instrument detected an impurity in the sample.",
+      "Under the condition that the instrument detected an impurity in the sample, then the sample is not contaminated with the chemical.",
+      "If the technician reported the contamination finding, then if the analyst identified the contaminant impurity, it is not the case that the sample is contaminated with the chemical.",
+      "Either the technician reported the contamination finding, or the staff alerted the supervisor about the issue.",
+      "Whenever the staff alerted the supervisor about the issue, then if the analyst identified the contaminant impurity, the sample is not contaminated with the chemical.",
+      "Provided that the staff alerted the supervisor about the issue, then the researcher halted the experiment procedure.",
+      "If the staff alerted the supervisor about the issue, then the lab quarantined the sample material.",
+      "Under the condition that NSF approved the project, then if Smith has skill in the technique, Smith masters the technique.",
+      "Whenever the researcher halted the experiment procedure, then if the analyst identified the contaminant impurity, it is not the case that the sample is contaminated with the chemical.",
+      "If the lab quarantined the sample material, then the researcher halted the experiment procedure.",
+      "Provided that the team followed the protocol guidelines, then if the staff alerted the supervisor about the issue, the lab quarantined the sample material.",
+      "Either the team followed the protocol guidelines, or the technician implemented the procedure protocol.",
+      "Under the condition that the technician implemented the procedure protocol, then if the staff alerted the supervisor about the issue, the lab quarantined the sample material.",
+      "If the personnel violated the safety regulation, then it is not the case that the researcher ignored the protocol rules.",
+      "Either the personnel violated the safety regulation, or the staff breached the containment area.",
+      "Whenever the staff breached the containment area, then the researcher does not ignore the protocol rules.",
+      "Provided that the institution certified the training of the employee, then the lab trained the personnel on safety.",
+      "If the scientist falsified the data results, then it is not the case that the researcher faces sanctions for misconduct.",
+      "Either the scientist falsified the data results, or the researcher manipulated the results data.",
+      "Under the condition that the team discovered the compound, then the research is successful with the outcome.",
+      "Whenever the researcher manipulated the results data, then the researcher does not face sanctions for misconduct.",
+      "If the panel reviewed the evidence documents, then the committee investigated the misconduct case.",
+      "Provided that the investigator interviewed the witnesses personnel, then the panel reviewed the evidence documents.",
+      "Under the condition that the committee continued the inquiry investigation, then it is not the case that the board concluded the investigation inquiry.",
+      "If the researcher admitted the error mistake, then the scientist corrected the record publication.",
+      "Whenever the researcher admitted the error mistake, then it is not the case that the scientist corrected the record publication.",
+      "Either the researcher admitted the error mistake, or it is not the case that the researcher faces sanctions for misconduct.",
+      "Provided that the chemist synthesized the compound, then the team discovered the compound.",
+      "Either the chemist synthesized the compound, or the biologist isolated the compound.",
+      "If the biologist isolated the compound, then the team discovered the compound.",
+      "Either the data analyzed the compound, or either the chemist synthesized the compound or the biologist isolated the compound.",
+      "If it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample.",
+      "Under the condition that it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then it is not the case that the method tested the alternative sample.",
+      "If it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper.",
+      "Provided that it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then the lab trained the personnel on safety.",
+      "If it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then the institution certified the training of the employee.",
+      "Under the condition that it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then it is not the case that the lab trained the personnel on safety.",
+      "If it is not the case that if the supervisor documented the violation incident then if the lab assistant violated the protocol procedure, it is not the case that the researcher faces sanctions for misconduct, then the staff reported the anomaly findings.",
+      "Whenever it is not the case that if the supervisor documented the violation incident then if the lab assistant violated the protocol procedure, the researcher does not face sanctions for misconduct, then it is not the case that the staff reported the anomaly findings.",
+      "Provided that it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the researcher optimized the protocol method.",
+      "If it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the lab improved the technique procedure.",
+      "Under the condition that it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the team refined the process workflow.",
+      "Whenever it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then it is not the case that the researcher optimized the protocol method.",
+      "If it is not the case that if the team followed the protocol guidelines then if the staff alerted the supervisor about the issue, the lab quarantined the sample material, then the researcher ignored the protocol rules.",
+      "Provided that it is not the case that if the scientist falsified the data results then it is not the case that the researcher faces sanctions for misconduct, then the committee investigated the misconduct case.",
+      "Under the condition that it is not the case that if the scientist falsified the data results then the researcher does not face sanctions for misconduct, then the panel reviewed the evidence documents.",
+      "If it is not the case that if the scientist falsified the data results then it is not the case that the researcher faces sanctions for misconduct, then the investigator interviewed the witnesses personnel.",
+      "Whenever it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then the board concluded the investigation inquiry.",
+      "Provided that it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then the committee continued the inquiry investigation.",
+      "If it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then it is not the case that the board concluded the investigation inquiry.",
+      "Under the condition that it is not the case that either the data analyzed the compound or either the chemist synthesized the compound or the biologist isolated the compound, then the sample is contaminated with the chemical.",
+      "If it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample then the method tested the alternative sample, then the peer validated the results of the study.",
+      "Provided that it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample then the method tested the alternative sample, then it is not the case that the peer validated the results of the study.",
+      "If it is not the case that if it is not the case that the research is successful with the outcome then the lab received funding from the grant, then the researcher faces sanctions for misconduct.",
+      "Whenever it is not the case that the research is successful with the outcome, then the lab received funding from the grant.",
+      "If it is not the case that the research is successful with the outcome, then it is not the case that the lab received funding from the grant.",
+      "Jones published the paper.",
+      "The board monitored the ethics of the research.",
+      "The supervisor documented the violation incident.",
+      "The reviewer evaluated the methodology of the paper.",
+      "The PI supervised the experiment student.",
+      "NSF funded the project.",
+      "The team discovered the compound.",
+      "The research is successful with the outcome.",
+      "It is not the case that the sample is contaminated with the chemical.",
+      "It is not the case that the QC lab confirmed the purity of the sample.",
+      "The team did not publish the findings in the journal.",
+      "It is not the case that the institution retracted the study paper.",
+      "Smith does not have skill in the technique.",
+      "The agency did not investigate the funding of the project.",
+      "The researcher does not face sanctions for misconduct.",
+      "The scientist did not develop the assay test.",
+      "It is not the case that the analyst confirmed the structure of the molecule.",
+      "The specialist did not verify the composition of the substance.",
+      "The researcher does not ignore the protocol rules.",
+      "The committee did not investigate the misconduct case.",
+      "The researcher did not admit the error mistake.",
+      "The data did not analyze the compound."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(published(jones, paper) -> successful(research, outcome))",
+        "natural": "If Jones published the paper, then the research is successful with the outcome."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(contaminated(sample, chemical) -> usable(sample, experiment))",
+        "natural": "Whenever the sample is contaminated with the chemical, the sample is usable for the experiment."
+      },
+      "(A10 → ¬A11)": {
+        "formal": "(A10 → ¬A11)",
+        "prover9": "(A10 -> -A11)",
+        "prover9_expression": "(contaminated(sample, chemical) -> -usable(sample, experiment))",
+        "natural": "Provided that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment."
+      },
+      "(A12 → (A10 → ¬A11))": {
+        "formal": "(A12 → (A10 → ¬A11))",
+        "prover9": "(A12 -> (A10 -> -A11))",
+        "prover9_expression": "(detects_contamination(lab_tech, sample) -> (contaminated(sample, chemical) -> -usable(sample, experiment)))",
+        "natural": "If the lab technician detected contamination in the sample, then under the condition that the sample is contaminated with the chemical, it is not the case that the sample is usable for the experiment."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample))",
+        "natural": "Either the lab technician detected contamination in the sample, or the researcher suspected contamination in the sample."
+      },
+      "(A13 → (A10 → ¬A11))": {
+        "formal": "(A13 → (A10 → ¬A11))",
+        "prover9": "(A13 -> (A10 -> -A11))",
+        "prover9_expression": "(suspects_contamination(researcher, sample) -> (contaminated(sample, chemical) -> -usable(sample, experiment)))",
+        "natural": "If the researcher suspected contamination in the sample, then provided that the sample is contaminated with the chemical, the sample is not usable for the experiment."
+      },
+      "(A14 ∨ (A12 ∨ A13))": {
+        "formal": "(A14 ∨ (A12 ∨ A13))",
+        "prover9": "(A14 | (A12 | A13))",
+        "prover9_expression": "(confirms_purity(qc_lab, sample) | (detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)))",
+        "natural": "Either the QC lab confirmed the purity of the sample, or either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample."
+      },
+      "(A15 ∨ G)": {
+        "formal": "(A15 ∨ G)",
+        "prover9": "(A15 | G)",
+        "prover9_expression": "(publishes_findings(team, journal) | successful(research, outcome))",
+        "natural": "Either the team published the findings in the journal, or the research is successful with the outcome."
+      },
+      "(A16 → (A15 ∨ G))": {
+        "formal": "(A16 → (A15 ∨ G))",
+        "prover9": "(A16 -> (A15 | G))",
+        "prover9_expression": "(submits_paper(author, journal) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+        "natural": "Whenever the author submitted the paper to the journal, then either the team published the findings in the journal or the research is successful with the outcome."
+      },
+      "(A16 → A18)": {
+        "formal": "(A16 → A18)",
+        "prover9": "(A16 -> A18)",
+        "prover9_expression": "(submits_paper(author, journal) -> accepts_journal(paper, publication))",
+        "natural": "If the author submitted the paper to the journal, then the journal accepted the paper for publication."
+      },
+      "(A16 ∨ A17)": {
+        "formal": "(A16 ∨ A17)",
+        "prover9": "(A16 | A17)",
+        "prover9_expression": "(submits_paper(author, journal) | presents_conference(speaker, findings))",
+        "natural": "Either the author submitted the paper to the journal, or the speaker presented the findings at the conference."
+      },
+      "(A17 → (A15 ∨ G))": {
+        "formal": "(A17 → (A15 ∨ G))",
+        "prover9": "(A17 -> (A15 | G))",
+        "prover9_expression": "(presents_conference(speaker, findings) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+        "natural": "Provided that the speaker presented the findings at the conference, then either the team published the findings in the journal or the research is successful with the outcome."
+      },
+      "(A18 → (A15 ∨ G))": {
+        "formal": "(A18 → (A15 ∨ G))",
+        "prover9": "(A18 -> (A15 | G))",
+        "prover9_expression": "(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome)))",
+        "natural": "If the journal accepted the paper for publication, then either the team published the findings in the journal or the research is successful with the outcome."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(has_skill(smith, technique) -> masters(smith, technique))",
+        "natural": "Whenever Smith has skill in the technique, then Smith masters the technique."
+      },
+      "(A2 → ¬A3)": {
+        "formal": "(A2 → ¬A3)",
+        "prover9": "(A2 -> -A3)",
+        "prover9_expression": "(has_skill(smith, technique) -> -masters(smith, technique))",
+        "natural": "If Smith has skill in the technique, then it is not the case that Smith masters the technique."
+      },
+      "(A2 ∨ (A1 → G))": {
+        "formal": "(A2 ∨ (A1 → G))",
+        "prover9": "(A2 | (A1 -> G))",
+        "prover9_expression": "(has_skill(smith, technique) | (published(jones, paper) -> successful(research, outcome)))",
+        "natural": "Either Smith has skill in the technique, or if Jones published the paper then the research is successful with the outcome."
+      },
+      "(A20 ∨ (¬(A18 → (A15 ∨ G)) → A19))": {
+        "formal": "(A20 ∨ (¬(A18 → (A15 ∨ G)) → A19))",
+        "prover9": "(A20 | (-(A18 -> (A15 | G)) -> A19))",
+        "prover9_expression": "(investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper)))",
+        "natural": "Either the agency investigated the funding of the project, or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+      },
+      "(A21 → (A20 ∨ (¬(A18 → (A15 ∨ G)) → A19)))": {
+        "formal": "(A21 → (A20 ∨ (¬(A18 → (A15 ∨ G)) → A19)))",
+        "prover9": "(A21 -> (A20 | (-(A18 -> (A15 | G)) -> A19)))",
+        "prover9_expression": "(audits_research(committee, lab) -> (investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))))",
+        "natural": "If the committee audited the research in the lab, then either the agency investigated the funding of the project or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+      },
+      "(A21 ∨ A22)": {
+        "formal": "(A21 ∨ A22)",
+        "prover9": "(A21 | A22)",
+        "prover9_expression": "(audits_research(committee, lab) | reviews_methodology(expert, study))",
+        "natural": "Either the committee audited the research in the lab, or the expert reviewed the methodology of the study."
+      },
+      "(A22 → (A20 ∨ (¬(A18 → (A15 ∨ G)) → A19)))": {
+        "formal": "(A22 → (A20 ∨ (¬(A18 → (A15 ∨ G)) → A19)))",
+        "prover9": "(A22 -> (A20 | (-(A18 -> (A15 | G)) -> A19)))",
+        "prover9_expression": "(reviews_methodology(expert, study) -> (investigates_funding(agency, project) | (-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))))",
+        "natural": "Whenever the expert reviewed the methodology of the study, then either the agency investigated the funding of the project or if it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+      },
+      "(A23 → (A21 ∨ A22))": {
+        "formal": "(A23 → (A21 ∨ A22))",
+        "prover9": "(A23 -> (A21 | A22))",
+        "prover9_expression": "(monitors_ethics(board, research) -> (audits_research(committee, lab) | reviews_methodology(expert, study)))",
+        "natural": "If the board monitored the ethics of the research, then either the committee audited the research in the lab or the expert reviewed the methodology of the study."
+      },
+      "(A26 → ¬A25)": {
+        "formal": "(A26 → ¬A25)",
+        "prover9": "(A26 -> -A25)",
+        "prover9_expression": "(violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))",
+        "natural": "Provided that the lab assistant violated the protocol procedure, then it is not the case that the researcher faces sanctions for misconduct."
+      },
+      "(A26 ∨ A27)": {
+        "formal": "(A26 ∨ A27)",
+        "prover9": "(A26 | A27)",
+        "prover9_expression": "(violates_protocol(lab_assistant, procedure) | breaches_guidelines(technician, safety))",
+        "natural": "Either the lab assistant violated the protocol procedure, or the technician breached the safety guidelines."
+      },
+      "(A27 → ¬A25)": {
+        "formal": "(A27 → ¬A25)",
+        "prover9": "(A27 -> -A25)",
+        "prover9_expression": "(breaches_guidelines(technician, safety) -> -faces_sanctions(researcher, misconduct))",
+        "natural": "If the technician breached the safety guidelines, then the researcher does not face sanctions for misconduct."
+      },
+      "(A28 → (A26 → ¬A25))": {
+        "formal": "(A28 → (A26 → ¬A25))",
+        "prover9": "(A28 -> (A26 -> -A25))",
+        "prover9_expression": "(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct)))",
+        "natural": "Under the condition that the supervisor documented the violation incident, then if the lab assistant violated the protocol procedure, it is not the case that the researcher faces sanctions for misconduct."
+      },
+      "(A32 → (¬(¬(A12 ∨ A13) → A30) → ¬A31))": {
+        "formal": "(A32 → (¬(¬(A12 ∨ A13) → A30) → ¬A31))",
+        "prover9": "(A32 -> (-(-(A12 | A13) -> A30) -> -A31))",
+        "prover9_expression": "(evaluates_methodology(reviewer, paper) -> (-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study)))",
+        "natural": "If the reviewer evaluated the methodology of the paper, then if it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample, then it is not the case that the peer validated the results of the study."
+      },
+      "(A32 → A33)": {
+        "formal": "(A32 → A33)",
+        "prover9": "(A32 -> A33)",
+        "prover9_expression": "(evaluates_methodology(reviewer, paper) -> assesses_validity(editor, research))",
+        "natural": "Whenever the reviewer evaluated the methodology of the paper, then the editor assessed the validity of the research."
+      },
+      "(A33 → (¬(¬(A12 ∨ A13) → A30) → ¬A31))": {
+        "formal": "(A33 → (¬(¬(A12 ∨ A13) → A30) → ¬A31))",
+        "prover9": "(A33 -> (-(-(A12 | A13) -> A30) -> -A31))",
+        "prover9_expression": "(assesses_validity(editor, research) -> (-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study)))",
+        "natural": "Provided that the editor assessed the validity of the research, then if it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample, then it is not the case that the peer validated the results of the study."
+      },
+      "(A34 ∨ (A7 ∨ A8))": {
+        "formal": "(A34 ∨ (A7 ∨ A8))",
+        "prover9": "(A34 | (A7 | A8))",
+        "prover9_expression": "(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "Either the scientist developed the assay test, or either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      "(A36 → A35)": {
+        "formal": "(A36 → A35)",
+        "prover9": "(A36 -> A35)",
+        "prover9_expression": "(improves_technique(lab, procedure) -> optimizes_protocol(researcher, method))",
+        "natural": "If the lab improved the technique procedure, then the researcher optimized the protocol method."
+      },
+      "(A37 → A36)": {
+        "formal": "(A37 → A36)",
+        "prover9": "(A37 -> A36)",
+        "prover9_expression": "(refines_process(team, workflow) -> improves_technique(lab, procedure))",
+        "natural": "Whenever the team refined the process workflow, then the lab improved the technique procedure."
+      },
+      "(A38 → (A37 → A36))": {
+        "formal": "(A38 → (A37 → A36))",
+        "prover9": "(A38 -> (A37 -> A36))",
+        "prover9_expression": "(supervises_experiment(pi, student) -> (refines_process(team, workflow) -> improves_technique(lab, procedure)))",
+        "natural": "Provided that the PI supervised the experiment student, then if the team refined the process workflow, the lab improved the technique procedure."
+      },
+      "(A39 → (A7 ∨ A8))": {
+        "formal": "(A39 → (A7 ∨ A8))",
+        "prover9": "(A39 -> (A7 | A8))",
+        "prover9_expression": "(cultures_cells(biologist, line) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "If the biologist cultured the cells line, then either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      "(A39 ∨ A40)": {
+        "formal": "(A39 ∨ A40)",
+        "prover9": "(A39 | A40)",
+        "prover9_expression": "(cultures_cells(biologist, line) | purifies_protein(technician, sample))",
+        "natural": "Either the biologist cultured the cells line, or the technician purified the protein sample."
+      },
+      "(A4 → (A2 → A3))": {
+        "formal": "(A4 → (A2 → A3))",
+        "prover9": "(A4 -> (A2 -> A3))",
+        "prover9_expression": "(funded(nsf, project) -> (has_skill(smith, technique) -> masters(smith, technique)))",
+        "natural": "Under the condition that NSF funded the project, then if Smith has skill in the technique, Smith masters the technique."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(funded(nsf, project) -> approved(nsf, project))",
+        "natural": "If NSF funded the project, then NSF approved the project."
+      },
+      "(A40 → (A7 ∨ A8))": {
+        "formal": "(A40 → (A7 ∨ A8))",
+        "prover9": "(A40 -> (A7 | A8))",
+        "prover9_expression": "(purifies_protein(technician, sample) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "Whenever the technician purified the protein sample, then either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      "(A40 → A41)": {
+        "formal": "(A40 → A41)",
+        "prover9": "(A40 -> A41)",
+        "prover9_expression": "(purifies_protein(technician, sample) -> characterizes_molecule(chemist, compound))",
+        "natural": "Provided that the technician purified the protein sample, then the chemist characterized the molecule compound."
+      },
+      "(A41 → (A7 ∨ A8))": {
+        "formal": "(A41 → (A7 ∨ A8))",
+        "prover9": "(A41 -> (A7 | A8))",
+        "prover9_expression": "(characterizes_molecule(chemist, compound) -> (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "If the chemist characterized the molecule compound, then either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      "(A42 ∨ (A40 → A41))": {
+        "formal": "(A42 ∨ (A40 → A41))",
+        "prover9": "(A42 | (A40 -> A41))",
+        "prover9_expression": "(confirms_structure(analyst, molecule) | (purifies_protein(technician, sample) -> characterizes_molecule(chemist, compound)))",
+        "natural": "Either the analyst confirmed the structure of the molecule, or if the technician purified the protein sample, then the chemist characterized the molecule compound."
+      },
+      "(A43 ∨ ¬A42)": {
+        "formal": "(A43 ∨ ¬A42)",
+        "prover9": "(A43 | -A42)",
+        "prover9_expression": "(verifies_composition(specialist, substance) | -confirms_structure(analyst, molecule))",
+        "natural": "Either the specialist verified the composition of the substance, or it is not the case that the analyst confirmed the structure of the molecule."
+      },
+      "(A44 → A43)": {
+        "formal": "(A44 → A43)",
+        "prover9": "(A44 -> A43)",
+        "prover9_expression": "(runs_spectroscopy(technician, sample) -> verifies_composition(specialist, substance))",
+        "natural": "Whenever the technician ran spectroscopy on the sample, then the specialist verified the composition of the substance."
+      },
+      "(A44 ∨ A45)": {
+        "formal": "(A44 ∨ A45)",
+        "prover9": "(A44 | A45)",
+        "prover9_expression": "(runs_spectroscopy(technician, sample) | performs_chromatography(lab, analysis))",
+        "natural": "Either the technician ran spectroscopy on the sample, or the lab performed chromatography in the analysis."
+      },
+      "(A45 → ¬A42)": {
+        "formal": "(A45 → ¬A42)",
+        "prover9": "(A45 -> -A42)",
+        "prover9_expression": "(performs_chromatography(lab, analysis) -> -confirms_structure(analyst, molecule))",
+        "natural": "If the lab performed chromatography in the analysis, then it is not the case that the analyst confirmed the structure of the molecule."
+      },
+      "(A46 → ¬A10)": {
+        "formal": "(A46 → ¬A10)",
+        "prover9": "(A46 -> -A10)",
+        "prover9_expression": "(identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical))",
+        "natural": "Provided that the analyst identified the contaminant impurity, then it is not the case that the sample is contaminated with the chemical."
+      },
+      "(A46 ∨ A47)": {
+        "formal": "(A46 ∨ A47)",
+        "prover9": "(A46 | A47)",
+        "prover9_expression": "(identifies_contaminant(analyst, impurity) | detects_impurity(instrument, sample))",
+        "natural": "Either the analyst identified the contaminant impurity, or the instrument detected an impurity in the sample."
+      },
+      "(A47 → ¬A10)": {
+        "formal": "(A47 → ¬A10)",
+        "prover9": "(A47 -> -A10)",
+        "prover9_expression": "(detects_impurity(instrument, sample) -> -contaminated(sample, chemical))",
+        "natural": "Under the condition that the instrument detected an impurity in the sample, then the sample is not contaminated with the chemical."
+      },
+      "(A48 → (A46 → ¬A10))": {
+        "formal": "(A48 → (A46 → ¬A10))",
+        "prover9": "(A48 -> (A46 -> -A10))",
+        "prover9_expression": "(reports_contamination(technician, finding) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+        "natural": "If the technician reported the contamination finding, then if the analyst identified the contaminant impurity, it is not the case that the sample is contaminated with the chemical."
+      },
+      "(A48 ∨ A49)": {
+        "formal": "(A48 ∨ A49)",
+        "prover9": "(A48 | A49)",
+        "prover9_expression": "(reports_contamination(technician, finding) | alerts_supervisor(staff, issue))",
+        "natural": "Either the technician reported the contamination finding, or the staff alerted the supervisor about the issue."
+      },
+      "(A49 → (A46 → ¬A10))": {
+        "formal": "(A49 → (A46 → ¬A10))",
+        "prover9": "(A49 -> (A46 -> -A10))",
+        "prover9_expression": "(alerts_supervisor(staff, issue) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+        "natural": "Whenever the staff alerted the supervisor about the issue, then if the analyst identified the contaminant impurity, the sample is not contaminated with the chemical."
+      },
+      "(A49 → A50)": {
+        "formal": "(A49 → A50)",
+        "prover9": "(A49 -> A50)",
+        "prover9_expression": "(alerts_supervisor(staff, issue) -> halts_experiment(researcher, procedure))",
+        "natural": "Provided that the staff alerted the supervisor about the issue, then the researcher halted the experiment procedure."
+      },
+      "(A49 → A51)": {
+        "formal": "(A49 → A51)",
+        "prover9": "(A49 -> A51)",
+        "prover9_expression": "(alerts_supervisor(staff, issue) -> quarantines_sample(lab, material))",
+        "natural": "If the staff alerted the supervisor about the issue, then the lab quarantined the sample material."
+      },
+      "(A5 → (A2 → A3))": {
+        "formal": "(A5 → (A2 → A3))",
+        "prover9": "(A5 -> (A2 -> A3))",
+        "prover9_expression": "(approved(nsf, project) -> (has_skill(smith, technique) -> masters(smith, technique)))",
+        "natural": "Under the condition that NSF approved the project, then if Smith has skill in the technique, Smith masters the technique."
+      },
+      "(A50 → (A46 → ¬A10))": {
+        "formal": "(A50 → (A46 → ¬A10))",
+        "prover9": "(A50 -> (A46 -> -A10))",
+        "prover9_expression": "(halts_experiment(researcher, procedure) -> (identifies_contaminant(analyst, impurity) -> -contaminated(sample, chemical)))",
+        "natural": "Whenever the researcher halted the experiment procedure, then if the analyst identified the contaminant impurity, it is not the case that the sample is contaminated with the chemical."
+      },
+      "(A51 → A50)": {
+        "formal": "(A51 → A50)",
+        "prover9": "(A51 -> A50)",
+        "prover9_expression": "(quarantines_sample(lab, material) -> halts_experiment(researcher, procedure))",
+        "natural": "If the lab quarantined the sample material, then the researcher halted the experiment procedure."
+      },
+      "(A52 → (A49 → A51))": {
+        "formal": "(A52 → (A49 → A51))",
+        "prover9": "(A52 -> (A49 -> A51))",
+        "prover9_expression": "(follows_protocol(team, guidelines) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material)))",
+        "natural": "Provided that the team followed the protocol guidelines, then if the staff alerted the supervisor about the issue, the lab quarantined the sample material."
+      },
+      "(A52 ∨ A53)": {
+        "formal": "(A52 ∨ A53)",
+        "prover9": "(A52 | A53)",
+        "prover9_expression": "(follows_protocol(team, guidelines) | implements_procedure(technician, protocol))",
+        "natural": "Either the team followed the protocol guidelines, or the technician implemented the procedure protocol."
+      },
+      "(A53 → (A49 → A51))": {
+        "formal": "(A53 → (A49 → A51))",
+        "prover9": "(A53 -> (A49 -> A51))",
+        "prover9_expression": "(implements_procedure(technician, protocol) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material)))",
+        "natural": "Under the condition that the technician implemented the procedure protocol, then if the staff alerted the supervisor about the issue, the lab quarantined the sample material."
+      },
+      "(A55 → ¬A54)": {
+        "formal": "(A55 → ¬A54)",
+        "prover9": "(A55 -> -A54)",
+        "prover9_expression": "(violates_safety(personnel, regulation) -> -ignores_protocol(researcher, rules))",
+        "natural": "If the personnel violated the safety regulation, then it is not the case that the researcher ignored the protocol rules."
+      },
+      "(A55 ∨ A56)": {
+        "formal": "(A55 ∨ A56)",
+        "prover9": "(A55 | A56)",
+        "prover9_expression": "(violates_safety(personnel, regulation) | breaches_containment(staff, area))",
+        "natural": "Either the personnel violated the safety regulation, or the staff breached the containment area."
+      },
+      "(A56 → ¬A54)": {
+        "formal": "(A56 → ¬A54)",
+        "prover9": "(A56 -> -A54)",
+        "prover9_expression": "(breaches_containment(staff, area) -> -ignores_protocol(researcher, rules))",
+        "natural": "Whenever the staff breached the containment area, then the researcher does not ignore the protocol rules."
+      },
+      "(A58 → A57)": {
+        "formal": "(A58 → A57)",
+        "prover9": "(A58 -> A57)",
+        "prover9_expression": "(certifies_training(institution, employee) -> trains_personnel(lab, safety))",
+        "natural": "Provided that the institution certified the training of the employee, then the lab trained the personnel on safety."
+      },
+      "(A59 → ¬A25)": {
+        "formal": "(A59 → ¬A25)",
+        "prover9": "(A59 -> -A25)",
+        "prover9_expression": "(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct))",
+        "natural": "If the scientist falsified the data results, then it is not the case that the researcher faces sanctions for misconduct."
+      },
+      "(A59 ∨ A60)": {
+        "formal": "(A59 ∨ A60)",
+        "prover9": "(A59 | A60)",
+        "prover9_expression": "(falsifies_data(scientist, results) | manipulates_results(researcher, data))",
+        "natural": "Either the scientist falsified the data results, or the researcher manipulated the results data."
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(discovers(team, compound) -> successful(research, outcome))",
+        "natural": "Under the condition that the team discovered the compound, then the research is successful with the outcome."
+      },
+      "(A60 → ¬A25)": {
+        "formal": "(A60 → ¬A25)",
+        "prover9": "(A60 -> -A25)",
+        "prover9_expression": "(manipulates_results(researcher, data) -> -faces_sanctions(researcher, misconduct))",
+        "natural": "Whenever the researcher manipulated the results data, then the researcher does not face sanctions for misconduct."
+      },
+      "(A62 → A61)": {
+        "formal": "(A62 → A61)",
+        "prover9": "(A62 -> A61)",
+        "prover9_expression": "(reviews_evidence(panel, documents) -> investigates_misconduct(committee, case))",
+        "natural": "If the panel reviewed the evidence documents, then the committee investigated the misconduct case."
+      },
+      "(A63 → A62)": {
+        "formal": "(A63 → A62)",
+        "prover9": "(A63 -> A62)",
+        "prover9_expression": "(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents))",
+        "natural": "Provided that the investigator interviewed the witnesses personnel, then the panel reviewed the evidence documents."
+      },
+      "(A65 → ¬A64)": {
+        "formal": "(A65 → ¬A64)",
+        "prover9": "(A65 -> -A64)",
+        "prover9_expression": "(continues_inquiry(committee, investigation) -> -concludes_investigation(board, inquiry))",
+        "natural": "Under the condition that the committee continued the inquiry investigation, then it is not the case that the board concluded the investigation inquiry."
+      },
+      "(A66 → A67)": {
+        "formal": "(A66 → A67)",
+        "prover9": "(A66 -> A67)",
+        "prover9_expression": "(admits_error(researcher, mistake) -> corrects_record(scientist, publication))",
+        "natural": "If the researcher admitted the error mistake, then the scientist corrected the record publication."
+      },
+      "(A66 → ¬A67)": {
+        "formal": "(A66 → ¬A67)",
+        "prover9": "(A66 -> -A67)",
+        "prover9_expression": "(admits_error(researcher, mistake) -> -corrects_record(scientist, publication))",
+        "natural": "Whenever the researcher admitted the error mistake, then it is not the case that the scientist corrected the record publication."
+      },
+      "(A66 ∨ ¬A25)": {
+        "formal": "(A66 ∨ ¬A25)",
+        "prover9": "(A66 | -A25)",
+        "prover9_expression": "(admits_error(researcher, mistake) | -faces_sanctions(researcher, misconduct))",
+        "natural": "Either the researcher admitted the error mistake, or it is not the case that the researcher faces sanctions for misconduct."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(synthesizes(chemist, compound) -> discovers(team, compound))",
+        "natural": "Provided that the chemist synthesized the compound, then the team discovered the compound."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(synthesizes(chemist, compound) | isolates(biologist, compound))",
+        "natural": "Either the chemist synthesized the compound, or the biologist isolated the compound."
+      },
+      "(A8 → A6)": {
+        "formal": "(A8 → A6)",
+        "prover9": "(A8 -> A6)",
+        "prover9_expression": "(isolates(biologist, compound) -> discovers(team, compound))",
+        "natural": "If the biologist isolated the compound, then the team discovered the compound."
+      },
+      "(A9 ∨ (A7 ∨ A8))": {
+        "formal": "(A9 ∨ (A7 ∨ A8))",
+        "prover9": "(A9 | (A7 | A8))",
+        "prover9_expression": "(analyzes(data, compound) | (synthesizes(chemist, compound) | isolates(biologist, compound)))",
+        "natural": "Either the data analyzed the compound, or either the chemist synthesized the compound or the biologist isolated the compound."
+      },
+      "(¬(A12 ∨ A13) → A30)": {
+        "formal": "(¬(A12 ∨ A13) → A30)",
+        "prover9": "(-(A12 | A13) -> A30)",
+        "prover9_expression": "(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample))",
+        "natural": "If it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then the method tested the alternative sample."
+      },
+      "(¬(A12 ∨ A13) → ¬A30)": {
+        "formal": "(¬(A12 ∨ A13) → ¬A30)",
+        "prover9": "(-(A12 | A13) -> -A30)",
+        "prover9_expression": "(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> -tests_alternative(method, sample))",
+        "natural": "Under the condition that it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample, then it is not the case that the method tested the alternative sample."
+      },
+      "(¬(A18 → (A15 ∨ G)) → A19)": {
+        "formal": "(¬(A18 → (A15 ∨ G)) → A19)",
+        "prover9": "(-(A18 -> (A15 | G)) -> A19)",
+        "prover9_expression": "(-(accepts_journal(paper, publication) -> (publishes_findings(team, journal) | successful(research, outcome))) -> retracts_study(institution, paper))",
+        "natural": "If it is not the case that if the journal accepted the paper for publication then either the team published the findings in the journal or the research is successful with the outcome, then the institution retracted the study paper."
+      },
+      "(¬(A21 ∨ A22) → A57)": {
+        "formal": "(¬(A21 ∨ A22) → A57)",
+        "prover9": "(-(A21 | A22) -> A57)",
+        "prover9_expression": "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> trains_personnel(lab, safety))",
+        "natural": "Provided that it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then the lab trained the personnel on safety."
+      },
+      "(¬(A21 ∨ A22) → A58)": {
+        "formal": "(¬(A21 ∨ A22) → A58)",
+        "prover9": "(-(A21 | A22) -> A58)",
+        "prover9_expression": "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> certifies_training(institution, employee))",
+        "natural": "If it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then the institution certified the training of the employee."
+      },
+      "(¬(A21 ∨ A22) → ¬A57)": {
+        "formal": "(¬(A21 ∨ A22) → ¬A57)",
+        "prover9": "(-(A21 | A22) -> -A57)",
+        "prover9_expression": "(-(audits_research(committee, lab) | reviews_methodology(expert, study)) -> -trains_personnel(lab, safety))",
+        "natural": "Under the condition that it is not the case that either the committee audited the research in the lab or the expert reviewed the methodology of the study, then it is not the case that the lab trained the personnel on safety."
+      },
+      "(¬(A28 → (A26 → ¬A25)) → A29)": {
+        "formal": "(¬(A28 → (A26 → ¬A25)) → A29)",
+        "prover9": "(-(A28 -> (A26 -> -A25)) -> A29)",
+        "prover9_expression": "(-(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))) -> reports_anomaly(staff, findings))",
+        "natural": "If it is not the case that if the supervisor documented the violation incident then if the lab assistant violated the protocol procedure, it is not the case that the researcher faces sanctions for misconduct, then the staff reported the anomaly findings."
+      },
+      "(¬(A28 → (A26 → ¬A25)) → ¬A29)": {
+        "formal": "(¬(A28 → (A26 → ¬A25)) → ¬A29)",
+        "prover9": "(-(A28 -> (A26 -> -A25)) -> -A29)",
+        "prover9_expression": "(-(documents_violation(supervisor, incident) -> (violates_protocol(lab_assistant, procedure) -> -faces_sanctions(researcher, misconduct))) -> -reports_anomaly(staff, findings))",
+        "natural": "Whenever it is not the case that if the supervisor documented the violation incident then if the lab assistant violated the protocol procedure, the researcher does not face sanctions for misconduct, then it is not the case that the staff reported the anomaly findings."
+      },
+      "(¬(A34 ∨ (A7 ∨ A8)) → A35)": {
+        "formal": "(¬(A34 ∨ (A7 ∨ A8)) → A35)",
+        "prover9": "(-(A34 | (A7 | A8)) -> A35)",
+        "prover9_expression": "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> optimizes_protocol(researcher, method))",
+        "natural": "Provided that it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the researcher optimized the protocol method."
+      },
+      "(¬(A34 ∨ (A7 ∨ A8)) → A36)": {
+        "formal": "(¬(A34 ∨ (A7 ∨ A8)) → A36)",
+        "prover9": "(-(A34 | (A7 | A8)) -> A36)",
+        "prover9_expression": "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> improves_technique(lab, procedure))",
+        "natural": "If it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the lab improved the technique procedure."
+      },
+      "(¬(A34 ∨ (A7 ∨ A8)) → A37)": {
+        "formal": "(¬(A34 ∨ (A7 ∨ A8)) → A37)",
+        "prover9": "(-(A34 | (A7 | A8)) -> A37)",
+        "prover9_expression": "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> refines_process(team, workflow))",
+        "natural": "Under the condition that it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then the team refined the process workflow."
+      },
+      "(¬(A34 ∨ (A7 ∨ A8)) → ¬A35)": {
+        "formal": "(¬(A34 ∨ (A7 ∨ A8)) → ¬A35)",
+        "prover9": "(-(A34 | (A7 | A8)) -> -A35)",
+        "prover9_expression": "(-(develops_assay(scientist, test) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> -optimizes_protocol(researcher, method))",
+        "natural": "Whenever it is not the case that either the scientist developed the assay test or either the chemist synthesized the compound or the biologist isolated the compound, then it is not the case that the researcher optimized the protocol method."
+      },
+      "(¬(A52 → (A49 → A51)) → A54)": {
+        "formal": "(¬(A52 → (A49 → A51)) → A54)",
+        "prover9": "(-(A52 -> (A49 -> A51)) -> A54)",
+        "prover9_expression": "(-(follows_protocol(team, guidelines) -> (alerts_supervisor(staff, issue) -> quarantines_sample(lab, material))) -> ignores_protocol(researcher, rules))",
+        "natural": "If it is not the case that if the team followed the protocol guidelines then if the staff alerted the supervisor about the issue, the lab quarantined the sample material, then the researcher ignored the protocol rules."
+      },
+      "(¬(A59 → ¬A25) → A61)": {
+        "formal": "(¬(A59 → ¬A25) → A61)",
+        "prover9": "(-(A59 -> -A25) -> A61)",
+        "prover9_expression": "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> investigates_misconduct(committee, case))",
+        "natural": "Provided that it is not the case that if the scientist falsified the data results then it is not the case that the researcher faces sanctions for misconduct, then the committee investigated the misconduct case."
+      },
+      "(¬(A59 → ¬A25) → A62)": {
+        "formal": "(¬(A59 → ¬A25) → A62)",
+        "prover9": "(-(A59 -> -A25) -> A62)",
+        "prover9_expression": "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> reviews_evidence(panel, documents))",
+        "natural": "Under the condition that it is not the case that if the scientist falsified the data results then the researcher does not face sanctions for misconduct, then the panel reviewed the evidence documents."
+      },
+      "(¬(A59 → ¬A25) → A63)": {
+        "formal": "(¬(A59 → ¬A25) → A63)",
+        "prover9": "(-(A59 -> -A25) -> A63)",
+        "prover9_expression": "(-(falsifies_data(scientist, results) -> -faces_sanctions(researcher, misconduct)) -> interviews_witnesses(investigator, personnel))",
+        "natural": "If it is not the case that if the scientist falsified the data results then it is not the case that the researcher faces sanctions for misconduct, then the investigator interviewed the witnesses personnel."
+      },
+      "(¬(A63 → A62) → A64)": {
+        "formal": "(¬(A63 → A62) → A64)",
+        "prover9": "(-(A63 -> A62) -> A64)",
+        "prover9_expression": "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> concludes_investigation(board, inquiry))",
+        "natural": "Whenever it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then the board concluded the investigation inquiry."
+      },
+      "(¬(A63 → A62) → A65)": {
+        "formal": "(¬(A63 → A62) → A65)",
+        "prover9": "(-(A63 -> A62) -> A65)",
+        "prover9_expression": "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> continues_inquiry(committee, investigation))",
+        "natural": "Provided that it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then the committee continued the inquiry investigation."
+      },
+      "(¬(A63 → A62) → ¬A64)": {
+        "formal": "(¬(A63 → A62) → ¬A64)",
+        "prover9": "(-(A63 -> A62) -> -A64)",
+        "prover9_expression": "(-(interviews_witnesses(investigator, personnel) -> reviews_evidence(panel, documents)) -> -concludes_investigation(board, inquiry))",
+        "natural": "If it is not the case that if the investigator interviewed the witnesses personnel then the panel reviewed the evidence documents, then it is not the case that the board concluded the investigation inquiry."
+      },
+      "(¬(A9 ∨ (A7 ∨ A8)) → A10)": {
+        "formal": "(¬(A9 ∨ (A7 ∨ A8)) → A10)",
+        "prover9": "(-(A9 | (A7 | A8)) -> A10)",
+        "prover9_expression": "(-(analyzes(data, compound) | (synthesizes(chemist, compound) | isolates(biologist, compound))) -> contaminated(sample, chemical))",
+        "natural": "Under the condition that it is not the case that either the data analyzed the compound or either the chemist synthesized the compound or the biologist isolated the compound, then the sample is contaminated with the chemical."
+      },
+      "(¬(¬(A12 ∨ A13) → A30) → A31)": {
+        "formal": "(¬(¬(A12 ∨ A13) → A30) → A31)",
+        "prover9": "(-(-(A12 | A13) -> A30) -> A31)",
+        "prover9_expression": "(-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> validates_results(peer, study))",
+        "natural": "If it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample then the method tested the alternative sample, then the peer validated the results of the study."
+      },
+      "(¬(¬(A12 ∨ A13) → A30) → ¬A31)": {
+        "formal": "(¬(¬(A12 ∨ A13) → A30) → ¬A31)",
+        "prover9": "(-(-(A12 | A13) -> A30) -> -A31)",
+        "prover9_expression": "(-(-(detects_contamination(lab_tech, sample) | suspects_contamination(researcher, sample)) -> tests_alternative(method, sample)) -> -validates_results(peer, study))",
+        "natural": "Provided that it is not the case that if it is not the case that either the lab technician detected contamination in the sample or the researcher suspected contamination in the sample then the method tested the alternative sample, then it is not the case that the peer validated the results of the study."
+      },
+      "(¬(¬G → A24) → A25)": {
+        "formal": "(¬(¬G → A24) → A25)",
+        "prover9": "(-(-G -> A24) -> A25)",
+        "prover9_expression": "(-(-successful(research, outcome) -> receives_funding(lab, grant)) -> faces_sanctions(researcher, misconduct))",
+        "natural": "If it is not the case that if it is not the case that the research is successful with the outcome then the lab received funding from the grant, then the researcher faces sanctions for misconduct."
+      },
+      "(¬G → A24)": {
+        "formal": "(¬G → A24)",
+        "prover9": "(-G -> A24)",
+        "prover9_expression": "(-successful(research, outcome) -> receives_funding(lab, grant))",
+        "natural": "Whenever it is not the case that the research is successful with the outcome, then the lab received funding from the grant."
+      },
+      "(¬G → ¬A24)": {
+        "formal": "(¬G → ¬A24)",
+        "prover9": "(-G -> -A24)",
+        "prover9_expression": "(-successful(research, outcome) -> -receives_funding(lab, grant))",
+        "natural": "If it is not the case that the research is successful with the outcome, then it is not the case that the lab received funding from the grant."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "published(jones, paper)",
+        "natural": "Jones published the paper."
+      },
+      "A23": {
+        "formal": "A23",
+        "prover9": "A23",
+        "prover9_expression": "monitors_ethics(board, research)",
+        "natural": "The board monitored the ethics of the research."
+      },
+      "A28": {
+        "formal": "A28",
+        "prover9": "A28",
+        "prover9_expression": "documents_violation(supervisor, incident)",
+        "natural": "The supervisor documented the violation incident."
+      },
+      "A32": {
+        "formal": "A32",
+        "prover9": "A32",
+        "prover9_expression": "evaluates_methodology(reviewer, paper)",
+        "natural": "The reviewer evaluated the methodology of the paper."
+      },
+      "A38": {
+        "formal": "A38",
+        "prover9": "A38",
+        "prover9_expression": "supervises_experiment(pi, student)",
+        "natural": "The PI supervised the experiment student."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "funded(nsf, project)",
+        "natural": "NSF funded the project."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "discovers(team, compound)",
+        "natural": "The team discovered the compound."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "successful(research, outcome)",
+        "natural": "The research is successful with the outcome."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-contaminated(sample, chemical)",
+        "natural": "It is not the case that the sample is contaminated with the chemical."
+      },
+      "¬A14": {
+        "formal": "¬A14",
+        "prover9": "-A14",
+        "prover9_expression": "-confirms_purity(qc_lab, sample)",
+        "natural": "It is not the case that the QC lab confirmed the purity of the sample."
+      },
+      "¬A15": {
+        "formal": "¬A15",
+        "prover9": "-A15",
+        "prover9_expression": "-publishes_findings(team, journal)",
+        "natural": "The team did not publish the findings in the journal."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-retracts_study(institution, paper)",
+        "natural": "It is not the case that the institution retracted the study paper."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-has_skill(smith, technique)",
+        "natural": "Smith does not have skill in the technique."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-investigates_funding(agency, project)",
+        "natural": "The agency did not investigate the funding of the project."
+      },
+      "¬A25": {
+        "formal": "¬A25",
+        "prover9": "-A25",
+        "prover9_expression": "-faces_sanctions(researcher, misconduct)",
+        "natural": "The researcher does not face sanctions for misconduct."
+      },
+      "¬A34": {
+        "formal": "¬A34",
+        "prover9": "-A34",
+        "prover9_expression": "-develops_assay(scientist, test)",
+        "natural": "The scientist did not develop the assay test."
+      },
+      "¬A42": {
+        "formal": "¬A42",
+        "prover9": "-A42",
+        "prover9_expression": "-confirms_structure(analyst, molecule)",
+        "natural": "It is not the case that the analyst confirmed the structure of the molecule."
+      },
+      "¬A43": {
+        "formal": "¬A43",
+        "prover9": "-A43",
+        "prover9_expression": "-verifies_composition(specialist, substance)",
+        "natural": "The specialist did not verify the composition of the substance."
+      },
+      "¬A54": {
+        "formal": "¬A54",
+        "prover9": "-A54",
+        "prover9_expression": "-ignores_protocol(researcher, rules)",
+        "natural": "The researcher does not ignore the protocol rules."
+      },
+      "¬A61": {
+        "formal": "¬A61",
+        "prover9": "-A61",
+        "prover9_expression": "-investigates_misconduct(committee, case)",
+        "natural": "The committee did not investigate the misconduct case."
+      },
+      "¬A66": {
+        "formal": "¬A66",
+        "prover9": "-A66",
+        "prover9_expression": "-admits_error(researcher, mistake)",
+        "natural": "The researcher did not admit the error mistake."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-analyzes(data, compound)",
+        "natural": "The data did not analyze the compound."
+      }
+    }
+  }
+}

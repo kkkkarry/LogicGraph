@@ -1,0 +1,791 @@
+{
+  "solution_stats": {
+    "total_solutions": 5,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 11
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(monitors(sensor, power_level) | checks(technician, power_level))",
+              "natural": "The sensor monitors the power level or the technician checks the power level."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A6 -> (-A4 -> -A5))",
+              "prover9_expression": "(monitors(sensor, power_level) -> (-requires(analysis, power) -> -has_backup(lab, generator)))",
+              "natural": "If the sensor monitors the power level, then when the analysis does not require power, the lab does not have a backup generator."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A7 -> (-A4 -> -A5))",
+              "prover9_expression": "(checks(technician, power_level) -> (-requires(analysis, power) -> -has_backup(lab, generator)))",
+              "natural": "Provided that the technician checks the power level, then if the analysis does not require power, the lab does not have a backup generator."
+            }
+          ],
+          "conclusion": "(-A4 -> -A5)",
+          "natural": "Provided that the analysis does not require power, then the lab does not have a backup generator."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-A4 -> A5)",
+              "prover9_expression": "(-requires(analysis, power) -> has_backup(lab, generator))",
+              "natural": "If the analysis does not require power, then the lab has a backup generator."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A4 -> -A5)",
+              "prover9_expression": "(-requires(analysis, power) -> -has_backup(lab, generator))",
+              "natural": "Provided that the analysis does not require power, then the lab does not have a backup generator."
+            }
+          ],
+          "conclusion": "A4",
+          "natural": "The analysis requires power."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(requires(analysis, power) -> (analyzes(device, chemical_sample) | tests(device, chemical_sample)))",
+              "natural": "Whenever the analysis requires power, then the device analyzes the chemical sample or the device tests the chemical sample."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A4",
+              "prover9_expression": "requires(analysis, power)",
+              "natural": "The analysis requires power."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "The device analyzes the chemical sample or the device tests the chemical sample."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(analyzes(device, chemical_sample) | tests(device, chemical_sample))",
+              "natural": "The device analyzes the chemical sample or the device tests the chemical sample."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(analyzes(device, chemical_sample) -> contains(lab, chemical_sample))",
+              "natural": "Provided that the device analyzes the chemical sample, then the lab contains the chemical sample."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(tests(device, chemical_sample) -> contains(lab, chemical_sample))",
+              "natural": "If the device tests the chemical sample, then the lab contains the chemical sample."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The lab contains a chemical sample."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(contains(lab, chemical_sample) -> stable(power_supply))",
+              "natural": "Provided that the lab contains a chemical sample, then the power supply is stable."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "contains(lab, chemical_sample)",
+              "natural": "The lab contains a chemical sample."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power supply is stable."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(publishes(journal, findings) -> cites(researcher, findings))",
+              "natural": "Under the condition that the journal publishes the findings, then the researcher cites the findings."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A15 -> (A10 | A11))",
+              "prover9_expression": "(cites(researcher, findings) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "Whenever the researcher cites the findings, then the experiment is successful or the experiment is conclusive."
+            }
+          ],
+          "conclusion": "(A14 -> (A10 | A11))",
+          "natural": "If the journal publishes the findings, then the experiment is successful or the experiment is conclusive."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> A14)",
+              "prover9_expression": "(verifies(peer_review, results) -> publishes(journal, findings))",
+              "natural": "If the peer review verifies the results, then the journal publishes the findings."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (A10 | A11))",
+              "prover9_expression": "(publishes(journal, findings) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "If the journal publishes the findings, then the experiment is successful or the experiment is conclusive."
+            }
+          ],
+          "conclusion": "(A12 -> (A10 | A11))",
+          "natural": "Whenever the peer review verifies the results, then the experiment is successful or the experiment is conclusive."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(verifies(peer_review, results) | confirms(team_lead, results))",
+              "natural": "Either the peer review verifies the results or the team lead confirms the results."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (A10 | A11))",
+              "prover9_expression": "(verifies(peer_review, results) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "Whenever the peer review verifies the results, then the experiment is successful or the experiment is conclusive."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A13 -> (A10 | A11))",
+              "prover9_expression": "(confirms(team_lead, results) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "Provided that the team lead confirms the results, then the experiment is successful or the experiment is conclusive."
+            }
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "The experiment is successful or the experiment is conclusive."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(successful(experiment) | conclusive(experiment))",
+              "natural": "The experiment is successful or the experiment is conclusive."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (A9 | (-G -> -A8)))",
+              "prover9_expression": "(successful(experiment) -> (neutralizes(chemical, toxicity) | (-stable(power_supply) -> -affects(chemical, animal_health))))",
+              "natural": "If the experiment is successful, then either the chemical neutralizes toxicity, or in case the power supply is not stable, the chemical does not affect animal health."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> (A9 | (-G -> -A8)))",
+              "prover9_expression": "(conclusive(experiment) -> (neutralizes(chemical, toxicity) | (-stable(power_supply) -> -affects(chemical, animal_health))))",
+              "natural": "Under the condition that the experiment is conclusive, then either the chemical neutralizes toxicity, or if the power supply is not stable, the chemical does not affect animal health."
+            }
+          ],
+          "conclusion": "(A9 | (-G -> -A8))",
+          "natural": "Either the chemical neutralizes toxicity or under the condition that the power supply is not stable, the chemical does not affect animal health."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 | (-G -> -A8))",
+              "prover9_expression": "(neutralizes(chemical, toxicity) | (-stable(power_supply) -> -affects(chemical, animal_health)))",
+              "natural": "Either the chemical neutralizes toxicity or under the condition that the power supply is not stable, the chemical does not affect animal health."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A9",
+              "prover9_expression": "-neutralizes(chemical, toxicity)",
+              "natural": "The chemical does not neutralize toxicity."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Whenever the power supply is not stable, then the chemical does not affect animal health."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-stable(power_supply) -> affects(chemical, animal_health))",
+              "natural": "If the power supply is not stable, then the chemical affects animal health."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-stable(power_supply) -> -affects(chemical, animal_health))",
+              "natural": "Whenever the power supply is not stable, then the chemical does not affect animal health."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power supply is stable."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A19 -> A20)",
+              "prover9_expression": "(calibrates(technician, device) -> adjusts(technician, settings))",
+              "natural": "If the technician calibrates the device, then the technician adjusts the settings."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A20 -> (A17 -> A18))",
+              "prover9_expression": "(adjusts(technician, settings) -> (detects(device, radiation) -> alerts(system, radiation_level)))",
+              "natural": "Whenever the technician adjusts the settings, then if the device detects radiation, the system alerts about the radiation level."
+            }
+          ],
+          "conclusion": "(A19 -> (A17 -> A18))",
+          "natural": "Under the condition that the technician calibrates the device, then if the device detects radiation, the system alerts about the radiation level."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> (A17 -> A18))",
+              "prover9_expression": "(calibrates(technician, device) -> (detects(device, radiation) -> alerts(system, radiation_level)))",
+              "natural": "Under the condition that the technician calibrates the device, then if the device detects radiation, the system alerts about the radiation level."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A19",
+              "prover9_expression": "calibrates(technician, device)",
+              "natural": "The technician calibrates the device."
+            }
+          ],
+          "conclusion": "(A17 -> A18)",
+          "natural": "If the device detects radiation, then the system alerts about the radiation level."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(detects(device, radiation) -> alerts(system, radiation_level))",
+              "natural": "If the device detects radiation, then the system alerts about the radiation level."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A18",
+              "prover9_expression": "-alerts(system, radiation_level)",
+              "natural": "The system does not alert about the radiation level."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The device does not detect radiation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A17 | (-G -> A16))",
+              "prover9_expression": "(detects(device, radiation) | (-stable(power_supply) -> triggers(alarm, contamination)))",
+              "natural": "Either the device detects radiation, or when the power supply is not stable, the alarm triggers for contamination."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-detects(device, radiation)",
+              "natural": "The device does not detect radiation."
+            }
+          ],
+          "conclusion": "(-G -> A16)",
+          "natural": "Under the condition that the power supply is not stable, then the alarm triggers for contamination."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A16)",
+              "prover9_expression": "(-stable(power_supply) -> triggers(alarm, contamination))",
+              "natural": "Under the condition that the power supply is not stable, then the alarm triggers for contamination."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A16",
+              "prover9_expression": "-triggers(alarm, contamination)",
+              "natural": "It is not the case that the alarm triggers for contamination."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power supply is stable."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> (-(-(A22 -> -A21) -> A24) -> -A25))",
+              "prover9_expression": "(decides(director, proposal_status) -> (-(-(validates(protocol, method) -> -contradicts(previous_study, findings)) -> approves(committee, method)) -> -rejects(committee, proposal)))",
+              "natural": "Under the condition that the director decides the proposal status, then if it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings) implies the committee approves the method, then the committee does not reject the proposal."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A26",
+              "prover9_expression": "decides(director, proposal_status)",
+              "natural": "The director decides the proposal status."
+            }
+          ],
+          "conclusion": "(-(-(A22 -> -A21) -> A24) -> -A25)",
+          "natural": "Whenever it is not the case that (if it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings) implies the committee approves the method), then the committee does not reject the proposal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(-(-(A22 -> -A21) -> A24) -> A25)",
+              "prover9_expression": "(-(-(validates(protocol, method) -> -contradicts(previous_study, findings)) -> approves(committee, method)) -> rejects(committee, proposal))",
+              "natural": "Under the condition that it is not the case that (if it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings) implies the committee approves the method), then the committee rejects the proposal."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A22 -> -A21) -> A24) -> -A25)",
+              "prover9_expression": "(-(-(validates(protocol, method) -> -contradicts(previous_study, findings)) -> approves(committee, method)) -> -rejects(committee, proposal))",
+              "natural": "Whenever it is not the case that (if it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings) implies the committee approves the method), then the committee does not reject the proposal."
+            }
+          ],
+          "conclusion": "(-(A22 -> -A21) -> A24)",
+          "natural": "Under the condition that it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings), then the committee approves the method."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A22 -> -A21) -> A24)",
+              "prover9_expression": "(-(validates(protocol, method) -> -contradicts(previous_study, findings)) -> approves(committee, method))",
+              "natural": "Under the condition that it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings), then the committee approves the method."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A24 -> -A23)",
+              "prover9_expression": "(approves(committee, method) -> -questions(reviewer, method))",
+              "natural": "Provided that the committee approves the method, then the reviewer does not question the method."
+            }
+          ],
+          "conclusion": "(-(A22 -> -A21) -> -A23)",
+          "natural": "If it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings), then the reviewer does not question the method."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-(A22 -> -A21) -> A23)",
+              "prover9_expression": "(-(validates(protocol, method) -> -contradicts(previous_study, findings)) -> questions(reviewer, method))",
+              "natural": "Provided that it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings), then the reviewer questions the method."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A22 -> -A21) -> -A23)",
+              "prover9_expression": "(-(validates(protocol, method) -> -contradicts(previous_study, findings)) -> -questions(reviewer, method))",
+              "natural": "If it is not the case that (if the protocol validates the method, then the previous study does not contradict the findings), then the reviewer does not question the method."
+            }
+          ],
+          "conclusion": "(A22 -> -A21)",
+          "natural": "If the protocol validates the method, then the previous study does not contradict the findings."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> -A21)",
+              "prover9_expression": "(validates(protocol, method) -> -contradicts(previous_study, findings))",
+              "natural": "If the protocol validates the method, then the previous study does not contradict the findings."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A22",
+              "prover9_expression": "validates(protocol, method)",
+              "natural": "The protocol validates the method."
+            }
+          ],
+          "conclusion": "-A21",
+          "natural": "The previous study does not contradict the findings."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(A14 -> (A10 | A11)) -> A21)",
+              "prover9_expression": "(-(publishes(journal, findings) -> (successful(experiment) | conclusive(experiment))) -> contradicts(previous_study, findings))",
+              "natural": "If it is not the case that (if the journal publishes the findings, then the experiment is successful or the experiment is conclusive), then the previous study contradicts the findings."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A21",
+              "prover9_expression": "-contradicts(previous_study, findings)",
+              "natural": "The previous study does not contradict the findings."
+            }
+          ],
+          "conclusion": "(A14 -> (A10 | A11))",
+          "natural": "If the journal publishes the findings, then the experiment is successful or the experiment is conclusive."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> A14)",
+              "prover9_expression": "(verifies(peer_review, results) -> publishes(journal, findings))",
+              "natural": "If the peer review verifies the results, then the journal publishes the findings."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (A10 | A11))",
+              "prover9_expression": "(publishes(journal, findings) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "If the journal publishes the findings, then the experiment is successful or the experiment is conclusive."
+            }
+          ],
+          "conclusion": "(A12 -> (A10 | A11))",
+          "natural": "Whenever the peer review verifies the results, then the experiment is successful or the experiment is conclusive."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(verifies(peer_review, results) | confirms(team_lead, results))",
+              "natural": "Either the peer review verifies the results or the team lead confirms the results."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (A10 | A11))",
+              "prover9_expression": "(verifies(peer_review, results) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "Whenever the peer review verifies the results, then the experiment is successful or the experiment is conclusive."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A13 -> (A10 | A11))",
+              "prover9_expression": "(confirms(team_lead, results) -> (successful(experiment) | conclusive(experiment)))",
+              "natural": "Provided that the team lead confirms the results, then the experiment is successful or the experiment is conclusive."
+            }
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "The experiment is successful or the experiment is conclusive."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(successful(experiment) | conclusive(experiment))",
+              "natural": "The experiment is successful or the experiment is conclusive."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (A9 | (-G -> -A8)))",
+              "prover9_expression": "(successful(experiment) -> (neutralizes(chemical, toxicity) | (-stable(power_supply) -> -affects(chemical, animal_health))))",
+              "natural": "If the experiment is successful, then either the chemical neutralizes toxicity, or in case the power supply is not stable, the chemical does not affect animal health."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> (A9 | (-G -> -A8)))",
+              "prover9_expression": "(conclusive(experiment) -> (neutralizes(chemical, toxicity) | (-stable(power_supply) -> -affects(chemical, animal_health))))",
+              "natural": "Under the condition that the experiment is conclusive, then either the chemical neutralizes toxicity, or if the power supply is not stable, the chemical does not affect animal health."
+            }
+          ],
+          "conclusion": "(A9 | (-G -> -A8))",
+          "natural": "Either the chemical neutralizes toxicity or under the condition that the power supply is not stable, the chemical does not affect animal health."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 | (-G -> -A8))",
+              "prover9_expression": "(neutralizes(chemical, toxicity) | (-stable(power_supply) -> -affects(chemical, animal_health)))",
+              "natural": "Either the chemical neutralizes toxicity or under the condition that the power supply is not stable, the chemical does not affect animal health."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A9",
+              "prover9_expression": "-neutralizes(chemical, toxicity)",
+              "natural": "The chemical does not neutralize toxicity."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Whenever the power supply is not stable, then the chemical does not affect animal health."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-stable(power_supply) -> affects(chemical, animal_health))",
+              "natural": "If the power supply is not stable, then the chemical affects animal health."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-stable(power_supply) -> -affects(chemical, animal_health))",
+              "natural": "Whenever the power supply is not stable, then the chemical does not affect animal health."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power supply is stable."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A32 | (A31 -> A30))",
+              "prover9_expression": "(cancels(management, experiment) | (notifies(system, authorities) -> activates(emergency_protocol)))",
+              "natural": "Either management cancels the experiment or if the system notifies the authorities, then the emergency protocol activates."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A32",
+              "prover9_expression": "-cancels(management, experiment)",
+              "natural": "Management does not cancel the experiment."
+            }
+          ],
+          "conclusion": "(A31 -> A30)",
+          "natural": "Under the condition that the system notifies the authorities, then the emergency protocol activates."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A28 | A29) -> A31)",
+              "prover9_expression": "(-(recommends(safety_officer, evacuation) | orders(supervisor, evacuation)) -> notifies(system, authorities))",
+              "natural": "Provided that it is not the case that (the safety officer recommends an evacuation or the supervisor orders an evacuation), then the system notifies the authorities."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A31 -> A30)",
+              "prover9_expression": "(notifies(system, authorities) -> activates(emergency_protocol))",
+              "natural": "Under the condition that the system notifies the authorities, then the emergency protocol activates."
+            }
+          ],
+          "conclusion": "(-(A28 | A29) -> A30)",
+          "natural": "Whenever it is not the case that (the safety officer recommends an evacuation or the supervisor orders an evacuation), then the emergency protocol activates."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A28 | A29) -> A30)",
+              "prover9_expression": "(-(recommends(safety_officer, evacuation) | orders(supervisor, evacuation)) -> activates(emergency_protocol))",
+              "natural": "Whenever it is not the case that (the safety officer recommends an evacuation or the supervisor orders an evacuation), then the emergency protocol activates."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(A28 | A29) -> -A30)",
+              "prover9_expression": "(-(recommends(safety_officer, evacuation) | orders(supervisor, evacuation)) -> -activates(emergency_protocol))",
+              "natural": "If it is not the case that (the safety officer recommends an evacuation or the supervisor orders an evacuation), then the emergency protocol does not activate."
+            }
+          ],
+          "conclusion": "(A28 | A29)",
+          "natural": "Either the safety officer recommends an evacuation or the supervisor orders an evacuation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A28 | A29)",
+              "prover9_expression": "(recommends(safety_officer, evacuation) | orders(supervisor, evacuation))",
+              "natural": "Either the safety officer recommends an evacuation or the supervisor orders an evacuation."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A28 -> (A17 -> -A27))",
+              "prover9_expression": "(recommends(safety_officer, evacuation) -> (detects(device, radiation) -> -exceeds(radiation, safe_level)))",
+              "natural": "If the safety officer recommends an evacuation, then when the device detects radiation, the radiation does not exceed the safe level."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A29 -> (A17 -> -A27))",
+              "prover9_expression": "(orders(supervisor, evacuation) -> (detects(device, radiation) -> -exceeds(radiation, safe_level)))",
+              "natural": "Provided that the supervisor orders an evacuation, then if the device detects radiation, the radiation does not exceed the safe level."
+            }
+          ],
+          "conclusion": "(A17 -> -A27)",
+          "natural": "If the device detects radiation, then it is not the case that the radiation exceeds the safe level."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A17 -> A27)",
+              "prover9_expression": "(detects(device, radiation) -> exceeds(radiation, safe_level))",
+              "natural": "Provided that the device detects radiation, then the radiation exceeds the safe level."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> -A27)",
+              "prover9_expression": "(detects(device, radiation) -> -exceeds(radiation, safe_level))",
+              "natural": "If the device detects radiation, then it is not the case that the radiation exceeds the safe level."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The device does not detect radiation."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A17 | (-G -> A16))",
+              "prover9_expression": "(detects(device, radiation) | (-stable(power_supply) -> triggers(alarm, contamination)))",
+              "natural": "Either the device detects radiation, or when the power supply is not stable, the alarm triggers for contamination."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-detects(device, radiation)",
+              "natural": "The device does not detect radiation."
+            }
+          ],
+          "conclusion": "(-G -> A16)",
+          "natural": "Under the condition that the power supply is not stable, then the alarm triggers for contamination."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A16)",
+              "prover9_expression": "(-stable(power_supply) -> triggers(alarm, contamination))",
+              "natural": "Under the condition that the power supply is not stable, then the alarm triggers for contamination."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A16",
+              "prover9_expression": "-triggers(alarm, contamination)",
+              "natural": "It is not the case that the alarm triggers for contamination."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The power supply is stable."
+        }
+      ]
+    }
+  ]
+}

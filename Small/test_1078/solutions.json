@@ -1,0 +1,271 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A2 -> A5)",
+              "prover9_expression": "(collaborates(org_research, org_clinic) -> uses_platform(org_research, platform_medical))",
+              "natural": "Assuming the research organization collaborates with the clinic organization, the research organization uses the medical platform."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(uses_platform(org_research, platform_medical) -> shares_data(org_research, platform_medical))",
+              "natural": "If the research organization uses the medical platform, then the research organization shares data with the medical platform."
+            }
+          ],
+          "conclusion": "(A2 -> A4)",
+          "natural": "Should the research organization collaborate with the clinic organization, the research organization shares data with the medical platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A4)",
+              "prover9_expression": "(collaborates(org_research, org_clinic) -> shares_data(org_research, platform_medical))",
+              "natural": "Should the research organization collaborate with the clinic organization, the research organization shares data with the medical platform."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A4 -> A1)",
+              "prover9_expression": "(shares_data(org_research, platform_medical) -> treats(org_research, disease_alz))",
+              "natural": "Given that the research organization shares data with the medical platform, the research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "In the event that the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(collaborates(org_research, org_clinic) | collaborates(org_research, org_pharma))",
+              "natural": "The research organization collaborates with the clinic organization or the research organization collaborates with the pharmaceutical organization."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(collaborates(org_research, org_clinic) -> treats(org_research, disease_alz))",
+              "natural": "In the event that the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(collaborates(org_research, org_pharma) -> treats(org_research, disease_alz))",
+              "natural": "When the research organization collaborates with the pharmaceutical organization, the research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The research organization treats Alzheimer's disease."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(treats(org_research, disease_alz) -> patients_recover(person_patient, disease_alz))",
+              "natural": "If the research organization treats Alzheimer's disease, then the patient recovers from Alzheimer's disease."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "treats(org_research, disease_alz)",
+              "natural": "The research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient recovers from Alzheimer's disease."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A11 | (A9 -> (A7 -> A8)))",
+              "prover9_expression": "(rejects(org_regulatory, treatment_x) | (approves(org_regulatory, treatment_x) -> (platform_analyzes(platform_medical, disease_alz) -> platform_recommends(platform_medical, treatment_x))))",
+              "natural": "Either the regulatory organization rejects treatment X, or, if the regulatory organization approves treatment X, then under the condition that the medical platform analyzes Alzheimer's disease, the medical platform recommends treatment X."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A11",
+              "prover9_expression": "-rejects(org_regulatory, treatment_x)",
+              "natural": "It is not the case that the regulatory organization rejects treatment X."
+            }
+          ],
+          "conclusion": "(A9 -> (A7 -> A8))",
+          "natural": "If the regulatory organization approves treatment X, then provided that the medical platform analyzes Alzheimer's disease, the medical platform recommends treatment X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(approves(org_regulatory, treatment_x) | fast_tracks(org_regulatory, treatment_x))",
+              "natural": "The regulatory organization approves treatment X or the regulatory organization fast-tracks treatment X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A7 -> A8))",
+              "prover9_expression": "(approves(org_regulatory, treatment_x) -> (platform_analyzes(platform_medical, disease_alz) -> platform_recommends(platform_medical, treatment_x)))",
+              "natural": "If the regulatory organization approves treatment X, then provided that the medical platform analyzes Alzheimer's disease, the medical platform recommends treatment X."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (A7 -> A8))",
+              "prover9_expression": "(fast_tracks(org_regulatory, treatment_x) -> (platform_analyzes(platform_medical, disease_alz) -> platform_recommends(platform_medical, treatment_x)))",
+              "natural": "Provided that the regulatory organization fast-tracks treatment X, whenever the medical platform analyzes Alzheimer's disease, the medical platform recommends treatment X."
+            }
+          ],
+          "conclusion": "(A7 -> A8)",
+          "natural": "Supposing the medical platform analyzes Alzheimer's disease, then the medical platform recommends treatment X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> A8)",
+              "prover9_expression": "(platform_analyzes(platform_medical, disease_alz) -> platform_recommends(platform_medical, treatment_x))",
+              "natural": "Supposing the medical platform analyzes Alzheimer's disease, then the medical platform recommends treatment X."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A8 -> (A2 -> A1))",
+              "prover9_expression": "(platform_recommends(platform_medical, treatment_x) -> (collaborates(org_research, org_clinic) -> treats(org_research, disease_alz)))",
+              "natural": "Assuming the medical platform recommends treatment X, then whenever the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "(A7 -> (A2 -> A1))",
+          "natural": "Under the condition that the medical platform analyzes Alzheimer's disease, if the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A6 -> A7)",
+              "prover9_expression": "(researcher_discovers(person_dr_smith, treatment_x) -> platform_analyzes(platform_medical, disease_alz))",
+              "natural": "In the case that Dr. Smith discovers treatment X, the medical platform analyzes Alzheimer's disease."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> (A2 -> A1))",
+              "prover9_expression": "(platform_analyzes(platform_medical, disease_alz) -> (collaborates(org_research, org_clinic) -> treats(org_research, disease_alz)))",
+              "natural": "Under the condition that the medical platform analyzes Alzheimer's disease, if the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "(A6 -> (A2 -> A1))",
+          "natural": "Provided Dr. Smith discovers treatment X, then if the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (A2 -> A1))",
+              "prover9_expression": "(researcher_discovers(person_dr_smith, treatment_x) -> (collaborates(org_research, org_clinic) -> treats(org_research, disease_alz)))",
+              "natural": "Provided Dr. Smith discovers treatment X, then if the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A6",
+              "prover9_expression": "researcher_discovers(person_dr_smith, treatment_x)",
+              "natural": "Dr. Smith discovers treatment X."
+            }
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "In the event that the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(collaborates(org_research, org_clinic) | collaborates(org_research, org_pharma))",
+              "natural": "The research organization collaborates with the clinic organization or the research organization collaborates with the pharmaceutical organization."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(collaborates(org_research, org_clinic) -> treats(org_research, disease_alz))",
+              "natural": "In the event that the research organization collaborates with the clinic organization, the research organization treats Alzheimer's disease."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(collaborates(org_research, org_pharma) -> treats(org_research, disease_alz))",
+              "natural": "When the research organization collaborates with the pharmaceutical organization, the research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The research organization treats Alzheimer's disease."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(treats(org_research, disease_alz) -> patients_recover(person_patient, disease_alz))",
+              "natural": "If the research organization treats Alzheimer's disease, then the patient recovers from Alzheimer's disease."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "treats(org_research, disease_alz)",
+              "natural": "The research organization treats Alzheimer's disease."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The patient recovers from Alzheimer's disease."
+        }
+      ]
+    }
+  ]
+}

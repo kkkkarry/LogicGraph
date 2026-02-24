@@ -1,0 +1,472 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(authorized(commander, facility) -> access_granted(officer, facility))",
+        "natural": "If the commander is authorized for the facility, then access is granted to the officer for the facility."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 → (A11 ∨ (A10 ∨ (¬(A7 ∨ A8) → A9))))",
+        "prover9_expression": "(authorization_required(facility, officer) -> (authorization_verified(commander, officer) | (authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep)))))",
+        "natural": "Whenever authorization is required for the officer to the facility, then it must be that the commander has verified authorization for the officer, or the commander has granted authorization to the officer, or under the condition that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A2 → A3)",
+        "prover9_expression": "(has_access(officer, facility) -> has_clearance(officer, top_secret))",
+        "natural": "If the officer has access to the facility, then the officer has top secret clearance."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A2 → A4)",
+        "prover9_expression": "(has_access(officer, facility) -> has_clearance(officer, confidential))",
+        "natural": "Provided that the officer has access to the facility, the officer has confidential clearance."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A4 → ¬A3)",
+        "prover9_expression": "(has_clearance(officer, confidential) -> -has_clearance(officer, top_secret))",
+        "natural": "In the event that the officer has confidential clearance, then the officer does not have top secret clearance."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A7 → ¬A6)",
+        "prover9_expression": "(vehicle_restricted(jeep) -> -vehicle_inspected(jeep))",
+        "natural": "If the jeep is restricted, then the jeep is not inspected."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A8 → ¬A6)",
+        "prover9_expression": "(vehicle_banned(jeep) -> -vehicle_inspected(jeep))",
+        "natural": "Whenever the jeep is banned, then the jeep is not inspected."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A7 ∨ A8) → ¬A9)",
+        "prover9_expression": "(-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> -vehicle_exempt(jeep))",
+        "natural": "Provided that it is not the case that the jeep is restricted or the jeep is banned, the jeep is not exempt."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(¬G → ¬A5) → A6)",
+        "prover9_expression": "(-(-access_granted(officer, facility) -> -vehicle_approved(jeep, facility)) -> vehicle_inspected(jeep))",
+        "natural": "In the event that it is not the case that if access is not granted to the officer for the facility then the jeep is not approved for the facility, the jeep is inspected."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬A1 → A2)",
+        "prover9_expression": "(-authorized(commander, facility) -> has_access(officer, facility))",
+        "natural": "If the commander is not authorized for the facility, then the officer has access to the facility."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬G → A5)",
+        "prover9_expression": "(-access_granted(officer, facility) -> vehicle_approved(jeep, facility))",
+        "natural": "Whenever access is not granted to the officer for the facility, the jeep is approved for the facility."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A12",
+        "prover9_expression": "authorization_required(facility, officer)",
+        "natural": "Authorization is required for the officer to the facility."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A10",
+        "prover9_expression": "-authorization_granted(commander, officer)",
+        "natural": "It is not the case that the commander has granted authorization to the officer."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A11",
+        "prover9_expression": "-authorization_verified(commander, officer)",
+        "natural": "The commander has not verified authorization for the officer."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "access_granted(officer, facility)",
+    "natural": "Access is granted to the officer for the facility."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A4)",
+            "(A4 -> -A3)"
+          ],
+          "conclusion": "(A2 -> -A3)",
+          "natural": "Under the condition that the officer has access to the facility, it is not the case that the officer has top secret clearance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A2 -> -A3)"
+          ],
+          "conclusion": "-A2",
+          "natural": "The officer does not have access to the facility."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The commander is authorized for the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Access is granted to the officer for the facility."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A12 -> (A11 | (A10 | (-(A7 | A8) -> A9))))",
+            "A12"
+          ],
+          "conclusion": "(A11 | (A10 | (-(A7 | A8) -> A9)))",
+          "natural": "Either the commander has verified authorization for the officer, or the commander has granted authorization to the officer, or provided that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | (A10 | (-(A7 | A8) -> A9)))",
+            "-A11"
+          ],
+          "conclusion": "(A10 | (-(A7 | A8) -> A9))",
+          "natural": "Either the commander has granted authorization to the officer, or in the event that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt follows."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (-(A7 | A8) -> A9))",
+            "-A10"
+          ],
+          "conclusion": "(-(A7 | A8) -> A9)",
+          "natural": "If it is not the case that the jeep is restricted or the jeep is banned, then the jeep is exempt."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A7 | A8) -> A9)",
+            "(-(A7 | A8) -> -A9)"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either the jeep is restricted or the jeep is banned."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> -A6)",
+            "(A8 -> -A6)"
+          ],
+          "conclusion": "-A6",
+          "natural": "The jeep is not inspected."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> -A5) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(-G -> -A5)",
+          "natural": "Under the condition that access is not granted to the officer for the facility, it is not the case that the jeep is approved for the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A5)",
+            "(-G -> -A5)"
+          ],
+          "conclusion": "G",
+          "natural": "Access is granted to the officer for the facility."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Military Base Access Control",
+    "atomic_facts": {
+      "A1": "authorized(commander, facility)",
+      "A2": "has_access(officer, facility)",
+      "A3": "has_clearance(officer, top_secret)",
+      "A4": "has_clearance(officer, confidential)",
+      "A5": "vehicle_approved(jeep, facility)",
+      "A6": "vehicle_inspected(jeep)",
+      "A7": "vehicle_restricted(jeep)",
+      "A8": "vehicle_banned(jeep)",
+      "A9": "vehicle_exempt(jeep)",
+      "A10": "authorization_granted(commander, officer)",
+      "A11": "authorization_verified(commander, officer)",
+      "A12": "authorization_required(facility, officer)",
+      "G": "access_granted(officer, facility)"
+    },
+    "natural_facts": {
+      "A1": "The commander is authorized for the facility.",
+      "A2": "The officer has access to the facility.",
+      "A3": "The officer has top secret clearance.",
+      "A4": "The officer has confidential clearance.",
+      "A5": "The jeep is approved for the facility.",
+      "A6": "The jeep is inspected.",
+      "A7": "The jeep is restricted.",
+      "A8": "The jeep is banned.",
+      "A9": "The jeep is exempt.",
+      "A10": "The commander has granted authorization to the officer.",
+      "A11": "The commander has verified authorization for the officer.",
+      "A12": "Authorization is required for the officer to the facility.",
+      "G": "Access is granted to the officer for the facility."
+    },
+    "prover9_expressions": [
+      "(authorized(commander, facility) -> access_granted(officer, facility))",
+      "(authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep)))",
+      "(authorization_verified(commander, officer) | (authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep))))",
+      "(authorization_required(facility, officer) -> (authorization_verified(commander, officer) | (authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep)))))",
+      "(has_access(officer, facility) -> has_clearance(officer, top_secret))",
+      "(has_access(officer, facility) -> has_clearance(officer, confidential))",
+      "(has_access(officer, facility) -> -has_clearance(officer, top_secret))",
+      "(has_clearance(officer, confidential) -> -has_clearance(officer, top_secret))",
+      "(vehicle_restricted(jeep) -> -vehicle_inspected(jeep))",
+      "(vehicle_restricted(jeep) | vehicle_banned(jeep))",
+      "(vehicle_banned(jeep) -> -vehicle_inspected(jeep))",
+      "(-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep))",
+      "(-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> -vehicle_exempt(jeep))",
+      "(-(-access_granted(officer, facility) -> -vehicle_approved(jeep, facility)) -> vehicle_inspected(jeep))",
+      "(-authorized(commander, facility) -> has_access(officer, facility))",
+      "(-access_granted(officer, facility) -> vehicle_approved(jeep, facility))",
+      "(-access_granted(officer, facility) -> -vehicle_approved(jeep, facility))",
+      "authorized(commander, facility)",
+      "authorization_required(facility, officer)",
+      "access_granted(officer, facility)",
+      "-authorization_granted(commander, officer)",
+      "-authorization_verified(commander, officer)",
+      "-has_access(officer, facility)",
+      "-vehicle_inspected(jeep)"
+    ],
+    "natural_expressions": [
+      "If the commander is authorized for the facility, then access is granted to the officer for the facility.",
+      "Either the commander has granted authorization to the officer, or in the event that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt follows.",
+      "Either the commander has verified authorization for the officer, or the commander has granted authorization to the officer, or provided that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt.",
+      "Whenever authorization is required for the officer to the facility, then it must be that the commander has verified authorization for the officer, or the commander has granted authorization to the officer, or under the condition that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt.",
+      "If the officer has access to the facility, then the officer has top secret clearance.",
+      "Provided that the officer has access to the facility, the officer has confidential clearance.",
+      "Under the condition that the officer has access to the facility, it is not the case that the officer has top secret clearance.",
+      "In the event that the officer has confidential clearance, then the officer does not have top secret clearance.",
+      "If the jeep is restricted, then the jeep is not inspected.",
+      "Either the jeep is restricted or the jeep is banned.",
+      "Whenever the jeep is banned, then the jeep is not inspected.",
+      "If it is not the case that the jeep is restricted or the jeep is banned, then the jeep is exempt.",
+      "Provided that it is not the case that the jeep is restricted or the jeep is banned, the jeep is not exempt.",
+      "In the event that it is not the case that if access is not granted to the officer for the facility then the jeep is not approved for the facility, the jeep is inspected.",
+      "If the commander is not authorized for the facility, then the officer has access to the facility.",
+      "Whenever access is not granted to the officer for the facility, the jeep is approved for the facility.",
+      "Under the condition that access is not granted to the officer for the facility, it is not the case that the jeep is approved for the facility.",
+      "The commander is authorized for the facility.",
+      "Authorization is required for the officer to the facility.",
+      "Access is granted to the officer for the facility.",
+      "It is not the case that the commander has granted authorization to the officer.",
+      "The commander has not verified authorization for the officer.",
+      "The officer does not have access to the facility.",
+      "The jeep is not inspected."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(authorized(commander, facility) -> access_granted(officer, facility))",
+        "natural": "If the commander is authorized for the facility, then access is granted to the officer for the facility."
+      },
+      "(A10 ∨ (¬(A7 ∨ A8) → A9))": {
+        "formal": "(A10 ∨ (¬(A7 ∨ A8) → A9))",
+        "prover9": "(A10 | (-(A7 | A8) -> A9))",
+        "prover9_expression": "(authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep)))",
+        "natural": "Either the commander has granted authorization to the officer, or in the event that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt follows."
+      },
+      "(A11 ∨ (A10 ∨ (¬(A7 ∨ A8) → A9)))": {
+        "formal": "(A11 ∨ (A10 ∨ (¬(A7 ∨ A8) → A9)))",
+        "prover9": "(A11 | (A10 | (-(A7 | A8) -> A9)))",
+        "prover9_expression": "(authorization_verified(commander, officer) | (authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep))))",
+        "natural": "Either the commander has verified authorization for the officer, or the commander has granted authorization to the officer, or provided that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt."
+      },
+      "(A12 → (A11 ∨ (A10 ∨ (¬(A7 ∨ A8) → A9))))": {
+        "formal": "(A12 → (A11 ∨ (A10 ∨ (¬(A7 ∨ A8) → A9))))",
+        "prover9": "(A12 -> (A11 | (A10 | (-(A7 | A8) -> A9))))",
+        "prover9_expression": "(authorization_required(facility, officer) -> (authorization_verified(commander, officer) | (authorization_granted(commander, officer) | (-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep)))))",
+        "natural": "Whenever authorization is required for the officer to the facility, then it must be that the commander has verified authorization for the officer, or the commander has granted authorization to the officer, or under the condition that it is not the case that the jeep is restricted or the jeep is banned, the jeep is exempt."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(has_access(officer, facility) -> has_clearance(officer, top_secret))",
+        "natural": "If the officer has access to the facility, then the officer has top secret clearance."
+      },
+      "(A2 → A4)": {
+        "formal": "(A2 → A4)",
+        "prover9": "(A2 -> A4)",
+        "prover9_expression": "(has_access(officer, facility) -> has_clearance(officer, confidential))",
+        "natural": "Provided that the officer has access to the facility, the officer has confidential clearance."
+      },
+      "(A2 → ¬A3)": {
+        "formal": "(A2 → ¬A3)",
+        "prover9": "(A2 -> -A3)",
+        "prover9_expression": "(has_access(officer, facility) -> -has_clearance(officer, top_secret))",
+        "natural": "Under the condition that the officer has access to the facility, it is not the case that the officer has top secret clearance."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(has_clearance(officer, confidential) -> -has_clearance(officer, top_secret))",
+        "natural": "In the event that the officer has confidential clearance, then the officer does not have top secret clearance."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(vehicle_restricted(jeep) -> -vehicle_inspected(jeep))",
+        "natural": "If the jeep is restricted, then the jeep is not inspected."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(vehicle_restricted(jeep) | vehicle_banned(jeep))",
+        "natural": "Either the jeep is restricted or the jeep is banned."
+      },
+      "(A8 → ¬A6)": {
+        "formal": "(A8 → ¬A6)",
+        "prover9": "(A8 -> -A6)",
+        "prover9_expression": "(vehicle_banned(jeep) -> -vehicle_inspected(jeep))",
+        "natural": "Whenever the jeep is banned, then the jeep is not inspected."
+      },
+      "(¬(A7 ∨ A8) → A9)": {
+        "formal": "(¬(A7 ∨ A8) → A9)",
+        "prover9": "(-(A7 | A8) -> A9)",
+        "prover9_expression": "(-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> vehicle_exempt(jeep))",
+        "natural": "If it is not the case that the jeep is restricted or the jeep is banned, then the jeep is exempt."
+      },
+      "(¬(A7 ∨ A8) → ¬A9)": {
+        "formal": "(¬(A7 ∨ A8) → ¬A9)",
+        "prover9": "(-(A7 | A8) -> -A9)",
+        "prover9_expression": "(-(vehicle_restricted(jeep) | vehicle_banned(jeep)) -> -vehicle_exempt(jeep))",
+        "natural": "Provided that it is not the case that the jeep is restricted or the jeep is banned, the jeep is not exempt."
+      },
+      "(¬(¬G → ¬A5) → A6)": {
+        "formal": "(¬(¬G → ¬A5) → A6)",
+        "prover9": "(-(-G -> -A5) -> A6)",
+        "prover9_expression": "(-(-access_granted(officer, facility) -> -vehicle_approved(jeep, facility)) -> vehicle_inspected(jeep))",
+        "natural": "In the event that it is not the case that if access is not granted to the officer for the facility then the jeep is not approved for the facility, the jeep is inspected."
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-authorized(commander, facility) -> has_access(officer, facility))",
+        "natural": "If the commander is not authorized for the facility, then the officer has access to the facility."
+      },
+      "(¬G → A5)": {
+        "formal": "(¬G → A5)",
+        "prover9": "(-G -> A5)",
+        "prover9_expression": "(-access_granted(officer, facility) -> vehicle_approved(jeep, facility))",
+        "natural": "Whenever access is not granted to the officer for the facility, the jeep is approved for the facility."
+      },
+      "(¬G → ¬A5)": {
+        "formal": "(¬G → ¬A5)",
+        "prover9": "(-G -> -A5)",
+        "prover9_expression": "(-access_granted(officer, facility) -> -vehicle_approved(jeep, facility))",
+        "natural": "Under the condition that access is not granted to the officer for the facility, it is not the case that the jeep is approved for the facility."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "authorized(commander, facility)",
+        "natural": "The commander is authorized for the facility."
+      },
+      "A12": {
+        "formal": "A12",
+        "prover9": "A12",
+        "prover9_expression": "authorization_required(facility, officer)",
+        "natural": "Authorization is required for the officer to the facility."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "access_granted(officer, facility)",
+        "natural": "Access is granted to the officer for the facility."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-authorization_granted(commander, officer)",
+        "natural": "It is not the case that the commander has granted authorization to the officer."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-authorization_verified(commander, officer)",
+        "natural": "The commander has not verified authorization for the officer."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-has_access(officer, facility)",
+        "natural": "The officer does not have access to the facility."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-vehicle_inspected(jeep)",
+        "natural": "The jeep is not inspected."
+      }
+    }
+  }
+}

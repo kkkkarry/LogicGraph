@@ -1,0 +1,393 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "(publishes(medical_journal, research_study) -> identifies(medical_journal, disease_cause))",
+        "natural": "If the medical journal publishes the research study, then the medical journal identifies the disease cause."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 → A6)",
+        "prover9_expression": "(publishes(medical_journal, research_study) -> cites(medical_journal, flawed_methodology))",
+        "natural": "Whenever the medical journal publishes the research study, it follows that the medical journal cites the flawed methodology."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(publishes(medical_journal, research_study) | replicates(independent_lab, research_study))",
+        "natural": "Either the medical journal publishes the research study or the independent lab replicates the research study."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → (A3 ∨ ¬A2))",
+        "prover9_expression": "(peer_reviews(research_study, medical_committee) -> (develops(medical_journal, treatment_technology) | -identifies(medical_journal, disease_cause)))",
+        "natural": "Provided that the medical committee peer reviews the research study, the medical journal develops the treatment technology or the medical journal does not identify the disease cause."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A5 ∨ A4)",
+        "prover9_expression": "(commercializes(research_study, pharmaceutical_company) | peer_reviews(research_study, medical_committee))",
+        "natural": "Either the pharmaceutical company commercializes the research study or the medical committee peer reviews the research study."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A9 ∨ ¬A8)",
+        "prover9_expression": "(approves(regulatory_agency, treatment_technology) | -retracts(medical_journal, research_study))",
+        "natural": "The regulatory agency approves the treatment technology or the medical journal does not retract the research study."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A7 ∨ (A1 → ¬A6)) → A8)",
+        "prover9_expression": "(-(validates(medical_committee, research_study) | (publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology))) -> retracts(medical_journal, research_study))",
+        "natural": "If it is not the case that the medical committee validates the research study or that under the condition of the medical journal publishing the research study, the medical journal does not cite the flawed methodology, then the medical journal retracts the research study."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A3",
+        "prover9_expression": "-develops(medical_journal, treatment_technology)",
+        "natural": "The medical journal does not develop the treatment technology."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A5",
+        "prover9_expression": "-commercializes(research_study, pharmaceutical_company)",
+        "natural": "The pharmaceutical company does not commercialize the research study."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A7",
+        "prover9_expression": "-validates(medical_committee, research_study)",
+        "natural": "The medical committee does not validate the research study."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A9",
+        "prover9_expression": "-approves(regulatory_agency, treatment_technology)",
+        "natural": "The regulatory agency does not approve the treatment technology."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "replicates(independent_lab, research_study)",
+    "natural": "The independent lab replicates the research study."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A5 | A4)",
+            "-A5"
+          ],
+          "conclusion": "A4",
+          "natural": "The medical committee peer reviews the research study."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> (A3 | -A2))",
+            "A4"
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "The medical journal develops the treatment technology or it does not identify the disease cause."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | -A2)",
+            "-A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "The medical journal does not identify the disease cause."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the medical journal publishes the research study."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The independent lab replicates the research study."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | -A8)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "The medical journal does not retract the research study."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A7 | (A1 -> -A6)) -> A8)",
+            "-A8"
+          ],
+          "conclusion": "(A7 | (A1 -> -A6))",
+          "natural": "The medical committee validates the research study, or under the condition that the medical journal publishes the research study, the medical journal does not cite the flawed methodology."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (A1 -> -A6))",
+            "-A7"
+          ],
+          "conclusion": "(A1 -> -A6)",
+          "natural": "Under the condition that the medical journal publishes the research study, the medical journal does not cite the flawed methodology."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A1 -> A6)",
+            "(A1 -> -A6)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the medical journal publishes the research study."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The independent lab replicates the research study."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Biomedical Research",
+    "atomic_facts": {
+      "A1": "publishes(medical_journal, research_study)",
+      "A2": "identifies(medical_journal, disease_cause)",
+      "A3": "develops(medical_journal, treatment_technology)",
+      "A4": "peer_reviews(research_study, medical_committee)",
+      "A5": "commercializes(research_study, pharmaceutical_company)",
+      "A6": "cites(medical_journal, flawed_methodology)",
+      "A7": "validates(medical_committee, research_study)",
+      "A8": "retracts(medical_journal, research_study)",
+      "A9": "approves(regulatory_agency, treatment_technology)",
+      "G": "replicates(independent_lab, research_study)"
+    },
+    "natural_facts": {
+      "A1": "The medical journal publishes the research study.",
+      "A2": "The medical journal identifies the disease cause.",
+      "A3": "The medical journal develops the treatment technology.",
+      "A4": "The medical committee peer reviews the research study.",
+      "A5": "The pharmaceutical company commercializes the research study.",
+      "A6": "The medical journal cites the flawed methodology.",
+      "A7": "The medical committee validates the research study.",
+      "A8": "The medical journal retracts the research study.",
+      "A9": "The regulatory agency approves the treatment technology.",
+      "G": "The independent lab replicates the research study."
+    },
+    "prover9_expressions": [
+      "(publishes(medical_journal, research_study) -> identifies(medical_journal, disease_cause))",
+      "(publishes(medical_journal, research_study) -> cites(medical_journal, flawed_methodology))",
+      "(publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology))",
+      "(publishes(medical_journal, research_study) | replicates(independent_lab, research_study))",
+      "(develops(medical_journal, treatment_technology) | -identifies(medical_journal, disease_cause))",
+      "(peer_reviews(research_study, medical_committee) -> (develops(medical_journal, treatment_technology) | -identifies(medical_journal, disease_cause)))",
+      "(commercializes(research_study, pharmaceutical_company) | peer_reviews(research_study, medical_committee))",
+      "(validates(medical_committee, research_study) | (publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology)))",
+      "(approves(regulatory_agency, treatment_technology) | -retracts(medical_journal, research_study))",
+      "(-(validates(medical_committee, research_study) | (publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology))) -> retracts(medical_journal, research_study))",
+      "peer_reviews(research_study, medical_committee)",
+      "replicates(independent_lab, research_study)",
+      "-publishes(medical_journal, research_study)",
+      "-identifies(medical_journal, disease_cause)",
+      "-develops(medical_journal, treatment_technology)",
+      "-commercializes(research_study, pharmaceutical_company)",
+      "-validates(medical_committee, research_study)",
+      "-retracts(medical_journal, research_study)",
+      "-approves(regulatory_agency, treatment_technology)"
+    ],
+    "natural_expressions": [
+      "If the medical journal publishes the research study, then the medical journal identifies the disease cause.",
+      "Whenever the medical journal publishes the research study, it follows that the medical journal cites the flawed methodology.",
+      "Under the condition that the medical journal publishes the research study, the medical journal does not cite the flawed methodology.",
+      "Either the medical journal publishes the research study or the independent lab replicates the research study.",
+      "The medical journal develops the treatment technology or it does not identify the disease cause.",
+      "Provided that the medical committee peer reviews the research study, the medical journal develops the treatment technology or the medical journal does not identify the disease cause.",
+      "Either the pharmaceutical company commercializes the research study or the medical committee peer reviews the research study.",
+      "The medical committee validates the research study, or under the condition that the medical journal publishes the research study, the medical journal does not cite the flawed methodology.",
+      "The regulatory agency approves the treatment technology or the medical journal does not retract the research study.",
+      "If it is not the case that the medical committee validates the research study or that under the condition of the medical journal publishing the research study, the medical journal does not cite the flawed methodology, then the medical journal retracts the research study.",
+      "The medical committee peer reviews the research study.",
+      "The independent lab replicates the research study.",
+      "It is not the case that the medical journal publishes the research study.",
+      "The medical journal does not identify the disease cause.",
+      "The medical journal does not develop the treatment technology.",
+      "The pharmaceutical company does not commercialize the research study.",
+      "The medical committee does not validate the research study.",
+      "The medical journal does not retract the research study.",
+      "The regulatory agency does not approve the treatment technology."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(publishes(medical_journal, research_study) -> identifies(medical_journal, disease_cause))",
+        "natural": "If the medical journal publishes the research study, then the medical journal identifies the disease cause."
+      },
+      "(A1 → A6)": {
+        "formal": "(A1 → A6)",
+        "prover9": "(A1 -> A6)",
+        "prover9_expression": "(publishes(medical_journal, research_study) -> cites(medical_journal, flawed_methodology))",
+        "natural": "Whenever the medical journal publishes the research study, it follows that the medical journal cites the flawed methodology."
+      },
+      "(A1 → ¬A6)": {
+        "formal": "(A1 → ¬A6)",
+        "prover9": "(A1 -> -A6)",
+        "prover9_expression": "(publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology))",
+        "natural": "Under the condition that the medical journal publishes the research study, the medical journal does not cite the flawed methodology."
+      },
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(publishes(medical_journal, research_study) | replicates(independent_lab, research_study))",
+        "natural": "Either the medical journal publishes the research study or the independent lab replicates the research study."
+      },
+      "(A3 ∨ ¬A2)": {
+        "formal": "(A3 ∨ ¬A2)",
+        "prover9": "(A3 | -A2)",
+        "prover9_expression": "(develops(medical_journal, treatment_technology) | -identifies(medical_journal, disease_cause))",
+        "natural": "The medical journal develops the treatment technology or it does not identify the disease cause."
+      },
+      "(A4 → (A3 ∨ ¬A2))": {
+        "formal": "(A4 → (A3 ∨ ¬A2))",
+        "prover9": "(A4 -> (A3 | -A2))",
+        "prover9_expression": "(peer_reviews(research_study, medical_committee) -> (develops(medical_journal, treatment_technology) | -identifies(medical_journal, disease_cause)))",
+        "natural": "Provided that the medical committee peer reviews the research study, the medical journal develops the treatment technology or the medical journal does not identify the disease cause."
+      },
+      "(A5 ∨ A4)": {
+        "formal": "(A5 ∨ A4)",
+        "prover9": "(A5 | A4)",
+        "prover9_expression": "(commercializes(research_study, pharmaceutical_company) | peer_reviews(research_study, medical_committee))",
+        "natural": "Either the pharmaceutical company commercializes the research study or the medical committee peer reviews the research study."
+      },
+      "(A7 ∨ (A1 → ¬A6))": {
+        "formal": "(A7 ∨ (A1 → ¬A6))",
+        "prover9": "(A7 | (A1 -> -A6))",
+        "prover9_expression": "(validates(medical_committee, research_study) | (publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology)))",
+        "natural": "The medical committee validates the research study, or under the condition that the medical journal publishes the research study, the medical journal does not cite the flawed methodology."
+      },
+      "(A9 ∨ ¬A8)": {
+        "formal": "(A9 ∨ ¬A8)",
+        "prover9": "(A9 | -A8)",
+        "prover9_expression": "(approves(regulatory_agency, treatment_technology) | -retracts(medical_journal, research_study))",
+        "natural": "The regulatory agency approves the treatment technology or the medical journal does not retract the research study."
+      },
+      "(¬(A7 ∨ (A1 → ¬A6)) → A8)": {
+        "formal": "(¬(A7 ∨ (A1 → ¬A6)) → A8)",
+        "prover9": "(-(A7 | (A1 -> -A6)) -> A8)",
+        "prover9_expression": "(-(validates(medical_committee, research_study) | (publishes(medical_journal, research_study) -> -cites(medical_journal, flawed_methodology))) -> retracts(medical_journal, research_study))",
+        "natural": "If it is not the case that the medical committee validates the research study or that under the condition of the medical journal publishing the research study, the medical journal does not cite the flawed methodology, then the medical journal retracts the research study."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "peer_reviews(research_study, medical_committee)",
+        "natural": "The medical committee peer reviews the research study."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "replicates(independent_lab, research_study)",
+        "natural": "The independent lab replicates the research study."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-publishes(medical_journal, research_study)",
+        "natural": "It is not the case that the medical journal publishes the research study."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-identifies(medical_journal, disease_cause)",
+        "natural": "The medical journal does not identify the disease cause."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-develops(medical_journal, treatment_technology)",
+        "natural": "The medical journal does not develop the treatment technology."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-commercializes(research_study, pharmaceutical_company)",
+        "natural": "The pharmaceutical company does not commercialize the research study."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-validates(medical_committee, research_study)",
+        "natural": "The medical committee does not validate the research study."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-retracts(medical_journal, research_study)",
+        "natural": "The medical journal does not retract the research study."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-approves(regulatory_agency, treatment_technology)",
+        "natural": "The regulatory agency does not approve the treatment technology."
+      }
+    }
+  }
+}

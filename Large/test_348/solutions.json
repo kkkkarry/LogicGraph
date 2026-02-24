@@ -1,0 +1,1331 @@
+{
+  "solution_stats": {
+    "total_solutions": 13,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 10,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 11,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 12,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 13,
+        "steps_count": 3
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A3 | -A2)",
+              "prover9_expression": "(compliant_with_fda(manufacturer) | -violates_regulations(manufacturer))",
+              "natural": "The manufacturer is compliant with the FDA or it does not violate regulations."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A3",
+              "prover9_expression": "-compliant_with_fda(manufacturer)",
+              "natural": "The manufacturer is not compliant with the FDA."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The manufacturer does not violate regulations."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A2 | (-G -> -A1))",
+              "prover9_expression": "(violates_regulations(manufacturer) | (-authorized_for_market(drug) -> -approved(clinical_trial)))",
+              "natural": "Either the manufacturer violates regulations or, if the drug is not authorized for market, the clinical trial is not approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-violates_regulations(manufacturer)",
+              "natural": "The manufacturer does not violate regulations."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If the drug is not authorized for market, then the clinical trial is not approved."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-authorized_for_market(drug) -> approved(clinical_trial))",
+              "natural": "In the event that the drug is not authorized for market, the clinical trial is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-authorized_for_market(drug) -> -approved(clinical_trial))",
+              "natural": "If the drug is not authorized for market, then the clinical trial is not approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(-(A5 -> G) -> A6)",
+              "prover9_expression": "(-(has_approval(blockbuster_drug) -> authorized_for_market(drug)) -> minor_violation(manufacturer))",
+              "natural": "If (the blockbuster drug having approval does not imply the drug is authorized for market), then the manufacturer commits a minor violation."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A6",
+              "prover9_expression": "-minor_violation(manufacturer)",
+              "natural": "The manufacturer does not commit a minor violation."
+            }
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "Should the blockbuster drug have approval, the drug is authorized for market."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(has_approval(game_changer_drug) | has_approval(blockbuster_drug))",
+              "natural": "Either the game changer drug has approval or the blockbuster drug has approval."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A4 -> G)",
+              "prover9_expression": "(has_approval(game_changer_drug) -> authorized_for_market(drug))",
+              "natural": "In the event that the game changer drug has approval, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(has_approval(blockbuster_drug) -> authorized_for_market(drug))",
+              "natural": "Should the blockbuster drug have approval, the drug is authorized for market."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(completed_phase_iii(game_changer_drug) -> passes_safety_test(game_changer_drug))",
+              "natural": "Provided that the game changer drug completed phase III, it passes the safety test."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A8)",
+              "prover9_expression": "(completed_phase_ii(game_changer_drug) -> passes_efficacy_test(game_changer_drug))",
+              "natural": "If the game changer drug completed phase II, then it passes the efficacy test."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A9 | A10)",
+              "prover9_expression": "(completed_phase_iii(game_changer_drug) | completed_phase_ii(game_changer_drug))",
+              "natural": "Either the game changer drug completed phase III or it completed phase II."
+            }
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "The game changer drug passes the safety test or it passes the efficacy test."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug))",
+              "natural": "The game changer drug passes the safety test or it passes the efficacy test."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(passes_safety_test(game_changer_drug) -> authorized_for_market(drug))",
+              "natural": "If the game changer drug passes the safety test, then the drug is authorized for market."
+            },
+            {
+              "id": "Rule37",
+              "prover9": "(A8 -> G)",
+              "prover9_expression": "(passes_efficacy_test(game_changer_drug) -> authorized_for_market(drug))",
+              "natural": "In the event that the game changer drug passes the efficacy test, the drug is authorized for market."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 | A11)",
+              "prover9_expression": "(over_the_counter(controlled_substance) | requires_authorization(controlled_substance))",
+              "natural": "Either the controlled substance is over the counter or it requires authorization."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-over_the_counter(controlled_substance)",
+              "natural": "It is not the case that the controlled substance is over the counter."
+            }
+          ],
+          "conclusion": "A11",
+          "natural": "The controlled substance requires authorization."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> G)",
+              "prover9_expression": "(requires_authorization(controlled_substance) -> authorized_for_market(drug))",
+              "natural": "Provided that the controlled substance requires authorization, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A11",
+              "prover9_expression": "requires_authorization(controlled_substance)",
+              "natural": "The controlled substance requires authorization."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A18 -> A19)",
+              "prover9_expression": "(appeals_decision(manufacturer) -> wins_appeal(manufacturer))",
+              "natural": "Provided that the manufacturer appeals the decision, it wins the appeal."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A18 -> -A19)",
+              "prover9_expression": "(appeals_decision(manufacturer) -> -wins_appeal(manufacturer))",
+              "natural": "If the manufacturer appeals the decision, then it does not win the appeal."
+            }
+          ],
+          "conclusion": "-A18",
+          "natural": "The manufacturer does not appeal the decision."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule41",
+              "prover9": "(-(A17 -> -A14) -> A18)",
+              "prover9_expression": "(-(license_revoked(manufacturer) -> -receives_warning_letter(fda)) -> appeals_decision(manufacturer))",
+              "natural": "Given that (the manufacturer's license being revoked does not imply the FDA does not receive a warning letter), the manufacturer appeals the decision."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A18",
+              "prover9_expression": "-appeals_decision(manufacturer)",
+              "natural": "The manufacturer does not appeal the decision."
+            }
+          ],
+          "conclusion": "(A17 -> -A14)",
+          "natural": "Whenever the manufacturer's license is revoked, the FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(receives_suspension(manufacturer) -> license_revoked(manufacturer))",
+              "natural": "Should the manufacturer receive a suspension, its license is revoked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> -A14)",
+              "prover9_expression": "(license_revoked(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "Whenever the manufacturer's license is revoked, the FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A16 -> -A14)",
+          "natural": "If the manufacturer receives a suspension, then the FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(receives_fine(manufacturer) | receives_suspension(manufacturer))",
+              "natural": "The manufacturer receives a fine or the manufacturer receives a suspension."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> -A14)",
+              "prover9_expression": "(receives_fine(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "In the event that the manufacturer receives a fine, it is not the case that the FDA receives a warning letter."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> -A14)",
+              "prover9_expression": "(receives_suspension(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "If the manufacturer receives a suspension, then the FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "The FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 | (A13 -> G))",
+              "prover9_expression": "(receives_warning_letter(fda) | (under_investigation(manufacturer) -> authorized_for_market(drug)))",
+              "natural": "Either the FDA receives a warning letter or, if the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-receives_warning_letter(fda)",
+              "natural": "The FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(under_investigation(manufacturer) -> authorized_for_market(drug))",
+              "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "under_investigation(manufacturer)",
+              "natural": "The manufacturer is under investigation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A23 | (A22 -> A20))",
+              "prover9_expression": "(settles_case(manufacturer) | (infringes_copyright(manufacturer) -> faces_lawsuit(manufacturer)))",
+              "natural": "Either the manufacturer settles the case or, if it infringes a copyright, it faces a lawsuit."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A23",
+              "prover9_expression": "-settles_case(manufacturer)",
+              "natural": "The manufacturer does not settle the case."
+            }
+          ],
+          "conclusion": "(A22 -> A20)",
+          "natural": "Whenever the manufacturer infringes a copyright, it faces a lawsuit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A21 -> A22)",
+              "prover9_expression": "(violates_patent(manufacturer) -> infringes_copyright(manufacturer))",
+              "natural": "Should the manufacturer violate a patent, it infringes a copyright."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A20)",
+              "prover9_expression": "(infringes_copyright(manufacturer) -> faces_lawsuit(manufacturer))",
+              "natural": "Whenever the manufacturer infringes a copyright, it faces a lawsuit."
+            }
+          ],
+          "conclusion": "(A21 -> A20)",
+          "natural": "In the event that the manufacturer violates a patent, it faces a lawsuit."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A2 -> A21)",
+              "prover9_expression": "(violates_regulations(manufacturer) -> violates_patent(manufacturer))",
+              "natural": "If the manufacturer violates regulations, then it violates a patent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> A20)",
+              "prover9_expression": "(violates_patent(manufacturer) -> faces_lawsuit(manufacturer))",
+              "natural": "In the event that the manufacturer violates a patent, it faces a lawsuit."
+            }
+          ],
+          "conclusion": "(A2 -> A20)",
+          "natural": "Given that the manufacturer violates regulations, it faces a lawsuit."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A20)",
+              "prover9_expression": "(violates_regulations(manufacturer) -> faces_lawsuit(manufacturer))",
+              "natural": "Given that the manufacturer violates regulations, it faces a lawsuit."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A20",
+              "prover9_expression": "-faces_lawsuit(manufacturer)",
+              "natural": "The manufacturer does not face a lawsuit."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The manufacturer does not violate regulations."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A2 | (-G -> -A1))",
+              "prover9_expression": "(violates_regulations(manufacturer) | (-authorized_for_market(drug) -> -approved(clinical_trial)))",
+              "natural": "Either the manufacturer violates regulations or, if the drug is not authorized for market, the clinical trial is not approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-violates_regulations(manufacturer)",
+              "natural": "The manufacturer does not violate regulations."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If the drug is not authorized for market, then the clinical trial is not approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-authorized_for_market(drug) -> approved(clinical_trial))",
+              "natural": "In the event that the drug is not authorized for market, the clinical trial is approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-authorized_for_market(drug) -> -approved(clinical_trial))",
+              "natural": "If the drug is not authorized for market, then the clinical trial is not approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(fails_compliance_check(manufacturer) | passes_compliance_check(manufacturer))",
+              "natural": "The manufacturer fails the compliance check or it passes the compliance check."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A25 -> -A24)",
+              "prover9_expression": "(fails_compliance_check(manufacturer) -> -receives_audit(manufacturer))",
+              "natural": "Provided that the manufacturer fails the compliance check, it does not receive an audit."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A26 -> -A24)",
+              "prover9_expression": "(passes_compliance_check(manufacturer) -> -receives_audit(manufacturer))",
+              "natural": "If the manufacturer passes the compliance check, then it does not receive an audit."
+            }
+          ],
+          "conclusion": "-A24",
+          "natural": "The manufacturer does not receive an audit."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule44",
+              "prover9": "(-(A5 -> G) -> A24)",
+              "prover9_expression": "(-(has_approval(blockbuster_drug) -> authorized_for_market(drug)) -> receives_audit(manufacturer))",
+              "natural": "Should (the blockbuster drug having approval not imply the drug is authorized for market), the manufacturer receives an audit."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A24",
+              "prover9_expression": "-receives_audit(manufacturer)",
+              "natural": "The manufacturer does not receive an audit."
+            }
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "Should the blockbuster drug have approval, the drug is authorized for market."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(has_approval(game_changer_drug) | has_approval(blockbuster_drug))",
+              "natural": "Either the game changer drug has approval or the blockbuster drug has approval."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A4 -> G)",
+              "prover9_expression": "(has_approval(game_changer_drug) -> authorized_for_market(drug))",
+              "natural": "In the event that the game changer drug has approval, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(has_approval(blockbuster_drug) -> authorized_for_market(drug))",
+              "natural": "Should the blockbuster drug have approval, the drug is authorized for market."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A29 | A30)",
+              "prover9_expression": "(positive_review(advisory_committee) | negative_review(advisory_committee))",
+              "natural": "Either the advisory committee gives a positive review or it gives a negative review."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A29 -> (-(-(A7 | A8) -> A27) -> A28))",
+              "prover9_expression": "(positive_review(advisory_committee) -> (-(-(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug)) -> conditional_approval(game_changer_drug)) -> full_approval(game_changer_drug)))",
+              "natural": "If the advisory committee gives a positive review, then, if it is not the case that (either the game changer drug passes the safety test or it passes the efficacy test) implies conditional approval, the drug receives full approval."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A30 -> (-(-(A7 | A8) -> A27) -> A28))",
+              "prover9_expression": "(negative_review(advisory_committee) -> (-(-(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug)) -> conditional_approval(game_changer_drug)) -> full_approval(game_changer_drug)))",
+              "natural": "In the event that the advisory committee gives a negative review, then, provided that (neither the game changer drug passes the safety test nor it passes the efficacy test) does not lead to conditional approval, the drug receives full approval."
+            }
+          ],
+          "conclusion": "(-(-(A7 | A8) -> A27) -> A28)",
+          "natural": "Given that (neither the game changer drug passes the safety test nor it passes the efficacy test) does not lead to conditional approval, the drug receives full approval."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A7 | A8) -> A27) -> A28)",
+              "prover9_expression": "(-(-(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug)) -> conditional_approval(game_changer_drug)) -> full_approval(game_changer_drug))",
+              "natural": "Given that (neither the game changer drug passes the safety test nor it passes the efficacy test) does not lead to conditional approval, the drug receives full approval."
+            },
+            {
+              "id": "Rule47",
+              "prover9": "(-(-(A7 | A8) -> A27) -> -A28)",
+              "prover9_expression": "(-(-(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug)) -> conditional_approval(game_changer_drug)) -> -full_approval(game_changer_drug))",
+              "natural": "Should (neither the game changer drug passes the safety test nor it passes the efficacy test) not imply conditional approval, the drug does not receive full approval."
+            }
+          ],
+          "conclusion": "(-(A7 | A8) -> A27)",
+          "natural": "Provided that it is not the case that (the game changer drug passes the safety test or it passes the efficacy test), the drug receives conditional approval."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 | A8) -> A27)",
+              "prover9_expression": "(-(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug)) -> conditional_approval(game_changer_drug))",
+              "natural": "Provided that it is not the case that (the game changer drug passes the safety test or it passes the efficacy test), the drug receives conditional approval."
+            },
+            {
+              "id": "Rule46",
+              "prover9": "(-(A7 | A8) -> -A27)",
+              "prover9_expression": "(-(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug)) -> -conditional_approval(game_changer_drug))",
+              "natural": "In the event that (the game changer drug does not pass the safety test and it does not pass the efficacy test), the drug does not receive conditional approval."
+            }
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "The game changer drug passes the safety test or it passes the efficacy test."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(passes_safety_test(game_changer_drug) | passes_efficacy_test(game_changer_drug))",
+              "natural": "The game changer drug passes the safety test or it passes the efficacy test."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(passes_safety_test(game_changer_drug) -> authorized_for_market(drug))",
+              "natural": "If the game changer drug passes the safety test, then the drug is authorized for market."
+            },
+            {
+              "id": "Rule37",
+              "prover9": "(A8 -> G)",
+              "prover9_expression": "(passes_efficacy_test(game_changer_drug) -> authorized_for_market(drug))",
+              "natural": "In the event that the game changer drug passes the efficacy test, the drug is authorized for market."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A34 | -A33)",
+              "prover9_expression": "(restricted_substance(controlled_substance) | -banned_substance(controlled_substance))",
+              "natural": "Either the controlled substance is a restricted substance or it is not a banned substance."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A34",
+              "prover9_expression": "-restricted_substance(controlled_substance)",
+              "natural": "The controlled substance is not a restricted substance."
+            }
+          ],
+          "conclusion": "-A33",
+          "natural": "The controlled substance is not a banned substance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule49",
+              "prover9": "(-A32 -> A33)",
+              "prover9_expression": "(-requires_prescription(controlled_substance) -> banned_substance(controlled_substance))",
+              "natural": "Provided that the controlled substance does not require a prescription, it is a banned substance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A33",
+              "prover9_expression": "-banned_substance(controlled_substance)",
+              "natural": "The controlled substance is not a banned substance."
+            }
+          ],
+          "conclusion": "A32",
+          "natural": "The controlled substance requires a prescription."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A32 -> -A31)",
+              "prover9_expression": "(requires_prescription(controlled_substance) -> -exempt_from_authorization(controlled_substance))",
+              "natural": "Should the controlled substance require a prescription, it is not exempt from authorization."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A32",
+              "prover9_expression": "requires_prescription(controlled_substance)",
+              "natural": "The controlled substance requires a prescription."
+            }
+          ],
+          "conclusion": "-A31",
+          "natural": "The controlled substance is not exempt from authorization."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule48",
+              "prover9": "(-A11 -> A31)",
+              "prover9_expression": "(-requires_authorization(controlled_substance) -> exempt_from_authorization(controlled_substance))",
+              "natural": "If the controlled substance does not require authorization, then it is exempt from authorization."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A31",
+              "prover9_expression": "-exempt_from_authorization(controlled_substance)",
+              "natural": "The controlled substance is not exempt from authorization."
+            }
+          ],
+          "conclusion": "A11",
+          "natural": "The controlled substance requires authorization."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> G)",
+              "prover9_expression": "(requires_authorization(controlled_substance) -> authorized_for_market(drug))",
+              "natural": "Provided that the controlled substance requires authorization, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A11",
+              "prover9_expression": "requires_authorization(controlled_substance)",
+              "natural": "The controlled substance requires authorization."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A36 | A37)",
+              "prover9_expression": "(accepts_penalty(manufacturer) | contests_penalty(manufacturer))",
+              "natural": "The manufacturer accepts the penalty or it contests the penalty."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A36 -> -A35)",
+              "prover9_expression": "(accepts_penalty(manufacturer) -> -challenges_ruling(manufacturer))",
+              "natural": "Given that the manufacturer accepts the penalty, it does not challenge the ruling."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A37 -> -A35)",
+              "prover9_expression": "(contests_penalty(manufacturer) -> -challenges_ruling(manufacturer))",
+              "natural": "If the manufacturer contests the penalty, then it does not challenge the ruling."
+            }
+          ],
+          "conclusion": "-A35",
+          "natural": "The manufacturer does not challenge the ruling."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A35 | -A18)",
+              "prover9_expression": "(challenges_ruling(manufacturer) | -appeals_decision(manufacturer))",
+              "natural": "The manufacturer challenges the ruling or it does not appeal the decision."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A35",
+              "prover9_expression": "-challenges_ruling(manufacturer)",
+              "natural": "The manufacturer does not challenge the ruling."
+            }
+          ],
+          "conclusion": "-A18",
+          "natural": "The manufacturer does not appeal the decision."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule41",
+              "prover9": "(-(A17 -> -A14) -> A18)",
+              "prover9_expression": "(-(license_revoked(manufacturer) -> -receives_warning_letter(fda)) -> appeals_decision(manufacturer))",
+              "natural": "Given that (the manufacturer's license being revoked does not imply the FDA does not receive a warning letter), the manufacturer appeals the decision."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A18",
+              "prover9_expression": "-appeals_decision(manufacturer)",
+              "natural": "The manufacturer does not appeal the decision."
+            }
+          ],
+          "conclusion": "(A17 -> -A14)",
+          "natural": "Whenever the manufacturer's license is revoked, the FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(receives_suspension(manufacturer) -> license_revoked(manufacturer))",
+              "natural": "Should the manufacturer receive a suspension, its license is revoked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> -A14)",
+              "prover9_expression": "(license_revoked(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "Whenever the manufacturer's license is revoked, the FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A16 -> -A14)",
+          "natural": "If the manufacturer receives a suspension, then the FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(receives_fine(manufacturer) | receives_suspension(manufacturer))",
+              "natural": "The manufacturer receives a fine or the manufacturer receives a suspension."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> -A14)",
+              "prover9_expression": "(receives_fine(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "In the event that the manufacturer receives a fine, it is not the case that the FDA receives a warning letter."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> -A14)",
+              "prover9_expression": "(receives_suspension(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "If the manufacturer receives a suspension, then the FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "The FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 | (A13 -> G))",
+              "prover9_expression": "(receives_warning_letter(fda) | (under_investigation(manufacturer) -> authorized_for_market(drug)))",
+              "natural": "Either the FDA receives a warning letter or, if the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-receives_warning_letter(fda)",
+              "natural": "The FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(under_investigation(manufacturer) -> authorized_for_market(drug))",
+              "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "under_investigation(manufacturer)",
+              "natural": "The manufacturer is under investigation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(A41 | (A39 -> A40))",
+              "prover9_expression": "(accepts_judgment(manufacturer) | (submits_appeal(manufacturer) -> requests_hearing(manufacturer)))",
+              "natural": "The manufacturer accepts the judgment or, if it submits an appeal, it requests a hearing."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A41",
+              "prover9_expression": "-accepts_judgment(manufacturer)",
+              "natural": "The manufacturer does not accept the judgment."
+            }
+          ],
+          "conclusion": "(A39 -> A40)",
+          "natural": "Provided that the manufacturer submits an appeal, it requests a hearing."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A39 -> A40)",
+              "prover9_expression": "(submits_appeal(manufacturer) -> requests_hearing(manufacturer))",
+              "natural": "Provided that the manufacturer submits an appeal, it requests a hearing."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A40 -> A38)",
+              "prover9_expression": "(requests_hearing(manufacturer) -> files_petition(manufacturer))",
+              "natural": "Should the manufacturer request a hearing, it files a petition."
+            }
+          ],
+          "conclusion": "(A39 -> A38)",
+          "natural": "Whenever the manufacturer submits an appeal, it files a petition."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule42",
+              "prover9": "(-(A17 -> -A14) -> A39)",
+              "prover9_expression": "(-(license_revoked(manufacturer) -> -receives_warning_letter(fda)) -> submits_appeal(manufacturer))",
+              "natural": "Provided that (the manufacturer's license being revoked does not imply the FDA does not receive a warning letter), the manufacturer submits an appeal."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A39 -> A38)",
+              "prover9_expression": "(submits_appeal(manufacturer) -> files_petition(manufacturer))",
+              "natural": "Whenever the manufacturer submits an appeal, it files a petition."
+            }
+          ],
+          "conclusion": "(-(A17 -> -A14) -> A38)",
+          "natural": "If (the manufacturer's license being revoked does not imply the FDA does not receive a warning letter), then the manufacturer files a petition."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A17 -> -A14) -> A38)",
+              "prover9_expression": "(-(license_revoked(manufacturer) -> -receives_warning_letter(fda)) -> files_petition(manufacturer))",
+              "natural": "If (the manufacturer's license being revoked does not imply the FDA does not receive a warning letter), then the manufacturer files a petition."
+            },
+            {
+              "id": "Rule43",
+              "prover9": "(-(A17 -> -A14) -> -A38)",
+              "prover9_expression": "(-(license_revoked(manufacturer) -> -receives_warning_letter(fda)) -> -files_petition(manufacturer))",
+              "natural": "In the event that (the manufacturer's license being revoked does not imply the FDA does not receive a warning letter), the manufacturer does not file a petition."
+            }
+          ],
+          "conclusion": "(A17 -> -A14)",
+          "natural": "Whenever the manufacturer's license is revoked, the FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(receives_suspension(manufacturer) -> license_revoked(manufacturer))",
+              "natural": "Should the manufacturer receive a suspension, its license is revoked."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> -A14)",
+              "prover9_expression": "(license_revoked(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "Whenever the manufacturer's license is revoked, the FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A16 -> -A14)",
+          "natural": "If the manufacturer receives a suspension, then the FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(receives_fine(manufacturer) | receives_suspension(manufacturer))",
+              "natural": "The manufacturer receives a fine or the manufacturer receives a suspension."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> -A14)",
+              "prover9_expression": "(receives_fine(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "In the event that the manufacturer receives a fine, it is not the case that the FDA receives a warning letter."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> -A14)",
+              "prover9_expression": "(receives_suspension(manufacturer) -> -receives_warning_letter(fda))",
+              "natural": "If the manufacturer receives a suspension, then the FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "-A14",
+          "natural": "The FDA does not receive a warning letter."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 | (A13 -> G))",
+              "prover9_expression": "(receives_warning_letter(fda) | (under_investigation(manufacturer) -> authorized_for_market(drug)))",
+              "natural": "Either the FDA receives a warning letter or, if the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A14",
+              "prover9_expression": "-receives_warning_letter(fda)",
+              "natural": "The FDA does not receive a warning letter."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(under_investigation(manufacturer) -> authorized_for_market(drug))",
+              "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "under_investigation(manufacturer)",
+              "natural": "The manufacturer is under investigation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(A43 -> A44)",
+              "prover9_expression": "(accused_of_misconduct(manufacturer) -> charged_with_fraud(manufacturer))",
+              "natural": "Provided that the manufacturer is accused of misconduct, it is charged with fraud."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(A44 -> A42)",
+              "prover9_expression": "(charged_with_fraud(manufacturer) -> investigated_for_fraud(manufacturer))",
+              "natural": "Whenever the manufacturer is charged with fraud, it is investigated for fraud."
+            }
+          ],
+          "conclusion": "(A43 -> A42)",
+          "natural": "Given that the manufacturer is accused of misconduct, it is investigated for fraud."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A13 -> A43)",
+              "prover9_expression": "(under_investigation(manufacturer) -> accused_of_misconduct(manufacturer))",
+              "natural": "If the manufacturer is under investigation, then it is accused of misconduct."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A43 -> A42)",
+              "prover9_expression": "(accused_of_misconduct(manufacturer) -> investigated_for_fraud(manufacturer))",
+              "natural": "Given that the manufacturer is accused of misconduct, it is investigated for fraud."
+            }
+          ],
+          "conclusion": "(A13 -> A42)",
+          "natural": "Whenever the manufacturer is under investigation, it is investigated for fraud."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A42)",
+              "prover9_expression": "(under_investigation(manufacturer) -> investigated_for_fraud(manufacturer))",
+              "natural": "Whenever the manufacturer is under investigation, it is investigated for fraud."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(A42 -> G)",
+              "prover9_expression": "(investigated_for_fraud(manufacturer) -> authorized_for_market(drug))",
+              "natural": "If the manufacturer is investigated for fraud, then the drug is authorized for market."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(under_investigation(manufacturer) -> authorized_for_market(drug))",
+              "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "under_investigation(manufacturer)",
+              "natural": "The manufacturer is under investigation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "family_id": 5,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(A46 | (-(A13 -> G) -> -A45))",
+              "prover9_expression": "(serious_violation(manufacturer) | (-(under_investigation(manufacturer) -> authorized_for_market(drug)) -> -minor_infraction(manufacturer)))",
+              "natural": "Either the manufacturer commits a serious violation or, if (the manufacturer being under investigation does not imply the drug is authorized for market), it does not commit a minor infraction."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A46",
+              "prover9_expression": "-serious_violation(manufacturer)",
+              "natural": "The manufacturer does not commit a serious violation."
+            }
+          ],
+          "conclusion": "(-(A13 -> G) -> -A45)",
+          "natural": "Should (the manufacturer being under investigation not imply the drug is authorized for market), the manufacturer does not commit a minor infraction."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(-(A13 -> G) -> A45)",
+              "prover9_expression": "(-(under_investigation(manufacturer) -> authorized_for_market(drug)) -> minor_infraction(manufacturer))",
+              "natural": "If it is not the case that (the manufacturer being under investigation implies the drug is authorized for market), then the manufacturer commits a minor infraction."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A13 -> G) -> -A45)",
+              "prover9_expression": "(-(under_investigation(manufacturer) -> authorized_for_market(drug)) -> -minor_infraction(manufacturer))",
+              "natural": "Should (the manufacturer being under investigation not imply the drug is authorized for market), the manufacturer does not commit a minor infraction."
+            }
+          ],
+          "conclusion": "(A13 -> G)",
+          "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> G)",
+              "prover9_expression": "(under_investigation(manufacturer) -> authorized_for_market(drug))",
+              "natural": "Given that the manufacturer is under investigation, the drug is authorized for market."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A13",
+              "prover9_expression": "under_investigation(manufacturer)",
+              "natural": "The manufacturer is under investigation."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The drug is authorized for market."
+        }
+      ]
+    }
+  ]
+}

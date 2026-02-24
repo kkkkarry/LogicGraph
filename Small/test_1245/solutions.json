@@ -1,0 +1,627 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A5 | -A4)",
+              "prover9_expression": "(contacted_support(admin) | -reviewed_logs(admin))",
+              "natural": "Either the admin contacted support, or the admin did not review the logs."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A5",
+              "prover9_expression": "-contacted_support(admin)",
+              "natural": "The admin did not contact support."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "The admin did not review the logs."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A4 | (-(A1 -> G) -> A3))",
+              "prover9_expression": "(reviewed_logs(admin) | (-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system)))",
+              "natural": "Either the admin reviewed the logs, or, if it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-reviewed_logs(admin)",
+              "natural": "The admin did not review the logs."
+            }
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> G) -> A3)",
+              "prover9_expression": "(-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system))",
+              "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-triggers_alert(system)",
+              "natural": "The system does not trigger an alert."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_access(doctor, patient_records) | has_access(nurse, patient_records))",
+              "natural": "Either a doctor has access to patient records or a nurse has access to patient records."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_access(doctor, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_access(nurse, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a nurse has access to patient records, then the organization is compliant with HIPAA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The organization is compliant with HIPAA."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-(A11 -> -A10) -> A13)",
+              "prover9_expression": "(-(diagnoses_infection(ai_model, ransomware) -> -grants_exemption(compliance_officer)) -> issues_denial(management))",
+              "natural": "If it is not the case that the AI model diagnosing a ransomware infection implies that the compliance officer does not grant an exemption, then management issues a denial."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(-(A11 -> -A10) -> -A13)",
+              "prover9_expression": "(-(diagnoses_infection(ai_model, ransomware) -> -grants_exemption(compliance_officer)) -> -issues_denial(management))",
+              "natural": "If it is not the case that the AI model diagnosing a ransomware infection implies that the compliance officer does not grant an exemption, then management does not issue a denial."
+            }
+          ],
+          "conclusion": "(A11 -> -A10)",
+          "natural": "Provided that the AI model diagnoses a ransomware infection, the compliance officer does not grant an exemption."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(diagnoses_infection(ai_model, ransomware) | confirms_outbreak(response_team, ransomware))",
+              "natural": "Either the AI model diagnoses a ransomware infection or the response team confirms a ransomware outbreak."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> -A10)",
+              "prover9_expression": "(diagnoses_infection(ai_model, ransomware) -> -grants_exemption(compliance_officer))",
+              "natural": "Provided that the AI model diagnoses a ransomware infection, the compliance officer does not grant an exemption."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> -A10)",
+              "prover9_expression": "(confirms_outbreak(response_team, ransomware) -> -grants_exemption(compliance_officer))",
+              "natural": "Under the condition that the response team confirms a ransomware outbreak, the compliance officer does not grant an exemption."
+            }
+          ],
+          "conclusion": "-A10",
+          "natural": "The compliance officer does not grant an exemption."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A8 -> A9) -> A10)",
+              "prover9_expression": "(-(detects_anomaly(ids, clinic_network) -> generates_report(ids, incident)) -> grants_exemption(compliance_officer))",
+              "natural": "If it is not the case that the IDS detecting an anomaly in the clinic network implies it generates a report on the incident, then the compliance officer grants an exemption."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A10",
+              "prover9_expression": "-grants_exemption(compliance_officer)",
+              "natural": "The compliance officer does not grant an exemption."
+            }
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "If the IDS detects an anomaly in the clinic network, then the IDS generates a report on the incident."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(detects_anomaly(ids, clinic_network) -> generates_report(ids, incident))",
+              "natural": "If the IDS detects an anomaly in the clinic network, then the IDS generates a report on the incident."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A9 -> -A7)",
+              "prover9_expression": "(generates_report(ids, incident) -> -permits_override(security_manager))",
+              "natural": "Under the condition that the IDS generates a report on the incident, the security manager does not permit an override."
+            }
+          ],
+          "conclusion": "(A8 -> -A7)",
+          "natural": "Provided that the IDS detects an anomaly in the clinic network, the security manager does not permit an override."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> -A7)",
+              "prover9_expression": "(detects_anomaly(ids, clinic_network) -> -permits_override(security_manager))",
+              "natural": "Provided that the IDS detects an anomaly in the clinic network, the security manager does not permit an override."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A8",
+              "prover9_expression": "detects_anomaly(ids, clinic_network)",
+              "natural": "The IDS detects an anomaly in the clinic network."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The security manager does not permit an override."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(-(A6 -> A3) -> A7)",
+              "prover9_expression": "(-(isolates_device(quarantine_system) -> triggers_alert(system)) -> permits_override(security_manager))",
+              "natural": "If it is not the case that the quarantine system isolating the device implies the system triggers an alert, then the security manager permits an override."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-permits_override(security_manager)",
+              "natural": "The security manager does not permit an override."
+            }
+          ],
+          "conclusion": "(A6 -> A3)",
+          "natural": "If the quarantine system isolates the device, then the system triggers an alert."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-(A1 -> G) -> A6)",
+              "prover9_expression": "(-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> isolates_device(quarantine_system))",
+              "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the quarantine system isolates the device."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> A3)",
+              "prover9_expression": "(isolates_device(quarantine_system) -> triggers_alert(system))",
+              "natural": "If the quarantine system isolates the device, then the system triggers an alert."
+            }
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> G) -> A3)",
+              "prover9_expression": "(-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system))",
+              "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-triggers_alert(system)",
+              "natural": "The system does not trigger an alert."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_access(doctor, patient_records) | has_access(nurse, patient_records))",
+              "natural": "Either a doctor has access to patient records or a nurse has access to patient records."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_access(doctor, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_access(nurse, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a nurse has access to patient records, then the organization is compliant with HIPAA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The organization is compliant with HIPAA."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(-(A19 -> (A17 | (A16 -> -A15))) -> A20)",
+              "prover9_expression": "(-(displays_warning(dashboard, unauthorized_attempt) -> (escalates_alert(soc_analyst) | (requires_authorization(device_connection) -> -delays_response(it_department)))) -> acknowledges_alert(noc_technician))",
+              "natural": "If it is not the case that the dashboard displaying a warning about an unauthorized attempt implies that either the SOC analyst escalates the alert or, whenever a device connection requires authorization, the IT department does not delay the response, then the NOC technician acknowledges the alert."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(-(A19 -> (A17 | (A16 -> -A15))) -> -A20)",
+              "prover9_expression": "(-(displays_warning(dashboard, unauthorized_attempt) -> (escalates_alert(soc_analyst) | (requires_authorization(device_connection) -> -delays_response(it_department)))) -> -acknowledges_alert(noc_technician))",
+              "natural": "If it is not the case that the dashboard displaying a warning about an unauthorized attempt implies that either the SOC analyst escalates the alert or, whenever a device connection requires authorization, the IT department does not delay the response, then the NOC technician does not acknowledge the alert."
+            }
+          ],
+          "conclusion": "(A19 -> (A17 | (A16 -> -A15)))",
+          "natural": "Under the condition that the dashboard displays a warning about an unauthorized attempt, either the SOC analyst escalates the alert or, whenever a device connection requires authorization, the IT department does not delay the response."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A18 -> A19)",
+              "prover9_expression": "(monitors_show(dashboard, access_attempts) -> displays_warning(dashboard, unauthorized_attempt))",
+              "natural": "If the dashboard monitors show access attempts, then the dashboard displays a warning about an unauthorized attempt."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> (A17 | (A16 -> -A15)))",
+              "prover9_expression": "(displays_warning(dashboard, unauthorized_attempt) -> (escalates_alert(soc_analyst) | (requires_authorization(device_connection) -> -delays_response(it_department))))",
+              "natural": "Under the condition that the dashboard displays a warning about an unauthorized attempt, either the SOC analyst escalates the alert or, whenever a device connection requires authorization, the IT department does not delay the response."
+            }
+          ],
+          "conclusion": "(A18 -> (A17 | (A16 -> -A15)))",
+          "natural": "If the dashboard monitors show access attempts, then either the SOC analyst escalates the alert or, provided that a device connection requires authorization, the IT department does not delay the response."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A17 | (A16 -> -A15)))",
+              "prover9_expression": "(monitors_show(dashboard, access_attempts) -> (escalates_alert(soc_analyst) | (requires_authorization(device_connection) -> -delays_response(it_department))))",
+              "natural": "If the dashboard monitors show access attempts, then either the SOC analyst escalates the alert or, provided that a device connection requires authorization, the IT department does not delay the response."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A18",
+              "prover9_expression": "monitors_show(dashboard, access_attempts)",
+              "natural": "The dashboard monitors show access attempts."
+            }
+          ],
+          "conclusion": "(A17 | (A16 -> -A15))",
+          "natural": "Either the SOC analyst escalates the alert, or, whenever a device connection requires authorization, the IT department does not delay the response."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 | (A16 -> -A15))",
+              "prover9_expression": "(escalates_alert(soc_analyst) | (requires_authorization(device_connection) -> -delays_response(it_department)))",
+              "natural": "Either the SOC analyst escalates the alert, or, whenever a device connection requires authorization, the IT department does not delay the response."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A17",
+              "prover9_expression": "-escalates_alert(soc_analyst)",
+              "natural": "The SOC analyst does not escalate the alert."
+            }
+          ],
+          "conclusion": "(A16 -> -A15)",
+          "natural": "Whenever a device connection requires authorization, the IT department does not delay the response."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> -A15)",
+              "prover9_expression": "(requires_authorization(device_connection) -> -delays_response(it_department))",
+              "natural": "Whenever a device connection requires authorization, the IT department does not delay the response."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A16",
+              "prover9_expression": "requires_authorization(device_connection)",
+              "natural": "The device connection requires authorization."
+            }
+          ],
+          "conclusion": "-A15",
+          "natural": "The IT department does not delay the response."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-(A14 | (-(A1 -> G) -> A3)) -> A15)",
+              "prover9_expression": "(-(approves_procedure(ciso, emergency_patch) | (-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system))) -> delays_response(it_department))",
+              "natural": "If it is not the case that either the CISO approves the emergency patch procedure or, if it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert, then the IT department delays the response."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A15",
+              "prover9_expression": "-delays_response(it_department)",
+              "natural": "The IT department does not delay the response."
+            }
+          ],
+          "conclusion": "(A14 | (-(A1 -> G) -> A3))",
+          "natural": "The CISO approves the emergency patch procedure, or, if it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 | (-(A1 -> G) -> A3))",
+              "prover9_expression": "(approves_procedure(ciso, emergency_patch) | (-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system)))",
+              "natural": "The CISO approves the emergency patch procedure, or, if it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A14",
+              "prover9_expression": "-approves_procedure(ciso, emergency_patch)",
+              "natural": "The CISO does not approve the emergency patch procedure."
+            }
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> G) -> A3)",
+              "prover9_expression": "(-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system))",
+              "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-triggers_alert(system)",
+              "natural": "The system does not trigger an alert."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_access(doctor, patient_records) | has_access(nurse, patient_records))",
+              "natural": "Either a doctor has access to patient records or a nurse has access to patient records."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_access(doctor, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_access(nurse, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a nurse has access to patient records, then the organization is compliant with HIPAA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The organization is compliant with HIPAA."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(-(A21 -> A3) -> A22) -> A23)",
+              "prover9_expression": "(-(-(initiates_scan(antivirus, endpoints) -> triggers_alert(system)) -> updates_signatures(antivirus)) -> rolls_back_update(it_staff))",
+              "natural": "If it is not the case that the condition \"it is not the case that the antivirus initiating a scan on the endpoints implies the system triggers an alert\" implies the antivirus updates its signatures, then the IT staff rolls back the update."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(-(A21 -> A3) -> A22) -> -A23)",
+              "prover9_expression": "(-(-(initiates_scan(antivirus, endpoints) -> triggers_alert(system)) -> updates_signatures(antivirus)) -> -rolls_back_update(it_staff))",
+              "natural": "If it is not the case that the condition \"it is not the case that the antivirus initiating a scan on the endpoints implies the system triggers an alert\" implies the antivirus updates its signatures, then the IT staff does not roll back the update."
+            }
+          ],
+          "conclusion": "(-(A21 -> A3) -> A22)",
+          "natural": "If it is not the case that the antivirus initiating a scan on the endpoints implies the system triggers an alert, then the antivirus updates its signatures."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A21 -> A3) -> A22)",
+              "prover9_expression": "(-(initiates_scan(antivirus, endpoints) -> triggers_alert(system)) -> updates_signatures(antivirus))",
+              "natural": "If it is not the case that the antivirus initiating a scan on the endpoints implies the system triggers an alert, then the antivirus updates its signatures."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(-(A21 -> A3) -> -A22)",
+              "prover9_expression": "(-(initiates_scan(antivirus, endpoints) -> triggers_alert(system)) -> -updates_signatures(antivirus))",
+              "natural": "If it is not the case that the antivirus initiating a scan on the endpoints implies the system triggers an alert, then the antivirus does not update its signatures."
+            }
+          ],
+          "conclusion": "(A21 -> A3)",
+          "natural": "Provided that the antivirus initiates a scan on the endpoints, the system triggers an alert."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(-(A1 -> G) -> A21)",
+              "prover9_expression": "(-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> initiates_scan(antivirus, endpoints))",
+              "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the antivirus initiates a scan on the endpoints."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> A3)",
+              "prover9_expression": "(initiates_scan(antivirus, endpoints) -> triggers_alert(system))",
+              "natural": "Provided that the antivirus initiates a scan on the endpoints, the system triggers an alert."
+            }
+          ],
+          "conclusion": "(-(A1 -> G) -> A3)",
+          "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> G) -> A3)",
+              "prover9_expression": "(-(has_access(doctor, patient_records) -> compliant_with_hipaa(organization)) -> triggers_alert(system))",
+              "natural": "If it is not the case that a doctor having access to patient records implies HIPAA compliance for the organization, then the system triggers an alert."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-triggers_alert(system)",
+              "natural": "The system does not trigger an alert."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_access(doctor, patient_records) | has_access(nurse, patient_records))",
+              "natural": "Either a doctor has access to patient records or a nurse has access to patient records."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_access(doctor, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a doctor has access to patient records, then the organization is compliant with HIPAA."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_access(nurse, patient_records) -> compliant_with_hipaa(organization))",
+              "natural": "If a nurse has access to patient records, then the organization is compliant with HIPAA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The organization is compliant with HIPAA."
+        }
+      ]
+    }
+  ]
+}

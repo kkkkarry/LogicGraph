@@ -1,0 +1,369 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → (A7 ∨ A8))",
+        "prover9_expression": "(authenticated_by(Artwork, Expert) -> (loaned_to(Artwork, Museum) | displayed_in(Artwork, Exhibition)))",
+        "natural": "If the artwork is authenticated by an expert, then it is either loaned to a museum or displayed in an exhibition."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A4 → (¬(¬(A1 ∨ G) → ¬A2) → ¬A3))",
+        "prover9_expression": "(is_made_of(Artwork, Material) -> (-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> -undergoes_restoration(Artwork)))",
+        "natural": "Provided that the artwork is made of a specific material, then if the absence of both provenance documentation and institutional protection does not lead to the artwork being forged, the artwork does not undergo restoration."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(is_made_of(Artwork, Material) | depicts_subject(Artwork, Food))",
+        "natural": "The artwork is either made of a specific material or depicts a food-related subject."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A5 → (¬(¬(A1 ∨ G) → ¬A2) → ¬A3))",
+        "prover9_expression": "(depicts_subject(Artwork, Food) -> (-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> -undergoes_restoration(Artwork)))",
+        "natural": "Should the artwork depict a food-related subject, then if the absence of both provenance documentation and institutional protection does not result in the artwork being forged, the artwork does not undergo restoration."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A6 → G)",
+        "prover9_expression": "(is_culturally_significant(Artwork) -> protected_by(Artwork, Institution))",
+        "natural": "If the artwork is culturally significant, then it is protected by a cultural institution."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A7 → A6)",
+        "prover9_expression": "(loaned_to(Artwork, Museum) -> is_culturally_significant(Artwork))",
+        "natural": "Once the artwork is loaned to a museum, it follows that the artwork is culturally significant."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A8 → A6)",
+        "prover9_expression": "(displayed_in(Artwork, Exhibition) -> is_culturally_significant(Artwork))",
+        "natural": "Under the condition that the artwork is displayed in an exhibition, then the artwork is culturally significant."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A9 → (A7 ∨ A8))",
+        "prover9_expression": "(studied_by(Artwork, Curator) -> (loaned_to(Artwork, Museum) | displayed_in(Artwork, Exhibition)))",
+        "natural": "Given that the artwork is studied by a curator, then it is either loaned to a museum or displayed in an exhibition."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A9 ∨ A10)",
+        "prover9_expression": "(studied_by(Artwork, Curator) | authenticated_by(Artwork, Expert))",
+        "natural": "The artwork is either studied by a curator or authenticated by an expert."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A1 ∨ G) → A2)",
+        "prover9_expression": "(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> is_forged(Artwork))",
+        "natural": "If the artwork lacks both provenance documentation and institutional protection, then the artwork is forged."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(¬(A1 ∨ G) → ¬A2) → A3)",
+        "prover9_expression": "(-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> undergoes_restoration(Artwork))",
+        "natural": "Should the absence of both provenance documentation and institutional protection not lead to the artwork being forged, then the artwork undergoes restoration."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A1",
+        "prover9_expression": "-has_provenance(Artwork, Region)",
+        "natural": "The artwork does not have provenance documentation linking it to a specific region."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "protected_by(Artwork, Institution)",
+    "natural": "The artwork is protected by a cultural institution."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (-(-(A1 | G) -> -A2) -> -A3))",
+            "(A5 -> (-(-(A1 | G) -> -A2) -> -A3))"
+          ],
+          "conclusion": "(-(-(A1 | G) -> -A2) -> -A3)",
+          "natural": "If the absence of both provenance documentation and institutional protection does not result in the artwork being forged, then the artwork does not undergo restoration."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A1 | G) -> -A2) -> A3)",
+            "(-(-(A1 | G) -> -A2) -> -A3)"
+          ],
+          "conclusion": "(-(A1 | G) -> -A2)",
+          "natural": "Provided that the artwork lacks both provenance documentation and institutional protection, then the artwork is not forged."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 | G) -> A2)",
+            "(-(A1 | G) -> -A2)"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "The artwork either has provenance documentation linking it to a specific region or is protected by a cultural institution."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The artwork is protected by a cultural institution."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A9 | A10)",
+            "(A9 -> (A7 | A8))",
+            "(A10 -> (A7 | A8))"
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "The artwork is either loaned to a museum or displayed in an exhibition."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> A6)",
+            "(A8 -> A6)"
+          ],
+          "conclusion": "A6",
+          "natural": "The artwork is culturally significant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> G)",
+            "A6"
+          ],
+          "conclusion": "G",
+          "natural": "The artwork is protected by a cultural institution."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "has_provenance(Artwork, Region)",
+      "A2": "is_forged(Artwork)",
+      "A3": "undergoes_restoration(Artwork)",
+      "A4": "is_made_of(Artwork, Material)",
+      "A5": "depicts_subject(Artwork, Food)",
+      "A6": "is_culturally_significant(Artwork)",
+      "A7": "loaned_to(Artwork, Museum)",
+      "A8": "displayed_in(Artwork, Exhibition)",
+      "A9": "studied_by(Artwork, Curator)",
+      "A10": "authenticated_by(Artwork, Expert)",
+      "G": "protected_by(Artwork, Institution)"
+    },
+    "natural_facts": {
+      "A1": "The artwork has provenance documentation linking it to a specific region.",
+      "A2": "The artwork is forged.",
+      "A3": "The artwork undergoes restoration.",
+      "A4": "The artwork is made of a specific material.",
+      "A5": "The artwork depicts a food-related subject.",
+      "A6": "The artwork is culturally significant.",
+      "A7": "The artwork is loaned to a museum.",
+      "A8": "The artwork is displayed in an exhibition.",
+      "A9": "The artwork is studied by a curator.",
+      "A10": "The artwork is authenticated by an expert.",
+      "G": "The artwork is protected by a cultural institution."
+    },
+    "prover9_expressions": [
+      "(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution))",
+      "(authenticated_by(Artwork, Expert) → (loaned_to(Artwork, Museum) ∨ displayed_in(Artwork, Exhibition)))",
+      "(is_made_of(Artwork, Material) → (¬(¬(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution)) → ¬is_forged(Artwork)) → ¬undergoes_restoration(Artwork)))",
+      "(is_made_of(Artwork, Material) ∨ depicts_subject(Artwork, Food))",
+      "(depicts_subject(Artwork, Food) → (¬(¬(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution)) → ¬is_forged(Artwork)) → ¬undergoes_restoration(Artwork)))",
+      "(is_culturally_significant(Artwork) → protected_by(Artwork, Institution))",
+      "(loaned_to(Artwork, Museum) → is_culturally_significant(Artwork))",
+      "(loaned_to(Artwork, Museum) ∨ displayed_in(Artwork, Exhibition))",
+      "(displayed_in(Artwork, Exhibition) → is_culturally_significant(Artwork))",
+      "(studied_by(Artwork, Curator) → (loaned_to(Artwork, Museum) ∨ displayed_in(Artwork, Exhibition)))",
+      "(studied_by(Artwork, Curator) ∨ authenticated_by(Artwork, Expert))",
+      "(¬(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution)) → is_forged(Artwork))",
+      "(¬(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution)) → ¬is_forged(Artwork))",
+      "(¬(¬(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution)) → ¬is_forged(Artwork)) → undergoes_restoration(Artwork))",
+      "(¬(¬(has_provenance(Artwork, Region) ∨ protected_by(Artwork, Institution)) → ¬is_forged(Artwork)) → ¬undergoes_restoration(Artwork))",
+      "is_culturally_significant(Artwork)",
+      "protected_by(Artwork, Institution)",
+      "¬has_provenance(Artwork, Region)"
+    ],
+    "natural_expressions": [
+      "The artwork either has provenance documentation linking it to a specific region or is protected by a cultural institution.",
+      "If the artwork is authenticated by an expert, then it is either loaned to a museum or displayed in an exhibition.",
+      "Provided that the artwork is made of a specific material, then if the absence of both provenance documentation and institutional protection does not lead to the artwork being forged, the artwork does not undergo restoration.",
+      "The artwork is either made of a specific material or depicts a food-related subject.",
+      "Should the artwork depict a food-related subject, then if the absence of both provenance documentation and institutional protection does not result in the artwork being forged, the artwork does not undergo restoration.",
+      "If the artwork is culturally significant, then it is protected by a cultural institution.",
+      "Once the artwork is loaned to a museum, it follows that the artwork is culturally significant.",
+      "The artwork is either loaned to a museum or displayed in an exhibition.",
+      "Under the condition that the artwork is displayed in an exhibition, then the artwork is culturally significant.",
+      "Given that the artwork is studied by a curator, then it is either loaned to a museum or displayed in an exhibition.",
+      "The artwork is either studied by a curator or authenticated by an expert.",
+      "If the artwork lacks both provenance documentation and institutional protection, then the artwork is forged.",
+      "Provided that the artwork lacks both provenance documentation and institutional protection, then the artwork is not forged.",
+      "Should the absence of both provenance documentation and institutional protection not lead to the artwork being forged, then the artwork undergoes restoration.",
+      "If the absence of both provenance documentation and institutional protection does not result in the artwork being forged, then the artwork does not undergo restoration.",
+      "The artwork is culturally significant.",
+      "The artwork is protected by a cultural institution.",
+      "The artwork does not have provenance documentation linking it to a specific region."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(has_provenance(Artwork, Region) | protected_by(Artwork, Institution))",
+        "natural": "The artwork either has provenance documentation linking it to a specific region or is protected by a cultural institution."
+      },
+      "(A10 → (A7 ∨ A8))": {
+        "formal": "(A10 → (A7 ∨ A8))",
+        "prover9": "(A10 -> (A7 | A8))",
+        "prover9_expression": "(authenticated_by(Artwork, Expert) -> (loaned_to(Artwork, Museum) | displayed_in(Artwork, Exhibition)))",
+        "natural": "If the artwork is authenticated by an expert, then it is either loaned to a museum or displayed in an exhibition."
+      },
+      "(A4 → (¬(¬(A1 ∨ G) → ¬A2) → ¬A3))": {
+        "formal": "(A4 → (¬(¬(A1 ∨ G) → ¬A2) → ¬A3))",
+        "prover9": "(A4 -> (-(-(A1 | G) -> -A2) -> -A3))",
+        "prover9_expression": "(is_made_of(Artwork, Material) -> (-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> -undergoes_restoration(Artwork)))",
+        "natural": "Provided that the artwork is made of a specific material, then if the absence of both provenance documentation and institutional protection does not lead to the artwork being forged, the artwork does not undergo restoration."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(is_made_of(Artwork, Material) | depicts_subject(Artwork, Food))",
+        "natural": "The artwork is either made of a specific material or depicts a food-related subject."
+      },
+      "(A5 → (¬(¬(A1 ∨ G) → ¬A2) → ¬A3))": {
+        "formal": "(A5 → (¬(¬(A1 ∨ G) → ¬A2) → ¬A3))",
+        "prover9": "(A5 -> (-(-(A1 | G) -> -A2) -> -A3))",
+        "prover9_expression": "(depicts_subject(Artwork, Food) -> (-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> -undergoes_restoration(Artwork)))",
+        "natural": "Should the artwork depict a food-related subject, then if the absence of both provenance documentation and institutional protection does not result in the artwork being forged, the artwork does not undergo restoration."
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(is_culturally_significant(Artwork) -> protected_by(Artwork, Institution))",
+        "natural": "If the artwork is culturally significant, then it is protected by a cultural institution."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(loaned_to(Artwork, Museum) -> is_culturally_significant(Artwork))",
+        "natural": "Once the artwork is loaned to a museum, it follows that the artwork is culturally significant."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(loaned_to(Artwork, Museum) | displayed_in(Artwork, Exhibition))",
+        "natural": "The artwork is either loaned to a museum or displayed in an exhibition."
+      },
+      "(A8 → A6)": {
+        "formal": "(A8 → A6)",
+        "prover9": "(A8 -> A6)",
+        "prover9_expression": "(displayed_in(Artwork, Exhibition) -> is_culturally_significant(Artwork))",
+        "natural": "Under the condition that the artwork is displayed in an exhibition, then the artwork is culturally significant."
+      },
+      "(A9 → (A7 ∨ A8))": {
+        "formal": "(A9 → (A7 ∨ A8))",
+        "prover9": "(A9 -> (A7 | A8))",
+        "prover9_expression": "(studied_by(Artwork, Curator) -> (loaned_to(Artwork, Museum) | displayed_in(Artwork, Exhibition)))",
+        "natural": "Given that the artwork is studied by a curator, then it is either loaned to a museum or displayed in an exhibition."
+      },
+      "(A9 ∨ A10)": {
+        "formal": "(A9 ∨ A10)",
+        "prover9": "(A9 | A10)",
+        "prover9_expression": "(studied_by(Artwork, Curator) | authenticated_by(Artwork, Expert))",
+        "natural": "The artwork is either studied by a curator or authenticated by an expert."
+      },
+      "(¬(A1 ∨ G) → A2)": {
+        "formal": "(¬(A1 ∨ G) → A2)",
+        "prover9": "(-(A1 | G) -> A2)",
+        "prover9_expression": "(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> is_forged(Artwork))",
+        "natural": "If the artwork lacks both provenance documentation and institutional protection, then the artwork is forged."
+      },
+      "(¬(A1 ∨ G) → ¬A2)": {
+        "formal": "(¬(A1 ∨ G) → ¬A2)",
+        "prover9": "(-(A1 | G) -> -A2)",
+        "prover9_expression": "(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork))",
+        "natural": "Provided that the artwork lacks both provenance documentation and institutional protection, then the artwork is not forged."
+      },
+      "(¬(¬(A1 ∨ G) → ¬A2) → A3)": {
+        "formal": "(¬(¬(A1 ∨ G) → ¬A2) → A3)",
+        "prover9": "(-(-(A1 | G) -> -A2) -> A3)",
+        "prover9_expression": "(-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> undergoes_restoration(Artwork))",
+        "natural": "Should the absence of both provenance documentation and institutional protection not lead to the artwork being forged, then the artwork undergoes restoration."
+      },
+      "(¬(¬(A1 ∨ G) → ¬A2) → ¬A3)": {
+        "formal": "(¬(¬(A1 ∨ G) → ¬A2) → ¬A3)",
+        "prover9": "(-(-(A1 | G) -> -A2) -> -A3)",
+        "prover9_expression": "(-(-(has_provenance(Artwork, Region) | protected_by(Artwork, Institution)) -> -is_forged(Artwork)) -> -undergoes_restoration(Artwork))",
+        "natural": "If the absence of both provenance documentation and institutional protection does not result in the artwork being forged, then the artwork does not undergo restoration."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "is_culturally_significant(Artwork)",
+        "natural": "The artwork is culturally significant."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "protected_by(Artwork, Institution)",
+        "natural": "The artwork is protected by a cultural institution."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_provenance(Artwork, Region)",
+        "natural": "The artwork does not have provenance documentation linking it to a specific region."
+      }
+    }
+  }
+}

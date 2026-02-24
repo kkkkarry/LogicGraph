@@ -1,0 +1,464 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(applies_to_factory(factory_X, regulation_2024) -> requires_safety_protocols(factory_X, regulation_2024))",
+        "natural": "If Regulation 2024 applies to Factory X, then Regulation 2024 requires safety protocols for Factory X."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (A7 → (A6 → ¬A5)))",
+        "prover9_expression": "(requires_safety_protocols(factory_X, regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+        "natural": "Under the condition that Regulation 2024 requires safety protocols for Factory X, if Factory X has a safety supervisor, then in the event that Factory X is using flammable solvents, Factory X is not operating at full capacity."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A2 → A4)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) -> uses_approved_materials(factory_X))",
+        "natural": "If Factory X has a compliance certificate, then Factory X uses approved materials."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A2 → ¬A3)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) -> -follows_emission_standards(factory_X))",
+        "natural": "Provided that Factory X has a compliance certificate, Factory X does not follow emission standards."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) | -approved_facility(factory_X))",
+        "natural": "Either Factory X has a compliance certificate, or it is not the case that Factory X is an approved facility."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A4 → A3)",
+        "prover9_expression": "(uses_approved_materials(factory_X) -> follows_emission_standards(factory_X))",
+        "natural": "Under the condition that Factory X uses approved materials, Factory X follows emission standards."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(has_safety_supervisor(factory_X) | automated_safety_system(factory_X))",
+        "natural": "Factory X has a safety supervisor or Factory X has an automated safety system."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A8 → (A6 → ¬A5))",
+        "prover9_expression": "(automated_safety_system(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X)))",
+        "natural": "Whenever Factory X has an automated safety system, if Factory X is using flammable solvents, then Factory X is not operating at full capacity."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A9 → A10)",
+        "prover9_expression": "(new_legislation_passed(regulation_2024) -> applies_to_factory(factory_X, regulation_2024))",
+        "natural": "In the event that new legislation Regulation 2024 has been passed, Regulation 2024 applies to Factory X."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A2 → A3) → A5)",
+        "prover9_expression": "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> operating_at_full_capacity(factory_X))",
+        "natural": "If it is not the case that having a compliance certificate implies Factory X follows emission standards, then Factory X is operating at full capacity."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(A2 → A3) → A6)",
+        "prover9_expression": "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> using_flammable_solvents(factory_X))",
+        "natural": "Under the condition that it is not true that having a compliance certificate leads to Factory X following emission standards, Factory X is using flammable solvents."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-government_inspection_scheduled(factory_X) -> approved_facility(factory_X))",
+        "natural": "If a government inspection is not scheduled for Factory X, then Factory X is an approved facility."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A9",
+        "prover9_expression": "new_legislation_passed(regulation_2024)",
+        "natural": "New legislation named Regulation 2024 has been passed."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "government_inspection_scheduled(factory_X)",
+    "natural": "A government inspection is scheduled for Factory X."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A4)",
+            "(A4 -> A3)"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "Whenever Factory X has a compliance certificate, Factory X follows emission standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A2 -> -A3)"
+          ],
+          "conclusion": "-A2",
+          "natural": "Factory X does not have a compliance certificate."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that Factory X is an approved facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A government inspection is scheduled for Factory X."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A11 -> (A7 -> (A6 -> -A5)))"
+          ],
+          "conclusion": "(A10 -> (A7 -> (A6 -> -A5)))",
+          "natural": "Provided that Regulation 2024 applies to Factory X, if Factory X has a safety supervisor, then whenever Factory X is using flammable solvents, it is not the case that Factory X is operating at full capacity."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A9 -> A10)",
+            "(A10 -> (A7 -> (A6 -> -A5)))"
+          ],
+          "conclusion": "(A9 -> (A7 -> (A6 -> -A5)))",
+          "natural": "If new legislation Regulation 2024 has been passed, then provided that Factory X has a safety supervisor, whenever Factory X is using flammable solvents, Factory X is not operating at full capacity."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> (A7 -> (A6 -> -A5)))",
+            "A9"
+          ],
+          "conclusion": "(A7 -> (A6 -> -A5))",
+          "natural": "If Factory X has a safety supervisor, then in the case that Factory X is using flammable solvents, Factory X is not operating at full capacity."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> (A6 -> -A5))",
+            "(A8 -> (A6 -> -A5))"
+          ],
+          "conclusion": "(A6 -> -A5)",
+          "natural": "Whenever Factory X is using flammable solvents, Factory X is not operating at full capacity."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A2 -> A3) -> A6)",
+            "(A6 -> -A5)"
+          ],
+          "conclusion": "(-(A2 -> A3) -> -A5)",
+          "natural": "Provided that it is false that if Factory X has a compliance certificate, then Factory X follows emission standards, Factory X is not operating at full capacity."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A2 -> A3) -> A5)",
+            "(-(A2 -> A3) -> -A5)"
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "Whenever Factory X has a compliance certificate, Factory X follows emission standards."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A2 -> -A3)"
+          ],
+          "conclusion": "-A2",
+          "natural": "Factory X does not have a compliance certificate."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that Factory X is an approved facility."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "A government inspection is scheduled for Factory X."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Industrial Safety Regulation",
+    "atomic_facts": {
+      "A1": "approved_facility(factory_X)",
+      "A2": "has_compliance_certificate(factory_X)",
+      "A3": "follows_emission_standards(factory_X)",
+      "A4": "uses_approved_materials(factory_X)",
+      "A5": "operating_at_full_capacity(factory_X)",
+      "A6": "using_flammable_solvents(factory_X)",
+      "A7": "has_safety_supervisor(factory_X)",
+      "A8": "automated_safety_system(factory_X)",
+      "A9": "new_legislation_passed(regulation_2024)",
+      "A10": "applies_to_factory(factory_X, regulation_2024)",
+      "A11": "requires_safety_protocols(factory_X, regulation_2024)",
+      "G": "government_inspection_scheduled(factory_X)"
+    },
+    "natural_facts": {
+      "A1": "Factory X is an approved facility.",
+      "A2": "Factory X has a compliance certificate.",
+      "A3": "Factory X follows emission standards.",
+      "A4": "Factory X uses approved materials.",
+      "A5": "Factory X is operating at full capacity.",
+      "A6": "Factory X is using flammable solvents.",
+      "A7": "Factory X has a safety supervisor.",
+      "A8": "Factory X has an automated safety system.",
+      "A9": "New legislation named Regulation 2024 has been passed.",
+      "A10": "Regulation 2024 applies to Factory X.",
+      "A11": "Regulation 2024 requires safety protocols for Factory X.",
+      "G": "A government inspection is scheduled for Factory X."
+    },
+    "prover9_expressions": [
+      "(applies_to_factory(factory_X, regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+      "(applies_to_factory(factory_X, regulation_2024) -> requires_safety_protocols(factory_X, regulation_2024))",
+      "(requires_safety_protocols(factory_X, regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+      "(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X))",
+      "(has_compliance_certificate(factory_X) -> uses_approved_materials(factory_X))",
+      "(has_compliance_certificate(factory_X) -> -follows_emission_standards(factory_X))",
+      "(has_compliance_certificate(factory_X) | -approved_facility(factory_X))",
+      "(uses_approved_materials(factory_X) -> follows_emission_standards(factory_X))",
+      "(using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))",
+      "(has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X)))",
+      "(has_safety_supervisor(factory_X) | automated_safety_system(factory_X))",
+      "(automated_safety_system(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X)))",
+      "(new_legislation_passed(regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+      "(new_legislation_passed(regulation_2024) -> applies_to_factory(factory_X, regulation_2024))",
+      "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> operating_at_full_capacity(factory_X))",
+      "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> using_flammable_solvents(factory_X))",
+      "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> -operating_at_full_capacity(factory_X))",
+      "(-government_inspection_scheduled(factory_X) -> approved_facility(factory_X))",
+      "new_legislation_passed(regulation_2024)",
+      "government_inspection_scheduled(factory_X)",
+      "-approved_facility(factory_X)",
+      "-has_compliance_certificate(factory_X)"
+    ],
+    "natural_expressions": [
+      "Provided that Regulation 2024 applies to Factory X, if Factory X has a safety supervisor, then whenever Factory X is using flammable solvents, it is not the case that Factory X is operating at full capacity.",
+      "If Regulation 2024 applies to Factory X, then Regulation 2024 requires safety protocols for Factory X.",
+      "Under the condition that Regulation 2024 requires safety protocols for Factory X, if Factory X has a safety supervisor, then in the event that Factory X is using flammable solvents, Factory X is not operating at full capacity.",
+      "Whenever Factory X has a compliance certificate, Factory X follows emission standards.",
+      "If Factory X has a compliance certificate, then Factory X uses approved materials.",
+      "Provided that Factory X has a compliance certificate, Factory X does not follow emission standards.",
+      "Either Factory X has a compliance certificate, or it is not the case that Factory X is an approved facility.",
+      "Under the condition that Factory X uses approved materials, Factory X follows emission standards.",
+      "Whenever Factory X is using flammable solvents, Factory X is not operating at full capacity.",
+      "If Factory X has a safety supervisor, then in the case that Factory X is using flammable solvents, Factory X is not operating at full capacity.",
+      "Factory X has a safety supervisor or Factory X has an automated safety system.",
+      "Whenever Factory X has an automated safety system, if Factory X is using flammable solvents, then Factory X is not operating at full capacity.",
+      "If new legislation Regulation 2024 has been passed, then provided that Factory X has a safety supervisor, whenever Factory X is using flammable solvents, Factory X is not operating at full capacity.",
+      "In the event that new legislation Regulation 2024 has been passed, Regulation 2024 applies to Factory X.",
+      "If it is not the case that having a compliance certificate implies Factory X follows emission standards, then Factory X is operating at full capacity.",
+      "Under the condition that it is not true that having a compliance certificate leads to Factory X following emission standards, Factory X is using flammable solvents.",
+      "Provided that it is false that if Factory X has a compliance certificate, then Factory X follows emission standards, Factory X is not operating at full capacity.",
+      "If a government inspection is not scheduled for Factory X, then Factory X is an approved facility.",
+      "New legislation named Regulation 2024 has been passed.",
+      "A government inspection is scheduled for Factory X.",
+      "It is not the case that Factory X is an approved facility.",
+      "Factory X does not have a compliance certificate."
+    ],
+    "node_mappings": {
+      "(A10 → (A7 → (A6 → ¬A5)))": {
+        "formal": "(A10 → (A7 → (A6 → ¬A5)))",
+        "prover9": "(A10 -> (A7 -> (A6 -> -A5)))",
+        "prover9_expression": "(applies_to_factory(factory_X, regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+        "natural": "Provided that Regulation 2024 applies to Factory X, if Factory X has a safety supervisor, then whenever Factory X is using flammable solvents, it is not the case that Factory X is operating at full capacity."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(applies_to_factory(factory_X, regulation_2024) -> requires_safety_protocols(factory_X, regulation_2024))",
+        "natural": "If Regulation 2024 applies to Factory X, then Regulation 2024 requires safety protocols for Factory X."
+      },
+      "(A11 → (A7 → (A6 → ¬A5)))": {
+        "formal": "(A11 → (A7 → (A6 → ¬A5)))",
+        "prover9": "(A11 -> (A7 -> (A6 -> -A5)))",
+        "prover9_expression": "(requires_safety_protocols(factory_X, regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+        "natural": "Under the condition that Regulation 2024 requires safety protocols for Factory X, if Factory X has a safety supervisor, then in the event that Factory X is using flammable solvents, Factory X is not operating at full capacity."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X))",
+        "natural": "Whenever Factory X has a compliance certificate, Factory X follows emission standards."
+      },
+      "(A2 → A4)": {
+        "formal": "(A2 → A4)",
+        "prover9": "(A2 -> A4)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) -> uses_approved_materials(factory_X))",
+        "natural": "If Factory X has a compliance certificate, then Factory X uses approved materials."
+      },
+      "(A2 → ¬A3)": {
+        "formal": "(A2 → ¬A3)",
+        "prover9": "(A2 -> -A3)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) -> -follows_emission_standards(factory_X))",
+        "natural": "Provided that Factory X has a compliance certificate, Factory X does not follow emission standards."
+      },
+      "(A2 ∨ ¬A1)": {
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9": "(A2 | -A1)",
+        "prover9_expression": "(has_compliance_certificate(factory_X) | -approved_facility(factory_X))",
+        "natural": "Either Factory X has a compliance certificate, or it is not the case that Factory X is an approved facility."
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(uses_approved_materials(factory_X) -> follows_emission_standards(factory_X))",
+        "natural": "Under the condition that Factory X uses approved materials, Factory X follows emission standards."
+      },
+      "(A6 → ¬A5)": {
+        "formal": "(A6 → ¬A5)",
+        "prover9": "(A6 -> -A5)",
+        "prover9_expression": "(using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))",
+        "natural": "Whenever Factory X is using flammable solvents, Factory X is not operating at full capacity."
+      },
+      "(A7 → (A6 → ¬A5))": {
+        "formal": "(A7 → (A6 → ¬A5))",
+        "prover9": "(A7 -> (A6 -> -A5))",
+        "prover9_expression": "(has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X)))",
+        "natural": "If Factory X has a safety supervisor, then in the case that Factory X is using flammable solvents, Factory X is not operating at full capacity."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(has_safety_supervisor(factory_X) | automated_safety_system(factory_X))",
+        "natural": "Factory X has a safety supervisor or Factory X has an automated safety system."
+      },
+      "(A8 → (A6 → ¬A5))": {
+        "formal": "(A8 → (A6 → ¬A5))",
+        "prover9": "(A8 -> (A6 -> -A5))",
+        "prover9_expression": "(automated_safety_system(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X)))",
+        "natural": "Whenever Factory X has an automated safety system, if Factory X is using flammable solvents, then Factory X is not operating at full capacity."
+      },
+      "(A9 → (A7 → (A6 → ¬A5)))": {
+        "formal": "(A9 → (A7 → (A6 → ¬A5)))",
+        "prover9": "(A9 -> (A7 -> (A6 -> -A5)))",
+        "prover9_expression": "(new_legislation_passed(regulation_2024) -> (has_safety_supervisor(factory_X) -> (using_flammable_solvents(factory_X) -> -operating_at_full_capacity(factory_X))))",
+        "natural": "If new legislation Regulation 2024 has been passed, then provided that Factory X has a safety supervisor, whenever Factory X is using flammable solvents, Factory X is not operating at full capacity."
+      },
+      "(A9 → A10)": {
+        "formal": "(A9 → A10)",
+        "prover9": "(A9 -> A10)",
+        "prover9_expression": "(new_legislation_passed(regulation_2024) -> applies_to_factory(factory_X, regulation_2024))",
+        "natural": "In the event that new legislation Regulation 2024 has been passed, Regulation 2024 applies to Factory X."
+      },
+      "(¬(A2 → A3) → A5)": {
+        "formal": "(¬(A2 → A3) → A5)",
+        "prover9": "(-(A2 -> A3) -> A5)",
+        "prover9_expression": "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> operating_at_full_capacity(factory_X))",
+        "natural": "If it is not the case that having a compliance certificate implies Factory X follows emission standards, then Factory X is operating at full capacity."
+      },
+      "(¬(A2 → A3) → A6)": {
+        "formal": "(¬(A2 → A3) → A6)",
+        "prover9": "(-(A2 -> A3) -> A6)",
+        "prover9_expression": "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> using_flammable_solvents(factory_X))",
+        "natural": "Under the condition that it is not true that having a compliance certificate leads to Factory X following emission standards, Factory X is using flammable solvents."
+      },
+      "(¬(A2 → A3) → ¬A5)": {
+        "formal": "(¬(A2 → A3) → ¬A5)",
+        "prover9": "(-(A2 -> A3) -> -A5)",
+        "prover9_expression": "(-(has_compliance_certificate(factory_X) -> follows_emission_standards(factory_X)) -> -operating_at_full_capacity(factory_X))",
+        "natural": "Provided that it is false that if Factory X has a compliance certificate, then Factory X follows emission standards, Factory X is not operating at full capacity."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-government_inspection_scheduled(factory_X) -> approved_facility(factory_X))",
+        "natural": "If a government inspection is not scheduled for Factory X, then Factory X is an approved facility."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "new_legislation_passed(regulation_2024)",
+        "natural": "New legislation named Regulation 2024 has been passed."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "government_inspection_scheduled(factory_X)",
+        "natural": "A government inspection is scheduled for Factory X."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-approved_facility(factory_X)",
+        "natural": "It is not the case that Factory X is an approved facility."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-has_compliance_certificate(factory_X)",
+        "natural": "Factory X does not have a compliance certificate."
+      }
+    }
+  }
+}

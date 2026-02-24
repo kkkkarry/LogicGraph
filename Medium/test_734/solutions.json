@@ -1,0 +1,939 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 12
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(escalated(incident, manager) | delegated(task, supervisor))",
+              "natural": "The manager escalates the incident or the supervisor delegates the task."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A8 -> (A6 | A7))",
+              "prover9_expression": "(escalated(incident, manager) -> (analyzed(logs, analyst) | reviewed(alerts, analyst)))",
+              "natural": "In the case that the manager escalates the incident, then either the analyst analyzes the logs or the analyst reviews the alerts."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A9 -> (A6 | A7))",
+              "prover9_expression": "(delegated(task, supervisor) -> (analyzed(logs, analyst) | reviewed(alerts, analyst)))",
+              "natural": "Provided that the supervisor delegates the task, then either the analyst analyzes the logs or the analyst reviews the alerts."
+            }
+          ],
+          "conclusion": "(A6 | A7)",
+          "natural": "Either the analyst analyzes the logs or the analyst reviews the alerts."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(analyzed(logs, analyst) | reviewed(alerts, analyst))",
+              "natural": "Either the analyst analyzes the logs or the analyst reviews the alerts."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A6 -> (-(-(-G -> A2) -> A3) -> A5))",
+              "prover9_expression": "(analyzed(logs, analyst) -> (-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> restored(system, recovery_tool)))",
+              "natural": "If the analyst analyzes the logs, then provided that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the recovery tool restores the system."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A7 -> (-(-(-G -> A2) -> A3) -> A5))",
+              "prover9_expression": "(reviewed(alerts, analyst) -> (-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> restored(system, recovery_tool)))",
+              "natural": "Should the analyst review the alerts, then under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the recovery tool restores the system."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A2) -> A3) -> A5)",
+          "natural": "In the event that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the recovery tool restores the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A2) -> A3) -> A5)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> restored(system, recovery_tool))",
+              "natural": "In the event that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the recovery tool restores the system."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(restored(system, recovery_tool) -> remediated(vulnerability, patching_tool))",
+              "natural": "In the event that the recovery tool restores the system, the patching tool remediates the vulnerability."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A2) -> A3) -> A4)",
+          "natural": "When it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool remediates the vulnerability."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> remediated(vulnerability, patching_tool))",
+              "natural": "When it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool remediates the vulnerability."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(-(-G -> A2) -> A3) -> -A4)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> -remediated(vulnerability, patching_tool))",
+              "natural": "Provided that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool does not remediate the vulnerability."
+            }
+          ],
+          "conclusion": "(-(-G -> A2) -> A3)",
+          "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A2) -> A3)",
+              "prover9_expression": "(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system))",
+              "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(-G -> A2) -> -A3)",
+              "prover9_expression": "(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> -contained(threat, response_system))",
+              "natural": "Under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system does not contain the threat."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever incident response is not active in the current quarter, the forensics team investigates the incident."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> investigated(incident, forensics_team))",
+              "natural": "Whenever incident response is not active in the current quarter, the forensics team investigates the incident."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(investigated(incident, forensics_team) -> detected(malware_attack, security_team))",
+              "natural": "In the event that the forensics team investigates the incident, the security team detected a malware attack."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that incident response is not active in the current quarter, the security team detected a malware attack."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> detected(malware_attack, security_team))",
+              "natural": "Provided that incident response is not active in the current quarter, the security team detected a malware attack."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> -detected(malware_attack, security_team))",
+              "natural": "If incident response is not active in the current quarter, the security team does not detect a malware attack."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Incident response is active in the current quarter."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> A13)",
+              "prover9_expression": "(authorized(expenditure, finance_department) -> allocated(budget, finance_controller))",
+              "natural": "Provided that the finance department authorizes the expenditure, the finance controller allocates the budget."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A13",
+              "prover9_expression": "-allocated(budget, finance_controller)",
+              "natural": "It is not the case that the finance controller allocated the budget."
+            }
+          ],
+          "conclusion": "-A12",
+          "natural": "It is not the case that the finance department authorized the expenditure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> A12)",
+              "prover9_expression": "(approved(action, CISO) -> authorized(expenditure, finance_department))",
+              "natural": "If the CISO approves the action, then the finance department authorizes the expenditure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A12",
+              "prover9_expression": "-authorized(expenditure, finance_department)",
+              "natural": "It is not the case that the finance department authorized the expenditure."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that the CISO approved the action."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A11 | -A10)",
+              "prover9_expression": "(approved(action, CISO) | -completed(report, documentation_tool))",
+              "natural": "Either the CISO approves the action or it is not the case that the documentation tool completes the report."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-approved(action, CISO)",
+              "natural": "It is not the case that the CISO approved the action."
+            }
+          ],
+          "conclusion": "-A10",
+          "natural": "It is not the case that the documentation tool completed the report."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-G -> A10)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> completed(report, documentation_tool))",
+              "natural": "When incident response is not active in the current quarter, the documentation tool completes the report."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A10",
+              "prover9_expression": "-completed(report, documentation_tool)",
+              "natural": "It is not the case that the documentation tool completed the report."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Incident response is active in the current quarter."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A19 -> (A17 -> -A16))",
+              "prover9_expression": "(documented(process, compliance_tool) -> (escalated(issue, executive) -> -extended(timeline, project_manager)))",
+              "natural": "Under the condition that the compliance tool documents the process, then whenever the executive escalates the issue, the project manager does not extend the timeline."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A19",
+              "prover9_expression": "documented(process, compliance_tool)",
+              "natural": "The compliance tool documented the process."
+            }
+          ],
+          "conclusion": "(A17 -> -A16)",
+          "natural": "If the executive escalates the issue, then the project manager does not extend the timeline."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A17 | A18)",
+              "prover9_expression": "(escalated(issue, executive) | consulted(advisor, legal_team))",
+              "natural": "The executive escalates the issue or the legal team consults the advisor."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> -A16)",
+              "prover9_expression": "(escalated(issue, executive) -> -extended(timeline, project_manager))",
+              "natural": "If the executive escalates the issue, then the project manager does not extend the timeline."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A18 -> -A16)",
+              "prover9_expression": "(consulted(advisor, legal_team) -> -extended(timeline, project_manager))",
+              "natural": "Should the legal team consult the advisor, then the project manager does not extend the timeline."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "It is not the case that the project manager extended the timeline."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A16 | A15)",
+              "prover9_expression": "(extended(timeline, project_manager) | verified(recovery, testing_tool))",
+              "natural": "Either the project manager extends the timeline or the testing tool verifies the recovery."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-extended(timeline, project_manager)",
+              "natural": "It is not the case that the project manager extended the timeline."
+            }
+          ],
+          "conclusion": "A15",
+          "natural": "The testing tool verified the recovery."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> (-G -> -A14))",
+              "prover9_expression": "(verified(recovery, testing_tool) -> (-active(incident_response, current_quarter) -> -implemented(controls, security_team)))",
+              "natural": "Whenever the testing tool verifies the recovery, then under the condition that incident response is not active in the current quarter, the security team does not implement the controls."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A15",
+              "prover9_expression": "verified(recovery, testing_tool)",
+              "natural": "The testing tool verified the recovery."
+            }
+          ],
+          "conclusion": "(-G -> -A14)",
+          "natural": "Provided that incident response is not active in the current quarter, the security team does not implement the controls."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(-G -> A14)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> implemented(controls, security_team))",
+              "natural": "Under the condition that incident response is not active in the current quarter, the security team implements the controls."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A14)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> -implemented(controls, security_team))",
+              "natural": "Provided that incident response is not active in the current quarter, the security team does not implement the controls."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Incident response is active in the current quarter."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A26 | (A25 -> (-A22 -> A24)))",
+              "prover9_expression": "(optimized(process, automation_tool) | (prioritized(tasks, project_lead) -> (-coordinated(response, incident_commander) -> mobilized(resources, resource_manager))))",
+              "natural": "Either the automation tool optimizes the process, or if the project lead prioritizes the tasks, then provided that the incident commander does not coordinate the response, the resource manager mobilizes the resources."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A26",
+              "prover9_expression": "-optimized(process, automation_tool)",
+              "natural": "It is not the case that the automation tool optimized the process."
+            }
+          ],
+          "conclusion": "(A25 -> (-A22 -> A24))",
+          "natural": "In the case that the project lead prioritizes the tasks, then under the condition that the incident commander does not coordinate the response, the resource manager mobilizes the resources."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> (-A22 -> A24))",
+              "prover9_expression": "(prioritized(tasks, project_lead) -> (-coordinated(response, incident_commander) -> mobilized(resources, resource_manager)))",
+              "natural": "In the case that the project lead prioritizes the tasks, then under the condition that the incident commander does not coordinate the response, the resource manager mobilizes the resources."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A25",
+              "prover9_expression": "prioritized(tasks, project_lead)",
+              "natural": "The project lead prioritized the tasks."
+            }
+          ],
+          "conclusion": "(-A22 -> A24)",
+          "natural": "Should the incident commander not coordinate the response, the resource manager mobilizes the resources."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A22 -> A24)",
+              "prover9_expression": "(-coordinated(response, incident_commander) -> mobilized(resources, resource_manager))",
+              "natural": "Should the incident commander not coordinate the response, the resource manager mobilizes the resources."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A24 -> A23)",
+              "prover9_expression": "(mobilized(resources, resource_manager) -> activated(plan, emergency_team))",
+              "natural": "Whenever the resource manager mobilizes the resources, the emergency team activates the plan."
+            }
+          ],
+          "conclusion": "(-A22 -> A23)",
+          "natural": "Whenever the incident commander does not coordinate the response, the emergency team activates the plan."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A22 -> A23)",
+              "prover9_expression": "(-coordinated(response, incident_commander) -> activated(plan, emergency_team))",
+              "natural": "Whenever the incident commander does not coordinate the response, the emergency team activates the plan."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(-A22 -> -A23)",
+              "prover9_expression": "(-coordinated(response, incident_commander) -> -activated(plan, emergency_team))",
+              "natural": "In the case that the incident commander does not coordinate the response, the emergency team does not activate the plan."
+            }
+          ],
+          "conclusion": "A22",
+          "natural": "The incident commander coordinated the response."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A22 -> (A21 -> A20))",
+              "prover9_expression": "(coordinated(response, incident_commander) -> (updated(status, dashboard) -> notified(stakeholders, communication_system)))",
+              "natural": "If the incident commander coordinates the response, then whenever the dashboard updates the status, the communication system notifies the stakeholders."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A22",
+              "prover9_expression": "coordinated(response, incident_commander)",
+              "natural": "The incident commander coordinated the response."
+            }
+          ],
+          "conclusion": "(A21 -> A20)",
+          "natural": "Provided that the dashboard updates the status, the communication system notifies the stakeholders."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule33",
+              "prover9": "(-G -> A21)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> updated(status, dashboard))",
+              "natural": "In the event that incident response is not active in the current quarter, the dashboard updates the status."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> A20)",
+              "prover9_expression": "(updated(status, dashboard) -> notified(stakeholders, communication_system))",
+              "natural": "Provided that the dashboard updates the status, the communication system notifies the stakeholders."
+            }
+          ],
+          "conclusion": "(-G -> A20)",
+          "natural": "Should incident response not be active in the current quarter, the communication system notifies the stakeholders."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A20)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> notified(stakeholders, communication_system))",
+              "natural": "Should incident response not be active in the current quarter, the communication system notifies the stakeholders."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A20",
+              "prover9_expression": "-notified(stakeholders, communication_system)",
+              "natural": "It is not the case that the communication system notified the stakeholders."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Incident response is active in the current quarter."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-A32 -> A33)",
+              "prover9_expression": "(-audited(process, auditor) -> complied(regulation, organization))",
+              "natural": "If the auditor does not audit the process, the organization complies with the regulation."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A33",
+              "prover9_expression": "-complied(regulation, organization)",
+              "natural": "It is not the case that the organization complied with the regulation."
+            }
+          ],
+          "conclusion": "A32",
+          "natural": "The auditor audited the process."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A32 -> (A30 -> A31))",
+              "prover9_expression": "(audited(process, auditor) -> (increased(awareness, organization) -> reduced(risk, security_team)))",
+              "natural": "When the auditor audits the process, then under the condition that the organization increases awareness, the security team reduces risk."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A32",
+              "prover9_expression": "audited(process, auditor)",
+              "natural": "The auditor audited the process."
+            }
+          ],
+          "conclusion": "(A30 -> A31)",
+          "natural": "Provided that the organization increases awareness, the security team reduces risk."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A30 -> A31)",
+              "prover9_expression": "(increased(awareness, organization) -> reduced(risk, security_team))",
+              "natural": "Provided that the organization increases awareness, the security team reduces risk."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A31",
+              "prover9_expression": "-reduced(risk, security_team)",
+              "natural": "It is not the case that the security team reduced risk."
+            }
+          ],
+          "conclusion": "-A30",
+          "natural": "It is not the case that the organization increased awareness."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A29 -> A30)",
+              "prover9_expression": "(enhanced(skills, employee) -> increased(awareness, organization))",
+              "natural": "If the employee enhances their skills, then the organization increases awareness."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A30",
+              "prover9_expression": "-increased(awareness, organization)",
+              "natural": "It is not the case that the organization increased awareness."
+            }
+          ],
+          "conclusion": "-A29",
+          "natural": "It is not the case that the employee enhanced their skills."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A28 -> A29)",
+              "prover9_expression": "(trained(staff, training_program) -> enhanced(skills, employee))",
+              "natural": "When the training program trains the staff, the employee enhances their skills."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A29",
+              "prover9_expression": "-enhanced(skills, employee)",
+              "natural": "It is not the case that the employee enhanced their skills."
+            }
+          ],
+          "conclusion": "-A28",
+          "natural": "It is not the case that the training program trained the staff."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A28 | (-(-(-(-G -> A2) -> A3) -> A5) -> A27))",
+              "prover9_expression": "(trained(staff, training_program) | (-(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> restored(system, recovery_tool)) -> improved(posture, security_team)))",
+              "natural": "Either the training program trains the staff, or if it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the recovery tool restores the system, then the security team improves the posture."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A28",
+              "prover9_expression": "-trained(staff, training_program)",
+              "natural": "It is not the case that the training program trained the staff."
+            }
+          ],
+          "conclusion": "(-(-(-(-G -> A2) -> A3) -> A5) -> A27)",
+          "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the recovery tool restores the system, then the security team improves the posture."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(-G -> A2) -> A3) -> A5) -> A27)",
+              "prover9_expression": "(-(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> restored(system, recovery_tool)) -> improved(posture, security_team))",
+              "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the recovery tool restores the system, then the security team improves the posture."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A27",
+              "prover9_expression": "-improved(posture, security_team)",
+              "natural": "It is not the case that the security team improved the posture."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A2) -> A3) -> A5)",
+          "natural": "In the event that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the recovery tool restores the system."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A2) -> A3) -> A5)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> restored(system, recovery_tool))",
+              "natural": "In the event that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the recovery tool restores the system."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(restored(system, recovery_tool) -> remediated(vulnerability, patching_tool))",
+              "natural": "In the event that the recovery tool restores the system, the patching tool remediates the vulnerability."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A2) -> A3) -> A4)",
+          "natural": "When it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool remediates the vulnerability."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> remediated(vulnerability, patching_tool))",
+              "natural": "When it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool remediates the vulnerability."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(-(-G -> A2) -> A3) -> -A4)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> -remediated(vulnerability, patching_tool))",
+              "natural": "Provided that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool does not remediate the vulnerability."
+            }
+          ],
+          "conclusion": "(-(-G -> A2) -> A3)",
+          "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A2) -> A3)",
+              "prover9_expression": "(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system))",
+              "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(-G -> A2) -> -A3)",
+              "prover9_expression": "(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> -contained(threat, response_system))",
+              "natural": "Under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system does not contain the threat."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever incident response is not active in the current quarter, the forensics team investigates the incident."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> investigated(incident, forensics_team))",
+              "natural": "Whenever incident response is not active in the current quarter, the forensics team investigates the incident."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(investigated(incident, forensics_team) -> detected(malware_attack, security_team))",
+              "natural": "In the event that the forensics team investigates the incident, the security team detected a malware attack."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that incident response is not active in the current quarter, the security team detected a malware attack."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> detected(malware_attack, security_team))",
+              "natural": "Provided that incident response is not active in the current quarter, the security team detected a malware attack."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> -detected(malware_attack, security_team))",
+              "natural": "If incident response is not active in the current quarter, the security team does not detect a malware attack."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Incident response is active in the current quarter."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(-(-(-(-G -> A2) -> A3) -> A34) -> -A35) -> A36)",
+              "prover9_expression": "(-(-(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> tested(controls, QA_team)) -> -validated(effectiveness, metrics_tool)) -> certified(system, certification_body))",
+              "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the QA team tests the controls, then the metrics tool does not validate the effectiveness, then the certification body certifies the system."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(-(-(-(-(-G -> A2) -> A3) -> A34) -> -A35) -> -A36)",
+              "prover9_expression": "(-(-(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> tested(controls, QA_team)) -> -validated(effectiveness, metrics_tool)) -> -certified(system, certification_body))",
+              "natural": "Should it not be the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the QA team tests the controls, then the metrics tool does not validate the effectiveness, then the certification body does not certify the system."
+            }
+          ],
+          "conclusion": "(-(-(-(-G -> A2) -> A3) -> A34) -> -A35)",
+          "natural": "Provided that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the QA team tests the controls, the metrics tool does not validate the effectiveness."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(-(-(-G -> A2) -> A3) -> A34) -> A35)",
+              "prover9_expression": "(-(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> tested(controls, QA_team)) -> validated(effectiveness, metrics_tool))",
+              "natural": "Under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the QA team tests the controls, the metrics tool validates the effectiveness."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(-G -> A2) -> A3) -> A34) -> -A35)",
+              "prover9_expression": "(-(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> tested(controls, QA_team)) -> -validated(effectiveness, metrics_tool))",
+              "natural": "Provided that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, then the QA team tests the controls, the metrics tool does not validate the effectiveness."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A2) -> A3) -> A34)",
+          "natural": "Under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the QA team tests the controls."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A2) -> A3) -> A34)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> tested(controls, QA_team))",
+              "natural": "Under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the QA team tests the controls."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A34 -> A4)",
+              "prover9_expression": "(tested(controls, QA_team) -> remediated(vulnerability, patching_tool))",
+              "natural": "Whenever the QA team tests the controls, the patching tool remediates the vulnerability."
+            }
+          ],
+          "conclusion": "(-(-(-G -> A2) -> A3) -> A4)",
+          "natural": "When it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool remediates the vulnerability."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-G -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> remediated(vulnerability, patching_tool))",
+              "natural": "When it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool remediates the vulnerability."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(-(-G -> A2) -> A3) -> -A4)",
+              "prover9_expression": "(-(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system)) -> -remediated(vulnerability, patching_tool))",
+              "natural": "Provided that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat, the patching tool does not remediate the vulnerability."
+            }
+          ],
+          "conclusion": "(-(-G -> A2) -> A3)",
+          "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A2) -> A3)",
+              "prover9_expression": "(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> contained(threat, response_system))",
+              "natural": "If it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system contains the threat."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(-G -> A2) -> -A3)",
+              "prover9_expression": "(-(-active(incident_response, current_quarter) -> investigated(incident, forensics_team)) -> -contained(threat, response_system))",
+              "natural": "Under the condition that it is not the case that whenever incident response is not active in the current quarter, the forensics team investigates the incident, then the response system does not contain the threat."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever incident response is not active in the current quarter, the forensics team investigates the incident."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> investigated(incident, forensics_team))",
+              "natural": "Whenever incident response is not active in the current quarter, the forensics team investigates the incident."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(investigated(incident, forensics_team) -> detected(malware_attack, security_team))",
+              "natural": "In the event that the forensics team investigates the incident, the security team detected a malware attack."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Provided that incident response is not active in the current quarter, the security team detected a malware attack."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> detected(malware_attack, security_team))",
+              "natural": "Provided that incident response is not active in the current quarter, the security team detected a malware attack."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-active(incident_response, current_quarter) -> -detected(malware_attack, security_team))",
+              "natural": "If incident response is not active in the current quarter, the security team does not detect a malware attack."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Incident response is active in the current quarter."
+        }
+      ]
+    }
+  ]
+}

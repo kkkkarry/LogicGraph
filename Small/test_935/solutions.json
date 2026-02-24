@@ -1,0 +1,647 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 9
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(is_financed(project) -> has_budget_approval(project))",
+              "natural": "Should a project be financed, it has budget approval."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A5 -> (A3 -> A2))",
+              "prover9_expression": "(has_budget_approval(project) -> (has_schedule_conflict(actor) -> is_available(actor)))",
+              "natural": "In the event that a project has budget approval, an actor having a schedule conflict results in the actor being available."
+            }
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Under the condition that a project is financed, an actor having a schedule conflict implies the actor is available."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 -> A2))",
+              "prover9_expression": "(is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))",
+              "natural": "Under the condition that a project is financed, an actor having a schedule conflict implies the actor is available."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A4",
+              "prover9_expression": "is_financed(project)",
+              "natural": "A project is financed."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that an actor has a schedule conflict, the actor is available."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-is_greenlit(project) -> has_schedule_conflict(actor))",
+              "natural": "In the case that a project is not greenlit, an actor has a schedule conflict."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(has_schedule_conflict(actor) -> is_available(actor))",
+              "natural": "Provided that an actor has a schedule conflict, the actor is available."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Provided that a project is not greenlit, an actor is available."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-is_greenlit(project) -> is_available(actor))",
+              "natural": "Provided that a project is not greenlit, an actor is available."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(is_available(actor) -> -has_contract(actor, studio))",
+              "natural": "If an actor is available, then it is not the case that the actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-is_greenlit(project) -> has_contract(actor, studio))",
+              "natural": "If a project is not greenlit, then an actor has a contract with a studio."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-is_greenlit(project) -> -has_contract(actor, studio))",
+              "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A project is greenlit."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A11)",
+              "prover9_expression": "(is_active(policy_type_a) -> meets_premium_payment(insurance_policy))",
+              "natural": "Under the condition that policy type A is active, an insurance policy meets premium payment."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> A12)",
+              "prover9_expression": "(is_active(policy_type_b) -> has_valid_coverage(insurance_policy))",
+              "natural": "If policy type B is active, then an insurance policy has valid coverage."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(is_active(policy_type_a) | is_active(policy_type_b))",
+              "natural": "Either policy type A is active or policy type B is active."
+            }
+          ],
+          "conclusion": "(A11 | A12)",
+          "natural": "Either an insurance policy meets premium payment or an insurance policy has valid coverage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(meets_premium_payment(insurance_policy) | has_valid_coverage(insurance_policy))",
+              "natural": "Either an insurance policy meets premium payment or an insurance policy has valid coverage."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A11 -> (-(A9 -> (-(A3 -> A2) -> A7)) -> A10))",
+              "prover9_expression": "(meets_premium_payment(insurance_policy) -> (-(has_force_majeure(production) -> (-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production))) -> receives_compensation(producer)))",
+              "natural": "Provided that an insurance policy meets premium payment, if it is not the case that a production having a force majeure event would imply that the non-occurrence of an actor having a schedule conflict would lead to an actor being available, thereby resulting in a production being delayed, then a producer receives compensation."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> (-(A9 -> (-(A3 -> A2) -> A7)) -> A10))",
+              "prover9_expression": "(has_valid_coverage(insurance_policy) -> (-(has_force_majeure(production) -> (-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production))) -> receives_compensation(producer)))",
+              "natural": "In the event that an insurance policy has valid coverage, if it is not true that a production having a force majeure event would lead to the situation where the absence of an actor having a schedule conflict implies an actor is available, which in turn implies a production is delayed, then a producer receives compensation."
+            }
+          ],
+          "conclusion": "(-(A9 -> (-(A3 -> A2) -> A7)) -> A10)",
+          "natural": "Provided that it is not true that a production having a force majeure event would imply that the absence of an actor having a schedule conflict meaning the actor is available leads to a production being delayed, a producer receives compensation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A9 -> (-(A3 -> A2) -> A7)) -> A10)",
+              "prover9_expression": "(-(has_force_majeure(production) -> (-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production))) -> receives_compensation(producer))",
+              "natural": "Provided that it is not true that a production having a force majeure event would imply that the absence of an actor having a schedule conflict meaning the actor is available leads to a production being delayed, a producer receives compensation."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(-(A9 -> (-(A3 -> A2) -> A7)) -> -A10)",
+              "prover9_expression": "(-(has_force_majeure(production) -> (-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production))) -> -receives_compensation(producer))",
+              "natural": "In the event that it is not the case that a production having a force majeure event would result in the situation where an actor not having a schedule conflict implies the actor is available, thereby causing a production to be delayed, a producer does not receive compensation."
+            }
+          ],
+          "conclusion": "(A9 -> (-(A3 -> A2) -> A7))",
+          "natural": "Under the condition that a production has a force majeure event, if it is not the case that an actor having a schedule conflict leads to the actor being available, then the production is delayed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(has_insurance_claim(production) | has_force_majeure(production))",
+              "natural": "Either a production has an insurance claim or a production has a force majeure event."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A8 -> (-(A3 -> A2) -> A7))",
+              "prover9_expression": "(has_insurance_claim(production) -> (-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production)))",
+              "natural": "Given that a production has an insurance claim, if an actor having a schedule conflict does not imply the actor is available, then the production is delayed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (-(A3 -> A2) -> A7))",
+              "prover9_expression": "(has_force_majeure(production) -> (-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production)))",
+              "natural": "Under the condition that a production has a force majeure event, if it is not the case that an actor having a schedule conflict leads to the actor being available, then the production is delayed."
+            }
+          ],
+          "conclusion": "(-(A3 -> A2) -> A7)",
+          "natural": "Under the condition that an actor having a schedule conflict does not lead to the actor being available, a production is delayed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 -> A2) -> A7)",
+              "prover9_expression": "(-(has_schedule_conflict(actor) -> is_available(actor)) -> is_delayed(production))",
+              "natural": "Under the condition that an actor having a schedule conflict does not lead to the actor being available, a production is delayed."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A7 -> A6)",
+              "prover9_expression": "(is_delayed(production) -> needs_rescheduling(production))",
+              "natural": "If a production is delayed, then the production needs rescheduling."
+            }
+          ],
+          "conclusion": "(-(A3 -> A2) -> A6)",
+          "natural": "Should an actor having a schedule conflict not imply the actor is available, then a production needs rescheduling."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A3 -> A2) -> A6)",
+              "prover9_expression": "(-(has_schedule_conflict(actor) -> is_available(actor)) -> needs_rescheduling(production))",
+              "natural": "Should an actor having a schedule conflict not imply the actor is available, then a production needs rescheduling."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(-(A3 -> A2) -> -A6)",
+              "prover9_expression": "(-(has_schedule_conflict(actor) -> is_available(actor)) -> -needs_rescheduling(production))",
+              "natural": "If it is not the case that an actor having a schedule conflict results in the actor being available, then a production does not need rescheduling."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that an actor has a schedule conflict, the actor is available."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-is_greenlit(project) -> has_schedule_conflict(actor))",
+              "natural": "In the case that a project is not greenlit, an actor has a schedule conflict."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(has_schedule_conflict(actor) -> is_available(actor))",
+              "natural": "Provided that an actor has a schedule conflict, the actor is available."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Provided that a project is not greenlit, an actor is available."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-is_greenlit(project) -> is_available(actor))",
+              "natural": "Provided that a project is not greenlit, an actor is available."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(is_available(actor) -> -has_contract(actor, studio))",
+              "natural": "If an actor is available, then it is not the case that the actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-is_greenlit(project) -> has_contract(actor, studio))",
+              "natural": "If a project is not greenlit, then an actor has a contract with a studio."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-is_greenlit(project) -> -has_contract(actor, studio))",
+              "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A project is greenlit."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A18 | (A17 -> (-(-G -> -A1) -> A15)))",
+              "prover9_expression": "(has_patent_pending(technology) | (has_trademark_registration(film) -> (-(-is_greenlit(project) -> -has_contract(actor, studio)) -> gets_legal_protection(studio))))",
+              "natural": "Either a technology has patent pending, or if a film has trademark registration, then under the condition that a project not being greenlit does not lead to an actor not having a contract with a studio, a studio gets legal protection."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A18",
+              "prover9_expression": "-has_patent_pending(technology)",
+              "natural": "A technology does not have patent pending."
+            }
+          ],
+          "conclusion": "(A17 -> (-(-G -> -A1) -> A15))",
+          "natural": "Given that a film has trademark registration, if the scenario where a project is not greenlit does not necessitate an actor lacking a contract with a studio, then a studio gets legal protection."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(has_copyright_protection(film) -> has_trademark_registration(film))",
+              "natural": "Whenever a film has copyright protection, the film has trademark registration."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> (-(-G -> -A1) -> A15))",
+              "prover9_expression": "(has_trademark_registration(film) -> (-(-is_greenlit(project) -> -has_contract(actor, studio)) -> gets_legal_protection(studio)))",
+              "natural": "Given that a film has trademark registration, if the scenario where a project is not greenlit does not necessitate an actor lacking a contract with a studio, then a studio gets legal protection."
+            }
+          ],
+          "conclusion": "(A16 -> (-(-G -> -A1) -> A15))",
+          "natural": "Should a film have copyright protection, then if it is not the case that a project not being greenlit would result in an actor not having a contract with a studio, a studio gets legal protection."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> (-(-G -> -A1) -> A15))",
+              "prover9_expression": "(has_copyright_protection(film) -> (-(-is_greenlit(project) -> -has_contract(actor, studio)) -> gets_legal_protection(studio)))",
+              "natural": "Should a film have copyright protection, then if it is not the case that a project not being greenlit would result in an actor not having a contract with a studio, a studio gets legal protection."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A16",
+              "prover9_expression": "has_copyright_protection(film)",
+              "natural": "A film has copyright protection."
+            }
+          ],
+          "conclusion": "(-(-G -> -A1) -> A15)",
+          "natural": "Under the condition that it is not true that a project not being greenlit would lead to an actor not having a contract with a studio, a studio gets legal protection."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A1) -> A15)",
+              "prover9_expression": "(-(-is_greenlit(project) -> -has_contract(actor, studio)) -> gets_legal_protection(studio))",
+              "natural": "Under the condition that it is not true that a project not being greenlit would lead to an actor not having a contract with a studio, a studio gets legal protection."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> -A1) -> -A15)",
+              "prover9_expression": "(-(-is_greenlit(project) -> -has_contract(actor, studio)) -> -gets_legal_protection(studio))",
+              "natural": "Should the scenario where a project is not greenlit not necessitate an actor lacking a contract with a studio, then a studio does not get legal protection."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-is_greenlit(project) -> has_contract(actor, studio))",
+              "natural": "If a project is not greenlit, then an actor has a contract with a studio."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-is_greenlit(project) -> -has_contract(actor, studio))",
+              "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A project is greenlit."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A24 -> A22)",
+              "prover9_expression": "(is_major_studio(studio) -> has_marketing_campaign(project))",
+              "natural": "Whenever a studio is a major studio, a project has a marketing campaign."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A23)",
+              "prover9_expression": "(is_independent_studio(studio) -> has_pr_strategy(project))",
+              "natural": "If a studio is an independent studio, then a project has a PR strategy."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A24 | A25)",
+              "prover9_expression": "(is_major_studio(studio) | is_independent_studio(studio))",
+              "natural": "Either a studio is a major studio or a studio is an independent studio."
+            }
+          ],
+          "conclusion": "(A22 | A23)",
+          "natural": "A project has a marketing campaign or a project has a PR strategy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | A23)",
+              "prover9_expression": "(has_marketing_campaign(project) | has_pr_strategy(project))",
+              "natural": "A project has a marketing campaign or a project has a PR strategy."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A22 -> (-(A19 | (A4 -> (A3 -> A2))) -> A21))",
+              "prover9_expression": "(has_marketing_campaign(project) -> (-(has_product_placement(brand) | (is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))) -> loses_sponsorship(project)))",
+              "natural": "In the case that a project has a marketing campaign, if it is not true that either a brand has product placement or that a project being financed would lead to an actor having a schedule conflict implying the actor is available, then the project loses sponsorship."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A23 -> (-(A19 | (A4 -> (A3 -> A2))) -> A21))",
+              "prover9_expression": "(has_pr_strategy(project) -> (-(has_product_placement(brand) | (is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))) -> loses_sponsorship(project)))",
+              "natural": "Under the condition that a project has a PR strategy, if it is not the case that a brand has product placement or that a project being financed would result in an actor having a schedule conflict meaning the actor is available, then the project loses sponsorship."
+            }
+          ],
+          "conclusion": "(-(A19 | (A4 -> (A3 -> A2))) -> A21)",
+          "natural": "Provided that it is not the case that a brand has product placement or that a project being financed would lead to an actor having a schedule conflict meaning the actor is available, a project loses sponsorship."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A19 | (A4 -> (A3 -> A2))) -> A21)",
+              "prover9_expression": "(-(has_product_placement(brand) | (is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))) -> loses_sponsorship(project))",
+              "natural": "Provided that it is not the case that a brand has product placement or that a project being financed would lead to an actor having a schedule conflict meaning the actor is available, a project loses sponsorship."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> A20)",
+              "prover9_expression": "(loses_sponsorship(project) -> secures_sponsorship(project))",
+              "natural": "Provided that a project loses sponsorship, the project secures sponsorship."
+            }
+          ],
+          "conclusion": "(-(A19 | (A4 -> (A3 -> A2))) -> A20)",
+          "natural": "If it is not true that either a brand has product placement or that a project being financed would imply an actor having a schedule conflict results in the actor being available, then a project secures sponsorship."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A19 | (A4 -> (A3 -> A2))) -> A20)",
+              "prover9_expression": "(-(has_product_placement(brand) | (is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))) -> secures_sponsorship(project))",
+              "natural": "If it is not true that either a brand has product placement or that a project being financed would imply an actor having a schedule conflict results in the actor being available, then a project secures sponsorship."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A19 | (A4 -> (A3 -> A2))) -> -A20)",
+              "prover9_expression": "(-(has_product_placement(brand) | (is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))) -> -secures_sponsorship(project))",
+              "natural": "In the case that it is not true that either a brand has product placement or that a project being financed would cause an actor having a schedule conflict to imply the actor is available, a project does not secure sponsorship."
+            }
+          ],
+          "conclusion": "(A19 | (A4 -> (A3 -> A2)))",
+          "natural": "A brand has product placement, or if a project is financed, then an actor having a schedule conflict implies that actor is available."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 | (A4 -> (A3 -> A2)))",
+              "prover9_expression": "(has_product_placement(brand) | (is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor))))",
+              "natural": "A brand has product placement, or if a project is financed, then an actor having a schedule conflict implies that actor is available."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A19",
+              "prover9_expression": "-has_product_placement(brand)",
+              "natural": "A brand does not have product placement."
+            }
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Under the condition that a project is financed, an actor having a schedule conflict implies the actor is available."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 -> A2))",
+              "prover9_expression": "(is_financed(project) -> (has_schedule_conflict(actor) -> is_available(actor)))",
+              "natural": "Under the condition that a project is financed, an actor having a schedule conflict implies the actor is available."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A4",
+              "prover9_expression": "is_financed(project)",
+              "natural": "A project is financed."
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that an actor has a schedule conflict, the actor is available."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-is_greenlit(project) -> has_schedule_conflict(actor))",
+              "natural": "In the case that a project is not greenlit, an actor has a schedule conflict."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(has_schedule_conflict(actor) -> is_available(actor))",
+              "natural": "Provided that an actor has a schedule conflict, the actor is available."
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Provided that a project is not greenlit, an actor is available."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-is_greenlit(project) -> is_available(actor))",
+              "natural": "Provided that a project is not greenlit, an actor is available."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(is_available(actor) -> -has_contract(actor, studio))",
+              "natural": "If an actor is available, then it is not the case that the actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-is_greenlit(project) -> has_contract(actor, studio))",
+              "natural": "If a project is not greenlit, then an actor has a contract with a studio."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-is_greenlit(project) -> -has_contract(actor, studio))",
+              "natural": "Under the condition that a project is not greenlit, it is not the case that an actor has a contract with a studio."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A project is greenlit."
+        }
+      ]
+    }
+  ]
+}

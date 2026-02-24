@@ -1,0 +1,337 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(uses_animal_footage(production, lion) -> completes_episode(production))",
+        "natural": "If the production uses animal footage of a lion, then it completes an episode."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(uses_animal_footage(production, elephant) -> completes_episode(production))",
+        "natural": "Provided that the production uses animal footage of an elephant, it completes an episode."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 → (A1 ∨ A2))",
+        "prover9_expression": "(has_material(production, camera_equipment) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant)))",
+        "natural": "Whenever the production has camera equipment as material, it uses animal footage of a lion or it uses animal footage of an elephant."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(has_material(production, camera_equipment) | has_material(production, editing_software))",
+        "natural": "The production has camera equipment as material or it has editing software as material."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A7 ∨ (¬(A4 → (A1 ∨ A2)) → A6))",
+        "prover9_expression": "(exceeds_budget(production) | (-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> delays_release(production)))",
+        "natural": "Either the production exceeds its budget, or if it is not the case that having editing software as material implies the use of animal footage of a lion or an elephant, then the production delays its release."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A8 ∨ ¬A7)",
+        "prover9_expression": "(gets_award(production) | -exceeds_budget(production))",
+        "natural": "The production gets an award or it does not exceed its budget."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A4 → (A1 ∨ A2)) → A5)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> needs_reshoot(production))",
+        "natural": "Should it not be true that having editing software as material leads to using animal footage of a lion or an elephant, then the production needs a reshoot."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A4 → (A1 ∨ A2)) → ¬A5)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> -needs_reshoot(production))",
+        "natural": "If the absence of the implication that having editing software as material entails using animal footage of a lion or an elephant holds, then the production does not need a reshoot."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A4 → (A1 ∨ A2)) → ¬A6)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> -delays_release(production))",
+        "natural": "Given that it is not the case that the production having editing software as material necessitates using animal footage of a lion or an elephant, the production does not delay its release."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A8",
+        "prover9_expression": "-gets_award(production)",
+        "natural": "The production does not get an award."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "completes_episode(production)",
+    "natural": "The production completes an episode."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> (A1 | A2)) -> A5)",
+            "(-(A4 -> (A1 | A2)) -> -A5)"
+          ],
+          "conclusion": "(A4 -> (A1 | A2))",
+          "natural": "In the event that the production has editing software as material, it uses animal footage of a lion or it uses animal footage of an elephant."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A1 | A2))",
+            "(A4 -> (A1 | A2))"
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the production uses animal footage of a lion or it uses animal footage of an elephant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The production completes an episode."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A8 | -A7)",
+            "-A8"
+          ],
+          "conclusion": "-A7",
+          "natural": "It is not the case that the production exceeds its budget."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (-(A4 -> (A1 | A2)) -> A6))",
+            "-A7"
+          ],
+          "conclusion": "(-(A4 -> (A1 | A2)) -> A6)",
+          "natural": "Assuming that it is false that the production having editing software as material results in using animal footage of a lion or an elephant, the production delays its release."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> (A1 | A2)) -> A6)",
+            "(-(A4 -> (A1 | A2)) -> -A6)"
+          ],
+          "conclusion": "(A4 -> (A1 | A2))",
+          "natural": "In the event that the production has editing software as material, it uses animal footage of a lion or it uses animal footage of an elephant."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A1 | A2))",
+            "(A4 -> (A1 | A2))"
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the production uses animal footage of a lion or it uses animal footage of an elephant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The production completes an episode."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Wildlife Documentary Production",
+    "atomic_facts": {
+      "A1": "uses_animal_footage(production, lion)",
+      "A2": "uses_animal_footage(production, elephant)",
+      "A3": "has_material(production, camera_equipment)",
+      "A4": "has_material(production, editing_software)",
+      "A5": "needs_reshoot(production)",
+      "A6": "delays_release(production)",
+      "A7": "exceeds_budget(production)",
+      "A8": "gets_award(production)",
+      "G": "completes_episode(production)"
+    },
+    "natural_facts": {
+      "A1": "The production uses animal footage of a lion.",
+      "A2": "The production uses animal footage of an elephant.",
+      "A3": "The production has camera equipment as material.",
+      "A4": "The production has editing software as material.",
+      "A5": "The production needs a reshoot.",
+      "A6": "The production delays its release.",
+      "A7": "The production exceeds its budget.",
+      "A8": "The production gets an award.",
+      "G": "The production completes an episode."
+    },
+    "prover9_expressions": [
+      "(uses_animal_footage(production, lion) -> completes_episode(production))",
+      "(uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))",
+      "(uses_animal_footage(production, elephant) -> completes_episode(production))",
+      "(has_material(production, camera_equipment) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant)))",
+      "(has_material(production, camera_equipment) | has_material(production, editing_software))",
+      "(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant)))",
+      "(exceeds_budget(production) | (-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> delays_release(production)))",
+      "(gets_award(production) | -exceeds_budget(production))",
+      "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> needs_reshoot(production))",
+      "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> delays_release(production))",
+      "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> -needs_reshoot(production))",
+      "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> -delays_release(production))",
+      "completes_episode(production)",
+      "-exceeds_budget(production)",
+      "-gets_award(production)"
+    ],
+    "natural_expressions": [
+      "If the production uses animal footage of a lion, then it completes an episode.",
+      "Either the production uses animal footage of a lion or it uses animal footage of an elephant.",
+      "Provided that the production uses animal footage of an elephant, it completes an episode.",
+      "Whenever the production has camera equipment as material, it uses animal footage of a lion or it uses animal footage of an elephant.",
+      "The production has camera equipment as material or it has editing software as material.",
+      "In the event that the production has editing software as material, it uses animal footage of a lion or it uses animal footage of an elephant.",
+      "Either the production exceeds its budget, or if it is not the case that having editing software as material implies the use of animal footage of a lion or an elephant, then the production delays its release.",
+      "The production gets an award or it does not exceed its budget.",
+      "Should it not be true that having editing software as material leads to using animal footage of a lion or an elephant, then the production needs a reshoot.",
+      "Assuming that it is false that the production having editing software as material results in using animal footage of a lion or an elephant, the production delays its release.",
+      "If the absence of the implication that having editing software as material entails using animal footage of a lion or an elephant holds, then the production does not need a reshoot.",
+      "Given that it is not the case that the production having editing software as material necessitates using animal footage of a lion or an elephant, the production does not delay its release.",
+      "The production completes an episode.",
+      "It is not the case that the production exceeds its budget.",
+      "The production does not get an award."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(uses_animal_footage(production, lion) -> completes_episode(production))",
+        "natural": "If the production uses animal footage of a lion, then it completes an episode."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))",
+        "natural": "Either the production uses animal footage of a lion or it uses animal footage of an elephant."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(uses_animal_footage(production, elephant) -> completes_episode(production))",
+        "natural": "Provided that the production uses animal footage of an elephant, it completes an episode."
+      },
+      "(A3 → (A1 ∨ A2))": {
+        "formal": "(A3 → (A1 ∨ A2))",
+        "prover9": "(A3 -> (A1 | A2))",
+        "prover9_expression": "(has_material(production, camera_equipment) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant)))",
+        "natural": "Whenever the production has camera equipment as material, it uses animal footage of a lion or it uses animal footage of an elephant."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(has_material(production, camera_equipment) | has_material(production, editing_software))",
+        "natural": "The production has camera equipment as material or it has editing software as material."
+      },
+      "(A4 → (A1 ∨ A2))": {
+        "formal": "(A4 → (A1 ∨ A2))",
+        "prover9": "(A4 -> (A1 | A2))",
+        "prover9_expression": "(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant)))",
+        "natural": "In the event that the production has editing software as material, it uses animal footage of a lion or it uses animal footage of an elephant."
+      },
+      "(A7 ∨ (¬(A4 → (A1 ∨ A2)) → A6))": {
+        "formal": "(A7 ∨ (¬(A4 → (A1 ∨ A2)) → A6))",
+        "prover9": "(A7 | (-(A4 -> (A1 | A2)) -> A6))",
+        "prover9_expression": "(exceeds_budget(production) | (-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> delays_release(production)))",
+        "natural": "Either the production exceeds its budget, or if it is not the case that having editing software as material implies the use of animal footage of a lion or an elephant, then the production delays its release."
+      },
+      "(A8 ∨ ¬A7)": {
+        "formal": "(A8 ∨ ¬A7)",
+        "prover9": "(A8 | -A7)",
+        "prover9_expression": "(gets_award(production) | -exceeds_budget(production))",
+        "natural": "The production gets an award or it does not exceed its budget."
+      },
+      "(¬(A4 → (A1 ∨ A2)) → A5)": {
+        "formal": "(¬(A4 → (A1 ∨ A2)) → A5)",
+        "prover9": "(-(A4 -> (A1 | A2)) -> A5)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> needs_reshoot(production))",
+        "natural": "Should it not be true that having editing software as material leads to using animal footage of a lion or an elephant, then the production needs a reshoot."
+      },
+      "(¬(A4 → (A1 ∨ A2)) → A6)": {
+        "formal": "(¬(A4 → (A1 ∨ A2)) → A6)",
+        "prover9": "(-(A4 -> (A1 | A2)) -> A6)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> delays_release(production))",
+        "natural": "Assuming that it is false that the production having editing software as material results in using animal footage of a lion or an elephant, the production delays its release."
+      },
+      "(¬(A4 → (A1 ∨ A2)) → ¬A5)": {
+        "formal": "(¬(A4 → (A1 ∨ A2)) → ¬A5)",
+        "prover9": "(-(A4 -> (A1 | A2)) -> -A5)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> -needs_reshoot(production))",
+        "natural": "If the absence of the implication that having editing software as material entails using animal footage of a lion or an elephant holds, then the production does not need a reshoot."
+      },
+      "(¬(A4 → (A1 ∨ A2)) → ¬A6)": {
+        "formal": "(¬(A4 → (A1 ∨ A2)) → ¬A6)",
+        "prover9": "(-(A4 -> (A1 | A2)) -> -A6)",
+        "prover9_expression": "(-(has_material(production, editing_software) -> (uses_animal_footage(production, lion) | uses_animal_footage(production, elephant))) -> -delays_release(production))",
+        "natural": "Given that it is not the case that the production having editing software as material necessitates using animal footage of a lion or an elephant, the production does not delay its release."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "completes_episode(production)",
+        "natural": "The production completes an episode."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-exceeds_budget(production)",
+        "natural": "It is not the case that the production exceeds its budget."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-gets_award(production)",
+        "natural": "The production does not get an award."
+      }
+    }
+  }
+}

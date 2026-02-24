@@ -1,0 +1,301 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9_expression": "(discovers_artifact(ResearchTeam, AncientRelic) | -has_funding(ResearchTeam, GovernmentGrant))",
+        "natural": "Either the research team discovers an ancient relic, or they do not have government grant funding"
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(identifies_material(ResearchTeam, CeramicFragments) | identifies_material(ResearchTeam, MetalObjects))",
+        "natural": "The research team either identifies ceramic fragments among the materials or identifies metal objects among the materials"
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A5 → G)",
+        "prover9_expression": "(identifies_material(ResearchTeam, MetalObjects) -> completes_research(ResearchTeam, TimePeriod))",
+        "natural": "Should the research team identify metal objects among the materials, then they complete their research within the time period"
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A6 → A3)",
+        "prover9_expression": "(documents_findings(ResearchTeam, FieldJournal) -> preserves_site(ResearchTeam, ExcavationZone))",
+        "natural": "When the research team documents findings in the field journal, then they preserve the excavation site"
+      },
+      {
+        "id": "Rule5",
+        "formal": "(¬(A4 → A6) → A7)",
+        "prover9_expression": "(-(identifies_material(ResearchTeam, CeramicFragments) -> documents_findings(ResearchTeam, FieldJournal)) -> halts_excavation(ResearchTeam, ExcavationZone))",
+        "natural": "Under the condition that identifying ceramic fragments does not lead to documenting findings, then the research team halts the excavation"
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A4 → A6) → ¬A7)",
+        "prover9_expression": "(-(identifies_material(ResearchTeam, CeramicFragments) -> documents_findings(ResearchTeam, FieldJournal)) -> -halts_excavation(ResearchTeam, ExcavationZone))",
+        "natural": "Given that identifying ceramic fragments does not result in documenting findings, then the research team does not halt the excavation"
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-completes_research(ResearchTeam, TimePeriod) -> has_funding(ResearchTeam, GovernmentGrant))",
+        "natural": "If the research team does not complete their research within the time period, then they have government grant funding"
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A2",
+        "prover9_expression": "-discovers_artifact(ResearchTeam, AncientRelic)",
+        "natural": "The research team does not discover an ancient relic"
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A3",
+        "prover9_expression": "-preserves_site(ResearchTeam, ExcavationZone)",
+        "natural": "The research team does not preserve the excavation site"
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "completes_research(ResearchTeam, TimePeriod)",
+    "natural": "The research team completes their research within the time period"
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | -A1)",
+            "-A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The research team does not have government grant funding"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The research team completes their research within the time period"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> A6) -> A7)",
+            "(-(A4 -> A6) -> -A7)"
+          ],
+          "conclusion": "(A4 -> A6)",
+          "natural": "Provided that the research team identifies ceramic fragments among the materials, then they document findings in the field journal"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A6)",
+            "(A6 -> A3)"
+          ],
+          "conclusion": "(A4 -> A3)",
+          "natural": "If the research team identifies ceramic fragments among the materials, then they preserve the excavation site"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A4 -> A3)",
+            "(A5 -> G)",
+            "(A4 | A5)"
+          ],
+          "conclusion": "(A3 | G)",
+          "natural": "Either the research team preserves the excavation site, or they complete their research within the time period"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | G)",
+            "-A3"
+          ],
+          "conclusion": "G",
+          "natural": "The research team completes their research within the time period"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "has_funding(ResearchTeam, GovernmentGrant)",
+      "A2": "discovers_artifact(ResearchTeam, AncientRelic)",
+      "A3": "preserves_site(ResearchTeam, ExcavationZone)",
+      "A4": "identifies_material(ResearchTeam, CeramicFragments)",
+      "A5": "identifies_material(ResearchTeam, MetalObjects)",
+      "A6": "documents_findings(ResearchTeam, FieldJournal)",
+      "A7": "halts_excavation(ResearchTeam, ExcavationZone)",
+      "G": "completes_research(ResearchTeam, TimePeriod)"
+    },
+    "natural_facts": {
+      "A1": "The research team has government grant funding",
+      "A2": "The research team discovers an ancient relic",
+      "A3": "The research team preserves the excavation site",
+      "A4": "The research team identifies ceramic fragments among the materials",
+      "A5": "The research team identifies metal objects among the materials",
+      "A6": "The research team documents findings in the field journal",
+      "A7": "The research team halts the excavation",
+      "G": "The research team completes their research within the time period"
+    },
+    "prover9_expressions": [
+      "(discovers_artifact(ResearchTeam, AncientRelic) ∨ ¬has_funding(ResearchTeam, GovernmentGrant))",
+      "(preserves_site(ResearchTeam, ExcavationZone) ∨ completes_research(ResearchTeam, TimePeriod))",
+      "(identifies_material(ResearchTeam, CeramicFragments) → preserves_site(ResearchTeam, ExcavationZone))",
+      "(identifies_material(ResearchTeam, CeramicFragments) → documents_findings(ResearchTeam, FieldJournal))",
+      "(identifies_material(ResearchTeam, CeramicFragments) ∨ identifies_material(ResearchTeam, MetalObjects))",
+      "(identifies_material(ResearchTeam, MetalObjects) → completes_research(ResearchTeam, TimePeriod))",
+      "(documents_findings(ResearchTeam, FieldJournal) → preserves_site(ResearchTeam, ExcavationZone))",
+      "(¬(identifies_material(ResearchTeam, CeramicFragments) → documents_findings(ResearchTeam, FieldJournal)) → halts_excavation(ResearchTeam, ExcavationZone))",
+      "(¬(identifies_material(ResearchTeam, CeramicFragments) → documents_findings(ResearchTeam, FieldJournal)) → ¬halts_excavation(ResearchTeam, ExcavationZone))",
+      "(¬completes_research(ResearchTeam, TimePeriod) → has_funding(ResearchTeam, GovernmentGrant))",
+      "completes_research(ResearchTeam, TimePeriod)",
+      "¬has_funding(ResearchTeam, GovernmentGrant)",
+      "¬discovers_artifact(ResearchTeam, AncientRelic)",
+      "¬preserves_site(ResearchTeam, ExcavationZone)"
+    ],
+    "natural_expressions": [
+      "Either the research team discovers an ancient relic, or they do not have government grant funding",
+      "Either the research team preserves the excavation site, or they complete their research within the time period",
+      "If the research team identifies ceramic fragments among the materials, then they preserve the excavation site",
+      "Provided that the research team identifies ceramic fragments among the materials, then they document findings in the field journal",
+      "The research team either identifies ceramic fragments among the materials or identifies metal objects among the materials",
+      "Should the research team identify metal objects among the materials, then they complete their research within the time period",
+      "When the research team documents findings in the field journal, then they preserve the excavation site",
+      "Under the condition that identifying ceramic fragments does not lead to documenting findings, then the research team halts the excavation",
+      "Given that identifying ceramic fragments does not result in documenting findings, then the research team does not halt the excavation",
+      "If the research team does not complete their research within the time period, then they have government grant funding",
+      "The research team completes their research within the time period",
+      "The research team does not have government grant funding",
+      "The research team does not discover an ancient relic",
+      "The research team does not preserve the excavation site"
+    ],
+    "node_mappings": {
+      "(A2 ∨ ¬A1)": {
+        "formal": "(A2 ∨ ¬A1)",
+        "prover9": "(A2 | -A1)",
+        "prover9_expression": "(discovers_artifact(ResearchTeam, AncientRelic) | -has_funding(ResearchTeam, GovernmentGrant))",
+        "natural": "Either the research team discovers an ancient relic, or they do not have government grant funding"
+      },
+      "(A3 ∨ G)": {
+        "formal": "(A3 ∨ G)",
+        "prover9": "(A3 | G)",
+        "prover9_expression": "(preserves_site(ResearchTeam, ExcavationZone) | completes_research(ResearchTeam, TimePeriod))",
+        "natural": "Either the research team preserves the excavation site, or they complete their research within the time period"
+      },
+      "(A4 → A3)": {
+        "formal": "(A4 → A3)",
+        "prover9": "(A4 -> A3)",
+        "prover9_expression": "(identifies_material(ResearchTeam, CeramicFragments) -> preserves_site(ResearchTeam, ExcavationZone))",
+        "natural": "If the research team identifies ceramic fragments among the materials, then they preserve the excavation site"
+      },
+      "(A4 → A6)": {
+        "formal": "(A4 → A6)",
+        "prover9": "(A4 -> A6)",
+        "prover9_expression": "(identifies_material(ResearchTeam, CeramicFragments) -> documents_findings(ResearchTeam, FieldJournal))",
+        "natural": "Provided that the research team identifies ceramic fragments among the materials, then they document findings in the field journal"
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(identifies_material(ResearchTeam, CeramicFragments) | identifies_material(ResearchTeam, MetalObjects))",
+        "natural": "The research team either identifies ceramic fragments among the materials or identifies metal objects among the materials"
+      },
+      "(A5 → G)": {
+        "formal": "(A5 → G)",
+        "prover9": "(A5 -> G)",
+        "prover9_expression": "(identifies_material(ResearchTeam, MetalObjects) -> completes_research(ResearchTeam, TimePeriod))",
+        "natural": "Should the research team identify metal objects among the materials, then they complete their research within the time period"
+      },
+      "(A6 → A3)": {
+        "formal": "(A6 → A3)",
+        "prover9": "(A6 -> A3)",
+        "prover9_expression": "(documents_findings(ResearchTeam, FieldJournal) -> preserves_site(ResearchTeam, ExcavationZone))",
+        "natural": "When the research team documents findings in the field journal, then they preserve the excavation site"
+      },
+      "(¬(A4 → A6) → A7)": {
+        "formal": "(¬(A4 → A6) → A7)",
+        "prover9": "(-(A4 -> A6) -> A7)",
+        "prover9_expression": "(-(identifies_material(ResearchTeam, CeramicFragments) -> documents_findings(ResearchTeam, FieldJournal)) -> halts_excavation(ResearchTeam, ExcavationZone))",
+        "natural": "Under the condition that identifying ceramic fragments does not lead to documenting findings, then the research team halts the excavation"
+      },
+      "(¬(A4 → A6) → ¬A7)": {
+        "formal": "(¬(A4 → A6) → ¬A7)",
+        "prover9": "(-(A4 -> A6) -> -A7)",
+        "prover9_expression": "(-(identifies_material(ResearchTeam, CeramicFragments) -> documents_findings(ResearchTeam, FieldJournal)) -> -halts_excavation(ResearchTeam, ExcavationZone))",
+        "natural": "Given that identifying ceramic fragments does not result in documenting findings, then the research team does not halt the excavation"
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-completes_research(ResearchTeam, TimePeriod) -> has_funding(ResearchTeam, GovernmentGrant))",
+        "natural": "If the research team does not complete their research within the time period, then they have government grant funding"
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "completes_research(ResearchTeam, TimePeriod)",
+        "natural": "The research team completes their research within the time period"
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_funding(ResearchTeam, GovernmentGrant)",
+        "natural": "The research team does not have government grant funding"
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-discovers_artifact(ResearchTeam, AncientRelic)",
+        "natural": "The research team does not discover an ancient relic"
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-preserves_site(ResearchTeam, ExcavationZone)",
+        "natural": "The research team does not preserve the excavation site"
+      }
+    }
+  }
+}

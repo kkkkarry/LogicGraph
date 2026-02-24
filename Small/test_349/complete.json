@@ -1,0 +1,748 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A11)",
+        "prover9_expression": "(customer_notified(customer, delivery_time) -> tracking_updated(delivery))",
+        "natural": "Provided that the customer is notified about the delivery time, the delivery's tracking is updated."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → A9)",
+        "prover9_expression": "(tracking_updated(delivery) -> payment_processed(customer))",
+        "natural": "If the delivery's tracking is updated, then the customer's payment is processed."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → (A12 ∨ ¬A2))",
+        "prover9_expression": "(delivery_assigned(courier, meal) -> (special_handling_required(meal) | -is_spoiled(meal)))",
+        "natural": "In the event that the courier is assigned to the meal, either the meal requires special handling or the meal is not spoiled."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A16 → A18)",
+        "prover9_expression": "(restaurant_prepared(meal) -> quality_checked(meal))",
+        "natural": "Whenever the restaurant prepares the meal, the meal is quality checked."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A17 → A9)",
+        "prover9_expression": "(meal_packaged(meal) -> payment_processed(customer))",
+        "natural": "Provided that the meal is packaged, the customer's payment is processed."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A18 → A17)",
+        "prover9_expression": "(quality_checked(meal) -> meal_packaged(meal))",
+        "natural": "In the case that the meal is quality checked, the meal is packaged."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A3 → ¬A2)",
+        "prover9_expression": "(is_refrigerated(meal) -> -is_spoiled(meal))",
+        "natural": "Assuming the meal is refrigerated, it is not spoiled."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(is_refrigerated(meal) | is_frozen(meal))",
+        "natural": "The meal is refrigerated or the meal is frozen."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A4 → ¬A2)",
+        "prover9_expression": "(is_frozen(meal) -> -is_spoiled(meal))",
+        "natural": "Whenever the meal is frozen, it is not the case that the meal is spoiled."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A6 → ¬A5)",
+        "prover9_expression": "(has_alternative_courier(delivery) -> -is_delayed(delivery))",
+        "natural": "If the delivery has an alternative courier, then the delivery is not delayed."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(has_alternative_courier(delivery) | has_backup_vehicle(delivery))",
+        "natural": "Either the delivery has an alternative courier or the delivery has a backup vehicle."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A8 → A10)",
+        "prover9_expression": "(order_confirmed(customer, meal) -> customer_notified(customer, delivery_time))",
+        "natural": "Should the customer's order for the meal be confirmed, the customer is notified about the delivery time."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A8 → A16)",
+        "prover9_expression": "(order_confirmed(customer, meal) -> restaurant_prepared(meal))",
+        "natural": "Given that the customer's order for the meal is confirmed, the restaurant prepares the meal."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A9 → (A7 → ¬A5))",
+        "prover9_expression": "(payment_processed(customer) -> (has_backup_vehicle(delivery) -> -is_delayed(delivery)))",
+        "natural": "If the customer's payment is processed, then provided that the delivery has a backup vehicle, the delivery is not delayed."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬(A1 ∨ G) → A2)",
+        "prover9_expression": "(-(has_ingredient(meal, spice) | premium_customer(customer)) -> is_spoiled(meal))",
+        "natural": "If it is not the case that either the meal has spice as an ingredient or the customer is a premium customer, then the meal is spoiled."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(¬(A14 → A13) → A15)",
+        "prover9_expression": "(-(courier_available(courier) -> delivery_assigned(courier, meal)) -> system_error(delivery_system))",
+        "natural": "In the event that it is not the case that if the courier is available then the courier is assigned to the meal, the delivery system has a system error."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(¬(A14 → A13) → ¬A15)",
+        "prover9_expression": "(-(courier_available(courier) -> delivery_assigned(courier, meal)) -> -system_error(delivery_system))",
+        "natural": "Should it not be true that the courier being available implies the courier is assigned to the meal, then it is not the case that the delivery system has a system error."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(¬G → A5)",
+        "prover9_expression": "(-premium_customer(customer) -> is_delayed(delivery))",
+        "natural": "Provided that the customer is not a premium customer, the delivery is delayed."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A14",
+        "prover9_expression": "courier_available(courier)",
+        "natural": "The courier is available."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A8",
+        "prover9_expression": "order_confirmed(customer, meal)",
+        "natural": "The customer's order for the meal is confirmed."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A1",
+        "prover9_expression": "-has_ingredient(meal, spice)",
+        "natural": "It is not the case that the meal has spice as an ingredient."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A12",
+        "prover9_expression": "-special_handling_required(meal)",
+        "natural": "The meal does not require special handling."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "premium_customer(customer)",
+    "natural": "The customer is a premium customer."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> -A2)",
+            "(A4 -> -A2)"
+          ],
+          "conclusion": "-A2",
+          "natural": "The meal is not spoiled."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 | G) -> A2)",
+            "-A2"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the meal has spice as an ingredient or the customer is a premium customer."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The customer is a premium customer."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A11)",
+            "(A11 -> A9)"
+          ],
+          "conclusion": "(A10 -> A9)",
+          "natural": "Whenever the customer is notified about the delivery time, the customer's payment is processed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A10)",
+            "(A10 -> A9)"
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Whenever the customer's order for the meal is confirmed, the customer's payment is processed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A9)",
+            "(A9 -> (A7 -> -A5))"
+          ],
+          "conclusion": "(A8 -> (A7 -> -A5))",
+          "natural": "In the event that the customer's order for the meal is confirmed, if the delivery has a backup vehicle, then the delivery is not delayed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> (A7 -> -A5))",
+            "A8"
+          ],
+          "conclusion": "(A7 -> -A5)",
+          "natural": "Provided that the delivery has a backup vehicle, the delivery is not delayed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> -A5)",
+            "(A7 -> -A5)"
+          ],
+          "conclusion": "-A5",
+          "natural": "The delivery is not delayed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A5)",
+            "-A5"
+          ],
+          "conclusion": "G",
+          "natural": "The customer is a premium customer."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> A13) -> A15)",
+            "(-(A14 -> A13) -> -A15)"
+          ],
+          "conclusion": "(A14 -> A13)",
+          "natural": "Given that the courier is available, the courier is assigned to the meal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> A13)",
+            "A14"
+          ],
+          "conclusion": "A13",
+          "natural": "The courier is assigned to the meal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> (A12 | -A2))",
+            "A13"
+          ],
+          "conclusion": "(A12 | -A2)",
+          "natural": "Either the meal requires special handling or it is not the case that the meal is spoiled."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | -A2)",
+            "-A12"
+          ],
+          "conclusion": "-A2",
+          "natural": "The meal is not spoiled."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A1 | G) -> A2)",
+            "-A2"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the meal has spice as an ingredient or the customer is a premium customer."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The customer is a premium customer."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A16 -> A18)",
+            "(A18 -> A17)"
+          ],
+          "conclusion": "(A16 -> A17)",
+          "natural": "Should the restaurant prepare the meal, the meal is packaged."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A16 -> A17)",
+            "(A17 -> A9)"
+          ],
+          "conclusion": "(A16 -> A9)",
+          "natural": "If the restaurant prepares the meal, the customer's payment is processed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A16)",
+            "(A16 -> A9)"
+          ],
+          "conclusion": "(A8 -> A9)",
+          "natural": "Whenever the customer's order for the meal is confirmed, the customer's payment is processed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A8 -> A9)",
+            "(A9 -> (A7 -> -A5))"
+          ],
+          "conclusion": "(A8 -> (A7 -> -A5))",
+          "natural": "In the event that the customer's order for the meal is confirmed, if the delivery has a backup vehicle, then the delivery is not delayed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> (A7 -> -A5))",
+            "A8"
+          ],
+          "conclusion": "(A7 -> -A5)",
+          "natural": "Provided that the delivery has a backup vehicle, the delivery is not delayed."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> -A5)",
+            "(A7 -> -A5)"
+          ],
+          "conclusion": "-A5",
+          "natural": "The delivery is not delayed."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A5)",
+            "-A5"
+          ],
+          "conclusion": "G",
+          "natural": "The customer is a premium customer."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Food Delivery Service",
+    "atomic_facts": {
+      "A1": "has_ingredient(meal, spice)",
+      "A2": "is_spoiled(meal)",
+      "A3": "is_refrigerated(meal)",
+      "A4": "is_frozen(meal)",
+      "A5": "is_delayed(delivery)",
+      "A6": "has_alternative_courier(delivery)",
+      "A7": "has_backup_vehicle(delivery)",
+      "A8": "order_confirmed(customer, meal)",
+      "A9": "payment_processed(customer)",
+      "A10": "customer_notified(customer, delivery_time)",
+      "A11": "tracking_updated(delivery)",
+      "A12": "special_handling_required(meal)",
+      "A13": "delivery_assigned(courier, meal)",
+      "A14": "courier_available(courier)",
+      "A15": "system_error(delivery_system)",
+      "A16": "restaurant_prepared(meal)",
+      "A17": "meal_packaged(meal)",
+      "A18": "quality_checked(meal)",
+      "G": "premium_customer(customer)"
+    },
+    "natural_facts": {
+      "A1": "The meal has spice as an ingredient.",
+      "A2": "The meal is spoiled.",
+      "A3": "The meal is refrigerated.",
+      "A4": "The meal is frozen.",
+      "A5": "The delivery is delayed.",
+      "A6": "The delivery has an alternative courier.",
+      "A7": "The delivery has a backup vehicle.",
+      "A8": "The customer's order for the meal is confirmed.",
+      "A9": "The customer's payment is processed.",
+      "A10": "The customer is notified about the delivery time.",
+      "A11": "The delivery's tracking is updated.",
+      "A12": "The meal requires special handling.",
+      "A13": "The courier is assigned to the meal.",
+      "A14": "The courier is available.",
+      "A15": "The delivery system has a system error.",
+      "A16": "The restaurant prepared the meal.",
+      "A17": "The meal is packaged.",
+      "A18": "The meal is quality checked.",
+      "G": "The customer is a premium customer."
+    },
+    "prover9_expressions": [
+      "(has_ingredient(meal, spice) | premium_customer(customer))",
+      "(customer_notified(customer, delivery_time) -> tracking_updated(delivery))",
+      "(customer_notified(customer, delivery_time) -> payment_processed(customer))",
+      "(tracking_updated(delivery) -> payment_processed(customer))",
+      "(special_handling_required(meal) | -is_spoiled(meal))",
+      "(delivery_assigned(courier, meal) -> (special_handling_required(meal) | -is_spoiled(meal)))",
+      "(courier_available(courier) -> delivery_assigned(courier, meal))",
+      "(restaurant_prepared(meal) -> meal_packaged(meal))",
+      "(restaurant_prepared(meal) -> quality_checked(meal))",
+      "(restaurant_prepared(meal) -> payment_processed(customer))",
+      "(meal_packaged(meal) -> payment_processed(customer))",
+      "(quality_checked(meal) -> meal_packaged(meal))",
+      "(is_refrigerated(meal) -> -is_spoiled(meal))",
+      "(is_refrigerated(meal) | is_frozen(meal))",
+      "(is_frozen(meal) -> -is_spoiled(meal))",
+      "(has_alternative_courier(delivery) -> -is_delayed(delivery))",
+      "(has_alternative_courier(delivery) | has_backup_vehicle(delivery))",
+      "(has_backup_vehicle(delivery) -> -is_delayed(delivery))",
+      "(order_confirmed(customer, meal) -> (has_backup_vehicle(delivery) -> -is_delayed(delivery)))",
+      "(order_confirmed(customer, meal) -> customer_notified(customer, delivery_time))",
+      "(order_confirmed(customer, meal) -> restaurant_prepared(meal))",
+      "(order_confirmed(customer, meal) -> payment_processed(customer))",
+      "(payment_processed(customer) -> (has_backup_vehicle(delivery) -> -is_delayed(delivery)))",
+      "(-(has_ingredient(meal, spice) | premium_customer(customer)) -> is_spoiled(meal))",
+      "(-(courier_available(courier) -> delivery_assigned(courier, meal)) -> system_error(delivery_system))",
+      "(-(courier_available(courier) -> delivery_assigned(courier, meal)) -> -system_error(delivery_system))",
+      "(-premium_customer(customer) -> is_delayed(delivery))",
+      "delivery_assigned(courier, meal)",
+      "courier_available(courier)",
+      "order_confirmed(customer, meal)",
+      "premium_customer(customer)",
+      "-has_ingredient(meal, spice)",
+      "-special_handling_required(meal)",
+      "-is_spoiled(meal)",
+      "-is_delayed(delivery)"
+    ],
+    "natural_expressions": [
+      "Either the meal has spice as an ingredient or the customer is a premium customer.",
+      "Provided that the customer is notified about the delivery time, the delivery's tracking is updated.",
+      "Whenever the customer is notified about the delivery time, the customer's payment is processed.",
+      "If the delivery's tracking is updated, then the customer's payment is processed.",
+      "Either the meal requires special handling or it is not the case that the meal is spoiled.",
+      "In the event that the courier is assigned to the meal, either the meal requires special handling or the meal is not spoiled.",
+      "Given that the courier is available, the courier is assigned to the meal.",
+      "Should the restaurant prepare the meal, the meal is packaged.",
+      "Whenever the restaurant prepares the meal, the meal is quality checked.",
+      "If the restaurant prepares the meal, the customer's payment is processed.",
+      "Provided that the meal is packaged, the customer's payment is processed.",
+      "In the case that the meal is quality checked, the meal is packaged.",
+      "Assuming the meal is refrigerated, it is not spoiled.",
+      "The meal is refrigerated or the meal is frozen.",
+      "Whenever the meal is frozen, it is not the case that the meal is spoiled.",
+      "If the delivery has an alternative courier, then the delivery is not delayed.",
+      "Either the delivery has an alternative courier or the delivery has a backup vehicle.",
+      "Provided that the delivery has a backup vehicle, the delivery is not delayed.",
+      "In the event that the customer's order for the meal is confirmed, if the delivery has a backup vehicle, then the delivery is not delayed.",
+      "Should the customer's order for the meal be confirmed, the customer is notified about the delivery time.",
+      "Given that the customer's order for the meal is confirmed, the restaurant prepares the meal.",
+      "Whenever the customer's order for the meal is confirmed, the customer's payment is processed.",
+      "If the customer's payment is processed, then provided that the delivery has a backup vehicle, the delivery is not delayed.",
+      "If it is not the case that either the meal has spice as an ingredient or the customer is a premium customer, then the meal is spoiled.",
+      "In the event that it is not the case that if the courier is available then the courier is assigned to the meal, the delivery system has a system error.",
+      "Should it not be true that the courier being available implies the courier is assigned to the meal, then it is not the case that the delivery system has a system error.",
+      "Provided that the customer is not a premium customer, the delivery is delayed.",
+      "The courier is assigned to the meal.",
+      "The courier is available.",
+      "The customer's order for the meal is confirmed.",
+      "The customer is a premium customer.",
+      "It is not the case that the meal has spice as an ingredient.",
+      "The meal does not require special handling.",
+      "The meal is not spoiled.",
+      "The delivery is not delayed."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(has_ingredient(meal, spice) | premium_customer(customer))",
+        "natural": "Either the meal has spice as an ingredient or the customer is a premium customer."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(customer_notified(customer, delivery_time) -> tracking_updated(delivery))",
+        "natural": "Provided that the customer is notified about the delivery time, the delivery's tracking is updated."
+      },
+      "(A10 → A9)": {
+        "formal": "(A10 → A9)",
+        "prover9": "(A10 -> A9)",
+        "prover9_expression": "(customer_notified(customer, delivery_time) -> payment_processed(customer))",
+        "natural": "Whenever the customer is notified about the delivery time, the customer's payment is processed."
+      },
+      "(A11 → A9)": {
+        "formal": "(A11 → A9)",
+        "prover9": "(A11 -> A9)",
+        "prover9_expression": "(tracking_updated(delivery) -> payment_processed(customer))",
+        "natural": "If the delivery's tracking is updated, then the customer's payment is processed."
+      },
+      "(A12 ∨ ¬A2)": {
+        "formal": "(A12 ∨ ¬A2)",
+        "prover9": "(A12 | -A2)",
+        "prover9_expression": "(special_handling_required(meal) | -is_spoiled(meal))",
+        "natural": "Either the meal requires special handling or it is not the case that the meal is spoiled."
+      },
+      "(A13 → (A12 ∨ ¬A2))": {
+        "formal": "(A13 → (A12 ∨ ¬A2))",
+        "prover9": "(A13 -> (A12 | -A2))",
+        "prover9_expression": "(delivery_assigned(courier, meal) -> (special_handling_required(meal) | -is_spoiled(meal)))",
+        "natural": "In the event that the courier is assigned to the meal, either the meal requires special handling or the meal is not spoiled."
+      },
+      "(A14 → A13)": {
+        "formal": "(A14 → A13)",
+        "prover9": "(A14 -> A13)",
+        "prover9_expression": "(courier_available(courier) -> delivery_assigned(courier, meal))",
+        "natural": "Given that the courier is available, the courier is assigned to the meal."
+      },
+      "(A16 → A17)": {
+        "formal": "(A16 → A17)",
+        "prover9": "(A16 -> A17)",
+        "prover9_expression": "(restaurant_prepared(meal) -> meal_packaged(meal))",
+        "natural": "Should the restaurant prepare the meal, the meal is packaged."
+      },
+      "(A16 → A18)": {
+        "formal": "(A16 → A18)",
+        "prover9": "(A16 -> A18)",
+        "prover9_expression": "(restaurant_prepared(meal) -> quality_checked(meal))",
+        "natural": "Whenever the restaurant prepares the meal, the meal is quality checked."
+      },
+      "(A16 → A9)": {
+        "formal": "(A16 → A9)",
+        "prover9": "(A16 -> A9)",
+        "prover9_expression": "(restaurant_prepared(meal) -> payment_processed(customer))",
+        "natural": "If the restaurant prepares the meal, the customer's payment is processed."
+      },
+      "(A17 → A9)": {
+        "formal": "(A17 → A9)",
+        "prover9": "(A17 -> A9)",
+        "prover9_expression": "(meal_packaged(meal) -> payment_processed(customer))",
+        "natural": "Provided that the meal is packaged, the customer's payment is processed."
+      },
+      "(A18 → A17)": {
+        "formal": "(A18 → A17)",
+        "prover9": "(A18 -> A17)",
+        "prover9_expression": "(quality_checked(meal) -> meal_packaged(meal))",
+        "natural": "In the case that the meal is quality checked, the meal is packaged."
+      },
+      "(A3 → ¬A2)": {
+        "formal": "(A3 → ¬A2)",
+        "prover9": "(A3 -> -A2)",
+        "prover9_expression": "(is_refrigerated(meal) -> -is_spoiled(meal))",
+        "natural": "Assuming the meal is refrigerated, it is not spoiled."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(is_refrigerated(meal) | is_frozen(meal))",
+        "natural": "The meal is refrigerated or the meal is frozen."
+      },
+      "(A4 → ¬A2)": {
+        "formal": "(A4 → ¬A2)",
+        "prover9": "(A4 -> -A2)",
+        "prover9_expression": "(is_frozen(meal) -> -is_spoiled(meal))",
+        "natural": "Whenever the meal is frozen, it is not the case that the meal is spoiled."
+      },
+      "(A6 → ¬A5)": {
+        "formal": "(A6 → ¬A5)",
+        "prover9": "(A6 -> -A5)",
+        "prover9_expression": "(has_alternative_courier(delivery) -> -is_delayed(delivery))",
+        "natural": "If the delivery has an alternative courier, then the delivery is not delayed."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(has_alternative_courier(delivery) | has_backup_vehicle(delivery))",
+        "natural": "Either the delivery has an alternative courier or the delivery has a backup vehicle."
+      },
+      "(A7 → ¬A5)": {
+        "formal": "(A7 → ¬A5)",
+        "prover9": "(A7 -> -A5)",
+        "prover9_expression": "(has_backup_vehicle(delivery) -> -is_delayed(delivery))",
+        "natural": "Provided that the delivery has a backup vehicle, the delivery is not delayed."
+      },
+      "(A8 → (A7 → ¬A5))": {
+        "formal": "(A8 → (A7 → ¬A5))",
+        "prover9": "(A8 -> (A7 -> -A5))",
+        "prover9_expression": "(order_confirmed(customer, meal) -> (has_backup_vehicle(delivery) -> -is_delayed(delivery)))",
+        "natural": "In the event that the customer's order for the meal is confirmed, if the delivery has a backup vehicle, then the delivery is not delayed."
+      },
+      "(A8 → A10)": {
+        "formal": "(A8 → A10)",
+        "prover9": "(A8 -> A10)",
+        "prover9_expression": "(order_confirmed(customer, meal) -> customer_notified(customer, delivery_time))",
+        "natural": "Should the customer's order for the meal be confirmed, the customer is notified about the delivery time."
+      },
+      "(A8 → A16)": {
+        "formal": "(A8 → A16)",
+        "prover9": "(A8 -> A16)",
+        "prover9_expression": "(order_confirmed(customer, meal) -> restaurant_prepared(meal))",
+        "natural": "Given that the customer's order for the meal is confirmed, the restaurant prepares the meal."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(order_confirmed(customer, meal) -> payment_processed(customer))",
+        "natural": "Whenever the customer's order for the meal is confirmed, the customer's payment is processed."
+      },
+      "(A9 → (A7 → ¬A5))": {
+        "formal": "(A9 → (A7 → ¬A5))",
+        "prover9": "(A9 -> (A7 -> -A5))",
+        "prover9_expression": "(payment_processed(customer) -> (has_backup_vehicle(delivery) -> -is_delayed(delivery)))",
+        "natural": "If the customer's payment is processed, then provided that the delivery has a backup vehicle, the delivery is not delayed."
+      },
+      "(¬(A1 ∨ G) → A2)": {
+        "formal": "(¬(A1 ∨ G) → A2)",
+        "prover9": "(-(A1 | G) -> A2)",
+        "prover9_expression": "(-(has_ingredient(meal, spice) | premium_customer(customer)) -> is_spoiled(meal))",
+        "natural": "If it is not the case that either the meal has spice as an ingredient or the customer is a premium customer, then the meal is spoiled."
+      },
+      "(¬(A14 → A13) → A15)": {
+        "formal": "(¬(A14 → A13) → A15)",
+        "prover9": "(-(A14 -> A13) -> A15)",
+        "prover9_expression": "(-(courier_available(courier) -> delivery_assigned(courier, meal)) -> system_error(delivery_system))",
+        "natural": "In the event that it is not the case that if the courier is available then the courier is assigned to the meal, the delivery system has a system error."
+      },
+      "(¬(A14 → A13) → ¬A15)": {
+        "formal": "(¬(A14 → A13) → ¬A15)",
+        "prover9": "(-(A14 -> A13) -> -A15)",
+        "prover9_expression": "(-(courier_available(courier) -> delivery_assigned(courier, meal)) -> -system_error(delivery_system))",
+        "natural": "Should it not be true that the courier being available implies the courier is assigned to the meal, then it is not the case that the delivery system has a system error."
+      },
+      "(¬G → A5)": {
+        "formal": "(¬G → A5)",
+        "prover9": "(-G -> A5)",
+        "prover9_expression": "(-premium_customer(customer) -> is_delayed(delivery))",
+        "natural": "Provided that the customer is not a premium customer, the delivery is delayed."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "delivery_assigned(courier, meal)",
+        "natural": "The courier is assigned to the meal."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "courier_available(courier)",
+        "natural": "The courier is available."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "order_confirmed(customer, meal)",
+        "natural": "The customer's order for the meal is confirmed."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "premium_customer(customer)",
+        "natural": "The customer is a premium customer."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_ingredient(meal, spice)",
+        "natural": "It is not the case that the meal has spice as an ingredient."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-special_handling_required(meal)",
+        "natural": "The meal does not require special handling."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-is_spoiled(meal)",
+        "natural": "The meal is not spoiled."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-is_delayed(delivery)",
+        "natural": "The delivery is not delayed."
+      }
+    }
+  }
+}

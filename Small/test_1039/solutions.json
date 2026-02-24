@@ -1,0 +1,559 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 8
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A9 | (A7 -> A5))",
+              "prover9_expression": "(emergency(medical_procedure) | (in_network(medical_procedure) -> covered(medical_procedure, insurance_plan)))",
+              "natural": "Either a medical procedure is an emergency, or an in-network procedure being covered by an insurance plan holds."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A9",
+              "prover9_expression": "-emergency(medical_procedure)",
+              "natural": "A medical procedure is not an emergency."
+            }
+          ],
+          "conclusion": "(A7 -> A5)",
+          "natural": "An in-network medical procedure is covered by an insurance plan."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> A5)",
+              "prover9_expression": "(in_network(medical_procedure) -> covered(medical_procedure, insurance_plan))",
+              "natural": "An in-network medical procedure is covered by an insurance plan."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A8 -> A6)",
+              "prover9_expression": "(out_of_network(medical_procedure) -> not_covered(medical_procedure, insurance_plan))",
+              "natural": "An out-of-network medical procedure is not covered by an insurance plan."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(in_network(medical_procedure) | out_of_network(medical_procedure))",
+              "natural": "A medical procedure is in-network or out-of-network."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "A medical procedure is covered by an insurance plan or not covered by an insurance plan."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(covered(medical_procedure, insurance_plan) | not_covered(medical_procedure, insurance_plan))",
+              "natural": "A medical procedure is covered by an insurance plan or not covered by an insurance plan."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A5 -> (A4 -> A2))",
+              "prover9_expression": "(covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+              "natural": "If a medical procedure is covered by an insurance plan, then an experimental procedure implies that a prescription drug requires pre-approval."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A6 -> (A4 -> A2))",
+              "prover9_expression": "(not_covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+              "natural": "Should a medical procedure not be covered by an insurance plan, then if it is experimental, a prescription drug requires pre-approval."
+            }
+          ],
+          "conclusion": "(A4 -> A2)",
+          "natural": "Whenever a medical procedure is experimental, a prescription drug requires pre-approval."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(routine(medical_procedure) -> requires(medical_procedure, pre_approval))",
+              "natural": "A routine medical procedure necessitates pre-approval."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(experimental(medical_procedure) -> requires(prescription_drug, pre_approval))",
+              "natural": "Whenever a medical procedure is experimental, a prescription drug requires pre-approval."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(routine(medical_procedure) | experimental(medical_procedure))",
+              "natural": "A medical procedure is either routine or experimental."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either a medical procedure requires pre-approval or a prescription drug requires pre-approval."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(requires(medical_procedure, pre_approval) | requires(prescription_drug, pre_approval))",
+              "natural": "Either a medical procedure requires pre-approval or a prescription drug requires pre-approval."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(requires(medical_procedure, pre_approval) -> reimbursed(insurance_claim))",
+              "natural": "If a medical procedure requires pre-approval, then the insurance claim is reimbursed."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(requires(prescription_drug, pre_approval) -> reimbursed(insurance_claim))",
+              "natural": "A prescription drug requiring pre-approval entails that the insurance claim is reimbursed."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A14 -> A15)",
+              "prover9_expression": "(investigated(insurance_claim) -> denied(insurance_claim))",
+              "natural": "An insurance claim being investigated implies that it is denied."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A15 -> -A13)",
+              "prover9_expression": "(denied(insurance_claim) -> -fraudulent(insurance_claim))",
+              "natural": "An insurance claim that is denied is not fraudulent."
+            }
+          ],
+          "conclusion": "(A14 -> -A13)",
+          "natural": "Should an insurance claim be investigated, it is not fraudulent."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(A11 -> A10) -> A14)",
+              "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> investigated(insurance_claim))",
+              "natural": "Assuming that complete medical documentation does not result in approval of the insurance claim, the claim is investigated."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> -A13)",
+              "prover9_expression": "(investigated(insurance_claim) -> -fraudulent(insurance_claim))",
+              "natural": "Should an insurance claim be investigated, it is not fraudulent."
+            }
+          ],
+          "conclusion": "(-(A11 -> A10) -> -A13)",
+          "natural": "In the event that complete medical documentation does not imply approval of the insurance claim, the claim is not fraudulent."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A11 -> A10) -> A13)",
+              "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> fraudulent(insurance_claim))",
+              "natural": "If it is not the case that complete medical documentation leads to approval of the insurance claim, then the claim is fraudulent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A11 -> A10) -> -A13)",
+              "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> -fraudulent(insurance_claim))",
+              "natural": "In the event that complete medical documentation does not imply approval of the insurance claim, the claim is not fraudulent."
+            }
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(complete(medical_documentation) | incomplete(medical_documentation))",
+              "natural": "Medical documentation is complete or incomplete."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(complete(medical_documentation) -> approved(insurance_claim))",
+              "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A12 -> A10)",
+              "prover9_expression": "(incomplete(medical_documentation) -> approved(insurance_claim))",
+              "natural": "In the event that medical documentation is incomplete, the insurance claim is approved."
+            }
+          ],
+          "conclusion": "A10",
+          "natural": "An insurance claim is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(approved(insurance_claim) -> reimbursed(insurance_claim))",
+              "natural": "Whenever an insurance claim is approved, it is reimbursed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A10",
+              "prover9_expression": "approved(insurance_claim)",
+              "natural": "An insurance claim is approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A18 -> (A17 -> A16))",
+              "prover9_expression": "(valid(insurance_policy) -> (processed(insurance_claim) -> submitted(insurance_claim)))",
+              "natural": "Given that an insurance policy is valid, if the insurance claim is processed, it is submitted."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A18",
+              "prover9_expression": "valid(insurance_policy)",
+              "natural": "An insurance policy is valid."
+            }
+          ],
+          "conclusion": "(A17 -> A16)",
+          "natural": "Processing an insurance claim results in its submission."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> A17)",
+              "prover9_expression": "(complete(medical_documentation) -> processed(insurance_claim))",
+              "natural": "If medical documentation is complete, then the insurance claim is processed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A16)",
+              "prover9_expression": "(processed(insurance_claim) -> submitted(insurance_claim))",
+              "natural": "Processing an insurance claim results in its submission."
+            }
+          ],
+          "conclusion": "(A11 -> A16)",
+          "natural": "Under the condition that medical documentation is complete, the insurance claim is submitted."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A16)",
+              "prover9_expression": "(complete(medical_documentation) -> submitted(insurance_claim))",
+              "natural": "Under the condition that medical documentation is complete, the insurance claim is submitted."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A16 -> A10)",
+              "prover9_expression": "(submitted(insurance_claim) -> approved(insurance_claim))",
+              "natural": "The submission of an insurance claim leads to its approval."
+            }
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(complete(medical_documentation) | incomplete(medical_documentation))",
+              "natural": "Medical documentation is complete or incomplete."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(complete(medical_documentation) -> approved(insurance_claim))",
+              "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A12 -> A10)",
+              "prover9_expression": "(incomplete(medical_documentation) -> approved(insurance_claim))",
+              "natural": "In the event that medical documentation is incomplete, the insurance claim is approved."
+            }
+          ],
+          "conclusion": "A10",
+          "natural": "An insurance claim is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(approved(insurance_claim) -> reimbursed(insurance_claim))",
+              "natural": "Whenever an insurance claim is approved, it is reimbursed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A10",
+              "prover9_expression": "approved(insurance_claim)",
+              "natural": "An insurance claim is approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(-(A21 -> A22) -> -A23) -> A24)",
+              "prover9_expression": "(-(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim)) -> major_fraud(insurance_claim))",
+              "natural": "If it is not the case that the negation of \"a reviewed insurance claim is escalated\" implies no minor discrepancy, then the claim involves major fraud."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A24",
+              "prover9_expression": "-major_fraud(insurance_claim)",
+              "natural": "An insurance claim does not involve major fraud."
+            }
+          ],
+          "conclusion": "(-(A21 -> A22) -> -A23)",
+          "natural": "Provided that a reviewed insurance claim is not escalated, the claim does not have a minor discrepancy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(A21 -> A22) -> A23)",
+              "prover9_expression": "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> minor_discrepancy(insurance_claim))",
+              "natural": "If it is not true that a reviewed insurance claim is escalated, then the claim has a minor discrepancy."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A21 -> A22) -> -A23)",
+              "prover9_expression": "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim))",
+              "natural": "Provided that a reviewed insurance claim is not escalated, the claim does not have a minor discrepancy."
+            }
+          ],
+          "conclusion": "(A21 -> A22)",
+          "natural": "Provided an insurance claim is reviewed, it is escalated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> A22)",
+              "prover9_expression": "(reviewed(insurance_claim) -> escalated(insurance_claim))",
+              "natural": "Provided an insurance claim is reviewed, it is escalated."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A22 -> -A19)",
+              "prover9_expression": "(escalated(insurance_claim) -> -appeal_filed(insurance_claim))",
+              "natural": "An insurance claim being escalated means that an appeal is not filed for it."
+            }
+          ],
+          "conclusion": "(A21 -> -A19)",
+          "natural": "In the case that an insurance claim is reviewed, an appeal is not filed for it."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A20 -> A21)",
+              "prover9_expression": "(audit_triggered(insurance_claim) -> reviewed(insurance_claim))",
+              "natural": "When an audit is triggered for an insurance claim, the claim is reviewed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A21 -> -A19)",
+              "prover9_expression": "(reviewed(insurance_claim) -> -appeal_filed(insurance_claim))",
+              "natural": "In the case that an insurance claim is reviewed, an appeal is not filed for it."
+            }
+          ],
+          "conclusion": "(A20 -> -A19)",
+          "natural": "If an audit is triggered for an insurance claim, then an appeal is not filed for it."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> -A19)",
+              "prover9_expression": "(audit_triggered(insurance_claim) -> -appeal_filed(insurance_claim))",
+              "natural": "If an audit is triggered for an insurance claim, then an appeal is not filed for it."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A20",
+              "prover9_expression": "audit_triggered(insurance_claim)",
+              "natural": "An audit is triggered for an insurance claim."
+            }
+          ],
+          "conclusion": "-A19",
+          "natural": "It is not the case that an appeal is filed for an insurance claim."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A19 | (A11 -> A10))",
+              "prover9_expression": "(appeal_filed(insurance_claim) | (complete(medical_documentation) -> approved(insurance_claim)))",
+              "natural": "Either an appeal is filed for the insurance claim, or complete medical documentation results in the claim being approved."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A19",
+              "prover9_expression": "-appeal_filed(insurance_claim)",
+              "natural": "It is not the case that an appeal is filed for an insurance claim."
+            }
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(complete(medical_documentation) | incomplete(medical_documentation))",
+              "natural": "Medical documentation is complete or incomplete."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A10)",
+              "prover9_expression": "(complete(medical_documentation) -> approved(insurance_claim))",
+              "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A12 -> A10)",
+              "prover9_expression": "(incomplete(medical_documentation) -> approved(insurance_claim))",
+              "natural": "In the event that medical documentation is incomplete, the insurance claim is approved."
+            }
+          ],
+          "conclusion": "A10",
+          "natural": "An insurance claim is approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(approved(insurance_claim) -> reimbursed(insurance_claim))",
+              "natural": "Whenever an insurance claim is approved, it is reimbursed."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A10",
+              "prover9_expression": "approved(insurance_claim)",
+              "natural": "An insurance claim is approved."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    }
+  ]
+}

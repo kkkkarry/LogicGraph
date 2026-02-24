@@ -1,0 +1,1143 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 12
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 11
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(requests_audit(bank, regulator) | self_reports(bank))",
+              "natural": "The bank requests an audit from the regulator, or the bank self-reports."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A7 -> (A5 -> -A4))",
+              "prover9_expression": "(requests_audit(bank, regulator) -> (is_licensed(bank) -> -is_insolvent(bank)))",
+              "natural": "Under the condition that the bank requests an audit from the regulator, then if the bank is licensed, the bank is not insolvent."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(A8 -> (A5 -> -A4))",
+              "prover9_expression": "(self_reports(bank) -> (is_licensed(bank) -> -is_insolvent(bank)))",
+              "natural": "If the bank self-reports, then given that the bank is licensed, the bank is not insolvent."
+            }
+          ],
+          "conclusion": "(A5 -> -A4)",
+          "natural": "If the bank is licensed, then the bank is not insolvent."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(is_licensed(bank) | is_exempt(bank))",
+              "natural": "Either the bank is licensed, or the bank is exempt."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> -A4)",
+              "prover9_expression": "(is_licensed(bank) -> -is_insolvent(bank))",
+              "natural": "If the bank is licensed, then the bank is not insolvent."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A6 -> -A4)",
+              "prover9_expression": "(is_exempt(bank) -> -is_insolvent(bank))",
+              "natural": "Provided that the bank is exempt, the bank is not insolvent."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that the bank is insolvent."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(-(A1 -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> is_insolvent(bank))",
+              "natural": "Provided that it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, the bank is insolvent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-is_insolvent(bank)",
+              "natural": "It is not the case that the bank is insolvent."
+            }
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> A2) -> A3)",
+              "prover9_expression": "(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank))",
+              "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-fines(regulator, bank)",
+              "natural": "It is not the case that the regulator fines the bank."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(audits(regulator, bank) -> finds_compliance(regulator, bank))",
+              "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(finds_compliance(regulator, bank) -> compliant(bank))",
+              "natural": "If the regulator finds compliance by the bank, then the bank is compliant."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the regulator audits the bank, the bank is compliant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(audits(regulator, bank) -> compliant(bank))",
+              "natural": "Whenever the regulator audits the bank, the bank is compliant."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "audits(regulator, bank)",
+              "natural": "The regulator audits the bank."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(A14 | (-(A12 -> (-A10 -> -A11)) -> A13)) -> A15)",
+              "prover9_expression": "(-(report_reviewed(regulator, bank_report) | (-(report_deadline_passed(bank_report) -> (-submits_report(bank, regulator) -> -report_is_accurate(bank_report))) -> extension_granted(regulator, bank))) -> investigation_launched(regulator, bank))",
+              "natural": "If it is not the case that either the regulator reviews the bank report or if it is not the case that whenever the deadline for the bank report has passed, then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator grants an extension to the bank, then the regulator launches an investigation into the bank."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(-(A14 | (-(A12 -> (-A10 -> -A11)) -> A13)) -> -A15)",
+              "prover9_expression": "(-(report_reviewed(regulator, bank_report) | (-(report_deadline_passed(bank_report) -> (-submits_report(bank, regulator) -> -report_is_accurate(bank_report))) -> extension_granted(regulator, bank))) -> -investigation_launched(regulator, bank))",
+              "natural": "Under the condition that it is not the case that either the regulator reviews the bank report or if it is not the case that whenever the deadline for the bank report has passed, then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator grants an extension to the bank, then the regulator does not launch an investigation into the bank."
+            }
+          ],
+          "conclusion": "(A14 | (-(A12 -> (-A10 -> -A11)) -> A13))",
+          "natural": "Either the regulator reviews the bank report, or if it is not the case that whenever the deadline for the bank report has passed, then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator grants an extension to the bank."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A14 | (-(A12 -> (-A10 -> -A11)) -> A13))",
+              "prover9_expression": "(report_reviewed(regulator, bank_report) | (-(report_deadline_passed(bank_report) -> (-submits_report(bank, regulator) -> -report_is_accurate(bank_report))) -> extension_granted(regulator, bank)))",
+              "natural": "Either the regulator reviews the bank report, or if it is not the case that whenever the deadline for the bank report has passed, then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator grants an extension to the bank."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A14",
+              "prover9_expression": "-report_reviewed(regulator, bank_report)",
+              "natural": "It is not the case that the regulator reviews the bank report."
+            }
+          ],
+          "conclusion": "(-(A12 -> (-A10 -> -A11)) -> A13)",
+          "natural": "In the event that it is not the case that if the deadline for the bank report has passed then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator grants an extension to the bank."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A12 -> (-A10 -> -A11)) -> A13)",
+              "prover9_expression": "(-(report_deadline_passed(bank_report) -> (-submits_report(bank, regulator) -> -report_is_accurate(bank_report))) -> extension_granted(regulator, bank))",
+              "natural": "In the event that it is not the case that if the deadline for the bank report has passed then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator grants an extension to the bank."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(-(A12 -> (-A10 -> -A11)) -> -A13)",
+              "prover9_expression": "(-(report_deadline_passed(bank_report) -> (-submits_report(bank, regulator) -> -report_is_accurate(bank_report))) -> -extension_granted(regulator, bank))",
+              "natural": "Provided that it is not the case that whenever the deadline for the bank report has passed, then if the bank does not submit a report to the regulator, the bank report is not accurate, then the regulator does not grant an extension to the bank."
+            }
+          ],
+          "conclusion": "(A12 -> (-A10 -> -A11))",
+          "natural": "Under the condition that the deadline for the bank report has passed, if the bank does not submit a report to the regulator then the bank report is not accurate."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 -> (-A10 -> -A11))",
+              "prover9_expression": "(report_deadline_passed(bank_report) -> (-submits_report(bank, regulator) -> -report_is_accurate(bank_report)))",
+              "natural": "Under the condition that the deadline for the bank report has passed, if the bank does not submit a report to the regulator then the bank report is not accurate."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A12",
+              "prover9_expression": "report_deadline_passed(bank_report)",
+              "natural": "The deadline for the bank report has passed."
+            }
+          ],
+          "conclusion": "(-A10 -> -A11)",
+          "natural": "Provided that the bank does not submit a report to the regulator, the bank report is not accurate."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule39",
+              "prover9": "(-A10 -> A11)",
+              "prover9_expression": "(-submits_report(bank, regulator) -> report_is_accurate(bank_report))",
+              "natural": "If the bank does not submit a report to the regulator, then the bank report is accurate."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A10 -> -A11)",
+              "prover9_expression": "(-submits_report(bank, regulator) -> -report_is_accurate(bank_report))",
+              "natural": "Provided that the bank does not submit a report to the regulator, the bank report is not accurate."
+            }
+          ],
+          "conclusion": "A10",
+          "natural": "The bank submits a report to the regulator."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> (A9 -> G))",
+              "prover9_expression": "(submits_report(bank, regulator) -> (provides_documentation(bank, regulator) -> compliant(bank)))",
+              "natural": "Provided that the bank submits a report to the regulator, if the bank provides documentation to the regulator then the bank is compliant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A10",
+              "prover9_expression": "submits_report(bank, regulator)",
+              "natural": "The bank submits a report to the regulator."
+            }
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "Whenever the bank provides documentation to the regulator, the bank is compliant."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> G)",
+              "prover9_expression": "(provides_documentation(bank, regulator) -> compliant(bank))",
+              "natural": "Whenever the bank provides documentation to the regulator, the bank is compliant."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A9",
+              "prover9_expression": "provides_documentation(bank, regulator)",
+              "natural": "The bank provides documentation to the regulator."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-(A18 -> (A5 -> -A4)) -> A20)",
+              "prover9_expression": "(-(internal_complaint(employee, bank) -> (is_licensed(bank) -> -is_insolvent(bank))) -> allegation_upheld(compliance_officer, allegation))",
+              "natural": "Whenever it is not the case that if an employee files an internal complaint against the bank then if the bank is licensed, the bank is not insolvent, a compliance officer upholds the allegation."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A20 -> -A19)",
+              "prover9_expression": "(allegation_upheld(compliance_officer, allegation) -> -allegation_dismissed(compliance_officer, allegation))",
+              "natural": "Under the condition that a compliance officer upholds the allegation, it is not the case that a compliance officer dismisses the allegation."
+            }
+          ],
+          "conclusion": "(-(A18 -> (A5 -> -A4)) -> -A19)",
+          "natural": "Provided that it is not the case that if an employee files an internal complaint against the bank then if the bank is licensed, the bank is not insolvent, it is not the case that a compliance officer dismisses the allegation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A18 -> (A5 -> -A4)) -> A19)",
+              "prover9_expression": "(-(internal_complaint(employee, bank) -> (is_licensed(bank) -> -is_insolvent(bank))) -> allegation_dismissed(compliance_officer, allegation))",
+              "natural": "If it is not the case that if an employee files an internal complaint against the bank then if the bank is licensed, the bank is not insolvent, then a compliance officer dismisses the allegation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A18 -> (A5 -> -A4)) -> -A19)",
+              "prover9_expression": "(-(internal_complaint(employee, bank) -> (is_licensed(bank) -> -is_insolvent(bank))) -> -allegation_dismissed(compliance_officer, allegation))",
+              "natural": "Provided that it is not the case that if an employee files an internal complaint against the bank then if the bank is licensed, the bank is not insolvent, it is not the case that a compliance officer dismisses the allegation."
+            }
+          ],
+          "conclusion": "(A18 -> (A5 -> -A4))",
+          "natural": "Whenever an employee files an internal complaint against the bank, then assuming the bank is licensed, the bank is not insolvent."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A16 -> A18)",
+              "prover9_expression": "(whistleblower_allegation(employee, bank) -> internal_complaint(employee, bank))",
+              "natural": "In the event that an employee makes a whistleblower allegation against the bank, an employee files an internal complaint against the bank."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> (A5 -> -A4))",
+              "prover9_expression": "(internal_complaint(employee, bank) -> (is_licensed(bank) -> -is_insolvent(bank)))",
+              "natural": "Whenever an employee files an internal complaint against the bank, then assuming the bank is licensed, the bank is not insolvent."
+            }
+          ],
+          "conclusion": "(A16 -> (A5 -> -A4))",
+          "natural": "If an employee makes a whistleblower allegation against the bank, then given that the bank is licensed, the bank is not insolvent."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A16 | A17)",
+              "prover9_expression": "(whistleblower_allegation(employee, bank) | media_expose(journalist, bank))",
+              "natural": "Either an employee makes a whistleblower allegation against the bank, or a journalist publishes a media expose about the bank."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> (A5 -> -A4))",
+              "prover9_expression": "(whistleblower_allegation(employee, bank) -> (is_licensed(bank) -> -is_insolvent(bank)))",
+              "natural": "If an employee makes a whistleblower allegation against the bank, then given that the bank is licensed, the bank is not insolvent."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A17 -> (A5 -> -A4))",
+              "prover9_expression": "(media_expose(journalist, bank) -> (is_licensed(bank) -> -is_insolvent(bank)))",
+              "natural": "Provided that a journalist publishes a media expose about the bank, if the bank is licensed then the bank is not insolvent."
+            }
+          ],
+          "conclusion": "(A5 -> -A4)",
+          "natural": "If the bank is licensed, then the bank is not insolvent."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(is_licensed(bank) | is_exempt(bank))",
+              "natural": "Either the bank is licensed, or the bank is exempt."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> -A4)",
+              "prover9_expression": "(is_licensed(bank) -> -is_insolvent(bank))",
+              "natural": "If the bank is licensed, then the bank is not insolvent."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A6 -> -A4)",
+              "prover9_expression": "(is_exempt(bank) -> -is_insolvent(bank))",
+              "natural": "Provided that the bank is exempt, the bank is not insolvent."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that the bank is insolvent."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(-(A1 -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> is_insolvent(bank))",
+              "natural": "Provided that it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, the bank is insolvent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-is_insolvent(bank)",
+              "natural": "It is not the case that the bank is insolvent."
+            }
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> A2) -> A3)",
+              "prover9_expression": "(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank))",
+              "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-fines(regulator, bank)",
+              "natural": "It is not the case that the regulator fines the bank."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(audits(regulator, bank) -> finds_compliance(regulator, bank))",
+              "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(finds_compliance(regulator, bank) -> compliant(bank))",
+              "natural": "If the regulator finds compliance by the bank, then the bank is compliant."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the regulator audits the bank, the bank is compliant."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(audits(regulator, bank) -> compliant(bank))",
+              "natural": "Whenever the regulator audits the bank, the bank is compliant."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "audits(regulator, bank)",
+              "natural": "The regulator audits the bank."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A26 -> A28)",
+              "prover9_expression": "(enforcement_action(regulator, bank) -> corrective_plan_required(regulator, bank))",
+              "natural": "In the event that the regulator takes enforcement action against the bank, the regulator requires a corrective plan from the bank."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A28 -> A27)",
+              "prover9_expression": "(corrective_plan_required(regulator, bank) -> license_suspended(regulator, bank))",
+              "natural": "Under the condition that the regulator requires a corrective plan from the bank, the regulator suspends the license of the bank."
+            }
+          ],
+          "conclusion": "(A26 -> A27)",
+          "natural": "Whenever the regulator takes enforcement action against the bank, the regulator suspends the license of the bank."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A26 -> A27)",
+              "prover9_expression": "(enforcement_action(regulator, bank) -> license_suspended(regulator, bank))",
+              "natural": "Whenever the regulator takes enforcement action against the bank, the regulator suspends the license of the bank."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A27 -> -A25)",
+              "prover9_expression": "(license_suspended(regulator, bank) -> -capital_requirement_met(bank))",
+              "natural": "If the regulator suspends the license of the bank, then the bank does not meet the capital requirement."
+            }
+          ],
+          "conclusion": "(A26 -> -A25)",
+          "natural": "Provided that the regulator takes enforcement action against the bank, the bank does not meet the capital requirement."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(-(-(-(A21 | -A4) -> A23) -> A24) -> A26)",
+              "prover9_expression": "(-(-(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_ordered(regulator, bank)) -> assessment_deferred(regulator, bank)) -> enforcement_action(regulator, bank))",
+              "natural": "Whenever it is not the case that if it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, then the regulator defers the assessment, the regulator takes enforcement action against the bank."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A26 -> -A25)",
+              "prover9_expression": "(enforcement_action(regulator, bank) -> -capital_requirement_met(bank))",
+              "natural": "Provided that the regulator takes enforcement action against the bank, the bank does not meet the capital requirement."
+            }
+          ],
+          "conclusion": "(-(-(-(A21 | -A4) -> A23) -> A24) -> -A25)",
+          "natural": "Provided that it is not the case that if it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, then the regulator defers the assessment, the bank does not meet the capital requirement."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(-(-(-(A21 | -A4) -> A23) -> A24) -> A25)",
+              "prover9_expression": "(-(-(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_ordered(regulator, bank)) -> assessment_deferred(regulator, bank)) -> capital_requirement_met(bank))",
+              "natural": "In the event that it is not the case that if it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, then the regulator defers the assessment, the bank meets the capital requirement."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(A21 | -A4) -> A23) -> A24) -> -A25)",
+              "prover9_expression": "(-(-(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_ordered(regulator, bank)) -> assessment_deferred(regulator, bank)) -> -capital_requirement_met(bank))",
+              "natural": "Provided that it is not the case that if it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, then the regulator defers the assessment, the bank does not meet the capital requirement."
+            }
+          ],
+          "conclusion": "(-(-(A21 | -A4) -> A23) -> A24)",
+          "natural": "In the event that it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, the regulator defers the assessment."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A21 | -A4) -> A23) -> A24)",
+              "prover9_expression": "(-(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_ordered(regulator, bank)) -> assessment_deferred(regulator, bank))",
+              "natural": "In the event that it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, the regulator defers the assessment."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(-(-(A21 | -A4) -> A23) -> -A24)",
+              "prover9_expression": "(-(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_ordered(regulator, bank)) -> -assessment_deferred(regulator, bank))",
+              "natural": "If it is not the case that if it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then the regulator orders a capital assessment of the bank, then the regulator does not defer the assessment."
+            }
+          ],
+          "conclusion": "(-(A21 | -A4) -> A23)",
+          "natural": "In the event that it is not the case that either the bank holds a capital reserve or the bank is not insolvent, the regulator orders a capital assessment of the bank."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A21 | -A4) -> A23)",
+              "prover9_expression": "(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_ordered(regulator, bank))",
+              "natural": "In the event that it is not the case that either the bank holds a capital reserve or the bank is not insolvent, the regulator orders a capital assessment of the bank."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A23 -> A22)",
+              "prover9_expression": "(capital_assessment_ordered(regulator, bank) -> capital_assessment_pending(regulator, bank))",
+              "natural": "If the regulator orders a capital assessment of the bank, then a capital assessment by the regulator of the bank is pending."
+            }
+          ],
+          "conclusion": "(-(A21 | -A4) -> A22)",
+          "natural": "Under the condition that it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then a capital assessment by the regulator of the bank is pending."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A21 | -A4) -> A22)",
+              "prover9_expression": "(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> capital_assessment_pending(regulator, bank))",
+              "natural": "Under the condition that it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then a capital assessment by the regulator of the bank is pending."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(A21 | -A4) -> -A22)",
+              "prover9_expression": "(-(holds_capital_reserve(bank) | -is_insolvent(bank)) -> -capital_assessment_pending(regulator, bank))",
+              "natural": "If it is not the case that either the bank holds a capital reserve or the bank is not insolvent, then a capital assessment by the regulator of the bank is not pending."
+            }
+          ],
+          "conclusion": "(A21 | -A4)",
+          "natural": "Either the bank holds a capital reserve, or the bank is not insolvent."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A21 | -A4)",
+              "prover9_expression": "(holds_capital_reserve(bank) | -is_insolvent(bank))",
+              "natural": "Either the bank holds a capital reserve, or the bank is not insolvent."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A21",
+              "prover9_expression": "-holds_capital_reserve(bank)",
+              "natural": "It is not the case that the bank holds a capital reserve."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that the bank is insolvent."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(-(A1 -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> is_insolvent(bank))",
+              "natural": "Provided that it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, the bank is insolvent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-is_insolvent(bank)",
+              "natural": "It is not the case that the bank is insolvent."
+            }
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> A2) -> A3)",
+              "prover9_expression": "(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank))",
+              "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-fines(regulator, bank)",
+              "natural": "It is not the case that the regulator fines the bank."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(audits(regulator, bank) -> finds_compliance(regulator, bank))",
+              "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(finds_compliance(regulator, bank) -> compliant(bank))",
+              "natural": "If the regulator finds compliance by the bank, then the bank is compliant."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the regulator audits the bank, the bank is compliant."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(audits(regulator, bank) -> compliant(bank))",
+              "natural": "Whenever the regulator audits the bank, the bank is compliant."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "audits(regulator, bank)",
+              "natural": "The regulator audits the bank."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A34 -> A36)",
+              "prover9_expression": "(hearing_outcome_settlement(regulator, bank) -> compliance_monitoring(regulator, bank))",
+              "natural": "Under the condition that the hearing outcome is a settlement between the regulator and the bank, the regulator monitors the compliance of the bank."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A36 -> A35)",
+              "prover9_expression": "(compliance_monitoring(regulator, bank) -> penalty_imposed(regulator, bank))",
+              "natural": "Whenever the regulator monitors the compliance of the bank, the regulator imposes a penalty on the bank."
+            }
+          ],
+          "conclusion": "(A34 -> A35)",
+          "natural": "In the event that the hearing outcome is a settlement between the regulator and the bank, the regulator imposes a penalty on the bank."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A34 -> A35)",
+              "prover9_expression": "(hearing_outcome_settlement(regulator, bank) -> penalty_imposed(regulator, bank))",
+              "natural": "In the event that the hearing outcome is a settlement between the regulator and the bank, the regulator imposes a penalty on the bank."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A35 -> (-(A30 | A31) -> -A32))",
+              "prover9_expression": "(penalty_imposed(regulator, bank) -> (-(regulatory_hearing_scheduled(regulator, bank) | settlement_negotiation(regulator, bank)) -> -case_closed(regulator, bank)))",
+              "natural": "If the regulator imposes a penalty on the bank, then assuming it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, the regulator does not close the case against the bank."
+            }
+          ],
+          "conclusion": "(A34 -> (-(A30 | A31) -> -A32))",
+          "natural": "Provided that the hearing outcome is a settlement between the regulator and the bank, then if it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, the regulator does not close the case against the bank."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A33 | A34)",
+              "prover9_expression": "(hearing_outcome_violation(regulator, bank) | hearing_outcome_settlement(regulator, bank))",
+              "natural": "Either the hearing outcome is a violation finding by the regulator against the bank, or the hearing outcome is a settlement between the regulator and the bank."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A33 -> (-(A30 | A31) -> -A32))",
+              "prover9_expression": "(hearing_outcome_violation(regulator, bank) -> (-(regulatory_hearing_scheduled(regulator, bank) | settlement_negotiation(regulator, bank)) -> -case_closed(regulator, bank)))",
+              "natural": "If the hearing outcome is a violation finding by the regulator against the bank, then if it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, then the regulator does not close the case against the bank."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A34 -> (-(A30 | A31) -> -A32))",
+              "prover9_expression": "(hearing_outcome_settlement(regulator, bank) -> (-(regulatory_hearing_scheduled(regulator, bank) | settlement_negotiation(regulator, bank)) -> -case_closed(regulator, bank)))",
+              "natural": "Provided that the hearing outcome is a settlement between the regulator and the bank, then if it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, the regulator does not close the case against the bank."
+            }
+          ],
+          "conclusion": "(-(A30 | A31) -> -A32)",
+          "natural": "Under the condition that it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, the regulator does not close the case against the bank."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-(A30 | A31) -> A32)",
+              "prover9_expression": "(-(regulatory_hearing_scheduled(regulator, bank) | settlement_negotiation(regulator, bank)) -> case_closed(regulator, bank))",
+              "natural": "Provided that it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, the regulator closes the case against the bank."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A30 | A31) -> -A32)",
+              "prover9_expression": "(-(regulatory_hearing_scheduled(regulator, bank) | settlement_negotiation(regulator, bank)) -> -case_closed(regulator, bank))",
+              "natural": "Under the condition that it is not the case that either the regulator schedules a regulatory hearing for the bank or the regulator and the bank negotiate a settlement, the regulator does not close the case against the bank."
+            }
+          ],
+          "conclusion": "(A30 | A31)",
+          "natural": "Either the regulator schedules a regulatory hearing for the bank, or the regulator and the bank negotiate a settlement."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A30 | A31)",
+              "prover9_expression": "(regulatory_hearing_scheduled(regulator, bank) | settlement_negotiation(regulator, bank))",
+              "natural": "Either the regulator schedules a regulatory hearing for the bank, or the regulator and the bank negotiate a settlement."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A30 -> -A29)",
+              "prover9_expression": "(regulatory_hearing_scheduled(regulator, bank) -> -receives_bailout(bank, government))",
+              "natural": "If the regulator schedules a regulatory hearing for the bank, then the bank does not receive a bailout from the government."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A31 -> -A29)",
+              "prover9_expression": "(settlement_negotiation(regulator, bank) -> -receives_bailout(bank, government))",
+              "natural": "Whenever the regulator and the bank negotiate a settlement, the bank does not receive a bailout from the government."
+            }
+          ],
+          "conclusion": "-A29",
+          "natural": "It is not the case that the bank receives a bailout from the government."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-(A5 -> -A4) -> A29)",
+              "prover9_expression": "(-(is_licensed(bank) -> -is_insolvent(bank)) -> receives_bailout(bank, government))",
+              "natural": "If it is not the case that if the bank is licensed then the bank is not insolvent, then the bank receives a bailout from the government."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A29",
+              "prover9_expression": "-receives_bailout(bank, government)",
+              "natural": "It is not the case that the bank receives a bailout from the government."
+            }
+          ],
+          "conclusion": "(A5 -> -A4)",
+          "natural": "If the bank is licensed, then the bank is not insolvent."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(is_licensed(bank) | is_exempt(bank))",
+              "natural": "Either the bank is licensed, or the bank is exempt."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> -A4)",
+              "prover9_expression": "(is_licensed(bank) -> -is_insolvent(bank))",
+              "natural": "If the bank is licensed, then the bank is not insolvent."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A6 -> -A4)",
+              "prover9_expression": "(is_exempt(bank) -> -is_insolvent(bank))",
+              "natural": "Provided that the bank is exempt, the bank is not insolvent."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that the bank is insolvent."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule31",
+              "prover9": "(-(-(A1 -> A2) -> A3) -> A4)",
+              "prover9_expression": "(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> is_insolvent(bank))",
+              "natural": "Provided that it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, the bank is insolvent."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-is_insolvent(bank)",
+              "natural": "It is not the case that the bank is insolvent."
+            }
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> A2) -> A3)",
+              "prover9_expression": "(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank))",
+              "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-fines(regulator, bank)",
+              "natural": "It is not the case that the regulator fines the bank."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(audits(regulator, bank) -> finds_compliance(regulator, bank))",
+              "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(finds_compliance(regulator, bank) -> compliant(bank))",
+              "natural": "If the regulator finds compliance by the bank, then the bank is compliant."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the regulator audits the bank, the bank is compliant."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(audits(regulator, bank) -> compliant(bank))",
+              "natural": "Whenever the regulator audits the bank, the bank is compliant."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "audits(regulator, bank)",
+              "natural": "The regulator audits the bank."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The bank is compliant."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(-(-(-(-(A1 -> A2) -> A3) -> A37) -> A38) -> A39)",
+              "prover9_expression": "(-(-(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> criminal_charges(prosecutor, bank)) -> appeals_court(bank, ruling)) -> supreme_court_review(supreme_court, case))",
+              "natural": "Under the condition that it is not the case that if it is not the case that if it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, then a prosecutor files criminal charges against the bank, then the bank appeals the ruling to a court, the supreme court reviews the case."
+            },
+            {
+              "id": "Rule38",
+              "prover9": "(-(-(-(-(A1 -> A2) -> A3) -> A37) -> A38) -> -A39)",
+              "prover9_expression": "(-(-(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> criminal_charges(prosecutor, bank)) -> appeals_court(bank, ruling)) -> -supreme_court_review(supreme_court, case))",
+              "natural": "In the event that it is not the case that if it is not the case that if it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, then a prosecutor files criminal charges against the bank, then the bank appeals the ruling to a court, it is not the case that the supreme court reviews the case."
+            }
+          ],
+          "conclusion": "(-(-(-(A1 -> A2) -> A3) -> A37) -> A38)",
+          "natural": "Provided that it is not the case that if it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, then a prosecutor files criminal charges against the bank, the bank appeals the ruling to a court."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(-(A1 -> A2) -> A3) -> A37) -> A38)",
+              "prover9_expression": "(-(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> criminal_charges(prosecutor, bank)) -> appeals_court(bank, ruling))",
+              "natural": "Provided that it is not the case that if it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, then a prosecutor files criminal charges against the bank, the bank appeals the ruling to a court."
+            },
+            {
+              "id": "Rule34",
+              "prover9": "(-(-(-(A1 -> A2) -> A3) -> A37) -> -A38)",
+              "prover9_expression": "(-(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> criminal_charges(prosecutor, bank)) -> -appeals_court(bank, ruling))",
+              "natural": "Under the condition that it is not the case that if it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, then a prosecutor files criminal charges against the bank, it is not the case that the bank appeals the ruling to a court."
+            }
+          ],
+          "conclusion": "(-(-(A1 -> A2) -> A3) -> A37)",
+          "natural": "Whenever it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, a prosecutor files criminal charges against the bank."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A1 -> A2) -> A3) -> A37)",
+              "prover9_expression": "(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> criminal_charges(prosecutor, bank))",
+              "natural": "Whenever it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, a prosecutor files criminal charges against the bank."
+            },
+            {
+              "id": "Rule32",
+              "prover9": "(-(-(A1 -> A2) -> A3) -> -A37)",
+              "prover9_expression": "(-(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank)) -> -criminal_charges(prosecutor, bank))",
+              "natural": "Under the condition that it is not the case that if it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank, it is not the case that a prosecutor files criminal charges against the bank."
+            }
+          ],
+          "conclusion": "(-(A1 -> A2) -> A3)",
+          "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 -> A2) -> A3)",
+              "prover9_expression": "(-(audits(regulator, bank) -> finds_compliance(regulator, bank)) -> fines(regulator, bank))",
+              "natural": "If it is not the case that if the regulator audits the bank then the regulator finds compliance by the bank, then the regulator fines the bank."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A3",
+              "prover9_expression": "-fines(regulator, bank)",
+              "natural": "It is not the case that the regulator fines the bank."
+            }
+          ],
+          "conclusion": "(A1 -> A2)",
+          "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(audits(regulator, bank) -> finds_compliance(regulator, bank))",
+              "natural": "If the regulator audits the bank, then the regulator finds compliance by the bank."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(finds_compliance(regulator, bank) -> compliant(bank))",
+              "natural": "If the regulator finds compliance by the bank, then the bank is compliant."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Whenever the regulator audits the bank, the bank is compliant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(audits(regulator, bank) -> compliant(bank))",
+              "natural": "Whenever the regulator audits the bank, the bank is compliant."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A1",
+              "prover9_expression": "audits(regulator, bank)",
+              "natural": "The regulator audits the bank."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The bank is compliant."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,474 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(has_skill(brewmaster, recipe_design) -> profitable(alcohol))",
+        "natural": "If the brewmaster has the skill of recipe design, then alcohol is profitable."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → (A5 → A8))",
+        "prover9_expression": "(receives(alcohol, high_rating) -> (produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market)))",
+        "natural": "Provided that alcohol receives a high rating, if alcohol is produced by a craft brewery, then it is available at a farmers market."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 ∨ (A9 → A10))",
+        "prover9_expression": "(recalled(alcohol, health_violation) | (marketed_via(alcohol, social_media) -> receives(alcohol, high_rating)))",
+        "natural": "Either alcohol is recalled for a health violation, or if alcohol is marketed via social media, then it receives a high rating."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → (A3 → ¬A2))",
+        "prover9_expression": "(listed_on(alcohol, online_platform) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+        "natural": "Whenever alcohol is listed on an online platform, if it is distributed in the local region, then it does not use artificial additives."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(listed_on(alcohol, online_platform) | produced_by(alcohol, craft_brewery))",
+        "natural": "Alcohol is listed on an online platform, or it is produced by a craft brewery."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(produced_by(alcohol, craft_brewery) -> has_label(alcohol, organic_certification))",
+        "natural": "Under the condition that alcohol is produced by a craft brewery, it has the label of organic certification."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A7 ∨ (A6 → (A3 → ¬A2)))",
+        "prover9_expression": "(partnered_with(brewery, distributor) | (has_label(alcohol, organic_certification) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives))))",
+        "natural": "Either the brewery is partnered with a distributor, or if alcohol has the label of organic certification, then under the condition that it is distributed in the local region, it does not use artificial additives."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A8 → (A3 → ¬A2))",
+        "prover9_expression": "(available_at(alcohol, farmers_market) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+        "natural": "Whenever alcohol is available at a farmers market, if it is distributed in the local region, then it does not use artificial additives."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬A1 → A2)",
+        "prover9_expression": "(-has_skill(brewmaster, recipe_design) -> uses(alcohol, artificial_additives))",
+        "natural": "Provided that it is not the case that the brewmaster has the skill of recipe design, alcohol uses artificial additives."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬A1 → A3)",
+        "prover9_expression": "(-has_skill(brewmaster, recipe_design) -> distributed_in(alcohol, local_region))",
+        "natural": "If the brewmaster does not have the skill of recipe design, then alcohol is distributed in the local region."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A9",
+        "prover9_expression": "marketed_via(alcohol, social_media)",
+        "natural": "Alcohol is marketed via social media."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A11",
+        "prover9_expression": "-recalled(alcohol, health_violation)",
+        "natural": "It is not the case that alcohol is recalled for a health violation."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A7",
+        "prover9_expression": "-partnered_with(brewery, distributor)",
+        "natural": "The brewery is not partnered with a distributor."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "profitable(alcohol)",
+    "natural": "Alcohol is profitable."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (A6 -> (A3 -> -A2)))",
+            "-A7"
+          ],
+          "conclusion": "(A6 -> (A3 -> -A2))",
+          "natural": "Provided that alcohol has the label of organic certification, if it is distributed in the local region, then it does not use artificial additives."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A6)",
+            "(A6 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A5 -> (A3 -> -A2))",
+          "natural": "If alcohol is produced by a craft brewery, then provided that it is distributed in the local region, it does not use artificial additives."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (A3 -> -A2))",
+            "(A5 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A3 -> -A2)",
+          "natural": "Under the condition that alcohol is distributed in the local region, it does not use artificial additives."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A1 -> A3)",
+            "(A3 -> -A2)"
+          ],
+          "conclusion": "(-A1 -> -A2)",
+          "natural": "Whenever the brewmaster lacks the skill of recipe design, it is not the case that alcohol uses artificial additives."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "The brewmaster has the skill of recipe design."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Alcohol is profitable."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A11 | (A9 -> A10))",
+            "-A11"
+          ],
+          "conclusion": "(A9 -> A10)",
+          "natural": "Under the condition that alcohol is marketed via social media, it receives a high rating."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A9 -> A10)",
+            "(A10 -> (A5 -> A8))"
+          ],
+          "conclusion": "(A9 -> (A5 -> A8))",
+          "natural": "If alcohol is marketed via social media, then provided that it is produced by a craft brewery, it is available at a farmers market."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> (A5 -> A8))",
+            "A9"
+          ],
+          "conclusion": "(A5 -> A8)",
+          "natural": "If alcohol is produced by a craft brewery, then it is available at a farmers market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A8)",
+            "(A8 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A5 -> (A3 -> -A2))",
+          "natural": "If alcohol is produced by a craft brewery, then provided that it is distributed in the local region, it does not use artificial additives."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (A3 -> -A2))",
+            "(A5 -> (A3 -> -A2))"
+          ],
+          "conclusion": "(A3 -> -A2)",
+          "natural": "Under the condition that alcohol is distributed in the local region, it does not use artificial additives."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A1 -> A3)",
+            "(A3 -> -A2)"
+          ],
+          "conclusion": "(-A1 -> -A2)",
+          "natural": "Whenever the brewmaster lacks the skill of recipe design, it is not the case that alcohol uses artificial additives."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "(-A1 -> -A2)"
+          ],
+          "conclusion": "A1",
+          "natural": "The brewmaster has the skill of recipe design."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "Alcohol is profitable."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Craft Brewing Industry",
+    "atomic_facts": {
+      "A1": "has_skill(brewmaster, recipe_design)",
+      "A2": "uses(alcohol, artificial_additives)",
+      "A3": "distributed_in(alcohol, local_region)",
+      "A4": "listed_on(alcohol, online_platform)",
+      "A5": "produced_by(alcohol, craft_brewery)",
+      "A6": "has_label(alcohol, organic_certification)",
+      "A7": "partnered_with(brewery, distributor)",
+      "A8": "available_at(alcohol, farmers_market)",
+      "A9": "marketed_via(alcohol, social_media)",
+      "A10": "receives(alcohol, high_rating)",
+      "A11": "recalled(alcohol, health_violation)",
+      "G": "profitable(alcohol)"
+    },
+    "natural_facts": {
+      "A1": "The brewmaster has the skill of recipe design.",
+      "A2": "Alcohol uses artificial additives.",
+      "A3": "Alcohol is distributed in the local region.",
+      "A4": "Alcohol is listed on an online platform.",
+      "A5": "Alcohol is produced by a craft brewery.",
+      "A6": "Alcohol has the label of organic certification.",
+      "A7": "The brewery is partnered with a distributor.",
+      "A8": "Alcohol is available at a farmers market.",
+      "A9": "Alcohol is marketed via social media.",
+      "A10": "Alcohol receives a high rating.",
+      "A11": "Alcohol is recalled for a health violation."
+    },
+    "prover9_expressions": [
+      "(has_skill(brewmaster, recipe_design) -> profitable(alcohol))",
+      "(receives(alcohol, high_rating) -> (produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market)))",
+      "(recalled(alcohol, health_violation) | (marketed_via(alcohol, social_media) -> receives(alcohol, high_rating)))",
+      "(distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives))",
+      "(listed_on(alcohol, online_platform) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+      "(listed_on(alcohol, online_platform) | produced_by(alcohol, craft_brewery))",
+      "(produced_by(alcohol, craft_brewery) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+      "(produced_by(alcohol, craft_brewery) -> has_label(alcohol, organic_certification))",
+      "(produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market))",
+      "(has_label(alcohol, organic_certification) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+      "(partnered_with(brewery, distributor) | (has_label(alcohol, organic_certification) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives))))",
+      "(available_at(alcohol, farmers_market) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+      "(marketed_via(alcohol, social_media) -> (produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market)))",
+      "(marketed_via(alcohol, social_media) -> receives(alcohol, high_rating))",
+      "(-has_skill(brewmaster, recipe_design) -> uses(alcohol, artificial_additives))",
+      "(-has_skill(brewmaster, recipe_design) -> distributed_in(alcohol, local_region))",
+      "(-has_skill(brewmaster, recipe_design) -> -uses(alcohol, artificial_additives))",
+      "has_skill(brewmaster, recipe_design)",
+      "marketed_via(alcohol, social_media)",
+      "profitable(alcohol)",
+      "-recalled(alcohol, health_violation)",
+      "-partnered_with(brewery, distributor)"
+    ],
+    "natural_expressions": [
+      "If the brewmaster has the skill of recipe design, then alcohol is profitable.",
+      "Provided that alcohol receives a high rating, if alcohol is produced by a craft brewery, then it is available at a farmers market.",
+      "Either alcohol is recalled for a health violation, or if alcohol is marketed via social media, then it receives a high rating.",
+      "Under the condition that alcohol is distributed in the local region, it does not use artificial additives.",
+      "Whenever alcohol is listed on an online platform, if it is distributed in the local region, then it does not use artificial additives.",
+      "Alcohol is listed on an online platform, or it is produced by a craft brewery.",
+      "If alcohol is produced by a craft brewery, then provided that it is distributed in the local region, it does not use artificial additives.",
+      "Under the condition that alcohol is produced by a craft brewery, it has the label of organic certification.",
+      "If alcohol is produced by a craft brewery, then it is available at a farmers market.",
+      "Provided that alcohol has the label of organic certification, if it is distributed in the local region, then it does not use artificial additives.",
+      "Either the brewery is partnered with a distributor, or if alcohol has the label of organic certification, then under the condition that it is distributed in the local region, it does not use artificial additives.",
+      "Whenever alcohol is available at a farmers market, if it is distributed in the local region, then it does not use artificial additives.",
+      "If alcohol is marketed via social media, then provided that it is produced by a craft brewery, it is available at a farmers market.",
+      "Under the condition that alcohol is marketed via social media, it receives a high rating.",
+      "Provided that it is not the case that the brewmaster has the skill of recipe design, alcohol uses artificial additives.",
+      "If the brewmaster does not have the skill of recipe design, then alcohol is distributed in the local region.",
+      "Whenever the brewmaster lacks the skill of recipe design, it is not the case that alcohol uses artificial additives.",
+      "The brewmaster has the skill of recipe design.",
+      "Alcohol is marketed via social media.",
+      "Alcohol is profitable.",
+      "It is not the case that alcohol is recalled for a health violation.",
+      "The brewery is not partnered with a distributor."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(has_skill(brewmaster, recipe_design) -> profitable(alcohol))",
+        "natural": "If the brewmaster has the skill of recipe design, then alcohol is profitable."
+      },
+      "(A10 → (A5 → A8))": {
+        "formal": "(A10 → (A5 → A8))",
+        "prover9": "(A10 -> (A5 -> A8))",
+        "prover9_expression": "(receives(alcohol, high_rating) -> (produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market)))",
+        "natural": "Provided that alcohol receives a high rating, if alcohol is produced by a craft brewery, then it is available at a farmers market."
+      },
+      "(A11 ∨ (A9 → A10))": {
+        "formal": "(A11 ∨ (A9 → A10))",
+        "prover9": "(A11 | (A9 -> A10))",
+        "prover9_expression": "(recalled(alcohol, health_violation) | (marketed_via(alcohol, social_media) -> receives(alcohol, high_rating)))",
+        "natural": "Either alcohol is recalled for a health violation, or if alcohol is marketed via social media, then it receives a high rating."
+      },
+      "(A3 → ¬A2)": {
+        "formal": "(A3 → ¬A2)",
+        "prover9": "(A3 -> -A2)",
+        "prover9_expression": "(distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives))",
+        "natural": "Under the condition that alcohol is distributed in the local region, it does not use artificial additives."
+      },
+      "(A4 → (A3 → ¬A2))": {
+        "formal": "(A4 → (A3 → ¬A2))",
+        "prover9": "(A4 -> (A3 -> -A2))",
+        "prover9_expression": "(listed_on(alcohol, online_platform) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+        "natural": "Whenever alcohol is listed on an online platform, if it is distributed in the local region, then it does not use artificial additives."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(listed_on(alcohol, online_platform) | produced_by(alcohol, craft_brewery))",
+        "natural": "Alcohol is listed on an online platform, or it is produced by a craft brewery."
+      },
+      "(A5 → (A3 → ¬A2))": {
+        "formal": "(A5 → (A3 → ¬A2))",
+        "prover9": "(A5 -> (A3 -> -A2))",
+        "prover9_expression": "(produced_by(alcohol, craft_brewery) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+        "natural": "If alcohol is produced by a craft brewery, then provided that it is distributed in the local region, it does not use artificial additives."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(produced_by(alcohol, craft_brewery) -> has_label(alcohol, organic_certification))",
+        "natural": "Under the condition that alcohol is produced by a craft brewery, it has the label of organic certification."
+      },
+      "(A5 → A8)": {
+        "formal": "(A5 → A8)",
+        "prover9": "(A5 -> A8)",
+        "prover9_expression": "(produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market))",
+        "natural": "If alcohol is produced by a craft brewery, then it is available at a farmers market."
+      },
+      "(A6 → (A3 → ¬A2))": {
+        "formal": "(A6 → (A3 → ¬A2))",
+        "prover9": "(A6 -> (A3 -> -A2))",
+        "prover9_expression": "(has_label(alcohol, organic_certification) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+        "natural": "Provided that alcohol has the label of organic certification, if it is distributed in the local region, then it does not use artificial additives."
+      },
+      "(A7 ∨ (A6 → (A3 → ¬A2)))": {
+        "formal": "(A7 ∨ (A6 → (A3 → ¬A2)))",
+        "prover9": "(A7 | (A6 -> (A3 -> -A2)))",
+        "prover9_expression": "(partnered_with(brewery, distributor) | (has_label(alcohol, organic_certification) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives))))",
+        "natural": "Either the brewery is partnered with a distributor, or if alcohol has the label of organic certification, then under the condition that it is distributed in the local region, it does not use artificial additives."
+      },
+      "(A8 → (A3 → ¬A2))": {
+        "formal": "(A8 → (A3 → ¬A2))",
+        "prover9": "(A8 -> (A3 -> -A2))",
+        "prover9_expression": "(available_at(alcohol, farmers_market) -> (distributed_in(alcohol, local_region) -> -uses(alcohol, artificial_additives)))",
+        "natural": "Whenever alcohol is available at a farmers market, if it is distributed in the local region, then it does not use artificial additives."
+      },
+      "(A9 → (A5 → A8))": {
+        "formal": "(A9 → (A5 → A8))",
+        "prover9": "(A9 -> (A5 -> A8))",
+        "prover9_expression": "(marketed_via(alcohol, social_media) -> (produced_by(alcohol, craft_brewery) -> available_at(alcohol, farmers_market)))",
+        "natural": "If alcohol is marketed via social media, then provided that it is produced by a craft brewery, it is available at a farmers market."
+      },
+      "(A9 → A10)": {
+        "formal": "(A9 → A10)",
+        "prover9": "(A9 -> A10)",
+        "prover9_expression": "(marketed_via(alcohol, social_media) -> receives(alcohol, high_rating))",
+        "natural": "Under the condition that alcohol is marketed via social media, it receives a high rating."
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-has_skill(brewmaster, recipe_design) -> uses(alcohol, artificial_additives))",
+        "natural": "Provided that it is not the case that the brewmaster has the skill of recipe design, alcohol uses artificial additives."
+      },
+      "(¬A1 → A3)": {
+        "formal": "(¬A1 → A3)",
+        "prover9": "(-A1 -> A3)",
+        "prover9_expression": "(-has_skill(brewmaster, recipe_design) -> distributed_in(alcohol, local_region))",
+        "natural": "If the brewmaster does not have the skill of recipe design, then alcohol is distributed in the local region."
+      },
+      "(¬A1 → ¬A2)": {
+        "formal": "(¬A1 → ¬A2)",
+        "prover9": "(-A1 -> -A2)",
+        "prover9_expression": "(-has_skill(brewmaster, recipe_design) -> -uses(alcohol, artificial_additives))",
+        "natural": "Whenever the brewmaster lacks the skill of recipe design, it is not the case that alcohol uses artificial additives."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "has_skill(brewmaster, recipe_design)",
+        "natural": "The brewmaster has the skill of recipe design."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "marketed_via(alcohol, social_media)",
+        "natural": "Alcohol is marketed via social media."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "profitable(alcohol)",
+        "natural": "Alcohol is profitable."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-recalled(alcohol, health_violation)",
+        "natural": "It is not the case that alcohol is recalled for a health violation."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-partnered_with(brewery, distributor)",
+        "natural": "The brewery is not partnered with a distributor."
+      }
+    }
+  }
+}

@@ -1,0 +1,882 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(requires(medical_procedure, pre_approval) -> reimbursed(insurance_claim))",
+        "natural": "If a medical procedure requires pre-approval, then the insurance claim is reimbursed."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → G)",
+        "prover9_expression": "(approved(insurance_claim) -> reimbursed(insurance_claim))",
+        "natural": "Whenever an insurance claim is approved, it is reimbursed."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → A17)",
+        "prover9_expression": "(complete(medical_documentation) -> processed(insurance_claim))",
+        "natural": "If medical documentation is complete, then the insurance claim is processed."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(complete(medical_documentation) | incomplete(medical_documentation))",
+        "natural": "Medical documentation is complete or incomplete."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 → A10)",
+        "prover9_expression": "(incomplete(medical_documentation) -> approved(insurance_claim))",
+        "natural": "In the event that medical documentation is incomplete, the insurance claim is approved."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 → A15)",
+        "prover9_expression": "(investigated(insurance_claim) -> denied(insurance_claim))",
+        "natural": "An insurance claim being investigated implies that it is denied."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A15 → ¬A13)",
+        "prover9_expression": "(denied(insurance_claim) -> -fraudulent(insurance_claim))",
+        "natural": "An insurance claim that is denied is not fraudulent."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A16 → A10)",
+        "prover9_expression": "(submitted(insurance_claim) -> approved(insurance_claim))",
+        "natural": "The submission of an insurance claim leads to its approval."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A18 → (A17 → A16))",
+        "prover9_expression": "(valid(insurance_policy) -> (processed(insurance_claim) -> submitted(insurance_claim)))",
+        "natural": "Given that an insurance policy is valid, if the insurance claim is processed, it is submitted."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A19 ∨ (A11 → A10))",
+        "prover9_expression": "(appeal_filed(insurance_claim) | (complete(medical_documentation) -> approved(insurance_claim)))",
+        "natural": "Either an appeal is filed for the insurance claim, or complete medical documentation results in the claim being approved."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(requires(prescription_drug, pre_approval) -> reimbursed(insurance_claim))",
+        "natural": "A prescription drug requiring pre-approval entails that the insurance claim is reimbursed."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A20 → A21)",
+        "prover9_expression": "(audit_triggered(insurance_claim) -> reviewed(insurance_claim))",
+        "natural": "When an audit is triggered for an insurance claim, the claim is reviewed."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A22 → ¬A19)",
+        "prover9_expression": "(escalated(insurance_claim) -> -appeal_filed(insurance_claim))",
+        "natural": "An insurance claim being escalated means that an appeal is not filed for it."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A3 → A1)",
+        "prover9_expression": "(routine(medical_procedure) -> requires(medical_procedure, pre_approval))",
+        "natural": "A routine medical procedure necessitates pre-approval."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(routine(medical_procedure) | experimental(medical_procedure))",
+        "natural": "A medical procedure is either routine or experimental."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A5 → (A4 → A2))",
+        "prover9_expression": "(covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+        "natural": "If a medical procedure is covered by an insurance plan, then an experimental procedure implies that a prescription drug requires pre-approval."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A6 → (A4 → A2))",
+        "prover9_expression": "(not_covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+        "natural": "Should a medical procedure not be covered by an insurance plan, then if it is experimental, a prescription drug requires pre-approval."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(in_network(medical_procedure) | out_of_network(medical_procedure))",
+        "natural": "A medical procedure is in-network or out-of-network."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A8 → A6)",
+        "prover9_expression": "(out_of_network(medical_procedure) -> not_covered(medical_procedure, insurance_plan))",
+        "natural": "An out-of-network medical procedure is not covered by an insurance plan."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A9 ∨ (A7 → A5))",
+        "prover9_expression": "(emergency(medical_procedure) | (in_network(medical_procedure) -> covered(medical_procedure, insurance_plan)))",
+        "natural": "Either a medical procedure is an emergency, or an in-network procedure being covered by an insurance plan holds."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(¬(A11 → A10) → A13)",
+        "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> fraudulent(insurance_claim))",
+        "natural": "If it is not the case that complete medical documentation leads to approval of the insurance claim, then the claim is fraudulent."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(¬(A11 → A10) → A14)",
+        "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> investigated(insurance_claim))",
+        "natural": "Assuming that complete medical documentation does not result in approval of the insurance claim, the claim is investigated."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(¬(A21 → A22) → A23)",
+        "prover9_expression": "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> minor_discrepancy(insurance_claim))",
+        "natural": "If it is not true that a reviewed insurance claim is escalated, then the claim has a minor discrepancy."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(¬(¬(A21 → A22) → ¬A23) → A24)",
+        "prover9_expression": "(-(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim)) -> major_fraud(insurance_claim))",
+        "natural": "If it is not the case that the negation of \"a reviewed insurance claim is escalated\" implies no minor discrepancy, then the claim involves major fraud."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A18",
+        "prover9_expression": "valid(insurance_policy)",
+        "natural": "An insurance policy is valid."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A20",
+        "prover9_expression": "audit_triggered(insurance_claim)",
+        "natural": "An audit is triggered for an insurance claim."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A24",
+        "prover9_expression": "-major_fraud(insurance_claim)",
+        "natural": "An insurance claim does not involve major fraud."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A9",
+        "prover9_expression": "-emergency(medical_procedure)",
+        "natural": "A medical procedure is not an emergency."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "reimbursed(insurance_claim)",
+    "natural": "An insurance claim is reimbursed."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (A7 -> A5))",
+            "-A9"
+          ],
+          "conclusion": "(A7 -> A5)",
+          "natural": "An in-network medical procedure is covered by an insurance plan."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A7 -> A5)",
+            "(A8 -> A6)",
+            "(A7 | A8)"
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "A medical procedure is covered by an insurance plan or not covered by an insurance plan."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (A4 -> A2))",
+            "(A6 -> (A4 -> A2))"
+          ],
+          "conclusion": "(A4 -> A2)",
+          "natural": "Whenever a medical procedure is experimental, a prescription drug requires pre-approval."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A3 -> A1)",
+            "(A4 -> A2)",
+            "(A3 | A4)"
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either a medical procedure requires pre-approval or a prescription drug requires pre-approval."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A14 -> A15)",
+            "(A15 -> -A13)"
+          ],
+          "conclusion": "(A14 -> -A13)",
+          "natural": "Should an insurance claim be investigated, it is not fraudulent."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A11 -> A10) -> A14)",
+            "(A14 -> -A13)"
+          ],
+          "conclusion": "(-(A11 -> A10) -> -A13)",
+          "natural": "In the event that complete medical documentation does not imply approval of the insurance claim, the claim is not fraudulent."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A11 -> A10) -> A13)",
+            "(-(A11 -> A10) -> -A13)"
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> A10)",
+            "(A12 -> A10)"
+          ],
+          "conclusion": "A10",
+          "natural": "An insurance claim is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> G)",
+            "A10"
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> (A17 -> A16))",
+            "A18"
+          ],
+          "conclusion": "(A17 -> A16)",
+          "natural": "Processing an insurance claim results in its submission."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A17)",
+            "(A17 -> A16)"
+          ],
+          "conclusion": "(A11 -> A16)",
+          "natural": "Under the condition that medical documentation is complete, the insurance claim is submitted."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A16)",
+            "(A16 -> A10)"
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> A10)",
+            "(A12 -> A10)"
+          ],
+          "conclusion": "A10",
+          "natural": "An insurance claim is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> G)",
+            "A10"
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A21 -> A22) -> -A23) -> A24)",
+            "-A24"
+          ],
+          "conclusion": "(-(A21 -> A22) -> -A23)",
+          "natural": "Provided that a reviewed insurance claim is not escalated, the claim does not have a minor discrepancy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A21 -> A22) -> A23)",
+            "(-(A21 -> A22) -> -A23)"
+          ],
+          "conclusion": "(A21 -> A22)",
+          "natural": "Provided an insurance claim is reviewed, it is escalated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A21 -> A22)",
+            "(A22 -> -A19)"
+          ],
+          "conclusion": "(A21 -> -A19)",
+          "natural": "In the case that an insurance claim is reviewed, an appeal is not filed for it."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A20 -> A21)",
+            "(A21 -> -A19)"
+          ],
+          "conclusion": "(A20 -> -A19)",
+          "natural": "If an audit is triggered for an insurance claim, then an appeal is not filed for it."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> -A19)",
+            "A20"
+          ],
+          "conclusion": "-A19",
+          "natural": "It is not the case that an appeal is filed for an insurance claim."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | (A11 -> A10))",
+            "-A19"
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> A10)",
+            "(A12 -> A10)"
+          ],
+          "conclusion": "A10",
+          "natural": "An insurance claim is approved."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> G)",
+            "A10"
+          ],
+          "conclusion": "G",
+          "natural": "An insurance claim is reimbursed."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Healthcare Insurance Claims",
+    "atomic_facts": {
+      "A1": "requires(medical_procedure, pre_approval)",
+      "A2": "requires(prescription_drug, pre_approval)",
+      "A3": "routine(medical_procedure)",
+      "A4": "experimental(medical_procedure)",
+      "A5": "covered(medical_procedure, insurance_plan)",
+      "A6": "not_covered(medical_procedure, insurance_plan)",
+      "A7": "in_network(medical_procedure)",
+      "A8": "out_of_network(medical_procedure)",
+      "A9": "emergency(medical_procedure)",
+      "A10": "approved(insurance_claim)",
+      "A11": "complete(medical_documentation)",
+      "A12": "incomplete(medical_documentation)",
+      "A13": "fraudulent(insurance_claim)",
+      "A14": "investigated(insurance_claim)",
+      "A15": "denied(insurance_claim)",
+      "A16": "submitted(insurance_claim)",
+      "A17": "processed(insurance_claim)",
+      "A18": "valid(insurance_policy)",
+      "A19": "appeal_filed(insurance_claim)",
+      "A20": "audit_triggered(insurance_claim)",
+      "A21": "reviewed(insurance_claim)",
+      "A22": "escalated(insurance_claim)",
+      "A23": "minor_discrepancy(insurance_claim)",
+      "A24": "major_fraud(insurance_claim)",
+      "G": "reimbursed(insurance_claim)"
+    },
+    "natural_facts": {
+      "A1": "A medical procedure requires pre-approval.",
+      "A2": "A prescription drug requires pre-approval.",
+      "A3": "A medical procedure is routine.",
+      "A4": "A medical procedure is experimental.",
+      "A5": "A medical procedure is covered by an insurance plan.",
+      "A6": "A medical procedure is not covered by an insurance plan.",
+      "A7": "A medical procedure is in-network.",
+      "A8": "A medical procedure is out-of-network.",
+      "A9": "A medical procedure is an emergency.",
+      "A10": "An insurance claim is approved.",
+      "A11": "Medical documentation is complete.",
+      "A12": "Medical documentation is incomplete.",
+      "A13": "An insurance claim is fraudulent.",
+      "A14": "An insurance claim is investigated.",
+      "A15": "An insurance claim is denied.",
+      "A16": "An insurance claim is submitted.",
+      "A17": "An insurance claim is processed.",
+      "A18": "An insurance policy is valid.",
+      "A19": "An appeal is filed for an insurance claim.",
+      "A20": "An audit is triggered for an insurance claim.",
+      "A21": "An insurance claim is reviewed.",
+      "A22": "An insurance claim is escalated.",
+      "A23": "An insurance claim has a minor discrepancy.",
+      "A24": "An insurance claim involves major fraud.",
+      "G": "An insurance claim is reimbursed."
+    },
+    "prover9_expressions": [
+      "(requires(medical_procedure, pre_approval) -> reimbursed(insurance_claim))",
+      "(requires(medical_procedure, pre_approval) | requires(prescription_drug, pre_approval))",
+      "(approved(insurance_claim) -> reimbursed(insurance_claim))",
+      "(complete(medical_documentation) -> approved(insurance_claim))",
+      "(complete(medical_documentation) -> submitted(insurance_claim))",
+      "(complete(medical_documentation) -> processed(insurance_claim))",
+      "(complete(medical_documentation) | incomplete(medical_documentation))",
+      "(incomplete(medical_documentation) -> approved(insurance_claim))",
+      "(investigated(insurance_claim) -> denied(insurance_claim))",
+      "(investigated(insurance_claim) -> -fraudulent(insurance_claim))",
+      "(denied(insurance_claim) -> -fraudulent(insurance_claim))",
+      "(submitted(insurance_claim) -> approved(insurance_claim))",
+      "(processed(insurance_claim) -> submitted(insurance_claim))",
+      "(valid(insurance_policy) -> (processed(insurance_claim) -> submitted(insurance_claim)))",
+      "(appeal_filed(insurance_claim) | (complete(medical_documentation) -> approved(insurance_claim)))",
+      "(requires(prescription_drug, pre_approval) -> reimbursed(insurance_claim))",
+      "(audit_triggered(insurance_claim) -> reviewed(insurance_claim))",
+      "(audit_triggered(insurance_claim) -> -appeal_filed(insurance_claim))",
+      "(reviewed(insurance_claim) -> escalated(insurance_claim))",
+      "(reviewed(insurance_claim) -> -appeal_filed(insurance_claim))",
+      "(escalated(insurance_claim) -> -appeal_filed(insurance_claim))",
+      "(routine(medical_procedure) -> requires(medical_procedure, pre_approval))",
+      "(routine(medical_procedure) | experimental(medical_procedure))",
+      "(experimental(medical_procedure) -> requires(prescription_drug, pre_approval))",
+      "(covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+      "(covered(medical_procedure, insurance_plan) | not_covered(medical_procedure, insurance_plan))",
+      "(not_covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+      "(in_network(medical_procedure) -> covered(medical_procedure, insurance_plan))",
+      "(in_network(medical_procedure) | out_of_network(medical_procedure))",
+      "(out_of_network(medical_procedure) -> not_covered(medical_procedure, insurance_plan))",
+      "(emergency(medical_procedure) | (in_network(medical_procedure) -> covered(medical_procedure, insurance_plan)))",
+      "(-(complete(medical_documentation) -> approved(insurance_claim)) -> fraudulent(insurance_claim))",
+      "(-(complete(medical_documentation) -> approved(insurance_claim)) -> investigated(insurance_claim))",
+      "(-(complete(medical_documentation) -> approved(insurance_claim)) -> -fraudulent(insurance_claim))",
+      "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> minor_discrepancy(insurance_claim))",
+      "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim))",
+      "(-(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim)) -> major_fraud(insurance_claim))",
+      "approved(insurance_claim)",
+      "valid(insurance_policy)",
+      "audit_triggered(insurance_claim)",
+      "reimbursed(insurance_claim)",
+      "-appeal_filed(insurance_claim)",
+      "-major_fraud(insurance_claim)",
+      "-emergency(medical_procedure)"
+    ],
+    "natural_expressions": [
+      "If a medical procedure requires pre-approval, then the insurance claim is reimbursed.",
+      "Either a medical procedure requires pre-approval or a prescription drug requires pre-approval.",
+      "Whenever an insurance claim is approved, it is reimbursed.",
+      "Provided that medical documentation is complete, the insurance claim is approved.",
+      "Under the condition that medical documentation is complete, the insurance claim is submitted.",
+      "If medical documentation is complete, then the insurance claim is processed.",
+      "Medical documentation is complete or incomplete.",
+      "In the event that medical documentation is incomplete, the insurance claim is approved.",
+      "An insurance claim being investigated implies that it is denied.",
+      "Should an insurance claim be investigated, it is not fraudulent.",
+      "An insurance claim that is denied is not fraudulent.",
+      "The submission of an insurance claim leads to its approval.",
+      "Processing an insurance claim results in its submission.",
+      "Given that an insurance policy is valid, if the insurance claim is processed, it is submitted.",
+      "Either an appeal is filed for the insurance claim, or complete medical documentation results in the claim being approved.",
+      "A prescription drug requiring pre-approval entails that the insurance claim is reimbursed.",
+      "When an audit is triggered for an insurance claim, the claim is reviewed.",
+      "If an audit is triggered for an insurance claim, then an appeal is not filed for it.",
+      "Provided an insurance claim is reviewed, it is escalated.",
+      "In the case that an insurance claim is reviewed, an appeal is not filed for it.",
+      "An insurance claim being escalated means that an appeal is not filed for it.",
+      "A routine medical procedure necessitates pre-approval.",
+      "A medical procedure is either routine or experimental.",
+      "Whenever a medical procedure is experimental, a prescription drug requires pre-approval.",
+      "If a medical procedure is covered by an insurance plan, then an experimental procedure implies that a prescription drug requires pre-approval.",
+      "A medical procedure is covered by an insurance plan or not covered by an insurance plan.",
+      "Should a medical procedure not be covered by an insurance plan, then if it is experimental, a prescription drug requires pre-approval.",
+      "An in-network medical procedure is covered by an insurance plan.",
+      "A medical procedure is in-network or out-of-network.",
+      "An out-of-network medical procedure is not covered by an insurance plan.",
+      "Either a medical procedure is an emergency, or an in-network procedure being covered by an insurance plan holds.",
+      "If it is not the case that complete medical documentation leads to approval of the insurance claim, then the claim is fraudulent.",
+      "Assuming that complete medical documentation does not result in approval of the insurance claim, the claim is investigated.",
+      "In the event that complete medical documentation does not imply approval of the insurance claim, the claim is not fraudulent.",
+      "If it is not true that a reviewed insurance claim is escalated, then the claim has a minor discrepancy.",
+      "Provided that a reviewed insurance claim is not escalated, the claim does not have a minor discrepancy.",
+      "If it is not the case that the negation of \"a reviewed insurance claim is escalated\" implies no minor discrepancy, then the claim involves major fraud.",
+      "An insurance claim is approved.",
+      "An insurance policy is valid.",
+      "An audit is triggered for an insurance claim.",
+      "An insurance claim is reimbursed.",
+      "It is not the case that an appeal is filed for an insurance claim.",
+      "An insurance claim does not involve major fraud.",
+      "A medical procedure is not an emergency."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(requires(medical_procedure, pre_approval) -> reimbursed(insurance_claim))",
+        "natural": "If a medical procedure requires pre-approval, then the insurance claim is reimbursed."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(requires(medical_procedure, pre_approval) | requires(prescription_drug, pre_approval))",
+        "natural": "Either a medical procedure requires pre-approval or a prescription drug requires pre-approval."
+      },
+      "(A10 → G)": {
+        "formal": "(A10 → G)",
+        "prover9": "(A10 -> G)",
+        "prover9_expression": "(approved(insurance_claim) -> reimbursed(insurance_claim))",
+        "natural": "Whenever an insurance claim is approved, it is reimbursed."
+      },
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(complete(medical_documentation) -> approved(insurance_claim))",
+        "natural": "Provided that medical documentation is complete, the insurance claim is approved."
+      },
+      "(A11 → A16)": {
+        "formal": "(A11 → A16)",
+        "prover9": "(A11 -> A16)",
+        "prover9_expression": "(complete(medical_documentation) -> submitted(insurance_claim))",
+        "natural": "Under the condition that medical documentation is complete, the insurance claim is submitted."
+      },
+      "(A11 → A17)": {
+        "formal": "(A11 → A17)",
+        "prover9": "(A11 -> A17)",
+        "prover9_expression": "(complete(medical_documentation) -> processed(insurance_claim))",
+        "natural": "If medical documentation is complete, then the insurance claim is processed."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(complete(medical_documentation) | incomplete(medical_documentation))",
+        "natural": "Medical documentation is complete or incomplete."
+      },
+      "(A12 → A10)": {
+        "formal": "(A12 → A10)",
+        "prover9": "(A12 -> A10)",
+        "prover9_expression": "(incomplete(medical_documentation) -> approved(insurance_claim))",
+        "natural": "In the event that medical documentation is incomplete, the insurance claim is approved."
+      },
+      "(A14 → A15)": {
+        "formal": "(A14 → A15)",
+        "prover9": "(A14 -> A15)",
+        "prover9_expression": "(investigated(insurance_claim) -> denied(insurance_claim))",
+        "natural": "An insurance claim being investigated implies that it is denied."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(investigated(insurance_claim) -> -fraudulent(insurance_claim))",
+        "natural": "Should an insurance claim be investigated, it is not fraudulent."
+      },
+      "(A15 → ¬A13)": {
+        "formal": "(A15 → ¬A13)",
+        "prover9": "(A15 -> -A13)",
+        "prover9_expression": "(denied(insurance_claim) -> -fraudulent(insurance_claim))",
+        "natural": "An insurance claim that is denied is not fraudulent."
+      },
+      "(A16 → A10)": {
+        "formal": "(A16 → A10)",
+        "prover9": "(A16 -> A10)",
+        "prover9_expression": "(submitted(insurance_claim) -> approved(insurance_claim))",
+        "natural": "The submission of an insurance claim leads to its approval."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(processed(insurance_claim) -> submitted(insurance_claim))",
+        "natural": "Processing an insurance claim results in its submission."
+      },
+      "(A18 → (A17 → A16))": {
+        "formal": "(A18 → (A17 → A16))",
+        "prover9": "(A18 -> (A17 -> A16))",
+        "prover9_expression": "(valid(insurance_policy) -> (processed(insurance_claim) -> submitted(insurance_claim)))",
+        "natural": "Given that an insurance policy is valid, if the insurance claim is processed, it is submitted."
+      },
+      "(A19 ∨ (A11 → A10))": {
+        "formal": "(A19 ∨ (A11 → A10))",
+        "prover9": "(A19 | (A11 -> A10))",
+        "prover9_expression": "(appeal_filed(insurance_claim) | (complete(medical_documentation) -> approved(insurance_claim)))",
+        "natural": "Either an appeal is filed for the insurance claim, or complete medical documentation results in the claim being approved."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(requires(prescription_drug, pre_approval) -> reimbursed(insurance_claim))",
+        "natural": "A prescription drug requiring pre-approval entails that the insurance claim is reimbursed."
+      },
+      "(A20 → A21)": {
+        "formal": "(A20 → A21)",
+        "prover9": "(A20 -> A21)",
+        "prover9_expression": "(audit_triggered(insurance_claim) -> reviewed(insurance_claim))",
+        "natural": "When an audit is triggered for an insurance claim, the claim is reviewed."
+      },
+      "(A20 → ¬A19)": {
+        "formal": "(A20 → ¬A19)",
+        "prover9": "(A20 -> -A19)",
+        "prover9_expression": "(audit_triggered(insurance_claim) -> -appeal_filed(insurance_claim))",
+        "natural": "If an audit is triggered for an insurance claim, then an appeal is not filed for it."
+      },
+      "(A21 → A22)": {
+        "formal": "(A21 → A22)",
+        "prover9": "(A21 -> A22)",
+        "prover9_expression": "(reviewed(insurance_claim) -> escalated(insurance_claim))",
+        "natural": "Provided an insurance claim is reviewed, it is escalated."
+      },
+      "(A21 → ¬A19)": {
+        "formal": "(A21 → ¬A19)",
+        "prover9": "(A21 -> -A19)",
+        "prover9_expression": "(reviewed(insurance_claim) -> -appeal_filed(insurance_claim))",
+        "natural": "In the case that an insurance claim is reviewed, an appeal is not filed for it."
+      },
+      "(A22 → ¬A19)": {
+        "formal": "(A22 → ¬A19)",
+        "prover9": "(A22 -> -A19)",
+        "prover9_expression": "(escalated(insurance_claim) -> -appeal_filed(insurance_claim))",
+        "natural": "An insurance claim being escalated means that an appeal is not filed for it."
+      },
+      "(A3 → A1)": {
+        "formal": "(A3 → A1)",
+        "prover9": "(A3 -> A1)",
+        "prover9_expression": "(routine(medical_procedure) -> requires(medical_procedure, pre_approval))",
+        "natural": "A routine medical procedure necessitates pre-approval."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(routine(medical_procedure) | experimental(medical_procedure))",
+        "natural": "A medical procedure is either routine or experimental."
+      },
+      "(A4 → A2)": {
+        "formal": "(A4 → A2)",
+        "prover9": "(A4 -> A2)",
+        "prover9_expression": "(experimental(medical_procedure) -> requires(prescription_drug, pre_approval))",
+        "natural": "Whenever a medical procedure is experimental, a prescription drug requires pre-approval."
+      },
+      "(A5 → (A4 → A2))": {
+        "formal": "(A5 → (A4 → A2))",
+        "prover9": "(A5 -> (A4 -> A2))",
+        "prover9_expression": "(covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+        "natural": "If a medical procedure is covered by an insurance plan, then an experimental procedure implies that a prescription drug requires pre-approval."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(covered(medical_procedure, insurance_plan) | not_covered(medical_procedure, insurance_plan))",
+        "natural": "A medical procedure is covered by an insurance plan or not covered by an insurance plan."
+      },
+      "(A6 → (A4 → A2))": {
+        "formal": "(A6 → (A4 → A2))",
+        "prover9": "(A6 -> (A4 -> A2))",
+        "prover9_expression": "(not_covered(medical_procedure, insurance_plan) -> (experimental(medical_procedure) -> requires(prescription_drug, pre_approval)))",
+        "natural": "Should a medical procedure not be covered by an insurance plan, then if it is experimental, a prescription drug requires pre-approval."
+      },
+      "(A7 → A5)": {
+        "formal": "(A7 → A5)",
+        "prover9": "(A7 -> A5)",
+        "prover9_expression": "(in_network(medical_procedure) -> covered(medical_procedure, insurance_plan))",
+        "natural": "An in-network medical procedure is covered by an insurance plan."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(in_network(medical_procedure) | out_of_network(medical_procedure))",
+        "natural": "A medical procedure is in-network or out-of-network."
+      },
+      "(A8 → A6)": {
+        "formal": "(A8 → A6)",
+        "prover9": "(A8 -> A6)",
+        "prover9_expression": "(out_of_network(medical_procedure) -> not_covered(medical_procedure, insurance_plan))",
+        "natural": "An out-of-network medical procedure is not covered by an insurance plan."
+      },
+      "(A9 ∨ (A7 → A5))": {
+        "formal": "(A9 ∨ (A7 → A5))",
+        "prover9": "(A9 | (A7 -> A5))",
+        "prover9_expression": "(emergency(medical_procedure) | (in_network(medical_procedure) -> covered(medical_procedure, insurance_plan)))",
+        "natural": "Either a medical procedure is an emergency, or an in-network procedure being covered by an insurance plan holds."
+      },
+      "(¬(A11 → A10) → A13)": {
+        "formal": "(¬(A11 → A10) → A13)",
+        "prover9": "(-(A11 -> A10) -> A13)",
+        "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> fraudulent(insurance_claim))",
+        "natural": "If it is not the case that complete medical documentation leads to approval of the insurance claim, then the claim is fraudulent."
+      },
+      "(¬(A11 → A10) → A14)": {
+        "formal": "(¬(A11 → A10) → A14)",
+        "prover9": "(-(A11 -> A10) -> A14)",
+        "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> investigated(insurance_claim))",
+        "natural": "Assuming that complete medical documentation does not result in approval of the insurance claim, the claim is investigated."
+      },
+      "(¬(A11 → A10) → ¬A13)": {
+        "formal": "(¬(A11 → A10) → ¬A13)",
+        "prover9": "(-(A11 -> A10) -> -A13)",
+        "prover9_expression": "(-(complete(medical_documentation) -> approved(insurance_claim)) -> -fraudulent(insurance_claim))",
+        "natural": "In the event that complete medical documentation does not imply approval of the insurance claim, the claim is not fraudulent."
+      },
+      "(¬(A21 → A22) → A23)": {
+        "formal": "(¬(A21 → A22) → A23)",
+        "prover9": "(-(A21 -> A22) -> A23)",
+        "prover9_expression": "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> minor_discrepancy(insurance_claim))",
+        "natural": "If it is not true that a reviewed insurance claim is escalated, then the claim has a minor discrepancy."
+      },
+      "(¬(A21 → A22) → ¬A23)": {
+        "formal": "(¬(A21 → A22) → ¬A23)",
+        "prover9": "(-(A21 -> A22) -> -A23)",
+        "prover9_expression": "(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim))",
+        "natural": "Provided that a reviewed insurance claim is not escalated, the claim does not have a minor discrepancy."
+      },
+      "(¬(¬(A21 → A22) → ¬A23) → A24)": {
+        "formal": "(¬(¬(A21 → A22) → ¬A23) → A24)",
+        "prover9": "(-(-(A21 -> A22) -> -A23) -> A24)",
+        "prover9_expression": "(-(-(reviewed(insurance_claim) -> escalated(insurance_claim)) -> -minor_discrepancy(insurance_claim)) -> major_fraud(insurance_claim))",
+        "natural": "If it is not the case that the negation of \"a reviewed insurance claim is escalated\" implies no minor discrepancy, then the claim involves major fraud."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "approved(insurance_claim)",
+        "natural": "An insurance claim is approved."
+      },
+      "A18": {
+        "formal": "A18",
+        "prover9": "A18",
+        "prover9_expression": "valid(insurance_policy)",
+        "natural": "An insurance policy is valid."
+      },
+      "A20": {
+        "formal": "A20",
+        "prover9": "A20",
+        "prover9_expression": "audit_triggered(insurance_claim)",
+        "natural": "An audit is triggered for an insurance claim."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "reimbursed(insurance_claim)",
+        "natural": "An insurance claim is reimbursed."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-appeal_filed(insurance_claim)",
+        "natural": "It is not the case that an appeal is filed for an insurance claim."
+      },
+      "¬A24": {
+        "formal": "¬A24",
+        "prover9": "-A24",
+        "prover9_expression": "-major_fraud(insurance_claim)",
+        "natural": "An insurance claim does not involve major fraud."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-emergency(medical_procedure)",
+        "natural": "A medical procedure is not an emergency."
+      }
+    }
+  }
+}

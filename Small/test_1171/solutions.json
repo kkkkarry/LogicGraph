@@ -1,0 +1,655 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A9 | -A8)",
+              "prover9_expression": "(completed_training(driver, regulations) | -completed_training(driver, handling))",
+              "natural": "The driver has completed regulations training, or it is not the case that the driver has completed handling training."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A9",
+              "prover9_expression": "-completed_training(driver, regulations)",
+              "natural": "It is not the case that the driver has completed regulations training."
+            }
+          ],
+          "conclusion": "-A8",
+          "natural": "The driver has not completed handling training."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(A8 | -A7)",
+              "prover9_expression": "(completed_training(driver, handling) | -completed_training(driver, safety))",
+              "natural": "Either the driver has completed handling training, or the driver has not completed safety training."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A8",
+              "prover9_expression": "-completed_training(driver, handling)",
+              "natural": "The driver has not completed handling training."
+            }
+          ],
+          "conclusion": "-A7",
+          "natural": "The driver has not completed safety training."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-(A6 -> (A3 | A4)) -> A7)",
+              "prover9_expression": "(-(has_job(driver, alcohol_delivery) -> (assigned_vehicle(driver, van) | assigned_vehicle(driver, truck))) -> completed_training(driver, safety))",
+              "natural": "If it is not the case that, if the driver has an alcohol delivery job, then the driver is assigned the van or the driver is assigned the truck, then the driver has completed safety training."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A7",
+              "prover9_expression": "-completed_training(driver, safety)",
+              "natural": "The driver has not completed safety training."
+            }
+          ],
+          "conclusion": "(A6 -> (A3 | A4))",
+          "natural": "Under the condition that the driver has an alcohol delivery job, the driver is assigned the van or the driver is assigned the truck."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(has_job(driver, food_delivery) | has_job(driver, alcohol_delivery))",
+              "natural": "The driver has a food delivery job or the driver has an alcohol delivery job."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A5 -> (A3 | A4))",
+              "prover9_expression": "(has_job(driver, food_delivery) -> (assigned_vehicle(driver, van) | assigned_vehicle(driver, truck)))",
+              "natural": "If the driver has a food delivery job, then the driver is assigned the van or the driver is assigned the truck."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (A3 | A4))",
+              "prover9_expression": "(has_job(driver, alcohol_delivery) -> (assigned_vehicle(driver, van) | assigned_vehicle(driver, truck)))",
+              "natural": "Under the condition that the driver has an alcohol delivery job, the driver is assigned the van or the driver is assigned the truck."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the driver is assigned the van, or the driver is assigned the truck."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(assigned_vehicle(driver, van) -> has_skill(driver, navigation))",
+              "natural": "If the driver is assigned the van, then the driver has navigation skill."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(assigned_vehicle(driver, truck) -> has_skill(driver, alcohol_handling))",
+              "natural": "Whenever the driver is assigned the truck, the driver has alcohol handling skill."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(assigned_vehicle(driver, van) | assigned_vehicle(driver, truck))",
+              "natural": "Either the driver is assigned the van, or the driver is assigned the truck."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_skill(driver, navigation) | has_skill(driver, alcohol_handling))",
+              "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_skill(driver, navigation) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has navigation skill, then the delivery of order123 is completed successfully."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_skill(driver, alcohol_handling) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has alcohol handling skill, then the delivery of order123 is completed successfully."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of order123 was completed successfully."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A14 -> A12)",
+              "prover9_expression": "(has_certification(driver, food_permit) -> can_deliver(driver, food))",
+              "natural": "If the driver has food permit certification, then the driver can deliver food."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A15 -> A13)",
+              "prover9_expression": "(has_certification(driver, alcohol_permit) -> can_deliver(driver, alcohol))",
+              "natural": "Provided that the driver has alcohol permit certification, the driver can deliver alcohol."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(has_certification(driver, food_permit) | has_certification(driver, alcohol_permit))",
+              "natural": "Either the driver has food permit certification, or the driver has alcohol permit certification."
+            }
+          ],
+          "conclusion": "(A12 | A13)",
+          "natural": "The driver can deliver food or the driver can deliver alcohol."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(can_deliver(driver, food) | can_deliver(driver, alcohol))",
+              "natural": "The driver can deliver food or the driver can deliver alcohol."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> (A10 -> A3))",
+              "prover9_expression": "(can_deliver(driver, food) -> (scheduled_delivery(order123, morning) -> assigned_vehicle(driver, van)))",
+              "natural": "If the driver can deliver food, then, under the condition that order123 is scheduled for morning delivery, the driver is assigned the van."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> (A10 -> A3))",
+              "prover9_expression": "(can_deliver(driver, alcohol) -> (scheduled_delivery(order123, morning) -> assigned_vehicle(driver, van)))",
+              "natural": "Under the condition that the driver can deliver alcohol, if order123 is scheduled for morning delivery, then the driver is assigned the van."
+            }
+          ],
+          "conclusion": "(A10 -> A3)",
+          "natural": "Provided that order123 is scheduled for morning delivery, the driver is assigned the van."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> A3)",
+              "prover9_expression": "(scheduled_delivery(order123, morning) -> assigned_vehicle(driver, van))",
+              "natural": "Provided that order123 is scheduled for morning delivery, the driver is assigned the van."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A11 -> A4)",
+              "prover9_expression": "(scheduled_delivery(order123, evening) -> assigned_vehicle(driver, truck))",
+              "natural": "Whenever order123 is scheduled for evening delivery, the driver is assigned the truck."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(scheduled_delivery(order123, morning) | scheduled_delivery(order123, evening))",
+              "natural": "Order123 is scheduled for morning delivery or order123 is scheduled for evening delivery."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the driver is assigned the van, or the driver is assigned the truck."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(assigned_vehicle(driver, van) -> has_skill(driver, navigation))",
+              "natural": "If the driver is assigned the van, then the driver has navigation skill."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(assigned_vehicle(driver, truck) -> has_skill(driver, alcohol_handling))",
+              "natural": "Whenever the driver is assigned the truck, the driver has alcohol handling skill."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(assigned_vehicle(driver, van) | assigned_vehicle(driver, truck))",
+              "natural": "Either the driver is assigned the van, or the driver is assigned the truck."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_skill(driver, navigation) | has_skill(driver, alcohol_handling))",
+              "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_skill(driver, navigation) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has navigation skill, then the delivery of order123 is completed successfully."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_skill(driver, alcohol_handling) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has alcohol handling skill, then the delivery of order123 is completed successfully."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of order123 was completed successfully."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-A22 -> A23)",
+              "prover9_expression": "(-valid_license(driver, true) -> valid_license(driver, false))",
+              "natural": "If the driver does not have a valid license, then the driver does not have a valid license."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(-A22 -> -A23)",
+              "prover9_expression": "(-valid_license(driver, true) -> -valid_license(driver, false))",
+              "natural": "Provided that the driver does not have a valid license, it is not the case that the driver does not have a valid license."
+            }
+          ],
+          "conclusion": "A22",
+          "natural": "The driver has a valid license."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A22 -> (A20 -> A21))",
+              "prover9_expression": "(valid_license(driver, true) -> (violation_status(driver, minor) -> violation_status(driver, major)))",
+              "natural": "If the driver has a valid license, then, whenever the driver has a minor violation status, the driver has a major violation status."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A22",
+              "prover9_expression": "valid_license(driver, true)",
+              "natural": "The driver has a valid license."
+            }
+          ],
+          "conclusion": "(A20 -> A21)",
+          "natural": "If the driver has a minor violation status, then the driver has a major violation status."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> A21)",
+              "prover9_expression": "(violation_status(driver, minor) -> violation_status(driver, major))",
+              "natural": "If the driver has a minor violation status, then the driver has a major violation status."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A21 -> A19)",
+              "prover9_expression": "(violation_status(driver, major) -> working_status(driver, suspended))",
+              "natural": "Under the condition that the driver has a major violation status, the driver's working status is suspended."
+            }
+          ],
+          "conclusion": "(A20 -> A19)",
+          "natural": "Provided that the driver has a minor violation status, the driver's working status is suspended."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A18 -> A20)",
+              "prover9_expression": "(working_status(driver, active) -> violation_status(driver, minor))",
+              "natural": "Whenever the driver's working status is active, the driver has a minor violation status."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A20 -> A19)",
+              "prover9_expression": "(violation_status(driver, minor) -> working_status(driver, suspended))",
+              "natural": "Provided that the driver has a minor violation status, the driver's working status is suspended."
+            }
+          ],
+          "conclusion": "(A18 -> A19)",
+          "natural": "If the driver's working status is active, then the driver's working status is suspended."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> A19)",
+              "prover9_expression": "(working_status(driver, active) -> working_status(driver, suspended))",
+              "natural": "If the driver's working status is active, then the driver's working status is suspended."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A19",
+              "prover9_expression": "-working_status(driver, suspended)",
+              "natural": "The driver's working status is not suspended."
+            }
+          ],
+          "conclusion": "-A18",
+          "natural": "It is not the case that the driver's working status is active."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A18 | (A16 | A17))",
+              "prover9_expression": "(working_status(driver, active) | (qualified_for(driver, food_job) | qualified_for(driver, alcohol_job)))",
+              "natural": "Either the driver's working status is active, or the driver is qualified for the food job, or the driver is qualified for the alcohol job."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A18",
+              "prover9_expression": "-working_status(driver, active)",
+              "natural": "It is not the case that the driver's working status is active."
+            }
+          ],
+          "conclusion": "(A16 | A17)",
+          "natural": "The driver is qualified for the food job or the driver is qualified for the alcohol job."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A16 -> A1)",
+              "prover9_expression": "(qualified_for(driver, food_job) -> has_skill(driver, navigation))",
+              "natural": "If the driver is qualified for the food job, then the driver has navigation skill."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A17 -> A2)",
+              "prover9_expression": "(qualified_for(driver, alcohol_job) -> has_skill(driver, alcohol_handling))",
+              "natural": "Under the condition that the driver is qualified for the alcohol job, the driver has alcohol handling skill."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 | A17)",
+              "prover9_expression": "(qualified_for(driver, food_job) | qualified_for(driver, alcohol_job))",
+              "natural": "The driver is qualified for the food job or the driver is qualified for the alcohol job."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_skill(driver, navigation) | has_skill(driver, alcohol_handling))",
+              "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_skill(driver, navigation) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has navigation skill, then the delivery of order123 is completed successfully."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_skill(driver, alcohol_handling) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has alcohol handling skill, then the delivery of order123 is completed successfully."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of order123 was completed successfully."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-(A27 -> A28) -> A29)",
+              "prover9_expression": "(-(inspection_passed(vehicles, true) -> inspection_passed(vehicles, false)) -> penalty_applied(company, true))",
+              "natural": "If it is not the case that, if the vehicles have passed inspection, then the vehicles have not passed inspection, then a penalty has been applied to the company."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-(A27 -> A28) -> -A29)",
+              "prover9_expression": "(-(inspection_passed(vehicles, true) -> inspection_passed(vehicles, false)) -> -penalty_applied(company, true))",
+              "natural": "Under the condition that it is not the case that, if the vehicles have passed inspection, then the vehicles have not passed inspection, it is not the case that a penalty has been applied to the company."
+            }
+          ],
+          "conclusion": "(A27 -> A28)",
+          "natural": "If the vehicles have passed inspection, then the vehicles have not passed inspection."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> A28)",
+              "prover9_expression": "(inspection_passed(vehicles, true) -> inspection_passed(vehicles, false))",
+              "natural": "If the vehicles have passed inspection, then the vehicles have not passed inspection."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A28 -> -A26)",
+              "prover9_expression": "(inspection_passed(vehicles, false) -> -maintenance_required(vehicles, urgent))",
+              "natural": "Provided that the vehicles have not passed inspection, it is not the case that the vehicles require urgent maintenance."
+            }
+          ],
+          "conclusion": "(A27 -> -A26)",
+          "natural": "Under the condition that the vehicles have passed inspection, the vehicles do not require urgent maintenance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A24 | A25) -> A27)",
+              "prover9_expression": "(-(vehicle_available(van, ready) | vehicle_available(truck, ready)) -> inspection_passed(vehicles, true))",
+              "natural": "Provided that it is not the case that either the van is available and ready or the truck is available and ready, the vehicles have passed inspection."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> -A26)",
+              "prover9_expression": "(inspection_passed(vehicles, true) -> -maintenance_required(vehicles, urgent))",
+              "natural": "Under the condition that the vehicles have passed inspection, the vehicles do not require urgent maintenance."
+            }
+          ],
+          "conclusion": "(-(A24 | A25) -> -A26)",
+          "natural": "Whenever it is not the case that either the van is available and ready or the truck is available and ready, it is not the case that the vehicles require urgent maintenance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-(A24 | A25) -> A26)",
+              "prover9_expression": "(-(vehicle_available(van, ready) | vehicle_available(truck, ready)) -> maintenance_required(vehicles, urgent))",
+              "natural": "If it is not the case that either the van is available and ready or the truck is available and ready, then the vehicles require urgent maintenance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A24 | A25) -> -A26)",
+              "prover9_expression": "(-(vehicle_available(van, ready) | vehicle_available(truck, ready)) -> -maintenance_required(vehicles, urgent))",
+              "natural": "Whenever it is not the case that either the van is available and ready or the truck is available and ready, it is not the case that the vehicles require urgent maintenance."
+            }
+          ],
+          "conclusion": "(A24 | A25)",
+          "natural": "Either the van is available and ready, or the truck is available and ready."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A24 -> A3)",
+              "prover9_expression": "(vehicle_available(van, ready) -> assigned_vehicle(driver, van))",
+              "natural": "If the van is available and ready, then the driver is assigned the van."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A25 -> A4)",
+              "prover9_expression": "(vehicle_available(truck, ready) -> assigned_vehicle(driver, truck))",
+              "natural": "Provided that the truck is available and ready, the driver is assigned the truck."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A24 | A25)",
+              "prover9_expression": "(vehicle_available(van, ready) | vehicle_available(truck, ready))",
+              "natural": "Either the van is available and ready, or the truck is available and ready."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "Either the driver is assigned the van, or the driver is assigned the truck."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(assigned_vehicle(driver, van) -> has_skill(driver, navigation))",
+              "natural": "If the driver is assigned the van, then the driver has navigation skill."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A4 -> A2)",
+              "prover9_expression": "(assigned_vehicle(driver, truck) -> has_skill(driver, alcohol_handling))",
+              "natural": "Whenever the driver is assigned the truck, the driver has alcohol handling skill."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(assigned_vehicle(driver, van) | assigned_vehicle(driver, truck))",
+              "natural": "Either the driver is assigned the van, or the driver is assigned the truck."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(has_skill(driver, navigation) | has_skill(driver, alcohol_handling))",
+              "natural": "Either the driver has navigation skill, or the driver has alcohol handling skill."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_skill(driver, navigation) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has navigation skill, then the delivery of order123 is completed successfully."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(has_skill(driver, alcohol_handling) -> delivery_completed(order123, successful))",
+              "natural": "If the driver has alcohol handling skill, then the delivery of order123 is completed successfully."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The delivery of order123 was completed successfully."
+        }
+      ]
+    }
+  ]
+}

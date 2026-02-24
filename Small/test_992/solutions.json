@@ -1,0 +1,331 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 10
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-(-(A1 | A2) -> -A3) -> A5)",
+              "prover9_expression": "(-(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident)) -> premium_route_selected(suburbs, passenger1))",
+              "natural": "Provided that the absence of vehicle av1 or av2 availability for passenger1 in downtown does not imply the route is unblocked, a premium route in suburbs is selected for passenger1."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(premium_route_selected(suburbs, passenger1) -> alternative_route_available(suburbs, passenger1))",
+              "natural": "In the event that a premium route in suburbs has been selected for passenger1, an alternative route via suburbs is available for passenger1."
+            }
+          ],
+          "conclusion": "(-(-(A1 | A2) -> -A3) -> A4)",
+          "natural": "In the event that the non-availability of both vehicle av1 and av2 for passenger1 in downtown does not lead to the route not being blocked due to an accident, an alternative route via suburbs is available for passenger1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A1 | A2) -> -A3) -> A4)",
+              "prover9_expression": "(-(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident)) -> alternative_route_available(suburbs, passenger1))",
+              "natural": "In the event that the non-availability of both vehicle av1 and av2 for passenger1 in downtown does not lead to the route not being blocked due to an accident, an alternative route via suburbs is available for passenger1."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A4",
+              "prover9_expression": "-alternative_route_available(suburbs, passenger1)",
+              "natural": "An alternative route via suburbs is not available for passenger1."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> -A3)",
+          "natural": "Should it be that neither vehicle av1 nor vehicle av2 is available for passenger1 in downtown, then the route in downtown is not blocked due to an accident."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> route_blocked(downtown, accident))",
+              "natural": "If neither vehicle av1 nor vehicle av2 is available for passenger1 in downtown, then the route in downtown is blocked due to an accident."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident))",
+              "natural": "Should it be that neither vehicle av1 nor vehicle av2 is available for passenger1 in downtown, then the route in downtown is not blocked due to an accident."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either vehicle av1 is available for passenger1 in downtown, or vehicle av2 is available for passenger1 in downtown."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown))",
+              "natural": "Either vehicle av1 is available for passenger1 in downtown, or vehicle av2 is available for passenger1 in downtown."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(vehicle_available(av1, passenger1, downtown) -> ride_confirmed(passenger1, ride_platform))",
+              "natural": "If vehicle av1 is available for passenger1 in downtown, then the ride for passenger1 is confirmed on the ride platform."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(vehicle_available(av2, passenger1, downtown) -> ride_confirmed(passenger1, ride_platform))",
+              "natural": "If vehicle av2 is available for passenger1 in downtown, then the ride for passenger1 is confirmed on the ride platform."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The ride for passenger1 has been confirmed on the ride platform."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(digital_wallet_available(passenger1, wallet_app) | bank_transfer_available(passenger1, banking_app))",
+              "natural": "A digital wallet is available for passenger1 via the wallet app, or bank transfer is available for passenger1 through the banking app."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> -A11)",
+              "prover9_expression": "(digital_wallet_available(passenger1, wallet_app) -> -cash_payment_required(passenger1))",
+              "natural": "Whenever a digital wallet is available for passenger1 via the wallet app, cash payment is not required for passenger1."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> -A11)",
+              "prover9_expression": "(bank_transfer_available(passenger1, banking_app) -> -cash_payment_required(passenger1))",
+              "natural": "Under the condition that bank transfer is available for passenger1 through the banking app, cash payment is not required for passenger1."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that cash payment is required for passenger1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-A10 -> A11)",
+              "prover9_expression": "(-payment_method_verified(passenger1, credit_card) -> cash_payment_required(passenger1))",
+              "natural": "If passenger1's payment method has not been verified to be a credit card, then cash payment is required for passenger1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-cash_payment_required(passenger1)",
+              "natural": "It is not the case that cash payment is required for passenger1."
+            }
+          ],
+          "conclusion": "A10",
+          "natural": "Passenger1's payment method has been verified to be a credit card."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (A9 | -A8))",
+              "prover9_expression": "(payment_method_verified(passenger1, credit_card) -> (discount_available(passenger1, loyalty_program) | -surge_pricing_active(downtown, ride_platform)))",
+              "natural": "Provided that passenger1's payment method has been verified to be a credit card, either a discount is available for passenger1 through the loyalty program, or surge pricing is not active in downtown on the ride platform."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A10",
+              "prover9_expression": "payment_method_verified(passenger1, credit_card)",
+              "natural": "Passenger1's payment method has been verified to be a credit card."
+            }
+          ],
+          "conclusion": "(A9 | -A8)",
+          "natural": "A discount is available for passenger1 through the loyalty program, or surge pricing is not active in downtown on the ride platform."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A9 | -A8)",
+              "prover9_expression": "(discount_available(passenger1, loyalty_program) | -surge_pricing_active(downtown, ride_platform))",
+              "natural": "A discount is available for passenger1 through the loyalty program, or surge pricing is not active in downtown on the ride platform."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A9",
+              "prover9_expression": "-discount_available(passenger1, loyalty_program)",
+              "natural": "A discount is not available for passenger1 through the loyalty program."
+            }
+          ],
+          "conclusion": "-A8",
+          "natural": "Surge pricing is not active in downtown on the ride platform."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A8 | (A7 -> (A6 -> (-(-(A1 | A2) -> -A3) -> A4))))",
+              "prover9_expression": "(surge_pricing_active(downtown, ride_platform) | (payment_verified(passenger1, payment_system) -> (ride_requested(passenger1, ride_platform) -> (-(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident)) -> alternative_route_available(suburbs, passenger1)))))",
+              "natural": "Either surge pricing is active in downtown on the ride platform, or if passenger1's payment has been verified by the payment system, then whenever passenger1 has requested a ride on the ride platform, and the condition that the non-availability of vehicle av1 or av2 for passenger1 in downtown does not entail the route is unblocked, an alternative route via suburbs is available for passenger1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A8",
+              "prover9_expression": "-surge_pricing_active(downtown, ride_platform)",
+              "natural": "Surge pricing is not active in downtown on the ride platform."
+            }
+          ],
+          "conclusion": "(A7 -> (A6 -> (-(-(A1 | A2) -> -A3) -> A4)))",
+          "natural": "Given that passenger1's payment has been verified by the payment system, then if passenger1 has requested a ride on the ride platform, and the circumstance where it is not the case that the lack of availability of either vehicle av1 or av2 for passenger1 in downtown leads to the route not being blocked due to an accident, an alternative route via suburbs is available for passenger1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> (A6 -> (-(-(A1 | A2) -> -A3) -> A4)))",
+              "prover9_expression": "(payment_verified(passenger1, payment_system) -> (ride_requested(passenger1, ride_platform) -> (-(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident)) -> alternative_route_available(suburbs, passenger1))))",
+              "natural": "Given that passenger1's payment has been verified by the payment system, then if passenger1 has requested a ride on the ride platform, and the circumstance where it is not the case that the lack of availability of either vehicle av1 or av2 for passenger1 in downtown leads to the route not being blocked due to an accident, an alternative route via suburbs is available for passenger1."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A7",
+              "prover9_expression": "payment_verified(passenger1, payment_system)",
+              "natural": "Passenger1's payment has been verified by the payment system."
+            }
+          ],
+          "conclusion": "(A6 -> (-(-(A1 | A2) -> -A3) -> A4))",
+          "natural": "If passenger1 has requested a ride on the ride platform, then should it be that the absence of both vehicle av1 and vehicle av2 being available for passenger1 in downtown does not imply the route in downtown is not blocked due to an accident, an alternative route via suburbs becomes available for passenger1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> (-(-(A1 | A2) -> -A3) -> A4))",
+              "prover9_expression": "(ride_requested(passenger1, ride_platform) -> (-(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident)) -> alternative_route_available(suburbs, passenger1)))",
+              "natural": "If passenger1 has requested a ride on the ride platform, then should it be that the absence of both vehicle av1 and vehicle av2 being available for passenger1 in downtown does not imply the route in downtown is not blocked due to an accident, an alternative route via suburbs becomes available for passenger1."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A6",
+              "prover9_expression": "ride_requested(passenger1, ride_platform)",
+              "natural": "Passenger1 has requested a ride on the ride platform."
+            }
+          ],
+          "conclusion": "(-(-(A1 | A2) -> -A3) -> A4)",
+          "natural": "In the event that the non-availability of both vehicle av1 and av2 for passenger1 in downtown does not lead to the route not being blocked due to an accident, an alternative route via suburbs is available for passenger1."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A1 | A2) -> -A3) -> A4)",
+              "prover9_expression": "(-(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident)) -> alternative_route_available(suburbs, passenger1))",
+              "natural": "In the event that the non-availability of both vehicle av1 and av2 for passenger1 in downtown does not lead to the route not being blocked due to an accident, an alternative route via suburbs is available for passenger1."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A4",
+              "prover9_expression": "-alternative_route_available(suburbs, passenger1)",
+              "natural": "An alternative route via suburbs is not available for passenger1."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> -A3)",
+          "natural": "Should it be that neither vehicle av1 nor vehicle av2 is available for passenger1 in downtown, then the route in downtown is not blocked due to an accident."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> route_blocked(downtown, accident))",
+              "natural": "If neither vehicle av1 nor vehicle av2 is available for passenger1 in downtown, then the route in downtown is blocked due to an accident."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown)) -> -route_blocked(downtown, accident))",
+              "natural": "Should it be that neither vehicle av1 nor vehicle av2 is available for passenger1 in downtown, then the route in downtown is not blocked due to an accident."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either vehicle av1 is available for passenger1 in downtown, or vehicle av2 is available for passenger1 in downtown."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(vehicle_available(av1, passenger1, downtown) | vehicle_available(av2, passenger1, downtown))",
+              "natural": "Either vehicle av1 is available for passenger1 in downtown, or vehicle av2 is available for passenger1 in downtown."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(vehicle_available(av1, passenger1, downtown) -> ride_confirmed(passenger1, ride_platform))",
+              "natural": "If vehicle av1 is available for passenger1 in downtown, then the ride for passenger1 is confirmed on the ride platform."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(vehicle_available(av2, passenger1, downtown) -> ride_confirmed(passenger1, ride_platform))",
+              "natural": "If vehicle av2 is available for passenger1 in downtown, then the ride for passenger1 is confirmed on the ride platform."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The ride for passenger1 has been confirmed on the ride platform."
+        }
+      ]
+    }
+  ]
+}

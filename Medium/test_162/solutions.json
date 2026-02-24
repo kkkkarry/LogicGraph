@@ -1,0 +1,703 @@
+{
+  "solution_stats": {
+    "total_solutions": 7,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A5 -> A6) -> A7)",
+              "prover9_expression": "(-(passes_phase(ClinicalTrial, Phase2) -> advances_to(ClinicalTrial, Phase3)) -> requires_redesign(ClinicalTrial, Protocol))",
+              "natural": "If it is not true that passing Phase 2 leads to advancing to Phase 3, then the clinical trial requires redesign of its protocol."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(-(A5 -> A6) -> -A7)",
+              "prover9_expression": "(-(passes_phase(ClinicalTrial, Phase2) -> advances_to(ClinicalTrial, Phase3)) -> -requires_redesign(ClinicalTrial, Protocol))",
+              "natural": "If it is not the case that passing Phase 2 results in advancing to Phase 3, then the clinical trial does not require redesign of its protocol."
+            }
+          ],
+          "conclusion": "(A5 -> A6)",
+          "natural": "If the clinical trial passes Phase 2, then the clinical trial advances to Phase 3."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(passes_phase(ClinicalTrial, Phase2) -> advances_to(ClinicalTrial, Phase3))",
+              "natural": "If the clinical trial passes Phase 2, then the clinical trial advances to Phase 3."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A5 -> -A6)",
+              "prover9_expression": "(passes_phase(ClinicalTrial, Phase2) -> -advances_to(ClinicalTrial, Phase3))",
+              "natural": "If the clinical trial passes Phase 2, then the clinical trial does not advance to Phase 3."
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The clinical trial does not pass Phase 2."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A5 | (A3 | A4))",
+              "prover9_expression": "(passes_phase(ClinicalTrial, Phase2) | (shows_effectiveness(ExperimentalDrug, DiseaseX) | shows_safety(ExperimentalDrug, Patients)))",
+              "natural": "The clinical trial passes Phase 2 or the experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-passes_phase(ClinicalTrial, Phase2)",
+              "natural": "The clinical trial does not pass Phase 2."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "The experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(shows_effectiveness(ExperimentalDrug, DiseaseX) | shows_safety(ExperimentalDrug, Patients))",
+              "natural": "The experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A3 -> -A2)",
+              "prover9_expression": "(shows_effectiveness(ExperimentalDrug, DiseaseX) -> -receives_funding(ClinicalTrial, GovernmentGrant))",
+              "natural": "If the experimental drug shows effectiveness against Disease X, then the clinical trial does not receive funding from a government grant."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A4 -> -A2)",
+              "prover9_expression": "(shows_safety(ExperimentalDrug, Patients) -> -receives_funding(ClinicalTrial, GovernmentGrant))",
+              "natural": "If the experimental drug shows safety in patients, then the clinical trial does not receive funding from a government grant."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The clinical trial does not receive funding from a government grant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-A1 -> A2)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> receives_funding(ClinicalTrial, GovernmentGrant))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the clinical trial receives funding from a government grant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-receives_funding(ClinicalTrial, GovernmentGrant)",
+              "natural": "The clinical trial does not receive funding from a government grant."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The clinical trial has approval from the ethics board."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_approval(ClinicalTrial, EthicsBoard) -> involves_study(ResearchPaper, ClinicalTrial))",
+              "natural": "If the clinical trial has approval from the ethics board, then the research paper involves study of the clinical trial."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_approval(ClinicalTrial, EthicsBoard)",
+              "natural": "The clinical trial has approval from the ethics board."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(submitted_to(ResearchPaper, JournalA) | submitted_to(ResearchPaper, JournalB))",
+              "natural": "The research paper is submitted to Journal A or the research paper is submitted to Journal B."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> (-(-G -> A8) -> A9))",
+              "prover9_expression": "(submitted_to(ResearchPaper, JournalA) -> (-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalA)) -> receives_attention(ResearchPaper, MedicalCommunity)))",
+              "natural": "If the research paper is submitted to Journal A, then under the condition that the absence of the research paper involving the clinical trial study does not lead to publication in Journal A, the research paper receives attention from the medical community."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A11 -> (-(-G -> A8) -> A9))",
+              "prover9_expression": "(submitted_to(ResearchPaper, JournalB) -> (-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalA)) -> receives_attention(ResearchPaper, MedicalCommunity)))",
+              "natural": "If the research paper is submitted to Journal B, then provided that the research paper not involving the clinical trial study does not result in publication in Journal A, the research paper receives attention from the medical community."
+            }
+          ],
+          "conclusion": "(-(-G -> A8) -> A9)",
+          "natural": "If the research paper not involving the clinical trial study does not result in publication in Journal A, then the research paper receives attention from the medical community."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A8) -> A9)",
+              "prover9_expression": "(-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalA)) -> receives_attention(ResearchPaper, MedicalCommunity))",
+              "natural": "If the research paper not involving the clinical trial study does not result in publication in Journal A, then the research paper receives attention from the medical community."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(-(-G -> A8) -> -A9)",
+              "prover9_expression": "(-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalA)) -> -receives_attention(ResearchPaper, MedicalCommunity))",
+              "natural": "If the research paper not involving the clinical trial study does not lead to publication in Journal A, then the research paper does not receive attention from the medical community."
+            }
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "If the research paper does not involve study of the clinical trial, then the research paper gets published in Journal A."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalA))",
+              "natural": "If the research paper does not involve study of the clinical trial, then the research paper gets published in Journal A."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A8",
+              "prover9_expression": "-gets_published(ResearchPaper, JournalA)",
+              "natural": "The research paper does not get published in Journal A."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A14 -> (-(-G -> A12) -> -A13)) -> A16)",
+              "prover9_expression": "(-(contains_data(ResearchPaper, ClinicalResults) -> (-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalB)) -> -influences_policy(ResearchPaper, HealthAuthority))) -> gets_retracted(ResearchPaper))",
+              "natural": "Should it not be the case that containing clinical results data leads to the situation where the absence of the research paper involving the clinical trial study not resulting in publication in Journal B causes the research paper not to influence policy at the health authority, then the research paper gets retracted."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A16",
+              "prover9_expression": "-gets_retracted(ResearchPaper)",
+              "natural": "The research paper does not get retracted."
+            }
+          ],
+          "conclusion": "(A14 -> (-(-G -> A12) -> -A13))",
+          "natural": "If the research paper contains clinical results data, then when the absence of the research paper involving the clinical trial study does not lead to publication in Journal B, the research paper does not influence policy at the health authority."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(contains_data(ResearchPaper, ClinicalResults) | contains_data(ResearchPaper, LaboratoryResults))",
+              "natural": "The research paper contains clinical results data or the research paper contains laboratory results data."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> (-(-G -> A12) -> -A13))",
+              "prover9_expression": "(contains_data(ResearchPaper, ClinicalResults) -> (-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalB)) -> -influences_policy(ResearchPaper, HealthAuthority)))",
+              "natural": "If the research paper contains clinical results data, then when the absence of the research paper involving the clinical trial study does not lead to publication in Journal B, the research paper does not influence policy at the health authority."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> (-(-G -> A12) -> -A13))",
+              "prover9_expression": "(contains_data(ResearchPaper, LaboratoryResults) -> (-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalB)) -> -influences_policy(ResearchPaper, HealthAuthority)))",
+              "natural": "If the research paper contains laboratory results data, then under the condition that the research paper not involving the clinical trial study does not result in publication in Journal B, the research paper does not influence policy at the health authority."
+            }
+          ],
+          "conclusion": "(-(-G -> A12) -> -A13)",
+          "natural": "If the research paper not involving the clinical trial study does not lead to publication in Journal B, then the research paper does not influence policy at the health authority."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(-G -> A12) -> A13)",
+              "prover9_expression": "(-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalB)) -> influences_policy(ResearchPaper, HealthAuthority))",
+              "natural": "If the research paper not involving the clinical trial study does not result in publication in Journal B, then the research paper influences policy at the health authority."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A12) -> -A13)",
+              "prover9_expression": "(-(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalB)) -> -influences_policy(ResearchPaper, HealthAuthority))",
+              "natural": "If the research paper not involving the clinical trial study does not lead to publication in Journal B, then the research paper does not influence policy at the health authority."
+            }
+          ],
+          "conclusion": "(-G -> A12)",
+          "natural": "If the research paper does not involve study of the clinical trial, then the research paper gets published in Journal B."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A12)",
+              "prover9_expression": "(-involves_study(ResearchPaper, ClinicalTrial) -> gets_published(ResearchPaper, JournalB))",
+              "natural": "If the research paper does not involve study of the clinical trial, then the research paper gets published in Journal B."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(-G -> -A12)",
+              "prover9_expression": "(-involves_study(ResearchPaper, ClinicalTrial) -> -gets_published(ResearchPaper, JournalB))",
+              "natural": "If the research paper does not involve study of the clinical trial, then the research paper does not get published in Journal B."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(A19 -> (A18 -> -A17)) -> A20)",
+              "prover9_expression": "(-(completes_review(ResearchPaper, PeerReview) -> (undergoes_review(ResearchPaper, PeerReview) -> -affects_treatment(ResearchPaper, StandardProtocol))) -> gets_accepted(ResearchPaper, Conference))",
+              "natural": "Provided that it is not true that completing peer review results in the situation where undergoing peer review leads to the research paper not affecting the standard treatment protocol, then the research paper gets accepted by a conference."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A19 -> (A18 -> -A17)) -> -A20)",
+              "prover9_expression": "(-(completes_review(ResearchPaper, PeerReview) -> (undergoes_review(ResearchPaper, PeerReview) -> -affects_treatment(ResearchPaper, StandardProtocol))) -> -gets_accepted(ResearchPaper, Conference))",
+              "natural": "Under the condition that it is not the case that completing peer review leads to the situation where undergoing peer review results in the research paper not affecting the standard treatment protocol, then the research paper does not get accepted by a conference."
+            }
+          ],
+          "conclusion": "(A19 -> (A18 -> -A17))",
+          "natural": "If the research paper completes peer review, then when the research paper undergoes peer review, the research paper does not affect the standard treatment protocol."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> (A18 -> -A17))",
+              "prover9_expression": "(completes_review(ResearchPaper, PeerReview) -> (undergoes_review(ResearchPaper, PeerReview) -> -affects_treatment(ResearchPaper, StandardProtocol)))",
+              "natural": "If the research paper completes peer review, then when the research paper undergoes peer review, the research paper does not affect the standard treatment protocol."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A19",
+              "prover9_expression": "completes_review(ResearchPaper, PeerReview)",
+              "natural": "The research paper completes peer review."
+            }
+          ],
+          "conclusion": "(A18 -> -A17)",
+          "natural": "If the research paper undergoes peer review, then the research paper does not affect the standard treatment protocol."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> -A17)",
+              "prover9_expression": "(undergoes_review(ResearchPaper, PeerReview) -> -affects_treatment(ResearchPaper, StandardProtocol))",
+              "natural": "If the research paper undergoes peer review, then the research paper does not affect the standard treatment protocol."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A18",
+              "prover9_expression": "undergoes_review(ResearchPaper, PeerReview)",
+              "natural": "The research paper undergoes peer review."
+            }
+          ],
+          "conclusion": "-A17",
+          "natural": "The research paper does not affect the standard treatment protocol."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(-G -> A17)",
+              "prover9_expression": "(-involves_study(ResearchPaper, ClinicalTrial) -> affects_treatment(ResearchPaper, StandardProtocol))",
+              "natural": "If the research paper does not involve study of the clinical trial, then the research paper affects the standard treatment protocol."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A17",
+              "prover9_expression": "-affects_treatment(ResearchPaper, StandardProtocol)",
+              "natural": "The research paper does not affect the standard treatment protocol."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule27",
+              "prover9": "(-A1 -> A22)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> referenced_in(ResearchPaper, MedicalTextbook))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the research paper is referenced in a medical textbook."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A22 -> A21)",
+              "prover9_expression": "(referenced_in(ResearchPaper, MedicalTextbook) -> cited_by(ResearchPaper, OtherResearchers))",
+              "natural": "If the research paper is referenced in a medical textbook, then the research paper is cited by other researchers."
+            }
+          ],
+          "conclusion": "(-A1 -> A21)",
+          "natural": "If the clinical trial does not have approval from the ethics board, then the research paper is cited by other researchers."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A1 -> A21)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> cited_by(ResearchPaper, OtherResearchers))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the research paper is cited by other researchers."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(-A1 -> -A21)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> -cited_by(ResearchPaper, OtherResearchers))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the research paper is not cited by other researchers."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The clinical trial has approval from the ethics board."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_approval(ClinicalTrial, EthicsBoard) -> involves_study(ResearchPaper, ClinicalTrial))",
+              "natural": "If the clinical trial has approval from the ethics board, then the research paper involves study of the clinical trial."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_approval(ClinicalTrial, EthicsBoard)",
+              "natural": "The clinical trial has approval from the ethics board."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A23 -> A25)",
+              "prover9_expression": "(uses_methodology(ResearchPaper, StatisticalAnalysis) -> employs_technique(ResearchPaper, DoubleBlind))",
+              "natural": "If the research paper uses statistical analysis methodology, then the research paper employs double-blind technique."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A25 -> (A3 | A4))",
+              "prover9_expression": "(employs_technique(ResearchPaper, DoubleBlind) -> (shows_effectiveness(ExperimentalDrug, DiseaseX) | shows_safety(ExperimentalDrug, Patients)))",
+              "natural": "If the research paper employs double-blind technique, then the experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+            }
+          ],
+          "conclusion": "(A23 -> (A3 | A4))",
+          "natural": "If the research paper uses statistical analysis methodology, then the experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A23 | A24)",
+              "prover9_expression": "(uses_methodology(ResearchPaper, StatisticalAnalysis) | uses_methodology(ResearchPaper, CaseStudies))",
+              "natural": "The research paper uses statistical analysis methodology or the research paper uses case studies methodology."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A23 -> (A3 | A4))",
+              "prover9_expression": "(uses_methodology(ResearchPaper, StatisticalAnalysis) -> (shows_effectiveness(ExperimentalDrug, DiseaseX) | shows_safety(ExperimentalDrug, Patients)))",
+              "natural": "If the research paper uses statistical analysis methodology, then the experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A24 -> (A3 | A4))",
+              "prover9_expression": "(uses_methodology(ResearchPaper, CaseStudies) -> (shows_effectiveness(ExperimentalDrug, DiseaseX) | shows_safety(ExperimentalDrug, Patients)))",
+              "natural": "If the research paper uses case studies methodology, then the experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+            }
+          ],
+          "conclusion": "(A3 | A4)",
+          "natural": "The experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(shows_effectiveness(ExperimentalDrug, DiseaseX) | shows_safety(ExperimentalDrug, Patients))",
+              "natural": "The experimental drug shows effectiveness against Disease X or the experimental drug shows safety in patients."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A3 -> -A2)",
+              "prover9_expression": "(shows_effectiveness(ExperimentalDrug, DiseaseX) -> -receives_funding(ClinicalTrial, GovernmentGrant))",
+              "natural": "If the experimental drug shows effectiveness against Disease X, then the clinical trial does not receive funding from a government grant."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A4 -> -A2)",
+              "prover9_expression": "(shows_safety(ExperimentalDrug, Patients) -> -receives_funding(ClinicalTrial, GovernmentGrant))",
+              "natural": "If the experimental drug shows safety in patients, then the clinical trial does not receive funding from a government grant."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The clinical trial does not receive funding from a government grant."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-A1 -> A2)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> receives_funding(ClinicalTrial, GovernmentGrant))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the clinical trial receives funding from a government grant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-receives_funding(ClinicalTrial, GovernmentGrant)",
+              "natural": "The clinical trial does not receive funding from a government grant."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The clinical trial has approval from the ethics board."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_approval(ClinicalTrial, EthicsBoard) -> involves_study(ResearchPaper, ClinicalTrial))",
+              "natural": "If the clinical trial has approval from the ethics board, then the research paper involves study of the clinical trial."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_approval(ClinicalTrial, EthicsBoard)",
+              "natural": "The clinical trial has approval from the ethics board."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A27 -> A28)",
+              "prover9_expression": "(contains_errors(ResearchPaper, DataAnalysis) -> gets_criticized(ResearchPaper, ScientificCommunity))",
+              "natural": "If the research paper contains errors in data analysis, then the research paper gets criticized by the scientific community."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A27 -> -A28)",
+              "prover9_expression": "(contains_errors(ResearchPaper, DataAnalysis) -> -gets_criticized(ResearchPaper, ScientificCommunity))",
+              "natural": "If the research paper contains errors in data analysis, then the research paper does not get criticized by the scientific community."
+            }
+          ],
+          "conclusion": "-A27",
+          "natural": "The research paper does not contain errors in data analysis."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-A1 -> A26) -> A27)",
+              "prover9_expression": "(-(-has_approval(ClinicalTrial, EthicsBoard) -> wins_award(ResearchPaper, ResearchExcellence)) -> contains_errors(ResearchPaper, DataAnalysis))",
+              "natural": "Should the absence of the clinical trial having approval from the ethics board not leading to the research paper winning a research excellence award be false, then the research paper contains errors in data analysis."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A27",
+              "prover9_expression": "-contains_errors(ResearchPaper, DataAnalysis)",
+              "natural": "The research paper does not contain errors in data analysis."
+            }
+          ],
+          "conclusion": "(-A1 -> A26)",
+          "natural": "If the clinical trial does not have approval from the ethics board, then the research paper wins a research excellence award."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A1 -> A26)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> wins_award(ResearchPaper, ResearchExcellence))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the research paper wins a research excellence award."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(-A1 -> -A26)",
+              "prover9_expression": "(-has_approval(ClinicalTrial, EthicsBoard) -> -wins_award(ResearchPaper, ResearchExcellence))",
+              "natural": "If the clinical trial does not have approval from the ethics board, then the research paper does not win a research excellence award."
+            }
+          ],
+          "conclusion": "A1",
+          "natural": "The clinical trial has approval from the ethics board."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(has_approval(ClinicalTrial, EthicsBoard) -> involves_study(ResearchPaper, ClinicalTrial))",
+              "natural": "If the clinical trial has approval from the ethics board, then the research paper involves study of the clinical trial."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A1",
+              "prover9_expression": "has_approval(ClinicalTrial, EthicsBoard)",
+              "natural": "The clinical trial has approval from the ethics board."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The research paper involves study of the clinical trial."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(approved_by_curator(renaissance_painting) | approved_by_conservator(renaissance_painting))",
+        "natural": "The Renaissance painting either receives curator approval or receives conservator approval"
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A6 → G)",
+        "prover9_expression": "(approved_by_conservator(renaissance_painting) -> included_in_exhibition(renaissance_painting))",
+        "natural": "If the Renaissance painting receives conservator approval, then it is included in the major exhibition"
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A8 → ¬A7)",
+        "prover9_expression": "(receives_insurance(renaissance_painting) -> -has_forgery_claim(renaissance_painting))",
+        "natural": "Under the condition that the Renaissance painting receives insurance coverage, then there is no forgery claim against it"
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A9 → A8)",
+        "prover9_expression": "(listed_in_catalog(renaissance_painting) -> receives_insurance(renaissance_painting))",
+        "natural": "Once the Renaissance painting is listed in the exhibition catalog, then it receives insurance coverage"
+      },
+      {
+        "id": "Rule5",
+        "formal": "(¬(A1 → G) → A2)",
+        "prover9_expression": "(-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> is_authentic(renaissance_painting))",
+        "natural": "Should the restoration not result in exhibition inclusion, then the Renaissance painting is certified as authentic"
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A3 → (¬(A1 → G) → ¬A2)) → A4)",
+        "prover9_expression": "(-(passes_uv_test(renaissance_painting) -> (-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> -is_authentic(renaissance_painting))) -> passes_carbon_dating(renaissance_painting))",
+        "natural": "Given that the UV test result does not imply that non-inclusion-after-restoration leads to inauthenticity, then the Renaissance painting passes carbon dating analysis"
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A3 → (¬(A1 → G) → ¬A2)) → ¬A4)",
+        "prover9_expression": "(-(passes_uv_test(renaissance_painting) -> (-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> -is_authentic(renaissance_painting))) -> -passes_carbon_dating(renaissance_painting))",
+        "natural": "Provided that the UV test result does not establish that non-inclusion-after-restoration results in inauthenticity, then the Renaissance painting fails carbon dating analysis"
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A5 → G) → A7)",
+        "prover9_expression": "(-(approved_by_curator(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> has_forgery_claim(renaissance_painting))",
+        "natural": "Under the condition that curator approval does not trigger exhibition inclusion, then there is a forgery claim against the Renaissance painting"
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "is_restored(renaissance_painting)",
+        "natural": "The Renaissance painting has been professionally restored"
+      },
+      {
+        "id": "Fact2",
+        "formal": "A3",
+        "prover9_expression": "passes_uv_test(renaissance_painting)",
+        "natural": "The Renaissance painting passes ultraviolet light testing"
+      },
+      {
+        "id": "Fact3",
+        "formal": "A9",
+        "prover9_expression": "listed_in_catalog(renaissance_painting)",
+        "natural": "The Renaissance painting is listed in the exhibition catalog"
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "included_in_exhibition(renaissance_painting)",
+    "natural": "The Renaissance painting is included in the major exhibition"
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 -> (-(A1 -> G) -> -A2)) -> A4)",
+            "(-(A3 -> (-(A1 -> G) -> -A2)) -> -A4)"
+          ],
+          "conclusion": "(A3 -> (-(A1 -> G) -> -A2))",
+          "natural": "Provided that the Renaissance painting passes ultraviolet light testing, then should the restoration not lead to exhibition inclusion, the painting cannot be considered authentic"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> (-(A1 -> G) -> -A2))",
+            "A3"
+          ],
+          "conclusion": "(-(A1 -> G) -> -A2)",
+          "natural": "If the restoration does not lead to exhibition inclusion, then the Renaissance painting is not certified as authentic"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 -> G) -> A2)",
+            "(-(A1 -> G) -> -A2)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the Renaissance painting has been professionally restored, then it is included in the major exhibition"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The Renaissance painting is included in the major exhibition"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> A8)",
+            "A9"
+          ],
+          "conclusion": "A8",
+          "natural": "The Renaissance painting receives insurance coverage"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> -A7)",
+            "A8"
+          ],
+          "conclusion": "-A7",
+          "natural": "There is no forgery claim against the Renaissance painting"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A5 -> G) -> A7)",
+            "-A7"
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "When the Renaissance painting receives curator approval, then it is included in the major exhibition"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> G)",
+            "(A6 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The Renaissance painting is included in the major exhibition"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "is_restored(renaissance_painting)",
+      "A2": "is_authentic(renaissance_painting)",
+      "A3": "passes_uv_test(renaissance_painting)",
+      "A4": "passes_carbon_dating(renaissance_painting)",
+      "A5": "approved_by_curator(renaissance_painting)",
+      "A6": "approved_by_conservator(renaissance_painting)",
+      "A7": "has_forgery_claim(renaissance_painting)",
+      "A8": "receives_insurance(renaissance_painting)",
+      "A9": "listed_in_catalog(renaissance_painting)",
+      "G": "included_in_exhibition(renaissance_painting)"
+    },
+    "natural_facts": {
+      "A1": "The Renaissance painting has been professionally restored",
+      "A2": "The Renaissance painting is certified as authentic",
+      "A3": "The Renaissance painting passes ultraviolet light testing",
+      "A4": "The Renaissance painting passes carbon dating analysis",
+      "A5": "The Renaissance painting receives curator approval",
+      "A6": "The Renaissance painting receives conservator approval",
+      "A7": "There is a forgery claim against the Renaissance painting",
+      "A8": "The Renaissance painting receives insurance coverage",
+      "A9": "The Renaissance painting is listed in the exhibition catalog",
+      "G": "The Renaissance painting is included in the major exhibition"
+    },
+    "prover9_expressions": [
+      "(is_restored(renaissance_painting) → included_in_exhibition(renaissance_painting))",
+      "(passes_uv_test(renaissance_painting) → (¬(is_restored(renaissance_painting) → included_in_exhibition(renaissance_painting)) → ¬is_authentic(renaissance_painting)))",
+      "(approved_by_curator(renaissance_painting) → included_in_exhibition(renaissance_painting))",
+      "(approved_by_curator(renaissance_painting) ∨ approved_by_conservator(renaissance_painting))",
+      "(approved_by_conservator(renaissance_painting) → included_in_exhibition(renaissance_painting))",
+      "(receives_insurance(renaissance_painting) → ¬has_forgery_claim(renaissance_painting))",
+      "(listed_in_catalog(renaissance_painting) → receives_insurance(renaissance_painting))",
+      "(¬(is_restored(renaissance_painting) → included_in_exhibition(renaissance_painting)) → is_authentic(renaissance_painting))",
+      "(¬(is_restored(renaissance_painting) → included_in_exhibition(renaissance_painting)) → ¬is_authentic(renaissance_painting))",
+      "(¬(passes_uv_test(renaissance_painting) → (¬(is_restored(renaissance_painting) → included_in_exhibition(renaissance_painting)) → ¬is_authentic(renaissance_painting))) → passes_carbon_dating(renaissance_painting))",
+      "(¬(passes_uv_test(renaissance_painting) → (¬(is_restored(renaissance_painting) → included_in_exhibition(renaissance_painting)) → ¬is_authentic(renaissance_painting))) → ¬passes_carbon_dating(renaissance_painting))",
+      "(¬(approved_by_curator(renaissance_painting) → included_in_exhibition(renaissance_painting)) → has_forgery_claim(renaissance_painting))",
+      "is_restored(renaissance_painting)",
+      "passes_uv_test(renaissance_painting)",
+      "receives_insurance(renaissance_painting)",
+      "listed_in_catalog(renaissance_painting)",
+      "included_in_exhibition(renaissance_painting)",
+      "¬has_forgery_claim(renaissance_painting)"
+    ],
+    "natural_expressions": [
+      "If the Renaissance painting has been professionally restored, then it is included in the major exhibition",
+      "Provided that the Renaissance painting passes ultraviolet light testing, then should the restoration not lead to exhibition inclusion, the painting cannot be considered authentic",
+      "When the Renaissance painting receives curator approval, then it is included in the major exhibition",
+      "The Renaissance painting either receives curator approval or receives conservator approval",
+      "If the Renaissance painting receives conservator approval, then it is included in the major exhibition",
+      "Under the condition that the Renaissance painting receives insurance coverage, then there is no forgery claim against it",
+      "Once the Renaissance painting is listed in the exhibition catalog, then it receives insurance coverage",
+      "Should the restoration not result in exhibition inclusion, then the Renaissance painting is certified as authentic",
+      "If the restoration does not lead to exhibition inclusion, then the Renaissance painting is not certified as authentic",
+      "Given that the UV test result does not imply that non-inclusion-after-restoration leads to inauthenticity, then the Renaissance painting passes carbon dating analysis",
+      "Provided that the UV test result does not establish that non-inclusion-after-restoration results in inauthenticity, then the Renaissance painting fails carbon dating analysis",
+      "Under the condition that curator approval does not trigger exhibition inclusion, then there is a forgery claim against the Renaissance painting",
+      "The Renaissance painting has been professionally restored",
+      "The Renaissance painting passes ultraviolet light testing",
+      "The Renaissance painting receives insurance coverage",
+      "The Renaissance painting is listed in the exhibition catalog",
+      "The Renaissance painting is included in the major exhibition",
+      "There is no forgery claim against the Renaissance painting"
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting))",
+        "natural": "If the Renaissance painting has been professionally restored, then it is included in the major exhibition"
+      },
+      "(A3 → (¬(A1 → G) → ¬A2))": {
+        "formal": "(A3 → (¬(A1 → G) → ¬A2))",
+        "prover9": "(A3 -> (-(A1 -> G) -> -A2))",
+        "prover9_expression": "(passes_uv_test(renaissance_painting) -> (-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> -is_authentic(renaissance_painting)))",
+        "natural": "Provided that the Renaissance painting passes ultraviolet light testing, then should the restoration not lead to exhibition inclusion, the painting cannot be considered authentic"
+      },
+      "(A5 → G)": {
+        "formal": "(A5 → G)",
+        "prover9": "(A5 -> G)",
+        "prover9_expression": "(approved_by_curator(renaissance_painting) -> included_in_exhibition(renaissance_painting))",
+        "natural": "When the Renaissance painting receives curator approval, then it is included in the major exhibition"
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(approved_by_curator(renaissance_painting) | approved_by_conservator(renaissance_painting))",
+        "natural": "The Renaissance painting either receives curator approval or receives conservator approval"
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(approved_by_conservator(renaissance_painting) -> included_in_exhibition(renaissance_painting))",
+        "natural": "If the Renaissance painting receives conservator approval, then it is included in the major exhibition"
+      },
+      "(A8 → ¬A7)": {
+        "formal": "(A8 → ¬A7)",
+        "prover9": "(A8 -> -A7)",
+        "prover9_expression": "(receives_insurance(renaissance_painting) -> -has_forgery_claim(renaissance_painting))",
+        "natural": "Under the condition that the Renaissance painting receives insurance coverage, then there is no forgery claim against it"
+      },
+      "(A9 → A8)": {
+        "formal": "(A9 → A8)",
+        "prover9": "(A9 -> A8)",
+        "prover9_expression": "(listed_in_catalog(renaissance_painting) -> receives_insurance(renaissance_painting))",
+        "natural": "Once the Renaissance painting is listed in the exhibition catalog, then it receives insurance coverage"
+      },
+      "(¬(A1 → G) → A2)": {
+        "formal": "(¬(A1 → G) → A2)",
+        "prover9": "(-(A1 -> G) -> A2)",
+        "prover9_expression": "(-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> is_authentic(renaissance_painting))",
+        "natural": "Should the restoration not result in exhibition inclusion, then the Renaissance painting is certified as authentic"
+      },
+      "(¬(A1 → G) → ¬A2)": {
+        "formal": "(¬(A1 → G) → ¬A2)",
+        "prover9": "(-(A1 -> G) -> -A2)",
+        "prover9_expression": "(-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> -is_authentic(renaissance_painting))",
+        "natural": "If the restoration does not lead to exhibition inclusion, then the Renaissance painting is not certified as authentic"
+      },
+      "(¬(A3 → (¬(A1 → G) → ¬A2)) → A4)": {
+        "formal": "(¬(A3 → (¬(A1 → G) → ¬A2)) → A4)",
+        "prover9": "(-(A3 -> (-(A1 -> G) -> -A2)) -> A4)",
+        "prover9_expression": "(-(passes_uv_test(renaissance_painting) -> (-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> -is_authentic(renaissance_painting))) -> passes_carbon_dating(renaissance_painting))",
+        "natural": "Given that the UV test result does not imply that non-inclusion-after-restoration leads to inauthenticity, then the Renaissance painting passes carbon dating analysis"
+      },
+      "(¬(A3 → (¬(A1 → G) → ¬A2)) → ¬A4)": {
+        "formal": "(¬(A3 → (¬(A1 → G) → ¬A2)) → ¬A4)",
+        "prover9": "(-(A3 -> (-(A1 -> G) -> -A2)) -> -A4)",
+        "prover9_expression": "(-(passes_uv_test(renaissance_painting) -> (-(is_restored(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> -is_authentic(renaissance_painting))) -> -passes_carbon_dating(renaissance_painting))",
+        "natural": "Provided that the UV test result does not establish that non-inclusion-after-restoration results in inauthenticity, then the Renaissance painting fails carbon dating analysis"
+      },
+      "(¬(A5 → G) → A7)": {
+        "formal": "(¬(A5 → G) → A7)",
+        "prover9": "(-(A5 -> G) -> A7)",
+        "prover9_expression": "(-(approved_by_curator(renaissance_painting) -> included_in_exhibition(renaissance_painting)) -> has_forgery_claim(renaissance_painting))",
+        "natural": "Under the condition that curator approval does not trigger exhibition inclusion, then there is a forgery claim against the Renaissance painting"
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "is_restored(renaissance_painting)",
+        "natural": "The Renaissance painting has been professionally restored"
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "passes_uv_test(renaissance_painting)",
+        "natural": "The Renaissance painting passes ultraviolet light testing"
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "receives_insurance(renaissance_painting)",
+        "natural": "The Renaissance painting receives insurance coverage"
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "listed_in_catalog(renaissance_painting)",
+        "natural": "The Renaissance painting is listed in the exhibition catalog"
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "included_in_exhibition(renaissance_painting)",
+        "natural": "The Renaissance painting is included in the major exhibition"
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-has_forgery_claim(renaissance_painting)",
+        "natural": "There is no forgery claim against the Renaissance painting"
+      }
+    }
+  }
+}

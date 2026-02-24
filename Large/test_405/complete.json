@@ -1,0 +1,2502 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 12,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 3
+      },
+      "2": {
+        "core": 1,
+        "branch": 3
+      },
+      "3": {
+        "core": 1,
+        "branch": 3
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A11 → A10)",
+        "prover9_expression": "(requires_black_box_warning(drug_x) -> requires_warning_label(drug_x))",
+        "natural": "If drug X requires a black box warning, then drug X requires a warning label."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 ∨ (¬(A9 → G) → A11))",
+        "prover9_expression": "(fast_track_approval(drug_x) | (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_black_box_warning(drug_x)))",
+        "natural": "Either drug X receives fast track approval, or if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a black box warning."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → G)",
+        "prover9_expression": "(phase1_complete(drug_x) -> safe_for_use(drug_x))",
+        "natural": "Provided that phase 1 for drug X is complete, drug X is safe for use."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 → G)",
+        "prover9_expression": "(phase2_complete(drug_x) -> safe_for_use(drug_x))",
+        "natural": "Whenever phase 2 for drug X is complete, drug X is safe for use."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 → A13)",
+        "prover9_expression": "(animal_testing_complete(drug_x) -> phase1_complete(drug_x))",
+        "natural": "If animal testing for drug X is complete, then phase 1 for drug X is complete."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A16 → A14)",
+        "prover9_expression": "(preliminary_human_trials_complete(drug_x) -> phase2_complete(drug_x))",
+        "natural": "In the event that preliminary human trials for drug X are complete, phase 2 for drug X is complete."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A17 → (A15 ∨ A16))",
+        "prover9_expression": "(safety_profile_established(drug_x) -> (animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x)))",
+        "natural": "Should a safety profile for drug X be established, then either animal testing for drug X is complete or preliminary human trials for drug X are complete."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A18 → (A15 ∨ A16))",
+        "prover9_expression": "(efficacy_demonstrated(drug_x) -> (animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x)))",
+        "natural": "Assuming efficacy of drug X is demonstrated, then either animal testing for drug X is complete or preliminary human trials for drug X are complete."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A19 ∨ (A17 ∨ A18))",
+        "prover9_expression": "(market_withdrawal(drug_x) | (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+        "natural": "Drug X is withdrawn from the market, or a safety profile for drug X is established, or efficacy of drug X is demonstrated."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(rejected(drug_x) | pending_review(drug_x))",
+        "natural": "Either drug X is rejected, or drug X is pending review."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A20 ∨ ¬A19)",
+        "prover9_expression": "(voluntary_recall(drug_x) | -market_withdrawal(drug_x))",
+        "natural": "Drug X is voluntarily recalled, or it is not the case that drug X is withdrawn from the market."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A21 → A22)",
+        "prover9_expression": "(regulatory_violation(drug_x) -> fine_imposed(drug_x))",
+        "natural": "Provided that drug X has a regulatory violation, a fine is imposed on drug X."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A21 → A24)",
+        "prover9_expression": "(regulatory_violation(drug_x) -> criminal_charges(drug_x))",
+        "natural": "Whenever drug X has a regulatory violation, criminal charges are filed for drug X."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A21 ∨ (A2 → ¬A1))",
+        "prover9_expression": "(regulatory_violation(drug_x) | (rejected(drug_x) -> -approved(drug_x)))",
+        "natural": "Drug X has a regulatory violation, or if drug X is rejected, then it is not the case that drug X is approved."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A23 → ¬A22)",
+        "prover9_expression": "(license_suspended(drug_x) -> -fine_imposed(drug_x))",
+        "natural": "Should the license for drug X be suspended, then it is not the case that a fine is imposed on drug X."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A24 → A23)",
+        "prover9_expression": "(criminal_charges(drug_x) -> license_suspended(drug_x))",
+        "natural": "If criminal charges are filed for drug X, then the license for drug X is suspended."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A25 → ¬A1)",
+        "prover9_expression": "(patent_protected(drug_x) -> -approved(drug_x))",
+        "natural": "Assuming drug X is patent protected, then it is not the case that drug X is approved."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A27 → ¬A26)",
+        "prover9_expression": "(exclusive_marketing(drug_x) -> -generic_available(drug_x))",
+        "natural": "Provided that drug X has exclusive marketing rights, then it is not the case that a generic version of drug X is available."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A28 → (¬A25 → A27))",
+        "prover9_expression": "(patent_expired(drug_x) -> (-patent_protected(drug_x) -> exclusive_marketing(drug_x)))",
+        "natural": "If the patent for drug X has expired, then if it is not the case that drug X is patent protected, drug X has exclusive marketing rights."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A29 → (¬A25 → A27))",
+        "prover9_expression": "(patent_challenged(drug_x) -> (-patent_protected(drug_x) -> exclusive_marketing(drug_x)))",
+        "natural": "In the event that the patent for drug X is challenged, then if it is not the case that drug X is patent protected, drug X has exclusive marketing rights."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A3 → ¬A1)",
+        "prover9_expression": "(pending_review(drug_x) -> -approved(drug_x))",
+        "natural": "Should drug X be pending review, then it is not the case that drug X is approved."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A30 → A28)",
+        "prover9_expression": "(generic_application_submitted(drug_x) -> patent_expired(drug_x))",
+        "natural": "If a generic application for drug X is submitted, then the patent for drug X has expired."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A31 → A29)",
+        "prover9_expression": "(biosimilar_application_submitted(drug_x) -> patent_challenged(drug_x))",
+        "natural": "Provided that a biosimilar application for drug X is submitted, then the patent for drug X is challenged."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A33 → A32)",
+        "prover9_expression": "(price_reduction(drug_x) -> competitive_market_entry(drug_x))",
+        "natural": "Whenever the price of drug X is reduced, competitive market entry occurs for drug X."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A33 ∨ A34)",
+        "prover9_expression": "(price_reduction(drug_x) | market_share_loss(drug_x))",
+        "natural": "The price of drug X is reduced, or drug X experiences market share loss."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A36 ∨ ¬A4)",
+        "prover9_expression": "(orphan_drug_status(drug_x) | -requires_clinical_trial(drug_x))",
+        "natural": "Drug X has orphan drug status, or it is not the case that drug X requires a clinical trial."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A37 → ¬A36)",
+        "prover9_expression": "(rare_disease_indication(drug_x) -> -orphan_drug_status(drug_x))",
+        "natural": "If drug X has a rare disease indication, then it is not the case that drug X has orphan drug status."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A37 ∨ A38)",
+        "prover9_expression": "(rare_disease_indication(drug_x) | unmet_medical_need(drug_x))",
+        "natural": "Either drug X has a rare disease indication, or drug X addresses an unmet medical need."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A38 → ¬A36)",
+        "prover9_expression": "(unmet_medical_need(drug_x) -> -orphan_drug_status(drug_x))",
+        "natural": "In case drug X addresses an unmet medical need, then it is not the case that drug X has orphan drug status."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A39 → G)",
+        "prover9_expression": "(requires_monitoring(drug_x) -> safe_for_use(drug_x))",
+        "natural": "Provided that drug X requires monitoring, then drug X is safe for use."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A40 → (A9 → A39))",
+        "prover9_expression": "(post_market_surveillance(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x)))",
+        "natural": "Should drug X be under post-market surveillance, then if drug X has mild side effects, drug X requires monitoring."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(A40 ∨ A41)",
+        "prover9_expression": "(post_market_surveillance(drug_x) | risk_management_program(drug_x))",
+        "natural": "Drug X is under post-market surveillance, or drug X has a risk management program."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(A43 → (¬(A9 → G) → A10))",
+        "prover9_expression": "(adverse_event_reporting(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x)))",
+        "natural": "Assuming adverse event reporting is conducted for drug X, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires a warning label."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(A43 ∨ A44)",
+        "prover9_expression": "(adverse_event_reporting(drug_x) | patient_registry(drug_x))",
+        "natural": "Adverse event reporting is conducted for drug X, or a patient registry exists for drug X."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(A46 ∨ A47)",
+        "prover9_expression": "(audit_scheduled(drug_x) | inspection_required(drug_x))",
+        "natural": "Either an audit is scheduled for drug X, or an inspection is required for drug X."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(A47 → (¬(A44 → (¬(A9 → G) → A10)) → A45))",
+        "prover9_expression": "(inspection_required(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x)))",
+        "natural": "Whenever an inspection is required for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(A48 → (A46 → (¬(A44 → (¬(A9 → G) → A10)) → A45)))",
+        "prover9_expression": "(compliance_certified(drug_x) -> (audit_scheduled(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x))))",
+        "natural": "Should drug X be compliance certified, then if an audit is scheduled for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(A50 → A49)",
+        "prover9_expression": "(special_handling(drug_x) -> restricted_distribution(drug_x))",
+        "natural": "If drug X requires special handling, then drug X has restricted distribution."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(A51 → (¬(A9 → G) → A50))",
+        "prover9_expression": "(controlled_substance(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> special_handling(drug_x)))",
+        "natural": "Provided that drug X is a controlled substance, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires special handling."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(A52 → A54)",
+        "prover9_expression": "(prescription_required(drug_x) -> specialist_referral(drug_x))",
+        "natural": "If a prescription is required for drug X, then a specialist referral is required for drug X."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(A52 → ¬A53)",
+        "prover9_expression": "(prescription_required(drug_x) -> -physician_authorization(drug_x))",
+        "natural": "In case a prescription is required for drug X, then it is not the case that physician authorization is needed for drug X."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(A54 → A53)",
+        "prover9_expression": "(specialist_referral(drug_x) -> physician_authorization(drug_x))",
+        "natural": "Should a specialist referral be required for drug X, then physician authorization is needed for drug X."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(A56 → A58)",
+        "prover9_expression": "(quality_control_issue(drug_x) -> batch_recall(drug_x))",
+        "natural": "If drug X has a quality control issue, then a batch recall is issued for drug X."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(A56 ∨ A57)",
+        "prover9_expression": "(quality_control_issue(drug_x) | contamination_risk(drug_x))",
+        "natural": "Either drug X has a quality control issue, or drug X has a contamination risk."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(A57 → (A55 ∨ ¬A19))",
+        "prover9_expression": "(contamination_risk(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "Provided that drug X has a contamination risk, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(A58 → (A55 ∨ ¬A19))",
+        "prover9_expression": "(batch_recall(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "In the event that a batch recall is issued for drug X, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(A60 ∨ A61)",
+        "prover9_expression": "(production_halt(drug_x) | raw_material_shortage(drug_x))",
+        "natural": "Either production of drug X is halted, or drug X has a raw material shortage."
+      },
+      {
+        "id": "Rule48",
+        "formal": "(A61 → (A17 ∨ A18))",
+        "prover9_expression": "(raw_material_shortage(drug_x) -> (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+        "natural": "Should drug X have a raw material shortage, then either a safety profile for drug X is established or efficacy of drug X is demonstrated."
+      },
+      {
+        "id": "Rule49",
+        "formal": "(A62 → (A60 → A59))",
+        "prover9_expression": "(manufacturing_audit(drug_x) -> (production_halt(drug_x) -> supply_shortage(drug_x)))",
+        "natural": "If a manufacturing audit is conducted for drug X, then if production of drug X is halted, drug X has a supply shortage."
+      },
+      {
+        "id": "Rule50",
+        "formal": "(A62 ∨ A63)",
+        "prover9_expression": "(manufacturing_audit(drug_x) | process_validation(drug_x))",
+        "natural": "A manufacturing audit is conducted for drug X, or process validation is performed for drug X."
+      },
+      {
+        "id": "Rule51",
+        "formal": "(A63 → (A60 → A59))",
+        "prover9_expression": "(process_validation(drug_x) -> (production_halt(drug_x) -> supply_shortage(drug_x)))",
+        "natural": "Provided that process validation is performed for drug X, then if production of drug X is halted, drug X has a supply shortage."
+      },
+      {
+        "id": "Rule52",
+        "formal": "(A65 → (A64 ∨ ¬A19))",
+        "prover9_expression": "(shelf_life_reduction(drug_x) -> (stability_issue(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "In case the shelf life of drug X is reduced, then either drug X has a stability issue or it is not the case that drug X is withdrawn from the market."
+      },
+      {
+        "id": "Rule53",
+        "formal": "(A66 → A65)",
+        "prover9_expression": "(storage_requirements(drug_x) -> shelf_life_reduction(drug_x))",
+        "natural": "If drug X has storage requirements, then the shelf life of drug X is reduced."
+      },
+      {
+        "id": "Rule54",
+        "formal": "(A67 → A66)",
+        "prover9_expression": "(temperature_sensitive(drug_x) -> storage_requirements(drug_x))",
+        "natural": "Whenever drug X is temperature sensitive, then drug X has storage requirements."
+      },
+      {
+        "id": "Rule55",
+        "formal": "(A8 → A7)",
+        "prover9_expression": "(severe_side_effects(drug_x) -> has_side_effects(drug_x))",
+        "natural": "Provided that drug X has severe side effects, then drug X has side effects."
+      },
+      {
+        "id": "Rule56",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(severe_side_effects(drug_x) | mild_side_effects(drug_x))",
+        "natural": "Drug X has severe side effects, or drug X has mild side effects."
+      },
+      {
+        "id": "Rule57",
+        "formal": "(¬(A2 → ¬A1) → A4)",
+        "prover9_expression": "(-(rejected(drug_x) -> -approved(drug_x)) -> requires_clinical_trial(drug_x))",
+        "natural": "If it is not the case that if drug X is rejected, then it is not the case that drug X is approved, then drug X requires a clinical trial."
+      },
+      {
+        "id": "Rule58",
+        "formal": "(¬(A34 → (A30 ∨ A31)) → A35)",
+        "prover9_expression": "(-(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))) -> profitability_decline(drug_x))",
+        "natural": "Should it not be the case that if drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted, then profitability of drug X declines."
+      },
+      {
+        "id": "Rule59",
+        "formal": "(¬(A34 → (A30 ∨ A31)) → ¬A35)",
+        "prover9_expression": "(-(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))) -> -profitability_decline(drug_x))",
+        "natural": "If it is not the case that if drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted, then it is not the case that profitability of drug X declines."
+      },
+      {
+        "id": "Rule60",
+        "formal": "(¬(A4 → A5) → A6)",
+        "prover9_expression": "(-(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x)) -> clinical_trial_failed(drug_x))",
+        "natural": "Provided that it is not the case that if drug X requires a clinical trial, then the clinical trial for drug X is completed, then the clinical trial for drug X has failed."
+      },
+      {
+        "id": "Rule61",
+        "formal": "(¬(A4 → A5) → ¬A6)",
+        "prover9_expression": "(-(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x)) -> -clinical_trial_failed(drug_x))",
+        "natural": "In the event that it is not the case that if drug X requires a clinical trial, then the clinical trial for drug X is completed, then it is not the case that the clinical trial for drug X has failed."
+      },
+      {
+        "id": "Rule62",
+        "formal": "(¬(A41 → (A9 → A39)) → A42)",
+        "prover9_expression": "(-(risk_management_program(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x))) -> safety_concerns(drug_x))",
+        "natural": "Assuming it is not the case that if drug X has a risk management program, then if drug X has mild side effects, drug X requires monitoring, then there are safety concerns for drug X."
+      },
+      {
+        "id": "Rule63",
+        "formal": "(¬(A44 → (¬(A9 → G) → A10)) → ¬A45)",
+        "prover9_expression": "(-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> -data_integrity_issue(drug_x))",
+        "natural": "Should it not be the case that if a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then it is not the case that drug X has a data integrity issue."
+      },
+      {
+        "id": "Rule64",
+        "formal": "(¬(A9 → G) → ¬A10)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> -requires_warning_label(drug_x))",
+        "natural": "If the absence of mild side effects does not imply drug X is safe for use, then it is not the case that drug X requires a warning label."
+      },
+      {
+        "id": "Rule65",
+        "formal": "(¬(A9 → G) → ¬A49)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> -restricted_distribution(drug_x))",
+        "natural": "Assuming the absence of mild side effects does not imply drug X is safe for use, then it is not the case that drug X has restricted distribution."
+      },
+      {
+        "id": "Rule66",
+        "formal": "(¬A25 → A26)",
+        "prover9_expression": "(-patent_protected(drug_x) -> generic_available(drug_x))",
+        "natural": "Should it not be the case that drug X is patent protected, then a generic version of drug X is available."
+      },
+      {
+        "id": "Rule67",
+        "formal": "(¬A51 → A52)",
+        "prover9_expression": "(-controlled_substance(drug_x) -> prescription_required(drug_x))",
+        "natural": "In the event that it is not the case that drug X is a controlled substance, then a prescription is required for drug X."
+      },
+      {
+        "id": "Rule68",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-safe_for_use(drug_x) -> approved(drug_x))",
+        "natural": "If it is not the case that drug X is safe for use, then drug X is approved."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A48",
+        "prover9_expression": "compliance_certified(drug_x)",
+        "natural": "Drug X is compliance certified."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A67",
+        "prover9_expression": "temperature_sensitive(drug_x)",
+        "natural": "Drug X is temperature sensitive."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A12",
+        "prover9_expression": "-fast_track_approval(drug_x)",
+        "natural": "It is not the case that drug X receives fast track approval."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A20",
+        "prover9_expression": "-voluntary_recall(drug_x)",
+        "natural": "It is not the case that drug X is voluntarily recalled."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A32",
+        "prover9_expression": "-competitive_market_entry(drug_x)",
+        "natural": "It is not the case that competitive market entry occurs for drug X."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A42",
+        "prover9_expression": "-safety_concerns(drug_x)",
+        "natural": "It is not the case that there are safety concerns for drug X."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A5",
+        "prover9_expression": "-clinical_trial_completed(drug_x)",
+        "natural": "It is not the case that the clinical trial for drug X is completed."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A55",
+        "prover9_expression": "-manufacturing_defect(drug_x)",
+        "natural": "It is not the case that drug X has a manufacturing defect."
+      },
+      {
+        "id": "Fact9",
+        "formal": "¬A59",
+        "prover9_expression": "-supply_shortage(drug_x)",
+        "natural": "It is not the case that drug X has a supply shortage."
+      },
+      {
+        "id": "Fact10",
+        "formal": "¬A64",
+        "prover9_expression": "-stability_issue(drug_x)",
+        "natural": "It is not the case that drug X has a stability issue."
+      },
+      {
+        "id": "Fact11",
+        "formal": "¬A7",
+        "prover9_expression": "-has_side_effects(drug_x)",
+        "natural": "It is not the case that drug X has side effects."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "safe_for_use(drug_x)",
+    "natural": "Drug X is safe for use."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 -> A5) -> A6)",
+            "(-(A4 -> A5) -> -A6)"
+          ],
+          "conclusion": "(A4 -> A5)",
+          "natural": "If drug X requires a clinical trial, then the clinical trial for drug X is completed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A4 -> A5)",
+            "-A5"
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that drug X requires a clinical trial."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> -A1) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If drug X is rejected, then it is not the case that drug X is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | (-(A9 -> G) -> A11))",
+            "-A12"
+          ],
+          "conclusion": "(-(A9 -> G) -> A11)",
+          "natural": "Provided that the absence of mild side effects does not imply drug X is safe for use, then drug X requires a black box warning."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A9 -> G) -> A11)",
+            "(A11 -> A10)"
+          ],
+          "conclusion": "(-(A9 -> G) -> A10)",
+          "natural": "If the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A9 -> G) -> A10)",
+            "(-(A9 -> G) -> -A10)"
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If drug X has mild side effects, then drug X is safe for use."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A7)",
+            "(A9 -> G)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either drug X has side effects, or drug X is safe for use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A20 | -A19)",
+            "-A20"
+          ],
+          "conclusion": "-A19",
+          "natural": "It is not the case that drug X is withdrawn from the market."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | (A17 | A18))",
+            "-A19"
+          ],
+          "conclusion": "(A17 | A18)",
+          "natural": "A safety profile for drug X is established, or efficacy of drug X is demonstrated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> (A15 | A16))",
+            "(A18 -> (A15 | A16))"
+          ],
+          "conclusion": "(A15 | A16)",
+          "natural": "Animal testing for drug X is complete, or preliminary human trials for drug X are complete."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A15 -> A13)",
+            "(A16 -> A14)",
+            "(A15 | A16)"
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either phase 1 for drug X is complete, or phase 2 for drug X is complete."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> G)",
+            "(A14 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A21 -> A24)",
+            "(A24 -> A23)"
+          ],
+          "conclusion": "(A21 -> A23)",
+          "natural": "If drug X has a regulatory violation, then the license for drug X is suspended."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A21 -> A23)",
+            "(A23 -> -A22)"
+          ],
+          "conclusion": "(A21 -> -A22)",
+          "natural": "In case drug X has a regulatory violation, then it is not the case that a fine is imposed on drug X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A21 -> A22)",
+            "(A21 -> -A22)"
+          ],
+          "conclusion": "-A21",
+          "natural": "It is not the case that drug X has a regulatory violation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A21 | (A2 -> -A1))",
+            "-A21"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If drug X is rejected, then it is not the case that drug X is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A34 -> (A30 | A31)) -> A35)",
+            "(-(A34 -> (A30 | A31)) -> -A35)"
+          ],
+          "conclusion": "(A34 -> (A30 | A31))",
+          "natural": "Assuming drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A33 -> A32)",
+            "(A34 -> (A30 | A31))",
+            "(A33 | A34)"
+          ],
+          "conclusion": "(A32 | (A30 | A31))",
+          "natural": "Competitive market entry occurs for drug X, or a generic application for drug X is submitted, or a biosimilar application for drug X is submitted."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A32 | (A30 | A31))",
+            "-A32"
+          ],
+          "conclusion": "(A30 | A31)",
+          "natural": "Either a generic application for drug X is submitted, or a biosimilar application for drug X is submitted."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A30 -> A28)",
+            "(A31 -> A29)",
+            "(A30 | A31)"
+          ],
+          "conclusion": "(A28 | A29)",
+          "natural": "Either the patent for drug X has expired, or the patent for drug X is challenged."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A28 | A29)",
+            "(A28 -> (-A25 -> A27))",
+            "(A29 -> (-A25 -> A27))"
+          ],
+          "conclusion": "(-A25 -> A27)",
+          "natural": "If it is not the case that drug X is patent protected, then drug X has exclusive marketing rights."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A25 -> A27)",
+            "(A27 -> -A26)"
+          ],
+          "conclusion": "(-A25 -> -A26)",
+          "natural": "Provided that it is not the case that drug X is patent protected, then it is not the case that a generic version of drug X is available."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A25 -> A26)",
+            "(-A25 -> -A26)"
+          ],
+          "conclusion": "A25",
+          "natural": "Drug X is patent protected."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A25 -> -A1)",
+            "A25"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A37 | A38)",
+            "(A37 -> -A36)",
+            "(A38 -> -A36)"
+          ],
+          "conclusion": "-A36",
+          "natural": "It is not the case that drug X has orphan drug status."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A36 | -A4)",
+            "-A36"
+          ],
+          "conclusion": "-A4",
+          "natural": "It is not the case that drug X requires a clinical trial."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> -A1) -> A4)",
+            "-A4"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If drug X is rejected, then it is not the case that drug X is approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> -A1)",
+            "(A3 -> -A1)"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that drug X is approved."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A1)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A41 -> (A9 -> A39)) -> A42)",
+            "-A42"
+          ],
+          "conclusion": "(A41 -> (A9 -> A39))",
+          "natural": "In the event that drug X has a risk management program, then if drug X has mild side effects, drug X requires monitoring."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A40 | A41)",
+            "(A40 -> (A9 -> A39))",
+            "(A41 -> (A9 -> A39))"
+          ],
+          "conclusion": "(A9 -> A39)",
+          "natural": "Assuming drug X has mild side effects, then drug X requires monitoring."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A9 -> A39)",
+            "(A39 -> G)"
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If drug X has mild side effects, then drug X is safe for use."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A7)",
+            "(A9 -> G)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either drug X has side effects, or drug X is safe for use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A48 -> (A46 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45)))",
+            "A48"
+          ],
+          "conclusion": "(A46 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45))",
+          "natural": "If an audit is scheduled for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A46 | A47)",
+            "(A46 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45))",
+            "(A47 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45))"
+          ],
+          "conclusion": "(-(A44 -> (-(A9 -> G) -> A10)) -> A45)",
+          "natural": "If it is not the case that if a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A44 -> (-(A9 -> G) -> A10)) -> A45)",
+            "(-(A44 -> (-(A9 -> G) -> A10)) -> -A45)"
+          ],
+          "conclusion": "(A44 -> (-(A9 -> G) -> A10))",
+          "natural": "Provided that a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires a warning label."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A43 | A44)",
+            "(A43 -> (-(A9 -> G) -> A10))",
+            "(A44 -> (-(A9 -> G) -> A10))"
+          ],
+          "conclusion": "(-(A9 -> G) -> A10)",
+          "natural": "If the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A9 -> G) -> A10)",
+            "(-(A9 -> G) -> -A10)"
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If drug X has mild side effects, then drug X is safe for use."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A7)",
+            "(A9 -> G)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either drug X has side effects, or drug X is safe for use."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A52 -> A54)",
+            "(A54 -> A53)"
+          ],
+          "conclusion": "(A52 -> A53)",
+          "natural": "Assuming a prescription is required for drug X, then physician authorization is needed for drug X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A52 -> A53)",
+            "(A52 -> -A53)"
+          ],
+          "conclusion": "-A52",
+          "natural": "It is not the case that a prescription is required for drug X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A51 -> A52)",
+            "-A52"
+          ],
+          "conclusion": "A51",
+          "natural": "Drug X is a controlled substance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A51 -> (-(A9 -> G) -> A50))",
+            "A51"
+          ],
+          "conclusion": "(-(A9 -> G) -> A50)",
+          "natural": "Whenever the absence of mild side effects does not imply drug X is safe for use, then drug X requires special handling."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A9 -> G) -> A50)",
+            "(A50 -> A49)"
+          ],
+          "conclusion": "(-(A9 -> G) -> A49)",
+          "natural": "In case the absence of mild side effects does not imply drug X is safe for use, then drug X has restricted distribution."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A9 -> G) -> A49)",
+            "(-(A9 -> G) -> -A49)"
+          ],
+          "conclusion": "(A9 -> G)",
+          "natural": "If drug X has mild side effects, then drug X is safe for use."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A7)",
+            "(A9 -> G)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A7 | G)",
+          "natural": "Either drug X has side effects, or drug X is safe for use."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A56 -> A58)",
+            "(A58 -> (A55 | -A19))"
+          ],
+          "conclusion": "(A56 -> (A55 | -A19))",
+          "natural": "Whenever drug X has a quality control issue, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A56 | A57)",
+            "(A56 -> (A55 | -A19))",
+            "(A57 -> (A55 | -A19))"
+          ],
+          "conclusion": "(A55 | -A19)",
+          "natural": "Drug X has a manufacturing defect, or it is not the case that drug X is withdrawn from the market."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A55 | -A19)",
+            "-A55"
+          ],
+          "conclusion": "-A19",
+          "natural": "It is not the case that drug X is withdrawn from the market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | (A17 | A18))",
+            "-A19"
+          ],
+          "conclusion": "(A17 | A18)",
+          "natural": "A safety profile for drug X is established, or efficacy of drug X is demonstrated."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> (A15 | A16))",
+            "(A18 -> (A15 | A16))"
+          ],
+          "conclusion": "(A15 | A16)",
+          "natural": "Animal testing for drug X is complete, or preliminary human trials for drug X are complete."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A15 -> A13)",
+            "(A16 -> A14)",
+            "(A15 | A16)"
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either phase 1 for drug X is complete, or phase 2 for drug X is complete."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> G)",
+            "(A14 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A62 | A63)",
+            "(A62 -> (A60 -> A59))",
+            "(A63 -> (A60 -> A59))"
+          ],
+          "conclusion": "(A60 -> A59)",
+          "natural": "Assuming production of drug X is halted, then drug X has a supply shortage."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A60 -> A59)",
+            "(A61 -> (A17 | A18))",
+            "(A60 | A61)"
+          ],
+          "conclusion": "(A59 | (A17 | A18))",
+          "natural": "Drug X has a supply shortage, or a safety profile for drug X is established, or efficacy of drug X is demonstrated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A59 | (A17 | A18))",
+            "-A59"
+          ],
+          "conclusion": "(A17 | A18)",
+          "natural": "A safety profile for drug X is established, or efficacy of drug X is demonstrated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> (A15 | A16))",
+            "(A18 -> (A15 | A16))"
+          ],
+          "conclusion": "(A15 | A16)",
+          "natural": "Animal testing for drug X is complete, or preliminary human trials for drug X are complete."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A15 -> A13)",
+            "(A16 -> A14)",
+            "(A15 | A16)"
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either phase 1 for drug X is complete, or phase 2 for drug X is complete."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> G)",
+            "(A14 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A67 -> A66)",
+            "A67"
+          ],
+          "conclusion": "A66",
+          "natural": "Drug X has storage requirements."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A66 -> A65)",
+            "A66"
+          ],
+          "conclusion": "A65",
+          "natural": "The shelf life of drug X is reduced."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A65 -> (A64 | -A19))",
+            "A65"
+          ],
+          "conclusion": "(A64 | -A19)",
+          "natural": "Drug X has a stability issue, or it is not the case that drug X is withdrawn from the market."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A64 | -A19)",
+            "-A64"
+          ],
+          "conclusion": "-A19",
+          "natural": "It is not the case that drug X is withdrawn from the market."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | (A17 | A18))",
+            "-A19"
+          ],
+          "conclusion": "(A17 | A18)",
+          "natural": "A safety profile for drug X is established, or efficacy of drug X is demonstrated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A17 | A18)",
+            "(A17 -> (A15 | A16))",
+            "(A18 -> (A15 | A16))"
+          ],
+          "conclusion": "(A15 | A16)",
+          "natural": "Animal testing for drug X is complete, or preliminary human trials for drug X are complete."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A15 -> A13)",
+            "(A16 -> A14)",
+            "(A15 | A16)"
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either phase 1 for drug X is complete, or phase 2 for drug X is complete."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> G)",
+            "(A14 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Drug X is safe for use."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Regulatory Compliance",
+    "atomic_facts": {
+      "A1": "approved(drug_x)",
+      "A2": "rejected(drug_x)",
+      "A3": "pending_review(drug_x)",
+      "A4": "requires_clinical_trial(drug_x)",
+      "A5": "clinical_trial_completed(drug_x)",
+      "A6": "clinical_trial_failed(drug_x)",
+      "A7": "has_side_effects(drug_x)",
+      "A8": "severe_side_effects(drug_x)",
+      "A9": "mild_side_effects(drug_x)",
+      "A10": "requires_warning_label(drug_x)",
+      "A11": "requires_black_box_warning(drug_x)",
+      "A12": "fast_track_approval(drug_x)",
+      "A13": "phase1_complete(drug_x)",
+      "A14": "phase2_complete(drug_x)",
+      "A15": "animal_testing_complete(drug_x)",
+      "A16": "preliminary_human_trials_complete(drug_x)",
+      "A17": "safety_profile_established(drug_x)",
+      "A18": "efficacy_demonstrated(drug_x)",
+      "A19": "market_withdrawal(drug_x)",
+      "A20": "voluntary_recall(drug_x)",
+      "A21": "regulatory_violation(drug_x)",
+      "A22": "fine_imposed(drug_x)",
+      "A23": "license_suspended(drug_x)",
+      "A24": "criminal_charges(drug_x)",
+      "A25": "patent_protected(drug_x)",
+      "A26": "generic_available(drug_x)",
+      "A27": "exclusive_marketing(drug_x)",
+      "A28": "patent_expired(drug_x)",
+      "A29": "patent_challenged(drug_x)",
+      "A30": "generic_application_submitted(drug_x)",
+      "A31": "biosimilar_application_submitted(drug_x)",
+      "A32": "competitive_market_entry(drug_x)",
+      "A33": "price_reduction(drug_x)",
+      "A34": "market_share_loss(drug_x)",
+      "A35": "profitability_decline(drug_x)",
+      "A36": "orphan_drug_status(drug_x)",
+      "A37": "rare_disease_indication(drug_x)",
+      "A38": "unmet_medical_need(drug_x)",
+      "A39": "requires_monitoring(drug_x)",
+      "A40": "post_market_surveillance(drug_x)",
+      "A41": "risk_management_program(drug_x)",
+      "A42": "safety_concerns(drug_x)",
+      "A43": "adverse_event_reporting(drug_x)",
+      "A44": "patient_registry(drug_x)",
+      "A45": "data_integrity_issue(drug_x)",
+      "A46": "audit_scheduled(drug_x)",
+      "A47": "inspection_required(drug_x)",
+      "A48": "compliance_certified(drug_x)",
+      "A49": "restricted_distribution(drug_x)",
+      "A50": "special_handling(drug_x)",
+      "A51": "controlled_substance(drug_x)",
+      "A52": "prescription_required(drug_x)",
+      "A53": "physician_authorization(drug_x)",
+      "A54": "specialist_referral(drug_x)",
+      "A55": "manufacturing_defect(drug_x)",
+      "A56": "quality_control_issue(drug_x)",
+      "A57": "contamination_risk(drug_x)",
+      "A58": "batch_recall(drug_x)",
+      "A59": "supply_shortage(drug_x)",
+      "A60": "production_halt(drug_x)",
+      "A61": "raw_material_shortage(drug_x)",
+      "A62": "manufacturing_audit(drug_x)",
+      "A63": "process_validation(drug_x)",
+      "A64": "stability_issue(drug_x)",
+      "A65": "shelf_life_reduction(drug_x)",
+      "A66": "storage_requirements(drug_x)",
+      "A67": "temperature_sensitive(drug_x)",
+      "G": "safe_for_use(drug_x)"
+    },
+    "natural_facts": {
+      "A1": "Drug X is approved.",
+      "A2": "Drug X is rejected.",
+      "A3": "Drug X is pending review.",
+      "A4": "Drug X requires a clinical trial.",
+      "A5": "The clinical trial for drug X is completed.",
+      "A6": "The clinical trial for drug X has failed.",
+      "A7": "Drug X has side effects.",
+      "A8": "Drug X has severe side effects.",
+      "A9": "Drug X has mild side effects.",
+      "A10": "Drug X requires a warning label.",
+      "A11": "Drug X requires a black box warning.",
+      "A12": "Drug X receives fast track approval.",
+      "A13": "Phase 1 for drug X is complete.",
+      "A14": "Phase 2 for drug X is complete.",
+      "A15": "Animal testing for drug X is complete.",
+      "A16": "Preliminary human trials for drug X are complete.",
+      "A17": "A safety profile for drug X is established.",
+      "A18": "Efficacy of drug X is demonstrated.",
+      "A19": "Drug X is withdrawn from the market.",
+      "A20": "Drug X is voluntarily recalled.",
+      "A21": "Drug X has a regulatory violation.",
+      "A22": "A fine is imposed on drug X.",
+      "A23": "The license for drug X is suspended.",
+      "A24": "Criminal charges are filed for drug X.",
+      "A25": "Drug X is patent protected.",
+      "A26": "A generic version of drug X is available.",
+      "A27": "Drug X has exclusive marketing rights.",
+      "A28": "The patent for drug X has expired.",
+      "A29": "The patent for drug X is challenged.",
+      "A30": "A generic application for drug X is submitted.",
+      "A31": "A biosimilar application for drug X is submitted.",
+      "A32": "Competitive market entry occurs for drug X.",
+      "A33": "The price of drug X is reduced.",
+      "A34": "Drug X experiences market share loss.",
+      "A35": "Profitability of drug X declines.",
+      "A36": "Drug X has orphan drug status.",
+      "A37": "Drug X has a rare disease indication.",
+      "A38": "Drug X addresses an unmet medical need.",
+      "A39": "Drug X requires monitoring.",
+      "A40": "Drug X is under post-market surveillance.",
+      "A41": "Drug X has a risk management program.",
+      "A42": "There are safety concerns for drug X.",
+      "A43": "Adverse event reporting is conducted for drug X.",
+      "A44": "A patient registry exists for drug X.",
+      "A45": "Drug X has a data integrity issue.",
+      "A46": "An audit is scheduled for drug X.",
+      "A47": "An inspection is required for drug X.",
+      "A48": "Drug X is compliance certified.",
+      "A49": "Drug X has restricted distribution.",
+      "A50": "Drug X requires special handling.",
+      "A51": "Drug X is a controlled substance.",
+      "A52": "A prescription is required for drug X.",
+      "A53": "Physician authorization is needed for drug X.",
+      "A54": "A specialist referral is required for drug X.",
+      "A55": "Drug X has a manufacturing defect.",
+      "A56": "Drug X has a quality control issue.",
+      "A57": "Drug X has a contamination risk.",
+      "A58": "A batch recall is issued for drug X.",
+      "A59": "Drug X has a supply shortage.",
+      "A60": "Production of drug X is halted.",
+      "A61": "Drug X has a raw material shortage.",
+      "A62": "A manufacturing audit is conducted for drug X.",
+      "A63": "Process validation is performed for drug X.",
+      "A64": "Drug X has a stability issue.",
+      "A65": "The shelf life of drug X is reduced.",
+      "A66": "Drug X has storage requirements.",
+      "A67": "Drug X is temperature sensitive.",
+      "G": "Drug X is safe for use."
+    },
+    "prover9_expressions": [
+      "(requires_black_box_warning(drug_x) -> requires_warning_label(drug_x))",
+      "(fast_track_approval(drug_x) | (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_black_box_warning(drug_x)))",
+      "(phase1_complete(drug_x) -> safe_for_use(drug_x))",
+      "(phase1_complete(drug_x) | phase2_complete(drug_x))",
+      "(phase2_complete(drug_x) -> safe_for_use(drug_x))",
+      "(animal_testing_complete(drug_x) -> phase1_complete(drug_x))",
+      "(animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x))",
+      "(preliminary_human_trials_complete(drug_x) -> phase2_complete(drug_x))",
+      "(safety_profile_established(drug_x) -> (animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x)))",
+      "(safety_profile_established(drug_x) | efficacy_demonstrated(drug_x))",
+      "(efficacy_demonstrated(drug_x) -> (animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x)))",
+      "(market_withdrawal(drug_x) | (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+      "(rejected(drug_x) -> -approved(drug_x))",
+      "(rejected(drug_x) | pending_review(drug_x))",
+      "(voluntary_recall(drug_x) | -market_withdrawal(drug_x))",
+      "(regulatory_violation(drug_x) -> fine_imposed(drug_x))",
+      "(regulatory_violation(drug_x) -> license_suspended(drug_x))",
+      "(regulatory_violation(drug_x) -> criminal_charges(drug_x))",
+      "(regulatory_violation(drug_x) -> -fine_imposed(drug_x))",
+      "(regulatory_violation(drug_x) | (rejected(drug_x) -> -approved(drug_x)))",
+      "(license_suspended(drug_x) -> -fine_imposed(drug_x))",
+      "(criminal_charges(drug_x) -> license_suspended(drug_x))",
+      "(patent_protected(drug_x) -> -approved(drug_x))",
+      "(exclusive_marketing(drug_x) -> -generic_available(drug_x))",
+      "(patent_expired(drug_x) -> (-patent_protected(drug_x) -> exclusive_marketing(drug_x)))",
+      "(patent_expired(drug_x) | patent_challenged(drug_x))",
+      "(patent_challenged(drug_x) -> (-patent_protected(drug_x) -> exclusive_marketing(drug_x)))",
+      "(pending_review(drug_x) -> -approved(drug_x))",
+      "(generic_application_submitted(drug_x) -> patent_expired(drug_x))",
+      "(generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))",
+      "(biosimilar_application_submitted(drug_x) -> patent_challenged(drug_x))",
+      "(competitive_market_entry(drug_x) | (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x)))",
+      "(price_reduction(drug_x) -> competitive_market_entry(drug_x))",
+      "(price_reduction(drug_x) | market_share_loss(drug_x))",
+      "(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x)))",
+      "(orphan_drug_status(drug_x) | -requires_clinical_trial(drug_x))",
+      "(rare_disease_indication(drug_x) -> -orphan_drug_status(drug_x))",
+      "(rare_disease_indication(drug_x) | unmet_medical_need(drug_x))",
+      "(unmet_medical_need(drug_x) -> -orphan_drug_status(drug_x))",
+      "(requires_monitoring(drug_x) -> safe_for_use(drug_x))",
+      "(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x))",
+      "(post_market_surveillance(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x)))",
+      "(post_market_surveillance(drug_x) | risk_management_program(drug_x))",
+      "(risk_management_program(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x)))",
+      "(adverse_event_reporting(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x)))",
+      "(adverse_event_reporting(drug_x) | patient_registry(drug_x))",
+      "(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x)))",
+      "(audit_scheduled(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x)))",
+      "(audit_scheduled(drug_x) | inspection_required(drug_x))",
+      "(inspection_required(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x)))",
+      "(compliance_certified(drug_x) -> (audit_scheduled(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x))))",
+      "(special_handling(drug_x) -> restricted_distribution(drug_x))",
+      "(controlled_substance(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> special_handling(drug_x)))",
+      "(prescription_required(drug_x) -> physician_authorization(drug_x))",
+      "(prescription_required(drug_x) -> specialist_referral(drug_x))",
+      "(prescription_required(drug_x) -> -physician_authorization(drug_x))",
+      "(specialist_referral(drug_x) -> physician_authorization(drug_x))",
+      "(manufacturing_defect(drug_x) | -market_withdrawal(drug_x))",
+      "(quality_control_issue(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+      "(quality_control_issue(drug_x) -> batch_recall(drug_x))",
+      "(quality_control_issue(drug_x) | contamination_risk(drug_x))",
+      "(contamination_risk(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+      "(batch_recall(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+      "(supply_shortage(drug_x) | (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+      "(production_halt(drug_x) -> supply_shortage(drug_x))",
+      "(production_halt(drug_x) | raw_material_shortage(drug_x))",
+      "(raw_material_shortage(drug_x) -> (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+      "(manufacturing_audit(drug_x) -> (production_halt(drug_x) -> supply_shortage(drug_x)))",
+      "(manufacturing_audit(drug_x) | process_validation(drug_x))",
+      "(process_validation(drug_x) -> (production_halt(drug_x) -> supply_shortage(drug_x)))",
+      "(stability_issue(drug_x) | -market_withdrawal(drug_x))",
+      "(shelf_life_reduction(drug_x) -> (stability_issue(drug_x) | -market_withdrawal(drug_x)))",
+      "(storage_requirements(drug_x) -> shelf_life_reduction(drug_x))",
+      "(temperature_sensitive(drug_x) -> storage_requirements(drug_x))",
+      "(has_side_effects(drug_x) | safe_for_use(drug_x))",
+      "(severe_side_effects(drug_x) -> has_side_effects(drug_x))",
+      "(severe_side_effects(drug_x) | mild_side_effects(drug_x))",
+      "(mild_side_effects(drug_x) -> requires_monitoring(drug_x))",
+      "(mild_side_effects(drug_x) -> safe_for_use(drug_x))",
+      "(-(rejected(drug_x) -> -approved(drug_x)) -> requires_clinical_trial(drug_x))",
+      "(-(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))) -> profitability_decline(drug_x))",
+      "(-(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))) -> -profitability_decline(drug_x))",
+      "(-(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x)) -> clinical_trial_failed(drug_x))",
+      "(-(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x)) -> -clinical_trial_failed(drug_x))",
+      "(-(risk_management_program(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x))) -> safety_concerns(drug_x))",
+      "(-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x))",
+      "(-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> -data_integrity_issue(drug_x))",
+      "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))",
+      "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_black_box_warning(drug_x))",
+      "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> restricted_distribution(drug_x))",
+      "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> special_handling(drug_x))",
+      "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> -requires_warning_label(drug_x))",
+      "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> -restricted_distribution(drug_x))",
+      "(-patent_protected(drug_x) -> generic_available(drug_x))",
+      "(-patent_protected(drug_x) -> exclusive_marketing(drug_x))",
+      "(-patent_protected(drug_x) -> -generic_available(drug_x))",
+      "(-controlled_substance(drug_x) -> prescription_required(drug_x))",
+      "(-safe_for_use(drug_x) -> approved(drug_x))",
+      "patent_protected(drug_x)",
+      "compliance_certified(drug_x)",
+      "controlled_substance(drug_x)",
+      "shelf_life_reduction(drug_x)",
+      "storage_requirements(drug_x)",
+      "temperature_sensitive(drug_x)",
+      "safe_for_use(drug_x)",
+      "-approved(drug_x)",
+      "-fast_track_approval(drug_x)",
+      "-market_withdrawal(drug_x)",
+      "-voluntary_recall(drug_x)",
+      "-regulatory_violation(drug_x)",
+      "-competitive_market_entry(drug_x)",
+      "-orphan_drug_status(drug_x)",
+      "-requires_clinical_trial(drug_x)",
+      "-safety_concerns(drug_x)",
+      "-clinical_trial_completed(drug_x)",
+      "-prescription_required(drug_x)",
+      "-manufacturing_defect(drug_x)",
+      "-supply_shortage(drug_x)",
+      "-stability_issue(drug_x)",
+      "-has_side_effects(drug_x)"
+    ],
+    "natural_expressions": [
+      "If drug X requires a black box warning, then drug X requires a warning label.",
+      "Either drug X receives fast track approval, or if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a black box warning.",
+      "Provided that phase 1 for drug X is complete, drug X is safe for use.",
+      "Either phase 1 for drug X is complete, or phase 2 for drug X is complete.",
+      "Whenever phase 2 for drug X is complete, drug X is safe for use.",
+      "If animal testing for drug X is complete, then phase 1 for drug X is complete.",
+      "Animal testing for drug X is complete, or preliminary human trials for drug X are complete.",
+      "In the event that preliminary human trials for drug X are complete, phase 2 for drug X is complete.",
+      "Should a safety profile for drug X be established, then either animal testing for drug X is complete or preliminary human trials for drug X are complete.",
+      "A safety profile for drug X is established, or efficacy of drug X is demonstrated.",
+      "Assuming efficacy of drug X is demonstrated, then either animal testing for drug X is complete or preliminary human trials for drug X are complete.",
+      "Drug X is withdrawn from the market, or a safety profile for drug X is established, or efficacy of drug X is demonstrated.",
+      "If drug X is rejected, then it is not the case that drug X is approved.",
+      "Either drug X is rejected, or drug X is pending review.",
+      "Drug X is voluntarily recalled, or it is not the case that drug X is withdrawn from the market.",
+      "Provided that drug X has a regulatory violation, a fine is imposed on drug X.",
+      "If drug X has a regulatory violation, then the license for drug X is suspended.",
+      "Whenever drug X has a regulatory violation, criminal charges are filed for drug X.",
+      "In case drug X has a regulatory violation, then it is not the case that a fine is imposed on drug X.",
+      "Drug X has a regulatory violation, or if drug X is rejected, then it is not the case that drug X is approved.",
+      "Should the license for drug X be suspended, then it is not the case that a fine is imposed on drug X.",
+      "If criminal charges are filed for drug X, then the license for drug X is suspended.",
+      "Assuming drug X is patent protected, then it is not the case that drug X is approved.",
+      "Provided that drug X has exclusive marketing rights, then it is not the case that a generic version of drug X is available.",
+      "If the patent for drug X has expired, then if it is not the case that drug X is patent protected, drug X has exclusive marketing rights.",
+      "Either the patent for drug X has expired, or the patent for drug X is challenged.",
+      "In the event that the patent for drug X is challenged, then if it is not the case that drug X is patent protected, drug X has exclusive marketing rights.",
+      "Should drug X be pending review, then it is not the case that drug X is approved.",
+      "If a generic application for drug X is submitted, then the patent for drug X has expired.",
+      "Either a generic application for drug X is submitted, or a biosimilar application for drug X is submitted.",
+      "Provided that a biosimilar application for drug X is submitted, then the patent for drug X is challenged.",
+      "Competitive market entry occurs for drug X, or a generic application for drug X is submitted, or a biosimilar application for drug X is submitted.",
+      "Whenever the price of drug X is reduced, competitive market entry occurs for drug X.",
+      "The price of drug X is reduced, or drug X experiences market share loss.",
+      "Assuming drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted.",
+      "Drug X has orphan drug status, or it is not the case that drug X requires a clinical trial.",
+      "If drug X has a rare disease indication, then it is not the case that drug X has orphan drug status.",
+      "Either drug X has a rare disease indication, or drug X addresses an unmet medical need.",
+      "In case drug X addresses an unmet medical need, then it is not the case that drug X has orphan drug status.",
+      "Provided that drug X requires monitoring, then drug X is safe for use.",
+      "If drug X requires a clinical trial, then the clinical trial for drug X is completed.",
+      "Should drug X be under post-market surveillance, then if drug X has mild side effects, drug X requires monitoring.",
+      "Drug X is under post-market surveillance, or drug X has a risk management program.",
+      "In the event that drug X has a risk management program, then if drug X has mild side effects, drug X requires monitoring.",
+      "Assuming adverse event reporting is conducted for drug X, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires a warning label.",
+      "Adverse event reporting is conducted for drug X, or a patient registry exists for drug X.",
+      "Provided that a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires a warning label.",
+      "If an audit is scheduled for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue.",
+      "Either an audit is scheduled for drug X, or an inspection is required for drug X.",
+      "Whenever an inspection is required for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue.",
+      "Should drug X be compliance certified, then if an audit is scheduled for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue.",
+      "If drug X requires special handling, then drug X has restricted distribution.",
+      "Provided that drug X is a controlled substance, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires special handling.",
+      "Assuming a prescription is required for drug X, then physician authorization is needed for drug X.",
+      "If a prescription is required for drug X, then a specialist referral is required for drug X.",
+      "In case a prescription is required for drug X, then it is not the case that physician authorization is needed for drug X.",
+      "Should a specialist referral be required for drug X, then physician authorization is needed for drug X.",
+      "Drug X has a manufacturing defect, or it is not the case that drug X is withdrawn from the market.",
+      "Whenever drug X has a quality control issue, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market.",
+      "If drug X has a quality control issue, then a batch recall is issued for drug X.",
+      "Either drug X has a quality control issue, or drug X has a contamination risk.",
+      "Provided that drug X has a contamination risk, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market.",
+      "In the event that a batch recall is issued for drug X, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market.",
+      "Drug X has a supply shortage, or a safety profile for drug X is established, or efficacy of drug X is demonstrated.",
+      "Assuming production of drug X is halted, then drug X has a supply shortage.",
+      "Either production of drug X is halted, or drug X has a raw material shortage.",
+      "Should drug X have a raw material shortage, then either a safety profile for drug X is established or efficacy of drug X is demonstrated.",
+      "If a manufacturing audit is conducted for drug X, then if production of drug X is halted, drug X has a supply shortage.",
+      "A manufacturing audit is conducted for drug X, or process validation is performed for drug X.",
+      "Provided that process validation is performed for drug X, then if production of drug X is halted, drug X has a supply shortage.",
+      "Drug X has a stability issue, or it is not the case that drug X is withdrawn from the market.",
+      "In case the shelf life of drug X is reduced, then either drug X has a stability issue or it is not the case that drug X is withdrawn from the market.",
+      "If drug X has storage requirements, then the shelf life of drug X is reduced.",
+      "Whenever drug X is temperature sensitive, then drug X has storage requirements.",
+      "Either drug X has side effects, or drug X is safe for use.",
+      "Provided that drug X has severe side effects, then drug X has side effects.",
+      "Drug X has severe side effects, or drug X has mild side effects.",
+      "Assuming drug X has mild side effects, then drug X requires monitoring.",
+      "If drug X has mild side effects, then drug X is safe for use.",
+      "If it is not the case that if drug X is rejected, then it is not the case that drug X is approved, then drug X requires a clinical trial.",
+      "Should it not be the case that if drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted, then profitability of drug X declines.",
+      "If it is not the case that if drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted, then it is not the case that profitability of drug X declines.",
+      "Provided that it is not the case that if drug X requires a clinical trial, then the clinical trial for drug X is completed, then the clinical trial for drug X has failed.",
+      "In the event that it is not the case that if drug X requires a clinical trial, then the clinical trial for drug X is completed, then it is not the case that the clinical trial for drug X has failed.",
+      "Assuming it is not the case that if drug X has a risk management program, then if drug X has mild side effects, drug X requires monitoring, then there are safety concerns for drug X.",
+      "If it is not the case that if a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue.",
+      "Should it not be the case that if a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then it is not the case that drug X has a data integrity issue.",
+      "If the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label.",
+      "Provided that the absence of mild side effects does not imply drug X is safe for use, then drug X requires a black box warning.",
+      "In case the absence of mild side effects does not imply drug X is safe for use, then drug X has restricted distribution.",
+      "Whenever the absence of mild side effects does not imply drug X is safe for use, then drug X requires special handling.",
+      "If the absence of mild side effects does not imply drug X is safe for use, then it is not the case that drug X requires a warning label.",
+      "Assuming the absence of mild side effects does not imply drug X is safe for use, then it is not the case that drug X has restricted distribution.",
+      "Should it not be the case that drug X is patent protected, then a generic version of drug X is available.",
+      "If it is not the case that drug X is patent protected, then drug X has exclusive marketing rights.",
+      "Provided that it is not the case that drug X is patent protected, then it is not the case that a generic version of drug X is available.",
+      "In the event that it is not the case that drug X is a controlled substance, then a prescription is required for drug X.",
+      "If it is not the case that drug X is safe for use, then drug X is approved.",
+      "Drug X is patent protected.",
+      "Drug X is compliance certified.",
+      "Drug X is a controlled substance.",
+      "The shelf life of drug X is reduced.",
+      "Drug X has storage requirements.",
+      "Drug X is temperature sensitive.",
+      "Drug X is safe for use.",
+      "It is not the case that drug X is approved.",
+      "It is not the case that drug X receives fast track approval.",
+      "It is not the case that drug X is withdrawn from the market.",
+      "It is not the case that drug X is voluntarily recalled.",
+      "It is not the case that drug X has a regulatory violation.",
+      "It is not the case that competitive market entry occurs for drug X.",
+      "It is not the case that drug X has orphan drug status.",
+      "It is not the case that drug X requires a clinical trial.",
+      "It is not the case that there are safety concerns for drug X.",
+      "It is not the case that the clinical trial for drug X is completed.",
+      "It is not the case that a prescription is required for drug X.",
+      "It is not the case that drug X has a manufacturing defect.",
+      "It is not the case that drug X has a supply shortage.",
+      "It is not the case that drug X has a stability issue.",
+      "It is not the case that drug X has side effects."
+    ],
+    "node_mappings": {
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(requires_black_box_warning(drug_x) -> requires_warning_label(drug_x))",
+        "natural": "If drug X requires a black box warning, then drug X requires a warning label."
+      },
+      "(A12 ∨ (¬(A9 → G) → A11))": {
+        "formal": "(A12 ∨ (¬(A9 → G) → A11))",
+        "prover9": "(A12 | (-(A9 -> G) -> A11))",
+        "prover9_expression": "(fast_track_approval(drug_x) | (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_black_box_warning(drug_x)))",
+        "natural": "Either drug X receives fast track approval, or if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a black box warning."
+      },
+      "(A13 → G)": {
+        "formal": "(A13 → G)",
+        "prover9": "(A13 -> G)",
+        "prover9_expression": "(phase1_complete(drug_x) -> safe_for_use(drug_x))",
+        "natural": "Provided that phase 1 for drug X is complete, drug X is safe for use."
+      },
+      "(A13 ∨ A14)": {
+        "formal": "(A13 ∨ A14)",
+        "prover9": "(A13 | A14)",
+        "prover9_expression": "(phase1_complete(drug_x) | phase2_complete(drug_x))",
+        "natural": "Either phase 1 for drug X is complete, or phase 2 for drug X is complete."
+      },
+      "(A14 → G)": {
+        "formal": "(A14 → G)",
+        "prover9": "(A14 -> G)",
+        "prover9_expression": "(phase2_complete(drug_x) -> safe_for_use(drug_x))",
+        "natural": "Whenever phase 2 for drug X is complete, drug X is safe for use."
+      },
+      "(A15 → A13)": {
+        "formal": "(A15 → A13)",
+        "prover9": "(A15 -> A13)",
+        "prover9_expression": "(animal_testing_complete(drug_x) -> phase1_complete(drug_x))",
+        "natural": "If animal testing for drug X is complete, then phase 1 for drug X is complete."
+      },
+      "(A15 ∨ A16)": {
+        "formal": "(A15 ∨ A16)",
+        "prover9": "(A15 | A16)",
+        "prover9_expression": "(animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x))",
+        "natural": "Animal testing for drug X is complete, or preliminary human trials for drug X are complete."
+      },
+      "(A16 → A14)": {
+        "formal": "(A16 → A14)",
+        "prover9": "(A16 -> A14)",
+        "prover9_expression": "(preliminary_human_trials_complete(drug_x) -> phase2_complete(drug_x))",
+        "natural": "In the event that preliminary human trials for drug X are complete, phase 2 for drug X is complete."
+      },
+      "(A17 → (A15 ∨ A16))": {
+        "formal": "(A17 → (A15 ∨ A16))",
+        "prover9": "(A17 -> (A15 | A16))",
+        "prover9_expression": "(safety_profile_established(drug_x) -> (animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x)))",
+        "natural": "Should a safety profile for drug X be established, then either animal testing for drug X is complete or preliminary human trials for drug X are complete."
+      },
+      "(A17 ∨ A18)": {
+        "formal": "(A17 ∨ A18)",
+        "prover9": "(A17 | A18)",
+        "prover9_expression": "(safety_profile_established(drug_x) | efficacy_demonstrated(drug_x))",
+        "natural": "A safety profile for drug X is established, or efficacy of drug X is demonstrated."
+      },
+      "(A18 → (A15 ∨ A16))": {
+        "formal": "(A18 → (A15 ∨ A16))",
+        "prover9": "(A18 -> (A15 | A16))",
+        "prover9_expression": "(efficacy_demonstrated(drug_x) -> (animal_testing_complete(drug_x) | preliminary_human_trials_complete(drug_x)))",
+        "natural": "Assuming efficacy of drug X is demonstrated, then either animal testing for drug X is complete or preliminary human trials for drug X are complete."
+      },
+      "(A19 ∨ (A17 ∨ A18))": {
+        "formal": "(A19 ∨ (A17 ∨ A18))",
+        "prover9": "(A19 | (A17 | A18))",
+        "prover9_expression": "(market_withdrawal(drug_x) | (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+        "natural": "Drug X is withdrawn from the market, or a safety profile for drug X is established, or efficacy of drug X is demonstrated."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(rejected(drug_x) -> -approved(drug_x))",
+        "natural": "If drug X is rejected, then it is not the case that drug X is approved."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(rejected(drug_x) | pending_review(drug_x))",
+        "natural": "Either drug X is rejected, or drug X is pending review."
+      },
+      "(A20 ∨ ¬A19)": {
+        "formal": "(A20 ∨ ¬A19)",
+        "prover9": "(A20 | -A19)",
+        "prover9_expression": "(voluntary_recall(drug_x) | -market_withdrawal(drug_x))",
+        "natural": "Drug X is voluntarily recalled, or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A21 → A22)": {
+        "formal": "(A21 → A22)",
+        "prover9": "(A21 -> A22)",
+        "prover9_expression": "(regulatory_violation(drug_x) -> fine_imposed(drug_x))",
+        "natural": "Provided that drug X has a regulatory violation, a fine is imposed on drug X."
+      },
+      "(A21 → A23)": {
+        "formal": "(A21 → A23)",
+        "prover9": "(A21 -> A23)",
+        "prover9_expression": "(regulatory_violation(drug_x) -> license_suspended(drug_x))",
+        "natural": "If drug X has a regulatory violation, then the license for drug X is suspended."
+      },
+      "(A21 → A24)": {
+        "formal": "(A21 → A24)",
+        "prover9": "(A21 -> A24)",
+        "prover9_expression": "(regulatory_violation(drug_x) -> criminal_charges(drug_x))",
+        "natural": "Whenever drug X has a regulatory violation, criminal charges are filed for drug X."
+      },
+      "(A21 → ¬A22)": {
+        "formal": "(A21 → ¬A22)",
+        "prover9": "(A21 -> -A22)",
+        "prover9_expression": "(regulatory_violation(drug_x) -> -fine_imposed(drug_x))",
+        "natural": "In case drug X has a regulatory violation, then it is not the case that a fine is imposed on drug X."
+      },
+      "(A21 ∨ (A2 → ¬A1))": {
+        "formal": "(A21 ∨ (A2 → ¬A1))",
+        "prover9": "(A21 | (A2 -> -A1))",
+        "prover9_expression": "(regulatory_violation(drug_x) | (rejected(drug_x) -> -approved(drug_x)))",
+        "natural": "Drug X has a regulatory violation, or if drug X is rejected, then it is not the case that drug X is approved."
+      },
+      "(A23 → ¬A22)": {
+        "formal": "(A23 → ¬A22)",
+        "prover9": "(A23 -> -A22)",
+        "prover9_expression": "(license_suspended(drug_x) -> -fine_imposed(drug_x))",
+        "natural": "Should the license for drug X be suspended, then it is not the case that a fine is imposed on drug X."
+      },
+      "(A24 → A23)": {
+        "formal": "(A24 → A23)",
+        "prover9": "(A24 -> A23)",
+        "prover9_expression": "(criminal_charges(drug_x) -> license_suspended(drug_x))",
+        "natural": "If criminal charges are filed for drug X, then the license for drug X is suspended."
+      },
+      "(A25 → ¬A1)": {
+        "formal": "(A25 → ¬A1)",
+        "prover9": "(A25 -> -A1)",
+        "prover9_expression": "(patent_protected(drug_x) -> -approved(drug_x))",
+        "natural": "Assuming drug X is patent protected, then it is not the case that drug X is approved."
+      },
+      "(A27 → ¬A26)": {
+        "formal": "(A27 → ¬A26)",
+        "prover9": "(A27 -> -A26)",
+        "prover9_expression": "(exclusive_marketing(drug_x) -> -generic_available(drug_x))",
+        "natural": "Provided that drug X has exclusive marketing rights, then it is not the case that a generic version of drug X is available."
+      },
+      "(A28 → (¬A25 → A27))": {
+        "formal": "(A28 → (¬A25 → A27))",
+        "prover9": "(A28 -> (-A25 -> A27))",
+        "prover9_expression": "(patent_expired(drug_x) -> (-patent_protected(drug_x) -> exclusive_marketing(drug_x)))",
+        "natural": "If the patent for drug X has expired, then if it is not the case that drug X is patent protected, drug X has exclusive marketing rights."
+      },
+      "(A28 ∨ A29)": {
+        "formal": "(A28 ∨ A29)",
+        "prover9": "(A28 | A29)",
+        "prover9_expression": "(patent_expired(drug_x) | patent_challenged(drug_x))",
+        "natural": "Either the patent for drug X has expired, or the patent for drug X is challenged."
+      },
+      "(A29 → (¬A25 → A27))": {
+        "formal": "(A29 → (¬A25 → A27))",
+        "prover9": "(A29 -> (-A25 -> A27))",
+        "prover9_expression": "(patent_challenged(drug_x) -> (-patent_protected(drug_x) -> exclusive_marketing(drug_x)))",
+        "natural": "In the event that the patent for drug X is challenged, then if it is not the case that drug X is patent protected, drug X has exclusive marketing rights."
+      },
+      "(A3 → ¬A1)": {
+        "formal": "(A3 → ¬A1)",
+        "prover9": "(A3 -> -A1)",
+        "prover9_expression": "(pending_review(drug_x) -> -approved(drug_x))",
+        "natural": "Should drug X be pending review, then it is not the case that drug X is approved."
+      },
+      "(A30 → A28)": {
+        "formal": "(A30 → A28)",
+        "prover9": "(A30 -> A28)",
+        "prover9_expression": "(generic_application_submitted(drug_x) -> patent_expired(drug_x))",
+        "natural": "If a generic application for drug X is submitted, then the patent for drug X has expired."
+      },
+      "(A30 ∨ A31)": {
+        "formal": "(A30 ∨ A31)",
+        "prover9": "(A30 | A31)",
+        "prover9_expression": "(generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))",
+        "natural": "Either a generic application for drug X is submitted, or a biosimilar application for drug X is submitted."
+      },
+      "(A31 → A29)": {
+        "formal": "(A31 → A29)",
+        "prover9": "(A31 -> A29)",
+        "prover9_expression": "(biosimilar_application_submitted(drug_x) -> patent_challenged(drug_x))",
+        "natural": "Provided that a biosimilar application for drug X is submitted, then the patent for drug X is challenged."
+      },
+      "(A32 ∨ (A30 ∨ A31))": {
+        "formal": "(A32 ∨ (A30 ∨ A31))",
+        "prover9": "(A32 | (A30 | A31))",
+        "prover9_expression": "(competitive_market_entry(drug_x) | (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x)))",
+        "natural": "Competitive market entry occurs for drug X, or a generic application for drug X is submitted, or a biosimilar application for drug X is submitted."
+      },
+      "(A33 → A32)": {
+        "formal": "(A33 → A32)",
+        "prover9": "(A33 -> A32)",
+        "prover9_expression": "(price_reduction(drug_x) -> competitive_market_entry(drug_x))",
+        "natural": "Whenever the price of drug X is reduced, competitive market entry occurs for drug X."
+      },
+      "(A33 ∨ A34)": {
+        "formal": "(A33 ∨ A34)",
+        "prover9": "(A33 | A34)",
+        "prover9_expression": "(price_reduction(drug_x) | market_share_loss(drug_x))",
+        "natural": "The price of drug X is reduced, or drug X experiences market share loss."
+      },
+      "(A34 → (A30 ∨ A31))": {
+        "formal": "(A34 → (A30 ∨ A31))",
+        "prover9": "(A34 -> (A30 | A31))",
+        "prover9_expression": "(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x)))",
+        "natural": "Assuming drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted."
+      },
+      "(A36 ∨ ¬A4)": {
+        "formal": "(A36 ∨ ¬A4)",
+        "prover9": "(A36 | -A4)",
+        "prover9_expression": "(orphan_drug_status(drug_x) | -requires_clinical_trial(drug_x))",
+        "natural": "Drug X has orphan drug status, or it is not the case that drug X requires a clinical trial."
+      },
+      "(A37 → ¬A36)": {
+        "formal": "(A37 → ¬A36)",
+        "prover9": "(A37 -> -A36)",
+        "prover9_expression": "(rare_disease_indication(drug_x) -> -orphan_drug_status(drug_x))",
+        "natural": "If drug X has a rare disease indication, then it is not the case that drug X has orphan drug status."
+      },
+      "(A37 ∨ A38)": {
+        "formal": "(A37 ∨ A38)",
+        "prover9": "(A37 | A38)",
+        "prover9_expression": "(rare_disease_indication(drug_x) | unmet_medical_need(drug_x))",
+        "natural": "Either drug X has a rare disease indication, or drug X addresses an unmet medical need."
+      },
+      "(A38 → ¬A36)": {
+        "formal": "(A38 → ¬A36)",
+        "prover9": "(A38 -> -A36)",
+        "prover9_expression": "(unmet_medical_need(drug_x) -> -orphan_drug_status(drug_x))",
+        "natural": "In case drug X addresses an unmet medical need, then it is not the case that drug X has orphan drug status."
+      },
+      "(A39 → G)": {
+        "formal": "(A39 → G)",
+        "prover9": "(A39 -> G)",
+        "prover9_expression": "(requires_monitoring(drug_x) -> safe_for_use(drug_x))",
+        "natural": "Provided that drug X requires monitoring, then drug X is safe for use."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x))",
+        "natural": "If drug X requires a clinical trial, then the clinical trial for drug X is completed."
+      },
+      "(A40 → (A9 → A39))": {
+        "formal": "(A40 → (A9 → A39))",
+        "prover9": "(A40 -> (A9 -> A39))",
+        "prover9_expression": "(post_market_surveillance(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x)))",
+        "natural": "Should drug X be under post-market surveillance, then if drug X has mild side effects, drug X requires monitoring."
+      },
+      "(A40 ∨ A41)": {
+        "formal": "(A40 ∨ A41)",
+        "prover9": "(A40 | A41)",
+        "prover9_expression": "(post_market_surveillance(drug_x) | risk_management_program(drug_x))",
+        "natural": "Drug X is under post-market surveillance, or drug X has a risk management program."
+      },
+      "(A41 → (A9 → A39))": {
+        "formal": "(A41 → (A9 → A39))",
+        "prover9": "(A41 -> (A9 -> A39))",
+        "prover9_expression": "(risk_management_program(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x)))",
+        "natural": "In the event that drug X has a risk management program, then if drug X has mild side effects, drug X requires monitoring."
+      },
+      "(A43 → (¬(A9 → G) → A10))": {
+        "formal": "(A43 → (¬(A9 → G) → A10))",
+        "prover9": "(A43 -> (-(A9 -> G) -> A10))",
+        "prover9_expression": "(adverse_event_reporting(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x)))",
+        "natural": "Assuming adverse event reporting is conducted for drug X, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires a warning label."
+      },
+      "(A43 ∨ A44)": {
+        "formal": "(A43 ∨ A44)",
+        "prover9": "(A43 | A44)",
+        "prover9_expression": "(adverse_event_reporting(drug_x) | patient_registry(drug_x))",
+        "natural": "Adverse event reporting is conducted for drug X, or a patient registry exists for drug X."
+      },
+      "(A44 → (¬(A9 → G) → A10))": {
+        "formal": "(A44 → (¬(A9 → G) → A10))",
+        "prover9": "(A44 -> (-(A9 -> G) -> A10))",
+        "prover9_expression": "(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x)))",
+        "natural": "Provided that a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires a warning label."
+      },
+      "(A46 → (¬(A44 → (¬(A9 → G) → A10)) → A45))": {
+        "formal": "(A46 → (¬(A44 → (¬(A9 → G) → A10)) → A45))",
+        "prover9": "(A46 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45))",
+        "prover9_expression": "(audit_scheduled(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x)))",
+        "natural": "If an audit is scheduled for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+      },
+      "(A46 ∨ A47)": {
+        "formal": "(A46 ∨ A47)",
+        "prover9": "(A46 | A47)",
+        "prover9_expression": "(audit_scheduled(drug_x) | inspection_required(drug_x))",
+        "natural": "Either an audit is scheduled for drug X, or an inspection is required for drug X."
+      },
+      "(A47 → (¬(A44 → (¬(A9 → G) → A10)) → A45))": {
+        "formal": "(A47 → (¬(A44 → (¬(A9 → G) → A10)) → A45))",
+        "prover9": "(A47 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45))",
+        "prover9_expression": "(inspection_required(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x)))",
+        "natural": "Whenever an inspection is required for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+      },
+      "(A48 → (A46 → (¬(A44 → (¬(A9 → G) → A10)) → A45)))": {
+        "formal": "(A48 → (A46 → (¬(A44 → (¬(A9 → G) → A10)) → A45)))",
+        "prover9": "(A48 -> (A46 -> (-(A44 -> (-(A9 -> G) -> A10)) -> A45)))",
+        "prover9_expression": "(compliance_certified(drug_x) -> (audit_scheduled(drug_x) -> (-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x))))",
+        "natural": "Should drug X be compliance certified, then if an audit is scheduled for drug X, then if it is not the case that a patient registry exists for drug X implies that if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+      },
+      "(A50 → A49)": {
+        "formal": "(A50 → A49)",
+        "prover9": "(A50 -> A49)",
+        "prover9_expression": "(special_handling(drug_x) -> restricted_distribution(drug_x))",
+        "natural": "If drug X requires special handling, then drug X has restricted distribution."
+      },
+      "(A51 → (¬(A9 → G) → A50))": {
+        "formal": "(A51 → (¬(A9 → G) → A50))",
+        "prover9": "(A51 -> (-(A9 -> G) -> A50))",
+        "prover9_expression": "(controlled_substance(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> special_handling(drug_x)))",
+        "natural": "Provided that drug X is a controlled substance, then if the absence of mild side effects does not imply drug X is safe for use, drug X requires special handling."
+      },
+      "(A52 → A53)": {
+        "formal": "(A52 → A53)",
+        "prover9": "(A52 -> A53)",
+        "prover9_expression": "(prescription_required(drug_x) -> physician_authorization(drug_x))",
+        "natural": "Assuming a prescription is required for drug X, then physician authorization is needed for drug X."
+      },
+      "(A52 → A54)": {
+        "formal": "(A52 → A54)",
+        "prover9": "(A52 -> A54)",
+        "prover9_expression": "(prescription_required(drug_x) -> specialist_referral(drug_x))",
+        "natural": "If a prescription is required for drug X, then a specialist referral is required for drug X."
+      },
+      "(A52 → ¬A53)": {
+        "formal": "(A52 → ¬A53)",
+        "prover9": "(A52 -> -A53)",
+        "prover9_expression": "(prescription_required(drug_x) -> -physician_authorization(drug_x))",
+        "natural": "In case a prescription is required for drug X, then it is not the case that physician authorization is needed for drug X."
+      },
+      "(A54 → A53)": {
+        "formal": "(A54 → A53)",
+        "prover9": "(A54 -> A53)",
+        "prover9_expression": "(specialist_referral(drug_x) -> physician_authorization(drug_x))",
+        "natural": "Should a specialist referral be required for drug X, then physician authorization is needed for drug X."
+      },
+      "(A55 ∨ ¬A19)": {
+        "formal": "(A55 ∨ ¬A19)",
+        "prover9": "(A55 | -A19)",
+        "prover9_expression": "(manufacturing_defect(drug_x) | -market_withdrawal(drug_x))",
+        "natural": "Drug X has a manufacturing defect, or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A56 → (A55 ∨ ¬A19))": {
+        "formal": "(A56 → (A55 ∨ ¬A19))",
+        "prover9": "(A56 -> (A55 | -A19))",
+        "prover9_expression": "(quality_control_issue(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "Whenever drug X has a quality control issue, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A56 → A58)": {
+        "formal": "(A56 → A58)",
+        "prover9": "(A56 -> A58)",
+        "prover9_expression": "(quality_control_issue(drug_x) -> batch_recall(drug_x))",
+        "natural": "If drug X has a quality control issue, then a batch recall is issued for drug X."
+      },
+      "(A56 ∨ A57)": {
+        "formal": "(A56 ∨ A57)",
+        "prover9": "(A56 | A57)",
+        "prover9_expression": "(quality_control_issue(drug_x) | contamination_risk(drug_x))",
+        "natural": "Either drug X has a quality control issue, or drug X has a contamination risk."
+      },
+      "(A57 → (A55 ∨ ¬A19))": {
+        "formal": "(A57 → (A55 ∨ ¬A19))",
+        "prover9": "(A57 -> (A55 | -A19))",
+        "prover9_expression": "(contamination_risk(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "Provided that drug X has a contamination risk, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A58 → (A55 ∨ ¬A19))": {
+        "formal": "(A58 → (A55 ∨ ¬A19))",
+        "prover9": "(A58 -> (A55 | -A19))",
+        "prover9_expression": "(batch_recall(drug_x) -> (manufacturing_defect(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "In the event that a batch recall is issued for drug X, then either drug X has a manufacturing defect or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A59 ∨ (A17 ∨ A18))": {
+        "formal": "(A59 ∨ (A17 ∨ A18))",
+        "prover9": "(A59 | (A17 | A18))",
+        "prover9_expression": "(supply_shortage(drug_x) | (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+        "natural": "Drug X has a supply shortage, or a safety profile for drug X is established, or efficacy of drug X is demonstrated."
+      },
+      "(A60 → A59)": {
+        "formal": "(A60 → A59)",
+        "prover9": "(A60 -> A59)",
+        "prover9_expression": "(production_halt(drug_x) -> supply_shortage(drug_x))",
+        "natural": "Assuming production of drug X is halted, then drug X has a supply shortage."
+      },
+      "(A60 ∨ A61)": {
+        "formal": "(A60 ∨ A61)",
+        "prover9": "(A60 | A61)",
+        "prover9_expression": "(production_halt(drug_x) | raw_material_shortage(drug_x))",
+        "natural": "Either production of drug X is halted, or drug X has a raw material shortage."
+      },
+      "(A61 → (A17 ∨ A18))": {
+        "formal": "(A61 → (A17 ∨ A18))",
+        "prover9": "(A61 -> (A17 | A18))",
+        "prover9_expression": "(raw_material_shortage(drug_x) -> (safety_profile_established(drug_x) | efficacy_demonstrated(drug_x)))",
+        "natural": "Should drug X have a raw material shortage, then either a safety profile for drug X is established or efficacy of drug X is demonstrated."
+      },
+      "(A62 → (A60 → A59))": {
+        "formal": "(A62 → (A60 → A59))",
+        "prover9": "(A62 -> (A60 -> A59))",
+        "prover9_expression": "(manufacturing_audit(drug_x) -> (production_halt(drug_x) -> supply_shortage(drug_x)))",
+        "natural": "If a manufacturing audit is conducted for drug X, then if production of drug X is halted, drug X has a supply shortage."
+      },
+      "(A62 ∨ A63)": {
+        "formal": "(A62 ∨ A63)",
+        "prover9": "(A62 | A63)",
+        "prover9_expression": "(manufacturing_audit(drug_x) | process_validation(drug_x))",
+        "natural": "A manufacturing audit is conducted for drug X, or process validation is performed for drug X."
+      },
+      "(A63 → (A60 → A59))": {
+        "formal": "(A63 → (A60 → A59))",
+        "prover9": "(A63 -> (A60 -> A59))",
+        "prover9_expression": "(process_validation(drug_x) -> (production_halt(drug_x) -> supply_shortage(drug_x)))",
+        "natural": "Provided that process validation is performed for drug X, then if production of drug X is halted, drug X has a supply shortage."
+      },
+      "(A64 ∨ ¬A19)": {
+        "formal": "(A64 ∨ ¬A19)",
+        "prover9": "(A64 | -A19)",
+        "prover9_expression": "(stability_issue(drug_x) | -market_withdrawal(drug_x))",
+        "natural": "Drug X has a stability issue, or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A65 → (A64 ∨ ¬A19))": {
+        "formal": "(A65 → (A64 ∨ ¬A19))",
+        "prover9": "(A65 -> (A64 | -A19))",
+        "prover9_expression": "(shelf_life_reduction(drug_x) -> (stability_issue(drug_x) | -market_withdrawal(drug_x)))",
+        "natural": "In case the shelf life of drug X is reduced, then either drug X has a stability issue or it is not the case that drug X is withdrawn from the market."
+      },
+      "(A66 → A65)": {
+        "formal": "(A66 → A65)",
+        "prover9": "(A66 -> A65)",
+        "prover9_expression": "(storage_requirements(drug_x) -> shelf_life_reduction(drug_x))",
+        "natural": "If drug X has storage requirements, then the shelf life of drug X is reduced."
+      },
+      "(A67 → A66)": {
+        "formal": "(A67 → A66)",
+        "prover9": "(A67 -> A66)",
+        "prover9_expression": "(temperature_sensitive(drug_x) -> storage_requirements(drug_x))",
+        "natural": "Whenever drug X is temperature sensitive, then drug X has storage requirements."
+      },
+      "(A7 ∨ G)": {
+        "formal": "(A7 ∨ G)",
+        "prover9": "(A7 | G)",
+        "prover9_expression": "(has_side_effects(drug_x) | safe_for_use(drug_x))",
+        "natural": "Either drug X has side effects, or drug X is safe for use."
+      },
+      "(A8 → A7)": {
+        "formal": "(A8 → A7)",
+        "prover9": "(A8 -> A7)",
+        "prover9_expression": "(severe_side_effects(drug_x) -> has_side_effects(drug_x))",
+        "natural": "Provided that drug X has severe side effects, then drug X has side effects."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(severe_side_effects(drug_x) | mild_side_effects(drug_x))",
+        "natural": "Drug X has severe side effects, or drug X has mild side effects."
+      },
+      "(A9 → A39)": {
+        "formal": "(A9 → A39)",
+        "prover9": "(A9 -> A39)",
+        "prover9_expression": "(mild_side_effects(drug_x) -> requires_monitoring(drug_x))",
+        "natural": "Assuming drug X has mild side effects, then drug X requires monitoring."
+      },
+      "(A9 → G)": {
+        "formal": "(A9 → G)",
+        "prover9": "(A9 -> G)",
+        "prover9_expression": "(mild_side_effects(drug_x) -> safe_for_use(drug_x))",
+        "natural": "If drug X has mild side effects, then drug X is safe for use."
+      },
+      "(¬(A2 → ¬A1) → A4)": {
+        "formal": "(¬(A2 → ¬A1) → A4)",
+        "prover9": "(-(A2 -> -A1) -> A4)",
+        "prover9_expression": "(-(rejected(drug_x) -> -approved(drug_x)) -> requires_clinical_trial(drug_x))",
+        "natural": "If it is not the case that if drug X is rejected, then it is not the case that drug X is approved, then drug X requires a clinical trial."
+      },
+      "(¬(A34 → (A30 ∨ A31)) → A35)": {
+        "formal": "(¬(A34 → (A30 ∨ A31)) → A35)",
+        "prover9": "(-(A34 -> (A30 | A31)) -> A35)",
+        "prover9_expression": "(-(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))) -> profitability_decline(drug_x))",
+        "natural": "Should it not be the case that if drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted, then profitability of drug X declines."
+      },
+      "(¬(A34 → (A30 ∨ A31)) → ¬A35)": {
+        "formal": "(¬(A34 → (A30 ∨ A31)) → ¬A35)",
+        "prover9": "(-(A34 -> (A30 | A31)) -> -A35)",
+        "prover9_expression": "(-(market_share_loss(drug_x) -> (generic_application_submitted(drug_x) | biosimilar_application_submitted(drug_x))) -> -profitability_decline(drug_x))",
+        "natural": "If it is not the case that if drug X experiences market share loss, then either a generic application for drug X is submitted or a biosimilar application for drug X is submitted, then it is not the case that profitability of drug X declines."
+      },
+      "(¬(A4 → A5) → A6)": {
+        "formal": "(¬(A4 → A5) → A6)",
+        "prover9": "(-(A4 -> A5) -> A6)",
+        "prover9_expression": "(-(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x)) -> clinical_trial_failed(drug_x))",
+        "natural": "Provided that it is not the case that if drug X requires a clinical trial, then the clinical trial for drug X is completed, then the clinical trial for drug X has failed."
+      },
+      "(¬(A4 → A5) → ¬A6)": {
+        "formal": "(¬(A4 → A5) → ¬A6)",
+        "prover9": "(-(A4 -> A5) -> -A6)",
+        "prover9_expression": "(-(requires_clinical_trial(drug_x) -> clinical_trial_completed(drug_x)) -> -clinical_trial_failed(drug_x))",
+        "natural": "In the event that it is not the case that if drug X requires a clinical trial, then the clinical trial for drug X is completed, then it is not the case that the clinical trial for drug X has failed."
+      },
+      "(¬(A41 → (A9 → A39)) → A42)": {
+        "formal": "(¬(A41 → (A9 → A39)) → A42)",
+        "prover9": "(-(A41 -> (A9 -> A39)) -> A42)",
+        "prover9_expression": "(-(risk_management_program(drug_x) -> (mild_side_effects(drug_x) -> requires_monitoring(drug_x))) -> safety_concerns(drug_x))",
+        "natural": "Assuming it is not the case that if drug X has a risk management program, then if drug X has mild side effects, drug X requires monitoring, then there are safety concerns for drug X."
+      },
+      "(¬(A44 → (¬(A9 → G) → A10)) → A45)": {
+        "formal": "(¬(A44 → (¬(A9 → G) → A10)) → A45)",
+        "prover9": "(-(A44 -> (-(A9 -> G) -> A10)) -> A45)",
+        "prover9_expression": "(-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> data_integrity_issue(drug_x))",
+        "natural": "If it is not the case that if a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then drug X has a data integrity issue."
+      },
+      "(¬(A44 → (¬(A9 → G) → A10)) → ¬A45)": {
+        "formal": "(¬(A44 → (¬(A9 → G) → A10)) → ¬A45)",
+        "prover9": "(-(A44 -> (-(A9 -> G) -> A10)) -> -A45)",
+        "prover9_expression": "(-(patient_registry(drug_x) -> (-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))) -> -data_integrity_issue(drug_x))",
+        "natural": "Should it not be the case that if a patient registry exists for drug X, then if the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label, then it is not the case that drug X has a data integrity issue."
+      },
+      "(¬(A9 → G) → A10)": {
+        "formal": "(¬(A9 → G) → A10)",
+        "prover9": "(-(A9 -> G) -> A10)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_warning_label(drug_x))",
+        "natural": "If the absence of mild side effects does not imply drug X is safe for use, then drug X requires a warning label."
+      },
+      "(¬(A9 → G) → A11)": {
+        "formal": "(¬(A9 → G) → A11)",
+        "prover9": "(-(A9 -> G) -> A11)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> requires_black_box_warning(drug_x))",
+        "natural": "Provided that the absence of mild side effects does not imply drug X is safe for use, then drug X requires a black box warning."
+      },
+      "(¬(A9 → G) → A49)": {
+        "formal": "(¬(A9 → G) → A49)",
+        "prover9": "(-(A9 -> G) -> A49)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> restricted_distribution(drug_x))",
+        "natural": "In case the absence of mild side effects does not imply drug X is safe for use, then drug X has restricted distribution."
+      },
+      "(¬(A9 → G) → A50)": {
+        "formal": "(¬(A9 → G) → A50)",
+        "prover9": "(-(A9 -> G) -> A50)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> special_handling(drug_x))",
+        "natural": "Whenever the absence of mild side effects does not imply drug X is safe for use, then drug X requires special handling."
+      },
+      "(¬(A9 → G) → ¬A10)": {
+        "formal": "(¬(A9 → G) → ¬A10)",
+        "prover9": "(-(A9 -> G) -> -A10)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> -requires_warning_label(drug_x))",
+        "natural": "If the absence of mild side effects does not imply drug X is safe for use, then it is not the case that drug X requires a warning label."
+      },
+      "(¬(A9 → G) → ¬A49)": {
+        "formal": "(¬(A9 → G) → ¬A49)",
+        "prover9": "(-(A9 -> G) -> -A49)",
+        "prover9_expression": "(-(mild_side_effects(drug_x) -> safe_for_use(drug_x)) -> -restricted_distribution(drug_x))",
+        "natural": "Assuming the absence of mild side effects does not imply drug X is safe for use, then it is not the case that drug X has restricted distribution."
+      },
+      "(¬A25 → A26)": {
+        "formal": "(¬A25 → A26)",
+        "prover9": "(-A25 -> A26)",
+        "prover9_expression": "(-patent_protected(drug_x) -> generic_available(drug_x))",
+        "natural": "Should it not be the case that drug X is patent protected, then a generic version of drug X is available."
+      },
+      "(¬A25 → A27)": {
+        "formal": "(¬A25 → A27)",
+        "prover9": "(-A25 -> A27)",
+        "prover9_expression": "(-patent_protected(drug_x) -> exclusive_marketing(drug_x))",
+        "natural": "If it is not the case that drug X is patent protected, then drug X has exclusive marketing rights."
+      },
+      "(¬A25 → ¬A26)": {
+        "formal": "(¬A25 → ¬A26)",
+        "prover9": "(-A25 -> -A26)",
+        "prover9_expression": "(-patent_protected(drug_x) -> -generic_available(drug_x))",
+        "natural": "Provided that it is not the case that drug X is patent protected, then it is not the case that a generic version of drug X is available."
+      },
+      "(¬A51 → A52)": {
+        "formal": "(¬A51 → A52)",
+        "prover9": "(-A51 -> A52)",
+        "prover9_expression": "(-controlled_substance(drug_x) -> prescription_required(drug_x))",
+        "natural": "In the event that it is not the case that drug X is a controlled substance, then a prescription is required for drug X."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-safe_for_use(drug_x) -> approved(drug_x))",
+        "natural": "If it is not the case that drug X is safe for use, then drug X is approved."
+      },
+      "A25": {
+        "formal": "A25",
+        "prover9": "A25",
+        "prover9_expression": "patent_protected(drug_x)",
+        "natural": "Drug X is patent protected."
+      },
+      "A48": {
+        "formal": "A48",
+        "prover9": "A48",
+        "prover9_expression": "compliance_certified(drug_x)",
+        "natural": "Drug X is compliance certified."
+      },
+      "A51": {
+        "formal": "A51",
+        "prover9": "A51",
+        "prover9_expression": "controlled_substance(drug_x)",
+        "natural": "Drug X is a controlled substance."
+      },
+      "A65": {
+        "formal": "A65",
+        "prover9": "A65",
+        "prover9_expression": "shelf_life_reduction(drug_x)",
+        "natural": "The shelf life of drug X is reduced."
+      },
+      "A66": {
+        "formal": "A66",
+        "prover9": "A66",
+        "prover9_expression": "storage_requirements(drug_x)",
+        "natural": "Drug X has storage requirements."
+      },
+      "A67": {
+        "formal": "A67",
+        "prover9": "A67",
+        "prover9_expression": "temperature_sensitive(drug_x)",
+        "natural": "Drug X is temperature sensitive."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "safe_for_use(drug_x)",
+        "natural": "Drug X is safe for use."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-approved(drug_x)",
+        "natural": "It is not the case that drug X is approved."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-fast_track_approval(drug_x)",
+        "natural": "It is not the case that drug X receives fast track approval."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-market_withdrawal(drug_x)",
+        "natural": "It is not the case that drug X is withdrawn from the market."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-voluntary_recall(drug_x)",
+        "natural": "It is not the case that drug X is voluntarily recalled."
+      },
+      "¬A21": {
+        "formal": "¬A21",
+        "prover9": "-A21",
+        "prover9_expression": "-regulatory_violation(drug_x)",
+        "natural": "It is not the case that drug X has a regulatory violation."
+      },
+      "¬A32": {
+        "formal": "¬A32",
+        "prover9": "-A32",
+        "prover9_expression": "-competitive_market_entry(drug_x)",
+        "natural": "It is not the case that competitive market entry occurs for drug X."
+      },
+      "¬A36": {
+        "formal": "¬A36",
+        "prover9": "-A36",
+        "prover9_expression": "-orphan_drug_status(drug_x)",
+        "natural": "It is not the case that drug X has orphan drug status."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-requires_clinical_trial(drug_x)",
+        "natural": "It is not the case that drug X requires a clinical trial."
+      },
+      "¬A42": {
+        "formal": "¬A42",
+        "prover9": "-A42",
+        "prover9_expression": "-safety_concerns(drug_x)",
+        "natural": "It is not the case that there are safety concerns for drug X."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-clinical_trial_completed(drug_x)",
+        "natural": "It is not the case that the clinical trial for drug X is completed."
+      },
+      "¬A52": {
+        "formal": "¬A52",
+        "prover9": "-A52",
+        "prover9_expression": "-prescription_required(drug_x)",
+        "natural": "It is not the case that a prescription is required for drug X."
+      },
+      "¬A55": {
+        "formal": "¬A55",
+        "prover9": "-A55",
+        "prover9_expression": "-manufacturing_defect(drug_x)",
+        "natural": "It is not the case that drug X has a manufacturing defect."
+      },
+      "¬A59": {
+        "formal": "¬A59",
+        "prover9": "-A59",
+        "prover9_expression": "-supply_shortage(drug_x)",
+        "natural": "It is not the case that drug X has a supply shortage."
+      },
+      "¬A64": {
+        "formal": "¬A64",
+        "prover9": "-A64",
+        "prover9_expression": "-stability_issue(drug_x)",
+        "natural": "It is not the case that drug X has a stability issue."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-has_side_effects(drug_x)",
+        "natural": "It is not the case that drug X has side effects."
+      }
+    }
+  }
+}

@@ -1,0 +1,1395 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 6,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 1
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(produces(company, compound) | safe_for_human_use(product))",
+        "natural": "Either the company produces the compound or the product is safe for human use."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → A13)",
+        "prover9_expression": "(has_regulatory_approval(product) -> market_ready(product))",
+        "natural": "Under the condition that the product has regulatory approval, the product is market ready."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(has_regulatory_approval(product) | passes_validation_study(product))",
+        "natural": "Either the product has regulatory approval or it passes the validation study."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9_expression": "(passes_validation_study(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "If the product passes the validation study, then either it meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9_expression": "(market_ready(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "Whenever the product is market ready, either it meets specifications or, under the condition that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A17 → (A16 → ¬A15))",
+        "prover9_expression": "(scheduled_for_retest(batch) -> (fails_final_test(batch) -> -requires_reprocessing(batch)))",
+        "natural": "If the batch is scheduled for retest, then if the batch fails the final test, the batch does not require reprocessing."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A19 → G)",
+        "prover9_expression": "(packaged(product) -> safe_for_human_use(product))",
+        "natural": "If the product is packaged, then it is safe for human use."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(approved(fda, process) -> -produces(company, compound))",
+        "natural": "Whenever the FDA approves the process, it is not the case that the company produces the compound."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A20 → G)",
+        "prover9_expression": "(shipped(product) -> safe_for_human_use(product))",
+        "natural": "Under the condition that the product is shipped, the product is safe for human use."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A21 → A19)",
+        "prover9_expression": "(labeled_correctly(product) -> packaged(product))",
+        "natural": "If the product is labeled correctly, then it is packaged."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A22 → A20)",
+        "prover9_expression": "(documented_properly(product) -> shipped(product))",
+        "natural": "Provided that the product is documented properly, the product is shipped."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A23 → (A21 ∨ A22))",
+        "prover9_expression": "(release_authorized(quality_manager) -> (labeled_correctly(product) | documented_properly(product)))",
+        "natural": "If the quality manager authorizes release, then either the product is labeled correctly or it is documented properly."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A25 → (¬A23 → A24))",
+        "prover9_expression": "(supervisor_approves(supervisor) -> (-release_authorized(quality_manager) -> released(product)))",
+        "natural": "If the supervisor approves, then if it is not the case that the quality manager authorizes release, the product is released."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A25 ∨ A26)",
+        "prover9_expression": "(supervisor_approves(supervisor) | director_approves(director))",
+        "natural": "Either the supervisor approves or the director approves."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A26 → (¬A23 → A24))",
+        "prover9_expression": "(director_approves(director) -> (-release_authorized(quality_manager) -> released(product)))",
+        "natural": "Under the condition that the director approves, if it is not the case that the quality manager authorizes release, the product is released."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A27 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9_expression": "(clinical_trial_successful(drug) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "If the clinical trial for the drug is successful, then either the product meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A29 → (¬A27 → A28))",
+        "prover9_expression": "(regulatory_submission_filed(company) -> (-clinical_trial_successful(drug) -> phase_iii_complete(drug)))",
+        "natural": "If the company files the regulatory submission, then if it is not the case that the clinical trial for the drug is successful, Phase III for the drug is complete."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A30 ∨ A29)",
+        "prover9_expression": "(patent_granted(invention) | regulatory_submission_filed(company))",
+        "natural": "Either the patent is granted for the invention or the company files the regulatory submission."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A32 → A34)",
+        "prover9_expression": "(patents_filed(company) -> intellectual_property_secured(company))",
+        "natural": "Whenever the company files the patents, the company secures intellectual property."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A32 ∨ A33)",
+        "prover9_expression": "(patents_filed(company) | trade_secret_protected(formula))",
+        "natural": "Either the company files the patents or the formula is protected as a trade secret."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A33 → ¬A30)",
+        "prover9_expression": "(trade_secret_protected(formula) -> -patent_granted(invention))",
+        "natural": "If the formula is protected as a trade secret, then it is not the case that the patent is granted for the invention."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A36 → (A19 ∨ A20))",
+        "prover9_expression": "(inventory_managed(warehouse) -> (packaged(product) | shipped(product)))",
+        "natural": "If the warehouse manages inventory, then either the product is packaged or the product is shipped."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A39 ∨ (A38 → A37))",
+        "prover9_expression": "(recall_issued(product) | (supply_chain_disrupted(distributor) -> stock_available(product)))",
+        "natural": "Either a recall is issued for the product or, if the supply chain is disrupted at the distributor, the product is available in stock."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(pure(material) -> sterile(material))",
+        "natural": "If the material is pure, then it is sterile."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A5 → ¬A3)",
+        "prover9_expression": "(sterile(material) -> -contaminated(material))",
+        "natural": "Under the condition that the material is sterile, it is not the case that the material is contaminated."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(passes_quality_check(batch) | fails_quality_check(batch))",
+        "natural": "Either the batch passes the quality check or the batch fails the quality check."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A7 → G)",
+        "prover9_expression": "(fails_quality_check(batch) -> safe_for_human_use(product))",
+        "natural": "Provided that the batch fails the quality check, the product is safe for human use."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A8 → (A6 → G))",
+        "prover9_expression": "(uses_sterile_equipment(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+        "natural": "If the lab uses sterile equipment, then if the batch passes the quality check, the product is safe for human use."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A8 ∨ A9)",
+        "prover9_expression": "(uses_sterile_equipment(lab) | follows_gmp_protocols(lab))",
+        "natural": "Either the lab uses sterile equipment or the lab follows GMP protocols."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(¬(A14 → G) → A15)",
+        "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> requires_reprocessing(batch))",
+        "natural": "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch requires reprocessing."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(¬(A14 → G) → A16)",
+        "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> fails_final_test(batch))",
+        "natural": "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch fails the final test."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(¬(A34 → A31) → A35)",
+        "prover9_expression": "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> infringement_occurred(competitor))",
+        "natural": "If it is not the case that if the company secures intellectual property then the company has exclusive rights, then infringement occurs by the competitor."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(¬(A34 → A31) → ¬A35)",
+        "prover9_expression": "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> -infringement_occurred(competitor))",
+        "natural": "Under the condition that it is not the case that if the company secures intellectual property then the company has exclusive rights, it is not the case that infringement occurs by the competitor."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(¬A17 → A18)",
+        "prover9_expression": "(-scheduled_for_retest(batch) -> discarded(batch))",
+        "natural": "If it is not the case that the batch is scheduled for retest, then the batch is discarded."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(¬A17 → ¬A18)",
+        "prover9_expression": "(-scheduled_for_retest(batch) -> -discarded(batch))",
+        "natural": "Whenever it is not the case that the batch is scheduled for retest, it is not the case that the batch is discarded."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(¬A2 → A3)",
+        "prover9_expression": "(-approved(fda, process) -> contaminated(material))",
+        "natural": "If it is not the case that the FDA approves the process, then the material is contaminated."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(¬A2 → A4)",
+        "prover9_expression": "(-approved(fda, process) -> pure(material))",
+        "natural": "Provided that it is not the case that the FDA approves the process, the material is pure."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬A23 → ¬A24)",
+        "prover9_expression": "(-release_authorized(quality_manager) -> -released(product))",
+        "natural": "Whenever it is not the case that the quality manager authorizes release, it is not the case that the product is released."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(¬A27 → ¬A28)",
+        "prover9_expression": "(-clinical_trial_successful(drug) -> -phase_iii_complete(drug))",
+        "natural": "Provided that it is not the case that the clinical trial for the drug is successful, it is not the case that Phase III for the drug is complete."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(¬A36 → A38)",
+        "prover9_expression": "(-inventory_managed(warehouse) -> supply_chain_disrupted(distributor))",
+        "natural": "If it is not the case that the warehouse manages inventory, then the supply chain is disrupted at the distributor."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A14",
+        "prover9_expression": "undergoes_final_testing(batch)",
+        "natural": "The batch undergoes final testing."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A10",
+        "prover9_expression": "-meets_specifications(product)",
+        "natural": "It is not the case that the product meets specifications."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A31",
+        "prover9_expression": "-exclusive_rights(company)",
+        "natural": "It is not the case that the company has exclusive rights."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A37",
+        "prover9_expression": "-stock_available(product)",
+        "natural": "It is not the case that the product is available in stock."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A39",
+        "prover9_expression": "-recall_issued(product)",
+        "natural": "It is not the case that a recall is issued for the product."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "safe_for_human_use(product)",
+    "natural": "The product is safe for human use."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> -A3)"
+          ],
+          "conclusion": "(A4 -> -A3)",
+          "natural": "Whenever the material is pure, the material is not contaminated."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A2 -> A4)",
+            "(A4 -> -A3)"
+          ],
+          "conclusion": "(-A2 -> -A3)",
+          "natural": "Under the condition that it is not the case that the FDA approves the process, it is not the case that the material is contaminated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A2 -> A3)",
+            "(-A2 -> -A3)"
+          ],
+          "conclusion": "A2",
+          "natural": "The FDA approves the process."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "It is not the case that the company produces the compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A13)",
+            "(A13 -> (A10 | (A9 -> (A6 -> G))))"
+          ],
+          "conclusion": "(A11 -> (A10 | (A9 -> (A6 -> G))))",
+          "natural": "If the product has regulatory approval, then either it meets specifications or, whenever the lab follows GMP protocols, whenever the batch passes the quality check, the product is safe for human use."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> (A10 | (A9 -> (A6 -> G))))",
+            "(A12 -> (A10 | (A9 -> (A6 -> G))))"
+          ],
+          "conclusion": "(A10 | (A9 -> (A6 -> G)))",
+          "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A9 -> (A6 -> G)))",
+            "-A10"
+          ],
+          "conclusion": "(A9 -> (A6 -> G))",
+          "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A6 -> G))",
+            "(A9 -> (A6 -> G))"
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> G)",
+            "(A7 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A17 -> A18)",
+            "(-A17 -> -A18)"
+          ],
+          "conclusion": "A17",
+          "natural": "The batch is scheduled for retest."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> (A16 -> -A15))",
+            "A17"
+          ],
+          "conclusion": "(A16 -> -A15)",
+          "natural": "Provided that the batch fails the final test, it is not the case that the batch requires reprocessing."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A14 -> G) -> A16)",
+            "(A16 -> -A15)"
+          ],
+          "conclusion": "(-(A14 -> G) -> -A15)",
+          "natural": "Provided that it is not the case that if the batch undergoes final testing then the product is safe for human use, it is not the case that the batch requires reprocessing."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A14 -> G) -> A15)",
+            "(-(A14 -> G) -> -A15)"
+          ],
+          "conclusion": "(A14 -> G)",
+          "natural": "If the batch undergoes final testing, then the product is safe for human use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> G)",
+            "A14"
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A25 | A26)",
+            "(A25 -> (-A23 -> A24))",
+            "(A26 -> (-A23 -> A24))"
+          ],
+          "conclusion": "(-A23 -> A24)",
+          "natural": "If it is not the case that the quality manager authorizes release, then the product is released."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A23 -> A24)",
+            "(-A23 -> -A24)"
+          ],
+          "conclusion": "A23",
+          "natural": "The quality manager authorizes release."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> (A21 | A22))",
+            "A23"
+          ],
+          "conclusion": "(A21 | A22)",
+          "natural": "Either the product is labeled correctly or it is documented properly."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A21 -> A19)",
+            "(A22 -> A20)",
+            "(A21 | A22)"
+          ],
+          "conclusion": "(A19 | A20)",
+          "natural": "Either the product is packaged or the product is shipped."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A19 | A20)",
+            "(A19 -> G)",
+            "(A20 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A34 -> A31) -> A35)",
+            "(-(A34 -> A31) -> -A35)"
+          ],
+          "conclusion": "(A34 -> A31)",
+          "natural": "Under the condition that the company secures intellectual property, the company has exclusive rights."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A32 -> A34)",
+            "(A34 -> A31)"
+          ],
+          "conclusion": "(A32 -> A31)",
+          "natural": "Provided that the company files the patents, the company has exclusive rights."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A32 -> A31)",
+            "(A33 -> -A30)",
+            "(A32 | A33)"
+          ],
+          "conclusion": "(A31 | -A30)",
+          "natural": "Either the company has exclusive rights or it is not the case that the patent is granted for the invention."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A31 | -A30)",
+            "-A31"
+          ],
+          "conclusion": "-A30",
+          "natural": "It is not the case that the patent is granted for the invention."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A30 | A29)",
+            "-A30"
+          ],
+          "conclusion": "A29",
+          "natural": "The company files the regulatory submission."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A29 -> (-A27 -> A28))",
+            "A29"
+          ],
+          "conclusion": "(-A27 -> A28)",
+          "natural": "If it is not the case that the clinical trial for the drug is successful, then Phase III for the drug is complete."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A27 -> A28)",
+            "(-A27 -> -A28)"
+          ],
+          "conclusion": "A27",
+          "natural": "The clinical trial for the drug is successful."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A27 -> (A10 | (A9 -> (A6 -> G))))",
+            "A27"
+          ],
+          "conclusion": "(A10 | (A9 -> (A6 -> G)))",
+          "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A10 | (A9 -> (A6 -> G)))",
+            "-A10"
+          ],
+          "conclusion": "(A9 -> (A6 -> G))",
+          "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A8 | A9)",
+            "(A8 -> (A6 -> G))",
+            "(A9 -> (A6 -> G))"
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the batch passes the quality check, then the product is safe for human use."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> G)",
+            "(A7 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A39 | (A38 -> A37))",
+            "-A39"
+          ],
+          "conclusion": "(A38 -> A37)",
+          "natural": "Provided that the supply chain is disrupted at the distributor, the product is available in stock."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-A36 -> A38)",
+            "(A38 -> A37)"
+          ],
+          "conclusion": "(-A36 -> A37)",
+          "natural": "Under the condition that it is not the case that the warehouse manages inventory, the product is available in stock."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A36 -> A37)",
+            "-A37"
+          ],
+          "conclusion": "A36",
+          "natural": "The warehouse manages inventory."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A36 -> (A19 | A20))",
+            "A36"
+          ],
+          "conclusion": "(A19 | A20)",
+          "natural": "Either the product is packaged or the product is shipped."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A19 | A20)",
+            "(A19 -> G)",
+            "(A20 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The product is safe for human use."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "produces(company, compound)",
+      "A2": "approved(fda, process)",
+      "A3": "contaminated(material)",
+      "A4": "pure(material)",
+      "A5": "sterile(material)",
+      "A6": "passes_quality_check(batch)",
+      "A7": "fails_quality_check(batch)",
+      "A8": "uses_sterile_equipment(lab)",
+      "A9": "follows_gmp_protocols(lab)",
+      "A10": "meets_specifications(product)",
+      "A11": "has_regulatory_approval(product)",
+      "A12": "passes_validation_study(product)",
+      "A13": "market_ready(product)",
+      "A14": "undergoes_final_testing(batch)",
+      "A15": "requires_reprocessing(batch)",
+      "A16": "fails_final_test(batch)",
+      "A17": "scheduled_for_retest(batch)",
+      "A18": "discarded(batch)",
+      "A19": "packaged(product)",
+      "A20": "shipped(product)",
+      "A21": "labeled_correctly(product)",
+      "A22": "documented_properly(product)",
+      "A23": "release_authorized(quality_manager)",
+      "A24": "released(product)",
+      "A25": "supervisor_approves(supervisor)",
+      "A26": "director_approves(director)",
+      "A27": "clinical_trial_successful(drug)",
+      "A28": "phase_iii_complete(drug)",
+      "A29": "regulatory_submission_filed(company)",
+      "A30": "patent_granted(invention)",
+      "A31": "exclusive_rights(company)",
+      "A32": "patents_filed(company)",
+      "A33": "trade_secret_protected(formula)",
+      "A34": "intellectual_property_secured(company)",
+      "A35": "infringement_occurred(competitor)",
+      "A36": "inventory_managed(warehouse)",
+      "A37": "stock_available(product)",
+      "A38": "supply_chain_disrupted(distributor)",
+      "A39": "recall_issued(product)",
+      "G": "safe_for_human_use(product)"
+    },
+    "natural_facts": {
+      "A1": "The company produces the compound.",
+      "A2": "The FDA approves the process.",
+      "A3": "The material is contaminated.",
+      "A4": "The material is pure.",
+      "A5": "The material is sterile.",
+      "A6": "The batch passes the quality check.",
+      "A7": "The batch fails the quality check.",
+      "A8": "The lab uses sterile equipment.",
+      "A9": "The lab follows GMP protocols.",
+      "A10": "The product meets specifications.",
+      "A11": "The product has regulatory approval.",
+      "A12": "The product passes the validation study.",
+      "A13": "The product is market ready.",
+      "A14": "The batch undergoes final testing.",
+      "A15": "The batch requires reprocessing.",
+      "A16": "The batch fails the final test.",
+      "A17": "The batch is scheduled for retest.",
+      "A18": "The batch is discarded.",
+      "A19": "The product is packaged.",
+      "A20": "The product is shipped.",
+      "A21": "The product is labeled correctly.",
+      "A22": "The product is documented properly.",
+      "A23": "The quality manager authorizes release.",
+      "A24": "The product is released.",
+      "A25": "The supervisor approves.",
+      "A26": "The director approves.",
+      "A27": "The clinical trial for the drug is successful.",
+      "A28": "Phase III for the drug is complete.",
+      "A29": "The company files the regulatory submission.",
+      "A30": "The patent is granted for the invention.",
+      "A31": "The company has exclusive rights.",
+      "A32": "The company files the patents.",
+      "A33": "The formula is protected as a trade secret.",
+      "A34": "The company secures intellectual property.",
+      "A35": "Infringement occurs by the competitor.",
+      "A36": "The warehouse manages inventory.",
+      "A37": "The product is available in stock.",
+      "A38": "The supply chain is disrupted at the distributor.",
+      "A39": "A recall is issued for the product.",
+      "G": "The product is safe for human use."
+    },
+    "prover9_expressions": [
+      "(produces(company, compound) | safe_for_human_use(product))",
+      "(meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product))))",
+      "(has_regulatory_approval(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+      "(has_regulatory_approval(product) -> market_ready(product))",
+      "(has_regulatory_approval(product) | passes_validation_study(product))",
+      "(passes_validation_study(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+      "(market_ready(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+      "(undergoes_final_testing(batch) -> safe_for_human_use(product))",
+      "(fails_final_test(batch) -> -requires_reprocessing(batch))",
+      "(scheduled_for_retest(batch) -> (fails_final_test(batch) -> -requires_reprocessing(batch)))",
+      "(packaged(product) -> safe_for_human_use(product))",
+      "(packaged(product) | shipped(product))",
+      "(approved(fda, process) -> -produces(company, compound))",
+      "(shipped(product) -> safe_for_human_use(product))",
+      "(labeled_correctly(product) -> packaged(product))",
+      "(labeled_correctly(product) | documented_properly(product))",
+      "(documented_properly(product) -> shipped(product))",
+      "(release_authorized(quality_manager) -> (labeled_correctly(product) | documented_properly(product)))",
+      "(supervisor_approves(supervisor) -> (-release_authorized(quality_manager) -> released(product)))",
+      "(supervisor_approves(supervisor) | director_approves(director))",
+      "(director_approves(director) -> (-release_authorized(quality_manager) -> released(product)))",
+      "(clinical_trial_successful(drug) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+      "(regulatory_submission_filed(company) -> (-clinical_trial_successful(drug) -> phase_iii_complete(drug)))",
+      "(patent_granted(invention) | regulatory_submission_filed(company))",
+      "(exclusive_rights(company) | -patent_granted(invention))",
+      "(patents_filed(company) -> exclusive_rights(company))",
+      "(patents_filed(company) -> intellectual_property_secured(company))",
+      "(patents_filed(company) | trade_secret_protected(formula))",
+      "(trade_secret_protected(formula) -> -patent_granted(invention))",
+      "(intellectual_property_secured(company) -> exclusive_rights(company))",
+      "(inventory_managed(warehouse) -> (packaged(product) | shipped(product)))",
+      "(supply_chain_disrupted(distributor) -> stock_available(product))",
+      "(recall_issued(product) | (supply_chain_disrupted(distributor) -> stock_available(product)))",
+      "(pure(material) -> sterile(material))",
+      "(pure(material) -> -contaminated(material))",
+      "(sterile(material) -> -contaminated(material))",
+      "(passes_quality_check(batch) -> safe_for_human_use(product))",
+      "(passes_quality_check(batch) | fails_quality_check(batch))",
+      "(fails_quality_check(batch) -> safe_for_human_use(product))",
+      "(uses_sterile_equipment(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+      "(uses_sterile_equipment(lab) | follows_gmp_protocols(lab))",
+      "(follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+      "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> requires_reprocessing(batch))",
+      "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> fails_final_test(batch))",
+      "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> -requires_reprocessing(batch))",
+      "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> infringement_occurred(competitor))",
+      "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> -infringement_occurred(competitor))",
+      "(-scheduled_for_retest(batch) -> discarded(batch))",
+      "(-scheduled_for_retest(batch) -> -discarded(batch))",
+      "(-approved(fda, process) -> contaminated(material))",
+      "(-approved(fda, process) -> pure(material))",
+      "(-approved(fda, process) -> -contaminated(material))",
+      "(-release_authorized(quality_manager) -> released(product))",
+      "(-release_authorized(quality_manager) -> -released(product))",
+      "(-clinical_trial_successful(drug) -> phase_iii_complete(drug))",
+      "(-clinical_trial_successful(drug) -> -phase_iii_complete(drug))",
+      "(-inventory_managed(warehouse) -> stock_available(product))",
+      "(-inventory_managed(warehouse) -> supply_chain_disrupted(distributor))",
+      "undergoes_final_testing(batch)",
+      "scheduled_for_retest(batch)",
+      "approved(fda, process)",
+      "release_authorized(quality_manager)",
+      "clinical_trial_successful(drug)",
+      "regulatory_submission_filed(company)",
+      "inventory_managed(warehouse)",
+      "safe_for_human_use(product)",
+      "-produces(company, compound)",
+      "-meets_specifications(product)",
+      "-patent_granted(invention)",
+      "-exclusive_rights(company)",
+      "-stock_available(product)",
+      "-recall_issued(product)"
+    ],
+    "natural_expressions": [
+      "Either the company produces the compound or the product is safe for human use.",
+      "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use.",
+      "If the product has regulatory approval, then either it meets specifications or, whenever the lab follows GMP protocols, whenever the batch passes the quality check, the product is safe for human use.",
+      "Under the condition that the product has regulatory approval, the product is market ready.",
+      "Either the product has regulatory approval or it passes the validation study.",
+      "If the product passes the validation study, then either it meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use.",
+      "Whenever the product is market ready, either it meets specifications or, under the condition that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use.",
+      "If the batch undergoes final testing, then the product is safe for human use.",
+      "Provided that the batch fails the final test, it is not the case that the batch requires reprocessing.",
+      "If the batch is scheduled for retest, then if the batch fails the final test, the batch does not require reprocessing.",
+      "If the product is packaged, then it is safe for human use.",
+      "Either the product is packaged or the product is shipped.",
+      "Whenever the FDA approves the process, it is not the case that the company produces the compound.",
+      "Under the condition that the product is shipped, the product is safe for human use.",
+      "If the product is labeled correctly, then it is packaged.",
+      "Either the product is labeled correctly or it is documented properly.",
+      "Provided that the product is documented properly, the product is shipped.",
+      "If the quality manager authorizes release, then either the product is labeled correctly or it is documented properly.",
+      "If the supervisor approves, then if it is not the case that the quality manager authorizes release, the product is released.",
+      "Either the supervisor approves or the director approves.",
+      "Under the condition that the director approves, if it is not the case that the quality manager authorizes release, the product is released.",
+      "If the clinical trial for the drug is successful, then either the product meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use.",
+      "If the company files the regulatory submission, then if it is not the case that the clinical trial for the drug is successful, Phase III for the drug is complete.",
+      "Either the patent is granted for the invention or the company files the regulatory submission.",
+      "Either the company has exclusive rights or it is not the case that the patent is granted for the invention.",
+      "Provided that the company files the patents, the company has exclusive rights.",
+      "Whenever the company files the patents, the company secures intellectual property.",
+      "Either the company files the patents or the formula is protected as a trade secret.",
+      "If the formula is protected as a trade secret, then it is not the case that the patent is granted for the invention.",
+      "Under the condition that the company secures intellectual property, the company has exclusive rights.",
+      "If the warehouse manages inventory, then either the product is packaged or the product is shipped.",
+      "Provided that the supply chain is disrupted at the distributor, the product is available in stock.",
+      "Either a recall is issued for the product or, if the supply chain is disrupted at the distributor, the product is available in stock.",
+      "If the material is pure, then it is sterile.",
+      "Whenever the material is pure, the material is not contaminated.",
+      "Under the condition that the material is sterile, it is not the case that the material is contaminated.",
+      "If the batch passes the quality check, then the product is safe for human use.",
+      "Either the batch passes the quality check or the batch fails the quality check.",
+      "Provided that the batch fails the quality check, the product is safe for human use.",
+      "If the lab uses sterile equipment, then if the batch passes the quality check, the product is safe for human use.",
+      "Either the lab uses sterile equipment or the lab follows GMP protocols.",
+      "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use.",
+      "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch requires reprocessing.",
+      "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch fails the final test.",
+      "Provided that it is not the case that if the batch undergoes final testing then the product is safe for human use, it is not the case that the batch requires reprocessing.",
+      "If it is not the case that if the company secures intellectual property then the company has exclusive rights, then infringement occurs by the competitor.",
+      "Under the condition that it is not the case that if the company secures intellectual property then the company has exclusive rights, it is not the case that infringement occurs by the competitor.",
+      "If it is not the case that the batch is scheduled for retest, then the batch is discarded.",
+      "Whenever it is not the case that the batch is scheduled for retest, it is not the case that the batch is discarded.",
+      "If it is not the case that the FDA approves the process, then the material is contaminated.",
+      "Provided that it is not the case that the FDA approves the process, the material is pure.",
+      "Under the condition that it is not the case that the FDA approves the process, it is not the case that the material is contaminated.",
+      "If it is not the case that the quality manager authorizes release, then the product is released.",
+      "Whenever it is not the case that the quality manager authorizes release, it is not the case that the product is released.",
+      "If it is not the case that the clinical trial for the drug is successful, then Phase III for the drug is complete.",
+      "Provided that it is not the case that the clinical trial for the drug is successful, it is not the case that Phase III for the drug is complete.",
+      "Under the condition that it is not the case that the warehouse manages inventory, the product is available in stock.",
+      "If it is not the case that the warehouse manages inventory, then the supply chain is disrupted at the distributor.",
+      "The batch undergoes final testing.",
+      "The batch is scheduled for retest.",
+      "The FDA approves the process.",
+      "The quality manager authorizes release.",
+      "The clinical trial for the drug is successful.",
+      "The company files the regulatory submission.",
+      "The warehouse manages inventory.",
+      "The product is safe for human use.",
+      "It is not the case that the company produces the compound.",
+      "It is not the case that the product meets specifications.",
+      "It is not the case that the patent is granted for the invention.",
+      "It is not the case that the company has exclusive rights.",
+      "It is not the case that the product is available in stock.",
+      "It is not the case that a recall is issued for the product."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(produces(company, compound) | safe_for_human_use(product))",
+        "natural": "Either the company produces the compound or the product is safe for human use."
+      },
+      "(A10 ∨ (A9 → (A6 → G)))": {
+        "formal": "(A10 ∨ (A9 → (A6 → G)))",
+        "prover9": "(A10 | (A9 -> (A6 -> G)))",
+        "prover9_expression": "(meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product))))",
+        "natural": "Either the product meets specifications, or provided that the lab follows GMP protocols, if the batch passes the quality check, then the product is safe for human use."
+      },
+      "(A11 → (A10 ∨ (A9 → (A6 → G))))": {
+        "formal": "(A11 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9": "(A11 -> (A10 | (A9 -> (A6 -> G))))",
+        "prover9_expression": "(has_regulatory_approval(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "If the product has regulatory approval, then either it meets specifications or, whenever the lab follows GMP protocols, whenever the batch passes the quality check, the product is safe for human use."
+      },
+      "(A11 → A13)": {
+        "formal": "(A11 → A13)",
+        "prover9": "(A11 -> A13)",
+        "prover9_expression": "(has_regulatory_approval(product) -> market_ready(product))",
+        "natural": "Under the condition that the product has regulatory approval, the product is market ready."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(has_regulatory_approval(product) | passes_validation_study(product))",
+        "natural": "Either the product has regulatory approval or it passes the validation study."
+      },
+      "(A12 → (A10 ∨ (A9 → (A6 → G))))": {
+        "formal": "(A12 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9": "(A12 -> (A10 | (A9 -> (A6 -> G))))",
+        "prover9_expression": "(passes_validation_study(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "If the product passes the validation study, then either it meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+      },
+      "(A13 → (A10 ∨ (A9 → (A6 → G))))": {
+        "formal": "(A13 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9": "(A13 -> (A10 | (A9 -> (A6 -> G))))",
+        "prover9_expression": "(market_ready(product) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "Whenever the product is market ready, either it meets specifications or, under the condition that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+      },
+      "(A14 → G)": {
+        "formal": "(A14 → G)",
+        "prover9": "(A14 -> G)",
+        "prover9_expression": "(undergoes_final_testing(batch) -> safe_for_human_use(product))",
+        "natural": "If the batch undergoes final testing, then the product is safe for human use."
+      },
+      "(A16 → ¬A15)": {
+        "formal": "(A16 → ¬A15)",
+        "prover9": "(A16 -> -A15)",
+        "prover9_expression": "(fails_final_test(batch) -> -requires_reprocessing(batch))",
+        "natural": "Provided that the batch fails the final test, it is not the case that the batch requires reprocessing."
+      },
+      "(A17 → (A16 → ¬A15))": {
+        "formal": "(A17 → (A16 → ¬A15))",
+        "prover9": "(A17 -> (A16 -> -A15))",
+        "prover9_expression": "(scheduled_for_retest(batch) -> (fails_final_test(batch) -> -requires_reprocessing(batch)))",
+        "natural": "If the batch is scheduled for retest, then if the batch fails the final test, the batch does not require reprocessing."
+      },
+      "(A19 → G)": {
+        "formal": "(A19 → G)",
+        "prover9": "(A19 -> G)",
+        "prover9_expression": "(packaged(product) -> safe_for_human_use(product))",
+        "natural": "If the product is packaged, then it is safe for human use."
+      },
+      "(A19 ∨ A20)": {
+        "formal": "(A19 ∨ A20)",
+        "prover9": "(A19 | A20)",
+        "prover9_expression": "(packaged(product) | shipped(product))",
+        "natural": "Either the product is packaged or the product is shipped."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(approved(fda, process) -> -produces(company, compound))",
+        "natural": "Whenever the FDA approves the process, it is not the case that the company produces the compound."
+      },
+      "(A20 → G)": {
+        "formal": "(A20 → G)",
+        "prover9": "(A20 -> G)",
+        "prover9_expression": "(shipped(product) -> safe_for_human_use(product))",
+        "natural": "Under the condition that the product is shipped, the product is safe for human use."
+      },
+      "(A21 → A19)": {
+        "formal": "(A21 → A19)",
+        "prover9": "(A21 -> A19)",
+        "prover9_expression": "(labeled_correctly(product) -> packaged(product))",
+        "natural": "If the product is labeled correctly, then it is packaged."
+      },
+      "(A21 ∨ A22)": {
+        "formal": "(A21 ∨ A22)",
+        "prover9": "(A21 | A22)",
+        "prover9_expression": "(labeled_correctly(product) | documented_properly(product))",
+        "natural": "Either the product is labeled correctly or it is documented properly."
+      },
+      "(A22 → A20)": {
+        "formal": "(A22 → A20)",
+        "prover9": "(A22 -> A20)",
+        "prover9_expression": "(documented_properly(product) -> shipped(product))",
+        "natural": "Provided that the product is documented properly, the product is shipped."
+      },
+      "(A23 → (A21 ∨ A22))": {
+        "formal": "(A23 → (A21 ∨ A22))",
+        "prover9": "(A23 -> (A21 | A22))",
+        "prover9_expression": "(release_authorized(quality_manager) -> (labeled_correctly(product) | documented_properly(product)))",
+        "natural": "If the quality manager authorizes release, then either the product is labeled correctly or it is documented properly."
+      },
+      "(A25 → (¬A23 → A24))": {
+        "formal": "(A25 → (¬A23 → A24))",
+        "prover9": "(A25 -> (-A23 -> A24))",
+        "prover9_expression": "(supervisor_approves(supervisor) -> (-release_authorized(quality_manager) -> released(product)))",
+        "natural": "If the supervisor approves, then if it is not the case that the quality manager authorizes release, the product is released."
+      },
+      "(A25 ∨ A26)": {
+        "formal": "(A25 ∨ A26)",
+        "prover9": "(A25 | A26)",
+        "prover9_expression": "(supervisor_approves(supervisor) | director_approves(director))",
+        "natural": "Either the supervisor approves or the director approves."
+      },
+      "(A26 → (¬A23 → A24))": {
+        "formal": "(A26 → (¬A23 → A24))",
+        "prover9": "(A26 -> (-A23 -> A24))",
+        "prover9_expression": "(director_approves(director) -> (-release_authorized(quality_manager) -> released(product)))",
+        "natural": "Under the condition that the director approves, if it is not the case that the quality manager authorizes release, the product is released."
+      },
+      "(A27 → (A10 ∨ (A9 → (A6 → G))))": {
+        "formal": "(A27 → (A10 ∨ (A9 → (A6 → G))))",
+        "prover9": "(A27 -> (A10 | (A9 -> (A6 -> G))))",
+        "prover9_expression": "(clinical_trial_successful(drug) -> (meets_specifications(product) | (follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))))",
+        "natural": "If the clinical trial for the drug is successful, then either the product meets specifications or, given that the lab follows GMP protocols, if the batch passes the quality check, the product is safe for human use."
+      },
+      "(A29 → (¬A27 → A28))": {
+        "formal": "(A29 → (¬A27 → A28))",
+        "prover9": "(A29 -> (-A27 -> A28))",
+        "prover9_expression": "(regulatory_submission_filed(company) -> (-clinical_trial_successful(drug) -> phase_iii_complete(drug)))",
+        "natural": "If the company files the regulatory submission, then if it is not the case that the clinical trial for the drug is successful, Phase III for the drug is complete."
+      },
+      "(A30 ∨ A29)": {
+        "formal": "(A30 ∨ A29)",
+        "prover9": "(A30 | A29)",
+        "prover9_expression": "(patent_granted(invention) | regulatory_submission_filed(company))",
+        "natural": "Either the patent is granted for the invention or the company files the regulatory submission."
+      },
+      "(A31 ∨ ¬A30)": {
+        "formal": "(A31 ∨ ¬A30)",
+        "prover9": "(A31 | -A30)",
+        "prover9_expression": "(exclusive_rights(company) | -patent_granted(invention))",
+        "natural": "Either the company has exclusive rights or it is not the case that the patent is granted for the invention."
+      },
+      "(A32 → A31)": {
+        "formal": "(A32 → A31)",
+        "prover9": "(A32 -> A31)",
+        "prover9_expression": "(patents_filed(company) -> exclusive_rights(company))",
+        "natural": "Provided that the company files the patents, the company has exclusive rights."
+      },
+      "(A32 → A34)": {
+        "formal": "(A32 → A34)",
+        "prover9": "(A32 -> A34)",
+        "prover9_expression": "(patents_filed(company) -> intellectual_property_secured(company))",
+        "natural": "Whenever the company files the patents, the company secures intellectual property."
+      },
+      "(A32 ∨ A33)": {
+        "formal": "(A32 ∨ A33)",
+        "prover9": "(A32 | A33)",
+        "prover9_expression": "(patents_filed(company) | trade_secret_protected(formula))",
+        "natural": "Either the company files the patents or the formula is protected as a trade secret."
+      },
+      "(A33 → ¬A30)": {
+        "formal": "(A33 → ¬A30)",
+        "prover9": "(A33 -> -A30)",
+        "prover9_expression": "(trade_secret_protected(formula) -> -patent_granted(invention))",
+        "natural": "If the formula is protected as a trade secret, then it is not the case that the patent is granted for the invention."
+      },
+      "(A34 → A31)": {
+        "formal": "(A34 → A31)",
+        "prover9": "(A34 -> A31)",
+        "prover9_expression": "(intellectual_property_secured(company) -> exclusive_rights(company))",
+        "natural": "Under the condition that the company secures intellectual property, the company has exclusive rights."
+      },
+      "(A36 → (A19 ∨ A20))": {
+        "formal": "(A36 → (A19 ∨ A20))",
+        "prover9": "(A36 -> (A19 | A20))",
+        "prover9_expression": "(inventory_managed(warehouse) -> (packaged(product) | shipped(product)))",
+        "natural": "If the warehouse manages inventory, then either the product is packaged or the product is shipped."
+      },
+      "(A38 → A37)": {
+        "formal": "(A38 → A37)",
+        "prover9": "(A38 -> A37)",
+        "prover9_expression": "(supply_chain_disrupted(distributor) -> stock_available(product))",
+        "natural": "Provided that the supply chain is disrupted at the distributor, the product is available in stock."
+      },
+      "(A39 ∨ (A38 → A37))": {
+        "formal": "(A39 ∨ (A38 → A37))",
+        "prover9": "(A39 | (A38 -> A37))",
+        "prover9_expression": "(recall_issued(product) | (supply_chain_disrupted(distributor) -> stock_available(product)))",
+        "natural": "Either a recall is issued for the product or, if the supply chain is disrupted at the distributor, the product is available in stock."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(pure(material) -> sterile(material))",
+        "natural": "If the material is pure, then it is sterile."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(pure(material) -> -contaminated(material))",
+        "natural": "Whenever the material is pure, the material is not contaminated."
+      },
+      "(A5 → ¬A3)": {
+        "formal": "(A5 → ¬A3)",
+        "prover9": "(A5 -> -A3)",
+        "prover9_expression": "(sterile(material) -> -contaminated(material))",
+        "natural": "Under the condition that the material is sterile, it is not the case that the material is contaminated."
+      },
+      "(A6 → G)": {
+        "formal": "(A6 → G)",
+        "prover9": "(A6 -> G)",
+        "prover9_expression": "(passes_quality_check(batch) -> safe_for_human_use(product))",
+        "natural": "If the batch passes the quality check, then the product is safe for human use."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(passes_quality_check(batch) | fails_quality_check(batch))",
+        "natural": "Either the batch passes the quality check or the batch fails the quality check."
+      },
+      "(A7 → G)": {
+        "formal": "(A7 → G)",
+        "prover9": "(A7 -> G)",
+        "prover9_expression": "(fails_quality_check(batch) -> safe_for_human_use(product))",
+        "natural": "Provided that the batch fails the quality check, the product is safe for human use."
+      },
+      "(A8 → (A6 → G))": {
+        "formal": "(A8 → (A6 → G))",
+        "prover9": "(A8 -> (A6 -> G))",
+        "prover9_expression": "(uses_sterile_equipment(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+        "natural": "If the lab uses sterile equipment, then if the batch passes the quality check, the product is safe for human use."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(uses_sterile_equipment(lab) | follows_gmp_protocols(lab))",
+        "natural": "Either the lab uses sterile equipment or the lab follows GMP protocols."
+      },
+      "(A9 → (A6 → G))": {
+        "formal": "(A9 → (A6 → G))",
+        "prover9": "(A9 -> (A6 -> G))",
+        "prover9_expression": "(follows_gmp_protocols(lab) -> (passes_quality_check(batch) -> safe_for_human_use(product)))",
+        "natural": "If the lab follows GMP protocols, then whenever the batch passes the quality check, the product is safe for human use."
+      },
+      "(¬(A14 → G) → A15)": {
+        "formal": "(¬(A14 → G) → A15)",
+        "prover9": "(-(A14 -> G) -> A15)",
+        "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> requires_reprocessing(batch))",
+        "natural": "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch requires reprocessing."
+      },
+      "(¬(A14 → G) → A16)": {
+        "formal": "(¬(A14 → G) → A16)",
+        "prover9": "(-(A14 -> G) -> A16)",
+        "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> fails_final_test(batch))",
+        "natural": "If it is not the case that if the batch undergoes final testing then the product is safe for human use, then the batch fails the final test."
+      },
+      "(¬(A14 → G) → ¬A15)": {
+        "formal": "(¬(A14 → G) → ¬A15)",
+        "prover9": "(-(A14 -> G) -> -A15)",
+        "prover9_expression": "(-(undergoes_final_testing(batch) -> safe_for_human_use(product)) -> -requires_reprocessing(batch))",
+        "natural": "Provided that it is not the case that if the batch undergoes final testing then the product is safe for human use, it is not the case that the batch requires reprocessing."
+      },
+      "(¬(A34 → A31) → A35)": {
+        "formal": "(¬(A34 → A31) → A35)",
+        "prover9": "(-(A34 -> A31) -> A35)",
+        "prover9_expression": "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> infringement_occurred(competitor))",
+        "natural": "If it is not the case that if the company secures intellectual property then the company has exclusive rights, then infringement occurs by the competitor."
+      },
+      "(¬(A34 → A31) → ¬A35)": {
+        "formal": "(¬(A34 → A31) → ¬A35)",
+        "prover9": "(-(A34 -> A31) -> -A35)",
+        "prover9_expression": "(-(intellectual_property_secured(company) -> exclusive_rights(company)) -> -infringement_occurred(competitor))",
+        "natural": "Under the condition that it is not the case that if the company secures intellectual property then the company has exclusive rights, it is not the case that infringement occurs by the competitor."
+      },
+      "(¬A17 → A18)": {
+        "formal": "(¬A17 → A18)",
+        "prover9": "(-A17 -> A18)",
+        "prover9_expression": "(-scheduled_for_retest(batch) -> discarded(batch))",
+        "natural": "If it is not the case that the batch is scheduled for retest, then the batch is discarded."
+      },
+      "(¬A17 → ¬A18)": {
+        "formal": "(¬A17 → ¬A18)",
+        "prover9": "(-A17 -> -A18)",
+        "prover9_expression": "(-scheduled_for_retest(batch) -> -discarded(batch))",
+        "natural": "Whenever it is not the case that the batch is scheduled for retest, it is not the case that the batch is discarded."
+      },
+      "(¬A2 → A3)": {
+        "formal": "(¬A2 → A3)",
+        "prover9": "(-A2 -> A3)",
+        "prover9_expression": "(-approved(fda, process) -> contaminated(material))",
+        "natural": "If it is not the case that the FDA approves the process, then the material is contaminated."
+      },
+      "(¬A2 → A4)": {
+        "formal": "(¬A2 → A4)",
+        "prover9": "(-A2 -> A4)",
+        "prover9_expression": "(-approved(fda, process) -> pure(material))",
+        "natural": "Provided that it is not the case that the FDA approves the process, the material is pure."
+      },
+      "(¬A2 → ¬A3)": {
+        "formal": "(¬A2 → ¬A3)",
+        "prover9": "(-A2 -> -A3)",
+        "prover9_expression": "(-approved(fda, process) -> -contaminated(material))",
+        "natural": "Under the condition that it is not the case that the FDA approves the process, it is not the case that the material is contaminated."
+      },
+      "(¬A23 → A24)": {
+        "formal": "(¬A23 → A24)",
+        "prover9": "(-A23 -> A24)",
+        "prover9_expression": "(-release_authorized(quality_manager) -> released(product))",
+        "natural": "If it is not the case that the quality manager authorizes release, then the product is released."
+      },
+      "(¬A23 → ¬A24)": {
+        "formal": "(¬A23 → ¬A24)",
+        "prover9": "(-A23 -> -A24)",
+        "prover9_expression": "(-release_authorized(quality_manager) -> -released(product))",
+        "natural": "Whenever it is not the case that the quality manager authorizes release, it is not the case that the product is released."
+      },
+      "(¬A27 → A28)": {
+        "formal": "(¬A27 → A28)",
+        "prover9": "(-A27 -> A28)",
+        "prover9_expression": "(-clinical_trial_successful(drug) -> phase_iii_complete(drug))",
+        "natural": "If it is not the case that the clinical trial for the drug is successful, then Phase III for the drug is complete."
+      },
+      "(¬A27 → ¬A28)": {
+        "formal": "(¬A27 → ¬A28)",
+        "prover9": "(-A27 -> -A28)",
+        "prover9_expression": "(-clinical_trial_successful(drug) -> -phase_iii_complete(drug))",
+        "natural": "Provided that it is not the case that the clinical trial for the drug is successful, it is not the case that Phase III for the drug is complete."
+      },
+      "(¬A36 → A37)": {
+        "formal": "(¬A36 → A37)",
+        "prover9": "(-A36 -> A37)",
+        "prover9_expression": "(-inventory_managed(warehouse) -> stock_available(product))",
+        "natural": "Under the condition that it is not the case that the warehouse manages inventory, the product is available in stock."
+      },
+      "(¬A36 → A38)": {
+        "formal": "(¬A36 → A38)",
+        "prover9": "(-A36 -> A38)",
+        "prover9_expression": "(-inventory_managed(warehouse) -> supply_chain_disrupted(distributor))",
+        "natural": "If it is not the case that the warehouse manages inventory, then the supply chain is disrupted at the distributor."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "undergoes_final_testing(batch)",
+        "natural": "The batch undergoes final testing."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "scheduled_for_retest(batch)",
+        "natural": "The batch is scheduled for retest."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "approved(fda, process)",
+        "natural": "The FDA approves the process."
+      },
+      "A23": {
+        "formal": "A23",
+        "prover9": "A23",
+        "prover9_expression": "release_authorized(quality_manager)",
+        "natural": "The quality manager authorizes release."
+      },
+      "A27": {
+        "formal": "A27",
+        "prover9": "A27",
+        "prover9_expression": "clinical_trial_successful(drug)",
+        "natural": "The clinical trial for the drug is successful."
+      },
+      "A29": {
+        "formal": "A29",
+        "prover9": "A29",
+        "prover9_expression": "regulatory_submission_filed(company)",
+        "natural": "The company files the regulatory submission."
+      },
+      "A36": {
+        "formal": "A36",
+        "prover9": "A36",
+        "prover9_expression": "inventory_managed(warehouse)",
+        "natural": "The warehouse manages inventory."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "safe_for_human_use(product)",
+        "natural": "The product is safe for human use."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-produces(company, compound)",
+        "natural": "It is not the case that the company produces the compound."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-meets_specifications(product)",
+        "natural": "It is not the case that the product meets specifications."
+      },
+      "¬A30": {
+        "formal": "¬A30",
+        "prover9": "-A30",
+        "prover9_expression": "-patent_granted(invention)",
+        "natural": "It is not the case that the patent is granted for the invention."
+      },
+      "¬A31": {
+        "formal": "¬A31",
+        "prover9": "-A31",
+        "prover9_expression": "-exclusive_rights(company)",
+        "natural": "It is not the case that the company has exclusive rights."
+      },
+      "¬A37": {
+        "formal": "¬A37",
+        "prover9": "-A37",
+        "prover9_expression": "-stock_available(product)",
+        "natural": "It is not the case that the product is available in stock."
+      },
+      "¬A39": {
+        "formal": "¬A39",
+        "prover9": "-A39",
+        "prover9_expression": "-recall_issued(product)",
+        "natural": "It is not the case that a recall is issued for the product."
+      }
+    }
+  }
+}

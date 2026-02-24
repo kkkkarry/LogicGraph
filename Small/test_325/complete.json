@@ -1,0 +1,474 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 ∨ (A1 ∨ G))",
+        "prover9_expression": "(approved(organization, exhibition) | (authorized(curator, artwork1) | public_access(artwork1)))",
+        "natural": "Either the organization has approved the exhibition, or the curator is authorized for artwork1, or artwork1 has public access."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A5 → A3)",
+        "prover9_expression": "(authenticated(artwork1) -> displayed(artwork1, gallery))",
+        "natural": "Provided that artwork1 is authenticated, it is displayed in the gallery."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A6 → ¬A2)",
+        "prover9_expression": "(loaned(artwork1, museum) -> -approved(organization, exhibition))",
+        "natural": "Whenever artwork1 is loaned to the museum, the organization has not approved the exhibition."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 ∨ (A5 ∨ A6))",
+        "prover9_expression": "(insured(artwork1) | (authenticated(artwork1) | loaned(artwork1, museum)))",
+        "natural": "Artwork1 is insured, or it is authenticated, or it is loaned to the museum."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A9 → A10)",
+        "prover9_expression": "(sold(artwork1) -> owned(artwork1, collector))",
+        "natural": "If artwork1 is sold, then it is owned by the collector."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A9 → ¬A10)",
+        "prover9_expression": "(sold(artwork1) -> -owned(artwork1, collector))",
+        "natural": "In the event that artwork1 is sold, it is not owned by the collector."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A9 ∨ ¬A8)",
+        "prover9_expression": "(sold(artwork1) | -restored(artwork1))",
+        "natural": "Artwork1 is sold, or it is not the case that artwork1 is restored."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A3 ∨ ¬A2) → A4)",
+        "prover9_expression": "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> stored(artwork1, warehouse))",
+        "natural": "If it is not the case that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is stored in the warehouse."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A3 ∨ ¬A2) → A8)",
+        "prover9_expression": "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> restored(artwork1))",
+        "natural": "Should it be false that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is restored."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A3 ∨ ¬A2) → ¬A4)",
+        "prover9_expression": "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> -stored(artwork1, warehouse))",
+        "natural": "Assuming it is not true that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is not stored in the warehouse."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A1",
+        "prover9_expression": "-authorized(curator, artwork1)",
+        "natural": "It is not the case that the curator is authorized for artwork1."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A3",
+        "prover9_expression": "-displayed(artwork1, gallery)",
+        "natural": "It is not the case that artwork1 is displayed in the gallery."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A7",
+        "prover9_expression": "-insured(artwork1)",
+        "natural": "It is not the case that artwork1 is insured."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "public_access(artwork1)",
+    "natural": "Artwork1 has public access."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 | -A2) -> A4)",
+            "(-(A3 | -A2) -> -A4)"
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "Artwork1 is displayed in the gallery, or it is not the case that the organization has approved the exhibition."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | -A2)",
+            "-A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "It is not the case that the organization has approved the exhibition."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 | G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the curator is authorized for artwork1 or artwork1 has public access."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Artwork1 has public access."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | (A5 | A6))",
+            "-A7"
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "Artwork1 is authenticated, or it is loaned to the museum."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A5 -> A3)",
+            "(A6 -> -A2)",
+            "(A5 | A6)"
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "Artwork1 is displayed in the gallery, or it is not the case that the organization has approved the exhibition."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | -A2)",
+            "-A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "It is not the case that the organization has approved the exhibition."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 | G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the curator is authorized for artwork1 or artwork1 has public access."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Artwork1 has public access."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A9 -> A10)",
+            "(A9 -> -A10)"
+          ],
+          "conclusion": "-A9",
+          "natural": "It is not the case that artwork1 is sold."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | -A8)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "It is not the case that artwork1 is restored."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A3 | -A2) -> A8)",
+            "-A8"
+          ],
+          "conclusion": "(A3 | -A2)",
+          "natural": "Artwork1 is displayed in the gallery, or it is not the case that the organization has approved the exhibition."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | -A2)",
+            "-A3"
+          ],
+          "conclusion": "-A2",
+          "natural": "It is not the case that the organization has approved the exhibition."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 | G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the curator is authorized for artwork1 or artwork1 has public access."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "Artwork1 has public access."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Art Gallery Management",
+    "atomic_facts": {
+      "A1": "authorized(curator, artwork1)",
+      "A2": "approved(organization, exhibition)",
+      "A3": "displayed(artwork1, gallery)",
+      "A4": "stored(artwork1, warehouse)",
+      "A5": "authenticated(artwork1)",
+      "A6": "loaned(artwork1, museum)",
+      "A7": "insured(artwork1)",
+      "A8": "restored(artwork1)",
+      "A9": "sold(artwork1)",
+      "A10": "owned(artwork1, collector)",
+      "G": "public_access(artwork1)"
+    },
+    "natural_facts": {
+      "A1": "The curator is authorized for artwork1.",
+      "A2": "The organization has approved the exhibition.",
+      "A3": "Artwork1 is displayed in the gallery.",
+      "A4": "Artwork1 is stored in the warehouse.",
+      "A5": "Artwork1 is authenticated.",
+      "A6": "Artwork1 is loaned to the museum.",
+      "A7": "Artwork1 is insured.",
+      "A8": "Artwork1 is restored.",
+      "A9": "Artwork1 is sold.",
+      "A10": "Artwork1 is owned by the collector.",
+      "G": "Artwork1 has public access."
+    },
+    "prover9_expressions": [
+      "(authorized(curator, artwork1) | public_access(artwork1))",
+      "(approved(organization, exhibition) | (authorized(curator, artwork1) | public_access(artwork1)))",
+      "(displayed(artwork1, gallery) | -approved(organization, exhibition))",
+      "(authenticated(artwork1) -> displayed(artwork1, gallery))",
+      "(authenticated(artwork1) | loaned(artwork1, museum))",
+      "(loaned(artwork1, museum) -> -approved(organization, exhibition))",
+      "(insured(artwork1) | (authenticated(artwork1) | loaned(artwork1, museum)))",
+      "(sold(artwork1) -> owned(artwork1, collector))",
+      "(sold(artwork1) -> -owned(artwork1, collector))",
+      "(sold(artwork1) | -restored(artwork1))",
+      "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> stored(artwork1, warehouse))",
+      "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> restored(artwork1))",
+      "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> -stored(artwork1, warehouse))",
+      "public_access(artwork1)",
+      "-authorized(curator, artwork1)",
+      "-approved(organization, exhibition)",
+      "-displayed(artwork1, gallery)",
+      "-insured(artwork1)",
+      "-restored(artwork1)",
+      "-sold(artwork1)"
+    ],
+    "natural_expressions": [
+      "Either the curator is authorized for artwork1 or artwork1 has public access.",
+      "Either the organization has approved the exhibition, or the curator is authorized for artwork1, or artwork1 has public access.",
+      "Artwork1 is displayed in the gallery, or it is not the case that the organization has approved the exhibition.",
+      "Provided that artwork1 is authenticated, it is displayed in the gallery.",
+      "Artwork1 is authenticated, or it is loaned to the museum.",
+      "Whenever artwork1 is loaned to the museum, the organization has not approved the exhibition.",
+      "Artwork1 is insured, or it is authenticated, or it is loaned to the museum.",
+      "If artwork1 is sold, then it is owned by the collector.",
+      "In the event that artwork1 is sold, it is not owned by the collector.",
+      "Artwork1 is sold, or it is not the case that artwork1 is restored.",
+      "If it is not the case that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is stored in the warehouse.",
+      "Should it be false that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is restored.",
+      "Assuming it is not true that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is not stored in the warehouse.",
+      "Artwork1 has public access.",
+      "It is not the case that the curator is authorized for artwork1.",
+      "It is not the case that the organization has approved the exhibition.",
+      "It is not the case that artwork1 is displayed in the gallery.",
+      "It is not the case that artwork1 is insured.",
+      "It is not the case that artwork1 is restored.",
+      "It is not the case that artwork1 is sold."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(authorized(curator, artwork1) | public_access(artwork1))",
+        "natural": "Either the curator is authorized for artwork1 or artwork1 has public access."
+      },
+      "(A2 ∨ (A1 ∨ G))": {
+        "formal": "(A2 ∨ (A1 ∨ G))",
+        "prover9": "(A2 | (A1 | G))",
+        "prover9_expression": "(approved(organization, exhibition) | (authorized(curator, artwork1) | public_access(artwork1)))",
+        "natural": "Either the organization has approved the exhibition, or the curator is authorized for artwork1, or artwork1 has public access."
+      },
+      "(A3 ∨ ¬A2)": {
+        "formal": "(A3 ∨ ¬A2)",
+        "prover9": "(A3 | -A2)",
+        "prover9_expression": "(displayed(artwork1, gallery) | -approved(organization, exhibition))",
+        "natural": "Artwork1 is displayed in the gallery, or it is not the case that the organization has approved the exhibition."
+      },
+      "(A5 → A3)": {
+        "formal": "(A5 → A3)",
+        "prover9": "(A5 -> A3)",
+        "prover9_expression": "(authenticated(artwork1) -> displayed(artwork1, gallery))",
+        "natural": "Provided that artwork1 is authenticated, it is displayed in the gallery."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(authenticated(artwork1) | loaned(artwork1, museum))",
+        "natural": "Artwork1 is authenticated, or it is loaned to the museum."
+      },
+      "(A6 → ¬A2)": {
+        "formal": "(A6 → ¬A2)",
+        "prover9": "(A6 -> -A2)",
+        "prover9_expression": "(loaned(artwork1, museum) -> -approved(organization, exhibition))",
+        "natural": "Whenever artwork1 is loaned to the museum, the organization has not approved the exhibition."
+      },
+      "(A7 ∨ (A5 ∨ A6))": {
+        "formal": "(A7 ∨ (A5 ∨ A6))",
+        "prover9": "(A7 | (A5 | A6))",
+        "prover9_expression": "(insured(artwork1) | (authenticated(artwork1) | loaned(artwork1, museum)))",
+        "natural": "Artwork1 is insured, or it is authenticated, or it is loaned to the museum."
+      },
+      "(A9 → A10)": {
+        "formal": "(A9 → A10)",
+        "prover9": "(A9 -> A10)",
+        "prover9_expression": "(sold(artwork1) -> owned(artwork1, collector))",
+        "natural": "If artwork1 is sold, then it is owned by the collector."
+      },
+      "(A9 → ¬A10)": {
+        "formal": "(A9 → ¬A10)",
+        "prover9": "(A9 -> -A10)",
+        "prover9_expression": "(sold(artwork1) -> -owned(artwork1, collector))",
+        "natural": "In the event that artwork1 is sold, it is not owned by the collector."
+      },
+      "(A9 ∨ ¬A8)": {
+        "formal": "(A9 ∨ ¬A8)",
+        "prover9": "(A9 | -A8)",
+        "prover9_expression": "(sold(artwork1) | -restored(artwork1))",
+        "natural": "Artwork1 is sold, or it is not the case that artwork1 is restored."
+      },
+      "(¬(A3 ∨ ¬A2) → A4)": {
+        "formal": "(¬(A3 ∨ ¬A2) → A4)",
+        "prover9": "(-(A3 | -A2) -> A4)",
+        "prover9_expression": "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> stored(artwork1, warehouse))",
+        "natural": "If it is not the case that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is stored in the warehouse."
+      },
+      "(¬(A3 ∨ ¬A2) → A8)": {
+        "formal": "(¬(A3 ∨ ¬A2) → A8)",
+        "prover9": "(-(A3 | -A2) -> A8)",
+        "prover9_expression": "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> restored(artwork1))",
+        "natural": "Should it be false that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is restored."
+      },
+      "(¬(A3 ∨ ¬A2) → ¬A4)": {
+        "formal": "(¬(A3 ∨ ¬A2) → ¬A4)",
+        "prover9": "(-(A3 | -A2) -> -A4)",
+        "prover9_expression": "(-(displayed(artwork1, gallery) | -approved(organization, exhibition)) -> -stored(artwork1, warehouse))",
+        "natural": "Assuming it is not true that artwork1 is displayed in the gallery or the organization has not approved the exhibition, then artwork1 is not stored in the warehouse."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "public_access(artwork1)",
+        "natural": "Artwork1 has public access."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-authorized(curator, artwork1)",
+        "natural": "It is not the case that the curator is authorized for artwork1."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-approved(organization, exhibition)",
+        "natural": "It is not the case that the organization has approved the exhibition."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-displayed(artwork1, gallery)",
+        "natural": "It is not the case that artwork1 is displayed in the gallery."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-insured(artwork1)",
+        "natural": "It is not the case that artwork1 is insured."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-restored(artwork1)",
+        "natural": "It is not the case that artwork1 is restored."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-sold(artwork1)",
+        "natural": "It is not the case that artwork1 is sold."
+      }
+    }
+  }
+}

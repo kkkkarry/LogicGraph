@@ -1,0 +1,579 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A5 | (A4 -> (A3 -> G)))",
+              "prover9_expression": "(quality_test_passed(drug1) | (has_condition(manufacturer, condition2) -> (has_condition(manufacturer, condition1) -> manufacturing_operation_normal(manufacturer))))",
+              "natural": "Drug1 passed the quality test or, if the manufacturer has condition2, then given that the manufacturer has condition1, the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A5",
+              "prover9_expression": "-quality_test_passed(drug1)",
+              "natural": "Drug1 did not pass the quality test."
+            }
+          ],
+          "conclusion": "(A4 -> (A3 -> G))",
+          "natural": "Under the condition that the manufacturer has condition2, if the manufacturer has condition1, then the manufacturing operation is normal for the manufacturer."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 -> G))",
+              "prover9_expression": "(has_condition(manufacturer, condition2) -> (has_condition(manufacturer, condition1) -> manufacturing_operation_normal(manufacturer)))",
+              "natural": "Under the condition that the manufacturer has condition2, if the manufacturer has condition1, then the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A4",
+              "prover9_expression": "has_condition(manufacturer, condition2)",
+              "natural": "The manufacturer has condition2."
+            }
+          ],
+          "conclusion": "(A3 -> G)",
+          "natural": "If the manufacturer has condition1, then the manufacturing operation is normal for the manufacturer."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A3)",
+              "prover9_expression": "(uses_drug(manufacturer, drug1) -> has_condition(manufacturer, condition1))",
+              "natural": "If the manufacturer uses drug1, then the manufacturer has condition1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> G)",
+              "prover9_expression": "(has_condition(manufacturer, condition1) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "If the manufacturer has condition1, then the manufacturing operation is normal for the manufacturer."
+            }
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the manufacturer uses drug1, the manufacturing operation is normal for the manufacturer."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(uses_drug(manufacturer, drug1) | uses_drug(manufacturer, drug2))",
+              "natural": "The manufacturer uses drug1 or the manufacturer uses drug2."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(uses_drug(manufacturer, drug1) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "Provided that the manufacturer uses drug1, the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(uses_drug(manufacturer, drug2) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "Under the condition that the manufacturer uses drug2, the manufacturing operation is normal for the manufacturer."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The manufacturing operation is normal for the manufacturer."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> (A13 -> A12))",
+              "prover9_expression": "(regulatory_audit(manufacturer) -> (inspection_scheduled(manufacturer) -> production_halted(manufacturer)))",
+              "natural": "Given that a regulatory audit is conducted for the manufacturer, if an inspection is scheduled for the manufacturer, then production is halted for the manufacturer."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A14",
+              "prover9_expression": "regulatory_audit(manufacturer)",
+              "natural": "A regulatory audit is conducted for the manufacturer."
+            }
+          ],
+          "conclusion": "(A13 -> A12)",
+          "natural": "If an inspection is scheduled for the manufacturer, then production is halted for the manufacturer."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-(A10 | A11) -> A13)",
+              "prover9_expression": "(-(safety_approved(drug1) | safety_approved(drug2)) -> inspection_scheduled(manufacturer))",
+              "natural": "Provided that it is not the case that drug1 is safety approved or drug2 is safety approved, an inspection is scheduled for the manufacturer."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A13 -> A12)",
+              "prover9_expression": "(inspection_scheduled(manufacturer) -> production_halted(manufacturer))",
+              "natural": "If an inspection is scheduled for the manufacturer, then production is halted for the manufacturer."
+            }
+          ],
+          "conclusion": "(-(A10 | A11) -> A12)",
+          "natural": "If it is not the case that drug1 is safety approved or drug2 is safety approved, then production is halted for the manufacturer."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A10 | A11) -> A12)",
+              "prover9_expression": "(-(safety_approved(drug1) | safety_approved(drug2)) -> production_halted(manufacturer))",
+              "natural": "If it is not the case that drug1 is safety approved or drug2 is safety approved, then production is halted for the manufacturer."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A12",
+              "prover9_expression": "-production_halted(manufacturer)",
+              "natural": "It is not the case that production is halted for the manufacturer."
+            }
+          ],
+          "conclusion": "(A10 | A11)",
+          "natural": "Drug1 is safety approved or drug2 is safety approved."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(safety_approved(drug1) | safety_approved(drug2))",
+              "natural": "Drug1 is safety approved or drug2 is safety approved."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A10 -> (A8 | A9))",
+              "prover9_expression": "(safety_approved(drug1) -> (has_job(worker1, job1) | has_job(worker2, job1)))",
+              "natural": "Whenever drug1 is safety approved, worker1 has job1 or worker2 has job1."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A11 -> (A8 | A9))",
+              "prover9_expression": "(safety_approved(drug2) -> (has_job(worker1, job1) | has_job(worker2, job1)))",
+              "natural": "Under the condition that drug2 is safety approved, worker1 has job1 or worker2 has job1."
+            }
+          ],
+          "conclusion": "(A8 | A9)",
+          "natural": "Worker1 has job1 or worker2 has job1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(has_job(worker1, job1) | has_job(worker2, job1))",
+              "natural": "Worker1 has job1 or worker2 has job1."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A8 -> (A6 -> G))",
+              "prover9_expression": "(has_job(worker1, job1) -> (requires_vehicle(manufacturer, vehicle1) -> manufacturing_operation_normal(manufacturer)))",
+              "natural": "Whenever worker1 has job1, if the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A9 -> (A6 -> G))",
+              "prover9_expression": "(has_job(worker2, job1) -> (requires_vehicle(manufacturer, vehicle1) -> manufacturing_operation_normal(manufacturer)))",
+              "natural": "Given that worker2 has job1, if the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(requires_vehicle(manufacturer, vehicle1) | requires_vehicle(manufacturer, vehicle2))",
+              "natural": "The manufacturer requires vehicle1 or the manufacturer requires vehicle2."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(requires_vehicle(manufacturer, vehicle1) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "If the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(requires_vehicle(manufacturer, vehicle2) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "Provided that the manufacturer requires vehicle2, the manufacturing operation is normal for the manufacturer."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The manufacturing operation is normal for the manufacturer."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A21 | A22)",
+              "prover9_expression": "(license_expired(manufacturer) | license_revoked(manufacturer))",
+              "natural": "The manufacturer's license has expired or the manufacturer's license is revoked."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> -A20)",
+              "prover9_expression": "(license_expired(manufacturer) -> -export_license_valid(manufacturer))",
+              "natural": "Whenever the manufacturer's license has expired, the manufacturer does not have a valid export license."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A22 -> -A20)",
+              "prover9_expression": "(license_revoked(manufacturer) -> -export_license_valid(manufacturer))",
+              "natural": "If the manufacturer's license is revoked, then the manufacturer does not have a valid export license."
+            }
+          ],
+          "conclusion": "-A20",
+          "natural": "The manufacturer does not have a valid export license."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(-(-(A18 -> -A17) -> A19) -> A20)",
+              "prover9_expression": "(-(-(equipment_unsafe(laboratory) -> -equipment_safe(laboratory)) -> emergency_shutdown(laboratory)) -> export_license_valid(manufacturer))",
+              "natural": "Provided that it is not the case that if it is not the case that if the laboratory equipment is unsafe, then the laboratory equipment is not safe, then an emergency shutdown occurs in the laboratory, the manufacturer has a valid export license."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A20",
+              "prover9_expression": "-export_license_valid(manufacturer)",
+              "natural": "The manufacturer does not have a valid export license."
+            }
+          ],
+          "conclusion": "(-(A18 -> -A17) -> A19)",
+          "natural": "If it is not the case that if the laboratory equipment is unsafe, then the laboratory equipment is not safe, then an emergency shutdown occurs in the laboratory."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A18 -> -A17) -> A19)",
+              "prover9_expression": "(-(equipment_unsafe(laboratory) -> -equipment_safe(laboratory)) -> emergency_shutdown(laboratory))",
+              "natural": "If it is not the case that if the laboratory equipment is unsafe, then the laboratory equipment is not safe, then an emergency shutdown occurs in the laboratory."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A18 -> -A17) -> -A19)",
+              "prover9_expression": "(-(equipment_unsafe(laboratory) -> -equipment_safe(laboratory)) -> -emergency_shutdown(laboratory))",
+              "natural": "Under the condition that it is not the case that if the laboratory equipment is unsafe, then the laboratory equipment is not safe, it is not the case that an emergency shutdown occurs in the laboratory."
+            }
+          ],
+          "conclusion": "(A18 -> -A17)",
+          "natural": "If the laboratory equipment is unsafe, then the laboratory equipment is not safe."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-A16 -> A18)",
+              "prover9_expression": "(-maintenance_due(laboratory) -> equipment_unsafe(laboratory))",
+              "natural": "Under the condition that maintenance is not due for the laboratory, the laboratory equipment is unsafe."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A18 -> -A17)",
+              "prover9_expression": "(equipment_unsafe(laboratory) -> -equipment_safe(laboratory))",
+              "natural": "If the laboratory equipment is unsafe, then the laboratory equipment is not safe."
+            }
+          ],
+          "conclusion": "(-A16 -> -A17)",
+          "natural": "Whenever maintenance is not due for the laboratory, the laboratory equipment is not safe."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-A16 -> A17)",
+              "prover9_expression": "(-maintenance_due(laboratory) -> equipment_safe(laboratory))",
+              "natural": "If maintenance is not due for the laboratory, then the laboratory equipment is safe."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A16 -> -A17)",
+              "prover9_expression": "(-maintenance_due(laboratory) -> -equipment_safe(laboratory))",
+              "natural": "Whenever maintenance is not due for the laboratory, the laboratory equipment is not safe."
+            }
+          ],
+          "conclusion": "A16",
+          "natural": "Maintenance is due for the laboratory."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A16 -> -A15)",
+              "prover9_expression": "(maintenance_due(laboratory) -> -equipment_functional(laboratory))",
+              "natural": "Provided that maintenance is due for the laboratory, it is not the case that the laboratory equipment is functional."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A16",
+              "prover9_expression": "maintenance_due(laboratory)",
+              "natural": "Maintenance is due for the laboratory."
+            }
+          ],
+          "conclusion": "-A15",
+          "natural": "The laboratory equipment is not functional."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A15 | G)",
+              "prover9_expression": "(equipment_functional(laboratory) | manufacturing_operation_normal(manufacturer))",
+              "natural": "The laboratory equipment is functional or the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A15",
+              "prover9_expression": "-equipment_functional(laboratory)",
+              "natural": "The laboratory equipment is not functional."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The manufacturing operation is normal for the manufacturer."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-A25 -> A27)",
+              "prover9_expression": "(-contamination_detected(drug1) -> sterilization_failed(drug1))",
+              "natural": "Provided that contamination is not detected in drug1, sterilization fails for drug1."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A27 -> -A26)",
+              "prover9_expression": "(sterilization_failed(drug1) -> -sterilization_effective(drug1))",
+              "natural": "Whenever sterilization fails for drug1, sterilization is not effective for drug1."
+            }
+          ],
+          "conclusion": "(-A25 -> -A26)",
+          "natural": "Given that contamination is not detected in drug1, sterilization is not effective for drug1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-A25 -> A26)",
+              "prover9_expression": "(-contamination_detected(drug1) -> sterilization_effective(drug1))",
+              "natural": "If contamination is not detected in drug1, then sterilization is effective for drug1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-A25 -> -A26)",
+              "prover9_expression": "(-contamination_detected(drug1) -> -sterilization_effective(drug1))",
+              "natural": "Given that contamination is not detected in drug1, sterilization is not effective for drug1."
+            }
+          ],
+          "conclusion": "A25",
+          "natural": "Contamination is detected in drug1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A25 -> -A24)",
+              "prover9_expression": "(contamination_detected(drug1) -> -batch_rejected(drug1))",
+              "natural": "Provided that contamination is detected in drug1, it is not the case that the batch of drug1 is rejected."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A25",
+              "prover9_expression": "contamination_detected(drug1)",
+              "natural": "Contamination is detected in drug1."
+            }
+          ],
+          "conclusion": "-A24",
+          "natural": "It is not the case that the batch of drug1 is rejected."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A23 -> (A8 | A9)) -> A24)",
+              "prover9_expression": "(-(batch_approved(drug1) -> (has_job(worker1, job1) | has_job(worker2, job1))) -> batch_rejected(drug1))",
+              "natural": "If it is not the case that if the batch of drug1 is approved, then worker1 has job1 or worker2 has job1, then the batch of drug1 is rejected."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A24",
+              "prover9_expression": "-batch_rejected(drug1)",
+              "natural": "It is not the case that the batch of drug1 is rejected."
+            }
+          ],
+          "conclusion": "(A23 -> (A8 | A9))",
+          "natural": "Given that the batch of drug1 is approved, worker1 has job1 or worker2 has job1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A23 -> (A8 | A9))",
+              "prover9_expression": "(batch_approved(drug1) -> (has_job(worker1, job1) | has_job(worker2, job1)))",
+              "natural": "Given that the batch of drug1 is approved, worker1 has job1 or worker2 has job1."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A23",
+              "prover9_expression": "batch_approved(drug1)",
+              "natural": "The batch of drug1 is approved."
+            }
+          ],
+          "conclusion": "(A8 | A9)",
+          "natural": "Worker1 has job1 or worker2 has job1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(has_job(worker1, job1) | has_job(worker2, job1))",
+              "natural": "Worker1 has job1 or worker2 has job1."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A8 -> (A6 -> G))",
+              "prover9_expression": "(has_job(worker1, job1) -> (requires_vehicle(manufacturer, vehicle1) -> manufacturing_operation_normal(manufacturer)))",
+              "natural": "Whenever worker1 has job1, if the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A9 -> (A6 -> G))",
+              "prover9_expression": "(has_job(worker2, job1) -> (requires_vehicle(manufacturer, vehicle1) -> manufacturing_operation_normal(manufacturer)))",
+              "natural": "Given that worker2 has job1, if the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+            }
+          ],
+          "conclusion": "(A6 -> G)",
+          "natural": "If the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(requires_vehicle(manufacturer, vehicle1) | requires_vehicle(manufacturer, vehicle2))",
+              "natural": "The manufacturer requires vehicle1 or the manufacturer requires vehicle2."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(requires_vehicle(manufacturer, vehicle1) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "If the manufacturer requires vehicle1, then the manufacturing operation is normal for the manufacturer."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(requires_vehicle(manufacturer, vehicle2) -> manufacturing_operation_normal(manufacturer))",
+              "natural": "Provided that the manufacturer requires vehicle2, the manufacturing operation is normal for the manufacturer."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The manufacturing operation is normal for the manufacturer."
+        }
+      ]
+    }
+  ]
+}

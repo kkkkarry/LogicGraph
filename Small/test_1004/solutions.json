@@ -1,0 +1,345 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 9
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(contaminated(substance) -> unsafe(substance))",
+              "natural": "Should the substance be contaminated, the substance is unsafe"
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A6",
+              "prover9_expression": "-unsafe(substance)",
+              "natural": "The substance is not unsafe"
+            }
+          ],
+          "conclusion": "-A5",
+          "natural": "The substance is not contaminated"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(-(A4 -> (A3 -> A2)) -> A5)",
+              "prover9_expression": "(-(tested(substance) -> (fertilized(plant) -> mature(plant))) -> contaminated(substance))",
+              "natural": "If it is not the case that testing the substance implies fertilization leads to maturity, then the substance is contaminated"
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A5",
+              "prover9_expression": "-contaminated(substance)",
+              "natural": "The substance is not contaminated"
+            }
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Under the condition that the substance is tested, if the plant is fertilized, then the plant becomes mature"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 -> A2))",
+              "prover9_expression": "(tested(substance) -> (fertilized(plant) -> mature(plant)))",
+              "natural": "Under the condition that the substance is tested, if the plant is fertilized, then the plant becomes mature"
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A4",
+              "prover9_expression": "tested(substance)",
+              "natural": "The substance was tested"
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that the plant is fertilized, the plant becomes mature"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-successful(show) -> fertilized(plant))",
+              "natural": "Should the show not be successful, the plant was fertilized"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(fertilized(plant) -> mature(plant))",
+              "natural": "Provided that the plant is fertilized, the plant becomes mature"
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Provided that the show is not successful, the plant is mature"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-successful(show) -> mature(plant))",
+              "natural": "Provided that the show is not successful, the plant is mature"
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(mature(plant) -> -harvested(show, plant))",
+              "natural": "If the plant is mature, then it is not the case that the show harvested the plant"
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that the show is not successful, it is not the case that the show harvested the plant"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-successful(show) -> harvested(show, plant))",
+              "natural": "Whenever the show is not successful, the show harvested the plant"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-successful(show) -> -harvested(show, plant))",
+              "natural": "Under the condition that the show is not successful, it is not the case that the show harvested the plant"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show was successful"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A12 -> A11)",
+              "prover9_expression": "(funded(show) -> published(show))",
+              "natural": "If the show is funded, then the show is published"
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> (A10 -> (A7 -> (A3 -> A2))))",
+              "prover9_expression": "(documented(show) -> (approved(substance) -> (effective(substance) -> (fertilized(plant) -> mature(plant)))))",
+              "natural": "Whenever the show is documented, it follows that if the substance is approved, then should the substance be effective, fertilization of the plant leads to maturity of the plant"
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(funded(show) | documented(show))",
+              "natural": "Either the show is funded or the show is documented"
+            }
+          ],
+          "conclusion": "(A11 | (A10 -> (A7 -> (A3 -> A2))))",
+          "natural": "Either the show is published, or under the condition that the substance is approved, it follows that if the substance is effective, then whenever the plant is fertilized, the plant becomes mature"
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 | (A10 -> (A7 -> (A3 -> A2))))",
+              "prover9_expression": "(published(show) | (approved(substance) -> (effective(substance) -> (fertilized(plant) -> mature(plant)))))",
+              "natural": "Either the show is published, or under the condition that the substance is approved, it follows that if the substance is effective, then whenever the plant is fertilized, the plant becomes mature"
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A11",
+              "prover9_expression": "-published(show)",
+              "natural": "It is not the case that the show was published"
+            }
+          ],
+          "conclusion": "(A10 -> (A7 -> (A3 -> A2)))",
+          "natural": "Provided that the substance is approved, it follows that if the substance is effective, then whenever the plant is fertilized, the plant becomes mature"
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A9 -> A10)",
+              "prover9_expression": "(analyzed(substance) -> approved(substance))",
+              "natural": "If the substance is analyzed, then the substance is approved"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (A7 -> (A3 -> A2)))",
+              "prover9_expression": "(approved(substance) -> (effective(substance) -> (fertilized(plant) -> mature(plant))))",
+              "natural": "Provided that the substance is approved, it follows that if the substance is effective, then whenever the plant is fertilized, the plant becomes mature"
+            }
+          ],
+          "conclusion": "(A9 -> (A7 -> (A3 -> A2)))",
+          "natural": "Under the condition that the substance is analyzed, if the substance is effective, then fertilization of the plant results in maturity of the plant"
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A8 | A9)",
+              "prover9_expression": "(applied(substance, plant) | analyzed(substance))",
+              "natural": "Either the substance is applied to the plant or the substance is analyzed"
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A8 -> (A7 -> (A3 -> A2)))",
+              "prover9_expression": "(applied(substance, plant) -> (effective(substance) -> (fertilized(plant) -> mature(plant))))",
+              "natural": "Provided that the substance is applied to the plant, it follows that if the substance is effective, then fertilization of the plant leads to maturity of the plant"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> (A7 -> (A3 -> A2)))",
+              "prover9_expression": "(analyzed(substance) -> (effective(substance) -> (fertilized(plant) -> mature(plant))))",
+              "natural": "Under the condition that the substance is analyzed, if the substance is effective, then fertilization of the plant results in maturity of the plant"
+            }
+          ],
+          "conclusion": "(A7 -> (A3 -> A2))",
+          "natural": "Whenever the substance is effective, fertilization of the plant results in maturity of the plant"
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A4 -> A7)",
+              "prover9_expression": "(tested(substance) -> effective(substance))",
+              "natural": "If the substance is tested, then the substance is effective"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> (A3 -> A2))",
+              "prover9_expression": "(effective(substance) -> (fertilized(plant) -> mature(plant)))",
+              "natural": "Whenever the substance is effective, fertilization of the plant results in maturity of the plant"
+            }
+          ],
+          "conclusion": "(A4 -> (A3 -> A2))",
+          "natural": "Under the condition that the substance is tested, if the plant is fertilized, then the plant becomes mature"
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A3 -> A2))",
+              "prover9_expression": "(tested(substance) -> (fertilized(plant) -> mature(plant)))",
+              "natural": "Under the condition that the substance is tested, if the plant is fertilized, then the plant becomes mature"
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A4",
+              "prover9_expression": "tested(substance)",
+              "natural": "The substance was tested"
+            }
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Provided that the plant is fertilized, the plant becomes mature"
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(-G -> A3)",
+              "prover9_expression": "(-successful(show) -> fertilized(plant))",
+              "natural": "Should the show not be successful, the plant was fertilized"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> A2)",
+              "prover9_expression": "(fertilized(plant) -> mature(plant))",
+              "natural": "Provided that the plant is fertilized, the plant becomes mature"
+            }
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Provided that the show is not successful, the plant is mature"
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-successful(show) -> mature(plant))",
+              "natural": "Provided that the show is not successful, the plant is mature"
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(mature(plant) -> -harvested(show, plant))",
+              "natural": "If the plant is mature, then it is not the case that the show harvested the plant"
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Under the condition that the show is not successful, it is not the case that the show harvested the plant"
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-successful(show) -> harvested(show, plant))",
+              "natural": "Whenever the show is not successful, the show harvested the plant"
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-successful(show) -> -harvested(show, plant))",
+              "natural": "Under the condition that the show is not successful, it is not the case that the show harvested the plant"
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The show was successful"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,509 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → A2)",
+        "prover9_expression": "(hasSkill(person, epidemiology) -> hasSkill(person, diagnostics))",
+        "natural": "If the person has a skill in epidemiology, then the person has a skill in diagnostics."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → (A8 ∨ A9))",
+        "prover9_expression": "(identified(disease, origin) -> (infectedBy(animal, disease) | infectedBy(animal, disease)))",
+        "natural": "Whenever the disease is identified for its origin, either the animal is infected by the disease or the animal is infected by the disease."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 → A12)",
+        "prover9_expression": "(publishesFindings(researcher, journal) -> developsVaccine(researcher, disease))",
+        "natural": "If the researcher publishes findings in a journal, then the researcher develops a vaccine for the disease."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → A13)",
+        "prover9_expression": "(developsVaccine(researcher, disease) -> developsTreatment(researcher, disease))",
+        "natural": "Whenever the researcher develops a vaccine for the disease, the researcher develops a treatment for the disease."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 → A10)",
+        "prover9_expression": "(developsTreatment(researcher, disease) -> identified(disease, origin))",
+        "natural": "Under the condition that the researcher develops a treatment for the disease, the disease is identified for its origin."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A2 → A3)",
+        "prover9_expression": "(hasSkill(person, diagnostics) -> hasSkill(person, virology))",
+        "natural": "If the person has a skill in diagnostics, then the person has a skill in virology."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A4 → (A3 → G))",
+        "prover9_expression": "(usesPlatform(researcher, lab) -> (hasSkill(person, virology) -> controlsOutbreak(person, disease)))",
+        "natural": "If the researcher uses the lab as a platform, then, provided that the person has a skill in virology, the person controls the outbreak of the disease."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A5 → (A3 → G))",
+        "prover9_expression": "(usesPlatform(researcher, field) -> (hasSkill(person, virology) -> controlsOutbreak(person, disease)))",
+        "natural": "If the researcher uses the field as a platform, then, under the condition that the person has a skill in virology, the person controls the outbreak of the disease."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A6 → A4)",
+        "prover9_expression": "(studiesAnimal(researcher, bat) -> usesPlatform(researcher, lab))",
+        "natural": "Provided that the researcher studies the bat as an animal, the researcher uses the lab as a platform."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(studiesAnimal(researcher, bat) | studiesAnimal(researcher, rodent))",
+        "natural": "Either the researcher studies the bat as an animal or the researcher studies the rodent as an animal."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A7 → A5)",
+        "prover9_expression": "(studiesAnimal(researcher, rodent) -> usesPlatform(researcher, field))",
+        "natural": "Whenever the researcher studies the rodent as an animal, the researcher uses the field as a platform."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A8 → A4)",
+        "prover9_expression": "(infectedBy(animal, disease) -> usesPlatform(researcher, lab))",
+        "natural": "Under the condition that the animal is infected by the disease, the researcher uses the lab as a platform."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A9 → A5)",
+        "prover9_expression": "(infectedBy(animal, disease) -> usesPlatform(researcher, field))",
+        "natural": "If the animal is infected by the disease, then the researcher uses the field as a platform."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "hasSkill(person, epidemiology)",
+        "natural": "The person has a skill in epidemiology."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A11",
+        "prover9_expression": "publishesFindings(researcher, journal)",
+        "natural": "The researcher publishes findings in a journal."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "controlsOutbreak(person, disease)",
+    "natural": "The person controls the outbreak of the disease."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A6 -> A4)",
+            "(A7 -> A5)",
+            "(A6 | A7)"
+          ],
+          "conclusion": "(A4 | A5)",
+          "natural": "Either the researcher uses the lab as a platform or the researcher uses the field as a platform."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (A3 -> G))",
+            "(A5 -> (A3 -> G))"
+          ],
+          "conclusion": "(A3 -> G)",
+          "natural": "Whenever the person has a skill in virology, the person controls the outbreak of the disease."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Provided that the person has a skill in diagnostics, that person controls the outbreak of the disease."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the person has a skill in epidemiology, that person controls the outbreak of the disease."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The person controls the outbreak of the disease."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A12 -> A13)",
+            "(A13 -> A10)"
+          ],
+          "conclusion": "(A12 -> A10)",
+          "natural": "Provided that the researcher develops a vaccine for the disease, the disease is identified for its origin."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A11 -> A12)",
+            "(A12 -> A10)"
+          ],
+          "conclusion": "(A11 -> A10)",
+          "natural": "Under the condition that the researcher publishes findings in a journal, the disease is identified for its origin."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> A10)",
+            "A11"
+          ],
+          "conclusion": "A10",
+          "natural": "The disease is identified for its origin."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (A8 | A9))",
+            "A10"
+          ],
+          "conclusion": "(A8 | A9)",
+          "natural": "Either the animal is infected by the disease or the animal is infected by the disease."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A8 -> A4)",
+            "(A9 -> A5)",
+            "(A8 | A9)"
+          ],
+          "conclusion": "(A4 | A5)",
+          "natural": "Either the researcher uses the lab as a platform or the researcher uses the field as a platform."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> (A3 -> G))",
+            "(A5 -> (A3 -> G))"
+          ],
+          "conclusion": "(A3 -> G)",
+          "natural": "Whenever the person has a skill in virology, the person controls the outbreak of the disease."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A2 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Provided that the person has a skill in diagnostics, that person controls the outbreak of the disease."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A2)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "Provided that the person has a skill in epidemiology, that person controls the outbreak of the disease."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The person controls the outbreak of the disease."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Zoonotic Disease Research",
+    "atomic_facts": {
+      "A1": "hasSkill(person, epidemiology)",
+      "A2": "hasSkill(person, diagnostics)",
+      "A3": "hasSkill(person, virology)",
+      "A4": "usesPlatform(researcher, lab)",
+      "A5": "usesPlatform(researcher, field)",
+      "A6": "studiesAnimal(researcher, bat)",
+      "A7": "studiesAnimal(researcher, rodent)",
+      "A8": "infectedBy(animal, disease)",
+      "A9": "infectedBy(animal, disease)",
+      "A10": "identified(disease, origin)",
+      "A11": "publishesFindings(researcher, journal)",
+      "A12": "developsVaccine(researcher, disease)",
+      "A13": "developsTreatment(researcher, disease)",
+      "G": "controlsOutbreak(person, disease)"
+    },
+    "natural_facts": {
+      "A1": "The person possesses a skill in epidemiology.",
+      "A2": "The person possesses a skill in diagnostics.",
+      "A3": "The person possesses a skill in virology.",
+      "A4": "The researcher uses the lab as a platform.",
+      "A5": "The researcher uses the field as a platform.",
+      "A6": "The researcher studies the bat as an animal.",
+      "A7": "The researcher studies the rodent as an animal.",
+      "A8": "The animal is infected by the disease.",
+      "A9": "The animal is infected by the disease.",
+      "A10": "The disease is identified for its origin.",
+      "A11": "The researcher publishes findings in a journal.",
+      "A12": "The researcher develops a vaccine for the disease.",
+      "A13": "The researcher develops a treatment for the disease.",
+      "G": "The person controls the outbreak of the disease."
+    },
+    "prover9_expressions": [
+      "(hasSkill(person, epidemiology) -> hasSkill(person, diagnostics))",
+      "(hasSkill(person, epidemiology) -> controlsOutbreak(person, disease))",
+      "(identified(disease, origin) -> (infectedBy(animal, disease) | infectedBy(animal, disease)))",
+      "(publishesFindings(researcher, journal) -> identified(disease, origin))",
+      "(publishesFindings(researcher, journal) -> developsVaccine(researcher, disease))",
+      "(developsVaccine(researcher, disease) -> identified(disease, origin))",
+      "(developsVaccine(researcher, disease) -> developsTreatment(researcher, disease))",
+      "(developsTreatment(researcher, disease) -> identified(disease, origin))",
+      "(hasSkill(person, diagnostics) -> hasSkill(person, virology))",
+      "(hasSkill(person, diagnostics) -> controlsOutbreak(person, disease))",
+      "(hasSkill(person, virology) -> controlsOutbreak(person, disease))",
+      "(usesPlatform(researcher, lab) -> (hasSkill(person, virology) -> controlsOutbreak(person, disease)))",
+      "(usesPlatform(researcher, lab) | usesPlatform(researcher, field))",
+      "(usesPlatform(researcher, field) -> (hasSkill(person, virology) -> controlsOutbreak(person, disease)))",
+      "(studiesAnimal(researcher, bat) -> usesPlatform(researcher, lab))",
+      "(studiesAnimal(researcher, bat) | studiesAnimal(researcher, rodent))",
+      "(studiesAnimal(researcher, rodent) -> usesPlatform(researcher, field))",
+      "(infectedBy(animal, disease) -> usesPlatform(researcher, lab))",
+      "(infectedBy(animal, disease) | infectedBy(animal, disease))",
+      "(infectedBy(animal, disease) -> usesPlatform(researcher, field))",
+      "hasSkill(person, epidemiology)",
+      "identified(disease, origin)",
+      "publishesFindings(researcher, journal)",
+      "controlsOutbreak(person, disease)"
+    ],
+    "natural_expressions": [
+      "If the person has a skill in epidemiology, then the person has a skill in diagnostics.",
+      "Provided that the person has a skill in epidemiology, that person controls the outbreak of the disease.",
+      "Whenever the disease is identified for its origin, either the animal is infected by the disease or the animal is infected by the disease.",
+      "Under the condition that the researcher publishes findings in a journal, the disease is identified for its origin.",
+      "If the researcher publishes findings in a journal, then the researcher develops a vaccine for the disease.",
+      "Provided that the researcher develops a vaccine for the disease, the disease is identified for its origin.",
+      "Whenever the researcher develops a vaccine for the disease, the researcher develops a treatment for the disease.",
+      "Under the condition that the researcher develops a treatment for the disease, the disease is identified for its origin.",
+      "If the person has a skill in diagnostics, then the person has a skill in virology.",
+      "Provided that the person has a skill in diagnostics, that person controls the outbreak of the disease.",
+      "Whenever the person has a skill in virology, the person controls the outbreak of the disease.",
+      "If the researcher uses the lab as a platform, then, provided that the person has a skill in virology, the person controls the outbreak of the disease.",
+      "Either the researcher uses the lab as a platform or the researcher uses the field as a platform.",
+      "If the researcher uses the field as a platform, then, under the condition that the person has a skill in virology, the person controls the outbreak of the disease.",
+      "Provided that the researcher studies the bat as an animal, the researcher uses the lab as a platform.",
+      "Either the researcher studies the bat as an animal or the researcher studies the rodent as an animal.",
+      "Whenever the researcher studies the rodent as an animal, the researcher uses the field as a platform.",
+      "Under the condition that the animal is infected by the disease, the researcher uses the lab as a platform.",
+      "Either the animal is infected by the disease or the animal is infected by the disease.",
+      "If the animal is infected by the disease, then the researcher uses the field as a platform.",
+      "The person has a skill in epidemiology.",
+      "The disease is identified for its origin.",
+      "The researcher publishes findings in a journal.",
+      "The person controls the outbreak of the disease."
+    ],
+    "node_mappings": {
+      "(A1 → A2)": {
+        "formal": "(A1 → A2)",
+        "prover9": "(A1 -> A2)",
+        "prover9_expression": "(hasSkill(person, epidemiology) -> hasSkill(person, diagnostics))",
+        "natural": "If the person has a skill in epidemiology, then the person has a skill in diagnostics."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(hasSkill(person, epidemiology) -> controlsOutbreak(person, disease))",
+        "natural": "Provided that the person has a skill in epidemiology, that person controls the outbreak of the disease."
+      },
+      "(A10 → (A8 ∨ A9))": {
+        "formal": "(A10 → (A8 ∨ A9))",
+        "prover9": "(A10 -> (A8 | A9))",
+        "prover9_expression": "(identified(disease, origin) -> (infectedBy(animal, disease) | infectedBy(animal, disease)))",
+        "natural": "Whenever the disease is identified for its origin, either the animal is infected by the disease or the animal is infected by the disease."
+      },
+      "(A11 → A10)": {
+        "formal": "(A11 → A10)",
+        "prover9": "(A11 -> A10)",
+        "prover9_expression": "(publishesFindings(researcher, journal) -> identified(disease, origin))",
+        "natural": "Under the condition that the researcher publishes findings in a journal, the disease is identified for its origin."
+      },
+      "(A11 → A12)": {
+        "formal": "(A11 → A12)",
+        "prover9": "(A11 -> A12)",
+        "prover9_expression": "(publishesFindings(researcher, journal) -> developsVaccine(researcher, disease))",
+        "natural": "If the researcher publishes findings in a journal, then the researcher develops a vaccine for the disease."
+      },
+      "(A12 → A10)": {
+        "formal": "(A12 → A10)",
+        "prover9": "(A12 -> A10)",
+        "prover9_expression": "(developsVaccine(researcher, disease) -> identified(disease, origin))",
+        "natural": "Provided that the researcher develops a vaccine for the disease, the disease is identified for its origin."
+      },
+      "(A12 → A13)": {
+        "formal": "(A12 → A13)",
+        "prover9": "(A12 -> A13)",
+        "prover9_expression": "(developsVaccine(researcher, disease) -> developsTreatment(researcher, disease))",
+        "natural": "Whenever the researcher develops a vaccine for the disease, the researcher develops a treatment for the disease."
+      },
+      "(A13 → A10)": {
+        "formal": "(A13 → A10)",
+        "prover9": "(A13 -> A10)",
+        "prover9_expression": "(developsTreatment(researcher, disease) -> identified(disease, origin))",
+        "natural": "Under the condition that the researcher develops a treatment for the disease, the disease is identified for its origin."
+      },
+      "(A2 → A3)": {
+        "formal": "(A2 → A3)",
+        "prover9": "(A2 -> A3)",
+        "prover9_expression": "(hasSkill(person, diagnostics) -> hasSkill(person, virology))",
+        "natural": "If the person has a skill in diagnostics, then the person has a skill in virology."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(hasSkill(person, diagnostics) -> controlsOutbreak(person, disease))",
+        "natural": "Provided that the person has a skill in diagnostics, that person controls the outbreak of the disease."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(hasSkill(person, virology) -> controlsOutbreak(person, disease))",
+        "natural": "Whenever the person has a skill in virology, the person controls the outbreak of the disease."
+      },
+      "(A4 → (A3 → G))": {
+        "formal": "(A4 → (A3 → G))",
+        "prover9": "(A4 -> (A3 -> G))",
+        "prover9_expression": "(usesPlatform(researcher, lab) -> (hasSkill(person, virology) -> controlsOutbreak(person, disease)))",
+        "natural": "If the researcher uses the lab as a platform, then, provided that the person has a skill in virology, the person controls the outbreak of the disease."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(usesPlatform(researcher, lab) | usesPlatform(researcher, field))",
+        "natural": "Either the researcher uses the lab as a platform or the researcher uses the field as a platform."
+      },
+      "(A5 → (A3 → G))": {
+        "formal": "(A5 → (A3 → G))",
+        "prover9": "(A5 -> (A3 -> G))",
+        "prover9_expression": "(usesPlatform(researcher, field) -> (hasSkill(person, virology) -> controlsOutbreak(person, disease)))",
+        "natural": "If the researcher uses the field as a platform, then, under the condition that the person has a skill in virology, the person controls the outbreak of the disease."
+      },
+      "(A6 → A4)": {
+        "formal": "(A6 → A4)",
+        "prover9": "(A6 -> A4)",
+        "prover9_expression": "(studiesAnimal(researcher, bat) -> usesPlatform(researcher, lab))",
+        "natural": "Provided that the researcher studies the bat as an animal, the researcher uses the lab as a platform."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(studiesAnimal(researcher, bat) | studiesAnimal(researcher, rodent))",
+        "natural": "Either the researcher studies the bat as an animal or the researcher studies the rodent as an animal."
+      },
+      "(A7 → A5)": {
+        "formal": "(A7 → A5)",
+        "prover9": "(A7 -> A5)",
+        "prover9_expression": "(studiesAnimal(researcher, rodent) -> usesPlatform(researcher, field))",
+        "natural": "Whenever the researcher studies the rodent as an animal, the researcher uses the field as a platform."
+      },
+      "(A8 → A4)": {
+        "formal": "(A8 → A4)",
+        "prover9": "(A8 -> A4)",
+        "prover9_expression": "(infectedBy(animal, disease) -> usesPlatform(researcher, lab))",
+        "natural": "Under the condition that the animal is infected by the disease, the researcher uses the lab as a platform."
+      },
+      "(A8 ∨ A9)": {
+        "formal": "(A8 ∨ A9)",
+        "prover9": "(A8 | A9)",
+        "prover9_expression": "(infectedBy(animal, disease) | infectedBy(animal, disease))",
+        "natural": "Either the animal is infected by the disease or the animal is infected by the disease."
+      },
+      "(A9 → A5)": {
+        "formal": "(A9 → A5)",
+        "prover9": "(A9 -> A5)",
+        "prover9_expression": "(infectedBy(animal, disease) -> usesPlatform(researcher, field))",
+        "natural": "If the animal is infected by the disease, then the researcher uses the field as a platform."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "hasSkill(person, epidemiology)",
+        "natural": "The person has a skill in epidemiology."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "identified(disease, origin)",
+        "natural": "The disease is identified for its origin."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "publishesFindings(researcher, journal)",
+        "natural": "The researcher publishes findings in a journal."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "controlsOutbreak(person, disease)",
+        "natural": "The person controls the outbreak of the disease."
+      }
+    }
+  }
+}

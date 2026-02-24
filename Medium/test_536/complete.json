@@ -1,0 +1,1758 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 7,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 6
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(dispatcher_approves(dispatcher1, job1) | supervisor_approves(supervisor1, job1))",
+        "natural": "Either dispatcher1 approves job1 or supervisor1 approves job1."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10))",
+        "prover9_expression": "(supervisor_approves(supervisor1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1)))",
+        "natural": "If supervisor1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A14 → (¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13))",
+        "prover9_expression": "(weather_good(region1) -> (-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1)))",
+        "natural": "Whenever the weather is good in region1, if it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, then an alternative route is available for job1."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(weather_good(region1) | traffic_clear(route1))",
+        "natural": "Either the weather is good in region1 or traffic is clear on route1."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A15 → (¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13))",
+        "prover9_expression": "(traffic_clear(route1) -> (-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1)))",
+        "natural": "If traffic is clear on route1, then provided that it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, an alternative route is available for job1."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A16 → (¬(¬G → A2) → ¬A3))",
+        "prover9_expression": "(maintenance_completed(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+        "natural": "If maintenance is completed for vehicle1, then whenever it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A16 ∨ A17)",
+        "prover9_expression": "(maintenance_completed(vehicle1) | inspection_passed(vehicle1))",
+        "natural": "Either maintenance is completed for vehicle1 or vehicle1 passes inspection."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A17 → A18)",
+        "prover9_expression": "(inspection_passed(vehicle1) -> safety_certified(vehicle1))",
+        "natural": "If vehicle1 passes inspection, then vehicle1 is safety certified."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A18 → (¬(¬G → A2) → ¬A3))",
+        "prover9_expression": "(safety_certified(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+        "natural": "If vehicle1 is safety certified, then provided that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A19 → A4)",
+        "prover9_expression": "(vehicle_at_facility(vehicle1, facility1) -> vehicle_available(vehicle1))",
+        "natural": "If vehicle1 is at facility1, then vehicle1 is available."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(job_assigned(job1, vehicle1) -> -maintenance_needed(vehicle1))",
+        "natural": "If job1 is assigned to vehicle1, then maintenance is not needed for vehicle1."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A21 → A19)",
+        "prover9_expression": "(charging_available(facility1) -> vehicle_at_facility(vehicle1, facility1))",
+        "natural": "If charging is available at facility1, then vehicle1 is at facility1."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A22 ∨ (A20 → A21))",
+        "prover9_expression": "(facility_closed(facility1) | (fuel_available(facility1) -> charging_available(facility1)))",
+        "natural": "Either facility1 is closed or if fuel is available at facility1, then charging is available at facility1."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A23 → A24)",
+        "prover9_expression": "(security_clearance(vehicle1) -> access_granted(vehicle1, facility1))",
+        "natural": "If vehicle1 has security clearance, then access is granted to vehicle1 at facility1."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A25 → (A24 → ¬A22))",
+        "prover9_expression": "(manager_approval(manager1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1)))",
+        "natural": "If manager1 approves vehicle1, then whenever access is granted to vehicle1 at facility1, it is not the case that facility1 is closed."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A25 ∨ A26)",
+        "prover9_expression": "(manager_approval(manager1, vehicle1) | automated_system_approval(system1, vehicle1))",
+        "natural": "Either manager1 approves vehicle1 or automated system1 approves vehicle1."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A27 → (A26 → (A24 → ¬A22)))",
+        "prover9_expression": "(override_authorized(admin1) -> (automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1))))",
+        "natural": "If override is authorized by admin1, then provided that automated system1 approves vehicle1, whenever access is granted to vehicle1 at facility1, it is not the case that facility1 is closed."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A27 ∨ A28)",
+        "prover9_expression": "(override_authorized(admin1) | emergency_access(vehicle1))",
+        "natural": "Either override is authorized by admin1 or vehicle1 has emergency access."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A28 → (A26 → (A24 → ¬A22)))",
+        "prover9_expression": "(emergency_access(vehicle1) -> (automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1))))",
+        "natural": "If vehicle1 has emergency access, then whenever automated system1 approves vehicle1, if access is granted to vehicle1 at facility1, then it is not the case that facility1 is closed."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A29 ∨ A30)",
+        "prover9_expression": "(regular_maintenance(vehicle1) | scheduled_service(vehicle1))",
+        "natural": "Either regular maintenance is performed on vehicle1 or scheduled service is performed on vehicle1."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A30 → ¬A6)",
+        "prover9_expression": "(scheduled_service(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If scheduled service is performed on vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A31 → ¬A6)",
+        "prover9_expression": "(maintenance_scheduled(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If maintenance is scheduled for vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A38 → ¬A39)",
+        "prover9_expression": "(route_changed(job1) -> -route_confirmed(job1))",
+        "natural": "If the route is changed for job1, then it is not the case that the route is confirmed for job1."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(A40 → (A38 → A39))",
+        "prover9_expression": "(gps_updated(system1) -> (route_changed(job1) -> route_confirmed(job1)))",
+        "natural": "If GPS is updated by system1, then whenever the route is changed for job1, the route is confirmed for job1."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(A40 ∨ A41)",
+        "prover9_expression": "(gps_updated(system1) | manual_route_entry(dispatcher1))",
+        "natural": "Either GPS is updated by system1 or manual route entry is performed by dispatcher1."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(A41 → (A38 → A39))",
+        "prover9_expression": "(manual_route_entry(dispatcher1) -> (route_changed(job1) -> route_confirmed(job1)))",
+        "natural": "If manual route entry is performed by dispatcher1, then under the condition that the route is changed for job1, the route is confirmed for job1."
+      },
+      {
+        "id": "Rule27",
+        "formal": "(A43 → A44)",
+        "prover9_expression": "(insurance_valid(vehicle1) -> registration_current(vehicle1))",
+        "natural": "If insurance is valid for vehicle1, then registration is current for vehicle1."
+      },
+      {
+        "id": "Rule28",
+        "formal": "(A43 ∨ (¬(¬G → ¬A1) → ¬A42))",
+        "prover9_expression": "(insurance_valid(vehicle1) | (-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> -special_permit_required(vehicle1)))",
+        "natural": "Either insurance is valid for vehicle1 or if it is not the case that whenever it is not business hours at facility1, maintenance is not needed for vehicle1, then it is not the case that a special permit is required for vehicle1."
+      },
+      {
+        "id": "Rule29",
+        "formal": "(A44 → A45)",
+        "prover9_expression": "(registration_current(vehicle1) -> license_valid(driver1))",
+        "natural": "If registration is current for vehicle1, then the license is valid for driver1."
+      },
+      {
+        "id": "Rule30",
+        "formal": "(A6 ∨ (¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A5))",
+        "prover9_expression": "(vehicle_broken_down(vehicle1) | (-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -facility_operational(facility1)))",
+        "natural": "Either vehicle1 is broken down or if it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational."
+      },
+      {
+        "id": "Rule31",
+        "formal": "(A7 → ¬A6)",
+        "prover9_expression": "(emergency_repair(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If emergency repair is performed on vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      {
+        "id": "Rule32",
+        "formal": "(¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → ¬A13)",
+        "prover9_expression": "(-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> -alternative_route_available(job1))",
+        "natural": "Whenever it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, it is not the case that an alternative route is available for job1."
+      },
+      {
+        "id": "Rule33",
+        "formal": "(¬(A29 → A31) → ¬A32)",
+        "prover9_expression": "(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> -maintenance_overdue(vehicle1))",
+        "natural": "Provided that it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, it is not the case that maintenance is overdue for vehicle1."
+      },
+      {
+        "id": "Rule34",
+        "formal": "(¬(A35 → A34) → A36)",
+        "prover9_expression": "(-(documents_prepared(job1) -> job_ready(job1)) -> paperwork_incomplete(job1))",
+        "natural": "If it is not the case that if documents are prepared for job1, then job1 is ready, then paperwork is incomplete for job1."
+      },
+      {
+        "id": "Rule35",
+        "formal": "(¬(A37 → ¬A36) → A38)",
+        "prover9_expression": "(-(documents_verified(dispatcher1) -> -paperwork_incomplete(job1)) -> route_changed(job1))",
+        "natural": "Under the condition that it is not the case that if documents are verified by dispatcher1, then it is not the case that paperwork is incomplete for job1, the route is changed for job1."
+      },
+      {
+        "id": "Rule36",
+        "formal": "(¬(¬(A29 → A31) → A32) → A33)",
+        "prover9_expression": "(-(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1)) -> penalty_applied(vehicle1))",
+        "natural": "If it is not the case that whenever it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, maintenance is overdue for vehicle1, then a penalty is applied to vehicle1."
+      },
+      {
+        "id": "Rule37",
+        "formal": "(¬(¬(A29 → A31) → A32) → ¬A33)",
+        "prover9_expression": "(-(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1)) -> -penalty_applied(vehicle1))",
+        "natural": "Whenever it is not the case that if it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, then maintenance is overdue for vehicle1, it is not the case that a penalty is applied to vehicle1."
+      },
+      {
+        "id": "Rule38",
+        "formal": "(¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → ¬A10)",
+        "prover9_expression": "(-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> -delivery_successful(job1))",
+        "natural": "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, it is not the case that delivery for job1 is successful."
+      },
+      {
+        "id": "Rule39",
+        "formal": "(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → A9)",
+        "prover9_expression": "(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> vehicle_in_use(vehicle1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, then vehicle1 is in use."
+      },
+      {
+        "id": "Rule40",
+        "formal": "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A5)",
+        "prover9_expression": "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> facility_operational(facility1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then facility1 is operational."
+      },
+      {
+        "id": "Rule41",
+        "formal": "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A8)",
+        "prover9_expression": "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -job_urgent(job1))",
+        "natural": "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, it is not the case that job1 is urgent."
+      },
+      {
+        "id": "Rule42",
+        "formal": "(¬(¬(¬G → A2) → ¬A3) → A20)",
+        "prover9_expression": "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> fuel_available(facility1))",
+        "natural": "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, fuel is available at facility1."
+      },
+      {
+        "id": "Rule43",
+        "formal": "(¬(¬(¬G → A2) → ¬A3) → ¬A4)",
+        "prover9_expression": "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> -vehicle_available(vehicle1))",
+        "natural": "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, it is not the case that vehicle1 is available."
+      },
+      {
+        "id": "Rule44",
+        "formal": "(¬(¬G → A2) → A3)",
+        "prover9_expression": "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> job_completed(job1))",
+        "natural": "If it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, then job1 is completed."
+      },
+      {
+        "id": "Rule45",
+        "formal": "(¬(¬G → A2) → A35)",
+        "prover9_expression": "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> documents_prepared(job1))",
+        "natural": "If it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, then documents are prepared for job1."
+      },
+      {
+        "id": "Rule46",
+        "formal": "(¬(¬G → ¬A1) → A42)",
+        "prover9_expression": "(-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> special_permit_required(vehicle1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, maintenance is not needed for vehicle1, then a special permit is required for vehicle1."
+      },
+      {
+        "id": "Rule47",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-business_hours(facility1) -> maintenance_needed(vehicle1))",
+        "natural": "If it is not business hours at facility1, then maintenance is needed for vehicle1."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A23",
+        "prover9_expression": "security_clearance(vehicle1)",
+        "natural": "Vehicle1 has security clearance."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A37",
+        "prover9_expression": "documents_verified(dispatcher1)",
+        "natural": "Documents are verified by dispatcher1."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A7",
+        "prover9_expression": "emergency_repair(vehicle1)",
+        "natural": "Emergency repair is performed on vehicle1."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A34",
+        "prover9_expression": "-job_ready(job1)",
+        "natural": "It is not the case that job1 is ready."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A45",
+        "prover9_expression": "-license_valid(driver1)",
+        "natural": "It is not the case that the license is valid for driver1."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "business_hours(facility1)",
+    "natural": "It is business hours at facility1."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> -A6)",
+            "A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that vehicle1 is broken down."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (-(-(-(-G -> A2) -> -A3) -> A4) -> -A5))",
+            "-A6"
+          ],
+          "conclusion": "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A5)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-(-G -> A2) -> -A3) -> A4) -> A5)",
+            "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A5)"
+          ],
+          "conclusion": "(-(-(-G -> A2) -> -A3) -> A4)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is available."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-G -> A2) -> -A3) -> A4)",
+            "(-(-(-G -> A2) -> -A3) -> -A4)"
+          ],
+          "conclusion": "(-(-G -> A2) -> -A3)",
+          "natural": "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "(-(-G -> A2) -> -A3)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> (-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13))",
+            "(A15 -> (-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13))"
+          ],
+          "conclusion": "(-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13)",
+          "natural": "Provided that it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, an alternative route is available for job1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13)",
+            "(-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> -A13)"
+          ],
+          "conclusion": "(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10))",
+          "natural": "Provided that dispatcher1 approves job1, if it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, then delivery for job1 is successful."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10))",
+            "(A12 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10))"
+          ],
+          "conclusion": "(-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, then delivery for job1 is successful."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)",
+            "(-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> -A10)"
+          ],
+          "conclusion": "(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9)",
+          "natural": "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, it is not the case that vehicle1 is in use."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> A9)",
+            "(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9)"
+          ],
+          "conclusion": "(-(-(-(-G -> A2) -> -A3) -> A4) -> A8)",
+          "natural": "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, job1 is urgent."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-(-G -> A2) -> -A3) -> A4) -> A8)",
+            "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A8)"
+          ],
+          "conclusion": "(-(-(-G -> A2) -> -A3) -> A4)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is available."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-G -> A2) -> -A3) -> A4)",
+            "(-(-(-G -> A2) -> -A3) -> -A4)"
+          ],
+          "conclusion": "(-(-G -> A2) -> -A3)",
+          "natural": "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "(-(-G -> A2) -> -A3)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A17 -> A18)",
+            "(A18 -> (-(-G -> A2) -> -A3))"
+          ],
+          "conclusion": "(A17 -> (-(-G -> A2) -> -A3))",
+          "natural": "If vehicle1 passes inspection, then under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A16 | A17)",
+            "(A16 -> (-(-G -> A2) -> -A3))",
+            "(A17 -> (-(-G -> A2) -> -A3))"
+          ],
+          "conclusion": "(-(-G -> A2) -> -A3)",
+          "natural": "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "(-(-G -> A2) -> -A3)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A27 | A28)",
+            "(A27 -> (A26 -> (A24 -> -A22)))",
+            "(A28 -> (A26 -> (A24 -> -A22)))"
+          ],
+          "conclusion": "(A26 -> (A24 -> -A22))",
+          "natural": "If automated system1 approves vehicle1, then under the condition that access is granted to vehicle1 at facility1, it is not the case that facility1 is closed."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A25 | A26)",
+            "(A25 -> (A24 -> -A22))",
+            "(A26 -> (A24 -> -A22))"
+          ],
+          "conclusion": "(A24 -> -A22)",
+          "natural": "If access is granted to vehicle1 at facility1, then it is not the case that facility1 is closed."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A23 -> A24)",
+            "(A24 -> -A22)"
+          ],
+          "conclusion": "(A23 -> -A22)",
+          "natural": "If vehicle1 has security clearance, then it is not the case that facility1 is closed."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A23 -> -A22)",
+            "A23"
+          ],
+          "conclusion": "-A22",
+          "natural": "It is not the case that facility1 is closed."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A22 | (A20 -> A21))",
+            "-A22"
+          ],
+          "conclusion": "(A20 -> A21)",
+          "natural": "If fuel is available at facility1, then charging is available at facility1."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A20 -> A21)",
+            "(A21 -> A19)"
+          ],
+          "conclusion": "(A20 -> A19)",
+          "natural": "If fuel is available at facility1, then vehicle1 is at facility1."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(-G -> A2) -> -A3) -> A20)",
+            "(A20 -> A19)"
+          ],
+          "conclusion": "(-(-(-G -> A2) -> -A3) -> A19)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is at facility1."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-(-G -> A2) -> -A3) -> A19)",
+            "(A19 -> A4)"
+          ],
+          "conclusion": "(-(-(-G -> A2) -> -A3) -> A4)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is available."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-G -> A2) -> -A3) -> A4)",
+            "(-(-(-G -> A2) -> -A3) -> -A4)"
+          ],
+          "conclusion": "(-(-G -> A2) -> -A3)",
+          "natural": "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "(-(-G -> A2) -> -A3)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A29 -> A31) -> A32) -> A33)",
+            "(-(-(A29 -> A31) -> A32) -> -A33)"
+          ],
+          "conclusion": "(-(A29 -> A31) -> A32)",
+          "natural": "If it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, then maintenance is overdue for vehicle1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A29 -> A31) -> A32)",
+            "(-(A29 -> A31) -> -A32)"
+          ],
+          "conclusion": "(A29 -> A31)",
+          "natural": "If regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A29 -> A31)",
+            "(A31 -> -A6)"
+          ],
+          "conclusion": "(A29 -> -A6)",
+          "natural": "If regular maintenance is performed on vehicle1, then it is not the case that vehicle1 is broken down."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A29 | A30)",
+            "(A29 -> -A6)",
+            "(A30 -> -A6)"
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that vehicle1 is broken down."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (-(-(-(-G -> A2) -> -A3) -> A4) -> -A5))",
+            "-A6"
+          ],
+          "conclusion": "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A5)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-(-G -> A2) -> -A3) -> A4) -> A5)",
+            "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A5)"
+          ],
+          "conclusion": "(-(-(-G -> A2) -> -A3) -> A4)",
+          "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is available."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(-G -> A2) -> -A3) -> A4)",
+            "(-(-(-G -> A2) -> -A3) -> -A4)"
+          ],
+          "conclusion": "(-(-G -> A2) -> -A3)",
+          "natural": "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "(-(-G -> A2) -> -A3)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A40 | A41)",
+            "(A40 -> (A38 -> A39))",
+            "(A41 -> (A38 -> A39))"
+          ],
+          "conclusion": "(A38 -> A39)",
+          "natural": "If the route is changed for job1, then the route is confirmed for job1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A38 -> A39)",
+            "(A38 -> -A39)"
+          ],
+          "conclusion": "-A38",
+          "natural": "It is not the case that the route is changed for job1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A37 -> -A36) -> A38)",
+            "-A38"
+          ],
+          "conclusion": "(A37 -> -A36)",
+          "natural": "If documents are verified by dispatcher1, then it is not the case that paperwork is incomplete for job1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A37 -> -A36)",
+            "A37"
+          ],
+          "conclusion": "-A36",
+          "natural": "It is not the case that paperwork is incomplete for job1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A35 -> A34) -> A36)",
+            "-A36"
+          ],
+          "conclusion": "(A35 -> A34)",
+          "natural": "If documents are prepared for job1, then job1 is ready."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(-G -> A2) -> A35)",
+            "(A35 -> A34)"
+          ],
+          "conclusion": "(-(-G -> A2) -> A34)",
+          "natural": "Provided that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, job1 is ready."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A2) -> A34)",
+            "-A34"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A44 -> A45)",
+            "-A45"
+          ],
+          "conclusion": "-A44",
+          "natural": "It is not the case that registration is current for vehicle1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A43 -> A44)",
+            "-A44"
+          ],
+          "conclusion": "-A43",
+          "natural": "It is not the case that insurance is valid for vehicle1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A43 | (-(-G -> -A1) -> -A42))",
+            "-A43"
+          ],
+          "conclusion": "(-(-G -> -A1) -> -A42)",
+          "natural": "Provided that it is not the case that if it is not business hours at facility1, then maintenance is not needed for vehicle1, it is not the case that a special permit is required for vehicle1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> -A1) -> A42)",
+            "(-(-G -> -A1) -> -A42)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "It is business hours at facility1."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Logistics and Transportation",
+    "atomic_facts": {
+      "A1": "maintenance_needed(vehicle1)",
+      "A2": "job_assigned(job1, vehicle1)",
+      "A3": "job_completed(job1)",
+      "A4": "vehicle_available(vehicle1)",
+      "A5": "facility_operational(facility1)",
+      "A6": "vehicle_broken_down(vehicle1)",
+      "A7": "emergency_repair(vehicle1)",
+      "A8": "job_urgent(job1)",
+      "A9": "vehicle_in_use(vehicle1)",
+      "A10": "delivery_successful(job1)",
+      "A11": "dispatcher_approves(dispatcher1, job1)",
+      "A12": "supervisor_approves(supervisor1, job1)",
+      "A13": "alternative_route_available(job1)",
+      "A14": "weather_good(region1)",
+      "A15": "traffic_clear(route1)",
+      "A16": "maintenance_completed(vehicle1)",
+      "A17": "inspection_passed(vehicle1)",
+      "A18": "safety_certified(vehicle1)",
+      "A19": "vehicle_at_facility(vehicle1, facility1)",
+      "A20": "fuel_available(facility1)",
+      "A21": "charging_available(facility1)",
+      "A22": "facility_closed(facility1)",
+      "A23": "security_clearance(vehicle1)",
+      "A24": "access_granted(vehicle1, facility1)",
+      "A25": "manager_approval(manager1, vehicle1)",
+      "A26": "automated_system_approval(system1, vehicle1)",
+      "A27": "override_authorized(admin1)",
+      "A28": "emergency_access(vehicle1)",
+      "A29": "regular_maintenance(vehicle1)",
+      "A30": "scheduled_service(vehicle1)",
+      "A31": "maintenance_scheduled(vehicle1)",
+      "A32": "maintenance_overdue(vehicle1)",
+      "A33": "penalty_applied(vehicle1)",
+      "A34": "job_ready(job1)",
+      "A35": "documents_prepared(job1)",
+      "A36": "paperwork_incomplete(job1)",
+      "A37": "documents_verified(dispatcher1)",
+      "A38": "route_changed(job1)",
+      "A39": "route_confirmed(job1)",
+      "A40": "gps_updated(system1)",
+      "A41": "manual_route_entry(dispatcher1)",
+      "A42": "special_permit_required(vehicle1)",
+      "A43": "insurance_valid(vehicle1)",
+      "A44": "registration_current(vehicle1)",
+      "A45": "license_valid(driver1)",
+      "G": "business_hours(facility1)"
+    },
+    "natural_facts": {
+      "A1": "Maintenance is needed for vehicle1.",
+      "A2": "Job1 is assigned to vehicle1.",
+      "A3": "Job1 is completed.",
+      "A4": "Vehicle1 is available.",
+      "A5": "Facility1 is operational.",
+      "A6": "Vehicle1 is broken down.",
+      "A7": "Emergency repair is performed on vehicle1.",
+      "A8": "Job1 is urgent.",
+      "A9": "Vehicle1 is in use.",
+      "A10": "Delivery for job1 is successful.",
+      "A11": "Dispatcher1 approves job1.",
+      "A12": "Supervisor1 approves job1.",
+      "A13": "An alternative route is available for job1.",
+      "A14": "The weather is good in region1.",
+      "A15": "Traffic is clear on route1.",
+      "A16": "Maintenance is completed for vehicle1.",
+      "A17": "Vehicle1 passes inspection.",
+      "A18": "Vehicle1 is safety certified.",
+      "A19": "Vehicle1 is at facility1.",
+      "A20": "Fuel is available at facility1.",
+      "A21": "Charging is available at facility1.",
+      "A22": "Facility1 is closed.",
+      "A23": "Vehicle1 has security clearance.",
+      "A24": "Access is granted to vehicle1 at facility1.",
+      "A25": "Manager1 approves vehicle1.",
+      "A26": "Automated system1 approves vehicle1.",
+      "A27": "Override is authorized by admin1.",
+      "A28": "Vehicle1 has emergency access.",
+      "A29": "Regular maintenance is performed on vehicle1.",
+      "A30": "Scheduled service is performed on vehicle1.",
+      "A31": "Maintenance is scheduled for vehicle1.",
+      "A32": "Maintenance is overdue for vehicle1.",
+      "A33": "A penalty is applied to vehicle1.",
+      "A34": "Job1 is ready.",
+      "A35": "Documents are prepared for job1.",
+      "A36": "Paperwork is incomplete for job1.",
+      "A37": "Documents are verified by dispatcher1.",
+      "A38": "The route is changed for job1.",
+      "A39": "The route is confirmed for job1.",
+      "A40": "GPS is updated by system1.",
+      "A41": "Manual route entry is performed by dispatcher1.",
+      "A42": "A special permit is required for vehicle1.",
+      "A43": "Insurance is valid for vehicle1.",
+      "A44": "Registration is current for vehicle1.",
+      "A45": "The license is valid for driver1.",
+      "G": "It is business hours at facility1."
+    },
+    "prover9_expressions": [
+      "(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1)))",
+      "(dispatcher_approves(dispatcher1, job1) | supervisor_approves(supervisor1, job1))",
+      "(supervisor_approves(supervisor1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1)))",
+      "(weather_good(region1) -> (-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1)))",
+      "(weather_good(region1) | traffic_clear(route1))",
+      "(traffic_clear(route1) -> (-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1)))",
+      "(maintenance_completed(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+      "(maintenance_completed(vehicle1) | inspection_passed(vehicle1))",
+      "(inspection_passed(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+      "(inspection_passed(vehicle1) -> safety_certified(vehicle1))",
+      "(safety_certified(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+      "(vehicle_at_facility(vehicle1, facility1) -> vehicle_available(vehicle1))",
+      "(job_assigned(job1, vehicle1) -> -maintenance_needed(vehicle1))",
+      "(fuel_available(facility1) -> vehicle_at_facility(vehicle1, facility1))",
+      "(fuel_available(facility1) -> charging_available(facility1))",
+      "(charging_available(facility1) -> vehicle_at_facility(vehicle1, facility1))",
+      "(facility_closed(facility1) | (fuel_available(facility1) -> charging_available(facility1)))",
+      "(security_clearance(vehicle1) -> access_granted(vehicle1, facility1))",
+      "(security_clearance(vehicle1) -> -facility_closed(facility1))",
+      "(access_granted(vehicle1, facility1) -> -facility_closed(facility1))",
+      "(manager_approval(manager1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1)))",
+      "(manager_approval(manager1, vehicle1) | automated_system_approval(system1, vehicle1))",
+      "(automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1)))",
+      "(override_authorized(admin1) -> (automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1))))",
+      "(override_authorized(admin1) | emergency_access(vehicle1))",
+      "(emergency_access(vehicle1) -> (automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1))))",
+      "(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1))",
+      "(regular_maintenance(vehicle1) -> -vehicle_broken_down(vehicle1))",
+      "(regular_maintenance(vehicle1) | scheduled_service(vehicle1))",
+      "(scheduled_service(vehicle1) -> -vehicle_broken_down(vehicle1))",
+      "(maintenance_scheduled(vehicle1) -> -vehicle_broken_down(vehicle1))",
+      "(documents_prepared(job1) -> job_ready(job1))",
+      "(documents_verified(dispatcher1) -> -paperwork_incomplete(job1))",
+      "(route_changed(job1) -> route_confirmed(job1))",
+      "(route_changed(job1) -> -route_confirmed(job1))",
+      "(gps_updated(system1) -> (route_changed(job1) -> route_confirmed(job1)))",
+      "(gps_updated(system1) | manual_route_entry(dispatcher1))",
+      "(manual_route_entry(dispatcher1) -> (route_changed(job1) -> route_confirmed(job1)))",
+      "(insurance_valid(vehicle1) -> registration_current(vehicle1))",
+      "(insurance_valid(vehicle1) | (-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> -special_permit_required(vehicle1)))",
+      "(registration_current(vehicle1) -> license_valid(driver1))",
+      "(vehicle_broken_down(vehicle1) | (-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -facility_operational(facility1)))",
+      "(emergency_repair(vehicle1) -> -vehicle_broken_down(vehicle1))",
+      "(-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1))",
+      "(-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> -alternative_route_available(job1))",
+      "(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1))",
+      "(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> -maintenance_overdue(vehicle1))",
+      "(-(documents_prepared(job1) -> job_ready(job1)) -> paperwork_incomplete(job1))",
+      "(-(documents_verified(dispatcher1) -> -paperwork_incomplete(job1)) -> route_changed(job1))",
+      "(-(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1)) -> penalty_applied(vehicle1))",
+      "(-(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1)) -> -penalty_applied(vehicle1))",
+      "(-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))",
+      "(-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> -delivery_successful(job1))",
+      "(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> vehicle_in_use(vehicle1))",
+      "(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1))",
+      "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> facility_operational(facility1))",
+      "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1))",
+      "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -facility_operational(facility1))",
+      "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -job_urgent(job1))",
+      "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_at_facility(vehicle1, facility1))",
+      "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> fuel_available(facility1))",
+      "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1))",
+      "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> -vehicle_available(vehicle1))",
+      "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> job_completed(job1))",
+      "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> job_ready(job1))",
+      "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> documents_prepared(job1))",
+      "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1))",
+      "(-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> special_permit_required(vehicle1))",
+      "(-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> -special_permit_required(vehicle1))",
+      "(-business_hours(facility1) -> maintenance_needed(vehicle1))",
+      "(-business_hours(facility1) -> job_assigned(job1, vehicle1))",
+      "(-business_hours(facility1) -> -maintenance_needed(vehicle1))",
+      "security_clearance(vehicle1)",
+      "documents_verified(dispatcher1)",
+      "emergency_repair(vehicle1)",
+      "business_hours(facility1)",
+      "-facility_closed(facility1)",
+      "-job_ready(job1)",
+      "-paperwork_incomplete(job1)",
+      "-route_changed(job1)",
+      "-insurance_valid(vehicle1)",
+      "-registration_current(vehicle1)",
+      "-license_valid(driver1)",
+      "-vehicle_broken_down(vehicle1)"
+    ],
+    "natural_expressions": [
+      "Provided that dispatcher1 approves job1, if it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, then delivery for job1 is successful.",
+      "Either dispatcher1 approves job1 or supervisor1 approves job1.",
+      "If supervisor1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful.",
+      "Whenever the weather is good in region1, if it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, then an alternative route is available for job1.",
+      "Either the weather is good in region1 or traffic is clear on route1.",
+      "If traffic is clear on route1, then provided that it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, an alternative route is available for job1.",
+      "If maintenance is completed for vehicle1, then whenever it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed.",
+      "Either maintenance is completed for vehicle1 or vehicle1 passes inspection.",
+      "If vehicle1 passes inspection, then under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed.",
+      "If vehicle1 passes inspection, then vehicle1 is safety certified.",
+      "If vehicle1 is safety certified, then provided that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed.",
+      "If vehicle1 is at facility1, then vehicle1 is available.",
+      "If job1 is assigned to vehicle1, then maintenance is not needed for vehicle1.",
+      "If fuel is available at facility1, then vehicle1 is at facility1.",
+      "If fuel is available at facility1, then charging is available at facility1.",
+      "If charging is available at facility1, then vehicle1 is at facility1.",
+      "Either facility1 is closed or if fuel is available at facility1, then charging is available at facility1.",
+      "If vehicle1 has security clearance, then access is granted to vehicle1 at facility1.",
+      "If vehicle1 has security clearance, then it is not the case that facility1 is closed.",
+      "If access is granted to vehicle1 at facility1, then it is not the case that facility1 is closed.",
+      "If manager1 approves vehicle1, then whenever access is granted to vehicle1 at facility1, it is not the case that facility1 is closed.",
+      "Either manager1 approves vehicle1 or automated system1 approves vehicle1.",
+      "If automated system1 approves vehicle1, then under the condition that access is granted to vehicle1 at facility1, it is not the case that facility1 is closed.",
+      "If override is authorized by admin1, then provided that automated system1 approves vehicle1, whenever access is granted to vehicle1 at facility1, it is not the case that facility1 is closed.",
+      "Either override is authorized by admin1 or vehicle1 has emergency access.",
+      "If vehicle1 has emergency access, then whenever automated system1 approves vehicle1, if access is granted to vehicle1 at facility1, then it is not the case that facility1 is closed.",
+      "If regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1.",
+      "If regular maintenance is performed on vehicle1, then it is not the case that vehicle1 is broken down.",
+      "Either regular maintenance is performed on vehicle1 or scheduled service is performed on vehicle1.",
+      "If scheduled service is performed on vehicle1, then it is not the case that vehicle1 is broken down.",
+      "If maintenance is scheduled for vehicle1, then it is not the case that vehicle1 is broken down.",
+      "If documents are prepared for job1, then job1 is ready.",
+      "If documents are verified by dispatcher1, then it is not the case that paperwork is incomplete for job1.",
+      "If the route is changed for job1, then the route is confirmed for job1.",
+      "If the route is changed for job1, then it is not the case that the route is confirmed for job1.",
+      "If GPS is updated by system1, then whenever the route is changed for job1, the route is confirmed for job1.",
+      "Either GPS is updated by system1 or manual route entry is performed by dispatcher1.",
+      "If manual route entry is performed by dispatcher1, then under the condition that the route is changed for job1, the route is confirmed for job1.",
+      "If insurance is valid for vehicle1, then registration is current for vehicle1.",
+      "Either insurance is valid for vehicle1 or if it is not the case that whenever it is not business hours at facility1, maintenance is not needed for vehicle1, then it is not the case that a special permit is required for vehicle1.",
+      "If registration is current for vehicle1, then the license is valid for driver1.",
+      "Either vehicle1 is broken down or if it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational.",
+      "If emergency repair is performed on vehicle1, then it is not the case that vehicle1 is broken down.",
+      "Provided that it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, an alternative route is available for job1.",
+      "Whenever it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, it is not the case that an alternative route is available for job1.",
+      "If it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, then maintenance is overdue for vehicle1.",
+      "Provided that it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, it is not the case that maintenance is overdue for vehicle1.",
+      "If it is not the case that if documents are prepared for job1, then job1 is ready, then paperwork is incomplete for job1.",
+      "Under the condition that it is not the case that if documents are verified by dispatcher1, then it is not the case that paperwork is incomplete for job1, the route is changed for job1.",
+      "If it is not the case that whenever it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, maintenance is overdue for vehicle1, then a penalty is applied to vehicle1.",
+      "Whenever it is not the case that if it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, then maintenance is overdue for vehicle1, it is not the case that a penalty is applied to vehicle1.",
+      "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, then delivery for job1 is successful.",
+      "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, it is not the case that delivery for job1 is successful.",
+      "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, then vehicle1 is in use.",
+      "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, it is not the case that vehicle1 is in use.",
+      "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then facility1 is operational.",
+      "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, job1 is urgent.",
+      "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational.",
+      "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, it is not the case that job1 is urgent.",
+      "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is at facility1.",
+      "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, fuel is available at facility1.",
+      "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is available.",
+      "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, it is not the case that vehicle1 is available.",
+      "If it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, then job1 is completed.",
+      "Provided that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, job1 is ready.",
+      "If it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, then documents are prepared for job1.",
+      "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed.",
+      "If it is not the case that whenever it is not business hours at facility1, maintenance is not needed for vehicle1, then a special permit is required for vehicle1.",
+      "Provided that it is not the case that if it is not business hours at facility1, then maintenance is not needed for vehicle1, it is not the case that a special permit is required for vehicle1.",
+      "If it is not business hours at facility1, then maintenance is needed for vehicle1.",
+      "Whenever it is not business hours at facility1, job1 is assigned to vehicle1.",
+      "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1.",
+      "Vehicle1 has security clearance.",
+      "Documents are verified by dispatcher1.",
+      "Emergency repair is performed on vehicle1.",
+      "It is business hours at facility1.",
+      "It is not the case that facility1 is closed.",
+      "It is not the case that job1 is ready.",
+      "It is not the case that paperwork is incomplete for job1.",
+      "It is not the case that the route is changed for job1.",
+      "It is not the case that insurance is valid for vehicle1.",
+      "It is not the case that registration is current for vehicle1.",
+      "It is not the case that the license is valid for driver1.",
+      "It is not the case that vehicle1 is broken down."
+    ],
+    "node_mappings": {
+      "(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10))": {
+        "formal": "(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10))",
+        "prover9": "(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10))",
+        "prover9_expression": "(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1)))",
+        "natural": "Provided that dispatcher1 approves job1, if it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, then delivery for job1 is successful."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(dispatcher_approves(dispatcher1, job1) | supervisor_approves(supervisor1, job1))",
+        "natural": "Either dispatcher1 approves job1 or supervisor1 approves job1."
+      },
+      "(A12 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10))": {
+        "formal": "(A12 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10))",
+        "prover9": "(A12 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10))",
+        "prover9_expression": "(supervisor_approves(supervisor1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1)))",
+        "natural": "If supervisor1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful."
+      },
+      "(A14 → (¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13))": {
+        "formal": "(A14 → (¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13))",
+        "prover9": "(A14 -> (-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13))",
+        "prover9_expression": "(weather_good(region1) -> (-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1)))",
+        "natural": "Whenever the weather is good in region1, if it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, then an alternative route is available for job1."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(weather_good(region1) | traffic_clear(route1))",
+        "natural": "Either the weather is good in region1 or traffic is clear on route1."
+      },
+      "(A15 → (¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13))": {
+        "formal": "(A15 → (¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13))",
+        "prover9": "(A15 -> (-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13))",
+        "prover9_expression": "(traffic_clear(route1) -> (-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1)))",
+        "natural": "If traffic is clear on route1, then provided that it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, an alternative route is available for job1."
+      },
+      "(A16 → (¬(¬G → A2) → ¬A3))": {
+        "formal": "(A16 → (¬(¬G → A2) → ¬A3))",
+        "prover9": "(A16 -> (-(-G -> A2) -> -A3))",
+        "prover9_expression": "(maintenance_completed(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+        "natural": "If maintenance is completed for vehicle1, then whenever it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed."
+      },
+      "(A16 ∨ A17)": {
+        "formal": "(A16 ∨ A17)",
+        "prover9": "(A16 | A17)",
+        "prover9_expression": "(maintenance_completed(vehicle1) | inspection_passed(vehicle1))",
+        "natural": "Either maintenance is completed for vehicle1 or vehicle1 passes inspection."
+      },
+      "(A17 → (¬(¬G → A2) → ¬A3))": {
+        "formal": "(A17 → (¬(¬G → A2) → ¬A3))",
+        "prover9": "(A17 -> (-(-G -> A2) -> -A3))",
+        "prover9_expression": "(inspection_passed(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+        "natural": "If vehicle1 passes inspection, then under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed."
+      },
+      "(A17 → A18)": {
+        "formal": "(A17 → A18)",
+        "prover9": "(A17 -> A18)",
+        "prover9_expression": "(inspection_passed(vehicle1) -> safety_certified(vehicle1))",
+        "natural": "If vehicle1 passes inspection, then vehicle1 is safety certified."
+      },
+      "(A18 → (¬(¬G → A2) → ¬A3))": {
+        "formal": "(A18 → (¬(¬G → A2) → ¬A3))",
+        "prover9": "(A18 -> (-(-G -> A2) -> -A3))",
+        "prover9_expression": "(safety_certified(vehicle1) -> (-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)))",
+        "natural": "If vehicle1 is safety certified, then provided that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is not completed."
+      },
+      "(A19 → A4)": {
+        "formal": "(A19 → A4)",
+        "prover9": "(A19 -> A4)",
+        "prover9_expression": "(vehicle_at_facility(vehicle1, facility1) -> vehicle_available(vehicle1))",
+        "natural": "If vehicle1 is at facility1, then vehicle1 is available."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(job_assigned(job1, vehicle1) -> -maintenance_needed(vehicle1))",
+        "natural": "If job1 is assigned to vehicle1, then maintenance is not needed for vehicle1."
+      },
+      "(A20 → A19)": {
+        "formal": "(A20 → A19)",
+        "prover9": "(A20 -> A19)",
+        "prover9_expression": "(fuel_available(facility1) -> vehicle_at_facility(vehicle1, facility1))",
+        "natural": "If fuel is available at facility1, then vehicle1 is at facility1."
+      },
+      "(A20 → A21)": {
+        "formal": "(A20 → A21)",
+        "prover9": "(A20 -> A21)",
+        "prover9_expression": "(fuel_available(facility1) -> charging_available(facility1))",
+        "natural": "If fuel is available at facility1, then charging is available at facility1."
+      },
+      "(A21 → A19)": {
+        "formal": "(A21 → A19)",
+        "prover9": "(A21 -> A19)",
+        "prover9_expression": "(charging_available(facility1) -> vehicle_at_facility(vehicle1, facility1))",
+        "natural": "If charging is available at facility1, then vehicle1 is at facility1."
+      },
+      "(A22 ∨ (A20 → A21))": {
+        "formal": "(A22 ∨ (A20 → A21))",
+        "prover9": "(A22 | (A20 -> A21))",
+        "prover9_expression": "(facility_closed(facility1) | (fuel_available(facility1) -> charging_available(facility1)))",
+        "natural": "Either facility1 is closed or if fuel is available at facility1, then charging is available at facility1."
+      },
+      "(A23 → A24)": {
+        "formal": "(A23 → A24)",
+        "prover9": "(A23 -> A24)",
+        "prover9_expression": "(security_clearance(vehicle1) -> access_granted(vehicle1, facility1))",
+        "natural": "If vehicle1 has security clearance, then access is granted to vehicle1 at facility1."
+      },
+      "(A23 → ¬A22)": {
+        "formal": "(A23 → ¬A22)",
+        "prover9": "(A23 -> -A22)",
+        "prover9_expression": "(security_clearance(vehicle1) -> -facility_closed(facility1))",
+        "natural": "If vehicle1 has security clearance, then it is not the case that facility1 is closed."
+      },
+      "(A24 → ¬A22)": {
+        "formal": "(A24 → ¬A22)",
+        "prover9": "(A24 -> -A22)",
+        "prover9_expression": "(access_granted(vehicle1, facility1) -> -facility_closed(facility1))",
+        "natural": "If access is granted to vehicle1 at facility1, then it is not the case that facility1 is closed."
+      },
+      "(A25 → (A24 → ¬A22))": {
+        "formal": "(A25 → (A24 → ¬A22))",
+        "prover9": "(A25 -> (A24 -> -A22))",
+        "prover9_expression": "(manager_approval(manager1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1)))",
+        "natural": "If manager1 approves vehicle1, then whenever access is granted to vehicle1 at facility1, it is not the case that facility1 is closed."
+      },
+      "(A25 ∨ A26)": {
+        "formal": "(A25 ∨ A26)",
+        "prover9": "(A25 | A26)",
+        "prover9_expression": "(manager_approval(manager1, vehicle1) | automated_system_approval(system1, vehicle1))",
+        "natural": "Either manager1 approves vehicle1 or automated system1 approves vehicle1."
+      },
+      "(A26 → (A24 → ¬A22))": {
+        "formal": "(A26 → (A24 → ¬A22))",
+        "prover9": "(A26 -> (A24 -> -A22))",
+        "prover9_expression": "(automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1)))",
+        "natural": "If automated system1 approves vehicle1, then under the condition that access is granted to vehicle1 at facility1, it is not the case that facility1 is closed."
+      },
+      "(A27 → (A26 → (A24 → ¬A22)))": {
+        "formal": "(A27 → (A26 → (A24 → ¬A22)))",
+        "prover9": "(A27 -> (A26 -> (A24 -> -A22)))",
+        "prover9_expression": "(override_authorized(admin1) -> (automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1))))",
+        "natural": "If override is authorized by admin1, then provided that automated system1 approves vehicle1, whenever access is granted to vehicle1 at facility1, it is not the case that facility1 is closed."
+      },
+      "(A27 ∨ A28)": {
+        "formal": "(A27 ∨ A28)",
+        "prover9": "(A27 | A28)",
+        "prover9_expression": "(override_authorized(admin1) | emergency_access(vehicle1))",
+        "natural": "Either override is authorized by admin1 or vehicle1 has emergency access."
+      },
+      "(A28 → (A26 → (A24 → ¬A22)))": {
+        "formal": "(A28 → (A26 → (A24 → ¬A22)))",
+        "prover9": "(A28 -> (A26 -> (A24 -> -A22)))",
+        "prover9_expression": "(emergency_access(vehicle1) -> (automated_system_approval(system1, vehicle1) -> (access_granted(vehicle1, facility1) -> -facility_closed(facility1))))",
+        "natural": "If vehicle1 has emergency access, then whenever automated system1 approves vehicle1, if access is granted to vehicle1 at facility1, then it is not the case that facility1 is closed."
+      },
+      "(A29 → A31)": {
+        "formal": "(A29 → A31)",
+        "prover9": "(A29 -> A31)",
+        "prover9_expression": "(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1))",
+        "natural": "If regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1."
+      },
+      "(A29 → ¬A6)": {
+        "formal": "(A29 → ¬A6)",
+        "prover9": "(A29 -> -A6)",
+        "prover9_expression": "(regular_maintenance(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If regular maintenance is performed on vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      "(A29 ∨ A30)": {
+        "formal": "(A29 ∨ A30)",
+        "prover9": "(A29 | A30)",
+        "prover9_expression": "(regular_maintenance(vehicle1) | scheduled_service(vehicle1))",
+        "natural": "Either regular maintenance is performed on vehicle1 or scheduled service is performed on vehicle1."
+      },
+      "(A30 → ¬A6)": {
+        "formal": "(A30 → ¬A6)",
+        "prover9": "(A30 -> -A6)",
+        "prover9_expression": "(scheduled_service(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If scheduled service is performed on vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      "(A31 → ¬A6)": {
+        "formal": "(A31 → ¬A6)",
+        "prover9": "(A31 -> -A6)",
+        "prover9_expression": "(maintenance_scheduled(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If maintenance is scheduled for vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      "(A35 → A34)": {
+        "formal": "(A35 → A34)",
+        "prover9": "(A35 -> A34)",
+        "prover9_expression": "(documents_prepared(job1) -> job_ready(job1))",
+        "natural": "If documents are prepared for job1, then job1 is ready."
+      },
+      "(A37 → ¬A36)": {
+        "formal": "(A37 → ¬A36)",
+        "prover9": "(A37 -> -A36)",
+        "prover9_expression": "(documents_verified(dispatcher1) -> -paperwork_incomplete(job1))",
+        "natural": "If documents are verified by dispatcher1, then it is not the case that paperwork is incomplete for job1."
+      },
+      "(A38 → A39)": {
+        "formal": "(A38 → A39)",
+        "prover9": "(A38 -> A39)",
+        "prover9_expression": "(route_changed(job1) -> route_confirmed(job1))",
+        "natural": "If the route is changed for job1, then the route is confirmed for job1."
+      },
+      "(A38 → ¬A39)": {
+        "formal": "(A38 → ¬A39)",
+        "prover9": "(A38 -> -A39)",
+        "prover9_expression": "(route_changed(job1) -> -route_confirmed(job1))",
+        "natural": "If the route is changed for job1, then it is not the case that the route is confirmed for job1."
+      },
+      "(A40 → (A38 → A39))": {
+        "formal": "(A40 → (A38 → A39))",
+        "prover9": "(A40 -> (A38 -> A39))",
+        "prover9_expression": "(gps_updated(system1) -> (route_changed(job1) -> route_confirmed(job1)))",
+        "natural": "If GPS is updated by system1, then whenever the route is changed for job1, the route is confirmed for job1."
+      },
+      "(A40 ∨ A41)": {
+        "formal": "(A40 ∨ A41)",
+        "prover9": "(A40 | A41)",
+        "prover9_expression": "(gps_updated(system1) | manual_route_entry(dispatcher1))",
+        "natural": "Either GPS is updated by system1 or manual route entry is performed by dispatcher1."
+      },
+      "(A41 → (A38 → A39))": {
+        "formal": "(A41 → (A38 → A39))",
+        "prover9": "(A41 -> (A38 -> A39))",
+        "prover9_expression": "(manual_route_entry(dispatcher1) -> (route_changed(job1) -> route_confirmed(job1)))",
+        "natural": "If manual route entry is performed by dispatcher1, then under the condition that the route is changed for job1, the route is confirmed for job1."
+      },
+      "(A43 → A44)": {
+        "formal": "(A43 → A44)",
+        "prover9": "(A43 -> A44)",
+        "prover9_expression": "(insurance_valid(vehicle1) -> registration_current(vehicle1))",
+        "natural": "If insurance is valid for vehicle1, then registration is current for vehicle1."
+      },
+      "(A43 ∨ (¬(¬G → ¬A1) → ¬A42))": {
+        "formal": "(A43 ∨ (¬(¬G → ¬A1) → ¬A42))",
+        "prover9": "(A43 | (-(-G -> -A1) -> -A42))",
+        "prover9_expression": "(insurance_valid(vehicle1) | (-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> -special_permit_required(vehicle1)))",
+        "natural": "Either insurance is valid for vehicle1 or if it is not the case that whenever it is not business hours at facility1, maintenance is not needed for vehicle1, then it is not the case that a special permit is required for vehicle1."
+      },
+      "(A44 → A45)": {
+        "formal": "(A44 → A45)",
+        "prover9": "(A44 -> A45)",
+        "prover9_expression": "(registration_current(vehicle1) -> license_valid(driver1))",
+        "natural": "If registration is current for vehicle1, then the license is valid for driver1."
+      },
+      "(A6 ∨ (¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A5))": {
+        "formal": "(A6 ∨ (¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A5))",
+        "prover9": "(A6 | (-(-(-(-G -> A2) -> -A3) -> A4) -> -A5))",
+        "prover9_expression": "(vehicle_broken_down(vehicle1) | (-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -facility_operational(facility1)))",
+        "natural": "Either vehicle1 is broken down or if it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(emergency_repair(vehicle1) -> -vehicle_broken_down(vehicle1))",
+        "natural": "If emergency repair is performed on vehicle1, then it is not the case that vehicle1 is broken down."
+      },
+      "(¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13)": {
+        "formal": "(¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → A13)",
+        "prover9": "(-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> A13)",
+        "prover9_expression": "(-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> alternative_route_available(job1))",
+        "natural": "Provided that it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, an alternative route is available for job1."
+      },
+      "(¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → ¬A13)": {
+        "formal": "(¬(A11 → (¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)) → ¬A13)",
+        "prover9": "(-(A11 -> (-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)) -> -A13)",
+        "prover9_expression": "(-(dispatcher_approves(dispatcher1, job1) -> (-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))) -> -alternative_route_available(job1))",
+        "natural": "Whenever it is not the case that if dispatcher1 approves job1, then under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, delivery for job1 is successful, it is not the case that an alternative route is available for job1."
+      },
+      "(¬(A29 → A31) → A32)": {
+        "formal": "(¬(A29 → A31) → A32)",
+        "prover9": "(-(A29 -> A31) -> A32)",
+        "prover9_expression": "(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1))",
+        "natural": "If it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, then maintenance is overdue for vehicle1."
+      },
+      "(¬(A29 → A31) → ¬A32)": {
+        "formal": "(¬(A29 → A31) → ¬A32)",
+        "prover9": "(-(A29 -> A31) -> -A32)",
+        "prover9_expression": "(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> -maintenance_overdue(vehicle1))",
+        "natural": "Provided that it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, it is not the case that maintenance is overdue for vehicle1."
+      },
+      "(¬(A35 → A34) → A36)": {
+        "formal": "(¬(A35 → A34) → A36)",
+        "prover9": "(-(A35 -> A34) -> A36)",
+        "prover9_expression": "(-(documents_prepared(job1) -> job_ready(job1)) -> paperwork_incomplete(job1))",
+        "natural": "If it is not the case that if documents are prepared for job1, then job1 is ready, then paperwork is incomplete for job1."
+      },
+      "(¬(A37 → ¬A36) → A38)": {
+        "formal": "(¬(A37 → ¬A36) → A38)",
+        "prover9": "(-(A37 -> -A36) -> A38)",
+        "prover9_expression": "(-(documents_verified(dispatcher1) -> -paperwork_incomplete(job1)) -> route_changed(job1))",
+        "natural": "Under the condition that it is not the case that if documents are verified by dispatcher1, then it is not the case that paperwork is incomplete for job1, the route is changed for job1."
+      },
+      "(¬(¬(A29 → A31) → A32) → A33)": {
+        "formal": "(¬(¬(A29 → A31) → A32) → A33)",
+        "prover9": "(-(-(A29 -> A31) -> A32) -> A33)",
+        "prover9_expression": "(-(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1)) -> penalty_applied(vehicle1))",
+        "natural": "If it is not the case that whenever it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, maintenance is overdue for vehicle1, then a penalty is applied to vehicle1."
+      },
+      "(¬(¬(A29 → A31) → A32) → ¬A33)": {
+        "formal": "(¬(¬(A29 → A31) → A32) → ¬A33)",
+        "prover9": "(-(-(A29 -> A31) -> A32) -> -A33)",
+        "prover9_expression": "(-(-(regular_maintenance(vehicle1) -> maintenance_scheduled(vehicle1)) -> maintenance_overdue(vehicle1)) -> -penalty_applied(vehicle1))",
+        "natural": "Whenever it is not the case that if it is not the case that if regular maintenance is performed on vehicle1, then maintenance is scheduled for vehicle1, then maintenance is overdue for vehicle1, it is not the case that a penalty is applied to vehicle1."
+      },
+      "(¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)": {
+        "formal": "(¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → A10)",
+        "prover9": "(-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> A10)",
+        "prover9_expression": "(-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> delivery_successful(job1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, then delivery for job1 is successful."
+      },
+      "(¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → ¬A10)": {
+        "formal": "(¬(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9) → ¬A10)",
+        "prover9": "(-(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9) -> -A10)",
+        "prover9_expression": "(-(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1)) -> -delivery_successful(job1))",
+        "natural": "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, and it is not the case that vehicle1 is not in use, it is not the case that delivery for job1 is successful."
+      },
+      "(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → A9)": {
+        "formal": "(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → A9)",
+        "prover9": "(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> A9)",
+        "prover9_expression": "(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> vehicle_in_use(vehicle1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, then vehicle1 is in use."
+      },
+      "(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9)": {
+        "formal": "(¬(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8) → ¬A9)",
+        "prover9": "(-(-(-(-(-G -> A2) -> -A3) -> A4) -> A8) -> -A9)",
+        "prover9_expression": "(-(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1)) -> -vehicle_in_use(vehicle1))",
+        "natural": "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, and it is not the case that job1 is urgent, it is not the case that vehicle1 is in use."
+      },
+      "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A5)": {
+        "formal": "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A5)",
+        "prover9": "(-(-(-(-G -> A2) -> -A3) -> A4) -> A5)",
+        "prover9_expression": "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> facility_operational(facility1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then facility1 is operational."
+      },
+      "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8)": {
+        "formal": "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → A8)",
+        "prover9": "(-(-(-(-G -> A2) -> -A3) -> A4) -> A8)",
+        "prover9_expression": "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> job_urgent(job1))",
+        "natural": "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, job1 is urgent."
+      },
+      "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A5)": {
+        "formal": "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A5)",
+        "prover9": "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A5)",
+        "prover9_expression": "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -facility_operational(facility1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, then it is not the case that facility1 is operational."
+      },
+      "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A8)": {
+        "formal": "(¬(¬(¬(¬G → A2) → ¬A3) → A4) → ¬A8)",
+        "prover9": "(-(-(-(-G -> A2) -> -A3) -> A4) -> -A8)",
+        "prover9_expression": "(-(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1)) -> -job_urgent(job1))",
+        "natural": "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, and it is not the case that vehicle1 is available, it is not the case that job1 is urgent."
+      },
+      "(¬(¬(¬G → A2) → ¬A3) → A19)": {
+        "formal": "(¬(¬(¬G → A2) → ¬A3) → A19)",
+        "prover9": "(-(-(-G -> A2) -> -A3) -> A19)",
+        "prover9_expression": "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_at_facility(vehicle1, facility1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is at facility1."
+      },
+      "(¬(¬(¬G → A2) → ¬A3) → A20)": {
+        "formal": "(¬(¬(¬G → A2) → ¬A3) → A20)",
+        "prover9": "(-(-(-G -> A2) -> -A3) -> A20)",
+        "prover9_expression": "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> fuel_available(facility1))",
+        "natural": "Provided that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, fuel is available at facility1."
+      },
+      "(¬(¬(¬G → A2) → ¬A3) → A4)": {
+        "formal": "(¬(¬(¬G → A2) → ¬A3) → A4)",
+        "prover9": "(-(-(-G -> A2) -> -A3) -> A4)",
+        "prover9_expression": "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> vehicle_available(vehicle1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, then vehicle1 is available."
+      },
+      "(¬(¬(¬G → A2) → ¬A3) → ¬A4)": {
+        "formal": "(¬(¬(¬G → A2) → ¬A3) → ¬A4)",
+        "prover9": "(-(-(-G -> A2) -> -A3) -> -A4)",
+        "prover9_expression": "(-(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1)) -> -vehicle_available(vehicle1))",
+        "natural": "Under the condition that it is not the case that whenever it is not business hours at facility1, job1 is assigned to vehicle1, and it is not the case that job1 is not completed, it is not the case that vehicle1 is available."
+      },
+      "(¬(¬G → A2) → A3)": {
+        "formal": "(¬(¬G → A2) → A3)",
+        "prover9": "(-(-G -> A2) -> A3)",
+        "prover9_expression": "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> job_completed(job1))",
+        "natural": "If it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, then job1 is completed."
+      },
+      "(¬(¬G → A2) → A34)": {
+        "formal": "(¬(¬G → A2) → A34)",
+        "prover9": "(-(-G -> A2) -> A34)",
+        "prover9_expression": "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> job_ready(job1))",
+        "natural": "Provided that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, job1 is ready."
+      },
+      "(¬(¬G → A2) → A35)": {
+        "formal": "(¬(¬G → A2) → A35)",
+        "prover9": "(-(-G -> A2) -> A35)",
+        "prover9_expression": "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> documents_prepared(job1))",
+        "natural": "If it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, then documents are prepared for job1."
+      },
+      "(¬(¬G → A2) → ¬A3)": {
+        "formal": "(¬(¬G → A2) → ¬A3)",
+        "prover9": "(-(-G -> A2) -> -A3)",
+        "prover9_expression": "(-(-business_hours(facility1) -> job_assigned(job1, vehicle1)) -> -job_completed(job1))",
+        "natural": "Under the condition that it is not the case that if it is not business hours at facility1, then job1 is assigned to vehicle1, it is not the case that job1 is completed."
+      },
+      "(¬(¬G → ¬A1) → A42)": {
+        "formal": "(¬(¬G → ¬A1) → A42)",
+        "prover9": "(-(-G -> -A1) -> A42)",
+        "prover9_expression": "(-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> special_permit_required(vehicle1))",
+        "natural": "If it is not the case that whenever it is not business hours at facility1, maintenance is not needed for vehicle1, then a special permit is required for vehicle1."
+      },
+      "(¬(¬G → ¬A1) → ¬A42)": {
+        "formal": "(¬(¬G → ¬A1) → ¬A42)",
+        "prover9": "(-(-G -> -A1) -> -A42)",
+        "prover9_expression": "(-(-business_hours(facility1) -> -maintenance_needed(vehicle1)) -> -special_permit_required(vehicle1))",
+        "natural": "Provided that it is not the case that if it is not business hours at facility1, then maintenance is not needed for vehicle1, it is not the case that a special permit is required for vehicle1."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-business_hours(facility1) -> maintenance_needed(vehicle1))",
+        "natural": "If it is not business hours at facility1, then maintenance is needed for vehicle1."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-business_hours(facility1) -> job_assigned(job1, vehicle1))",
+        "natural": "Whenever it is not business hours at facility1, job1 is assigned to vehicle1."
+      },
+      "(¬G → ¬A1)": {
+        "formal": "(¬G → ¬A1)",
+        "prover9": "(-G -> -A1)",
+        "prover9_expression": "(-business_hours(facility1) -> -maintenance_needed(vehicle1))",
+        "natural": "If it is not business hours at facility1, then it is not the case that maintenance is needed for vehicle1."
+      },
+      "A23": {
+        "formal": "A23",
+        "prover9": "A23",
+        "prover9_expression": "security_clearance(vehicle1)",
+        "natural": "Vehicle1 has security clearance."
+      },
+      "A37": {
+        "formal": "A37",
+        "prover9": "A37",
+        "prover9_expression": "documents_verified(dispatcher1)",
+        "natural": "Documents are verified by dispatcher1."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "emergency_repair(vehicle1)",
+        "natural": "Emergency repair is performed on vehicle1."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "business_hours(facility1)",
+        "natural": "It is business hours at facility1."
+      },
+      "¬A22": {
+        "formal": "¬A22",
+        "prover9": "-A22",
+        "prover9_expression": "-facility_closed(facility1)",
+        "natural": "It is not the case that facility1 is closed."
+      },
+      "¬A34": {
+        "formal": "¬A34",
+        "prover9": "-A34",
+        "prover9_expression": "-job_ready(job1)",
+        "natural": "It is not the case that job1 is ready."
+      },
+      "¬A36": {
+        "formal": "¬A36",
+        "prover9": "-A36",
+        "prover9_expression": "-paperwork_incomplete(job1)",
+        "natural": "It is not the case that paperwork is incomplete for job1."
+      },
+      "¬A38": {
+        "formal": "¬A38",
+        "prover9": "-A38",
+        "prover9_expression": "-route_changed(job1)",
+        "natural": "It is not the case that the route is changed for job1."
+      },
+      "¬A43": {
+        "formal": "¬A43",
+        "prover9": "-A43",
+        "prover9_expression": "-insurance_valid(vehicle1)",
+        "natural": "It is not the case that insurance is valid for vehicle1."
+      },
+      "¬A44": {
+        "formal": "¬A44",
+        "prover9": "-A44",
+        "prover9_expression": "-registration_current(vehicle1)",
+        "natural": "It is not the case that registration is current for vehicle1."
+      },
+      "¬A45": {
+        "formal": "¬A45",
+        "prover9": "-A45",
+        "prover9_expression": "-license_valid(driver1)",
+        "natural": "It is not the case that the license is valid for driver1."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-vehicle_broken_down(vehicle1)",
+        "natural": "It is not the case that vehicle1 is broken down."
+      }
+    }
+  }
+}

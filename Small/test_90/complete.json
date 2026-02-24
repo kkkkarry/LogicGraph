@@ -1,0 +1,505 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(has_authorization(employee, access_furniture_room) | emergency_situation(office_furniture_collapse))",
+        "natural": "If the employee has authorization to access the furniture room or there is an emergency situation involving office furniture collapse, then this condition is satisfied."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (A10 → (A2 → ¬A1)))",
+        "prover9_expression": "(company_policy_active(furniture_access_control) -> (meets_requirements(employee, furniture_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "Given that the company policy for furniture access control is active, then should the employee meet the requirements for the furniture project, the consequence is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 → (A2 → ¬A1))",
+        "prover9_expression": "(during_time_period(employee, probation_period) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room)))",
+        "natural": "When the employee is currently in the probation period, then if the employee has the skill of furniture assembly, the result is that the employee does not have authorization to access the furniture room."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A3 ∨ A4)",
+        "prover9_expression": "(during_time_period(employee, probation_period) | requires_authorization(project, furniture_renovation))",
+        "natural": "Either the employee is currently in the probation period or the project requires authorization for furniture renovation."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(requires_authorization(project, furniture_renovation) -> assigned_to(employee, furniture_renovation_project))",
+        "natural": "If the project requires authorization for furniture renovation, then the employee is assigned to the furniture renovation project."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A5 → A10)",
+        "prover9_expression": "(assigned_to(employee, furniture_renovation_project) -> meets_requirements(employee, furniture_project))",
+        "natural": "Should the employee be assigned to the furniture renovation project, then the employee meets the requirements for the furniture project."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A6 → (A5 → (A2 → ¬A1)))",
+        "prover9_expression": "(supervisor_approves(supervisor, furniture_access_request) -> (assigned_to(employee, furniture_renovation_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "Given that the supervisor approves the furniture access request, then if the employee is assigned to the furniture renovation project, the consequence is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A6 ∨ A7)",
+        "prover9_expression": "(supervisor_approves(supervisor, furniture_access_request) | automatic_approval_system(employee, furniture_access))",
+        "natural": "Either the supervisor approves the furniture access request or the automatic approval system grants furniture access to the employee."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A7 → (A5 → (A2 → ¬A1)))",
+        "prover9_expression": "(automatic_approval_system(employee, furniture_access) -> (assigned_to(employee, furniture_renovation_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "When the automatic approval system grants furniture access to the employee, then if the employee is assigned to the furniture renovation project, the result is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A8 → A9)",
+        "prover9_expression": "(has_completed(employee, furniture_training_course) -> certified_in(employee, furniture_assembly))",
+        "natural": "If the employee has completed the furniture training course, then the employee is certified in furniture assembly."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A8 ∨ (A4 → (A2 → ¬A1)))",
+        "prover9_expression": "(has_completed(employee, furniture_training_course) | (requires_authorization(project, furniture_renovation) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "Either the employee has completed the furniture training course or, under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A11",
+        "prover9_expression": "company_policy_active(furniture_access_control)",
+        "natural": "The company policy for furniture access control is active."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A2",
+        "prover9_expression": "has_skill(employee, furniture_assembly)",
+        "natural": "The employee has the skill of furniture assembly."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A9",
+        "prover9_expression": "-certified_in(employee, furniture_assembly)",
+        "natural": "The employee is not certified in furniture assembly."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "emergency_situation(office_furniture_collapse)",
+    "natural": "There is an emergency situation involving office furniture collapse."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A6 | A7)",
+            "(A6 -> (A5 -> (A2 -> -A1)))",
+            "(A7 -> (A5 -> (A2 -> -A1)))"
+          ],
+          "conclusion": "(A5 -> (A2 -> -A1))",
+          "natural": "Provided that the employee is assigned to the furniture renovation project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A2 -> -A1))"
+          ],
+          "conclusion": "(A4 -> (A2 -> -A1))",
+          "natural": "Under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A2 -> -A1))",
+            "(A4 -> (A2 -> -A1))"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "There is an emergency situation involving office furniture collapse."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A8 -> A9)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "The employee has not completed the furniture training course."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A8 | (A4 -> (A2 -> -A1)))",
+            "-A8"
+          ],
+          "conclusion": "(A4 -> (A2 -> -A1))",
+          "natural": "Under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A2 -> -A1))",
+            "(A4 -> (A2 -> -A1))"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "There is an emergency situation involving office furniture collapse."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A11 -> (A10 -> (A2 -> -A1)))",
+            "A11"
+          ],
+          "conclusion": "(A10 -> (A2 -> -A1))",
+          "natural": "Provided that the employee meets the requirements for the furniture project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A5 -> A10)",
+            "(A10 -> (A2 -> -A1))"
+          ],
+          "conclusion": "(A5 -> (A2 -> -A1))",
+          "natural": "Provided that the employee is assigned to the furniture renovation project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A5 -> (A2 -> -A1))"
+          ],
+          "conclusion": "(A4 -> (A2 -> -A1))",
+          "natural": "Under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A3 | A4)",
+            "(A3 -> (A2 -> -A1))",
+            "(A4 -> (A2 -> -A1))"
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "If the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "The employee does not have authorization to access the furniture room."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "There is an emergency situation involving office furniture collapse."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "has_authorization(employee, access_furniture_room)",
+      "A2": "has_skill(employee, furniture_assembly)",
+      "A3": "during_time_period(employee, probation_period)",
+      "A4": "requires_authorization(project, furniture_renovation)",
+      "A5": "assigned_to(employee, furniture_renovation_project)",
+      "A6": "supervisor_approves(supervisor, furniture_access_request)",
+      "A7": "automatic_approval_system(employee, furniture_access)",
+      "A8": "has_completed(employee, furniture_training_course)",
+      "A9": "certified_in(employee, furniture_assembly)",
+      "A10": "meets_requirements(employee, furniture_project)",
+      "A11": "company_policy_active(furniture_access_control)",
+      "G": "emergency_situation(office_furniture_collapse)"
+    },
+    "natural_facts": {
+      "A1": "The employee has authorization to access the furniture room",
+      "A2": "The employee has the skill of furniture assembly",
+      "A3": "The employee is currently in the probation period",
+      "A4": "The project requires authorization for furniture renovation",
+      "A5": "The employee is assigned to the furniture renovation project",
+      "A6": "The supervisor approves the furniture access request",
+      "A7": "The automatic approval system grants furniture access to the employee",
+      "A8": "The employee has completed the furniture training course",
+      "A9": "The employee is certified in furniture assembly",
+      "A10": "The employee meets the requirements for the furniture project",
+      "A11": "The company policy for furniture access control is active",
+      "G": "There is an emergency situation involving office furniture collapse",
+      "¬A1": "The employee does not have authorization to access the furniture room",
+      "¬A8": "The employee has not completed the furniture training course",
+      "¬A9": "The employee is not certified in furniture assembly"
+    },
+    "prover9_expressions": [
+      "(has_authorization(employee, access_furniture_room) ∨ emergency_situation(office_furniture_collapse))",
+      "(meets_requirements(employee, furniture_project) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room)))",
+      "(company_policy_active(furniture_access_control) → (meets_requirements(employee, furniture_project) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room))))",
+      "(has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room))",
+      "(during_time_period(employee, probation_period) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room)))",
+      "(during_time_period(employee, probation_period) ∨ requires_authorization(project, furniture_renovation))",
+      "(requires_authorization(project, furniture_renovation) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room)))",
+      "(requires_authorization(project, furniture_renovation) → assigned_to(employee, furniture_renovation_project))",
+      "(assigned_to(employee, furniture_renovation_project) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room)))",
+      "(assigned_to(employee, furniture_renovation_project) → meets_requirements(employee, furniture_project))",
+      "(supervisor_approves(supervisor, furniture_access_request) → (assigned_to(employee, furniture_renovation_project) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room))))",
+      "(supervisor_approves(supervisor, furniture_access_request) ∨ automatic_approval_system(employee, furniture_access))",
+      "(automatic_approval_system(employee, furniture_access) → (assigned_to(employee, furniture_renovation_project) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room))))",
+      "(has_completed(employee, furniture_training_course) → certified_in(employee, furniture_assembly))",
+      "(has_completed(employee, furniture_training_course) ∨ (requires_authorization(project, furniture_renovation) → (has_skill(employee, furniture_assembly) → ¬has_authorization(employee, access_furniture_room))))",
+      "company_policy_active(furniture_access_control)",
+      "has_skill(employee, furniture_assembly)",
+      "emergency_situation(office_furniture_collapse)",
+      "¬has_authorization(employee, access_furniture_room)",
+      "¬has_completed(employee, furniture_training_course)",
+      "¬certified_in(employee, furniture_assembly)"
+    ],
+    "natural_expressions": [
+      "If the employee has authorization to access the furniture room or there is an emergency situation involving office furniture collapse, then this condition is satisfied.",
+      "Provided that the employee meets the requirements for the furniture project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room.",
+      "Given that the company policy for furniture access control is active, then should the employee meet the requirements for the furniture project, the consequence is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room.",
+      "If the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room.",
+      "When the employee is currently in the probation period, then if the employee has the skill of furniture assembly, the result is that the employee does not have authorization to access the furniture room.",
+      "Either the employee is currently in the probation period or the project requires authorization for furniture renovation.",
+      "Under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room.",
+      "If the project requires authorization for furniture renovation, then the employee is assigned to the furniture renovation project.",
+      "Provided that the employee is assigned to the furniture renovation project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room.",
+      "Should the employee be assigned to the furniture renovation project, then the employee meets the requirements for the furniture project.",
+      "Given that the supervisor approves the furniture access request, then if the employee is assigned to the furniture renovation project, the consequence is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room.",
+      "Either the supervisor approves the furniture access request or the automatic approval system grants furniture access to the employee.",
+      "When the automatic approval system grants furniture access to the employee, then if the employee is assigned to the furniture renovation project, the result is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room.",
+      "If the employee has completed the furniture training course, then the employee is certified in furniture assembly.",
+      "Either the employee has completed the furniture training course or, under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room.",
+      "The company policy for furniture access control is active.",
+      "The employee has the skill of furniture assembly.",
+      "There is an emergency situation involving office furniture collapse.",
+      "The employee does not have authorization to access the furniture room.",
+      "The employee has not completed the furniture training course.",
+      "The employee is not certified in furniture assembly."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(has_authorization(employee, access_furniture_room) | emergency_situation(office_furniture_collapse))",
+        "natural": "If the employee has authorization to access the furniture room or there is an emergency situation involving office furniture collapse, then this condition is satisfied."
+      },
+      "(A10 → (A2 → ¬A1))": {
+        "formal": "(A10 → (A2 → ¬A1))",
+        "prover9": "(A10 -> (A2 -> -A1))",
+        "prover9_expression": "(meets_requirements(employee, furniture_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room)))",
+        "natural": "Provided that the employee meets the requirements for the furniture project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room."
+      },
+      "(A11 → (A10 → (A2 → ¬A1)))": {
+        "formal": "(A11 → (A10 → (A2 → ¬A1)))",
+        "prover9": "(A11 -> (A10 -> (A2 -> -A1)))",
+        "prover9_expression": "(company_policy_active(furniture_access_control) -> (meets_requirements(employee, furniture_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "Given that the company policy for furniture access control is active, then should the employee meet the requirements for the furniture project, the consequence is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))",
+        "natural": "If the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      "(A3 → (A2 → ¬A1))": {
+        "formal": "(A3 → (A2 → ¬A1))",
+        "prover9": "(A3 -> (A2 -> -A1))",
+        "prover9_expression": "(during_time_period(employee, probation_period) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room)))",
+        "natural": "When the employee is currently in the probation period, then if the employee has the skill of furniture assembly, the result is that the employee does not have authorization to access the furniture room."
+      },
+      "(A3 ∨ A4)": {
+        "formal": "(A3 ∨ A4)",
+        "prover9": "(A3 | A4)",
+        "prover9_expression": "(during_time_period(employee, probation_period) | requires_authorization(project, furniture_renovation))",
+        "natural": "Either the employee is currently in the probation period or the project requires authorization for furniture renovation."
+      },
+      "(A4 → (A2 → ¬A1))": {
+        "formal": "(A4 → (A2 → ¬A1))",
+        "prover9": "(A4 -> (A2 -> -A1))",
+        "prover9_expression": "(requires_authorization(project, furniture_renovation) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room)))",
+        "natural": "Under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(requires_authorization(project, furniture_renovation) -> assigned_to(employee, furniture_renovation_project))",
+        "natural": "If the project requires authorization for furniture renovation, then the employee is assigned to the furniture renovation project."
+      },
+      "(A5 → (A2 → ¬A1))": {
+        "formal": "(A5 → (A2 → ¬A1))",
+        "prover9": "(A5 -> (A2 -> -A1))",
+        "prover9_expression": "(assigned_to(employee, furniture_renovation_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room)))",
+        "natural": "Provided that the employee is assigned to the furniture renovation project, then if the employee has the skill of furniture assembly, it follows that the employee does not have authorization to access the furniture room."
+      },
+      "(A5 → A10)": {
+        "formal": "(A5 → A10)",
+        "prover9": "(A5 -> A10)",
+        "prover9_expression": "(assigned_to(employee, furniture_renovation_project) -> meets_requirements(employee, furniture_project))",
+        "natural": "Should the employee be assigned to the furniture renovation project, then the employee meets the requirements for the furniture project."
+      },
+      "(A6 → (A5 → (A2 → ¬A1)))": {
+        "formal": "(A6 → (A5 → (A2 → ¬A1)))",
+        "prover9": "(A6 -> (A5 -> (A2 -> -A1)))",
+        "prover9_expression": "(supervisor_approves(supervisor, furniture_access_request) -> (assigned_to(employee, furniture_renovation_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "Given that the supervisor approves the furniture access request, then if the employee is assigned to the furniture renovation project, the consequence is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      "(A6 ∨ A7)": {
+        "formal": "(A6 ∨ A7)",
+        "prover9": "(A6 | A7)",
+        "prover9_expression": "(supervisor_approves(supervisor, furniture_access_request) | automatic_approval_system(employee, furniture_access))",
+        "natural": "Either the supervisor approves the furniture access request or the automatic approval system grants furniture access to the employee."
+      },
+      "(A7 → (A5 → (A2 → ¬A1)))": {
+        "formal": "(A7 → (A5 → (A2 → ¬A1)))",
+        "prover9": "(A7 -> (A5 -> (A2 -> -A1)))",
+        "prover9_expression": "(automatic_approval_system(employee, furniture_access) -> (assigned_to(employee, furniture_renovation_project) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "When the automatic approval system grants furniture access to the employee, then if the employee is assigned to the furniture renovation project, the result is that if the employee has the skill of furniture assembly, then the employee does not have authorization to access the furniture room."
+      },
+      "(A8 → A9)": {
+        "formal": "(A8 → A9)",
+        "prover9": "(A8 -> A9)",
+        "prover9_expression": "(has_completed(employee, furniture_training_course) -> certified_in(employee, furniture_assembly))",
+        "natural": "If the employee has completed the furniture training course, then the employee is certified in furniture assembly."
+      },
+      "(A8 ∨ (A4 → (A2 → ¬A1)))": {
+        "formal": "(A8 ∨ (A4 → (A2 → ¬A1)))",
+        "prover9": "(A8 | (A4 -> (A2 -> -A1)))",
+        "prover9_expression": "(has_completed(employee, furniture_training_course) | (requires_authorization(project, furniture_renovation) -> (has_skill(employee, furniture_assembly) -> -has_authorization(employee, access_furniture_room))))",
+        "natural": "Either the employee has completed the furniture training course or, under the condition that the project requires authorization for furniture renovation, then if the employee has the skill of furniture assembly, the employee does not have authorization to access the furniture room."
+      },
+      "A11": {
+        "formal": "A11",
+        "prover9": "A11",
+        "prover9_expression": "company_policy_active(furniture_access_control)",
+        "natural": "The company policy for furniture access control is active."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "has_skill(employee, furniture_assembly)",
+        "natural": "The employee has the skill of furniture assembly."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "emergency_situation(office_furniture_collapse)",
+        "natural": "There is an emergency situation involving office furniture collapse."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_authorization(employee, access_furniture_room)",
+        "natural": "The employee does not have authorization to access the furniture room."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-has_completed(employee, furniture_training_course)",
+        "natural": "The employee has not completed the furniture training course."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-certified_in(employee, furniture_assembly)",
+        "natural": "The employee is not certified in furniture assembly."
+      }
+    }
+  }
+}

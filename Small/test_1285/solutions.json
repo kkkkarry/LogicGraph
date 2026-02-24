@@ -1,0 +1,443 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 10
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A7 | (A5 | A6))",
+              "prover9_expression": "(shelter_opened(facility) | (alert_issued(event) | emergency_declared(region)))",
+              "natural": "A shelter has been opened at the facility, or an alert has been issued for the event, or an emergency has been declared for the region."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A7",
+              "prover9_expression": "-shelter_opened(facility)",
+              "natural": "A shelter has not been opened at the facility."
+            }
+          ],
+          "conclusion": "(A5 | A6)",
+          "natural": "An alert has been issued for the event, or an emergency has been declared for the region."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | A6)",
+              "prover9_expression": "(alert_issued(event) | emergency_declared(region))",
+              "natural": "An alert has been issued for the event, or an emergency has been declared for the region."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A5 -> (A4 | (A3 -> (-G -> A1))))",
+              "prover9_expression": "(alert_issued(event) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+              "natural": "If an alert has been issued for the event, then either the backup system has been activated at the facility or, under the condition that containment has been breached at the plant, the absence of a government alert for the event leads to the region being contaminated with the substance."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A6 -> (A4 | (A3 -> (-G -> A1))))",
+              "prover9_expression": "(emergency_declared(region) -> (backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))))",
+              "natural": "Provided that an emergency has been declared for the region, it follows that either the backup system has been activated at the facility or, given that containment has been breached at the plant, the absence of a government alert for the event results in the region being contaminated with the substance."
+            }
+          ],
+          "conclusion": "(A4 | (A3 -> (-G -> A1)))",
+          "natural": "The backup system has been activated at the facility, or else if containment has been breached at the plant, then the absence of a government alert for the event implies the region is contaminated with the substance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 | (A3 -> (-G -> A1)))",
+              "prover9_expression": "(backup_activated(facility) | (containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance))))",
+              "natural": "The backup system has been activated at the facility, or else if containment has been breached at the plant, then the absence of a government alert for the event implies the region is contaminated with the substance."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A4",
+              "prover9_expression": "-backup_activated(facility)",
+              "natural": "The backup system has not been activated at the facility."
+            }
+          ],
+          "conclusion": "(A3 -> (-G -> A1))",
+          "natural": "Should containment be breached at the plant, then if there is no government alert for the event, the region is contaminated with the substance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(evacuation_ordered(facility) | containment_breached(plant))",
+              "natural": "An evacuation has been ordered for the facility, or containment has been breached at the plant."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(evacuation_ordered(facility) -> (-government_alert(event) -> contaminated(region, substance)))",
+              "natural": "Whenever an evacuation has been ordered for the facility, if there is no government alert for the event, then the region is contaminated with the substance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(containment_breached(plant) -> (-government_alert(event) -> contaminated(region, substance)))",
+              "natural": "Should containment be breached at the plant, then if there is no government alert for the event, the region is contaminated with the substance."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "If there is no government alert for the event, then the region is contaminated with the substance."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-government_alert(event) -> contaminated(region, substance))",
+              "natural": "If there is no government alert for the event, then the region is contaminated with the substance."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A1",
+              "prover9_expression": "-contaminated(region, substance)",
+              "natural": "It is not the case that the region is contaminated with the substance."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A government alert has been issued for the event."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(inspection_passed(plant) | safety_certified(facility))",
+              "natural": "Either the plant has passed inspection or the facility is safety certified."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> (-(-G -> A8) -> A10))",
+              "prover9_expression": "(inspection_passed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+              "natural": "Provided that the plant has passed inspection, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> (-(-G -> A8) -> A10))",
+              "prover9_expression": "(safety_certified(facility) -> (-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region)))",
+              "natural": "Under the condition that the facility is safety certified, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+            }
+          ],
+          "conclusion": "(-(-G -> A8) -> A10)",
+          "natural": "If it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A8) -> A10)",
+              "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> monitoring_increased(region))",
+              "natural": "If it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then monitoring has been increased in the region."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> A9)",
+              "prover9_expression": "(monitoring_increased(region) -> cleanup_begun(event))",
+              "natural": "If monitoring has been increased in the region, then cleanup has begun for the event."
+            }
+          ],
+          "conclusion": "(-(-G -> A8) -> A9)",
+          "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A8) -> A9)",
+              "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event))",
+              "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(-(-G -> A8) -> -A9)",
+              "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> -cleanup_begun(event))",
+              "natural": "Under the condition that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has not begun for the event."
+            }
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-government_alert(event) -> spill_contained(substance))",
+              "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-spill_contained(substance)",
+              "natural": "The spill of the substance is not contained."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A government alert has been issued for the event."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(-(A19 -> A18) -> A20)",
+              "prover9_expression": "(-(all_clear_given(region) -> operations_resumed(plant)) -> investigation_launched(event))",
+              "natural": "If it is not the case that an all-clear for the region implies operations have resumed at the plant, then an investigation has been launched for the event."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A20",
+              "prover9_expression": "-investigation_launched(event)",
+              "natural": "An investigation has not been launched for the event."
+            }
+          ],
+          "conclusion": "(A19 -> A18)",
+          "natural": "If an all-clear has been given for the region, then operations have resumed at the plant."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A17 -> A19)",
+              "prover9_expression": "(response_successful(event) -> all_clear_given(region))",
+              "natural": "If the response to the event was successful, then an all-clear has been given for the region."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> A18)",
+              "prover9_expression": "(all_clear_given(region) -> operations_resumed(plant))",
+              "natural": "If an all-clear has been given for the region, then operations have resumed at the plant."
+            }
+          ],
+          "conclusion": "(A17 -> A18)",
+          "natural": "Provided that the response to the event was successful, operations have resumed at the plant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> A18)",
+              "prover9_expression": "(response_successful(event) -> operations_resumed(plant))",
+              "natural": "Provided that the response to the event was successful, operations have resumed at the plant."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A18 -> (A16 | (-A14 -> A15)))",
+              "prover9_expression": "(operations_resumed(plant) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+              "natural": "Under the condition that operations have resumed at the plant, it follows that either automation is functional at the facility or, given that systems are not restored at the facility, a manual override has been used at the facility."
+            }
+          ],
+          "conclusion": "(A17 -> (A16 | (-A14 -> A15)))",
+          "natural": "Should the response to the event be successful, then either automation is functional at the facility or, in case systems are not restored at the facility, a manual override has been used at the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> (A16 | (-A14 -> A15)))",
+              "prover9_expression": "(response_successful(event) -> (automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility))))",
+              "natural": "Should the response to the event be successful, then either automation is functional at the facility or, in case systems are not restored at the facility, a manual override has been used at the facility."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A17",
+              "prover9_expression": "response_successful(event)",
+              "natural": "The response to the event was successful."
+            }
+          ],
+          "conclusion": "(A16 | (-A14 -> A15))",
+          "natural": "Automation is functional at the facility, or else if systems are not restored at the facility, then a manual override has been used at the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 | (-A14 -> A15))",
+              "prover9_expression": "(automation_functional(facility) | (-systems_restored(facility) -> manual_override_used(facility)))",
+              "natural": "Automation is functional at the facility, or else if systems are not restored at the facility, then a manual override has been used at the facility."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A16",
+              "prover9_expression": "-automation_functional(facility)",
+              "natural": "Automation is not functional at the facility."
+            }
+          ],
+          "conclusion": "(-A14 -> A15)",
+          "natural": "If systems are not restored at the facility, then a manual override has been used at the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A14 -> A15)",
+              "prover9_expression": "(-systems_restored(facility) -> manual_override_used(facility))",
+              "natural": "If systems are not restored at the facility, then a manual override has been used at the facility."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A15",
+              "prover9_expression": "-manual_override_used(facility)",
+              "natural": "A manual override has not been used at the facility."
+            }
+          ],
+          "conclusion": "A14",
+          "natural": "Systems have been restored at the facility."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A14 -> A13)",
+              "prover9_expression": "(systems_restored(facility) -> repairs_completed(plant))",
+              "natural": "If systems have been restored at the facility, then repairs have been completed at the plant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A14",
+              "prover9_expression": "systems_restored(facility)",
+              "natural": "Systems have been restored at the facility."
+            }
+          ],
+          "conclusion": "A13",
+          "natural": "Repairs have been completed at the plant."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> (-(-G -> A8) -> A9))",
+              "prover9_expression": "(repairs_completed(plant) -> (-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event)))",
+              "natural": "Whenever repairs have been completed at the plant, if it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, then cleanup has begun for the event."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A13",
+              "prover9_expression": "repairs_completed(plant)",
+              "natural": "Repairs have been completed at the plant."
+            }
+          ],
+          "conclusion": "(-(-G -> A8) -> A9)",
+          "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A8) -> A9)",
+              "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> cleanup_begun(event))",
+              "natural": "Provided that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has begun for the event."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(-(-G -> A8) -> -A9)",
+              "prover9_expression": "(-(-government_alert(event) -> spill_contained(substance)) -> -cleanup_begun(event))",
+              "natural": "Under the condition that it is not the case that the absence of a government alert for the event implies the spill of the substance is contained, cleanup has not begun for the event."
+            }
+          ],
+          "conclusion": "(-G -> A8)",
+          "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-government_alert(event) -> spill_contained(substance))",
+              "natural": "Should there be no government alert for the event, then the spill of the substance is contained."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-spill_contained(substance)",
+              "natural": "The spill of the substance is not contained."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A government alert has been issued for the event."
+        }
+      ]
+    }
+  ]
+}

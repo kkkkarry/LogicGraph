@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A4 → ¬A3)",
+        "prover9_expression": "(publishes(ResearchTeam, Retraction) -> -initiates(ResearchTeam, ReplicationStudy))",
+        "natural": "If the research team publishes a retraction, then the research team does not initiate a replication study."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(develops(ResearchTeam, SyntheticCompound) -> patents(ResearchTeam, NewDrug))",
+        "natural": "If the research team develops a synthetic compound, then the research team patents a new drug."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A7 → ¬A6)",
+        "prover9_expression": "(identifies(ResearchTeam, ToxicityIssue) -> -patents(ResearchTeam, NewDrug))",
+        "natural": "If the research team identifies a toxicity issue, then the research team does not patent a new drug."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(identifies(ResearchTeam, ToxicityIssue) | discovers(ResearchTeam, ManufacturingFlaw))",
+        "natural": "Either the research team identifies a toxicity issue, or the research team discovers a manufacturing flaw."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(¬(A2 ∨ (A1 → G)) → A3)",
+        "prover9_expression": "(-(receives_funding(ResearchTeam, Grant) | (submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript))) -> initiates(ResearchTeam, ReplicationStudy))",
+        "natural": "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team initiates a replication study."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A2 ∨ (A1 → G)) → A4)",
+        "prover9_expression": "(-(receives_funding(ResearchTeam, Grant) | (submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript))) -> publishes(ResearchTeam, Retraction))",
+        "natural": "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team publishes a retraction."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A9 ∨ (A8 → ¬A6)) → A10)",
+        "prover9_expression": "(-(appeals(ResearchTeam, PatentRejection) | (discovers(ResearchTeam, ManufacturingFlaw) -> -patents(ResearchTeam, NewDrug))) -> receives(ResearchTeam, IndustryPartnership))",
+        "natural": "If it is not the case that either the research team appeals a patent rejection or if the research team discovers a manufacturing flaw then the research team does not patent a new drug, then the research team receives an industry partnership."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬G → A5)",
+        "prover9_expression": "(-accepted(Journal, Manuscript) -> develops(ResearchTeam, SyntheticCompound))",
+        "natural": "If the journal does not accept the manuscript, then the research team develops a synthetic compound."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A1",
+        "prover9_expression": "submits(ResearchTeam, Manuscript)",
+        "natural": "The research team submits their manuscript to the journal."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A10",
+        "prover9_expression": "-receives(ResearchTeam, IndustryPartnership)",
+        "natural": "The research team does not receive an industry partnership."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A2",
+        "prover9_expression": "-receives_funding(ResearchTeam, Grant)",
+        "natural": "The research team does not receive grant funding."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A9",
+        "prover9_expression": "-appeals(ResearchTeam, PatentRejection)",
+        "natural": "The research team does not appeal a patent rejection."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "accepted(Journal, Manuscript)",
+    "natural": "The journal accepts the manuscript."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A2 | (A1 -> G)) -> A4)",
+            "(A4 -> -A3)"
+          ],
+          "conclusion": "(-(A2 | (A1 -> G)) -> -A3)",
+          "natural": "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team does not initiate a replication study."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A2 | (A1 -> G)) -> A3)",
+            "(-(A2 | (A1 -> G)) -> -A3)"
+          ],
+          "conclusion": "(A2 | (A1 -> G))",
+          "natural": "Either the research team receives grant funding, or if the research team submits their manuscript to the journal, then the journal accepts the manuscript."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A2 | (A1 -> G))",
+            "-A2"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the research team submits their manuscript to the journal, then the journal accepts the manuscript."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The journal accepts the manuscript."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 | (A8 -> -A6)) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(A9 | (A8 -> -A6))",
+          "natural": "Either the research team appeals a patent rejection, or if the research team discovers a manufacturing flaw, then the research team does not patent a new drug."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | (A8 -> -A6))",
+            "-A9"
+          ],
+          "conclusion": "(A8 -> -A6)",
+          "natural": "If the research team discovers a manufacturing flaw, then the research team does not patent a new drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A7 | A8)",
+            "(A7 -> -A6)",
+            "(A8 -> -A6)"
+          ],
+          "conclusion": "-A6",
+          "natural": "The research team does not patent a new drug."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A5 -> A6)",
+            "-A6"
+          ],
+          "conclusion": "-A5",
+          "natural": "The research team does not develop a synthetic compound."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A5)",
+            "-A5"
+          ],
+          "conclusion": "G",
+          "natural": "The journal accepts the manuscript."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "submits(ResearchTeam, Manuscript)",
+      "A2": "receives_funding(ResearchTeam, Grant)",
+      "A3": "initiates(ResearchTeam, ReplicationStudy)",
+      "A4": "publishes(ResearchTeam, Retraction)",
+      "A5": "develops(ResearchTeam, SyntheticCompound)",
+      "A6": "patents(ResearchTeam, NewDrug)",
+      "A7": "identifies(ResearchTeam, ToxicityIssue)",
+      "A8": "discovers(ResearchTeam, ManufacturingFlaw)",
+      "A9": "appeals(ResearchTeam, PatentRejection)",
+      "A10": "receives(ResearchTeam, IndustryPartnership)",
+      "G": "accepted(Journal, Manuscript)"
+    },
+    "natural_facts": {
+      "A1": "The research team submits their manuscript to the journal.",
+      "A2": "The research team receives grant funding.",
+      "A3": "The research team initiates a replication study.",
+      "A4": "The research team publishes a retraction.",
+      "A5": "The research team develops a synthetic compound.",
+      "A6": "The research team patents a new drug.",
+      "A7": "The research team identifies a toxicity issue.",
+      "A8": "The research team discovers a manufacturing flaw.",
+      "A9": "The research team appeals a patent rejection.",
+      "A10": "The research team receives an industry partnership.",
+      "G": "The journal accepts the manuscript."
+    },
+    "prover9_expressions": [
+      "(submits(ResearchTeam, Manuscript) → accepted(Journal, Manuscript))",
+      "(receives_funding(ResearchTeam, Grant) ∨ (submits(ResearchTeam, Manuscript) → accepted(Journal, Manuscript)))",
+      "(publishes(ResearchTeam, Retraction) → ¬initiates(ResearchTeam, ReplicationStudy))",
+      "(develops(ResearchTeam, SyntheticCompound) → patents(ResearchTeam, NewDrug))",
+      "(identifies(ResearchTeam, ToxicityIssue) → ¬patents(ResearchTeam, NewDrug))",
+      "(identifies(ResearchTeam, ToxicityIssue) ∨ discovers(ResearchTeam, ManufacturingFlaw))",
+      "(discovers(ResearchTeam, ManufacturingFlaw) → ¬patents(ResearchTeam, NewDrug))",
+      "(appeals(ResearchTeam, PatentRejection) ∨ (discovers(ResearchTeam, ManufacturingFlaw) → ¬patents(ResearchTeam, NewDrug)))",
+      "(¬(receives_funding(ResearchTeam, Grant) ∨ (submits(ResearchTeam, Manuscript) → accepted(Journal, Manuscript))) → initiates(ResearchTeam, ReplicationStudy))",
+      "(¬(receives_funding(ResearchTeam, Grant) ∨ (submits(ResearchTeam, Manuscript) → accepted(Journal, Manuscript))) → publishes(ResearchTeam, Retraction))",
+      "(¬(receives_funding(ResearchTeam, Grant) ∨ (submits(ResearchTeam, Manuscript) → accepted(Journal, Manuscript))) → ¬initiates(ResearchTeam, ReplicationStudy))",
+      "(¬(appeals(ResearchTeam, PatentRejection) ∨ (discovers(ResearchTeam, ManufacturingFlaw) → ¬patents(ResearchTeam, NewDrug))) → receives(ResearchTeam, IndustryPartnership))",
+      "(¬accepted(Journal, Manuscript) → develops(ResearchTeam, SyntheticCompound))",
+      "submits(ResearchTeam, Manuscript)",
+      "accepted(Journal, Manuscript)",
+      "¬receives(ResearchTeam, IndustryPartnership)",
+      "¬receives_funding(ResearchTeam, Grant)",
+      "¬develops(ResearchTeam, SyntheticCompound)",
+      "¬patents(ResearchTeam, NewDrug)",
+      "¬appeals(ResearchTeam, PatentRejection)"
+    ],
+    "natural_expressions": [
+      "If the research team submits their manuscript to the journal, then the journal accepts the manuscript.",
+      "Either the research team receives grant funding, or if the research team submits their manuscript to the journal, then the journal accepts the manuscript.",
+      "If the research team publishes a retraction, then the research team does not initiate a replication study.",
+      "If the research team develops a synthetic compound, then the research team patents a new drug.",
+      "If the research team identifies a toxicity issue, then the research team does not patent a new drug.",
+      "Either the research team identifies a toxicity issue, or the research team discovers a manufacturing flaw.",
+      "If the research team discovers a manufacturing flaw, then the research team does not patent a new drug.",
+      "Either the research team appeals a patent rejection, or if the research team discovers a manufacturing flaw, then the research team does not patent a new drug.",
+      "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team initiates a replication study.",
+      "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team publishes a retraction.",
+      "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team does not initiate a replication study.",
+      "If it is not the case that either the research team appeals a patent rejection or if the research team discovers a manufacturing flaw then the research team does not patent a new drug, then the research team receives an industry partnership.",
+      "If the journal does not accept the manuscript, then the research team develops a synthetic compound.",
+      "The research team submits their manuscript to the journal.",
+      "The journal accepts the manuscript.",
+      "The research team does not receive an industry partnership.",
+      "The research team does not receive grant funding.",
+      "The research team does not develop a synthetic compound.",
+      "The research team does not patent a new drug.",
+      "The research team does not appeal a patent rejection."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript))",
+        "natural": "If the research team submits their manuscript to the journal, then the journal accepts the manuscript."
+      },
+      "(A2 ∨ (A1 → G))": {
+        "formal": "(A2 ∨ (A1 → G))",
+        "prover9": "(A2 | (A1 -> G))",
+        "prover9_expression": "(receives_funding(ResearchTeam, Grant) | (submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript)))",
+        "natural": "Either the research team receives grant funding, or if the research team submits their manuscript to the journal, then the journal accepts the manuscript."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(publishes(ResearchTeam, Retraction) -> -initiates(ResearchTeam, ReplicationStudy))",
+        "natural": "If the research team publishes a retraction, then the research team does not initiate a replication study."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(develops(ResearchTeam, SyntheticCompound) -> patents(ResearchTeam, NewDrug))",
+        "natural": "If the research team develops a synthetic compound, then the research team patents a new drug."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(identifies(ResearchTeam, ToxicityIssue) -> -patents(ResearchTeam, NewDrug))",
+        "natural": "If the research team identifies a toxicity issue, then the research team does not patent a new drug."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(identifies(ResearchTeam, ToxicityIssue) | discovers(ResearchTeam, ManufacturingFlaw))",
+        "natural": "Either the research team identifies a toxicity issue, or the research team discovers a manufacturing flaw."
+      },
+      "(A8 → ¬A6)": {
+        "formal": "(A8 → ¬A6)",
+        "prover9": "(A8 -> -A6)",
+        "prover9_expression": "(discovers(ResearchTeam, ManufacturingFlaw) -> -patents(ResearchTeam, NewDrug))",
+        "natural": "If the research team discovers a manufacturing flaw, then the research team does not patent a new drug."
+      },
+      "(A9 ∨ (A8 → ¬A6))": {
+        "formal": "(A9 ∨ (A8 → ¬A6))",
+        "prover9": "(A9 | (A8 -> -A6))",
+        "prover9_expression": "(appeals(ResearchTeam, PatentRejection) | (discovers(ResearchTeam, ManufacturingFlaw) -> -patents(ResearchTeam, NewDrug)))",
+        "natural": "Either the research team appeals a patent rejection, or if the research team discovers a manufacturing flaw, then the research team does not patent a new drug."
+      },
+      "(¬(A2 ∨ (A1 → G)) → A3)": {
+        "formal": "(¬(A2 ∨ (A1 → G)) → A3)",
+        "prover9": "(-(A2 | (A1 -> G)) -> A3)",
+        "prover9_expression": "(-(receives_funding(ResearchTeam, Grant) | (submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript))) -> initiates(ResearchTeam, ReplicationStudy))",
+        "natural": "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team initiates a replication study."
+      },
+      "(¬(A2 ∨ (A1 → G)) → A4)": {
+        "formal": "(¬(A2 ∨ (A1 → G)) → A4)",
+        "prover9": "(-(A2 | (A1 -> G)) -> A4)",
+        "prover9_expression": "(-(receives_funding(ResearchTeam, Grant) | (submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript))) -> publishes(ResearchTeam, Retraction))",
+        "natural": "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team publishes a retraction."
+      },
+      "(¬(A2 ∨ (A1 → G)) → ¬A3)": {
+        "formal": "(¬(A2 ∨ (A1 → G)) → ¬A3)",
+        "prover9": "(-(A2 | (A1 -> G)) -> -A3)",
+        "prover9_expression": "(-(receives_funding(ResearchTeam, Grant) | (submits(ResearchTeam, Manuscript) -> accepted(Journal, Manuscript))) -> -initiates(ResearchTeam, ReplicationStudy))",
+        "natural": "If it is not the case that either the research team receives grant funding or if the research team submits their manuscript to the journal then the journal accepts the manuscript, then the research team does not initiate a replication study."
+      },
+      "(¬(A9 ∨ (A8 → ¬A6)) → A10)": {
+        "formal": "(¬(A9 ∨ (A8 → ¬A6)) → A10)",
+        "prover9": "(-(A9 | (A8 -> -A6)) -> A10)",
+        "prover9_expression": "(-(appeals(ResearchTeam, PatentRejection) | (discovers(ResearchTeam, ManufacturingFlaw) -> -patents(ResearchTeam, NewDrug))) -> receives(ResearchTeam, IndustryPartnership))",
+        "natural": "If it is not the case that either the research team appeals a patent rejection or if the research team discovers a manufacturing flaw then the research team does not patent a new drug, then the research team receives an industry partnership."
+      },
+      "(¬G → A5)": {
+        "formal": "(¬G → A5)",
+        "prover9": "(-G -> A5)",
+        "prover9_expression": "(-accepted(Journal, Manuscript) -> develops(ResearchTeam, SyntheticCompound))",
+        "natural": "If the journal does not accept the manuscript, then the research team develops a synthetic compound."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "submits(ResearchTeam, Manuscript)",
+        "natural": "The research team submits their manuscript to the journal."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "accepted(Journal, Manuscript)",
+        "natural": "The journal accepts the manuscript."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-receives(ResearchTeam, IndustryPartnership)",
+        "natural": "The research team does not receive an industry partnership."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-receives_funding(ResearchTeam, Grant)",
+        "natural": "The research team does not receive grant funding."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-develops(ResearchTeam, SyntheticCompound)",
+        "natural": "The research team does not develop a synthetic compound."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-patents(ResearchTeam, NewDrug)",
+        "natural": "The research team does not patent a new drug."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-appeals(ResearchTeam, PatentRejection)",
+        "natural": "The research team does not appeal a patent rejection."
+      }
+    }
+  }
+}

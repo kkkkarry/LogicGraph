@@ -1,0 +1,1103 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 9
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 12
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(A6 | A7)",
+              "prover9_expression": "(regulation_change(fda, drug_x) | regulation_change(ema, drug_x))",
+              "natural": "Either the FDA changed regulation for Drug X or the EMA changed regulation for Drug X."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(A6 -> (A4 -> A5))",
+              "prover9_expression": "(regulation_change(fda, drug_x) -> (recall(drug_x, market) -> withdraw(drug_x, manufacturer)))",
+              "natural": "Given that the FDA changed regulation for Drug X, then if Drug X is recalled from the market, Drug X is withdrawn by the manufacturer."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(A7 -> (A4 -> A5))",
+              "prover9_expression": "(regulation_change(ema, drug_x) -> (recall(drug_x, market) -> withdraw(drug_x, manufacturer)))",
+              "natural": "Provided that the EMA changed regulation for Drug X, then if Drug X is recalled from the market, Drug X is withdrawn by the manufacturer."
+            }
+          ],
+          "conclusion": "(A4 -> A5)",
+          "natural": "If Drug X is recalled from the market, then Drug X is withdrawn by the manufacturer."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(recall(drug_x, market) -> withdraw(drug_x, manufacturer))",
+              "natural": "If Drug X is recalled from the market, then Drug X is withdrawn by the manufacturer."
+            },
+            {
+              "id": "Rule30",
+              "prover9": "(A5 -> -A1)",
+              "prover9_expression": "(withdraw(drug_x, manufacturer) -> -approved(drug_x, fda))",
+              "natural": "If Drug X is withdrawn by the manufacturer, then Drug X is not approved by the FDA."
+            }
+          ],
+          "conclusion": "(A4 -> -A1)",
+          "natural": "In the event that Drug X is recalled from the market, then Drug X is not approved by the FDA."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> A4)",
+              "prover9_expression": "(ban(drug_x, country_alpha) -> recall(drug_x, market))",
+              "natural": "If Drug X is banned in Country Alpha, then Drug X is recalled from the market."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> -A1)",
+              "prover9_expression": "(recall(drug_x, market) -> -approved(drug_x, fda))",
+              "natural": "In the event that Drug X is recalled from the market, then Drug X is not approved by the FDA."
+            }
+          ],
+          "conclusion": "(A2 -> -A1)",
+          "natural": "Provided that Drug X is banned in Country Alpha, then Drug X is not approved by the FDA."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(ban(drug_x, country_alpha) | ban(drug_x, country_beta))",
+              "natural": "Either Drug X is banned in Country Alpha or Drug X is banned in Country Beta."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> -A1)",
+              "prover9_expression": "(ban(drug_x, country_alpha) -> -approved(drug_x, fda))",
+              "natural": "Provided that Drug X is banned in Country Alpha, then Drug X is not approved by the FDA."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A3 -> -A1)",
+              "prover9_expression": "(ban(drug_x, country_beta) -> -approved(drug_x, fda))",
+              "natural": "If Drug X is banned in Country Beta, then Drug X is not approved by the FDA."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "Drug X is not approved by the FDA."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 | G)",
+              "prover9_expression": "(approved(drug_x, fda) | synthetic_alternative_available(chemical_y, lab_v))",
+              "natural": "Either Drug X is approved by the FDA or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-approved(drug_x, fda)",
+              "natural": "Drug X is not approved by the FDA."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A synthetic alternative for Chemical Y is available at Lab V."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A14 | A15)",
+              "prover9_expression": "(packaging_ready(drug_x, pack_station) | labeling_complete(drug_x, label_machine))",
+              "natural": "Packaging for Drug X is ready at the pack station or labeling for Drug X is complete at the label machine."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A14 -> (A11 -> A13))",
+              "prover9_expression": "(packaging_ready(drug_x, pack_station) -> (quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u)))",
+              "natural": "Under the condition that packaging for Drug X is ready at the pack station, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> (A11 -> A13))",
+              "prover9_expression": "(labeling_complete(drug_x, label_machine) -> (quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u)))",
+              "natural": "Provided that labeling for Drug X is complete at the label machine, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+            }
+          ],
+          "conclusion": "(A11 -> A13)",
+          "natural": "If Drug X passed quality testing at Lab T, then an order of Drug X is shipped to Distributor U."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A13)",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u))",
+              "natural": "If Drug X passed quality testing at Lab T, then an order of Drug X is shipped to Distributor U."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A12)",
+              "prover9_expression": "(ship_order(drug_x, distributor_u) -> release_batch(drug_x, batch_123))",
+              "natural": "Whenever an order of Drug X is shipped to Distributor U, Batch 123 of Drug X is released."
+            }
+          ],
+          "conclusion": "(A11 -> A12)",
+          "natural": "Provided that Drug X passed quality testing at Lab T, Batch 123 of Drug X is released."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A12)",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> release_batch(drug_x, batch_123))",
+              "natural": "Provided that Drug X passed quality testing at Lab T, Batch 123 of Drug X is released."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> (A10 | (-(A8 | G) -> -A9)))",
+              "prover9_expression": "(release_batch(drug_x, batch_123) -> (alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))))",
+              "natural": "In the event that Batch 123 of Drug X is released, then either an alternative supplier for Chemical Y, Supplier V, is found, or, given that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            }
+          ],
+          "conclusion": "(A11 -> (A10 | (-(A8 | G) -> -A9)))",
+          "natural": "Whenever Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> (A10 | (-(A8 | G) -> -A9)))",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> (alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))))",
+              "natural": "Whenever Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A11",
+              "prover9_expression": "quality_test_passed(drug_x, lab_t)",
+              "natural": "Drug X passed quality testing at Lab T."
+            }
+          ],
+          "conclusion": "(A10 | (-(A8 | G) -> -A9))",
+          "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (-(A8 | G) -> -A9))",
+              "prover9_expression": "(alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w)))",
+              "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A10",
+              "prover9_expression": "-alternative_supplier_found(chemical_y, supplier_v)",
+              "natural": "It is not the case that an alternative supplier for Chemical Y, Supplier V, is found."
+            }
+          ],
+          "conclusion": "(-(A8 | G) -> -A9)",
+          "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(-(A8 | G) -> A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> production_halt(factory_w))",
+              "natural": "Provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is halted at Factory W."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | G) -> -A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))",
+              "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            }
+          ],
+          "conclusion": "(A8 | G)",
+          "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | G)",
+              "prover9_expression": "(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v))",
+              "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-raw_material_shortage(chemical_y, supplier_z)",
+              "natural": "It is not the case that there is a raw material shortage of Chemical Y from Supplier Z."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A synthetic alternative for Chemical Y is available at Lab V."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A19 -> A21)",
+              "prover9_expression": "(regulatory_review(drug_x, agency_p) -> documentation_submit(drug_x, agency_p))",
+              "natural": "Under the condition that Drug X is under regulatory review by Agency P, documentation for Drug X is submitted to Agency P."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A21 -> A20)",
+              "prover9_expression": "(documentation_submit(drug_x, agency_p) -> additional_testing(drug_x, lab_q))",
+              "natural": "Whenever documentation for Drug X is submitted to Agency P, additional testing for Drug X is required at Lab Q."
+            }
+          ],
+          "conclusion": "(A19 -> A20)",
+          "natural": "Given that Drug X is under regulatory review by Agency P, additional testing for Drug X is required at Lab Q."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> A20)",
+              "prover9_expression": "(regulatory_review(drug_x, agency_p) -> additional_testing(drug_x, lab_q))",
+              "natural": "Given that Drug X is under regulatory review by Agency P, additional testing for Drug X is required at Lab Q."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A20 -> A18)",
+              "prover9_expression": "(additional_testing(drug_x, lab_q) -> clinical_trial_required(drug_x, phase_iii))",
+              "natural": "In the event that additional testing for Drug X is required at Lab Q, a Phase III clinical trial is required for Drug X."
+            }
+          ],
+          "conclusion": "(A19 -> A18)",
+          "natural": "Whenever Drug X is under regulatory review by Agency P, a Phase III clinical trial is required for Drug X."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule35",
+              "prover9": "(-(A17 -> -A16) -> A19)",
+              "prover9_expression": "(-(safety_issue(drug_x, side_effects) -> -production_delay(factory_w)) -> regulatory_review(drug_x, agency_p))",
+              "natural": "Under the condition that it is not the case that whenever there is a safety issue with Drug X due to side effects, it is not the case that there is a production delay at Factory W, Drug X is under regulatory review by Agency P."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A19 -> A18)",
+              "prover9_expression": "(regulatory_review(drug_x, agency_p) -> clinical_trial_required(drug_x, phase_iii))",
+              "natural": "Whenever Drug X is under regulatory review by Agency P, a Phase III clinical trial is required for Drug X."
+            }
+          ],
+          "conclusion": "(-(A17 -> -A16) -> A18)",
+          "natural": "In the event that it is not the case that if there is a safety issue with Drug X due to side effects, then it is not the case that there is a production delay at Factory W, a Phase III clinical trial is required for Drug X."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A17 -> -A16) -> A18)",
+              "prover9_expression": "(-(safety_issue(drug_x, side_effects) -> -production_delay(factory_w)) -> clinical_trial_required(drug_x, phase_iii))",
+              "natural": "In the event that it is not the case that if there is a safety issue with Drug X due to side effects, then it is not the case that there is a production delay at Factory W, a Phase III clinical trial is required for Drug X."
+            },
+            {
+              "id": "Rule36",
+              "prover9": "(-(A17 -> -A16) -> -A18)",
+              "prover9_expression": "(-(safety_issue(drug_x, side_effects) -> -production_delay(factory_w)) -> -clinical_trial_required(drug_x, phase_iii))",
+              "natural": "Provided that it is not the case that if there is a safety issue with Drug X due to side effects, then it is not the case that there is a production delay at Factory W, it is not the case that a Phase III clinical trial is required for Drug X."
+            }
+          ],
+          "conclusion": "(A17 -> -A16)",
+          "natural": "If there is a safety issue with Drug X due to side effects, then it is not the case that there is a production delay at Factory W."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A17 -> -A16)",
+              "prover9_expression": "(safety_issue(drug_x, side_effects) -> -production_delay(factory_w))",
+              "natural": "If there is a safety issue with Drug X due to side effects, then it is not the case that there is a production delay at Factory W."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A17",
+              "prover9_expression": "safety_issue(drug_x, side_effects)",
+              "natural": "There is a safety issue with Drug X due to side effects."
+            }
+          ],
+          "conclusion": "-A16",
+          "natural": "It is not the case that there is a production delay at Factory W."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(-(A10 | (-(A8 | G) -> -A9)) -> A16)",
+              "prover9_expression": "(-(alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))) -> production_delay(factory_w))",
+              "natural": "If it is not the case that either an alternative supplier for Chemical Y, Supplier V, is found or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W, then there is a production delay at Factory W."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A16",
+              "prover9_expression": "-production_delay(factory_w)",
+              "natural": "It is not the case that there is a production delay at Factory W."
+            }
+          ],
+          "conclusion": "(A10 | (-(A8 | G) -> -A9))",
+          "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (-(A8 | G) -> -A9))",
+              "prover9_expression": "(alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w)))",
+              "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A10",
+              "prover9_expression": "-alternative_supplier_found(chemical_y, supplier_v)",
+              "natural": "It is not the case that an alternative supplier for Chemical Y, Supplier V, is found."
+            }
+          ],
+          "conclusion": "(-(A8 | G) -> -A9)",
+          "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(-(A8 | G) -> A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> production_halt(factory_w))",
+              "natural": "Provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is halted at Factory W."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | G) -> -A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))",
+              "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            }
+          ],
+          "conclusion": "(A8 | G)",
+          "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | G)",
+              "prover9_expression": "(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v))",
+              "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-raw_material_shortage(chemical_y, supplier_z)",
+              "natural": "It is not the case that there is a raw material shortage of Chemical Y from Supplier Z."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A synthetic alternative for Chemical Y is available at Lab V."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A24 -> -A23)",
+              "prover9_expression": "(compliance_certificate(drug_x, standard_s) -> -audit_fail(drug_x, inspector_r))",
+              "natural": "If Drug X has a compliance certificate for Standard S, then Drug X does not fail an audit by Inspector R."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A24",
+              "prover9_expression": "compliance_certificate(drug_x, standard_s)",
+              "natural": "Drug X has a compliance certificate for Standard S."
+            }
+          ],
+          "conclusion": "-A23",
+          "natural": "Drug X does not fail an audit by Inspector R."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule40",
+              "prover9": "(-A22 -> A23)",
+              "prover9_expression": "(-audit_pass(drug_x, inspector_r) -> audit_fail(drug_x, inspector_r))",
+              "natural": "Provided that Drug X does not pass an audit by Inspector R, Drug X fails an audit by Inspector R."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A23",
+              "prover9_expression": "-audit_fail(drug_x, inspector_r)",
+              "natural": "Drug X does not fail an audit by Inspector R."
+            }
+          ],
+          "conclusion": "A22",
+          "natural": "Drug X passes an audit by Inspector R."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A22 -> (A11 -> (A10 | (-(A8 | G) -> -A9))))",
+              "prover9_expression": "(audit_pass(drug_x, inspector_r) -> (quality_test_passed(drug_x, lab_t) -> (alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w)))))",
+              "natural": "Given that Drug X passes an audit by Inspector R, then if Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A22",
+              "prover9_expression": "audit_pass(drug_x, inspector_r)",
+              "natural": "Drug X passes an audit by Inspector R."
+            }
+          ],
+          "conclusion": "(A11 -> (A10 | (-(A8 | G) -> -A9)))",
+          "natural": "Whenever Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> (A10 | (-(A8 | G) -> -A9)))",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> (alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))))",
+              "natural": "Whenever Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A11",
+              "prover9_expression": "quality_test_passed(drug_x, lab_t)",
+              "natural": "Drug X passed quality testing at Lab T."
+            }
+          ],
+          "conclusion": "(A10 | (-(A8 | G) -> -A9))",
+          "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (-(A8 | G) -> -A9))",
+              "prover9_expression": "(alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w)))",
+              "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A10",
+              "prover9_expression": "-alternative_supplier_found(chemical_y, supplier_v)",
+              "natural": "It is not the case that an alternative supplier for Chemical Y, Supplier V, is found."
+            }
+          ],
+          "conclusion": "(-(A8 | G) -> -A9)",
+          "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(-(A8 | G) -> A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> production_halt(factory_w))",
+              "natural": "Provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is halted at Factory W."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | G) -> -A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))",
+              "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            }
+          ],
+          "conclusion": "(A8 | G)",
+          "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | G)",
+              "prover9_expression": "(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v))",
+              "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-raw_material_shortage(chemical_y, supplier_z)",
+              "natural": "It is not the case that there is a raw material shortage of Chemical Y from Supplier Z."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A synthetic alternative for Chemical Y is available at Lab V."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 5,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(A34 | (-(-(A30 | A29) -> A31) -> A33))",
+              "prover9_expression": "(storage_available(warehouse_o, chemical_y) | (-(-(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept)) -> purchase_order(chemical_y, supplier_d)) -> warehouse_space(chemical_y, facility_n)))",
+              "natural": "Storage is available for Chemical Y in Warehouse O or, if it is not the case that whenever budget for Chemical Y is not approved by Director K or payment for Chemical Y is not authorized by the Finance Department, a purchase order for Chemical Y is issued to Supplier D, then there is warehouse space for Chemical Y at Facility N."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A34",
+              "prover9_expression": "-storage_available(warehouse_o, chemical_y)",
+              "natural": "Storage is not available for Chemical Y in Warehouse O."
+            }
+          ],
+          "conclusion": "(-(-(A30 | A29) -> A31) -> A33)",
+          "natural": "Given that it is not the case that whenever it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, a purchase order for Chemical Y is issued to Supplier D, then there is warehouse space for Chemical Y at Facility N."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A30 | A29) -> A31) -> A33)",
+              "prover9_expression": "(-(-(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept)) -> purchase_order(chemical_y, supplier_d)) -> warehouse_space(chemical_y, facility_n))",
+              "natural": "Given that it is not the case that whenever it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, a purchase order for Chemical Y is issued to Supplier D, then there is warehouse space for Chemical Y at Facility N."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(A33 -> A32)",
+              "prover9_expression": "(warehouse_space(chemical_y, facility_n) -> delivery_scheduled(chemical_y, date_m))",
+              "natural": "Given that there is warehouse space for Chemical Y at Facility N, delivery of Chemical Y is scheduled for Date M."
+            }
+          ],
+          "conclusion": "(-(-(A30 | A29) -> A31) -> A32)",
+          "natural": "If it is not the case that if it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, then a purchase order for Chemical Y is issued to Supplier D, then delivery of Chemical Y is scheduled for Date M."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A30 | A29) -> A31) -> A32)",
+              "prover9_expression": "(-(-(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept)) -> purchase_order(chemical_y, supplier_d)) -> delivery_scheduled(chemical_y, date_m))",
+              "natural": "If it is not the case that if it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, then a purchase order for Chemical Y is issued to Supplier D, then delivery of Chemical Y is scheduled for Date M."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(-(-(A30 | A29) -> A31) -> -A32)",
+              "prover9_expression": "(-(-(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept)) -> purchase_order(chemical_y, supplier_d)) -> -delivery_scheduled(chemical_y, date_m))",
+              "natural": "In the event that it is not the case that if it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, then a purchase order for Chemical Y is issued to Supplier D, then it is not the case that delivery of Chemical Y is scheduled for Date M."
+            }
+          ],
+          "conclusion": "(-(A30 | A29) -> A31)",
+          "natural": "If it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, then a purchase order for Chemical Y is issued to Supplier D."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A30 | A29) -> A31)",
+              "prover9_expression": "(-(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept)) -> purchase_order(chemical_y, supplier_d))",
+              "natural": "If it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, then a purchase order for Chemical Y is issued to Supplier D."
+            },
+            {
+              "id": "Rule37",
+              "prover9": "(-(A30 | A29) -> -A31)",
+              "prover9_expression": "(-(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept)) -> -purchase_order(chemical_y, supplier_d))",
+              "natural": "In the event that it is not the case that budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department, then it is not the case that a purchase order for Chemical Y is issued to Supplier D."
+            }
+          ],
+          "conclusion": "(A30 | A29)",
+          "natural": "Either budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A30 | A29)",
+              "prover9_expression": "(budget_approval(chemical_y, director_k) | authorize_payment(chemical_y, finance_dept))",
+              "natural": "Either budget for Chemical Y is approved by Director K or payment for Chemical Y is authorized by the Finance Department."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A30",
+              "prover9_expression": "-budget_approval(chemical_y, director_k)",
+              "natural": "Budget for Chemical Y is not approved by Director K."
+            }
+          ],
+          "conclusion": "A29",
+          "natural": "Payment for Chemical Y is authorized by the Finance Department."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A29 -> (A27 -> A25))",
+              "prover9_expression": "(authorize_payment(chemical_y, finance_dept) -> (logistics_coordinator(ms_johnson, chemical_y) -> backup_supplier_available(chemical_y, supplier_b)))",
+              "natural": "Whenever payment for Chemical Y is authorized by the Finance Department, then if Ms. Johnson is the logistics coordinator for Chemical Y, a backup supplier for Chemical Y, Supplier B, is available."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A29",
+              "prover9_expression": "authorize_payment(chemical_y, finance_dept)",
+              "natural": "Payment for Chemical Y is authorized by the Finance Department."
+            }
+          ],
+          "conclusion": "(A27 -> A25)",
+          "natural": "Under the condition that Ms. Johnson is the logistics coordinator for Chemical Y, a backup supplier for Chemical Y, Supplier B, is available."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> A25)",
+              "prover9_expression": "(logistics_coordinator(ms_johnson, chemical_y) -> backup_supplier_available(chemical_y, supplier_b))",
+              "natural": "Under the condition that Ms. Johnson is the logistics coordinator for Chemical Y, a backup supplier for Chemical Y, Supplier B, is available."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A28 -> A26)",
+              "prover9_expression": "(procurement_manager(ms_smith, chemical_y) -> expedite_shipment(chemical_y, supplier_c))",
+              "natural": "Provided that Ms. Smith is the procurement manager for Chemical Y, shipment of Chemical Y is expedited by Supplier C."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A27 | A28)",
+              "prover9_expression": "(logistics_coordinator(ms_johnson, chemical_y) | procurement_manager(ms_smith, chemical_y))",
+              "natural": "Ms. Johnson is the logistics coordinator for Chemical Y or Ms. Smith is the procurement manager for Chemical Y."
+            }
+          ],
+          "conclusion": "(A25 | A26)",
+          "natural": "Either a backup supplier for Chemical Y, Supplier B, is available or shipment of Chemical Y is expedited by Supplier C."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 | A26)",
+              "prover9_expression": "(backup_supplier_available(chemical_y, supplier_b) | expedite_shipment(chemical_y, supplier_c))",
+              "natural": "Either a backup supplier for Chemical Y, Supplier B, is available or shipment of Chemical Y is expedited by Supplier C."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> (A8 | G))",
+              "prover9_expression": "(backup_supplier_available(chemical_y, supplier_b) -> (raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)))",
+              "natural": "Provided that a backup supplier for Chemical Y, Supplier B, is available, then there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> (A8 | G))",
+              "prover9_expression": "(expedite_shipment(chemical_y, supplier_c) -> (raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)))",
+              "natural": "In the event that shipment of Chemical Y is expedited by Supplier C, then there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            }
+          ],
+          "conclusion": "(A8 | G)",
+          "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | G)",
+              "prover9_expression": "(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v))",
+              "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-raw_material_shortage(chemical_y, supplier_z)",
+              "natural": "It is not the case that there is a raw material shortage of Chemical Y from Supplier Z."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A synthetic alternative for Chemical Y is available at Lab V."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(A39 -> A42)",
+              "prover9_expression": "(quality_assurance_inspect(container_p, tech_s) -> validation_report(container_p, quality_dept))",
+              "natural": "Under the condition that Container P is inspected by Technician S for quality assurance, a validation report for Container P is issued to the Quality Department."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A42 -> A41)",
+              "prover9_expression": "(validation_report(container_p, quality_dept) -> stability_test(container_p, drug_x))",
+              "natural": "Under the condition that a validation report for Container P is issued to the Quality Department, a stability test is performed on Container P for Drug X."
+            }
+          ],
+          "conclusion": "(A39 -> A41)",
+          "natural": "Provided that Container P is inspected by Technician S for quality assurance, a stability test is performed on Container P for Drug X."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A39 -> A41)",
+              "prover9_expression": "(quality_assurance_inspect(container_p, tech_s) -> stability_test(container_p, drug_x))",
+              "natural": "Provided that Container P is inspected by Technician S for quality assurance, a stability test is performed on Container P for Drug X."
+            },
+            {
+              "id": "Rule28",
+              "prover9": "(A41 -> (A37 | A38))",
+              "prover9_expression": "(stability_test(container_p, drug_x) -> (calibration_check(sensor_q, container_p) | maintenance_performed(sensor_r, container_p)))",
+              "natural": "Whenever a stability test is performed on Container P for Drug X, then Sensor Q is calibrated for Container P or maintenance is performed on Sensor R for Container P."
+            }
+          ],
+          "conclusion": "(A39 -> (A37 | A38))",
+          "natural": "Given that Container P is inspected by Technician S for quality assurance, then Sensor Q is calibrated for Container P or maintenance is performed on Sensor R for Container P."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A39 | A40)",
+              "prover9_expression": "(quality_assurance_inspect(container_p, tech_s) | quality_assurance_approve(container_p, supervisor_t))",
+              "natural": "Container P is inspected by Technician S for quality assurance or Container P is approved by Supervisor T for quality assurance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A39 -> (A37 | A38))",
+              "prover9_expression": "(quality_assurance_inspect(container_p, tech_s) -> (calibration_check(sensor_q, container_p) | maintenance_performed(sensor_r, container_p)))",
+              "natural": "Given that Container P is inspected by Technician S for quality assurance, then Sensor Q is calibrated for Container P or maintenance is performed on Sensor R for Container P."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A40 -> (A37 | A38))",
+              "prover9_expression": "(quality_assurance_approve(container_p, supervisor_t) -> (calibration_check(sensor_q, container_p) | maintenance_performed(sensor_r, container_p)))",
+              "natural": "Provided that Container P is approved by Supervisor T for quality assurance, then Sensor Q is calibrated for Container P or maintenance is performed on Sensor R for Container P."
+            }
+          ],
+          "conclusion": "(A37 | A38)",
+          "natural": "Either Sensor Q is calibrated for Container P or maintenance is performed on Sensor R for Container P."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A37 | A38)",
+              "prover9_expression": "(calibration_check(sensor_q, container_p) | maintenance_performed(sensor_r, container_p))",
+              "natural": "Either Sensor Q is calibrated for Container P or maintenance is performed on Sensor R for Container P."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A37 -> (A36 -> (A11 -> A13)))",
+              "prover9_expression": "(calibration_check(sensor_q, container_p) -> (humidity_monitor(container_p, drug_x) -> (quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u))))",
+              "natural": "In the event that Sensor Q is calibrated for Container P, then if Container P has a humidity monitor for Drug X, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+            },
+            {
+              "id": "Rule24",
+              "prover9": "(A38 -> (A36 -> (A11 -> A13)))",
+              "prover9_expression": "(maintenance_performed(sensor_r, container_p) -> (humidity_monitor(container_p, drug_x) -> (quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u))))",
+              "natural": "Whenever maintenance is performed on Sensor R for Container P, then if Container P has a humidity monitor for Drug X, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+            }
+          ],
+          "conclusion": "(A36 -> (A11 -> A13))",
+          "natural": "Provided that Container P has a humidity monitor for Drug X, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A35 -> A36)",
+              "prover9_expression": "(temperature_control(container_p, drug_x) -> humidity_monitor(container_p, drug_x))",
+              "natural": "If Container P provides temperature control for Drug X, then Container P has a humidity monitor for Drug X."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A36 -> (A11 -> A13))",
+              "prover9_expression": "(humidity_monitor(container_p, drug_x) -> (quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u)))",
+              "natural": "Provided that Container P has a humidity monitor for Drug X, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+            }
+          ],
+          "conclusion": "(A35 -> (A11 -> A13))",
+          "natural": "Under the condition that Container P provides temperature control for Drug X, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A35 -> (A11 -> A13))",
+              "prover9_expression": "(temperature_control(container_p, drug_x) -> (quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u)))",
+              "natural": "Under the condition that Container P provides temperature control for Drug X, then if Drug X passed quality testing at Lab T, an order of Drug X is shipped to Distributor U."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "A35",
+              "prover9_expression": "temperature_control(container_p, drug_x)",
+              "natural": "Container P provides temperature control for Drug X."
+            }
+          ],
+          "conclusion": "(A11 -> A13)",
+          "natural": "If Drug X passed quality testing at Lab T, then an order of Drug X is shipped to Distributor U."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A13)",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> ship_order(drug_x, distributor_u))",
+              "natural": "If Drug X passed quality testing at Lab T, then an order of Drug X is shipped to Distributor U."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A12)",
+              "prover9_expression": "(ship_order(drug_x, distributor_u) -> release_batch(drug_x, batch_123))",
+              "natural": "Whenever an order of Drug X is shipped to Distributor U, Batch 123 of Drug X is released."
+            }
+          ],
+          "conclusion": "(A11 -> A12)",
+          "natural": "Provided that Drug X passed quality testing at Lab T, Batch 123 of Drug X is released."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> A12)",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> release_batch(drug_x, batch_123))",
+              "natural": "Provided that Drug X passed quality testing at Lab T, Batch 123 of Drug X is released."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A12 -> (A10 | (-(A8 | G) -> -A9)))",
+              "prover9_expression": "(release_batch(drug_x, batch_123) -> (alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))))",
+              "natural": "In the event that Batch 123 of Drug X is released, then either an alternative supplier for Chemical Y, Supplier V, is found, or, given that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            }
+          ],
+          "conclusion": "(A11 -> (A10 | (-(A8 | G) -> -A9)))",
+          "natural": "Whenever Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A11 -> (A10 | (-(A8 | G) -> -A9)))",
+              "prover9_expression": "(quality_test_passed(drug_x, lab_t) -> (alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))))",
+              "natural": "Whenever Drug X passed quality testing at Lab T, then either an alternative supplier for Chemical Y, Supplier V, is found, or, under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A11",
+              "prover9_expression": "quality_test_passed(drug_x, lab_t)",
+              "natural": "Drug X passed quality testing at Lab T."
+            }
+          ],
+          "conclusion": "(A10 | (-(A8 | G) -> -A9))",
+          "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 | (-(A8 | G) -> -A9))",
+              "prover9_expression": "(alternative_supplier_found(chemical_y, supplier_v) | (-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w)))",
+              "natural": "Either an alternative supplier for Chemical Y, Supplier V, is found, or, provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A10",
+              "prover9_expression": "-alternative_supplier_found(chemical_y, supplier_v)",
+              "natural": "It is not the case that an alternative supplier for Chemical Y, Supplier V, is found."
+            }
+          ],
+          "conclusion": "(-(A8 | G) -> -A9)",
+          "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+        },
+        {
+          "step_number": 11,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(-(A8 | G) -> A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> production_halt(factory_w))",
+              "natural": "Provided that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is halted at Factory W."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A8 | G) -> -A9)",
+              "prover9_expression": "(-(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v)) -> -production_halt(factory_w))",
+              "natural": "Under the condition that it is not the case that there is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V, production is not halted at Factory W."
+            }
+          ],
+          "conclusion": "(A8 | G)",
+          "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+        },
+        {
+          "step_number": 12,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A8 | G)",
+              "prover9_expression": "(raw_material_shortage(chemical_y, supplier_z) | synthetic_alternative_available(chemical_y, lab_v))",
+              "natural": "There is a raw material shortage of Chemical Y from Supplier Z or a synthetic alternative for Chemical Y is available at Lab V."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A8",
+              "prover9_expression": "-raw_material_shortage(chemical_y, supplier_z)",
+              "natural": "It is not the case that there is a raw material shortage of Chemical Y from Supplier Z."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A synthetic alternative for Chemical Y is available at Lab V."
+        }
+      ]
+    }
+  ]
+}

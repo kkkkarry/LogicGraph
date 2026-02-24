@@ -1,0 +1,471 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → A8)",
+        "prover9_expression": "(passes_authentication(employee, security_check) -> requires_verification(employee, identity))",
+        "natural": "If the employee passes the security check authentication, then the employee requires verification of identity."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A5 → ¬A2)",
+        "prover9_expression": "(is_restricted(employee, network_access) -> -is_allowed(employee, enter_building))",
+        "natural": "Under the condition that the employee is restricted from network access, the employee is not allowed to enter the building."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A6 → (¬(A1 ∨ G) → A5))",
+        "prover9_expression": "(has_authorization(employee, remote_work) -> (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_restricted(employee, network_access)))",
+        "natural": "Provided that the employee has authorization for remote work, if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is restricted from network access."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 → A9)",
+        "prover9_expression": "(needs_approval(employee, facility_access) -> uses_technology(employee, biometric_scanner))",
+        "natural": "Whenever the employee needs approval for facility access, the employee uses technology, specifically a biometric scanner."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A8 → ¬A2)",
+        "prover9_expression": "(requires_verification(employee, identity) -> -is_allowed(employee, enter_building))",
+        "natural": "If the employee requires verification of identity, then the employee is not allowed to enter the building."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A9 → A10)",
+        "prover9_expression": "(uses_technology(employee, biometric_scanner) -> passes_authentication(employee, security_check))",
+        "natural": "Provided that the employee uses technology, specifically a biometric scanner, the employee passes the security check authentication."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A1 ∨ G) → A2)",
+        "prover9_expression": "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_allowed(employee, enter_building))",
+        "natural": "If it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is allowed to enter the building."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A1 ∨ G) → A7)",
+        "prover9_expression": "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> needs_approval(employee, facility_access))",
+        "natural": "If it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee needs approval for facility access."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A3 ∨ (¬(A1 ∨ G) → ¬A2)) → A4)",
+        "prover9_expression": "(-(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))) -> is_investigated(employee, security_breach))",
+        "natural": "If it is not the case that the employee has clearance for confidential data or that if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is not allowed to enter the building, then the employee is investigated for a security breach."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A3 ∨ (¬(A1 ∨ G) → ¬A2)) → ¬A4)",
+        "prover9_expression": "(-(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))) -> -is_investigated(employee, security_breach))",
+        "natural": "If it is not the case that the employee has clearance for confidential data or that if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is not allowed to enter the building, then the employee is not investigated for a security breach."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A6",
+        "prover9_expression": "has_authorization(employee, remote_work)",
+        "natural": "The employee has authorization for remote work."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A1",
+        "prover9_expression": "-has_access(employee, server_room)",
+        "natural": "It is not the case that the employee has access to the server room."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A3",
+        "prover9_expression": "-has_clearance(employee, confidential_data)",
+        "natural": "The employee does not have clearance for confidential data."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "has_emergency_access(employee, facility)",
+    "natural": "The employee has emergency access to the facility."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 | (-(A1 | G) -> -A2)) -> A4)",
+            "(-(A3 | (-(A1 | G) -> -A2)) -> -A4)"
+          ],
+          "conclusion": "(A3 | (-(A1 | G) -> -A2))",
+          "natural": "The employee has clearance for confidential data, or if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then it follows that the employee is not allowed to enter the building."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (-(A1 | G) -> -A2))",
+            "-A3"
+          ],
+          "conclusion": "(-(A1 | G) -> -A2)",
+          "natural": "Whenever it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is not allowed to enter the building."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 | G) -> A2)",
+            "(-(A1 | G) -> -A2)"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the employee has access to the server room or the employee has emergency access to the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has emergency access to the facility."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> (-(A1 | G) -> A5))",
+            "A6"
+          ],
+          "conclusion": "(-(A1 | G) -> A5)",
+          "natural": "Under the condition that it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is restricted from network access."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 | G) -> A5)",
+            "(A5 -> -A2)"
+          ],
+          "conclusion": "(-(A1 | G) -> -A2)",
+          "natural": "Whenever it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is not allowed to enter the building."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 | G) -> A2)",
+            "(-(A1 | G) -> -A2)"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the employee has access to the server room or the employee has emergency access to the facility."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has emergency access to the facility."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A9 -> A10)",
+            "(A10 -> A8)"
+          ],
+          "conclusion": "(A9 -> A8)",
+          "natural": "If the employee uses technology, specifically a biometric scanner, then the employee requires verification of identity."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A9)",
+            "(A9 -> A8)"
+          ],
+          "conclusion": "(A7 -> A8)",
+          "natural": "If the employee needs approval for facility access, then the employee requires verification of identity."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A7 -> A8)",
+            "(A8 -> -A2)"
+          ],
+          "conclusion": "(A7 -> -A2)",
+          "natural": "Under the condition that the employee needs approval for facility access, the employee is not allowed to enter the building."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-(A1 | G) -> A7)",
+            "(A7 -> -A2)"
+          ],
+          "conclusion": "(-(A1 | G) -> -A2)",
+          "natural": "Whenever it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is not allowed to enter the building."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A1 | G) -> A2)",
+            "(-(A1 | G) -> -A2)"
+          ],
+          "conclusion": "(A1 | G)",
+          "natural": "Either the employee has access to the server room or the employee has emergency access to the facility."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The employee has emergency access to the facility."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Corporate Security",
+    "atomic_facts": {
+      "A1": "has_access(employee, server_room)",
+      "A2": "is_allowed(employee, enter_building)",
+      "A3": "has_clearance(employee, confidential_data)",
+      "A4": "is_investigated(employee, security_breach)",
+      "A5": "is_restricted(employee, network_access)",
+      "A6": "has_authorization(employee, remote_work)",
+      "A7": "needs_approval(employee, facility_access)",
+      "A8": "requires_verification(employee, identity)",
+      "A9": "uses_technology(employee, biometric_scanner)",
+      "A10": "passes_authentication(employee, security_check)",
+      "G": "has_emergency_access(employee, facility)"
+    },
+    "natural_facts": {
+      "A1": "The employee has access to the server room.",
+      "A2": "The employee is allowed to enter the building.",
+      "A3": "The employee has clearance for confidential data.",
+      "A4": "The employee is investigated for a security breach.",
+      "A5": "The employee is restricted from network access.",
+      "A6": "The employee has authorization for remote work.",
+      "A7": "The employee needs approval for facility access.",
+      "A8": "The employee requires verification of identity.",
+      "A9": "The employee uses technology, specifically a biometric scanner.",
+      "A10": "The employee passes the security check authentication.",
+      "G": "The employee has emergency access to the facility."
+    },
+    "prover9_expressions": [
+      "(has_access(employee, server_room) | has_emergency_access(employee, facility))",
+      "(passes_authentication(employee, security_check) -> requires_verification(employee, identity))",
+      "(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building)))",
+      "(is_restricted(employee, network_access) -> -is_allowed(employee, enter_building))",
+      "(has_authorization(employee, remote_work) -> (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_restricted(employee, network_access)))",
+      "(needs_approval(employee, facility_access) -> requires_verification(employee, identity))",
+      "(needs_approval(employee, facility_access) -> uses_technology(employee, biometric_scanner))",
+      "(needs_approval(employee, facility_access) -> -is_allowed(employee, enter_building))",
+      "(requires_verification(employee, identity) -> -is_allowed(employee, enter_building))",
+      "(uses_technology(employee, biometric_scanner) -> passes_authentication(employee, security_check))",
+      "(uses_technology(employee, biometric_scanner) -> requires_verification(employee, identity))",
+      "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_allowed(employee, enter_building))",
+      "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_restricted(employee, network_access))",
+      "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> needs_approval(employee, facility_access))",
+      "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))",
+      "(-(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))) -> is_investigated(employee, security_breach))",
+      "(-(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))) -> -is_investigated(employee, security_breach))",
+      "has_authorization(employee, remote_work)",
+      "has_emergency_access(employee, facility)",
+      "-has_access(employee, server_room)",
+      "-has_clearance(employee, confidential_data)"
+    ],
+    "natural_expressions": [
+      "Either the employee has access to the server room or the employee has emergency access to the facility.",
+      "If the employee passes the security check authentication, then the employee requires verification of identity.",
+      "The employee has clearance for confidential data, or if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then it follows that the employee is not allowed to enter the building.",
+      "Under the condition that the employee is restricted from network access, the employee is not allowed to enter the building.",
+      "Provided that the employee has authorization for remote work, if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is restricted from network access.",
+      "If the employee needs approval for facility access, then the employee requires verification of identity.",
+      "Whenever the employee needs approval for facility access, the employee uses technology, specifically a biometric scanner.",
+      "Under the condition that the employee needs approval for facility access, the employee is not allowed to enter the building.",
+      "If the employee requires verification of identity, then the employee is not allowed to enter the building.",
+      "Provided that the employee uses technology, specifically a biometric scanner, the employee passes the security check authentication.",
+      "If the employee uses technology, specifically a biometric scanner, then the employee requires verification of identity.",
+      "If it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is allowed to enter the building.",
+      "Under the condition that it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is restricted from network access.",
+      "If it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee needs approval for facility access.",
+      "Whenever it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is not allowed to enter the building.",
+      "If it is not the case that the employee has clearance for confidential data or that if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is not allowed to enter the building, then the employee is investigated for a security breach.",
+      "If it is not the case that the employee has clearance for confidential data or that if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is not allowed to enter the building, then the employee is not investigated for a security breach.",
+      "The employee has authorization for remote work.",
+      "The employee has emergency access to the facility.",
+      "It is not the case that the employee has access to the server room.",
+      "The employee does not have clearance for confidential data."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(has_access(employee, server_room) | has_emergency_access(employee, facility))",
+        "natural": "Either the employee has access to the server room or the employee has emergency access to the facility."
+      },
+      "(A10 → A8)": {
+        "formal": "(A10 → A8)",
+        "prover9": "(A10 -> A8)",
+        "prover9_expression": "(passes_authentication(employee, security_check) -> requires_verification(employee, identity))",
+        "natural": "If the employee passes the security check authentication, then the employee requires verification of identity."
+      },
+      "(A3 ∨ (¬(A1 ∨ G) → ¬A2))": {
+        "formal": "(A3 ∨ (¬(A1 ∨ G) → ¬A2))",
+        "prover9": "(A3 | (-(A1 | G) -> -A2))",
+        "prover9_expression": "(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building)))",
+        "natural": "The employee has clearance for confidential data, or if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then it follows that the employee is not allowed to enter the building."
+      },
+      "(A5 → ¬A2)": {
+        "formal": "(A5 → ¬A2)",
+        "prover9": "(A5 -> -A2)",
+        "prover9_expression": "(is_restricted(employee, network_access) -> -is_allowed(employee, enter_building))",
+        "natural": "Under the condition that the employee is restricted from network access, the employee is not allowed to enter the building."
+      },
+      "(A6 → (¬(A1 ∨ G) → A5))": {
+        "formal": "(A6 → (¬(A1 ∨ G) → A5))",
+        "prover9": "(A6 -> (-(A1 | G) -> A5))",
+        "prover9_expression": "(has_authorization(employee, remote_work) -> (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_restricted(employee, network_access)))",
+        "natural": "Provided that the employee has authorization for remote work, if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is restricted from network access."
+      },
+      "(A7 → A8)": {
+        "formal": "(A7 → A8)",
+        "prover9": "(A7 -> A8)",
+        "prover9_expression": "(needs_approval(employee, facility_access) -> requires_verification(employee, identity))",
+        "natural": "If the employee needs approval for facility access, then the employee requires verification of identity."
+      },
+      "(A7 → A9)": {
+        "formal": "(A7 → A9)",
+        "prover9": "(A7 -> A9)",
+        "prover9_expression": "(needs_approval(employee, facility_access) -> uses_technology(employee, biometric_scanner))",
+        "natural": "Whenever the employee needs approval for facility access, the employee uses technology, specifically a biometric scanner."
+      },
+      "(A7 → ¬A2)": {
+        "formal": "(A7 → ¬A2)",
+        "prover9": "(A7 -> -A2)",
+        "prover9_expression": "(needs_approval(employee, facility_access) -> -is_allowed(employee, enter_building))",
+        "natural": "Under the condition that the employee needs approval for facility access, the employee is not allowed to enter the building."
+      },
+      "(A8 → ¬A2)": {
+        "formal": "(A8 → ¬A2)",
+        "prover9": "(A8 -> -A2)",
+        "prover9_expression": "(requires_verification(employee, identity) -> -is_allowed(employee, enter_building))",
+        "natural": "If the employee requires verification of identity, then the employee is not allowed to enter the building."
+      },
+      "(A9 → A10)": {
+        "formal": "(A9 → A10)",
+        "prover9": "(A9 -> A10)",
+        "prover9_expression": "(uses_technology(employee, biometric_scanner) -> passes_authentication(employee, security_check))",
+        "natural": "Provided that the employee uses technology, specifically a biometric scanner, the employee passes the security check authentication."
+      },
+      "(A9 → A8)": {
+        "formal": "(A9 → A8)",
+        "prover9": "(A9 -> A8)",
+        "prover9_expression": "(uses_technology(employee, biometric_scanner) -> requires_verification(employee, identity))",
+        "natural": "If the employee uses technology, specifically a biometric scanner, then the employee requires verification of identity."
+      },
+      "(¬(A1 ∨ G) → A2)": {
+        "formal": "(¬(A1 ∨ G) → A2)",
+        "prover9": "(-(A1 | G) -> A2)",
+        "prover9_expression": "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_allowed(employee, enter_building))",
+        "natural": "If it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is allowed to enter the building."
+      },
+      "(¬(A1 ∨ G) → A5)": {
+        "formal": "(¬(A1 ∨ G) → A5)",
+        "prover9": "(-(A1 | G) -> A5)",
+        "prover9_expression": "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> is_restricted(employee, network_access))",
+        "natural": "Under the condition that it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is restricted from network access."
+      },
+      "(¬(A1 ∨ G) → A7)": {
+        "formal": "(¬(A1 ∨ G) → A7)",
+        "prover9": "(-(A1 | G) -> A7)",
+        "prover9_expression": "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> needs_approval(employee, facility_access))",
+        "natural": "If it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee needs approval for facility access."
+      },
+      "(¬(A1 ∨ G) → ¬A2)": {
+        "formal": "(¬(A1 ∨ G) → ¬A2)",
+        "prover9": "(-(A1 | G) -> -A2)",
+        "prover9_expression": "(-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))",
+        "natural": "Whenever it is not the case that the employee has access to the server room or the employee has emergency access to the facility, the employee is not allowed to enter the building."
+      },
+      "(¬(A3 ∨ (¬(A1 ∨ G) → ¬A2)) → A4)": {
+        "formal": "(¬(A3 ∨ (¬(A1 ∨ G) → ¬A2)) → A4)",
+        "prover9": "(-(A3 | (-(A1 | G) -> -A2)) -> A4)",
+        "prover9_expression": "(-(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))) -> is_investigated(employee, security_breach))",
+        "natural": "If it is not the case that the employee has clearance for confidential data or that if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is not allowed to enter the building, then the employee is investigated for a security breach."
+      },
+      "(¬(A3 ∨ (¬(A1 ∨ G) → ¬A2)) → ¬A4)": {
+        "formal": "(¬(A3 ∨ (¬(A1 ∨ G) → ¬A2)) → ¬A4)",
+        "prover9": "(-(A3 | (-(A1 | G) -> -A2)) -> -A4)",
+        "prover9_expression": "(-(has_clearance(employee, confidential_data) | (-(has_access(employee, server_room) | has_emergency_access(employee, facility)) -> -is_allowed(employee, enter_building))) -> -is_investigated(employee, security_breach))",
+        "natural": "If it is not the case that the employee has clearance for confidential data or that if it is not the case that the employee has access to the server room or the employee has emergency access to the facility, then the employee is not allowed to enter the building, then the employee is not investigated for a security breach."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "has_authorization(employee, remote_work)",
+        "natural": "The employee has authorization for remote work."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "has_emergency_access(employee, facility)",
+        "natural": "The employee has emergency access to the facility."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-has_access(employee, server_room)",
+        "natural": "It is not the case that the employee has access to the server room."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-has_clearance(employee, confidential_data)",
+        "natural": "The employee does not have clearance for confidential data."
+      }
+    }
+  }
+}

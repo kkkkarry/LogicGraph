@@ -1,0 +1,665 @@
+{
+  "solution_stats": {
+    "total_solutions": 5,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(-(A6 -> A7) -> A9)",
+              "prover9_expression": "(-(conducts_research(company, substance) -> discovers_new_compound(company, substance)) -> abandons_research(company, substance))",
+              "natural": "Provided that conducting research on a substance does not result in discovering a new compound, the company abandons research on the substance."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A9 -> -A8)",
+              "prover9_expression": "(abandons_research(company, substance) -> -files_patent(company, substance))",
+              "natural": "In the event that a company abandons research on a substance, the company does not file a patent for the substance."
+            }
+          ],
+          "conclusion": "(-(A6 -> A7) -> -A8)",
+          "natural": "Under the condition that research on a substance does not lead to discovering a new compound, the company does not file a patent for the substance."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-(A6 -> A7) -> A8)",
+              "prover9_expression": "(-(conducts_research(company, substance) -> discovers_new_compound(company, substance)) -> files_patent(company, substance))",
+              "natural": "When a company's research on a substance does not lead to discovering a new compound, the company files a patent for the substance."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A6 -> A7) -> -A8)",
+              "prover9_expression": "(-(conducts_research(company, substance) -> discovers_new_compound(company, substance)) -> -files_patent(company, substance))",
+              "natural": "Under the condition that research on a substance does not lead to discovering a new compound, the company does not file a patent for the substance."
+            }
+          ],
+          "conclusion": "(A6 -> A7)",
+          "natural": "Whenever a company conducts research on a substance, the company discovers a new compound from the substance."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 -> A7)",
+              "prover9_expression": "(conducts_research(company, substance) -> discovers_new_compound(company, substance))",
+              "natural": "Whenever a company conducts research on a substance, the company discovers a new compound from the substance."
+            },
+            {
+              "id": "Fact10",
+              "prover9": "-A7",
+              "prover9_expression": "-discovers_new_compound(company, substance)",
+              "natural": "A company does not discover a new compound from a substance."
+            }
+          ],
+          "conclusion": "-A6",
+          "natural": "A company does not conduct research on a substance."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A6 | (A5 | (A3 -> (A1 | A2))))",
+              "prover9_expression": "(conducts_research(company, substance) | (has_fda_approval(company, drug) | (uses_facility(company, plant) -> (produces(company, drug) | produces(company, generic_drug)))))",
+              "natural": "A company conducts research on a substance, or the company has FDA approval for a drug, or if it uses a plant facility, then it produces a drug or produces a generic drug."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A6",
+              "prover9_expression": "-conducts_research(company, substance)",
+              "natural": "A company does not conduct research on a substance."
+            }
+          ],
+          "conclusion": "(A5 | (A3 -> (A1 | A2)))",
+          "natural": "A company has FDA approval for a drug, or if the company uses a plant facility, then it produces a drug or produces a generic drug."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A5 | (A3 -> (A1 | A2)))",
+              "prover9_expression": "(has_fda_approval(company, drug) | (uses_facility(company, plant) -> (produces(company, drug) | produces(company, generic_drug))))",
+              "natural": "A company has FDA approval for a drug, or if the company uses a plant facility, then it produces a drug or produces a generic drug."
+            },
+            {
+              "id": "Fact9",
+              "prover9": "-A5",
+              "prover9_expression": "-has_fda_approval(company, drug)",
+              "natural": "A company does not have FDA approval for a drug."
+            }
+          ],
+          "conclusion": "(A3 -> (A1 | A2))",
+          "natural": "A company using a plant facility leads to the company producing a drug or producing a generic drug."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A3 | A4)",
+              "prover9_expression": "(uses_facility(company, plant) | uses_facility(company, external_plant))",
+              "natural": "A company uses a plant facility or uses an external plant facility."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A3 -> (A1 | A2))",
+              "prover9_expression": "(uses_facility(company, plant) -> (produces(company, drug) | produces(company, generic_drug)))",
+              "natural": "A company using a plant facility leads to the company producing a drug or producing a generic drug."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A4 -> (A1 | A2))",
+              "prover9_expression": "(uses_facility(company, external_plant) -> (produces(company, drug) | produces(company, generic_drug)))",
+              "natural": "If a company uses an external plant facility, then the company produces a drug or it produces a generic drug."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "A company produces a drug or it produces a generic drug."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(produces(company, drug) | produces(company, generic_drug))",
+              "natural": "A company produces a drug or it produces a generic drug."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(produces(company, drug) -> profitable(company))",
+              "natural": "If a company produces a drug, then that company is profitable."
+            },
+            {
+              "id": "Rule9",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(produces(company, generic_drug) -> profitable(company))",
+              "natural": "The profitability of a company follows from the company producing a generic drug."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A company is profitable."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A13 -> A12)",
+              "prover9_expression": "(audits_facility(company, plant) -> maintains_standards(company, plant))",
+              "natural": "When a company audits a facility at a plant, it follows that the company maintains standards at that plant."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A14 -> (-A10 -> A11))",
+              "prover9_expression": "(outsources_audit(company, plant) -> (-has_quality_control(company, plant) -> passes_inspection(company, plant)))",
+              "natural": "In the event that a company outsources an audit for a plant, then if the company does not have quality control at the plant, the company passes inspection at the plant."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(audits_facility(company, plant) | outsources_audit(company, plant))",
+              "natural": "Either a company audits a facility at a plant, or the company outsources an audit for the plant."
+            }
+          ],
+          "conclusion": "(A12 | (-A10 -> A11))",
+          "natural": "A company maintains standards at a plant, or if it is not the case that the company has quality control at a plant, then the company passes inspection at the plant."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | (-A10 -> A11))",
+              "prover9_expression": "(maintains_standards(company, plant) | (-has_quality_control(company, plant) -> passes_inspection(company, plant)))",
+              "natural": "A company maintains standards at a plant, or if it is not the case that the company has quality control at a plant, then the company passes inspection at the plant."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A12",
+              "prover9_expression": "-maintains_standards(company, plant)",
+              "natural": "A company does not maintain standards at a plant."
+            }
+          ],
+          "conclusion": "(-A10 -> A11)",
+          "natural": "If a company does not have quality control at a plant, then the company passes inspection at the plant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A10 -> A11)",
+              "prover9_expression": "(-has_quality_control(company, plant) -> passes_inspection(company, plant))",
+              "natural": "If a company does not have quality control at a plant, then the company passes inspection at the plant."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A11",
+              "prover9_expression": "-passes_inspection(company, plant)",
+              "natural": "It is not the case that a company passes inspection at a plant."
+            }
+          ],
+          "conclusion": "A10",
+          "natural": "A company has quality control at a plant."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(has_quality_control(company, plant) -> profitable(company))",
+              "natural": "Provided that a company has quality control at a plant, the company becomes profitable."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A10",
+              "prover9_expression": "has_quality_control(company, plant)",
+              "natural": "A company has quality control at a plant."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A company is profitable."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A19 -> (A18 | (-(A16 -> G) -> -A17)))",
+              "prover9_expression": "(monitors_compliance(regulator, company) -> (reports_incident(company, plant) | (-(distributes_product(company, generic_drug) -> profitable(company)) -> -faces_regulatory_action(company, drug))))",
+              "natural": "Under the condition that a regulator monitors compliance of a company, either the company reports an incident at a plant, or if the generic drug distribution does not imply profitability, the company avoids facing regulatory action for a drug."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A19",
+              "prover9_expression": "monitors_compliance(regulator, company)",
+              "natural": "A regulator monitors compliance of a company."
+            }
+          ],
+          "conclusion": "(A18 | (-(A16 -> G) -> -A17))",
+          "natural": "A company reports an incident at a plant, or if it is not the case that distributing a generic drug product leads to profitability, then the company does not face regulatory action for a drug."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A18 | (-(A16 -> G) -> -A17))",
+              "prover9_expression": "(reports_incident(company, plant) | (-(distributes_product(company, generic_drug) -> profitable(company)) -> -faces_regulatory_action(company, drug)))",
+              "natural": "A company reports an incident at a plant, or if it is not the case that distributing a generic drug product leads to profitability, then the company does not face regulatory action for a drug."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A18",
+              "prover9_expression": "-reports_incident(company, plant)",
+              "natural": "A company does not report an incident at a plant."
+            }
+          ],
+          "conclusion": "(-(A16 -> G) -> -A17)",
+          "natural": "Should the generic drug distribution not imply profitability, then the company does not face regulatory action for a drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(A16 -> G) -> A17)",
+              "prover9_expression": "(-(distributes_product(company, generic_drug) -> profitable(company)) -> faces_regulatory_action(company, drug))",
+              "natural": "If it is not the case that distributing a generic drug product results in profitability, then the company faces regulatory action for a drug."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A16 -> G) -> -A17)",
+              "prover9_expression": "(-(distributes_product(company, generic_drug) -> profitable(company)) -> -faces_regulatory_action(company, drug))",
+              "natural": "Should the generic drug distribution not imply profitability, then the company does not face regulatory action for a drug."
+            }
+          ],
+          "conclusion": "(A16 -> G)",
+          "natural": "Whenever a company distributes a product which is a generic drug, the result is that the company is profitable."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(distributes_product(company, drug) | distributes_product(company, generic_drug))",
+              "natural": "It happens that a company distributes a product which is a drug or it distributes a product which is a generic drug."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> G)",
+              "prover9_expression": "(distributes_product(company, drug) -> profitable(company))",
+              "natural": "A company being profitable is guaranteed if the company distributes a product which is a drug."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> G)",
+              "prover9_expression": "(distributes_product(company, generic_drug) -> profitable(company))",
+              "natural": "Whenever a company distributes a product which is a generic drug, the result is that the company is profitable."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A company is profitable."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A28 -> (A26 | A27))",
+              "prover9_expression": "(reviews_operations(director, company) -> (allocates_budget(company, training) | approves_expenditure(company, consultants)))",
+              "natural": "If a director reviews operations of a company, then the company allocates a budget for training or approves expenditure for consultants."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A28",
+              "prover9_expression": "reviews_operations(director, company)",
+              "natural": "A director reviews operations of a company."
+            }
+          ],
+          "conclusion": "(A26 | A27)",
+          "natural": "Either a company allocates a budget for training, or the company approves expenditure for consultants."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A26 -> A24)",
+              "prover9_expression": "(allocates_budget(company, training) -> trains_staff(company, plant))",
+              "natural": "A company allocating a budget for training implies that the company trains staff at a plant."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A27 -> A25)",
+              "prover9_expression": "(approves_expenditure(company, consultants) -> hires_consultants(company, plant))",
+              "natural": "When a company approves expenditure for consultants, it hires consultants for a plant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A26 | A27)",
+              "prover9_expression": "(allocates_budget(company, training) | approves_expenditure(company, consultants))",
+              "natural": "Either a company allocates a budget for training, or the company approves expenditure for consultants."
+            }
+          ],
+          "conclusion": "(A24 | A25)",
+          "natural": "A company trains staff at a plant or the company hires consultants for the plant."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A24 | A25)",
+              "prover9_expression": "(trains_staff(company, plant) | hires_consultants(company, plant))",
+              "natural": "A company trains staff at a plant or the company hires consultants for the plant."
+            },
+            {
+              "id": "Rule11",
+              "prover9": "(A24 -> (A23 -> A21))",
+              "prover9_expression": "(trains_staff(company, plant) -> (updates_procedures(company, plant) -> passes_audit(company, plant)))",
+              "natural": "In a scenario where a company trains staff at a plant, then if the company updates procedures at the plant, it passes an audit at the plant."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A25 -> (A23 -> A21))",
+              "prover9_expression": "(hires_consultants(company, plant) -> (updates_procedures(company, plant) -> passes_audit(company, plant)))",
+              "natural": "Should a company hire consultants for a plant, then if the company updates procedures at the plant, it passes an audit at the plant."
+            }
+          ],
+          "conclusion": "(A23 -> A21)",
+          "natural": "If a company updates procedures at a plant, then the company passes an audit at that plant."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A22 -> A23)",
+              "prover9_expression": "(implements_corrections(company, plant) -> updates_procedures(company, plant))",
+              "natural": "When a company implements corrections at a plant, it updates procedures at the plant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A23 -> A21)",
+              "prover9_expression": "(updates_procedures(company, plant) -> passes_audit(company, plant))",
+              "natural": "If a company updates procedures at a plant, then the company passes an audit at that plant."
+            }
+          ],
+          "conclusion": "(A22 -> A21)",
+          "natural": "Provided that a company implements corrections at a plant, the company passes an audit at the plant."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(-(-G -> -A20) -> A22)",
+              "prover9_expression": "(-(-profitable(company) -> -receives_warning(company, regulator)) -> implements_corrections(company, plant))",
+              "natural": "When non-profitability does not result in not receiving a warning from a regulator, the company implements corrections at a plant."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A22 -> A21)",
+              "prover9_expression": "(implements_corrections(company, plant) -> passes_audit(company, plant))",
+              "natural": "Provided that a company implements corrections at a plant, the company passes an audit at the plant."
+            }
+          ],
+          "conclusion": "(-(-G -> -A20) -> A21)",
+          "natural": "Under the condition that non-profitability does not lead to not receiving a warning from a regulator, the company passes an audit at a plant."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A20) -> A21)",
+              "prover9_expression": "(-(-profitable(company) -> -receives_warning(company, regulator)) -> passes_audit(company, plant))",
+              "natural": "Under the condition that non-profitability does not lead to not receiving a warning from a regulator, the company passes an audit at a plant."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A21",
+              "prover9_expression": "-passes_audit(company, plant)",
+              "natural": "A company does not pass an audit at a plant."
+            }
+          ],
+          "conclusion": "(-G -> -A20)",
+          "natural": "Should a company not be profitable, then the company does not receive a warning from a regulator."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule29",
+              "prover9": "(-G -> A20)",
+              "prover9_expression": "(-profitable(company) -> receives_warning(company, regulator))",
+              "natural": "A company not being profitable implies that the company receives a warning from a regulator."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A20)",
+              "prover9_expression": "(-profitable(company) -> -receives_warning(company, regulator))",
+              "natural": "Should a company not be profitable, then the company does not receive a warning from a regulator."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A company is profitable."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A34 -> (-(-G -> A29) -> A33))",
+              "prover9_expression": "(oversees_process(regulator, company) -> (-(-profitable(company) -> receives_approval(company, drug)) -> prepares_report(company, drug)))",
+              "natural": "Under the condition that a regulator oversees the process of a company, then if it is not true that non-profitability leads to receiving approval for a drug, the company prepares a report for the drug."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A34",
+              "prover9_expression": "oversees_process(regulator, company)",
+              "natural": "A regulator oversees the process of a company."
+            }
+          ],
+          "conclusion": "(-(-G -> A29) -> A33)",
+          "natural": "If non-profitability does not ensure receiving approval for a drug, then the company prepares a report for the drug."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A29) -> A33)",
+              "prover9_expression": "(-(-profitable(company) -> receives_approval(company, drug)) -> prepares_report(company, drug))",
+              "natural": "If non-profitability does not ensure receiving approval for a drug, then the company prepares a report for the drug."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A33 -> A32)",
+              "prover9_expression": "(prepares_report(company, drug) -> analyzes_data(company, drug))",
+              "natural": "When a company prepares a report for a drug, it follows that the company analyzes data for the drug."
+            }
+          ],
+          "conclusion": "(-(-G -> A29) -> A32)",
+          "natural": "Whenever non-profitability does not result in receiving approval for a drug, the company analyzes data for the drug."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A29) -> A32)",
+              "prover9_expression": "(-(-profitable(company) -> receives_approval(company, drug)) -> analyzes_data(company, drug))",
+              "natural": "Whenever non-profitability does not result in receiving approval for a drug, the company analyzes data for the drug."
+            },
+            {
+              "id": "Rule18",
+              "prover9": "(A32 -> A31)",
+              "prover9_expression": "(analyzes_data(company, drug) -> completes_trials(company, drug))",
+              "natural": "A company analyzing data for a drug ensures that the company completes trials for the drug."
+            }
+          ],
+          "conclusion": "(-(-G -> A29) -> A31)",
+          "natural": "In a scenario where non-profitability does not lead to receiving approval for a drug, the company completes trials for the drug."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A29) -> A31)",
+              "prover9_expression": "(-(-profitable(company) -> receives_approval(company, drug)) -> completes_trials(company, drug))",
+              "natural": "In a scenario where non-profitability does not lead to receiving approval for a drug, the company completes trials for the drug."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A31 -> A30)",
+              "prover9_expression": "(completes_trials(company, drug) -> submits_application(company, drug))",
+              "natural": "Provided that a company completes trials for a drug, it submits an application for the drug."
+            }
+          ],
+          "conclusion": "(-(-G -> A29) -> A30)",
+          "natural": "If it is not true that non-profitability implies receiving approval for a drug, then the company submits an application for the drug."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A29) -> A30)",
+              "prover9_expression": "(-(-profitable(company) -> receives_approval(company, drug)) -> submits_application(company, drug))",
+              "natural": "If it is not true that non-profitability implies receiving approval for a drug, then the company submits an application for the drug."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(-(-G -> A29) -> -A30)",
+              "prover9_expression": "(-(-profitable(company) -> receives_approval(company, drug)) -> -submits_application(company, drug))",
+              "natural": "Provided that non-profitability does not imply receiving approval for a drug, it is not the case that the company submits an application for the drug."
+            }
+          ],
+          "conclusion": "(-G -> A29)",
+          "natural": "In the event that a company is not profitable, the company receives approval for a drug."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A29)",
+              "prover9_expression": "(-profitable(company) -> receives_approval(company, drug))",
+              "natural": "In the event that a company is not profitable, the company receives approval for a drug."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A29",
+              "prover9_expression": "-receives_approval(company, drug)",
+              "natural": "A company does not receive approval for a drug."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "A company is profitable."
+        }
+      ]
+    }
+  ]
+}

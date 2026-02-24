@@ -1,0 +1,631 @@
+{
+  "solution_stats": {
+    "total_solutions": 6,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 6
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule16",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(approved(tool, pesticide) -> used_on(tool, corn))",
+              "natural": "If the tool is approved for pesticide, then the tool is used on corn."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A5",
+              "prover9_expression": "-used_on(tool, corn)",
+              "natural": "The tool is not used on corn."
+            }
+          ],
+          "conclusion": "-A4",
+          "natural": "The tool is not approved for pesticide."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A4 | (-(A1 | A2) -> A3))",
+              "prover9_expression": "(approved(tool, pesticide) | (-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> requires_crop(soybeans, irrigation)))",
+              "natural": "The tool is approved for pesticide or, should it not be the case that either corn does not require irrigation or wheat requires irrigation, soybeans require irrigation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A4",
+              "prover9_expression": "-approved(tool, pesticide)",
+              "natural": "The tool is not approved for pesticide."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> A3)",
+          "natural": "If it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> requires_crop(soybeans, irrigation))",
+              "natural": "If it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> -requires_crop(soybeans, irrigation))",
+              "natural": "Under the condition that it is not the case that either corn requires irrigation or wheat requires irrigation, soybeans do not require irrigation."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either corn requires irrigation or wheat requires irrigation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation))",
+              "natural": "Either corn requires irrigation or wheat requires irrigation."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(requires_crop(corn, irrigation) -> receives_funding(farm, government))",
+              "natural": "If corn requires irrigation, then the farm receives government funding."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(requires_crop(wheat, irrigation) -> receives_funding(farm, government))",
+              "natural": "Provided that wheat requires irrigation, the farm receives government funding."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The farm receives government funding."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule3",
+              "prover9": "(A11 | A12)",
+              "prover9_expression": "(compliant(farm, water_quality) | compliant(farm, soil_conservation))",
+              "natural": "The farm is compliant with water quality standards or the farm is compliant with soil conservation standards."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> (A10 -> -A9))",
+              "prover9_expression": "(compliant(farm, water_quality) -> (pass_inspection(farm, equipment) -> -banned(tool, pesticide)))",
+              "natural": "Under the condition that the farm is compliant with water quality standards, if the farm passes inspection for equipment, then the tool is not banned for pesticide."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A12 -> (A10 -> -A9))",
+              "prover9_expression": "(compliant(farm, soil_conservation) -> (pass_inspection(farm, equipment) -> -banned(tool, pesticide)))",
+              "natural": "Whenever the farm is compliant with soil conservation standards, then provided the farm passes inspection for equipment, the tool is not banned for pesticide."
+            }
+          ],
+          "conclusion": "(A10 -> -A9)",
+          "natural": "Provided that the farm passes inspection for equipment, the tool is not banned for pesticide."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> -A9)",
+              "prover9_expression": "(pass_inspection(farm, equipment) -> -banned(tool, pesticide))",
+              "natural": "Provided that the farm passes inspection for equipment, the tool is not banned for pesticide."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A10",
+              "prover9_expression": "pass_inspection(farm, equipment)",
+              "natural": "The farm passes inspection for equipment."
+            }
+          ],
+          "conclusion": "-A9",
+          "natural": "The tool is not banned for pesticide."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule21",
+              "prover9": "(-(A8 -> G) -> A9)",
+              "prover9_expression": "(-(approved(tool, fungicide) -> receives_funding(farm, government)) -> banned(tool, pesticide))",
+              "natural": "If it is not the case that the tool being approved for fungicide implies the farm receives government funding, then the tool is banned for pesticide."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A9",
+              "prover9_expression": "-banned(tool, pesticide)",
+              "natural": "The tool is not banned for pesticide."
+            }
+          ],
+          "conclusion": "(A8 -> G)",
+          "natural": "If the tool is approved for fungicide, then the farm receives government funding."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A7 -> A6)",
+              "prover9_expression": "(approved(tool, herbicide) -> approved(tool, fertilizer))",
+              "natural": "Provided that the tool is approved for herbicide, the tool is approved for fertilizer."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> G)",
+              "prover9_expression": "(approved(tool, fungicide) -> receives_funding(farm, government))",
+              "natural": "If the tool is approved for fungicide, then the farm receives government funding."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(approved(tool, herbicide) | approved(tool, fungicide))",
+              "natural": "The tool is approved for herbicide or the tool is approved for fungicide."
+            }
+          ],
+          "conclusion": "(A6 | G)",
+          "natural": "Either the tool is approved for fertilizer or the farm receives government funding."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A6 | G)",
+              "prover9_expression": "(approved(tool, fertilizer) | receives_funding(farm, government))",
+              "natural": "Either the tool is approved for fertilizer or the farm receives government funding."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A6",
+              "prover9_expression": "-approved(tool, fertilizer)",
+              "natural": "The tool is not approved for fertilizer."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The farm receives government funding."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A15 -> A16)",
+              "prover9_expression": "(participates_program(farm, conservation) -> implements_practices(farm, sustainable))",
+              "natural": "If the farm participates in a conservation program, then the farm implements sustainable practices."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A16 -> -A14)",
+              "prover9_expression": "(implements_practices(farm, sustainable) -> -receives_subsidy(farm, federal))",
+              "natural": "Under the condition that the farm implements sustainable practices, the farm does not receive a federal subsidy."
+            }
+          ],
+          "conclusion": "(A15 -> -A14)",
+          "natural": "Whenever the farm participates in a conservation program, the farm does not receive a federal subsidy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(-(-G -> A13) -> A15)",
+              "prover9_expression": "(-(-receives_funding(farm, government) -> meets_standards(farm, organic)) -> participates_program(farm, conservation))",
+              "natural": "Should it not be the case that provided the farm does not receive government funding, the farm meets organic standards, the farm participates in a conservation program."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A15 -> -A14)",
+              "prover9_expression": "(participates_program(farm, conservation) -> -receives_subsidy(farm, federal))",
+              "natural": "Whenever the farm participates in a conservation program, the farm does not receive a federal subsidy."
+            }
+          ],
+          "conclusion": "(-(-G -> A13) -> -A14)",
+          "natural": "If it is not the case that the farm not receiving government funding implies the farm meets organic standards, then the farm does not receive a federal subsidy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule23",
+              "prover9": "(-(-G -> A13) -> A14)",
+              "prover9_expression": "(-(-receives_funding(farm, government) -> meets_standards(farm, organic)) -> receives_subsidy(farm, federal))",
+              "natural": "If it is not the case that the farm not receiving government funding implies the farm meets organic standards, then the farm receives a federal subsidy."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> A13) -> -A14)",
+              "prover9_expression": "(-(-receives_funding(farm, government) -> meets_standards(farm, organic)) -> -receives_subsidy(farm, federal))",
+              "natural": "If it is not the case that the farm not receiving government funding implies the farm meets organic standards, then the farm does not receive a federal subsidy."
+            }
+          ],
+          "conclusion": "(-G -> A13)",
+          "natural": "Provided that the farm does not receive government funding, the farm meets organic standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A13)",
+              "prover9_expression": "(-receives_funding(farm, government) -> meets_standards(farm, organic))",
+              "natural": "Provided that the farm does not receive government funding, the farm meets organic standards."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A13",
+              "prover9_expression": "-meets_standards(farm, organic)",
+              "natural": "It is not the case that the farm meets organic standards."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The farm receives government funding."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A18 -> (-(-(A1 | A2) -> A3) -> A17))",
+              "prover9_expression": "(attends_meeting(farmer, policy) -> (-(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> requires_crop(soybeans, irrigation)) -> qualifies_support(farm, drought_relief)))",
+              "natural": "If the farmer attends a policy meeting, then in case it is not the case that either corn does not require irrigation or wheat requires irrigation implies soybeans require irrigation, the farm qualifies for drought relief support."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A18",
+              "prover9_expression": "attends_meeting(farmer, policy)",
+              "natural": "The farmer attends a policy meeting."
+            }
+          ],
+          "conclusion": "(-(-(A1 | A2) -> A3) -> A17)",
+          "natural": "Provided that it is not the case that if it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation, the farm qualifies for drought relief support."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(-(A1 | A2) -> A3) -> A17)",
+              "prover9_expression": "(-(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> requires_crop(soybeans, irrigation)) -> qualifies_support(farm, drought_relief))",
+              "natural": "Provided that it is not the case that if it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation, the farm qualifies for drought relief support."
+            },
+            {
+              "id": "Rule22",
+              "prover9": "(-(-(A1 | A2) -> A3) -> -A17)",
+              "prover9_expression": "(-(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> requires_crop(soybeans, irrigation)) -> -qualifies_support(farm, drought_relief))",
+              "natural": "Under the condition that it is not the case that if it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation, the farm does not qualify for drought relief support."
+            }
+          ],
+          "conclusion": "(-(A1 | A2) -> A3)",
+          "natural": "If it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A1 | A2) -> A3)",
+              "prover9_expression": "(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> requires_crop(soybeans, irrigation))",
+              "natural": "If it is not the case that either corn requires irrigation or wheat requires irrigation, then soybeans require irrigation."
+            },
+            {
+              "id": "Rule20",
+              "prover9": "(-(A1 | A2) -> -A3)",
+              "prover9_expression": "(-(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation)) -> -requires_crop(soybeans, irrigation))",
+              "natural": "Under the condition that it is not the case that either corn requires irrigation or wheat requires irrigation, soybeans do not require irrigation."
+            }
+          ],
+          "conclusion": "(A1 | A2)",
+          "natural": "Either corn requires irrigation or wheat requires irrigation."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A1 | A2)",
+              "prover9_expression": "(requires_crop(corn, irrigation) | requires_crop(wheat, irrigation))",
+              "natural": "Either corn requires irrigation or wheat requires irrigation."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> G)",
+              "prover9_expression": "(requires_crop(corn, irrigation) -> receives_funding(farm, government))",
+              "natural": "If corn requires irrigation, then the farm receives government funding."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> G)",
+              "prover9_expression": "(requires_crop(wheat, irrigation) -> receives_funding(farm, government))",
+              "natural": "Provided that wheat requires irrigation, the farm receives government funding."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The farm receives government funding."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A20 | -A19)",
+              "prover9_expression": "(opposes_legislation(farmer, environmental) | -supports_legislation(farmer, environmental))",
+              "natural": "Either the farmer opposes environmental legislation or the farmer does not support environmental legislation."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A20",
+              "prover9_expression": "-opposes_legislation(farmer, environmental)",
+              "natural": "The farmer does not oppose environmental legislation."
+            }
+          ],
+          "conclusion": "-A19",
+          "natural": "The farmer does not support environmental legislation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule25",
+              "prover9": "(-(-G -> A13) -> A19)",
+              "prover9_expression": "(-(-receives_funding(farm, government) -> meets_standards(farm, organic)) -> supports_legislation(farmer, environmental))",
+              "natural": "Whenever it is not the case that under the condition the farm does not receive government funding, the farm meets organic standards, the farmer supports environmental legislation."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A19",
+              "prover9_expression": "-supports_legislation(farmer, environmental)",
+              "natural": "The farmer does not support environmental legislation."
+            }
+          ],
+          "conclusion": "(-G -> A13)",
+          "natural": "Provided that the farm does not receive government funding, the farm meets organic standards."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A13)",
+              "prover9_expression": "(-receives_funding(farm, government) -> meets_standards(farm, organic))",
+              "natural": "Provided that the farm does not receive government funding, the farm meets organic standards."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A13",
+              "prover9_expression": "-meets_standards(farm, organic)",
+              "natural": "It is not the case that the farm meets organic standards."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The farm receives government funding."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(A25 -> A26)",
+              "prover9_expression": "(joins_association(farmer, growers) -> participates_network(farmer, industry))",
+              "natural": "Whenever the farmer joins a growers association, the farmer participates in an industry network."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A26 -> (A24 -> -A22))",
+              "prover9_expression": "(participates_network(farmer, industry) -> (attends_conference(farmer, sustainability) -> -attends_workshop(farmer, organic)))",
+              "natural": "Under the condition that the farmer participates in an industry network, if the farmer attends a sustainability conference, the farmer does not attend an organic workshop."
+            }
+          ],
+          "conclusion": "(A25 -> (A24 -> -A22))",
+          "natural": "If the farmer joins a growers association, then provided the farmer attends a sustainability conference, the farmer does not attend an organic workshop."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A25 -> (A24 -> -A22))",
+              "prover9_expression": "(joins_association(farmer, growers) -> (attends_conference(farmer, sustainability) -> -attends_workshop(farmer, organic)))",
+              "natural": "If the farmer joins a growers association, then provided the farmer attends a sustainability conference, the farmer does not attend an organic workshop."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A25",
+              "prover9_expression": "joins_association(farmer, growers)",
+              "natural": "The farmer joins a growers association."
+            }
+          ],
+          "conclusion": "(A24 -> -A22)",
+          "natural": "Should the farmer attend a sustainability conference, the farmer does not attend an organic workshop."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(A23 | A24)",
+              "prover9_expression": "(visits_expo(farmer, technology) | attends_conference(farmer, sustainability))",
+              "natural": "Either the farmer visits a technology expo or the farmer attends a sustainability conference."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A23 -> -A22)",
+              "prover9_expression": "(visits_expo(farmer, technology) -> -attends_workshop(farmer, organic))",
+              "natural": "Under the condition that the farmer visits a technology expo, the farmer does not attend an organic workshop."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A24 -> -A22)",
+              "prover9_expression": "(attends_conference(farmer, sustainability) -> -attends_workshop(farmer, organic))",
+              "natural": "Should the farmer attend a sustainability conference, the farmer does not attend an organic workshop."
+            }
+          ],
+          "conclusion": "-A22",
+          "natural": "The farmer does not attend an organic workshop."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A22 | A21)",
+              "prover9_expression": "(attends_workshop(farmer, organic) | watches_show(farmer, agricultural))",
+              "natural": "The farmer attends an organic workshop or the farmer watches an agricultural show."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A22",
+              "prover9_expression": "-attends_workshop(farmer, organic)",
+              "natural": "The farmer does not attend an organic workshop."
+            }
+          ],
+          "conclusion": "A21",
+          "natural": "The farmer watches an agricultural show."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A21 -> (-G -> A13))",
+              "prover9_expression": "(watches_show(farmer, agricultural) -> (-receives_funding(farm, government) -> meets_standards(farm, organic)))",
+              "natural": "If the farmer watches an agricultural show, then should the farm not receive government funding, the farm meets organic standards."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A21",
+              "prover9_expression": "watches_show(farmer, agricultural)",
+              "natural": "The farmer watches an agricultural show."
+            }
+          ],
+          "conclusion": "(-G -> A13)",
+          "natural": "Provided that the farm does not receive government funding, the farm meets organic standards."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A13)",
+              "prover9_expression": "(-receives_funding(farm, government) -> meets_standards(farm, organic))",
+              "natural": "Provided that the farm does not receive government funding, the farm meets organic standards."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A13",
+              "prover9_expression": "-meets_standards(farm, organic)",
+              "natural": "It is not the case that the farm meets organic standards."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The farm receives government funding."
+        }
+      ]
+    }
+  ]
+}

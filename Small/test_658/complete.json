@@ -1,0 +1,968 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 4,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(requires_inspection(food_truck) -> operating(food_truck))",
+        "natural": "If the food truck requires inspection, then it is operating."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → ¬A9)",
+        "prover9_expression": "(minor_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "Provided that the food truck commits a minor violation, it is not the case that it violates regulations."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 ∨ A11)",
+        "prover9_expression": "(minor_violation(food_truck) | major_violation(food_truck))",
+        "natural": "The food truck commits a minor violation or it commits a major violation."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 → ¬A9)",
+        "prover9_expression": "(major_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "In the event that the food truck commits a major violation, it does not violate regulations."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 → ¬A9)",
+        "prover9_expression": "(temperature_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "Whenever the food truck commits a temperature violation, it is not the case that it violates regulations."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A12 ∨ A13)",
+        "prover9_expression": "(temperature_violation(food_truck) | sanitation_violation(food_truck))",
+        "natural": "Either the food truck commits a temperature violation or it commits a sanitation violation."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A15 ∨ (¬(A13 → ¬A9) → A14))",
+        "prover9_expression": "(suspension_ordered(food_truck) | (-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> warning_issued(food_truck)))",
+        "natural": "Suspension is ordered for the food truck, or if it is not the case that when it commits a sanitation violation then it does not violate regulations, a warning is issued to the food truck."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A16 → ¬A15)",
+        "prover9_expression": "(inspector_approves(food_truck) -> -suspension_ordered(food_truck))",
+        "natural": "If the inspector approves the food truck, then suspension is not ordered for the food truck."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(supervisor_confirms(food_truck) -> inspector_approves(food_truck))",
+        "natural": "Provided that the supervisor confirms the food truck, the inspector approves the food truck."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A20 → (¬(A9 → A18) → A19))",
+        "prover9_expression": "(first_inspection(food_truck) -> (-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck)))",
+        "natural": "If the food truck undergoes a first inspection, then whenever it is not the case that if it violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A21 → (¬(A9 → A18) → A19))",
+        "prover9_expression": "(follow_up_inspection(food_truck) -> (-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck)))",
+        "natural": "In the event that the food truck undergoes a follow-up inspection, then under the condition that it is not the case that if it violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A23 → (¬(A20 ∨ A21) → A22))",
+        "prover9_expression": "(routine_check(food_truck) -> (-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck)))",
+        "natural": "Whenever the food truck undergoes a routine check, then if it is not the case that it undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A24 → (¬(A20 ∨ A21) → A22))",
+        "prover9_expression": "(complaint_investigation(food_truck) -> (-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck)))",
+        "natural": "Provided that the food truck undergoes a complaint investigation, then in the event that it is not the case that it undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A3 ∨ (¬A1 → A2))",
+        "prover9_expression": "(operates_legally(food_truck) | (-requires_inspection(food_truck) -> has_valid_permit(food_truck)))",
+        "natural": "The food truck operates legally, or if it does not require inspection, then it has a valid permit."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A4 → A6)",
+        "prover9_expression": "(passes_health_inspection(food_truck) -> receives_certificate(food_truck))",
+        "natural": "If the food truck passes the health inspection, then it receives a certificate."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A4 ∨ A5)",
+        "prover9_expression": "(passes_health_inspection(food_truck) | fails_health_inspection(food_truck))",
+        "natural": "The food truck passes the health inspection or it fails the health inspection."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A5 → ¬A3)",
+        "prover9_expression": "(fails_health_inspection(food_truck) -> -operates_legally(food_truck))",
+        "natural": "In the event that the food truck fails the health inspection, it is not the case that it operates legally."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A6 → ¬A3)",
+        "prover9_expression": "(receives_certificate(food_truck) -> -operates_legally(food_truck))",
+        "natural": "Whenever the food truck receives a certificate, it does not operate legally."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A7 → A8)",
+        "prover9_expression": "(serves_alcohol(food_truck) -> has_liquor_license(food_truck))",
+        "natural": "Under the condition that the food truck serves alcohol, it has a liquor license."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A7 ∨ G)",
+        "prover9_expression": "(serves_alcohol(food_truck) | operating(food_truck))",
+        "natural": "The food truck serves alcohol or it is operating."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A9 → ¬A18)",
+        "prover9_expression": "(violates_regulations(food_truck) -> -corrective_action_taken(food_truck))",
+        "natural": "Provided that the food truck violates regulations, it is not the case that corrective action is taken for the food truck."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A9 ∨ ¬A8)",
+        "prover9_expression": "(violates_regulations(food_truck) | -has_liquor_license(food_truck))",
+        "natural": "The food truck violates regulations or it does not have a liquor license."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(¬(A13 → ¬A9) → ¬A14)",
+        "prover9_expression": "(-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> -warning_issued(food_truck))",
+        "natural": "In the event that it is not the case that if the food truck commits a sanitation violation then it does not violate regulations, it is not the case that a warning is issued to the food truck."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(¬(A20 ∨ A21) → ¬A22)",
+        "prover9_expression": "(-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> -comprehensive_review(food_truck))",
+        "natural": "Provided that it is not the case that the food truck undergoes a first inspection or it undergoes a follow-up inspection, it is not the case that it undergoes a comprehensive review."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(¬(A25 ∨ (A23 ∨ A24)) → A26)",
+        "prover9_expression": "(-(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck))) -> public_notice_issued(food_truck))",
+        "natural": "If it is not the case that the food truck is subject to emergency closure or it undergoes a routine check or it undergoes a complaint investigation, a public notice is issued for the food truck."
+      },
+      {
+        "id": "Rule26",
+        "formal": "(¬(A25 ∨ (A23 ∨ A24)) → ¬A26)",
+        "prover9_expression": "(-(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck))) -> -public_notice_issued(food_truck))",
+        "natural": "Under the condition that it is not the case that the food truck is subject to emergency closure or it undergoes a routine check or it undergoes a complaint investigation, it is not the case that a public notice is issued for the food truck."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A17",
+        "prover9_expression": "supervisor_confirms(food_truck)",
+        "natural": "The supervisor confirms the food truck."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A19",
+        "prover9_expression": "-fine_levied(food_truck)",
+        "natural": "It is not the case that a fine is levied on the food truck."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A2",
+        "prover9_expression": "-has_valid_permit(food_truck)",
+        "natural": "It is not the case that the food truck has a valid permit."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A25",
+        "prover9_expression": "-emergency_closure(food_truck)",
+        "natural": "It is not the case that the food truck is subject to emergency closure."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "operating(food_truck)",
+    "natural": "The food truck is operating."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A4 -> A6)",
+            "(A6 -> -A3)"
+          ],
+          "conclusion": "(A4 -> -A3)",
+          "natural": "Provided that the food truck passes the health inspection, it does not operate legally."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A4 | A5)",
+            "(A4 -> -A3)",
+            "(A5 -> -A3)"
+          ],
+          "conclusion": "-A3",
+          "natural": "It is not the case that the food truck operates legally."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (-A1 -> A2))",
+            "-A3"
+          ],
+          "conclusion": "(-A1 -> A2)",
+          "natural": "If the food truck does not require inspection, then it has a valid permit."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A1 -> A2)",
+            "-A2"
+          ],
+          "conclusion": "A1",
+          "natural": "The food truck requires inspection."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The food truck is operating."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> -A9)",
+            "(A11 -> -A9)"
+          ],
+          "conclusion": "-A9",
+          "natural": "It is not the case that the food truck violates regulations."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | -A8)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "It is not the case that the food truck has a liquor license."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "-A7",
+          "natural": "It is not the case that the food truck serves alcohol."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "The food truck is operating."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> A16)",
+            "A17"
+          ],
+          "conclusion": "A16",
+          "natural": "The inspector approves the food truck."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> -A15)",
+            "A16"
+          ],
+          "conclusion": "-A15",
+          "natural": "It is not the case that suspension is ordered for the food truck."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A15 | (-(A13 -> -A9) -> A14))",
+            "-A15"
+          ],
+          "conclusion": "(-(A13 -> -A9) -> A14)",
+          "natural": "If it is not the case that when the food truck commits a sanitation violation then it does not violate regulations, a warning is issued to the food truck."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A13 -> -A9) -> A14)",
+            "(-(A13 -> -A9) -> -A14)"
+          ],
+          "conclusion": "(A13 -> -A9)",
+          "natural": "Under the condition that the food truck commits a sanitation violation, it does not violate regulations."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A12 | A13)",
+            "(A12 -> -A9)",
+            "(A13 -> -A9)"
+          ],
+          "conclusion": "-A9",
+          "natural": "It is not the case that the food truck violates regulations."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | -A8)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "It is not the case that the food truck has a liquor license."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "-A7",
+          "natural": "It is not the case that the food truck serves alcohol."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "The food truck is operating."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A25 | (A23 | A24)) -> A26)",
+            "(-(A25 | (A23 | A24)) -> -A26)"
+          ],
+          "conclusion": "(A25 | (A23 | A24))",
+          "natural": "The food truck is subject to emergency closure, or it undergoes a routine check, or it undergoes a complaint investigation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A25 | (A23 | A24))",
+            "-A25"
+          ],
+          "conclusion": "(A23 | A24)",
+          "natural": "The food truck undergoes a routine check or it undergoes a complaint investigation."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A23 | A24)",
+            "(A23 -> (-(A20 | A21) -> A22))",
+            "(A24 -> (-(A20 | A21) -> A22))"
+          ],
+          "conclusion": "(-(A20 | A21) -> A22)",
+          "natural": "Whenever it is not the case that the food truck undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A20 | A21) -> A22)",
+            "(-(A20 | A21) -> -A22)"
+          ],
+          "conclusion": "(A20 | A21)",
+          "natural": "The food truck undergoes a first inspection or it undergoes a follow-up inspection."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A20 | A21)",
+            "(A20 -> (-(A9 -> A18) -> A19))",
+            "(A21 -> (-(A9 -> A18) -> A19))"
+          ],
+          "conclusion": "(-(A9 -> A18) -> A19)",
+          "natural": "In the event that it is not the case that if the food truck violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A9 -> A18) -> A19)",
+            "-A19"
+          ],
+          "conclusion": "(A9 -> A18)",
+          "natural": "If the food truck violates regulations, then corrective action is taken for the food truck."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A9 -> A18)",
+            "(A9 -> -A18)"
+          ],
+          "conclusion": "-A9",
+          "natural": "It is not the case that the food truck violates regulations."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A9 | -A8)",
+            "-A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "It is not the case that the food truck has a liquor license."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A7 -> A8)",
+            "-A8"
+          ],
+          "conclusion": "-A7",
+          "natural": "It is not the case that the food truck serves alcohol."
+        },
+        {
+          "step_number": 10,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A7 | G)",
+            "-A7"
+          ],
+          "conclusion": "G",
+          "natural": "The food truck is operating."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Food Safety Inspection",
+    "atomic_facts": {
+      "A1": "requires_inspection(food_truck)",
+      "A2": "has_valid_permit(food_truck)",
+      "A3": "operates_legally(food_truck)",
+      "A4": "passes_health_inspection(food_truck)",
+      "A5": "fails_health_inspection(food_truck)",
+      "A6": "receives_certificate(food_truck)",
+      "A7": "serves_alcohol(food_truck)",
+      "A8": "has_liquor_license(food_truck)",
+      "A9": "violates_regulations(food_truck)",
+      "A10": "minor_violation(food_truck)",
+      "A11": "major_violation(food_truck)",
+      "A12": "temperature_violation(food_truck)",
+      "A13": "sanitation_violation(food_truck)",
+      "A14": "warning_issued(food_truck)",
+      "A15": "suspension_ordered(food_truck)",
+      "A16": "inspector_approves(food_truck)",
+      "A17": "supervisor_confirms(food_truck)",
+      "A18": "corrective_action_taken(food_truck)",
+      "A19": "fine_levied(food_truck)",
+      "A20": "first_inspection(food_truck)",
+      "A21": "follow_up_inspection(food_truck)",
+      "A22": "comprehensive_review(food_truck)",
+      "A23": "routine_check(food_truck)",
+      "A24": "complaint_investigation(food_truck)",
+      "A25": "emergency_closure(food_truck)",
+      "A26": "public_notice_issued(food_truck)",
+      "G": "operating(food_truck)"
+    },
+    "natural_facts": {
+      "A1": "The food truck requires inspection.",
+      "A2": "The food truck has a valid permit.",
+      "A3": "The food truck operates legally.",
+      "A4": "The food truck passes the health inspection.",
+      "A5": "The food truck fails the health inspection.",
+      "A6": "The food truck receives a certificate.",
+      "A7": "The food truck serves alcohol.",
+      "A8": "The food truck has a liquor license.",
+      "A9": "The food truck violates regulations.",
+      "A10": "The food truck commits a minor violation.",
+      "A11": "The food truck commits a major violation.",
+      "A12": "The food truck commits a temperature violation.",
+      "A13": "The food truck commits a sanitation violation.",
+      "A14": "A warning is issued to the food truck.",
+      "A15": "Suspension is ordered for the food truck.",
+      "A16": "The inspector approves the food truck.",
+      "A17": "The supervisor confirms the food truck.",
+      "A18": "Corrective action is taken for the food truck.",
+      "A19": "A fine is levied on the food truck.",
+      "A20": "The food truck undergoes a first inspection.",
+      "A21": "The food truck undergoes a follow-up inspection.",
+      "A22": "The food truck undergoes a comprehensive review.",
+      "A23": "The food truck undergoes a routine check.",
+      "A24": "The food truck undergoes a complaint investigation.",
+      "A25": "The food truck is subject to emergency closure.",
+      "A26": "A public notice is issued for the food truck.",
+      "G": "The food truck is operating."
+    },
+    "prover9_expressions": [
+      "(requires_inspection(food_truck) -> operating(food_truck))",
+      "(minor_violation(food_truck) -> -violates_regulations(food_truck))",
+      "(minor_violation(food_truck) | major_violation(food_truck))",
+      "(major_violation(food_truck) -> -violates_regulations(food_truck))",
+      "(temperature_violation(food_truck) -> -violates_regulations(food_truck))",
+      "(temperature_violation(food_truck) | sanitation_violation(food_truck))",
+      "(sanitation_violation(food_truck) -> -violates_regulations(food_truck))",
+      "(suspension_ordered(food_truck) | (-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> warning_issued(food_truck)))",
+      "(inspector_approves(food_truck) -> -suspension_ordered(food_truck))",
+      "(supervisor_confirms(food_truck) -> inspector_approves(food_truck))",
+      "(first_inspection(food_truck) -> (-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck)))",
+      "(first_inspection(food_truck) | follow_up_inspection(food_truck))",
+      "(follow_up_inspection(food_truck) -> (-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck)))",
+      "(routine_check(food_truck) -> (-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck)))",
+      "(routine_check(food_truck) | complaint_investigation(food_truck))",
+      "(complaint_investigation(food_truck) -> (-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck)))",
+      "(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck)))",
+      "(operates_legally(food_truck) | (-requires_inspection(food_truck) -> has_valid_permit(food_truck)))",
+      "(passes_health_inspection(food_truck) -> receives_certificate(food_truck))",
+      "(passes_health_inspection(food_truck) -> -operates_legally(food_truck))",
+      "(passes_health_inspection(food_truck) | fails_health_inspection(food_truck))",
+      "(fails_health_inspection(food_truck) -> -operates_legally(food_truck))",
+      "(receives_certificate(food_truck) -> -operates_legally(food_truck))",
+      "(serves_alcohol(food_truck) -> has_liquor_license(food_truck))",
+      "(serves_alcohol(food_truck) | operating(food_truck))",
+      "(violates_regulations(food_truck) -> corrective_action_taken(food_truck))",
+      "(violates_regulations(food_truck) -> -corrective_action_taken(food_truck))",
+      "(violates_regulations(food_truck) | -has_liquor_license(food_truck))",
+      "(-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> warning_issued(food_truck))",
+      "(-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> -warning_issued(food_truck))",
+      "(-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck))",
+      "(-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> -comprehensive_review(food_truck))",
+      "(-(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck))) -> public_notice_issued(food_truck))",
+      "(-(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck))) -> -public_notice_issued(food_truck))",
+      "(-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck))",
+      "(-requires_inspection(food_truck) -> has_valid_permit(food_truck))",
+      "requires_inspection(food_truck)",
+      "inspector_approves(food_truck)",
+      "supervisor_confirms(food_truck)",
+      "operating(food_truck)",
+      "-suspension_ordered(food_truck)",
+      "-fine_levied(food_truck)",
+      "-has_valid_permit(food_truck)",
+      "-emergency_closure(food_truck)",
+      "-operates_legally(food_truck)",
+      "-serves_alcohol(food_truck)",
+      "-has_liquor_license(food_truck)",
+      "-violates_regulations(food_truck)"
+    ],
+    "natural_expressions": [
+      "If the food truck requires inspection, then it is operating.",
+      "Provided that the food truck commits a minor violation, it is not the case that it violates regulations.",
+      "The food truck commits a minor violation or it commits a major violation.",
+      "In the event that the food truck commits a major violation, it does not violate regulations.",
+      "Whenever the food truck commits a temperature violation, it is not the case that it violates regulations.",
+      "Either the food truck commits a temperature violation or it commits a sanitation violation.",
+      "Under the condition that the food truck commits a sanitation violation, it does not violate regulations.",
+      "Suspension is ordered for the food truck, or if it is not the case that when it commits a sanitation violation then it does not violate regulations, a warning is issued to the food truck.",
+      "If the inspector approves the food truck, then suspension is not ordered for the food truck.",
+      "Provided that the supervisor confirms the food truck, the inspector approves the food truck.",
+      "If the food truck undergoes a first inspection, then whenever it is not the case that if it violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck.",
+      "The food truck undergoes a first inspection or it undergoes a follow-up inspection.",
+      "In the event that the food truck undergoes a follow-up inspection, then under the condition that it is not the case that if it violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck.",
+      "Whenever the food truck undergoes a routine check, then if it is not the case that it undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review.",
+      "The food truck undergoes a routine check or it undergoes a complaint investigation.",
+      "Provided that the food truck undergoes a complaint investigation, then in the event that it is not the case that it undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review.",
+      "The food truck is subject to emergency closure, or it undergoes a routine check, or it undergoes a complaint investigation.",
+      "The food truck operates legally, or if it does not require inspection, then it has a valid permit.",
+      "If the food truck passes the health inspection, then it receives a certificate.",
+      "Provided that the food truck passes the health inspection, it does not operate legally.",
+      "The food truck passes the health inspection or it fails the health inspection.",
+      "In the event that the food truck fails the health inspection, it is not the case that it operates legally.",
+      "Whenever the food truck receives a certificate, it does not operate legally.",
+      "Under the condition that the food truck serves alcohol, it has a liquor license.",
+      "The food truck serves alcohol or it is operating.",
+      "If the food truck violates regulations, then corrective action is taken for the food truck.",
+      "Provided that the food truck violates regulations, it is not the case that corrective action is taken for the food truck.",
+      "The food truck violates regulations or it does not have a liquor license.",
+      "If it is not the case that when the food truck commits a sanitation violation then it does not violate regulations, a warning is issued to the food truck.",
+      "In the event that it is not the case that if the food truck commits a sanitation violation then it does not violate regulations, it is not the case that a warning is issued to the food truck.",
+      "Whenever it is not the case that the food truck undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review.",
+      "Provided that it is not the case that the food truck undergoes a first inspection or it undergoes a follow-up inspection, it is not the case that it undergoes a comprehensive review.",
+      "If it is not the case that the food truck is subject to emergency closure or it undergoes a routine check or it undergoes a complaint investigation, a public notice is issued for the food truck.",
+      "Under the condition that it is not the case that the food truck is subject to emergency closure or it undergoes a routine check or it undergoes a complaint investigation, it is not the case that a public notice is issued for the food truck.",
+      "In the event that it is not the case that if the food truck violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck.",
+      "If the food truck does not require inspection, then it has a valid permit.",
+      "The food truck requires inspection.",
+      "The inspector approves the food truck.",
+      "The supervisor confirms the food truck.",
+      "The food truck is operating.",
+      "It is not the case that suspension is ordered for the food truck.",
+      "It is not the case that a fine is levied on the food truck.",
+      "It is not the case that the food truck has a valid permit.",
+      "It is not the case that the food truck is subject to emergency closure.",
+      "It is not the case that the food truck operates legally.",
+      "It is not the case that the food truck serves alcohol.",
+      "It is not the case that the food truck has a liquor license.",
+      "It is not the case that the food truck violates regulations."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(requires_inspection(food_truck) -> operating(food_truck))",
+        "natural": "If the food truck requires inspection, then it is operating."
+      },
+      "(A10 → ¬A9)": {
+        "formal": "(A10 → ¬A9)",
+        "prover9": "(A10 -> -A9)",
+        "prover9_expression": "(minor_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "Provided that the food truck commits a minor violation, it is not the case that it violates regulations."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(minor_violation(food_truck) | major_violation(food_truck))",
+        "natural": "The food truck commits a minor violation or it commits a major violation."
+      },
+      "(A11 → ¬A9)": {
+        "formal": "(A11 → ¬A9)",
+        "prover9": "(A11 -> -A9)",
+        "prover9_expression": "(major_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "In the event that the food truck commits a major violation, it does not violate regulations."
+      },
+      "(A12 → ¬A9)": {
+        "formal": "(A12 → ¬A9)",
+        "prover9": "(A12 -> -A9)",
+        "prover9_expression": "(temperature_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "Whenever the food truck commits a temperature violation, it is not the case that it violates regulations."
+      },
+      "(A12 ∨ A13)": {
+        "formal": "(A12 ∨ A13)",
+        "prover9": "(A12 | A13)",
+        "prover9_expression": "(temperature_violation(food_truck) | sanitation_violation(food_truck))",
+        "natural": "Either the food truck commits a temperature violation or it commits a sanitation violation."
+      },
+      "(A13 → ¬A9)": {
+        "formal": "(A13 → ¬A9)",
+        "prover9": "(A13 -> -A9)",
+        "prover9_expression": "(sanitation_violation(food_truck) -> -violates_regulations(food_truck))",
+        "natural": "Under the condition that the food truck commits a sanitation violation, it does not violate regulations."
+      },
+      "(A15 ∨ (¬(A13 → ¬A9) → A14))": {
+        "formal": "(A15 ∨ (¬(A13 → ¬A9) → A14))",
+        "prover9": "(A15 | (-(A13 -> -A9) -> A14))",
+        "prover9_expression": "(suspension_ordered(food_truck) | (-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> warning_issued(food_truck)))",
+        "natural": "Suspension is ordered for the food truck, or if it is not the case that when it commits a sanitation violation then it does not violate regulations, a warning is issued to the food truck."
+      },
+      "(A16 → ¬A15)": {
+        "formal": "(A16 → ¬A15)",
+        "prover9": "(A16 -> -A15)",
+        "prover9_expression": "(inspector_approves(food_truck) -> -suspension_ordered(food_truck))",
+        "natural": "If the inspector approves the food truck, then suspension is not ordered for the food truck."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(supervisor_confirms(food_truck) -> inspector_approves(food_truck))",
+        "natural": "Provided that the supervisor confirms the food truck, the inspector approves the food truck."
+      },
+      "(A20 → (¬(A9 → A18) → A19))": {
+        "formal": "(A20 → (¬(A9 → A18) → A19))",
+        "prover9": "(A20 -> (-(A9 -> A18) -> A19))",
+        "prover9_expression": "(first_inspection(food_truck) -> (-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck)))",
+        "natural": "If the food truck undergoes a first inspection, then whenever it is not the case that if it violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck."
+      },
+      "(A20 ∨ A21)": {
+        "formal": "(A20 ∨ A21)",
+        "prover9": "(A20 | A21)",
+        "prover9_expression": "(first_inspection(food_truck) | follow_up_inspection(food_truck))",
+        "natural": "The food truck undergoes a first inspection or it undergoes a follow-up inspection."
+      },
+      "(A21 → (¬(A9 → A18) → A19))": {
+        "formal": "(A21 → (¬(A9 → A18) → A19))",
+        "prover9": "(A21 -> (-(A9 -> A18) -> A19))",
+        "prover9_expression": "(follow_up_inspection(food_truck) -> (-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck)))",
+        "natural": "In the event that the food truck undergoes a follow-up inspection, then under the condition that it is not the case that if it violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck."
+      },
+      "(A23 → (¬(A20 ∨ A21) → A22))": {
+        "formal": "(A23 → (¬(A20 ∨ A21) → A22))",
+        "prover9": "(A23 -> (-(A20 | A21) -> A22))",
+        "prover9_expression": "(routine_check(food_truck) -> (-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck)))",
+        "natural": "Whenever the food truck undergoes a routine check, then if it is not the case that it undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review."
+      },
+      "(A23 ∨ A24)": {
+        "formal": "(A23 ∨ A24)",
+        "prover9": "(A23 | A24)",
+        "prover9_expression": "(routine_check(food_truck) | complaint_investigation(food_truck))",
+        "natural": "The food truck undergoes a routine check or it undergoes a complaint investigation."
+      },
+      "(A24 → (¬(A20 ∨ A21) → A22))": {
+        "formal": "(A24 → (¬(A20 ∨ A21) → A22))",
+        "prover9": "(A24 -> (-(A20 | A21) -> A22))",
+        "prover9_expression": "(complaint_investigation(food_truck) -> (-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck)))",
+        "natural": "Provided that the food truck undergoes a complaint investigation, then in the event that it is not the case that it undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review."
+      },
+      "(A25 ∨ (A23 ∨ A24))": {
+        "formal": "(A25 ∨ (A23 ∨ A24))",
+        "prover9": "(A25 | (A23 | A24))",
+        "prover9_expression": "(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck)))",
+        "natural": "The food truck is subject to emergency closure, or it undergoes a routine check, or it undergoes a complaint investigation."
+      },
+      "(A3 ∨ (¬A1 → A2))": {
+        "formal": "(A3 ∨ (¬A1 → A2))",
+        "prover9": "(A3 | (-A1 -> A2))",
+        "prover9_expression": "(operates_legally(food_truck) | (-requires_inspection(food_truck) -> has_valid_permit(food_truck)))",
+        "natural": "The food truck operates legally, or if it does not require inspection, then it has a valid permit."
+      },
+      "(A4 → A6)": {
+        "formal": "(A4 → A6)",
+        "prover9": "(A4 -> A6)",
+        "prover9_expression": "(passes_health_inspection(food_truck) -> receives_certificate(food_truck))",
+        "natural": "If the food truck passes the health inspection, then it receives a certificate."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(passes_health_inspection(food_truck) -> -operates_legally(food_truck))",
+        "natural": "Provided that the food truck passes the health inspection, it does not operate legally."
+      },
+      "(A4 ∨ A5)": {
+        "formal": "(A4 ∨ A5)",
+        "prover9": "(A4 | A5)",
+        "prover9_expression": "(passes_health_inspection(food_truck) | fails_health_inspection(food_truck))",
+        "natural": "The food truck passes the health inspection or it fails the health inspection."
+      },
+      "(A5 → ¬A3)": {
+        "formal": "(A5 → ¬A3)",
+        "prover9": "(A5 -> -A3)",
+        "prover9_expression": "(fails_health_inspection(food_truck) -> -operates_legally(food_truck))",
+        "natural": "In the event that the food truck fails the health inspection, it is not the case that it operates legally."
+      },
+      "(A6 → ¬A3)": {
+        "formal": "(A6 → ¬A3)",
+        "prover9": "(A6 -> -A3)",
+        "prover9_expression": "(receives_certificate(food_truck) -> -operates_legally(food_truck))",
+        "natural": "Whenever the food truck receives a certificate, it does not operate legally."
+      },
+      "(A7 → A8)": {
+        "formal": "(A7 → A8)",
+        "prover9": "(A7 -> A8)",
+        "prover9_expression": "(serves_alcohol(food_truck) -> has_liquor_license(food_truck))",
+        "natural": "Under the condition that the food truck serves alcohol, it has a liquor license."
+      },
+      "(A7 ∨ G)": {
+        "formal": "(A7 ∨ G)",
+        "prover9": "(A7 | G)",
+        "prover9_expression": "(serves_alcohol(food_truck) | operating(food_truck))",
+        "natural": "The food truck serves alcohol or it is operating."
+      },
+      "(A9 → A18)": {
+        "formal": "(A9 → A18)",
+        "prover9": "(A9 -> A18)",
+        "prover9_expression": "(violates_regulations(food_truck) -> corrective_action_taken(food_truck))",
+        "natural": "If the food truck violates regulations, then corrective action is taken for the food truck."
+      },
+      "(A9 → ¬A18)": {
+        "formal": "(A9 → ¬A18)",
+        "prover9": "(A9 -> -A18)",
+        "prover9_expression": "(violates_regulations(food_truck) -> -corrective_action_taken(food_truck))",
+        "natural": "Provided that the food truck violates regulations, it is not the case that corrective action is taken for the food truck."
+      },
+      "(A9 ∨ ¬A8)": {
+        "formal": "(A9 ∨ ¬A8)",
+        "prover9": "(A9 | -A8)",
+        "prover9_expression": "(violates_regulations(food_truck) | -has_liquor_license(food_truck))",
+        "natural": "The food truck violates regulations or it does not have a liquor license."
+      },
+      "(¬(A13 → ¬A9) → A14)": {
+        "formal": "(¬(A13 → ¬A9) → A14)",
+        "prover9": "(-(A13 -> -A9) -> A14)",
+        "prover9_expression": "(-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> warning_issued(food_truck))",
+        "natural": "If it is not the case that when the food truck commits a sanitation violation then it does not violate regulations, a warning is issued to the food truck."
+      },
+      "(¬(A13 → ¬A9) → ¬A14)": {
+        "formal": "(¬(A13 → ¬A9) → ¬A14)",
+        "prover9": "(-(A13 -> -A9) -> -A14)",
+        "prover9_expression": "(-(sanitation_violation(food_truck) -> -violates_regulations(food_truck)) -> -warning_issued(food_truck))",
+        "natural": "In the event that it is not the case that if the food truck commits a sanitation violation then it does not violate regulations, it is not the case that a warning is issued to the food truck."
+      },
+      "(¬(A20 ∨ A21) → A22)": {
+        "formal": "(¬(A20 ∨ A21) → A22)",
+        "prover9": "(-(A20 | A21) -> A22)",
+        "prover9_expression": "(-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> comprehensive_review(food_truck))",
+        "natural": "Whenever it is not the case that the food truck undergoes a first inspection or it undergoes a follow-up inspection, it undergoes a comprehensive review."
+      },
+      "(¬(A20 ∨ A21) → ¬A22)": {
+        "formal": "(¬(A20 ∨ A21) → ¬A22)",
+        "prover9": "(-(A20 | A21) -> -A22)",
+        "prover9_expression": "(-(first_inspection(food_truck) | follow_up_inspection(food_truck)) -> -comprehensive_review(food_truck))",
+        "natural": "Provided that it is not the case that the food truck undergoes a first inspection or it undergoes a follow-up inspection, it is not the case that it undergoes a comprehensive review."
+      },
+      "(¬(A25 ∨ (A23 ∨ A24)) → A26)": {
+        "formal": "(¬(A25 ∨ (A23 ∨ A24)) → A26)",
+        "prover9": "(-(A25 | (A23 | A24)) -> A26)",
+        "prover9_expression": "(-(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck))) -> public_notice_issued(food_truck))",
+        "natural": "If it is not the case that the food truck is subject to emergency closure or it undergoes a routine check or it undergoes a complaint investigation, a public notice is issued for the food truck."
+      },
+      "(¬(A25 ∨ (A23 ∨ A24)) → ¬A26)": {
+        "formal": "(¬(A25 ∨ (A23 ∨ A24)) → ¬A26)",
+        "prover9": "(-(A25 | (A23 | A24)) -> -A26)",
+        "prover9_expression": "(-(emergency_closure(food_truck) | (routine_check(food_truck) | complaint_investigation(food_truck))) -> -public_notice_issued(food_truck))",
+        "natural": "Under the condition that it is not the case that the food truck is subject to emergency closure or it undergoes a routine check or it undergoes a complaint investigation, it is not the case that a public notice is issued for the food truck."
+      },
+      "(¬(A9 → A18) → A19)": {
+        "formal": "(¬(A9 → A18) → A19)",
+        "prover9": "(-(A9 -> A18) -> A19)",
+        "prover9_expression": "(-(violates_regulations(food_truck) -> corrective_action_taken(food_truck)) -> fine_levied(food_truck))",
+        "natural": "In the event that it is not the case that if the food truck violates regulations then corrective action is taken for the food truck, a fine is levied on the food truck."
+      },
+      "(¬A1 → A2)": {
+        "formal": "(¬A1 → A2)",
+        "prover9": "(-A1 -> A2)",
+        "prover9_expression": "(-requires_inspection(food_truck) -> has_valid_permit(food_truck))",
+        "natural": "If the food truck does not require inspection, then it has a valid permit."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "requires_inspection(food_truck)",
+        "natural": "The food truck requires inspection."
+      },
+      "A16": {
+        "formal": "A16",
+        "prover9": "A16",
+        "prover9_expression": "inspector_approves(food_truck)",
+        "natural": "The inspector approves the food truck."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "supervisor_confirms(food_truck)",
+        "natural": "The supervisor confirms the food truck."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "operating(food_truck)",
+        "natural": "The food truck is operating."
+      },
+      "¬A15": {
+        "formal": "¬A15",
+        "prover9": "-A15",
+        "prover9_expression": "-suspension_ordered(food_truck)",
+        "natural": "It is not the case that suspension is ordered for the food truck."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-fine_levied(food_truck)",
+        "natural": "It is not the case that a fine is levied on the food truck."
+      },
+      "¬A2": {
+        "formal": "¬A2",
+        "prover9": "-A2",
+        "prover9_expression": "-has_valid_permit(food_truck)",
+        "natural": "It is not the case that the food truck has a valid permit."
+      },
+      "¬A25": {
+        "formal": "¬A25",
+        "prover9": "-A25",
+        "prover9_expression": "-emergency_closure(food_truck)",
+        "natural": "It is not the case that the food truck is subject to emergency closure."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-operates_legally(food_truck)",
+        "natural": "It is not the case that the food truck operates legally."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-serves_alcohol(food_truck)",
+        "natural": "It is not the case that the food truck serves alcohol."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-has_liquor_license(food_truck)",
+        "natural": "It is not the case that the food truck has a liquor license."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-violates_regulations(food_truck)",
+        "natural": "It is not the case that the food truck violates regulations."
+      }
+    }
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(compliant_material(raw_material_A, quality_check) -> manufacturing_approved(batch_X, fda_standards))",
+        "natural": "If raw material A is compliant with the quality check, then batch X has manufacturing approval per FDA standards."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(compliant_material(raw_material_A, quality_check) | compliant_material(raw_material_B, quality_check))",
+        "natural": "Either raw material A is compliant with the quality check or raw material B is compliant with the quality check."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A3 ∨ (A2 → G))",
+        "prover9_expression": "(production_approved(batch_X, facility_1) | (compliant_material(raw_material_B, quality_check) -> manufacturing_approved(batch_X, fda_standards)))",
+        "natural": "Either batch X has production approval in facility 1, or if raw material B is compliant with the quality check, then batch X has manufacturing approval per FDA standards."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 → ¬A3)",
+        "prover9_expression": "(equipment_available(mixing_tank_3, production_shift) -> -production_approved(batch_X, facility_1))",
+        "natural": "Whenever mixing tank 3 is available during the production shift, it is not the case that batch X has production approval in facility 1."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A5 ∨ A4)",
+        "prover9_expression": "(equipment_available(sterilizer_2, production_shift) | equipment_available(mixing_tank_3, production_shift))",
+        "natural": "Sterilizer 2 is available during the production shift or mixing tank 3 is available during the production shift."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A6 → ¬A3)",
+        "prover9_expression": "(safety_audit_passed(facility_1, q3_period) -> -production_approved(batch_X, facility_1))",
+        "natural": "Under the condition that facility 1 passed the safety audit for the Q3 period, batch X does not have production approval in facility 1."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A7 → A6)",
+        "prover9_expression": "(safety_inspection_complete(facility_1, weekly_check) -> safety_audit_passed(facility_1, q3_period))",
+        "natural": "If facility 1 has completed the safety inspection in the weekly check, then facility 1 passed the safety audit for the Q3 period."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A7",
+        "prover9_expression": "safety_inspection_complete(facility_1, weekly_check)",
+        "natural": "Facility 1 has completed the safety inspection in the weekly check."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A5",
+        "prover9_expression": "-equipment_available(sterilizer_2, production_shift)",
+        "natural": "It is not the case that sterilizer 2 is available during the production shift."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "manufacturing_approved(batch_X, fda_standards)",
+    "natural": "Batch X has manufacturing approval per FDA standards."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A5 | A4)",
+            "-A5"
+          ],
+          "conclusion": "A4",
+          "natural": "Mixing tank 3 is available during the production shift."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A4 -> -A3)",
+            "A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "Batch X does not have production approval in facility 1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A2 -> G))",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Provided that raw material B is compliant with the quality check, batch X has manufacturing approval per FDA standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Batch X has manufacturing approval per FDA standards."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> A6)",
+            "A7"
+          ],
+          "conclusion": "A6",
+          "natural": "Facility 1 passed the safety audit for the Q3 period."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A6 -> -A3)",
+            "A6"
+          ],
+          "conclusion": "-A3",
+          "natural": "Batch X does not have production approval in facility 1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A3 | (A2 -> G))",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "Provided that raw material B is compliant with the quality check, batch X has manufacturing approval per FDA standards."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "Batch X has manufacturing approval per FDA standards."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "compliant_material(raw_material_A, quality_check)",
+      "A2": "compliant_material(raw_material_B, quality_check)",
+      "A3": "production_approved(batch_X, facility_1)",
+      "A4": "equipment_available(mixing_tank_3, production_shift)",
+      "A5": "equipment_available(sterilizer_2, production_shift)",
+      "A6": "safety_audit_passed(facility_1, q3_period)",
+      "A7": "safety_inspection_complete(facility_1, weekly_check)",
+      "G": "manufacturing_approved(batch_X, fda_standards)"
+    },
+    "natural_facts": {
+      "A1": "Raw material A is compliant with the quality check.",
+      "A2": "Raw material B is compliant with the quality check.",
+      "A3": "Batch X has production approval in facility 1.",
+      "A4": "Mixing tank 3 is available during the production shift.",
+      "A5": "Sterilizer 2 is available during the production shift.",
+      "A6": "Facility 1 passed the safety audit for the Q3 period.",
+      "A7": "Facility 1 has completed the safety inspection in the weekly check.",
+      "G": "Batch X has manufacturing approval per FDA standards."
+    },
+    "prover9_expressions": [
+      "(compliant_material(raw_material_A, quality_check) -> manufacturing_approved(batch_X, fda_standards))",
+      "(compliant_material(raw_material_A, quality_check) | compliant_material(raw_material_B, quality_check))",
+      "(compliant_material(raw_material_B, quality_check) -> manufacturing_approved(batch_X, fda_standards))",
+      "(production_approved(batch_X, facility_1) | (compliant_material(raw_material_B, quality_check) -> manufacturing_approved(batch_X, fda_standards)))",
+      "(equipment_available(mixing_tank_3, production_shift) -> -production_approved(batch_X, facility_1))",
+      "(equipment_available(sterilizer_2, production_shift) | equipment_available(mixing_tank_3, production_shift))",
+      "(safety_audit_passed(facility_1, q3_period) -> -production_approved(batch_X, facility_1))",
+      "(safety_inspection_complete(facility_1, weekly_check) -> safety_audit_passed(facility_1, q3_period))",
+      "equipment_available(mixing_tank_3, production_shift)",
+      "safety_audit_passed(facility_1, q3_period)",
+      "safety_inspection_complete(facility_1, weekly_check)",
+      "manufacturing_approved(batch_X, fda_standards)",
+      "-production_approved(batch_X, facility_1)",
+      "-equipment_available(sterilizer_2, production_shift)"
+    ],
+    "natural_expressions": [
+      "If raw material A is compliant with the quality check, then batch X has manufacturing approval per FDA standards.",
+      "Either raw material A is compliant with the quality check or raw material B is compliant with the quality check.",
+      "Provided that raw material B is compliant with the quality check, batch X has manufacturing approval per FDA standards.",
+      "Either batch X has production approval in facility 1, or if raw material B is compliant with the quality check, then batch X has manufacturing approval per FDA standards.",
+      "Whenever mixing tank 3 is available during the production shift, it is not the case that batch X has production approval in facility 1.",
+      "Sterilizer 2 is available during the production shift or mixing tank 3 is available during the production shift.",
+      "Under the condition that facility 1 passed the safety audit for the Q3 period, batch X does not have production approval in facility 1.",
+      "If facility 1 has completed the safety inspection in the weekly check, then facility 1 passed the safety audit for the Q3 period.",
+      "Mixing tank 3 is available during the production shift.",
+      "Facility 1 passed the safety audit for the Q3 period.",
+      "Facility 1 has completed the safety inspection in the weekly check.",
+      "Batch X has manufacturing approval per FDA standards.",
+      "Batch X does not have production approval in facility 1.",
+      "It is not the case that sterilizer 2 is available during the production shift."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(compliant_material(raw_material_A, quality_check) -> manufacturing_approved(batch_X, fda_standards))",
+        "natural": "If raw material A is compliant with the quality check, then batch X has manufacturing approval per FDA standards."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(compliant_material(raw_material_A, quality_check) | compliant_material(raw_material_B, quality_check))",
+        "natural": "Either raw material A is compliant with the quality check or raw material B is compliant with the quality check."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(compliant_material(raw_material_B, quality_check) -> manufacturing_approved(batch_X, fda_standards))",
+        "natural": "Provided that raw material B is compliant with the quality check, batch X has manufacturing approval per FDA standards."
+      },
+      "(A3 ∨ (A2 → G))": {
+        "formal": "(A3 ∨ (A2 → G))",
+        "prover9": "(A3 | (A2 -> G))",
+        "prover9_expression": "(production_approved(batch_X, facility_1) | (compliant_material(raw_material_B, quality_check) -> manufacturing_approved(batch_X, fda_standards)))",
+        "natural": "Either batch X has production approval in facility 1, or if raw material B is compliant with the quality check, then batch X has manufacturing approval per FDA standards."
+      },
+      "(A4 → ¬A3)": {
+        "formal": "(A4 → ¬A3)",
+        "prover9": "(A4 -> -A3)",
+        "prover9_expression": "(equipment_available(mixing_tank_3, production_shift) -> -production_approved(batch_X, facility_1))",
+        "natural": "Whenever mixing tank 3 is available during the production shift, it is not the case that batch X has production approval in facility 1."
+      },
+      "(A5 ∨ A4)": {
+        "formal": "(A5 ∨ A4)",
+        "prover9": "(A5 | A4)",
+        "prover9_expression": "(equipment_available(sterilizer_2, production_shift) | equipment_available(mixing_tank_3, production_shift))",
+        "natural": "Sterilizer 2 is available during the production shift or mixing tank 3 is available during the production shift."
+      },
+      "(A6 → ¬A3)": {
+        "formal": "(A6 → ¬A3)",
+        "prover9": "(A6 -> -A3)",
+        "prover9_expression": "(safety_audit_passed(facility_1, q3_period) -> -production_approved(batch_X, facility_1))",
+        "natural": "Under the condition that facility 1 passed the safety audit for the Q3 period, batch X does not have production approval in facility 1."
+      },
+      "(A7 → A6)": {
+        "formal": "(A7 → A6)",
+        "prover9": "(A7 -> A6)",
+        "prover9_expression": "(safety_inspection_complete(facility_1, weekly_check) -> safety_audit_passed(facility_1, q3_period))",
+        "natural": "If facility 1 has completed the safety inspection in the weekly check, then facility 1 passed the safety audit for the Q3 period."
+      },
+      "A4": {
+        "formal": "A4",
+        "prover9": "A4",
+        "prover9_expression": "equipment_available(mixing_tank_3, production_shift)",
+        "natural": "Mixing tank 3 is available during the production shift."
+      },
+      "A6": {
+        "formal": "A6",
+        "prover9": "A6",
+        "prover9_expression": "safety_audit_passed(facility_1, q3_period)",
+        "natural": "Facility 1 passed the safety audit for the Q3 period."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "safety_inspection_complete(facility_1, weekly_check)",
+        "natural": "Facility 1 has completed the safety inspection in the weekly check."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "manufacturing_approved(batch_X, fda_standards)",
+        "natural": "Batch X has manufacturing approval per FDA standards."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-production_approved(batch_X, facility_1)",
+        "natural": "Batch X does not have production approval in facility 1."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-equipment_available(sterilizer_2, production_shift)",
+        "natural": "It is not the case that sterilizer 2 is available during the production shift."
+      }
+    }
+  }
+}

@@ -1,0 +1,447 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A10 → (¬(A8 → ¬A3) → ¬A9))",
+        "prover9_expression": "(production_scheduled(facility) -> (-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> -purification_needed(intermediate_compound)))",
+        "natural": "Provided that production is scheduled at the facility, if the absence of solvent in the extraction unit implies that the reaction vessel catalyst is not active, then the intermediate compound does not require purification."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(temperature_high(fermenter) -> -contaminated(api_vat))",
+        "natural": "If the fermenter temperature is high, then the API vat is not contaminated."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A4 → A5)",
+        "prover9_expression": "(mixer_running(compound_tank) -> homogeneous(substance_batch))",
+        "natural": "Under the condition that the compound tank mixer is running, the substance batch becomes homogeneous."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A4 ∨ ¬A3)",
+        "prover9_expression": "(mixer_running(compound_tank) | -catalyst_active(reaction_vessel))",
+        "natural": "Either the compound tank mixer is running, or the reaction vessel catalyst is not active."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A7 → (¬(A4 → ¬A5) → A6))",
+        "prover9_expression": "(safety_protocol_active(production_line) -> (-(mixer_running(compound_tank) -> -homogeneous(substance_batch)) -> quality_check_passed(final_product)))",
+        "natural": "Provided that the production line safety protocol is active, if the circumstance that the compound tank mixer is not running leads to the substance batch not being homogeneous, then the final product passes the quality check."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A8 → ¬A3) → A9)",
+        "prover9_expression": "(-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> purification_needed(intermediate_compound))",
+        "natural": "Whenever the situation where solvent absence in the extraction unit implies catalyst inactivity occurs, the intermediate compound requires purification."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(¬G → A2) → A3)",
+        "prover9_expression": "(-(-power_available(plant) -> temperature_high(fermenter)) -> catalyst_active(reaction_vessel))",
+        "natural": "Provided that it is not the case that power unavailability at the plant implies high fermenter temperature, the reaction vessel catalyst is active."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-power_available(plant) -> contaminated(api_vat))",
+        "natural": "Under the condition that the plant does not have power available, the API vat is contaminated."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A10",
+        "prover9_expression": "production_scheduled(facility)",
+        "natural": "Production is scheduled at the facility."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A7",
+        "prover9_expression": "safety_protocol_active(production_line)",
+        "natural": "The production line safety protocol is active."
+      },
+      {
+        "id": "Fact3",
+        "formal": "A8",
+        "prover9_expression": "solvent_present(extraction_unit)",
+        "natural": "The extraction unit contains solvent."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A6",
+        "prover9_expression": "-quality_check_passed(final_product)",
+        "natural": "The final product has not passed the quality check."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "power_available(plant)",
+    "natural": "The plant has power available."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> (-(A4 -> -A5) -> A6))",
+            "A7"
+          ],
+          "conclusion": "(-(A4 -> -A5) -> A6)",
+          "natural": "In the event that the condition \"if the compound tank mixer is not running then the substance batch is not homogeneous\" holds, the final product passes the quality check."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 -> -A5) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(A4 -> -A5)",
+          "natural": "Whenever the compound tank mixer is running, it is not the case that the substance batch is homogeneous."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A4 -> A5)",
+            "(A4 -> -A5)"
+          ],
+          "conclusion": "-A4",
+          "natural": "The compound tank mixer is not running."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | -A3)",
+            "-A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "The reaction vessel catalyst is not active."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "If the plant lacks available power, then the fermenter temperature is high."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Whenever the plant does not have power available, the API vat is not contaminated."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "The plant has power available."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A10 -> (-(A8 -> -A3) -> -A9))",
+            "A10"
+          ],
+          "conclusion": "(-(A8 -> -A3) -> -A9)",
+          "natural": "If the relationship that solvent absence entails catalyst inactivity is true, then the intermediate compound does not require purification."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A8 -> -A3) -> A9)",
+            "(-(A8 -> -A3) -> -A9)"
+          ],
+          "conclusion": "(A8 -> -A3)",
+          "natural": "If the extraction unit contains solvent, then the reaction vessel catalyst is not active."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A8 -> -A3)",
+            "A8"
+          ],
+          "conclusion": "-A3",
+          "natural": "The reaction vessel catalyst is not active."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-G -> A2) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "If the plant lacks available power, then the fermenter temperature is high."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Whenever the plant does not have power available, the API vat is not contaminated."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "The plant has power available."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Manufacturing",
+    "atomic_facts": {
+      "A1": "contaminated(api_vat)",
+      "A2": "temperature_high(fermenter)",
+      "A3": "catalyst_active(reaction_vessel)",
+      "A4": "mixer_running(compound_tank)",
+      "A5": "homogeneous(substance_batch)",
+      "A6": "quality_check_passed(final_product)",
+      "A7": "safety_protocol_active(production_line)",
+      "A8": "solvent_present(extraction_unit)",
+      "A9": "purification_needed(intermediate_compound)",
+      "A10": "production_scheduled(facility)",
+      "G": "power_available(plant)"
+    },
+    "natural_facts": {
+      "A1": "The API vat is contaminated.",
+      "A2": "The fermenter temperature is high.",
+      "A3": "The reaction vessel catalyst is active.",
+      "A4": "The compound tank mixer is running.",
+      "A5": "The substance batch is homogeneous.",
+      "A6": "The final product has passed the quality check.",
+      "A7": "The production line safety protocol is active.",
+      "A8": "The extraction unit contains solvent.",
+      "A9": "The intermediate compound requires purification.",
+      "A10": "The facility has production scheduled.",
+      "G": "The plant has power available."
+    },
+    "prover9_expressions": [
+      "(production_scheduled(facility) -> (-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> -purification_needed(intermediate_compound)))",
+      "(temperature_high(fermenter) -> -contaminated(api_vat))",
+      "(mixer_running(compound_tank) -> homogeneous(substance_batch))",
+      "(mixer_running(compound_tank) -> -homogeneous(substance_batch))",
+      "(mixer_running(compound_tank) | -catalyst_active(reaction_vessel))",
+      "(safety_protocol_active(production_line) -> (-(mixer_running(compound_tank) -> -homogeneous(substance_batch)) -> quality_check_passed(final_product)))",
+      "(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel))",
+      "(-(mixer_running(compound_tank) -> -homogeneous(substance_batch)) -> quality_check_passed(final_product))",
+      "(-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> purification_needed(intermediate_compound))",
+      "(-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> -purification_needed(intermediate_compound))",
+      "(-(-power_available(plant) -> temperature_high(fermenter)) -> catalyst_active(reaction_vessel))",
+      "(-power_available(plant) -> contaminated(api_vat))",
+      "(-power_available(plant) -> temperature_high(fermenter))",
+      "(-power_available(plant) -> -contaminated(api_vat))",
+      "production_scheduled(facility)",
+      "safety_protocol_active(production_line)",
+      "solvent_present(extraction_unit)",
+      "power_available(plant)",
+      "-catalyst_active(reaction_vessel)",
+      "-mixer_running(compound_tank)",
+      "-quality_check_passed(final_product)"
+    ],
+    "natural_expressions": [
+      "Provided that production is scheduled at the facility, if the absence of solvent in the extraction unit implies that the reaction vessel catalyst is not active, then the intermediate compound does not require purification.",
+      "If the fermenter temperature is high, then the API vat is not contaminated.",
+      "Under the condition that the compound tank mixer is running, the substance batch becomes homogeneous.",
+      "Whenever the compound tank mixer is running, it is not the case that the substance batch is homogeneous.",
+      "Either the compound tank mixer is running, or the reaction vessel catalyst is not active.",
+      "Provided that the production line safety protocol is active, if the circumstance that the compound tank mixer is not running leads to the substance batch not being homogeneous, then the final product passes the quality check.",
+      "If the extraction unit contains solvent, then the reaction vessel catalyst is not active.",
+      "In the event that the condition \"if the compound tank mixer is not running then the substance batch is not homogeneous\" holds, the final product passes the quality check.",
+      "Whenever the situation where solvent absence in the extraction unit implies catalyst inactivity occurs, the intermediate compound requires purification.",
+      "If the relationship that solvent absence entails catalyst inactivity is true, then the intermediate compound does not require purification.",
+      "Provided that it is not the case that power unavailability at the plant implies high fermenter temperature, the reaction vessel catalyst is active.",
+      "Under the condition that the plant does not have power available, the API vat is contaminated.",
+      "If the plant lacks available power, then the fermenter temperature is high.",
+      "Whenever the plant does not have power available, the API vat is not contaminated.",
+      "Production is scheduled at the facility.",
+      "The production line safety protocol is active.",
+      "The extraction unit contains solvent.",
+      "The plant has power available.",
+      "The reaction vessel catalyst is not active.",
+      "The compound tank mixer is not running.",
+      "The final product has not passed the quality check."
+    ],
+    "node_mappings": {
+      "(A10 → (¬(A8 → ¬A3) → ¬A9))": {
+        "formal": "(A10 → (¬(A8 → ¬A3) → ¬A9))",
+        "prover9": "(A10 -> (-(A8 -> -A3) -> -A9))",
+        "prover9_expression": "(production_scheduled(facility) -> (-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> -purification_needed(intermediate_compound)))",
+        "natural": "Provided that production is scheduled at the facility, if the absence of solvent in the extraction unit implies that the reaction vessel catalyst is not active, then the intermediate compound does not require purification."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(temperature_high(fermenter) -> -contaminated(api_vat))",
+        "natural": "If the fermenter temperature is high, then the API vat is not contaminated."
+      },
+      "(A4 → A5)": {
+        "formal": "(A4 → A5)",
+        "prover9": "(A4 -> A5)",
+        "prover9_expression": "(mixer_running(compound_tank) -> homogeneous(substance_batch))",
+        "natural": "Under the condition that the compound tank mixer is running, the substance batch becomes homogeneous."
+      },
+      "(A4 → ¬A5)": {
+        "formal": "(A4 → ¬A5)",
+        "prover9": "(A4 -> -A5)",
+        "prover9_expression": "(mixer_running(compound_tank) -> -homogeneous(substance_batch))",
+        "natural": "Whenever the compound tank mixer is running, it is not the case that the substance batch is homogeneous."
+      },
+      "(A4 ∨ ¬A3)": {
+        "formal": "(A4 ∨ ¬A3)",
+        "prover9": "(A4 | -A3)",
+        "prover9_expression": "(mixer_running(compound_tank) | -catalyst_active(reaction_vessel))",
+        "natural": "Either the compound tank mixer is running, or the reaction vessel catalyst is not active."
+      },
+      "(A7 → (¬(A4 → ¬A5) → A6))": {
+        "formal": "(A7 → (¬(A4 → ¬A5) → A6))",
+        "prover9": "(A7 -> (-(A4 -> -A5) -> A6))",
+        "prover9_expression": "(safety_protocol_active(production_line) -> (-(mixer_running(compound_tank) -> -homogeneous(substance_batch)) -> quality_check_passed(final_product)))",
+        "natural": "Provided that the production line safety protocol is active, if the circumstance that the compound tank mixer is not running leads to the substance batch not being homogeneous, then the final product passes the quality check."
+      },
+      "(A8 → ¬A3)": {
+        "formal": "(A8 → ¬A3)",
+        "prover9": "(A8 -> -A3)",
+        "prover9_expression": "(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel))",
+        "natural": "If the extraction unit contains solvent, then the reaction vessel catalyst is not active."
+      },
+      "(¬(A4 → ¬A5) → A6)": {
+        "formal": "(¬(A4 → ¬A5) → A6)",
+        "prover9": "(-(A4 -> -A5) -> A6)",
+        "prover9_expression": "(-(mixer_running(compound_tank) -> -homogeneous(substance_batch)) -> quality_check_passed(final_product))",
+        "natural": "In the event that the condition \"if the compound tank mixer is not running then the substance batch is not homogeneous\" holds, the final product passes the quality check."
+      },
+      "(¬(A8 → ¬A3) → A9)": {
+        "formal": "(¬(A8 → ¬A3) → A9)",
+        "prover9": "(-(A8 -> -A3) -> A9)",
+        "prover9_expression": "(-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> purification_needed(intermediate_compound))",
+        "natural": "Whenever the situation where solvent absence in the extraction unit implies catalyst inactivity occurs, the intermediate compound requires purification."
+      },
+      "(¬(A8 → ¬A3) → ¬A9)": {
+        "formal": "(¬(A8 → ¬A3) → ¬A9)",
+        "prover9": "(-(A8 -> -A3) -> -A9)",
+        "prover9_expression": "(-(solvent_present(extraction_unit) -> -catalyst_active(reaction_vessel)) -> -purification_needed(intermediate_compound))",
+        "natural": "If the relationship that solvent absence entails catalyst inactivity is true, then the intermediate compound does not require purification."
+      },
+      "(¬(¬G → A2) → A3)": {
+        "formal": "(¬(¬G → A2) → A3)",
+        "prover9": "(-(-G -> A2) -> A3)",
+        "prover9_expression": "(-(-power_available(plant) -> temperature_high(fermenter)) -> catalyst_active(reaction_vessel))",
+        "natural": "Provided that it is not the case that power unavailability at the plant implies high fermenter temperature, the reaction vessel catalyst is active."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-power_available(plant) -> contaminated(api_vat))",
+        "natural": "Under the condition that the plant does not have power available, the API vat is contaminated."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-power_available(plant) -> temperature_high(fermenter))",
+        "natural": "If the plant lacks available power, then the fermenter temperature is high."
+      },
+      "(¬G → ¬A1)": {
+        "formal": "(¬G → ¬A1)",
+        "prover9": "(-G -> -A1)",
+        "prover9_expression": "(-power_available(plant) -> -contaminated(api_vat))",
+        "natural": "Whenever the plant does not have power available, the API vat is not contaminated."
+      },
+      "A10": {
+        "formal": "A10",
+        "prover9": "A10",
+        "prover9_expression": "production_scheduled(facility)",
+        "natural": "Production is scheduled at the facility."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "safety_protocol_active(production_line)",
+        "natural": "The production line safety protocol is active."
+      },
+      "A8": {
+        "formal": "A8",
+        "prover9": "A8",
+        "prover9_expression": "solvent_present(extraction_unit)",
+        "natural": "The extraction unit contains solvent."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "power_available(plant)",
+        "natural": "The plant has power available."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-catalyst_active(reaction_vessel)",
+        "natural": "The reaction vessel catalyst is not active."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-mixer_running(compound_tank)",
+        "natural": "The compound tank mixer is not running."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-quality_check_passed(final_product)",
+        "natural": "The final product has not passed the quality check."
+      }
+    }
+  }
+}

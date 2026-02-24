@@ -1,0 +1,660 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ G)",
+        "prover9_expression": "(approved(trader1, gold_futures) | market_open(exchange, main_session))",
+        "natural": "Either trader1 is approved for gold futures or the market is open on the exchange for the main session."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A10 → A12)",
+        "prover9_expression": "(enabled(risk_controls, session1) -> active(circuit_breaker, market))",
+        "natural": "Provided that risk controls are enabled for session1, the circuit breaker is active in the market."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A10 ∨ A11)",
+        "prover9_expression": "(enabled(risk_controls, session1) | disabled(risk_controls, session1))",
+        "natural": "Risk controls are enabled for session1 or risk controls are disabled for session1."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A11 → (¬(¬G → ¬A8) → A9))",
+        "prover9_expression": "(disabled(risk_controls, session1) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+        "natural": "Under the condition that risk controls are disabled for session1, if the market not being open on the exchange for the main session leads to the margin facility not being available to trader1, then the trade order executes contract1."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A12 → (¬(¬G → ¬A8) → A9))",
+        "prover9_expression": "(active(circuit_breaker, market) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+        "natural": "If the circuit breaker is active in the market, then whenever the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A13 ∨ G)",
+        "prover9_expression": "(authorized(trader2, options_trading) | market_open(exchange, main_session))",
+        "natural": "Either trader2 is authorized for options trading or the market is open on the exchange for the main session."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A14 → ¬A13)",
+        "prover9_expression": "(restricted(trader2, options_trading) -> -authorized(trader2, options_trading))",
+        "natural": "Whenever trader2 is restricted from options trading, trader2 is not authorized for options trading."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A15 → A16)",
+        "prover9_expression": "(profitable(trading_strategy, week1) -> lossmaking(trading_strategy, week1))",
+        "natural": "If the trading strategy is profitable in week1, then it is lossmaking in week1."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A17 → (A15 → ¬A16))",
+        "prover9_expression": "(backtested(algorithm, strategy1) -> (profitable(trading_strategy, week1) -> -lossmaking(trading_strategy, week1)))",
+        "natural": "Provided that the algorithm was backtested on strategy1, if the trading strategy is profitable in week1, then it is not lossmaking in week1."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(rejected(trader1, gold_futures) -> -approved(trader1, gold_futures))",
+        "natural": "If trader1 is rejected for gold futures, then trader1 is not approved for gold futures."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(A4 ∨ (A3 → A2)) → ¬A5)",
+        "prover9_expression": "(-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> -flagged(system, trader1))",
+        "natural": "Provided that it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures leads to rejection, the system does not flag trader1."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬(A6 ∨ (¬(A4 ∨ (A3 → A2)) → A5)) → A7)",
+        "prover9_expression": "(-(processed(clearing_house, contract1) | (-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1))) -> suspended(trader1, platform))",
+        "natural": "If it is not the case that either the clearing house processed contract1 or that the absence of verification or submission leading to rejection implies the system flags trader1, then trader1 is suspended from the platform."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬(¬G → ¬A8) → ¬A9)",
+        "prover9_expression": "(-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> -executed(trade_order, contract1))",
+        "natural": "Under the condition that the market not being open on the exchange for the main session leads to the margin facility not being available to trader1, the trade order does not execute contract1."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(¬A14 → A15)",
+        "prover9_expression": "(-restricted(trader2, options_trading) -> profitable(trading_strategy, week1))",
+        "natural": "If trader2 is not restricted from options trading, then the trading strategy is profitable in week1."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬G → A8)",
+        "prover9_expression": "(-market_open(exchange, main_session) -> available(margin_facility, trader1))",
+        "natural": "If the market is not open on the exchange for the main session, then the margin facility is available to trader1."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A17",
+        "prover9_expression": "backtested(algorithm, strategy1)",
+        "natural": "The algorithm was backtested on strategy1."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A3",
+        "prover9_expression": "submitted(trader1, gold_futures)",
+        "natural": "Trader1 submitted for gold futures."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A4",
+        "prover9_expression": "-verified(compliance_dept, trader1)",
+        "natural": "The compliance department did not verify trader1."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A6",
+        "prover9_expression": "-processed(clearing_house, contract1)",
+        "natural": "The clearing house did not process contract1."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A7",
+        "prover9_expression": "-suspended(trader1, platform)",
+        "natural": "Trader1 is not suspended from the platform."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "market_open(exchange, main_session)",
+    "natural": "The market is open on the exchange for the main session."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A6 | (-(A4 | (A3 -> A2)) -> A5)) -> A7)",
+            "-A7"
+          ],
+          "conclusion": "(A6 | (-(A4 | (A3 -> A2)) -> A5))",
+          "natural": "Either the clearing house processed contract1 or if it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures leads to rejection, then the system flags trader1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A6 | (-(A4 | (A3 -> A2)) -> A5))",
+            "-A6"
+          ],
+          "conclusion": "(-(A4 | (A3 -> A2)) -> A5)",
+          "natural": "If it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures implies rejection, then the system flags trader1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A4 | (A3 -> A2)) -> A5)",
+            "(-(A4 | (A3 -> A2)) -> -A5)"
+          ],
+          "conclusion": "(A4 | (A3 -> A2))",
+          "natural": "Either the compliance department verified trader1 or if trader1 submitted for gold futures, then trader1 is rejected for gold futures."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A3 -> A2))",
+            "-A4"
+          ],
+          "conclusion": "(A3 -> A2)",
+          "natural": "Whenever trader1 submitted for gold futures, trader1 is rejected for gold futures."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A3 -> A2)",
+            "A3"
+          ],
+          "conclusion": "A2",
+          "natural": "Trader1 is rejected for gold futures."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A2 -> -A1)",
+            "A2"
+          ],
+          "conclusion": "-A1",
+          "natural": "Trader1 is not approved for gold futures."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A1 | G)",
+            "-A1"
+          ],
+          "conclusion": "G",
+          "natural": "The market is open on the exchange for the main session."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A10 -> A12)",
+            "(A12 -> (-(-G -> -A8) -> A9))"
+          ],
+          "conclusion": "(A10 -> (-(-G -> -A8) -> A9))",
+          "natural": "If risk controls are enabled for session1, then whenever it is not the case that the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A10 | A11)",
+            "(A10 -> (-(-G -> -A8) -> A9))",
+            "(A11 -> (-(-G -> -A8) -> A9))"
+          ],
+          "conclusion": "(-(-G -> -A8) -> A9)",
+          "natural": "Whenever the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-G -> -A8) -> A9)",
+            "(-(-G -> -A8) -> -A9)"
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Provided that the market is not open on the exchange for the main session, the margin facility is not available to trader1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A8)",
+            "(-G -> -A8)"
+          ],
+          "conclusion": "G",
+          "natural": "The market is open on the exchange for the main session."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> (A15 -> -A16))",
+            "A17"
+          ],
+          "conclusion": "(A15 -> -A16)",
+          "natural": "Under the condition that the trading strategy is profitable in week1, it is not lossmaking in week1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(A15 -> A16)",
+            "(A15 -> -A16)"
+          ],
+          "conclusion": "-A15",
+          "natural": "The trading strategy is not profitable in week1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-A14 -> A15)",
+            "-A15"
+          ],
+          "conclusion": "A14",
+          "natural": "Trader2 is restricted from options trading."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A14 -> -A13)",
+            "A14"
+          ],
+          "conclusion": "-A13",
+          "natural": "Trader2 is not authorized for options trading."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | G)",
+            "-A13"
+          ],
+          "conclusion": "G",
+          "natural": "The market is open on the exchange for the main session."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Financial Trading Platform",
+    "atomic_facts": {
+      "A1": "approved(trader1, gold_futures)",
+      "A2": "rejected(trader1, gold_futures)",
+      "A3": "submitted(trader1, gold_futures)",
+      "A4": "verified(compliance_dept, trader1)",
+      "A5": "flagged(system, trader1)",
+      "A6": "processed(clearing_house, contract1)",
+      "A7": "suspended(trader1, platform)",
+      "A8": "available(margin_facility, trader1)",
+      "A9": "executed(trade_order, contract1)",
+      "A10": "enabled(risk_controls, session1)",
+      "A11": "disabled(risk_controls, session1)",
+      "A12": "active(circuit_breaker, market)",
+      "A13": "authorized(trader2, options_trading)",
+      "A14": "restricted(trader2, options_trading)",
+      "A15": "profitable(trading_strategy, week1)",
+      "A16": "lossmaking(trading_strategy, week1)",
+      "A17": "backtested(algorithm, strategy1)",
+      "G": "market_open(exchange, main_session)"
+    },
+    "natural_facts": {
+      "A1": "Trader1 is approved for gold futures.",
+      "A2": "Trader1 is rejected for gold futures.",
+      "A3": "Trader1 submitted for gold futures.",
+      "A4": "The compliance department verified trader1.",
+      "A5": "The system flagged trader1.",
+      "A6": "The clearing house processed contract1.",
+      "A7": "Trader1 is suspended from the platform.",
+      "A8": "The margin facility is available to trader1.",
+      "A9": "The trade order executed contract1.",
+      "A10": "Risk controls are enabled for session1.",
+      "A11": "Risk controls are disabled for session1.",
+      "A12": "The circuit breaker is active in the market.",
+      "A13": "Trader2 is authorized for options trading.",
+      "A14": "Trader2 is restricted from options trading.",
+      "A15": "The trading strategy is profitable in week1.",
+      "A16": "The trading strategy is lossmaking in week1.",
+      "A17": "The algorithm was backtested on strategy1.",
+      "G": "The market is open on the exchange for the main session."
+    },
+    "prover9_expressions": [
+      "(approved(trader1, gold_futures) | market_open(exchange, main_session))",
+      "(enabled(risk_controls, session1) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+      "(enabled(risk_controls, session1) -> active(circuit_breaker, market))",
+      "(enabled(risk_controls, session1) | disabled(risk_controls, session1))",
+      "(disabled(risk_controls, session1) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+      "(active(circuit_breaker, market) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+      "(authorized(trader2, options_trading) | market_open(exchange, main_session))",
+      "(restricted(trader2, options_trading) -> -authorized(trader2, options_trading))",
+      "(profitable(trading_strategy, week1) -> lossmaking(trading_strategy, week1))",
+      "(profitable(trading_strategy, week1) -> -lossmaking(trading_strategy, week1))",
+      "(backtested(algorithm, strategy1) -> (profitable(trading_strategy, week1) -> -lossmaking(trading_strategy, week1)))",
+      "(rejected(trader1, gold_futures) -> -approved(trader1, gold_futures))",
+      "(submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))",
+      "(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures)))",
+      "(processed(clearing_house, contract1) | (-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1)))",
+      "(-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1))",
+      "(-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> -flagged(system, trader1))",
+      "(-(processed(clearing_house, contract1) | (-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1))) -> suspended(trader1, platform))",
+      "(-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1))",
+      "(-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> -executed(trade_order, contract1))",
+      "(-restricted(trader2, options_trading) -> profitable(trading_strategy, week1))",
+      "(-market_open(exchange, main_session) -> available(margin_facility, trader1))",
+      "(-market_open(exchange, main_session) -> -available(margin_facility, trader1))",
+      "restricted(trader2, options_trading)",
+      "backtested(algorithm, strategy1)",
+      "rejected(trader1, gold_futures)",
+      "submitted(trader1, gold_futures)",
+      "market_open(exchange, main_session)",
+      "-approved(trader1, gold_futures)",
+      "-authorized(trader2, options_trading)",
+      "-profitable(trading_strategy, week1)",
+      "-verified(compliance_dept, trader1)",
+      "-processed(clearing_house, contract1)",
+      "-suspended(trader1, platform)"
+    ],
+    "natural_expressions": [
+      "Either trader1 is approved for gold futures or the market is open on the exchange for the main session.",
+      "If risk controls are enabled for session1, then whenever it is not the case that the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1.",
+      "Provided that risk controls are enabled for session1, the circuit breaker is active in the market.",
+      "Risk controls are enabled for session1 or risk controls are disabled for session1.",
+      "Under the condition that risk controls are disabled for session1, if the market not being open on the exchange for the main session leads to the margin facility not being available to trader1, then the trade order executes contract1.",
+      "If the circuit breaker is active in the market, then whenever the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1.",
+      "Either trader2 is authorized for options trading or the market is open on the exchange for the main session.",
+      "Whenever trader2 is restricted from options trading, trader2 is not authorized for options trading.",
+      "If the trading strategy is profitable in week1, then it is lossmaking in week1.",
+      "Under the condition that the trading strategy is profitable in week1, it is not lossmaking in week1.",
+      "Provided that the algorithm was backtested on strategy1, if the trading strategy is profitable in week1, then it is not lossmaking in week1.",
+      "If trader1 is rejected for gold futures, then trader1 is not approved for gold futures.",
+      "Whenever trader1 submitted for gold futures, trader1 is rejected for gold futures.",
+      "Either the compliance department verified trader1 or if trader1 submitted for gold futures, then trader1 is rejected for gold futures.",
+      "Either the clearing house processed contract1 or if it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures leads to rejection, then the system flags trader1.",
+      "If it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures implies rejection, then the system flags trader1.",
+      "Provided that it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures leads to rejection, the system does not flag trader1.",
+      "If it is not the case that either the clearing house processed contract1 or that the absence of verification or submission leading to rejection implies the system flags trader1, then trader1 is suspended from the platform.",
+      "Whenever the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1.",
+      "Under the condition that the market not being open on the exchange for the main session leads to the margin facility not being available to trader1, the trade order does not execute contract1.",
+      "If trader2 is not restricted from options trading, then the trading strategy is profitable in week1.",
+      "If the market is not open on the exchange for the main session, then the margin facility is available to trader1.",
+      "Provided that the market is not open on the exchange for the main session, the margin facility is not available to trader1.",
+      "Trader2 is restricted from options trading.",
+      "The algorithm was backtested on strategy1.",
+      "Trader1 is rejected for gold futures.",
+      "Trader1 submitted for gold futures.",
+      "The market is open on the exchange for the main session.",
+      "Trader1 is not approved for gold futures.",
+      "Trader2 is not authorized for options trading.",
+      "The trading strategy is not profitable in week1.",
+      "The compliance department did not verify trader1.",
+      "The clearing house did not process contract1.",
+      "Trader1 is not suspended from the platform."
+    ],
+    "node_mappings": {
+      "(A1 ∨ G)": {
+        "formal": "(A1 ∨ G)",
+        "prover9": "(A1 | G)",
+        "prover9_expression": "(approved(trader1, gold_futures) | market_open(exchange, main_session))",
+        "natural": "Either trader1 is approved for gold futures or the market is open on the exchange for the main session."
+      },
+      "(A10 → (¬(¬G → ¬A8) → A9))": {
+        "formal": "(A10 → (¬(¬G → ¬A8) → A9))",
+        "prover9": "(A10 -> (-(-G -> -A8) -> A9))",
+        "prover9_expression": "(enabled(risk_controls, session1) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+        "natural": "If risk controls are enabled for session1, then whenever it is not the case that the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1."
+      },
+      "(A10 → A12)": {
+        "formal": "(A10 → A12)",
+        "prover9": "(A10 -> A12)",
+        "prover9_expression": "(enabled(risk_controls, session1) -> active(circuit_breaker, market))",
+        "natural": "Provided that risk controls are enabled for session1, the circuit breaker is active in the market."
+      },
+      "(A10 ∨ A11)": {
+        "formal": "(A10 ∨ A11)",
+        "prover9": "(A10 | A11)",
+        "prover9_expression": "(enabled(risk_controls, session1) | disabled(risk_controls, session1))",
+        "natural": "Risk controls are enabled for session1 or risk controls are disabled for session1."
+      },
+      "(A11 → (¬(¬G → ¬A8) → A9))": {
+        "formal": "(A11 → (¬(¬G → ¬A8) → A9))",
+        "prover9": "(A11 -> (-(-G -> -A8) -> A9))",
+        "prover9_expression": "(disabled(risk_controls, session1) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+        "natural": "Under the condition that risk controls are disabled for session1, if the market not being open on the exchange for the main session leads to the margin facility not being available to trader1, then the trade order executes contract1."
+      },
+      "(A12 → (¬(¬G → ¬A8) → A9))": {
+        "formal": "(A12 → (¬(¬G → ¬A8) → A9))",
+        "prover9": "(A12 -> (-(-G -> -A8) -> A9))",
+        "prover9_expression": "(active(circuit_breaker, market) -> (-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1)))",
+        "natural": "If the circuit breaker is active in the market, then whenever the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1."
+      },
+      "(A13 ∨ G)": {
+        "formal": "(A13 ∨ G)",
+        "prover9": "(A13 | G)",
+        "prover9_expression": "(authorized(trader2, options_trading) | market_open(exchange, main_session))",
+        "natural": "Either trader2 is authorized for options trading or the market is open on the exchange for the main session."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(restricted(trader2, options_trading) -> -authorized(trader2, options_trading))",
+        "natural": "Whenever trader2 is restricted from options trading, trader2 is not authorized for options trading."
+      },
+      "(A15 → A16)": {
+        "formal": "(A15 → A16)",
+        "prover9": "(A15 -> A16)",
+        "prover9_expression": "(profitable(trading_strategy, week1) -> lossmaking(trading_strategy, week1))",
+        "natural": "If the trading strategy is profitable in week1, then it is lossmaking in week1."
+      },
+      "(A15 → ¬A16)": {
+        "formal": "(A15 → ¬A16)",
+        "prover9": "(A15 -> -A16)",
+        "prover9_expression": "(profitable(trading_strategy, week1) -> -lossmaking(trading_strategy, week1))",
+        "natural": "Under the condition that the trading strategy is profitable in week1, it is not lossmaking in week1."
+      },
+      "(A17 → (A15 → ¬A16))": {
+        "formal": "(A17 → (A15 → ¬A16))",
+        "prover9": "(A17 -> (A15 -> -A16))",
+        "prover9_expression": "(backtested(algorithm, strategy1) -> (profitable(trading_strategy, week1) -> -lossmaking(trading_strategy, week1)))",
+        "natural": "Provided that the algorithm was backtested on strategy1, if the trading strategy is profitable in week1, then it is not lossmaking in week1."
+      },
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(rejected(trader1, gold_futures) -> -approved(trader1, gold_futures))",
+        "natural": "If trader1 is rejected for gold futures, then trader1 is not approved for gold futures."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))",
+        "natural": "Whenever trader1 submitted for gold futures, trader1 is rejected for gold futures."
+      },
+      "(A4 ∨ (A3 → A2))": {
+        "formal": "(A4 ∨ (A3 → A2))",
+        "prover9": "(A4 | (A3 -> A2))",
+        "prover9_expression": "(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures)))",
+        "natural": "Either the compliance department verified trader1 or if trader1 submitted for gold futures, then trader1 is rejected for gold futures."
+      },
+      "(A6 ∨ (¬(A4 ∨ (A3 → A2)) → A5))": {
+        "formal": "(A6 ∨ (¬(A4 ∨ (A3 → A2)) → A5))",
+        "prover9": "(A6 | (-(A4 | (A3 -> A2)) -> A5))",
+        "prover9_expression": "(processed(clearing_house, contract1) | (-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1)))",
+        "natural": "Either the clearing house processed contract1 or if it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures leads to rejection, then the system flags trader1."
+      },
+      "(¬(A4 ∨ (A3 → A2)) → A5)": {
+        "formal": "(¬(A4 ∨ (A3 → A2)) → A5)",
+        "prover9": "(-(A4 | (A3 -> A2)) -> A5)",
+        "prover9_expression": "(-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1))",
+        "natural": "If it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures implies rejection, then the system flags trader1."
+      },
+      "(¬(A4 ∨ (A3 → A2)) → ¬A5)": {
+        "formal": "(¬(A4 ∨ (A3 → A2)) → ¬A5)",
+        "prover9": "(-(A4 | (A3 -> A2)) -> -A5)",
+        "prover9_expression": "(-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> -flagged(system, trader1))",
+        "natural": "Provided that it is not the case that either the compliance department verified trader1 or that trader1 submitting for gold futures leads to rejection, the system does not flag trader1."
+      },
+      "(¬(A6 ∨ (¬(A4 ∨ (A3 → A2)) → A5)) → A7)": {
+        "formal": "(¬(A6 ∨ (¬(A4 ∨ (A3 → A2)) → A5)) → A7)",
+        "prover9": "(-(A6 | (-(A4 | (A3 -> A2)) -> A5)) -> A7)",
+        "prover9_expression": "(-(processed(clearing_house, contract1) | (-(verified(compliance_dept, trader1) | (submitted(trader1, gold_futures) -> rejected(trader1, gold_futures))) -> flagged(system, trader1))) -> suspended(trader1, platform))",
+        "natural": "If it is not the case that either the clearing house processed contract1 or that the absence of verification or submission leading to rejection implies the system flags trader1, then trader1 is suspended from the platform."
+      },
+      "(¬(¬G → ¬A8) → A9)": {
+        "formal": "(¬(¬G → ¬A8) → A9)",
+        "prover9": "(-(-G -> -A8) -> A9)",
+        "prover9_expression": "(-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> executed(trade_order, contract1))",
+        "natural": "Whenever the market not being open on the exchange for the main session implies that the margin facility is not available to trader1, the trade order executes contract1."
+      },
+      "(¬(¬G → ¬A8) → ¬A9)": {
+        "formal": "(¬(¬G → ¬A8) → ¬A9)",
+        "prover9": "(-(-G -> -A8) -> -A9)",
+        "prover9_expression": "(-(-market_open(exchange, main_session) -> -available(margin_facility, trader1)) -> -executed(trade_order, contract1))",
+        "natural": "Under the condition that the market not being open on the exchange for the main session leads to the margin facility not being available to trader1, the trade order does not execute contract1."
+      },
+      "(¬A14 → A15)": {
+        "formal": "(¬A14 → A15)",
+        "prover9": "(-A14 -> A15)",
+        "prover9_expression": "(-restricted(trader2, options_trading) -> profitable(trading_strategy, week1))",
+        "natural": "If trader2 is not restricted from options trading, then the trading strategy is profitable in week1."
+      },
+      "(¬G → A8)": {
+        "formal": "(¬G → A8)",
+        "prover9": "(-G -> A8)",
+        "prover9_expression": "(-market_open(exchange, main_session) -> available(margin_facility, trader1))",
+        "natural": "If the market is not open on the exchange for the main session, then the margin facility is available to trader1."
+      },
+      "(¬G → ¬A8)": {
+        "formal": "(¬G → ¬A8)",
+        "prover9": "(-G -> -A8)",
+        "prover9_expression": "(-market_open(exchange, main_session) -> -available(margin_facility, trader1))",
+        "natural": "Provided that the market is not open on the exchange for the main session, the margin facility is not available to trader1."
+      },
+      "A14": {
+        "formal": "A14",
+        "prover9": "A14",
+        "prover9_expression": "restricted(trader2, options_trading)",
+        "natural": "Trader2 is restricted from options trading."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "backtested(algorithm, strategy1)",
+        "natural": "The algorithm was backtested on strategy1."
+      },
+      "A2": {
+        "formal": "A2",
+        "prover9": "A2",
+        "prover9_expression": "rejected(trader1, gold_futures)",
+        "natural": "Trader1 is rejected for gold futures."
+      },
+      "A3": {
+        "formal": "A3",
+        "prover9": "A3",
+        "prover9_expression": "submitted(trader1, gold_futures)",
+        "natural": "Trader1 submitted for gold futures."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "market_open(exchange, main_session)",
+        "natural": "The market is open on the exchange for the main session."
+      },
+      "¬A1": {
+        "formal": "¬A1",
+        "prover9": "-A1",
+        "prover9_expression": "-approved(trader1, gold_futures)",
+        "natural": "Trader1 is not approved for gold futures."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-authorized(trader2, options_trading)",
+        "natural": "Trader2 is not authorized for options trading."
+      },
+      "¬A15": {
+        "formal": "¬A15",
+        "prover9": "-A15",
+        "prover9_expression": "-profitable(trading_strategy, week1)",
+        "natural": "The trading strategy is not profitable in week1."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-verified(compliance_dept, trader1)",
+        "natural": "The compliance department did not verify trader1."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-processed(clearing_house, contract1)",
+        "natural": "The clearing house did not process contract1."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-suspended(trader1, platform)",
+        "natural": "Trader1 is not suspended from the platform."
+      }
+    }
+  }
+}

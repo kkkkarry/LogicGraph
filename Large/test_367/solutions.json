@@ -1,0 +1,1577 @@
+{
+  "solution_stats": {
+    "total_solutions": 12,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 5,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 6,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 7,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 8,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 9,
+        "steps_count": 7
+      },
+      {
+        "solution_id": 10,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 11,
+        "steps_count": 6
+      },
+      {
+        "solution_id": 12,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule46",
+              "prover9": "(A7 | -A6)",
+              "prover9_expression": "(emergency_shutdown_active(system) | -maintenance_mode_active(system))",
+              "natural": "Either emergency shutdown is active in the system or it is not the case that maintenance mode is active in the system."
+            },
+            {
+              "id": "Fact8",
+              "prover9": "-A7",
+              "prover9_expression": "-emergency_shutdown_active(system)",
+              "natural": "It is not the case that emergency shutdown is active in the system."
+            }
+          ],
+          "conclusion": "-A6",
+          "natural": "It is not the case that maintenance mode is active in the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule45",
+              "prover9": "(A6 | (A4 -> A5))",
+              "prover9_expression": "(maintenance_mode_active(system) | (sunlight_available(daytime) -> energy_generation_active(system)))",
+              "natural": "Either maintenance mode is active in the system, or if sunlight is available during daytime then energy generation is active in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A6",
+              "prover9_expression": "-maintenance_mode_active(system)",
+              "natural": "It is not the case that maintenance mode is active in the system."
+            }
+          ],
+          "conclusion": "(A4 -> A5)",
+          "natural": "Whenever sunlight is available during daytime, then energy generation is active in the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(sunlight_available(daytime) -> energy_generation_active(system))",
+              "natural": "Whenever sunlight is available during daytime, then energy generation is active in the system."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A5 -> (A2 | A3))",
+              "prover9_expression": "(energy_generation_active(system) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "If energy generation is active in the system, then either solar panel 1 is active or solar panel 2 is active."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A4",
+              "prover9_expression": "sunlight_available(daytime)",
+              "natural": "Sunlight is available during daytime."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(solar_panel_active(panel1) | solar_panel_active(panel2))",
+              "natural": "Either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel1) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "Provided that solar panel 1 is active, then if it is not the case that grid power is available from the power grid, then it is not the case that the battery is charged in the system."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A3 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel2) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "If solar panel 2 is active, then in the event that grid power is not available from the power grid, then the battery is not charged in the system."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule57",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> battery_charged(system))",
+              "natural": "Whenever grid power is not available from the power grid, then the battery is charged in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -battery_charged(system))",
+              "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule52",
+              "prover9": "(-(-G -> -A8) -> A10)",
+              "prover9_expression": "(-(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid)) -> safety_protocol_engaged(system))",
+              "natural": "If it is not the case that should grid power not be available from the power grid then the grid connection is not stable for the power grid, then the safety protocol is engaged in the system."
+            },
+            {
+              "id": "Rule1",
+              "prover9": "(A10 -> -A9)",
+              "prover9_expression": "(safety_protocol_engaged(system) -> -overload_condition_detected(system))",
+              "natural": "Provided that the safety protocol is engaged in the system, then it is not the case that an overload condition is detected in the system."
+            }
+          ],
+          "conclusion": "(-(-G -> -A8) -> -A9)",
+          "natural": "Whenever it is not the case that provided that grid power is not available from the power grid then the grid connection is not stable for the power grid, then it is not the case that an overload condition is detected in the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule53",
+              "prover9": "(-(-G -> -A8) -> A9)",
+              "prover9_expression": "(-(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid)) -> overload_condition_detected(system))",
+              "natural": "Should it not be the case that if grid power is not available from the power grid then the grid connection is not stable for the power grid, then an overload condition is detected in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A8) -> -A9)",
+              "prover9_expression": "(-(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid)) -> -overload_condition_detected(system))",
+              "natural": "Whenever it is not the case that provided that grid power is not available from the power grid then the grid connection is not stable for the power grid, then it is not the case that an overload condition is detected in the system."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Given that grid power is not available from the power grid, then it is not the case that the grid connection is stable for the power grid."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule59",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> grid_connection_stable(power_grid))",
+              "natural": "If grid power is not available from the power grid, then the grid connection is stable for the power grid."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid))",
+              "natural": "Given that grid power is not available from the power grid, then it is not the case that the grid connection is stable for the power grid."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule54",
+              "prover9": "(-A15 -> A17)",
+              "prover9_expression": "(-system_operational(system) -> power_output_high(system))",
+              "natural": "Provided that the system is not operational, then power output is high from the system."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A17 -> A16)",
+              "prover9_expression": "(power_output_high(system) -> power_output_normal(system))",
+              "natural": "In the event that power output is high from the system, then power output is normal from the system."
+            }
+          ],
+          "conclusion": "(-A15 -> A16)",
+          "natural": "If it is not the case that the system is operational, then power output is normal from the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A15 -> A16)",
+              "prover9_expression": "(-system_operational(system) -> power_output_normal(system))",
+              "natural": "If it is not the case that the system is operational, then power output is normal from the system."
+            },
+            {
+              "id": "Rule55",
+              "prover9": "(-A15 -> -A16)",
+              "prover9_expression": "(-system_operational(system) -> -power_output_normal(system))",
+              "natural": "Should the system not be operational, then it is not the case that power output is normal from the system."
+            }
+          ],
+          "conclusion": "A15",
+          "natural": "The system is operational."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A15 -> (A13 | A14))",
+              "prover9_expression": "(system_operational(system) -> (battery_storage_available(system) | backup_generator_active(system)))",
+              "natural": "Given that the system is operational, then either battery storage is available in the system or the backup generator is active in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A15",
+              "prover9_expression": "system_operational(system)",
+              "natural": "The system is operational."
+            }
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either battery storage is available in the system or the backup generator is active in the system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(battery_storage_available(system) | backup_generator_active(system))",
+              "natural": "Either battery storage is available in the system or the backup generator is active in the system."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (A12 | -A11))",
+              "prover9_expression": "(battery_storage_available(system) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "Whenever battery storage is available in the system, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A14 -> (A12 | -A11))",
+              "prover9_expression": "(backup_generator_active(system) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "If the backup generator is active in the system, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | -A11)",
+              "prover9_expression": "(cloud_cover_present(sky) | -weather_conditions_optimal(environment))",
+              "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-cloud_cover_present(sky)",
+              "natural": "It is not the case that cloud cover is present in the sky."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> weather_conditions_optimal(environment))",
+              "natural": "Provided that grid power is not available from the power grid, then weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-weather_conditions_optimal(environment)",
+              "natural": "It is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A19 -> A20)",
+              "prover9_expression": "(remote_monitoring_active(control_center) -> data_logging_enabled(system))",
+              "natural": "Should remote monitoring be active at the control center, then data logging is enabled in the system."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A20",
+              "prover9_expression": "-data_logging_enabled(system)",
+              "natural": "It is not the case that data logging is enabled in the system."
+            }
+          ],
+          "conclusion": "-A19",
+          "natural": "It is not the case that remote monitoring is active at the control center."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A19 | (-(A4 -> A5) -> -A18))",
+              "prover9_expression": "(remote_monitoring_active(control_center) | (-(sunlight_available(daytime) -> energy_generation_active(system)) -> -manual_override_active(control_panel)))",
+              "natural": "Either remote monitoring is active at the control center, or if it is not the case that whenever sunlight is available during daytime then energy generation is active in the system, then it is not the case that manual override is active on the control panel."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A19",
+              "prover9_expression": "-remote_monitoring_active(control_center)",
+              "natural": "It is not the case that remote monitoring is active at the control center."
+            }
+          ],
+          "conclusion": "(-(A4 -> A5) -> -A18)",
+          "natural": "If it is not the case that provided that sunlight is available during daytime then energy generation is active in the system, then it is not the case that manual override is active on the control panel."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule50",
+              "prover9": "(-(A4 -> A5) -> A18)",
+              "prover9_expression": "(-(sunlight_available(daytime) -> energy_generation_active(system)) -> manual_override_active(control_panel))",
+              "natural": "Should it not be the case that whenever sunlight is available during daytime then energy generation is active in the system, then manual override is active on the control panel."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A4 -> A5) -> -A18)",
+              "prover9_expression": "(-(sunlight_available(daytime) -> energy_generation_active(system)) -> -manual_override_active(control_panel))",
+              "natural": "If it is not the case that provided that sunlight is available during daytime then energy generation is active in the system, then it is not the case that manual override is active on the control panel."
+            }
+          ],
+          "conclusion": "(A4 -> A5)",
+          "natural": "Whenever sunlight is available during daytime, then energy generation is active in the system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A5)",
+              "prover9_expression": "(sunlight_available(daytime) -> energy_generation_active(system))",
+              "natural": "Whenever sunlight is available during daytime, then energy generation is active in the system."
+            },
+            {
+              "id": "Rule39",
+              "prover9": "(A5 -> (A2 | A3))",
+              "prover9_expression": "(energy_generation_active(system) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "If energy generation is active in the system, then either solar panel 1 is active or solar panel 2 is active."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A4",
+              "prover9_expression": "sunlight_available(daytime)",
+              "natural": "Sunlight is available during daytime."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(solar_panel_active(panel1) | solar_panel_active(panel2))",
+              "natural": "Either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel1) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "Provided that solar panel 1 is active, then if it is not the case that grid power is available from the power grid, then it is not the case that the battery is charged in the system."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A3 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel2) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "If solar panel 2 is active, then in the event that grid power is not available from the power grid, then the battery is not charged in the system."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule57",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> battery_charged(system))",
+              "natural": "Whenever grid power is not available from the power grid, then the battery is charged in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -battery_charged(system))",
+              "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 4,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A24 | -A23)",
+              "prover9_expression": "(cleaning_system_active(panel2) | -cleaning_system_active(panel1))",
+              "natural": "Either the cleaning system is active for panel 2 or it is not the case that the cleaning system is active for panel 1."
+            },
+            {
+              "id": "Fact5",
+              "prover9": "-A24",
+              "prover9_expression": "-cleaning_system_active(panel2)",
+              "natural": "It is not the case that the cleaning system is active for panel 2."
+            }
+          ],
+          "conclusion": "-A23",
+          "natural": "It is not the case that the cleaning system is active for panel 1."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A23 | (A22 | A21))",
+              "prover9_expression": "(cleaning_system_active(panel1) | (panel_angle_optimal(panel2) | panel_angle_optimal(panel1)))",
+              "natural": "Either the cleaning system is active for panel 1, or the panel angle is optimal for panel 2 or the panel angle is optimal for panel 1."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A23",
+              "prover9_expression": "-cleaning_system_active(panel1)",
+              "natural": "It is not the case that the cleaning system is active for panel 1."
+            }
+          ],
+          "conclusion": "(A22 | A21)",
+          "natural": "Either the panel angle is optimal for panel 2 or the panel angle is optimal for panel 1."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A22 | A21)",
+              "prover9_expression": "(panel_angle_optimal(panel2) | panel_angle_optimal(panel1))",
+              "natural": "Either the panel angle is optimal for panel 2 or the panel angle is optimal for panel 1."
+            },
+            {
+              "id": "Fact4",
+              "prover9": "-A22",
+              "prover9_expression": "-panel_angle_optimal(panel2)",
+              "natural": "It is not the case that the panel angle is optimal for panel 2."
+            }
+          ],
+          "conclusion": "A21",
+          "natural": "The panel angle is optimal for panel 1."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A21 -> (-G -> -A1))",
+              "prover9_expression": "(panel_angle_optimal(panel1) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "If the panel angle is optimal for panel 1, then should grid power not be available from the power grid, then the battery is not charged in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A21",
+              "prover9_expression": "panel_angle_optimal(panel1)",
+              "natural": "The panel angle is optimal for panel 1."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule57",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> battery_charged(system))",
+              "natural": "Whenever grid power is not available from the power grid, then the battery is charged in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -battery_charged(system))",
+              "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule48",
+              "prover9": "(-(A27 -> A26) -> A28)",
+              "prover9_expression": "(-(inverter_functioning(system) -> current_flow_normal(system)) -> inverter_error_detected(system))",
+              "natural": "If it is not the case that should the inverter be functioning in the system then current flow is normal in the system, then an inverter error is detected in the system."
+            },
+            {
+              "id": "Rule49",
+              "prover9": "(-(A27 -> A26) -> -A28)",
+              "prover9_expression": "(-(inverter_functioning(system) -> current_flow_normal(system)) -> -inverter_error_detected(system))",
+              "natural": "Whenever it is not the case that if the inverter is functioning in the system then current flow is normal in the system, then it is not the case that an inverter error is detected in the system."
+            }
+          ],
+          "conclusion": "(A27 -> A26)",
+          "natural": "Provided that the inverter is functioning in the system, then current flow is normal in the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule28",
+              "prover9": "(A4 -> A27)",
+              "prover9_expression": "(sunlight_available(daytime) -> inverter_functioning(system))",
+              "natural": "Should sunlight be available during daytime, then the inverter is functioning in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A27 -> A26)",
+              "prover9_expression": "(inverter_functioning(system) -> current_flow_normal(system))",
+              "natural": "Provided that the inverter is functioning in the system, then current flow is normal in the system."
+            }
+          ],
+          "conclusion": "(A4 -> A26)",
+          "natural": "In the event that sunlight is available during daytime, then current flow is normal in the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A26)",
+              "prover9_expression": "(sunlight_available(daytime) -> current_flow_normal(system))",
+              "natural": "In the event that sunlight is available during daytime, then current flow is normal in the system."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A26 -> A25)",
+              "prover9_expression": "(current_flow_normal(system) -> voltage_regulation_stable(system))",
+              "natural": "If current flow is normal in the system, then voltage regulation is stable in the system."
+            }
+          ],
+          "conclusion": "(A4 -> A25)",
+          "natural": "Provided that sunlight is available during daytime, then voltage regulation is stable in the system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> A25)",
+              "prover9_expression": "(sunlight_available(daytime) -> voltage_regulation_stable(system))",
+              "natural": "Provided that sunlight is available during daytime, then voltage regulation is stable in the system."
+            },
+            {
+              "id": "Rule12",
+              "prover9": "(A25 -> (A2 | A3))",
+              "prover9_expression": "(voltage_regulation_stable(system) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "Whenever voltage regulation is stable in the system, then either solar panel 1 is active or solar panel 2 is active."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A4",
+              "prover9_expression": "sunlight_available(daytime)",
+              "natural": "Sunlight is available during daytime."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(solar_panel_active(panel1) | solar_panel_active(panel2))",
+              "natural": "Either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel1) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "Provided that solar panel 1 is active, then if it is not the case that grid power is available from the power grid, then it is not the case that the battery is charged in the system."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A3 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel2) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "If solar panel 2 is active, then in the event that grid power is not available from the power grid, then the battery is not charged in the system."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule57",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> battery_charged(system))",
+              "natural": "Whenever grid power is not available from the power grid, then the battery is charged in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -battery_charged(system))",
+              "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule20",
+              "prover9": "(A33 | A34)",
+              "prover9_expression": "(temperature_within_range(system) | heat_dissipation_adequate(system))",
+              "natural": "Either temperature is within range in the system or heat dissipation is adequate in the system."
+            },
+            {
+              "id": "Rule19",
+              "prover9": "(A33 -> (A32 -> (A30 -> (A4 -> (A2 | A3)))))",
+              "prover9_expression": "(temperature_within_range(system) -> (cooling_fan_operational(system) -> (ventilation_system_active(enclosure) -> (sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2))))))",
+              "natural": "Whenever temperature is within range in the system, then if the cooling fan is operational in the system, then provided that the ventilation system is active in the enclosure, then in the event that sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Rule21",
+              "prover9": "(A34 -> (A32 -> (A30 -> (A4 -> (A2 | A3)))))",
+              "prover9_expression": "(heat_dissipation_adequate(system) -> (cooling_fan_operational(system) -> (ventilation_system_active(enclosure) -> (sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2))))))",
+              "natural": "If heat dissipation is adequate in the system, then should the cooling fan be operational in the system, then given that the ventilation system is active in the enclosure, then whenever sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            }
+          ],
+          "conclusion": "(A32 -> (A30 -> (A4 -> (A2 | A3))))",
+          "natural": "If the cooling fan is operational in the system, then given that the ventilation system is active in the enclosure, then should sunlight be available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(A31 | A32)",
+              "prover9_expression": "(thermal_sensor_functioning(system) | cooling_fan_operational(system))",
+              "natural": "Either the thermal sensor is functioning in the system or the cooling fan is operational in the system."
+            },
+            {
+              "id": "Rule17",
+              "prover9": "(A31 -> (A30 -> (A4 -> (A2 | A3))))",
+              "prover9_expression": "(thermal_sensor_functioning(system) -> (ventilation_system_active(enclosure) -> (sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))))",
+              "natural": "Provided that the thermal sensor is functioning in the system, then if the ventilation system is active in the enclosure, then whenever sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A32 -> (A30 -> (A4 -> (A2 | A3))))",
+              "prover9_expression": "(cooling_fan_operational(system) -> (ventilation_system_active(enclosure) -> (sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))))",
+              "natural": "If the cooling fan is operational in the system, then given that the ventilation system is active in the enclosure, then should sunlight be available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            }
+          ],
+          "conclusion": "(A30 -> (A4 -> (A2 | A3)))",
+          "natural": "Should the ventilation system be active in the enclosure, then if sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule15",
+              "prover9": "(A29 | A30)",
+              "prover9_expression": "(temperature_regulation_active(cooling_system) | ventilation_system_active(enclosure))",
+              "natural": "Either temperature regulation is active in the cooling system or the ventilation system is active in the enclosure."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A29 -> (A4 -> (A2 | A3)))",
+              "prover9_expression": "(temperature_regulation_active(cooling_system) -> (sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2))))",
+              "natural": "Given that temperature regulation is active in the cooling system, then if sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A30 -> (A4 -> (A2 | A3)))",
+              "prover9_expression": "(ventilation_system_active(enclosure) -> (sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2))))",
+              "natural": "Should the ventilation system be active in the enclosure, then if sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            }
+          ],
+          "conclusion": "(A4 -> (A2 | A3))",
+          "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A4 -> (A2 | A3))",
+              "prover9_expression": "(sunlight_available(daytime) -> (solar_panel_active(panel1) | solar_panel_active(panel2)))",
+              "natural": "If sunlight is available during daytime, then either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A4",
+              "prover9_expression": "sunlight_available(daytime)",
+              "natural": "Sunlight is available during daytime."
+            }
+          ],
+          "conclusion": "(A2 | A3)",
+          "natural": "Either solar panel 1 is active or solar panel 2 is active."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(solar_panel_active(panel1) | solar_panel_active(panel2))",
+              "natural": "Either solar panel 1 is active or solar panel 2 is active."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A2 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel1) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "Provided that solar panel 1 is active, then if it is not the case that grid power is available from the power grid, then it is not the case that the battery is charged in the system."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A3 -> (-G -> -A1))",
+              "prover9_expression": "(solar_panel_active(panel2) -> (-grid_power_available(power_grid) -> -battery_charged(system)))",
+              "natural": "If solar panel 2 is active, then in the event that grid power is not available from the power grid, then the battery is not charged in the system."
+            }
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule57",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> battery_charged(system))",
+              "natural": "Whenever grid power is not available from the power grid, then the battery is charged in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A1)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -battery_charged(system))",
+              "natural": "Should grid power not be available from the power grid, then it is not the case that the battery is charged in the system."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "family_id": 2,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule24",
+              "prover9": "(A37 | A38)",
+              "prover9_expression": "(humidity_control_active(system) | dehumidifier_running(enclosure))",
+              "natural": "Either humidity control is active in the system or the dehumidifier is running in the enclosure."
+            },
+            {
+              "id": "Rule23",
+              "prover9": "(A37 -> -A36)",
+              "prover9_expression": "(humidity_control_active(system) -> -moisture_detected(enclosure))",
+              "natural": "If humidity control is active in the system, then it is not the case that moisture is detected in the enclosure."
+            },
+            {
+              "id": "Rule25",
+              "prover9": "(A38 -> -A36)",
+              "prover9_expression": "(dehumidifier_running(enclosure) -> -moisture_detected(enclosure))",
+              "natural": "Whenever the dehumidifier is running in the enclosure, then it is not the case that moisture is detected in the enclosure."
+            }
+          ],
+          "conclusion": "-A36",
+          "natural": "It is not the case that moisture is detected in the enclosure."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule56",
+              "prover9": "(-A35 -> A36)",
+              "prover9_expression": "(-weather_protection_enabled(system) -> moisture_detected(enclosure))",
+              "natural": "If it is not the case that weather protection is enabled in the system, then moisture is detected in the enclosure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A36",
+              "prover9_expression": "-moisture_detected(enclosure)",
+              "natural": "It is not the case that moisture is detected in the enclosure."
+            }
+          ],
+          "conclusion": "A35",
+          "natural": "Weather protection is enabled in the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule22",
+              "prover9": "(A35 -> (-(-G -> -A8) -> -A9))",
+              "prover9_expression": "(weather_protection_enabled(system) -> (-(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid)) -> -overload_condition_detected(system)))",
+              "natural": "Provided that weather protection is enabled in the system, then if it is not the case that should grid power not be available from the power grid then the grid connection is not stable for the power grid, then it is not the case that an overload condition is detected in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A35",
+              "prover9_expression": "weather_protection_enabled(system)",
+              "natural": "Weather protection is enabled in the system."
+            }
+          ],
+          "conclusion": "(-(-G -> -A8) -> -A9)",
+          "natural": "Whenever it is not the case that provided that grid power is not available from the power grid then the grid connection is not stable for the power grid, then it is not the case that an overload condition is detected in the system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule53",
+              "prover9": "(-(-G -> -A8) -> A9)",
+              "prover9_expression": "(-(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid)) -> overload_condition_detected(system))",
+              "natural": "Should it not be the case that if grid power is not available from the power grid then the grid connection is not stable for the power grid, then an overload condition is detected in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(-G -> -A8) -> -A9)",
+              "prover9_expression": "(-(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid)) -> -overload_condition_detected(system))",
+              "natural": "Whenever it is not the case that provided that grid power is not available from the power grid then the grid connection is not stable for the power grid, then it is not the case that an overload condition is detected in the system."
+            }
+          ],
+          "conclusion": "(-G -> -A8)",
+          "natural": "Given that grid power is not available from the power grid, then it is not the case that the grid connection is stable for the power grid."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule59",
+              "prover9": "(-G -> A8)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> grid_connection_stable(power_grid))",
+              "natural": "If grid power is not available from the power grid, then the grid connection is stable for the power grid."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-G -> -A8)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> -grid_connection_stable(power_grid))",
+              "natural": "Given that grid power is not available from the power grid, then it is not the case that the grid connection is stable for the power grid."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule51",
+              "prover9": "(-(A42 -> A13) -> A43)",
+              "prover9_expression": "(-(battery_management_active(system) -> battery_storage_available(system)) -> battery_fault_detected(system))",
+              "natural": "Provided that it is not the case that if battery management is active in the system then battery storage is available in the system, then a battery fault is detected in the system."
+            },
+            {
+              "id": "Fact6",
+              "prover9": "-A43",
+              "prover9_expression": "-battery_fault_detected(system)",
+              "natural": "It is not the case that a battery fault is detected in the system."
+            }
+          ],
+          "conclusion": "(A42 -> A13)",
+          "natural": "If battery management is active in the system, then battery storage is available in the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule30",
+              "prover9": "(A41 -> A42)",
+              "prover9_expression": "(charge_controller_functioning(system) -> battery_management_active(system))",
+              "natural": "Given that the charge controller is functioning in the system, then battery management is active in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A42 -> A13)",
+              "prover9_expression": "(battery_management_active(system) -> battery_storage_available(system))",
+              "natural": "If battery management is active in the system, then battery storage is available in the system."
+            }
+          ],
+          "conclusion": "(A41 -> A13)",
+          "natural": "Provided that the charge controller is functioning in the system, then battery storage is available in the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule26",
+              "prover9": "(A39 -> A41)",
+              "prover9_expression": "(battery_health_good(system) -> charge_controller_functioning(system))",
+              "natural": "Given that battery health is good in the system, then the charge controller is functioning in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A41 -> A13)",
+              "prover9_expression": "(charge_controller_functioning(system) -> battery_storage_available(system))",
+              "natural": "Provided that the charge controller is functioning in the system, then battery storage is available in the system."
+            }
+          ],
+          "conclusion": "(A39 -> A13)",
+          "natural": "Should battery health be good in the system, then battery storage is available in the system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "CD",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A39 -> A13)",
+              "prover9_expression": "(battery_health_good(system) -> battery_storage_available(system))",
+              "natural": "Should battery health be good in the system, then battery storage is available in the system."
+            },
+            {
+              "id": "Rule29",
+              "prover9": "(A40 -> A14)",
+              "prover9_expression": "(battery_degraded(system) -> backup_generator_active(system))",
+              "natural": "If the battery is degraded in the system, then the backup generator is active in the system."
+            },
+            {
+              "id": "Rule27",
+              "prover9": "(A39 | A40)",
+              "prover9_expression": "(battery_health_good(system) | battery_degraded(system))",
+              "natural": "Either battery health is good in the system or the battery is degraded in the system."
+            }
+          ],
+          "conclusion": "(A13 | A14)",
+          "natural": "Either battery storage is available in the system or the backup generator is active in the system."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A13 | A14)",
+              "prover9_expression": "(battery_storage_available(system) | backup_generator_active(system))",
+              "natural": "Either battery storage is available in the system or the backup generator is active in the system."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A13 -> (A12 | -A11))",
+              "prover9_expression": "(battery_storage_available(system) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "Whenever battery storage is available in the system, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A14 -> (A12 | -A11))",
+              "prover9_expression": "(backup_generator_active(system) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "If the backup generator is active in the system, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | -A11)",
+              "prover9_expression": "(cloud_cover_present(sky) | -weather_conditions_optimal(environment))",
+              "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-cloud_cover_present(sky)",
+              "natural": "It is not the case that cloud cover is present in the sky."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> weather_conditions_optimal(environment))",
+              "natural": "Provided that grid power is not available from the power grid, then weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-weather_conditions_optimal(environment)",
+              "natural": "It is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule34",
+              "prover9": "(A46 | A47)",
+              "prover9_expression": "(satellite_data_available(system) | ground_sensors_functioning(environment))",
+              "natural": "Either satellite data is available to the system or ground sensors are functioning in the environment."
+            },
+            {
+              "id": "Rule33",
+              "prover9": "(A46 -> (A45 -> (A12 | -A11)))",
+              "prover9_expression": "(satellite_data_available(system) -> (real_time_weather_monitoring(environment) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment))))",
+              "natural": "If satellite data is available to the system, then should real-time weather monitoring be occurring in the environment, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Rule35",
+              "prover9": "(A47 -> (A45 -> (A12 | -A11)))",
+              "prover9_expression": "(ground_sensors_functioning(environment) -> (real_time_weather_monitoring(environment) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment))))",
+              "natural": "Whenever ground sensors are functioning in the environment, then if real-time weather monitoring is occurring in the environment, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "(A45 -> (A12 | -A11))",
+          "natural": "Provided that real-time weather monitoring is occurring in the environment, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule32",
+              "prover9": "(A44 | A45)",
+              "prover9_expression": "(weather_forecast_accurate(monitoring_system) | real_time_weather_monitoring(environment))",
+              "natural": "Either the weather forecast is accurate from the monitoring system or real-time weather monitoring is occurring in the environment."
+            },
+            {
+              "id": "Rule31",
+              "prover9": "(A44 -> (A12 | -A11))",
+              "prover9_expression": "(weather_forecast_accurate(monitoring_system) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "Should the weather forecast be accurate from the monitoring system, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A45 -> (A12 | -A11))",
+              "prover9_expression": "(real_time_weather_monitoring(environment) -> (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "Provided that real-time weather monitoring is occurring in the environment, then either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | -A11)",
+              "prover9_expression": "(cloud_cover_present(sky) | -weather_conditions_optimal(environment))",
+              "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-cloud_cover_present(sky)",
+              "natural": "It is not the case that cloud cover is present in the sky."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> weather_conditions_optimal(environment))",
+              "natural": "Provided that grid power is not available from the power grid, then weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-weather_conditions_optimal(environment)",
+              "natural": "It is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule41",
+              "prover9": "(A51 | A52)",
+              "prover9_expression": "(data_verification_running(system) | weather_calibration_active(system))",
+              "natural": "Either data verification is running in the system or weather calibration is active in the system."
+            },
+            {
+              "id": "Rule40",
+              "prover9": "(A51 -> (A49 -> -A50))",
+              "prover9_expression": "(data_verification_running(system) -> (conflicting_weather_data(system) -> -weather_consensus_reached(system)))",
+              "natural": "Given that data verification is running in the system, then if conflicting weather data exists in the system, then it is not the case that weather consensus is reached in the system."
+            },
+            {
+              "id": "Rule42",
+              "prover9": "(A52 -> (A49 -> -A50))",
+              "prover9_expression": "(weather_calibration_active(system) -> (conflicting_weather_data(system) -> -weather_consensus_reached(system)))",
+              "natural": "Provided that weather calibration is active in the system, then should conflicting weather data exist in the system, then it is not the case that weather consensus is reached in the system."
+            }
+          ],
+          "conclusion": "(A49 -> -A50)",
+          "natural": "Should conflicting weather data exist in the system, then it is not the case that weather consensus is reached in the system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule38",
+              "prover9": "(A49 -> A50)",
+              "prover9_expression": "(conflicting_weather_data(system) -> weather_consensus_reached(system))",
+              "natural": "Provided that conflicting weather data exists in the system, then weather consensus is reached in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A49 -> -A50)",
+              "prover9_expression": "(conflicting_weather_data(system) -> -weather_consensus_reached(system))",
+              "natural": "Should conflicting weather data exist in the system, then it is not the case that weather consensus is reached in the system."
+            }
+          ],
+          "conclusion": "-A49",
+          "natural": "It is not the case that conflicting weather data exists in the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule36",
+              "prover9": "(A48 -> A49)",
+              "prover9_expression": "(manual_weather_override(control_panel) -> conflicting_weather_data(system))",
+              "natural": "If manual weather override is active on the control panel, then conflicting weather data exists in the system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A49",
+              "prover9_expression": "-conflicting_weather_data(system)",
+              "natural": "It is not the case that conflicting weather data exists in the system."
+            }
+          ],
+          "conclusion": "-A48",
+          "natural": "It is not the case that manual weather override is active on the control panel."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule37",
+              "prover9": "(A48 | (A12 | -A11))",
+              "prover9_expression": "(manual_weather_override(control_panel) | (cloud_cover_present(sky) | -weather_conditions_optimal(environment)))",
+              "natural": "Either manual weather override is active on the control panel, or cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A48",
+              "prover9_expression": "-manual_weather_override(control_panel)",
+              "natural": "It is not the case that manual weather override is active on the control panel."
+            }
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | -A11)",
+              "prover9_expression": "(cloud_cover_present(sky) | -weather_conditions_optimal(environment))",
+              "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-cloud_cover_present(sky)",
+              "natural": "It is not the case that cloud cover is present in the sky."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> weather_conditions_optimal(environment))",
+              "natural": "Provided that grid power is not available from the power grid, then weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-weather_conditions_optimal(environment)",
+              "natural": "It is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule47",
+              "prover9": "(-(A12 | -A11) -> A55)",
+              "prover9_expression": "(-(cloud_cover_present(sky) | -weather_conditions_optimal(environment)) -> system_shutdown_initiated(system))",
+              "natural": "Provided that it is not the case that either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment, then system shutdown is initiated in the system."
+            },
+            {
+              "id": "Rule44",
+              "prover9": "(A55 -> A54)",
+              "prover9_expression": "(system_shutdown_initiated(system) -> protective_covers_deployed(panels))",
+              "natural": "Whenever system shutdown is initiated in the system, then protective covers are deployed on the panels."
+            }
+          ],
+          "conclusion": "(-(A12 | -A11) -> A54)",
+          "natural": "Should it not be the case that either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment, then protective covers are deployed on the panels."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A12 | -A11) -> A54)",
+              "prover9_expression": "(-(cloud_cover_present(sky) | -weather_conditions_optimal(environment)) -> protective_covers_deployed(panels))",
+              "natural": "Should it not be the case that either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment, then protective covers are deployed on the panels."
+            },
+            {
+              "id": "Rule43",
+              "prover9": "(A54 -> A53)",
+              "prover9_expression": "(protective_covers_deployed(panels) -> emergency_weather_protocol(system))",
+              "natural": "If protective covers are deployed on the panels, then the emergency weather protocol is active in the system."
+            }
+          ],
+          "conclusion": "(-(A12 | -A11) -> A53)",
+          "natural": "If it is not the case that either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment, then the emergency weather protocol is active in the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A12 | -A11) -> A53)",
+              "prover9_expression": "(-(cloud_cover_present(sky) | -weather_conditions_optimal(environment)) -> emergency_weather_protocol(system))",
+              "natural": "If it is not the case that either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment, then the emergency weather protocol is active in the system."
+            },
+            {
+              "id": "Fact7",
+              "prover9": "-A53",
+              "prover9_expression": "-emergency_weather_protocol(system)",
+              "natural": "It is not the case that the emergency weather protocol is active in the system."
+            }
+          ],
+          "conclusion": "(A12 | -A11)",
+          "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A12 | -A11)",
+              "prover9_expression": "(cloud_cover_present(sky) | -weather_conditions_optimal(environment))",
+              "natural": "Either cloud cover is present in the sky or it is not the case that weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A12",
+              "prover9_expression": "-cloud_cover_present(sky)",
+              "natural": "It is not the case that cloud cover is present in the sky."
+            }
+          ],
+          "conclusion": "-A11",
+          "natural": "It is not the case that weather conditions are optimal in the environment."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule58",
+              "prover9": "(-G -> A11)",
+              "prover9_expression": "(-grid_power_available(power_grid) -> weather_conditions_optimal(environment))",
+              "natural": "Provided that grid power is not available from the power grid, then weather conditions are optimal in the environment."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A11",
+              "prover9_expression": "-weather_conditions_optimal(environment)",
+              "natural": "It is not the case that weather conditions are optimal in the environment."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Grid power is available from the power grid."
+        }
+      ]
+    }
+  ]
+}

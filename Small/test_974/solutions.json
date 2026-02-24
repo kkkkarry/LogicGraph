@@ -1,0 +1,219 @@
+{
+  "solution_stats": {
+    "total_solutions": 2,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 4
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 5
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule2",
+              "prover9": "(A2 -> A4)",
+              "prover9_expression": "(earthquake_occurred(region) -> seismic_sensors_detected(magnitude))",
+              "natural": "Under the condition that an earthquake occurred in the region, seismic sensors detected a magnitude."
+            },
+            {
+              "id": "Rule4",
+              "prover9": "(A4 -> A3)",
+              "prover9_expression": "(seismic_sensors_detected(magnitude) -> tsunami_warning_issued(coast))",
+              "natural": "Assuming that seismic sensors detected a magnitude, a tsunami warning is issued for the coast."
+            }
+          ],
+          "conclusion": "(A2 -> A3)",
+          "natural": "Whenever an earthquake occurs in the region, a tsunami warning is issued for the coast."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A3)",
+              "prover9_expression": "(earthquake_occurred(region) -> tsunami_warning_issued(coast))",
+              "natural": "Whenever an earthquake occurs in the region, a tsunami warning is issued for the coast."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A3 -> A1)",
+              "prover9_expression": "(tsunami_warning_issued(coast) -> evacuated(area))",
+              "natural": "If a tsunami warning was issued for the coast, then the area has been evacuated."
+            }
+          ],
+          "conclusion": "(A2 -> A1)",
+          "natural": "Provided that an earthquake occurred in the region, the area has been evacuated."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(-G -> A2)",
+              "prover9_expression": "(-emergency_protocols_activated(agency) -> earthquake_occurred(region))",
+              "natural": "Under the condition that emergency protocols are not activated by the agency, an earthquake occurred in the region."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A1)",
+              "prover9_expression": "(earthquake_occurred(region) -> evacuated(area))",
+              "natural": "Provided that an earthquake occurred in the region, the area has been evacuated."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Whenever emergency protocols are not activated by the agency, the area has been evacuated."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-emergency_protocols_activated(agency) -> evacuated(area))",
+              "natural": "Whenever emergency protocols are not activated by the agency, the area has been evacuated."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-evacuated(area)",
+              "natural": "It is not the case that the area has been evacuated."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Emergency protocols have been activated by the agency."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 | (-(A7 | A8) -> A9))",
+              "prover9_expression": "(containment_breach(hazardous_material) | (-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers)))",
+              "natural": "There is a containment breach of hazardous material, or if it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, then manual evacuation was initiated by volunteers."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A10",
+              "prover9_expression": "-containment_breach(hazardous_material)",
+              "natural": "There is no containment breach of hazardous material."
+            }
+          ],
+          "conclusion": "(-(A7 | A8) -> A9)",
+          "natural": "In the situation where it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, manual evacuation is initiated by volunteers."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 | A8) -> A9)",
+              "prover9_expression": "(-(evacuation_order_issued(authority) | emergency_broadcast_sent(system)) -> manual_evacuation_initiated(volunteers))",
+              "natural": "In the situation where it is not the case that either an evacuation order was issued by the authority or an emergency broadcast was sent through the system, manual evacuation is initiated by volunteers."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A9",
+              "prover9_expression": "-manual_evacuation_initiated(volunteers)",
+              "natural": "Manual evacuation was not initiated by volunteers."
+            }
+          ],
+          "conclusion": "(A7 | A8)",
+          "natural": "Either an evacuation order was issued by the authority or an emergency broadcast was sent through the system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 | A8)",
+              "prover9_expression": "(evacuation_order_issued(authority) | emergency_broadcast_sent(system))",
+              "natural": "Either an evacuation order was issued by the authority or an emergency broadcast was sent through the system."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A7 -> (-A5 -> A6))",
+              "prover9_expression": "(evacuation_order_issued(authority) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+              "natural": "If an evacuation order was issued by the authority, then given that there is no power outage at the facility, the backup generator is activated in the building."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A8 -> (-A5 -> A6))",
+              "prover9_expression": "(emergency_broadcast_sent(system) -> (-power_outage(facility) -> backup_generator_activated(building)))",
+              "natural": "Should an emergency broadcast be sent through the system, then on the condition that there is no power outage at the facility, the backup generator is activated in the building."
+            }
+          ],
+          "conclusion": "(-A5 -> A6)",
+          "natural": "Provided there is no power outage at the facility, the backup generator is activated in the building."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-A5 -> A6)",
+              "prover9_expression": "(-power_outage(facility) -> backup_generator_activated(building))",
+              "natural": "Provided there is no power outage at the facility, the backup generator is activated in the building."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(-A5 -> -A6)",
+              "prover9_expression": "(-power_outage(facility) -> -backup_generator_activated(building))",
+              "natural": "In cases where there is no power outage at the facility, it is not the case that the backup generator is activated in the building."
+            }
+          ],
+          "conclusion": "A5",
+          "natural": "There is a power outage at the facility."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule5",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(power_outage(facility) -> emergency_protocols_activated(agency))",
+              "natural": "In the event of a power outage at the facility, emergency protocols are activated by the agency."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A5",
+              "prover9_expression": "power_outage(facility)",
+              "natural": "There is a power outage at the facility."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "Emergency protocols have been activated by the agency."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,406 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 2,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A2 → ¬A1)",
+        "prover9_expression": "(requires_treatment(patient, medication) -> -requires_treatment(patient, surgery))",
+        "natural": "Provided that the patient requires medication, it is not the case that the patient requires surgery."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A3 → A2)",
+        "prover9_expression": "(requires_treatment(patient, therapy) -> requires_treatment(patient, medication))",
+        "natural": "Under the condition that the patient requires therapy, the patient requires medication."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A7 → A4)",
+        "prover9_expression": "(approved(authorization, surgery) -> approved(authorization, treatment_plan))",
+        "natural": "If the authorization is approved for surgery, then the authorization is approved for the treatment plan."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A7 ∨ A8)",
+        "prover9_expression": "(approved(authorization, surgery) | approved(authorization, therapy))",
+        "natural": "Either the authorization is approved for surgery or the authorization is approved for therapy."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(¬(A8 → (¬G → A3)) → A9)",
+        "prover9_expression": "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> available(doctor, specialized_skill))",
+        "natural": "In the event that it is not the case that if the authorization is approved for therapy then whenever the time period is not within the treatment window the patient requires therapy, a doctor is available with specialized skill."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(¬(A8 → (¬G → A3)) → ¬A9)",
+        "prover9_expression": "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> -available(doctor, specialized_skill))",
+        "natural": "Should it not be true that if the authorization is approved for therapy then under the condition that the time period is not within the treatment window the patient requires therapy, then a doctor is not available with specialized skill."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(¬(A4 ∨ (¬G → A3)) → A5) → A6)",
+        "prover9_expression": "(-(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition)) -> requires_treatment(patient, emergency_care))",
+        "natural": "If it is not the case that if it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy then the patient is diagnosed with a chronic condition, then the patient requires emergency care."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬G → A1)",
+        "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, surgery))",
+        "natural": "In the event that the time period is not within the treatment window, the patient requires surgery."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "¬A4",
+        "prover9_expression": "-approved(authorization, treatment_plan)",
+        "natural": "It is not the case that the authorization is approved for the treatment plan."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A5",
+        "prover9_expression": "-diagnosed(patient, chronic_condition)",
+        "natural": "The patient is not diagnosed with a chronic condition."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A6",
+        "prover9_expression": "-requires_treatment(patient, emergency_care)",
+        "natural": "The patient does not require emergency care."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "within(time_period, treatment_window)",
+    "natural": "The time period is within the treatment window."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A4 | (-G -> A3)) -> A5) -> A6)",
+            "-A6"
+          ],
+          "conclusion": "(-(A4 | (-G -> A3)) -> A5)",
+          "natural": "If it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy, then the patient is diagnosed with a chronic condition."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 | (-G -> A3)) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A4 | (-G -> A3))",
+          "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (-G -> A3))",
+            "-A4"
+          ],
+          "conclusion": "(-G -> A3)",
+          "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "The time period is within the treatment window."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A8 -> (-G -> A3)) -> A9)",
+            "(-(A8 -> (-G -> A3)) -> -A9)"
+          ],
+          "conclusion": "(A8 -> (-G -> A3))",
+          "natural": "Whenever the authorization is approved for therapy, then if the time period is not within the treatment window, the patient requires therapy."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "CD",
+          "premises_used": [
+            "(A7 -> A4)",
+            "(A8 -> (-G -> A3))",
+            "(A7 | A8)"
+          ],
+          "conclusion": "(A4 | (-G -> A3))",
+          "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (-G -> A3))",
+            "-A4"
+          ],
+          "conclusion": "(-G -> A3)",
+          "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A3)",
+            "(A3 -> A2)"
+          ],
+          "conclusion": "(-G -> A2)",
+          "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(-G -> A2)",
+            "(A2 -> -A1)"
+          ],
+          "conclusion": "(-G -> -A1)",
+          "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-G -> A1)",
+            "(-G -> -A1)"
+          ],
+          "conclusion": "G",
+          "natural": "The time period is within the treatment window."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Hospital Patient Treatment",
+    "atomic_facts": {
+      "A1": "requires_treatment(patient, surgery)",
+      "A2": "requires_treatment(patient, medication)",
+      "A3": "requires_treatment(patient, therapy)",
+      "A4": "approved(authorization, treatment_plan)",
+      "A5": "diagnosed(patient, chronic_condition)",
+      "A6": "requires_treatment(patient, emergency_care)",
+      "A7": "approved(authorization, surgery)",
+      "A8": "approved(authorization, therapy)",
+      "A9": "available(doctor, specialized_skill)",
+      "G": "within(time_period, treatment_window)"
+    },
+    "natural_facts": {
+      "A1": "The patient requires surgery.",
+      "A2": "The patient requires medication.",
+      "A3": "The patient requires therapy.",
+      "A4": "The authorization is approved for the treatment plan.",
+      "A5": "The patient is diagnosed with a chronic condition.",
+      "A6": "The patient requires emergency care.",
+      "A7": "The authorization is approved for surgery.",
+      "A8": "The authorization is approved for therapy.",
+      "A9": "A doctor is available with specialized skill.",
+      "G": "The time period is within the treatment window."
+    },
+    "prover9_expressions": [
+      "(requires_treatment(patient, medication) -> -requires_treatment(patient, surgery))",
+      "(requires_treatment(patient, therapy) -> requires_treatment(patient, medication))",
+      "(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+      "(approved(authorization, surgery) -> approved(authorization, treatment_plan))",
+      "(approved(authorization, surgery) | approved(authorization, therapy))",
+      "(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+      "(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition))",
+      "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> available(doctor, specialized_skill))",
+      "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> -available(doctor, specialized_skill))",
+      "(-(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition)) -> requires_treatment(patient, emergency_care))",
+      "(-within(time_period, treatment_window) -> requires_treatment(patient, surgery))",
+      "(-within(time_period, treatment_window) -> requires_treatment(patient, medication))",
+      "(-within(time_period, treatment_window) -> requires_treatment(patient, therapy))",
+      "(-within(time_period, treatment_window) -> -requires_treatment(patient, surgery))",
+      "within(time_period, treatment_window)",
+      "-approved(authorization, treatment_plan)",
+      "-diagnosed(patient, chronic_condition)",
+      "-requires_treatment(patient, emergency_care)"
+    ],
+    "natural_expressions": [
+      "Provided that the patient requires medication, it is not the case that the patient requires surgery.",
+      "Under the condition that the patient requires therapy, the patient requires medication.",
+      "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy.",
+      "If the authorization is approved for surgery, then the authorization is approved for the treatment plan.",
+      "Either the authorization is approved for surgery or the authorization is approved for therapy.",
+      "Whenever the authorization is approved for therapy, then if the time period is not within the treatment window, the patient requires therapy.",
+      "If it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy, then the patient is diagnosed with a chronic condition.",
+      "In the event that it is not the case that if the authorization is approved for therapy then whenever the time period is not within the treatment window the patient requires therapy, a doctor is available with specialized skill.",
+      "Should it not be true that if the authorization is approved for therapy then under the condition that the time period is not within the treatment window the patient requires therapy, then a doctor is not available with specialized skill.",
+      "If it is not the case that if it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy then the patient is diagnosed with a chronic condition, then the patient requires emergency care.",
+      "In the event that the time period is not within the treatment window, the patient requires surgery.",
+      "Whenever the time period is not within the treatment window, the patient requires medication.",
+      "Under the condition that the time period is not within the treatment window, the patient requires therapy.",
+      "If the time period is not within the treatment window, it is not the case that the patient requires surgery.",
+      "The time period is within the treatment window.",
+      "It is not the case that the authorization is approved for the treatment plan.",
+      "The patient is not diagnosed with a chronic condition.",
+      "The patient does not require emergency care."
+    ],
+    "node_mappings": {
+      "(A2 → ¬A1)": {
+        "formal": "(A2 → ¬A1)",
+        "prover9": "(A2 -> -A1)",
+        "prover9_expression": "(requires_treatment(patient, medication) -> -requires_treatment(patient, surgery))",
+        "natural": "Provided that the patient requires medication, it is not the case that the patient requires surgery."
+      },
+      "(A3 → A2)": {
+        "formal": "(A3 → A2)",
+        "prover9": "(A3 -> A2)",
+        "prover9_expression": "(requires_treatment(patient, therapy) -> requires_treatment(patient, medication))",
+        "natural": "Under the condition that the patient requires therapy, the patient requires medication."
+      },
+      "(A4 ∨ (¬G → A3))": {
+        "formal": "(A4 ∨ (¬G → A3))",
+        "prover9": "(A4 | (-G -> A3))",
+        "prover9_expression": "(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+        "natural": "Either the authorization is approved for the treatment plan, or if the time period is not within the treatment window, then the patient requires therapy."
+      },
+      "(A7 → A4)": {
+        "formal": "(A7 → A4)",
+        "prover9": "(A7 -> A4)",
+        "prover9_expression": "(approved(authorization, surgery) -> approved(authorization, treatment_plan))",
+        "natural": "If the authorization is approved for surgery, then the authorization is approved for the treatment plan."
+      },
+      "(A7 ∨ A8)": {
+        "formal": "(A7 ∨ A8)",
+        "prover9": "(A7 | A8)",
+        "prover9_expression": "(approved(authorization, surgery) | approved(authorization, therapy))",
+        "natural": "Either the authorization is approved for surgery or the authorization is approved for therapy."
+      },
+      "(A8 → (¬G → A3))": {
+        "formal": "(A8 → (¬G → A3))",
+        "prover9": "(A8 -> (-G -> A3))",
+        "prover9_expression": "(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy)))",
+        "natural": "Whenever the authorization is approved for therapy, then if the time period is not within the treatment window, the patient requires therapy."
+      },
+      "(¬(A4 ∨ (¬G → A3)) → A5)": {
+        "formal": "(¬(A4 ∨ (¬G → A3)) → A5)",
+        "prover9": "(-(A4 | (-G -> A3)) -> A5)",
+        "prover9_expression": "(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition))",
+        "natural": "If it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy, then the patient is diagnosed with a chronic condition."
+      },
+      "(¬(A8 → (¬G → A3)) → A9)": {
+        "formal": "(¬(A8 → (¬G → A3)) → A9)",
+        "prover9": "(-(A8 -> (-G -> A3)) -> A9)",
+        "prover9_expression": "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> available(doctor, specialized_skill))",
+        "natural": "In the event that it is not the case that if the authorization is approved for therapy then whenever the time period is not within the treatment window the patient requires therapy, a doctor is available with specialized skill."
+      },
+      "(¬(A8 → (¬G → A3)) → ¬A9)": {
+        "formal": "(¬(A8 → (¬G → A3)) → ¬A9)",
+        "prover9": "(-(A8 -> (-G -> A3)) -> -A9)",
+        "prover9_expression": "(-(approved(authorization, therapy) -> (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> -available(doctor, specialized_skill))",
+        "natural": "Should it not be true that if the authorization is approved for therapy then under the condition that the time period is not within the treatment window the patient requires therapy, then a doctor is not available with specialized skill."
+      },
+      "(¬(¬(A4 ∨ (¬G → A3)) → A5) → A6)": {
+        "formal": "(¬(¬(A4 ∨ (¬G → A3)) → A5) → A6)",
+        "prover9": "(-(-(A4 | (-G -> A3)) -> A5) -> A6)",
+        "prover9_expression": "(-(-(approved(authorization, treatment_plan) | (-within(time_period, treatment_window) -> requires_treatment(patient, therapy))) -> diagnosed(patient, chronic_condition)) -> requires_treatment(patient, emergency_care))",
+        "natural": "If it is not the case that if it is not the case that either the authorization is approved for the treatment plan or that whenever the time period is not within the treatment window the patient requires therapy then the patient is diagnosed with a chronic condition, then the patient requires emergency care."
+      },
+      "(¬G → A1)": {
+        "formal": "(¬G → A1)",
+        "prover9": "(-G -> A1)",
+        "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, surgery))",
+        "natural": "In the event that the time period is not within the treatment window, the patient requires surgery."
+      },
+      "(¬G → A2)": {
+        "formal": "(¬G → A2)",
+        "prover9": "(-G -> A2)",
+        "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, medication))",
+        "natural": "Whenever the time period is not within the treatment window, the patient requires medication."
+      },
+      "(¬G → A3)": {
+        "formal": "(¬G → A3)",
+        "prover9": "(-G -> A3)",
+        "prover9_expression": "(-within(time_period, treatment_window) -> requires_treatment(patient, therapy))",
+        "natural": "Under the condition that the time period is not within the treatment window, the patient requires therapy."
+      },
+      "(¬G → ¬A1)": {
+        "formal": "(¬G → ¬A1)",
+        "prover9": "(-G -> -A1)",
+        "prover9_expression": "(-within(time_period, treatment_window) -> -requires_treatment(patient, surgery))",
+        "natural": "If the time period is not within the treatment window, it is not the case that the patient requires surgery."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "within(time_period, treatment_window)",
+        "natural": "The time period is within the treatment window."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-approved(authorization, treatment_plan)",
+        "natural": "It is not the case that the authorization is approved for the treatment plan."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-diagnosed(patient, chronic_condition)",
+        "natural": "The patient is not diagnosed with a chronic condition."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-requires_treatment(patient, emergency_care)",
+        "natural": "The patient does not require emergency care."
+      }
+    }
+  }
+}

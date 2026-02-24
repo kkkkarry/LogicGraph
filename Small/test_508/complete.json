@@ -1,0 +1,575 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 1
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(approved(alcohol, platform) -> market_available(product))",
+        "natural": "Provided that alcohol is approved for the platform, then the product becomes market available."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(approved(alcohol, platform) | approved(substance, platform))",
+        "natural": "Either alcohol is approved for the platform or substance is approved for the platform."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 ∨ A14)",
+        "prover9_expression": "(emergency_use_authorization(drug) | conditional_approval(drug))",
+        "natural": "A drug has emergency use authorization or it has conditional approval."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A14 → ¬A3)",
+        "prover9_expression": "(conditional_approval(drug) -> -requires_clinical_trials(drug))",
+        "natural": "If a drug has conditional approval, then it does not require clinical trials."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A9 → (A8 ∨ (A7 → ¬A6)))",
+        "prover9_expression": "(submitted_application(alcohol) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance))))",
+        "natural": "When an application for alcohol is submitted, the outcome is either fast-track approval for the drug or, assuming therapeutic benefit, absence of addictive property in substance."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A9 ∨ A10)",
+        "prover9_expression": "(submitted_application(alcohol) | submitted_application(substance))",
+        "natural": "An application has been submitted for alcohol or one has been submitted for substance."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(¬(A13 → ¬A3) → A15)",
+        "prover9_expression": "(-(emergency_use_authorization(drug) -> -requires_clinical_trials(drug)) -> regulatory_investigation(drug))",
+        "natural": "If the implication that emergency use authorization negates the need for clinical trials does not hold, then the drug faces regulatory investigation."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(¬(A13 → ¬A3) → ¬A15)",
+        "prover9_expression": "(-(emergency_use_authorization(drug) -> -requires_clinical_trials(drug)) -> -regulatory_investigation(drug))",
+        "natural": "In the situation where emergency use authorization failing to waive clinical trials occurs, regulatory investigation does not follow."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A2 → G) → A3)",
+        "prover9_expression": "(-(approved(substance, platform) -> market_available(product)) -> requires_clinical_trials(drug))",
+        "natural": "Whenever the approval of substance for the platform does not lead to market availability, the drug requires clinical trials."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A4 ∨ ¬A3) → A5)",
+        "prover9_expression": "(-(approved_for_research(drug) | -requires_clinical_trials(drug)) -> banned_substance(drug))",
+        "natural": "Provided that it is not the case that the drug is approved for research or exempt from clinical trials, then the drug is a banned substance."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11) → A12)",
+        "prover9_expression": "(-(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance)) -> appeal_filed(substance))",
+        "natural": "If the failure of the implication that substance's application submission leads to fast-track approval or non-addictive therapeutic benefit does not result in application rejection, then an appeal is filed for substance."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11) → ¬A12)",
+        "prover9_expression": "(-(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance)) -> -appeal_filed(substance))",
+        "natural": "Under the condition that the non-implication of substance's application submission to approval paths not causing rejection, an appeal is not filed for substance."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬G → A6)",
+        "prover9_expression": "(-market_available(product) -> addictive_property(substance))",
+        "natural": "In the event the product is not market available, substance has an addictive property."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A7",
+        "prover9_expression": "therapeutic_benefit(drug)",
+        "natural": "A drug has therapeutic benefit."
+      },
+      {
+        "id": "Fact2",
+        "formal": "¬A11",
+        "prover9_expression": "-application_rejected(substance)",
+        "natural": "It is not the case that the application for substance is rejected."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A4",
+        "prover9_expression": "-approved_for_research(drug)",
+        "natural": "A drug is not approved for research."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A5",
+        "prover9_expression": "-banned_substance(drug)",
+        "natural": "A drug is not a banned substance."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A8",
+        "prover9_expression": "-fast_track_approval(drug)",
+        "natural": "A drug does not qualify for fast-track approval."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "market_available(product)",
+    "natural": "A product is market available."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A4 | -A3) -> A5)",
+            "-A5"
+          ],
+          "conclusion": "(A4 | -A3)",
+          "natural": "Either a drug is approved for research or it does not require clinical trials."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | -A3)",
+            "-A4"
+          ],
+          "conclusion": "-A3",
+          "natural": "A drug does not require clinical trials."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> G) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "If substance is approved for the platform, then the product is market available."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "A product is market available."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(-(A10 -> (A8 | (A7 -> -A6))) -> A11) -> A12)",
+            "(-(-(A10 -> (A8 | (A7 -> -A6))) -> A11) -> -A12)"
+          ],
+          "conclusion": "(-(A10 -> (A8 | (A7 -> -A6))) -> A11)",
+          "natural": "Should it not be the case that submitting an application for substance implies either fast-track approval or therapeutic benefit without addictive property, then the application for substance is rejected."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A10 -> (A8 | (A7 -> -A6))) -> A11)",
+            "-A11"
+          ],
+          "conclusion": "(A10 -> (A8 | (A7 -> -A6)))",
+          "natural": "Whenever an application for substance is submitted, either the drug qualifies for fast-track approval or, if the drug has therapeutic benefit, then substance lacks an addictive property."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A9 | A10)",
+            "(A9 -> (A8 | (A7 -> -A6)))",
+            "(A10 -> (A8 | (A7 -> -A6)))"
+          ],
+          "conclusion": "(A8 | (A7 -> -A6))",
+          "natural": "The drug qualifies for fast-track approval, or, provided the drug has therapeutic benefit, substance has no addictive property."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A8 | (A7 -> -A6))",
+            "-A8"
+          ],
+          "conclusion": "(A7 -> -A6)",
+          "natural": "In the event that a drug has therapeutic benefit, substance does not possess an addictive property."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A7 -> -A6)",
+            "A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "Substance does not have an addictive property."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A6)",
+            "-A6"
+          ],
+          "conclusion": "G",
+          "natural": "A product is market available."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A13 -> -A3) -> A15)",
+            "(-(A13 -> -A3) -> -A15)"
+          ],
+          "conclusion": "(A13 -> -A3)",
+          "natural": "Under the condition that a drug has emergency use authorization, it does not require clinical trials."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A13 | A14)",
+            "(A13 -> -A3)",
+            "(A14 -> -A3)"
+          ],
+          "conclusion": "-A3",
+          "natural": "A drug does not require clinical trials."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A2 -> G) -> A3)",
+            "-A3"
+          ],
+          "conclusion": "(A2 -> G)",
+          "natural": "If substance is approved for the platform, then the product is market available."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "A product is market available."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Pharmaceutical Drug Regulatory Approval",
+    "atomic_facts": {
+      "A1": "approved(alcohol, platform)",
+      "A2": "approved(substance, platform)",
+      "A3": "requires_clinical_trials(drug)",
+      "A4": "approved_for_research(drug)",
+      "A5": "banned_substance(drug)",
+      "A6": "addictive_property(substance)",
+      "A7": "therapeutic_benefit(drug)",
+      "A8": "fast_track_approval(drug)",
+      "A9": "submitted_application(alcohol)",
+      "A10": "submitted_application(substance)",
+      "A11": "application_rejected(substance)",
+      "A12": "appeal_filed(substance)",
+      "A13": "emergency_use_authorization(drug)",
+      "A14": "conditional_approval(drug)",
+      "A15": "regulatory_investigation(drug)",
+      "G": "market_available(product)"
+    },
+    "natural_facts": {
+      "A1": "Alcohol has approval for the platform.",
+      "A2": "Substance has approval for the platform.",
+      "A3": "A drug requires clinical trials.",
+      "A4": "A drug is approved for research.",
+      "A5": "A drug is a banned substance.",
+      "A6": "Substance has an addictive property.",
+      "A7": "A drug has therapeutic benefit.",
+      "A8": "A drug qualifies for fast-track approval.",
+      "A9": "An application for alcohol has been submitted.",
+      "A10": "An application for substance has been submitted.",
+      "A11": "The application for substance has been rejected.",
+      "A12": "An appeal has been filed for substance.",
+      "A13": "A drug has emergency use authorization.",
+      "A14": "A drug has conditional approval.",
+      "A15": "A drug is under regulatory investigation.",
+      "G": "A product is market available."
+    },
+    "prover9_expressions": [
+      "(approved(alcohol, platform) -> market_available(product))",
+      "(approved(alcohol, platform) | approved(substance, platform))",
+      "(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance))))",
+      "(emergency_use_authorization(drug) -> -requires_clinical_trials(drug))",
+      "(emergency_use_authorization(drug) | conditional_approval(drug))",
+      "(conditional_approval(drug) -> -requires_clinical_trials(drug))",
+      "(approved(substance, platform) -> market_available(product))",
+      "(approved_for_research(drug) | -requires_clinical_trials(drug))",
+      "(therapeutic_benefit(drug) -> -addictive_property(substance))",
+      "(fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))",
+      "(submitted_application(alcohol) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance))))",
+      "(submitted_application(alcohol) | submitted_application(substance))",
+      "(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance))",
+      "(-(emergency_use_authorization(drug) -> -requires_clinical_trials(drug)) -> regulatory_investigation(drug))",
+      "(-(emergency_use_authorization(drug) -> -requires_clinical_trials(drug)) -> -regulatory_investigation(drug))",
+      "(-(approved(substance, platform) -> market_available(product)) -> requires_clinical_trials(drug))",
+      "(-(approved_for_research(drug) | -requires_clinical_trials(drug)) -> banned_substance(drug))",
+      "(-(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance)) -> appeal_filed(substance))",
+      "(-(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance)) -> -appeal_filed(substance))",
+      "(-market_available(product) -> addictive_property(substance))",
+      "therapeutic_benefit(drug)",
+      "market_available(product)",
+      "-application_rejected(substance)",
+      "-requires_clinical_trials(drug)",
+      "-approved_for_research(drug)",
+      "-banned_substance(drug)",
+      "-addictive_property(substance)",
+      "-fast_track_approval(drug)"
+    ],
+    "natural_expressions": [
+      "Provided that alcohol is approved for the platform, then the product becomes market available.",
+      "Either alcohol is approved for the platform or substance is approved for the platform.",
+      "Whenever an application for substance is submitted, either the drug qualifies for fast-track approval or, if the drug has therapeutic benefit, then substance lacks an addictive property.",
+      "Under the condition that a drug has emergency use authorization, it does not require clinical trials.",
+      "A drug has emergency use authorization or it has conditional approval.",
+      "If a drug has conditional approval, then it does not require clinical trials.",
+      "If substance is approved for the platform, then the product is market available.",
+      "Either a drug is approved for research or it does not require clinical trials.",
+      "In the event that a drug has therapeutic benefit, substance does not possess an addictive property.",
+      "The drug qualifies for fast-track approval, or, provided the drug has therapeutic benefit, substance has no addictive property.",
+      "When an application for alcohol is submitted, the outcome is either fast-track approval for the drug or, assuming therapeutic benefit, absence of addictive property in substance.",
+      "An application has been submitted for alcohol or one has been submitted for substance.",
+      "Should it not be the case that submitting an application for substance implies either fast-track approval or therapeutic benefit without addictive property, then the application for substance is rejected.",
+      "If the implication that emergency use authorization negates the need for clinical trials does not hold, then the drug faces regulatory investigation.",
+      "In the situation where emergency use authorization failing to waive clinical trials occurs, regulatory investigation does not follow.",
+      "Whenever the approval of substance for the platform does not lead to market availability, the drug requires clinical trials.",
+      "Provided that it is not the case that the drug is approved for research or exempt from clinical trials, then the drug is a banned substance.",
+      "If the failure of the implication that substance's application submission leads to fast-track approval or non-addictive therapeutic benefit does not result in application rejection, then an appeal is filed for substance.",
+      "Under the condition that the non-implication of substance's application submission to approval paths not causing rejection, an appeal is not filed for substance.",
+      "In the event the product is not market available, substance has an addictive property.",
+      "A drug has therapeutic benefit.",
+      "A product is market available.",
+      "It is not the case that the application for substance is rejected.",
+      "A drug does not require clinical trials.",
+      "A drug is not approved for research.",
+      "A drug is not a banned substance.",
+      "Substance does not have an addictive property.",
+      "A drug does not qualify for fast-track approval."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(approved(alcohol, platform) -> market_available(product))",
+        "natural": "Provided that alcohol is approved for the platform, then the product becomes market available."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(approved(alcohol, platform) | approved(substance, platform))",
+        "natural": "Either alcohol is approved for the platform or substance is approved for the platform."
+      },
+      "(A10 → (A8 ∨ (A7 → ¬A6)))": {
+        "formal": "(A10 → (A8 ∨ (A7 → ¬A6)))",
+        "prover9": "(A10 -> (A8 | (A7 -> -A6)))",
+        "prover9_expression": "(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance))))",
+        "natural": "Whenever an application for substance is submitted, either the drug qualifies for fast-track approval or, if the drug has therapeutic benefit, then substance lacks an addictive property."
+      },
+      "(A13 → ¬A3)": {
+        "formal": "(A13 → ¬A3)",
+        "prover9": "(A13 -> -A3)",
+        "prover9_expression": "(emergency_use_authorization(drug) -> -requires_clinical_trials(drug))",
+        "natural": "Under the condition that a drug has emergency use authorization, it does not require clinical trials."
+      },
+      "(A13 ∨ A14)": {
+        "formal": "(A13 ∨ A14)",
+        "prover9": "(A13 | A14)",
+        "prover9_expression": "(emergency_use_authorization(drug) | conditional_approval(drug))",
+        "natural": "A drug has emergency use authorization or it has conditional approval."
+      },
+      "(A14 → ¬A3)": {
+        "formal": "(A14 → ¬A3)",
+        "prover9": "(A14 -> -A3)",
+        "prover9_expression": "(conditional_approval(drug) -> -requires_clinical_trials(drug))",
+        "natural": "If a drug has conditional approval, then it does not require clinical trials."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(approved(substance, platform) -> market_available(product))",
+        "natural": "If substance is approved for the platform, then the product is market available."
+      },
+      "(A4 ∨ ¬A3)": {
+        "formal": "(A4 ∨ ¬A3)",
+        "prover9": "(A4 | -A3)",
+        "prover9_expression": "(approved_for_research(drug) | -requires_clinical_trials(drug))",
+        "natural": "Either a drug is approved for research or it does not require clinical trials."
+      },
+      "(A7 → ¬A6)": {
+        "formal": "(A7 → ¬A6)",
+        "prover9": "(A7 -> -A6)",
+        "prover9_expression": "(therapeutic_benefit(drug) -> -addictive_property(substance))",
+        "natural": "In the event that a drug has therapeutic benefit, substance does not possess an addictive property."
+      },
+      "(A8 ∨ (A7 → ¬A6))": {
+        "formal": "(A8 ∨ (A7 → ¬A6))",
+        "prover9": "(A8 | (A7 -> -A6))",
+        "prover9_expression": "(fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))",
+        "natural": "The drug qualifies for fast-track approval, or, provided the drug has therapeutic benefit, substance has no addictive property."
+      },
+      "(A9 → (A8 ∨ (A7 → ¬A6)))": {
+        "formal": "(A9 → (A8 ∨ (A7 → ¬A6)))",
+        "prover9": "(A9 -> (A8 | (A7 -> -A6)))",
+        "prover9_expression": "(submitted_application(alcohol) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance))))",
+        "natural": "When an application for alcohol is submitted, the outcome is either fast-track approval for the drug or, assuming therapeutic benefit, absence of addictive property in substance."
+      },
+      "(A9 ∨ A10)": {
+        "formal": "(A9 ∨ A10)",
+        "prover9": "(A9 | A10)",
+        "prover9_expression": "(submitted_application(alcohol) | submitted_application(substance))",
+        "natural": "An application has been submitted for alcohol or one has been submitted for substance."
+      },
+      "(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11)": {
+        "formal": "(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11)",
+        "prover9": "(-(A10 -> (A8 | (A7 -> -A6))) -> A11)",
+        "prover9_expression": "(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance))",
+        "natural": "Should it not be the case that submitting an application for substance implies either fast-track approval or therapeutic benefit without addictive property, then the application for substance is rejected."
+      },
+      "(¬(A13 → ¬A3) → A15)": {
+        "formal": "(¬(A13 → ¬A3) → A15)",
+        "prover9": "(-(A13 -> -A3) -> A15)",
+        "prover9_expression": "(-(emergency_use_authorization(drug) -> -requires_clinical_trials(drug)) -> regulatory_investigation(drug))",
+        "natural": "If the implication that emergency use authorization negates the need for clinical trials does not hold, then the drug faces regulatory investigation."
+      },
+      "(¬(A13 → ¬A3) → ¬A15)": {
+        "formal": "(¬(A13 → ¬A3) → ¬A15)",
+        "prover9": "(-(A13 -> -A3) -> -A15)",
+        "prover9_expression": "(-(emergency_use_authorization(drug) -> -requires_clinical_trials(drug)) -> -regulatory_investigation(drug))",
+        "natural": "In the situation where emergency use authorization failing to waive clinical trials occurs, regulatory investigation does not follow."
+      },
+      "(¬(A2 → G) → A3)": {
+        "formal": "(¬(A2 → G) → A3)",
+        "prover9": "(-(A2 -> G) -> A3)",
+        "prover9_expression": "(-(approved(substance, platform) -> market_available(product)) -> requires_clinical_trials(drug))",
+        "natural": "Whenever the approval of substance for the platform does not lead to market availability, the drug requires clinical trials."
+      },
+      "(¬(A4 ∨ ¬A3) → A5)": {
+        "formal": "(¬(A4 ∨ ¬A3) → A5)",
+        "prover9": "(-(A4 | -A3) -> A5)",
+        "prover9_expression": "(-(approved_for_research(drug) | -requires_clinical_trials(drug)) -> banned_substance(drug))",
+        "natural": "Provided that it is not the case that the drug is approved for research or exempt from clinical trials, then the drug is a banned substance."
+      },
+      "(¬(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11) → A12)": {
+        "formal": "(¬(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11) → A12)",
+        "prover9": "(-(-(A10 -> (A8 | (A7 -> -A6))) -> A11) -> A12)",
+        "prover9_expression": "(-(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance)) -> appeal_filed(substance))",
+        "natural": "If the failure of the implication that substance's application submission leads to fast-track approval or non-addictive therapeutic benefit does not result in application rejection, then an appeal is filed for substance."
+      },
+      "(¬(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11) → ¬A12)": {
+        "formal": "(¬(¬(A10 → (A8 ∨ (A7 → ¬A6))) → A11) → ¬A12)",
+        "prover9": "(-(-(A10 -> (A8 | (A7 -> -A6))) -> A11) -> -A12)",
+        "prover9_expression": "(-(-(submitted_application(substance) -> (fast_track_approval(drug) | (therapeutic_benefit(drug) -> -addictive_property(substance)))) -> application_rejected(substance)) -> -appeal_filed(substance))",
+        "natural": "Under the condition that the non-implication of substance's application submission to approval paths not causing rejection, an appeal is not filed for substance."
+      },
+      "(¬G → A6)": {
+        "formal": "(¬G → A6)",
+        "prover9": "(-G -> A6)",
+        "prover9_expression": "(-market_available(product) -> addictive_property(substance))",
+        "natural": "In the event the product is not market available, substance has an addictive property."
+      },
+      "A7": {
+        "formal": "A7",
+        "prover9": "A7",
+        "prover9_expression": "therapeutic_benefit(drug)",
+        "natural": "A drug has therapeutic benefit."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "market_available(product)",
+        "natural": "A product is market available."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-application_rejected(substance)",
+        "natural": "It is not the case that the application for substance is rejected."
+      },
+      "¬A3": {
+        "formal": "¬A3",
+        "prover9": "-A3",
+        "prover9_expression": "-requires_clinical_trials(drug)",
+        "natural": "A drug does not require clinical trials."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-approved_for_research(drug)",
+        "natural": "A drug is not approved for research."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-banned_substance(drug)",
+        "natural": "A drug is not a banned substance."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-addictive_property(substance)",
+        "natural": "Substance does not have an addictive property."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-fast_track_approval(drug)",
+        "natural": "A drug does not qualify for fast-track approval."
+      }
+    }
+  }
+}

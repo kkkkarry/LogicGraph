@@ -1,0 +1,309 @@
+{
+  "solution_stats": {
+    "total_solutions": 4,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 2
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 3
+      },
+      {
+        "solution_id": 4,
+        "steps_count": 4
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule6",
+              "prover9": "(A3 -> -A2)",
+              "prover9_expression": "(is_manual_override_enabled(System, True) -> -can_control_devices(SmartHub, AllZones))",
+              "natural": "If manual override is enabled for the System, then the SmartHub cannot control devices in AllZones."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "A3",
+              "prover9_expression": "is_manual_override_enabled(System, True)",
+              "natural": "Manual override is enabled for the System."
+            }
+          ],
+          "conclusion": "-A2",
+          "natural": "The SmartHub cannot control devices in AllZones."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A1 -> A2)",
+              "prover9_expression": "(has_network_connectivity(SmartHub, HomeNetwork) -> can_control_devices(SmartHub, AllZones))",
+              "natural": "If the SmartHub has network connectivity to the HomeNetwork, then the SmartHub can control devices in AllZones."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A2",
+              "prover9_expression": "-can_control_devices(SmartHub, AllZones)",
+              "natural": "The SmartHub cannot control devices in AllZones."
+            }
+          ],
+          "conclusion": "-A1",
+          "natural": "The SmartHub does not have network connectivity to the HomeNetwork."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule14",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-system_operational_status(System, Normal) -> has_network_connectivity(SmartHub, HomeNetwork))",
+              "natural": "If the System operational status is not Normal, then the SmartHub has network connectivity to the HomeNetwork."
+            },
+            {
+              "id": "Derived",
+              "prover9": "-A1",
+              "prover9_expression": "-has_network_connectivity(SmartHub, HomeNetwork)",
+              "natural": "The SmartHub does not have network connectivity to the HomeNetwork."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The System operational status is Normal."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A5 -> A6)",
+              "prover9_expression": "(receives_command(SmartHub, \"ActivateSecurityMode\") -> activates_security_protocols(SmartHub, PerimeterSensors))",
+              "natural": "If the SmartHub receives the \"ActivateSecurityMode\" command, then the SmartHub activates security protocols for PerimeterSensors."
+            },
+            {
+              "id": "Rule10",
+              "prover9": "(A6 -> G)",
+              "prover9_expression": "(activates_security_protocols(SmartHub, PerimeterSensors) -> system_operational_status(System, Normal))",
+              "natural": "If the SmartHub activates security protocols for PerimeterSensors, then the System operational status is Normal."
+            }
+          ],
+          "conclusion": "(A5 -> G)",
+          "natural": "If the SmartHub receives the \"ActivateSecurityMode\" command, then the System operational status is Normal."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule8",
+              "prover9": "(A4 | A5)",
+              "prover9_expression": "(receives_command(SmartHub, \"ActivateVacationMode\") | receives_command(SmartHub, \"ActivateSecurityMode\"))",
+              "natural": "The SmartHub receives the \"ActivateVacationMode\" command or the SmartHub receives the \"ActivateSecurityMode\" command."
+            },
+            {
+              "id": "Rule7",
+              "prover9": "(A4 -> G)",
+              "prover9_expression": "(receives_command(SmartHub, \"ActivateVacationMode\") -> system_operational_status(System, Normal))",
+              "natural": "If the SmartHub receives the \"ActivateVacationMode\" command, then the System operational status is Normal."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A5 -> G)",
+              "prover9_expression": "(receives_command(SmartHub, \"ActivateSecurityMode\") -> system_operational_status(System, Normal))",
+              "natural": "If the SmartHub receives the \"ActivateSecurityMode\" command, then the System operational status is Normal."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The System operational status is Normal."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A9 -> (-(A7 -> G) -> -A8))",
+              "prover9_expression": "(has_backup_power(SmartHub, BatteryUnit) -> (-(has_power_supply(SmartHub, MainGrid) -> system_operational_status(System, Normal)) -> -sends_alert(SmartHub, MaintenanceTeam)))",
+              "natural": "If the SmartHub has backup power from the BatteryUnit, then when the SmartHub having power supply from the MainGrid does not result in the System operational status being Normal, the SmartHub does not send an alert to the MaintenanceTeam."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "A9",
+              "prover9_expression": "has_backup_power(SmartHub, BatteryUnit)",
+              "natural": "The SmartHub has backup power from the BatteryUnit."
+            }
+          ],
+          "conclusion": "(-(A7 -> G) -> -A8)",
+          "natural": "If the SmartHub having power supply from the MainGrid does not result in the System operational status being Normal, then the SmartHub does not send an alert to the MaintenanceTeam."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule13",
+              "prover9": "(-(A7 -> G) -> A8)",
+              "prover9_expression": "(-(has_power_supply(SmartHub, MainGrid) -> system_operational_status(System, Normal)) -> sends_alert(SmartHub, MaintenanceTeam))",
+              "natural": "If the SmartHub having power supply from the MainGrid does not lead to the System operational status being Normal, then the SmartHub sends an alert to the MaintenanceTeam."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 -> G) -> -A8)",
+              "prover9_expression": "(-(has_power_supply(SmartHub, MainGrid) -> system_operational_status(System, Normal)) -> -sends_alert(SmartHub, MaintenanceTeam))",
+              "natural": "If the SmartHub having power supply from the MainGrid does not result in the System operational status being Normal, then the SmartHub does not send an alert to the MaintenanceTeam."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "If the SmartHub has power supply from the MainGrid, then the System operational status is Normal."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(has_power_supply(SmartHub, MainGrid) -> system_operational_status(System, Normal))",
+              "natural": "If the SmartHub has power supply from the MainGrid, then the System operational status is Normal."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A7",
+              "prover9_expression": "has_power_supply(SmartHub, MainGrid)",
+              "natural": "The SmartHub has power supply from the MainGrid."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The System operational status is Normal."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 3,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(is_software_updated(SmartHub, LatestVersion) | is_hardware_compatible(SmartHub, CurrentSystem))",
+              "natural": "The SmartHub has software updated to the LatestVersion or the SmartHub is hardware compatible with the CurrentSystem."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> (-(A7 -> A10) -> -A11))",
+              "prover9_expression": "(is_software_updated(SmartHub, LatestVersion) -> (-(has_power_supply(SmartHub, MainGrid) -> maintains_operation(SmartHub, NormalMode)) -> -triggers_emergency_shutdown(SmartHub, AllSystems)))",
+              "natural": "If the SmartHub has software updated to the LatestVersion, then under the condition that the SmartHub having power supply from the MainGrid does not result in the SmartHub maintaining operation in NormalMode, the SmartHub does not trigger emergency shutdown of AllSystems."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> (-(A7 -> A10) -> -A11))",
+              "prover9_expression": "(is_hardware_compatible(SmartHub, CurrentSystem) -> (-(has_power_supply(SmartHub, MainGrid) -> maintains_operation(SmartHub, NormalMode)) -> -triggers_emergency_shutdown(SmartHub, AllSystems)))",
+              "natural": "If the SmartHub is hardware compatible with the CurrentSystem, then provided that the SmartHub having power supply from the MainGrid does not lead to the SmartHub maintaining operation in NormalMode, the SmartHub does not trigger emergency shutdown of AllSystems."
+            }
+          ],
+          "conclusion": "(-(A7 -> A10) -> -A11)",
+          "natural": "If the SmartHub having power supply from the MainGrid does not result in the SmartHub maintaining operation in NormalMode, then the SmartHub does not trigger emergency shutdown of AllSystems."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(-(A7 -> A10) -> A11)",
+              "prover9_expression": "(-(has_power_supply(SmartHub, MainGrid) -> maintains_operation(SmartHub, NormalMode)) -> triggers_emergency_shutdown(SmartHub, AllSystems))",
+              "natural": "If the SmartHub having power supply from the MainGrid does not lead to the SmartHub maintaining operation in NormalMode, then the SmartHub triggers emergency shutdown of AllSystems."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(-(A7 -> A10) -> -A11)",
+              "prover9_expression": "(-(has_power_supply(SmartHub, MainGrid) -> maintains_operation(SmartHub, NormalMode)) -> -triggers_emergency_shutdown(SmartHub, AllSystems))",
+              "natural": "If the SmartHub having power supply from the MainGrid does not result in the SmartHub maintaining operation in NormalMode, then the SmartHub does not trigger emergency shutdown of AllSystems."
+            }
+          ],
+          "conclusion": "(A7 -> A10)",
+          "natural": "If the SmartHub has power supply from the MainGrid, then the SmartHub maintains operation in NormalMode."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> A10)",
+              "prover9_expression": "(has_power_supply(SmartHub, MainGrid) -> maintains_operation(SmartHub, NormalMode))",
+              "natural": "If the SmartHub has power supply from the MainGrid, then the SmartHub maintains operation in NormalMode."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A10 -> G)",
+              "prover9_expression": "(maintains_operation(SmartHub, NormalMode) -> system_operational_status(System, Normal))",
+              "natural": "If the SmartHub maintains operation in NormalMode, then the System operational status is Normal."
+            }
+          ],
+          "conclusion": "(A7 -> G)",
+          "natural": "If the SmartHub has power supply from the MainGrid, then the System operational status is Normal."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A7 -> G)",
+              "prover9_expression": "(has_power_supply(SmartHub, MainGrid) -> system_operational_status(System, Normal))",
+              "natural": "If the SmartHub has power supply from the MainGrid, then the System operational status is Normal."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "A7",
+              "prover9_expression": "has_power_supply(SmartHub, MainGrid)",
+              "natural": "The SmartHub has power supply from the MainGrid."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The System operational status is Normal."
+        }
+      ]
+    }
+  ]
+}

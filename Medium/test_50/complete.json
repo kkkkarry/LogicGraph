@@ -1,0 +1,872 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 6,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 0
+      },
+      "2": {
+        "core": 1,
+        "branch": 0
+      },
+      "3": {
+        "core": 1,
+        "branch": 0
+      },
+      "4": {
+        "core": 1,
+        "branch": 1
+      },
+      "5": {
+        "core": 1,
+        "branch": 0
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 ∨ A2)",
+        "prover9_expression": "(requires_approval(clinical_trial, fda) | requires_approval(manufacturing_facility, fda))",
+        "natural": "Either the clinical trial requires FDA approval or the manufacturing facility requires FDA approval."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A11 → (¬(A9 → ¬A8) → A10))",
+        "prover9_expression": "(uses_unapproved_ingredient(manufacturing_process) -> (-(follows_protocols(company) -> -violates_regulations(company)) -> receives_warning(company, fda)))",
+        "natural": "If the manufacturing process uses unapproved ingredients, then provided that the company following protocols does not result in the company not violating regulations, the company receives a warning from the FDA."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A11 ∨ A12)",
+        "prover9_expression": "(uses_unapproved_ingredient(manufacturing_process) | uses_incorrect_dosage(manufacturing_process))",
+        "natural": "Either the manufacturing process uses unapproved ingredients or the manufacturing process uses incorrect dosages."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A12 → (¬(A9 → ¬A8) → A10))",
+        "prover9_expression": "(uses_incorrect_dosage(manufacturing_process) -> (-(follows_protocols(company) -> -violates_regulations(company)) -> receives_warning(company, fda)))",
+        "natural": "If the manufacturing process uses incorrect dosages, then provided that the company following protocols does not result in the company not violating regulations, the company receives a warning from the FDA."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A13 ∨ G)",
+        "prover9_expression": "(maintains_proper_documentation(company) | operates_legally(company))",
+        "natural": "Either the company maintains proper documentation or the company operates legally."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A14 → ¬A13)",
+        "prover9_expression": "(loses_records(company) -> -maintains_proper_documentation(company))",
+        "natural": "If the company loses records, then the company does not maintain proper documentation."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A14 ∨ A15)",
+        "prover9_expression": "(loses_records(company) | falsifies_data(company))",
+        "natural": "Either the company loses records or the company falsifies data."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A15 → ¬A13)",
+        "prover9_expression": "(falsifies_data(company) -> -maintains_proper_documentation(company))",
+        "natural": "If the company falsifies data, then the company does not maintain proper documentation."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(A16 → G)",
+        "prover9_expression": "(passes_inspection(facility, fda) -> operates_legally(company))",
+        "natural": "If the facility passes FDA inspection, then the company operates legally."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(A17 → A16)",
+        "prover9_expression": "(meets_standards(equipment, gmp) -> passes_inspection(facility, fda))",
+        "natural": "If the equipment meets GMP standards, then the facility passes FDA inspection."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(A18 → A17)",
+        "prover9_expression": "(calibrated_properly(equipment) -> meets_standards(equipment, gmp))",
+        "natural": "If the equipment is calibrated properly, then the equipment meets GMP standards."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(A19 ∨ ¬A13)",
+        "prover9_expression": "(has_trained_staff(company) | -maintains_proper_documentation(company))",
+        "natural": "Either the company has trained staff or the company does not maintain proper documentation."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(A2 → G)",
+        "prover9_expression": "(requires_approval(manufacturing_facility, fda) -> operates_legally(company))",
+        "natural": "If the manufacturing facility requires FDA approval, then the company operates legally."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(A20 → ¬A19)",
+        "prover9_expression": "(fails_certification(staff) -> -has_trained_staff(company))",
+        "natural": "If the staff fails certification, then the company does not have trained staff."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(A21 ∨ A20)",
+        "prover9_expression": "(fails_certification(staff) | follows_procedures(staff))",
+        "natural": "Either the staff fails certification or the staff follows procedures."
+      },
+      {
+        "id": "Rule16",
+        "formal": "(A22 → ¬A21)",
+        "prover9_expression": "(receives_insufficient_training(staff) -> -follows_procedures(staff))",
+        "natural": "If the staff receives insufficient training, then the staff does not follow procedures."
+      },
+      {
+        "id": "Rule17",
+        "formal": "(A22 ∨ A23)",
+        "prover9_expression": "(receives_insufficient_training(staff) | ignores_protocols(staff))",
+        "natural": "Either the staff receives insufficient training or the staff ignores protocols."
+      },
+      {
+        "id": "Rule18",
+        "formal": "(A23 → ¬A21)",
+        "prover9_expression": "(ignores_protocols(staff) -> -follows_procedures(staff))",
+        "natural": "If the staff ignores protocols, then the staff does not follow procedures."
+      },
+      {
+        "id": "Rule19",
+        "formal": "(A3 → G)",
+        "prover9_expression": "(requires_approval(marketing_application, fda) -> operates_legally(company))",
+        "natural": "If the marketing application requires FDA approval, then the company operates legally."
+      },
+      {
+        "id": "Rule20",
+        "formal": "(A4 ∨ (A1 → A3))",
+        "prover9_expression": "(has_completed(clinical_trial, phase_3) | (requires_approval(clinical_trial, fda) -> requires_approval(marketing_application, fda)))",
+        "natural": "Either the clinical trial has completed phase 3 or if the clinical trial requires FDA approval, then the marketing application requires FDA approval."
+      },
+      {
+        "id": "Rule21",
+        "formal": "(A5 → A6)",
+        "prover9_expression": "(contains_contaminants(drug_batch) -> fails_testing(drug_batch, quality_control))",
+        "natural": "If the drug batch contains contaminants, then the drug batch fails quality control testing."
+      },
+      {
+        "id": "Rule22",
+        "formal": "(A5 ∨ G)",
+        "prover9_expression": "(contains_contaminants(drug_batch) | operates_legally(company))",
+        "natural": "Either the drug batch contains contaminants or the company operates legally."
+      },
+      {
+        "id": "Rule23",
+        "formal": "(A6 → A7)",
+        "prover9_expression": "(fails_testing(drug_batch, quality_control) -> gets_recalled(drug_batch))",
+        "natural": "If the drug batch fails quality control testing, then the drug batch gets recalled."
+      },
+      {
+        "id": "Rule24",
+        "formal": "(¬(A9 → ¬A8) → ¬A10)",
+        "prover9_expression": "(-(follows_protocols(company) -> -violates_regulations(company)) -> -receives_warning(company, fda))",
+        "natural": "If the company following protocols does not result in the company not violating regulations, then the company does not receive a warning from the FDA."
+      },
+      {
+        "id": "Rule25",
+        "formal": "(¬G → A8)",
+        "prover9_expression": "(-operates_legally(company) -> violates_regulations(company))",
+        "natural": "If the company does not operate legally, then the company violates regulations."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A18",
+        "prover9_expression": "calibrated_properly(equipment)",
+        "natural": "The equipment is calibrated properly."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A9",
+        "prover9_expression": "follows_protocols(company)",
+        "natural": "The company follows protocols."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A4",
+        "prover9_expression": "-has_completed(clinical_trial, phase_3)",
+        "natural": "The clinical trial has not completed phase 3."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A7",
+        "prover9_expression": "-gets_recalled(drug_batch)",
+        "natural": "The drug batch does not get recalled."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "operates_legally(company)",
+    "natural": "The company operates legally."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A4 | (A1 -> A3))",
+            "-A4"
+          ],
+          "conclusion": "(A1 -> A3)",
+          "natural": "If the clinical trial requires FDA approval, then the marketing application requires FDA approval."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A1 -> A3)",
+            "(A3 -> G)"
+          ],
+          "conclusion": "(A1 -> G)",
+          "natural": "If the clinical trial requires FDA approval, then the company operates legally."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A1 | A2)",
+            "(A1 -> G)",
+            "(A2 -> G)"
+          ],
+          "conclusion": "G",
+          "natural": "The company operates legally."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 2,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A6 -> A7)",
+            "-A7"
+          ],
+          "conclusion": "-A6",
+          "natural": "The drug batch does not fail quality control testing."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A5 -> A6)",
+            "-A6"
+          ],
+          "conclusion": "-A5",
+          "natural": "The drug batch does not contain contaminants."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A5 | G)",
+            "-A5"
+          ],
+          "conclusion": "G",
+          "natural": "The company operates legally."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 3,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A11 | A12)",
+            "(A11 -> (-(A9 -> -A8) -> A10))",
+            "(A12 -> (-(A9 -> -A8) -> A10))"
+          ],
+          "conclusion": "(-(A9 -> -A8) -> A10)",
+          "natural": "If the company following protocols does not result in the company not violating regulations, then the company receives a warning from the FDA."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A9 -> -A8) -> A10)",
+            "(-(A9 -> -A8) -> -A10)"
+          ],
+          "conclusion": "(A9 -> -A8)",
+          "natural": "If the company follows protocols, then the company does not violate regulations."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A9 -> -A8)",
+            "A9"
+          ],
+          "conclusion": "-A8",
+          "natural": "The company does not violate regulations."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-G -> A8)",
+            "-A8"
+          ],
+          "conclusion": "G",
+          "natural": "The company operates legally."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "family_id": 4,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A14 | A15)",
+            "(A14 -> -A13)",
+            "(A15 -> -A13)"
+          ],
+          "conclusion": "-A13",
+          "natural": "The company does not maintain proper documentation."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | G)",
+            "-A13"
+          ],
+          "conclusion": "G",
+          "natural": "The company operates legally."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "family_id": 5,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A18 -> A17)",
+            "A18"
+          ],
+          "conclusion": "A17",
+          "natural": "The equipment meets GMP standards."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A17 -> A16)",
+            "A17"
+          ],
+          "conclusion": "A16",
+          "natural": "The facility passes FDA inspection."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A16 -> G)",
+            "A16"
+          ],
+          "conclusion": "G",
+          "natural": "The company operates legally."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "family_id": 4,
+      "path_type": "branch",
+      "branch_from": 0,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A22 | A23)",
+            "(A22 -> -A21)",
+            "(A23 -> -A21)"
+          ],
+          "conclusion": "-A21",
+          "natural": "The staff does not follow procedures."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A21 | A20)",
+            "-A21"
+          ],
+          "conclusion": "A20",
+          "natural": "The staff fails certification."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A20 -> -A19)",
+            "A20"
+          ],
+          "conclusion": "-A19",
+          "natural": "The company does not have trained staff."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A19 | -A13)",
+            "-A19"
+          ],
+          "conclusion": "-A13",
+          "natural": "The company does not maintain proper documentation."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A13 | G)",
+            "-A13"
+          ],
+          "conclusion": "G",
+          "natural": "The company operates legally."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "atomic_facts": {
+      "A1": "requires_approval(clinical_trial, fda)",
+      "A2": "requires_approval(manufacturing_facility, fda)",
+      "A3": "requires_approval(marketing_application, fda)",
+      "A4": "has_completed(clinical_trial, phase_3)",
+      "A5": "contains_contaminants(drug_batch)",
+      "A6": "fails_testing(drug_batch, quality_control)",
+      "A7": "gets_recalled(drug_batch)",
+      "A8": "violates_regulations(company)",
+      "A9": "follows_protocols(company)",
+      "A10": "receives_warning(company, fda)",
+      "A11": "uses_unapproved_ingredient(manufacturing_process)",
+      "A12": "uses_incorrect_dosage(manufacturing_process)",
+      "A13": "maintains_proper_documentation(company)",
+      "A14": "loses_records(company)",
+      "A15": "falsifies_data(company)",
+      "A16": "passes_inspection(facility, fda)",
+      "A17": "meets_standards(equipment, gmp)",
+      "A18": "calibrated_properly(equipment)",
+      "A19": "has_trained_staff(company)",
+      "A20": "fails_certification(staff)",
+      "A21": "follows_procedures(staff)",
+      "A22": "receives_insufficient_training(staff)",
+      "A23": "ignores_protocols(staff)",
+      "G": "operates_legally(company)"
+    },
+    "natural_facts": {
+      "A1": "The clinical trial requires FDA approval.",
+      "A2": "The manufacturing facility requires FDA approval.",
+      "A3": "The marketing application requires FDA approval.",
+      "A4": "The clinical trial has completed phase 3.",
+      "A5": "The drug batch contains contaminants.",
+      "A6": "The drug batch fails quality control testing.",
+      "A7": "The drug batch gets recalled.",
+      "A8": "The company violates regulations.",
+      "A9": "The company follows protocols.",
+      "A10": "The company receives a warning from the FDA.",
+      "A11": "The manufacturing process uses unapproved ingredients.",
+      "A12": "The manufacturing process uses incorrect dosages.",
+      "A13": "The company maintains proper documentation.",
+      "A14": "The company loses records.",
+      "A15": "The company falsifies data.",
+      "A16": "The facility passes FDA inspection.",
+      "A17": "The equipment meets GMP standards.",
+      "A18": "The equipment is calibrated properly.",
+      "A19": "The company has trained staff.",
+      "A20": "The staff fails certification.",
+      "A21": "The staff follows procedures.",
+      "A22": "The staff receives insufficient training.",
+      "A23": "The staff ignores protocols.",
+      "G": "The company operates legally."
+    },
+    "prover9_expressions": [
+      "(requires_approval(clinical_trial, fda) → requires_approval(marketing_application, fda))",
+      "(requires_approval(clinical_trial, fda) → operates_legally(company))",
+      "(requires_approval(clinical_trial, fda) ∨ requires_approval(manufacturing_facility, fda))",
+      "(uses_unapproved_ingredient(manufacturing_process) → (¬(follows_protocols(company) → ¬violates_regulations(company)) → receives_warning(company, fda)))",
+      "(uses_unapproved_ingredient(manufacturing_process) ∨ uses_incorrect_dosage(manufacturing_process))",
+      "(uses_incorrect_dosage(manufacturing_process) → (¬(follows_protocols(company) → ¬violates_regulations(company)) → receives_warning(company, fda)))",
+      "(maintains_proper_documentation(company) ∨ operates_legally(company))",
+      "(loses_records(company) → ¬maintains_proper_documentation(company))",
+      "(loses_records(company) ∨ falsifies_data(company))",
+      "(falsifies_data(company) → ¬maintains_proper_documentation(company))",
+      "(passes_inspection(facility, fda) → operates_legally(company))",
+      "(meets_standards(equipment, gmp) → passes_inspection(facility, fda))",
+      "(calibrated_properly(equipment) → meets_standards(equipment, gmp))",
+      "(has_trained_staff(company) ∨ ¬maintains_proper_documentation(company))",
+      "(requires_approval(manufacturing_facility, fda) → operates_legally(company))",
+      "(fails_certification(staff) → ¬has_trained_staff(company))",
+      "(fails_certification(staff) ∨ follows_procedures(staff))",
+      "(receives_insufficient_training(staff) → ¬follows_procedures(staff))",
+      "(receives_insufficient_training(staff) ∨ ignores_protocols(staff))",
+      "(ignores_protocols(staff) → ¬follows_procedures(staff))",
+      "(requires_approval(marketing_application, fda) → operates_legally(company))",
+      "(has_completed(clinical_trial, phase_3) ∨ (requires_approval(clinical_trial, fda) → requires_approval(marketing_application, fda)))",
+      "(contains_contaminants(drug_batch) → fails_testing(drug_batch, quality_control))",
+      "(contains_contaminants(drug_batch) ∨ operates_legally(company))",
+      "(fails_testing(drug_batch, quality_control) → gets_recalled(drug_batch))",
+      "(follows_protocols(company) → ¬violates_regulations(company))",
+      "(¬(follows_protocols(company) → ¬violates_regulations(company)) → receives_warning(company, fda))",
+      "(¬(follows_protocols(company) → ¬violates_regulations(company)) → ¬receives_warning(company, fda))",
+      "(¬operates_legally(company) → violates_regulations(company))",
+      "passes_inspection(facility, fda)",
+      "meets_standards(equipment, gmp)",
+      "calibrated_properly(equipment)",
+      "fails_certification(staff)",
+      "follows_protocols(company)",
+      "operates_legally(company)",
+      "¬maintains_proper_documentation(company)",
+      "¬has_trained_staff(company)",
+      "¬follows_procedures(staff)",
+      "¬has_completed(clinical_trial, phase_3)",
+      "¬contains_contaminants(drug_batch)",
+      "¬fails_testing(drug_batch, quality_control)",
+      "¬gets_recalled(drug_batch)",
+      "¬violates_regulations(company)"
+    ],
+    "natural_expressions": [
+      "If the clinical trial requires FDA approval, then the marketing application requires FDA approval.",
+      "If the clinical trial requires FDA approval, then the company operates legally.",
+      "Either the clinical trial requires FDA approval or the manufacturing facility requires FDA approval.",
+      "If the manufacturing process uses unapproved ingredients, then provided that the company following protocols does not result in the company not violating regulations, the company receives a warning from the FDA.",
+      "Either the manufacturing process uses unapproved ingredients or the manufacturing process uses incorrect dosages.",
+      "If the manufacturing process uses incorrect dosages, then provided that the company following protocols does not result in the company not violating regulations, the company receives a warning from the FDA.",
+      "Either the company maintains proper documentation or the company operates legally.",
+      "If the company loses records, then the company does not maintain proper documentation.",
+      "Either the company loses records or the company falsifies data.",
+      "If the company falsifies data, then the company does not maintain proper documentation.",
+      "If the facility passes FDA inspection, then the company operates legally.",
+      "If the equipment meets GMP standards, then the facility passes FDA inspection.",
+      "If the equipment is calibrated properly, then the equipment meets GMP standards.",
+      "Either the company has trained staff or the company does not maintain proper documentation.",
+      "If the manufacturing facility requires FDA approval, then the company operates legally.",
+      "If the staff fails certification, then the company does not have trained staff.",
+      "Either the staff fails certification or the staff follows procedures.",
+      "If the staff receives insufficient training, then the staff does not follow procedures.",
+      "Either the staff receives insufficient training or the staff ignores protocols.",
+      "If the staff ignores protocols, then the staff does not follow procedures.",
+      "If the marketing application requires FDA approval, then the company operates legally.",
+      "Either the clinical trial has completed phase 3 or if the clinical trial requires FDA approval, then the marketing application requires FDA approval.",
+      "If the drug batch contains contaminants, then the drug batch fails quality control testing.",
+      "Either the drug batch contains contaminants or the company operates legally.",
+      "If the drug batch fails quality control testing, then the drug batch gets recalled.",
+      "If the company follows protocols, then the company does not violate regulations.",
+      "If the company following protocols does not result in the company not violating regulations, then the company receives a warning from the FDA.",
+      "If the company following protocols does not result in the company not violating regulations, then the company does not receive a warning from the FDA.",
+      "If the company does not operate legally, then the company violates regulations.",
+      "The facility passes FDA inspection.",
+      "The equipment meets GMP standards.",
+      "The equipment is calibrated properly.",
+      "The staff fails certification.",
+      "The company follows protocols.",
+      "The company operates legally.",
+      "The company does not maintain proper documentation.",
+      "The company does not have trained staff.",
+      "The staff does not follow procedures.",
+      "The clinical trial has not completed phase 3.",
+      "The drug batch does not contain contaminants.",
+      "The drug batch does not fail quality control testing.",
+      "The drug batch does not get recalled.",
+      "The company does not violate regulations."
+    ],
+    "node_mappings": {
+      "(A1 → A3)": {
+        "formal": "(A1 → A3)",
+        "prover9": "(A1 -> A3)",
+        "prover9_expression": "(requires_approval(clinical_trial, fda) -> requires_approval(marketing_application, fda))",
+        "natural": "If the clinical trial requires FDA approval, then the marketing application requires FDA approval."
+      },
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(requires_approval(clinical_trial, fda) -> operates_legally(company))",
+        "natural": "If the clinical trial requires FDA approval, then the company operates legally."
+      },
+      "(A1 ∨ A2)": {
+        "formal": "(A1 ∨ A2)",
+        "prover9": "(A1 | A2)",
+        "prover9_expression": "(requires_approval(clinical_trial, fda) | requires_approval(manufacturing_facility, fda))",
+        "natural": "Either the clinical trial requires FDA approval or the manufacturing facility requires FDA approval."
+      },
+      "(A11 → (¬(A9 → ¬A8) → A10))": {
+        "formal": "(A11 → (¬(A9 → ¬A8) → A10))",
+        "prover9": "(A11 -> (-(A9 -> -A8) -> A10))",
+        "prover9_expression": "(uses_unapproved_ingredient(manufacturing_process) -> (-(follows_protocols(company) -> -violates_regulations(company)) -> receives_warning(company, fda)))",
+        "natural": "If the manufacturing process uses unapproved ingredients, then provided that the company following protocols does not result in the company not violating regulations, the company receives a warning from the FDA."
+      },
+      "(A11 ∨ A12)": {
+        "formal": "(A11 ∨ A12)",
+        "prover9": "(A11 | A12)",
+        "prover9_expression": "(uses_unapproved_ingredient(manufacturing_process) | uses_incorrect_dosage(manufacturing_process))",
+        "natural": "Either the manufacturing process uses unapproved ingredients or the manufacturing process uses incorrect dosages."
+      },
+      "(A12 → (¬(A9 → ¬A8) → A10))": {
+        "formal": "(A12 → (¬(A9 → ¬A8) → A10))",
+        "prover9": "(A12 -> (-(A9 -> -A8) -> A10))",
+        "prover9_expression": "(uses_incorrect_dosage(manufacturing_process) -> (-(follows_protocols(company) -> -violates_regulations(company)) -> receives_warning(company, fda)))",
+        "natural": "If the manufacturing process uses incorrect dosages, then provided that the company following protocols does not result in the company not violating regulations, the company receives a warning from the FDA."
+      },
+      "(A13 ∨ G)": {
+        "formal": "(A13 ∨ G)",
+        "prover9": "(A13 | G)",
+        "prover9_expression": "(maintains_proper_documentation(company) | operates_legally(company))",
+        "natural": "Either the company maintains proper documentation or the company operates legally."
+      },
+      "(A14 → ¬A13)": {
+        "formal": "(A14 → ¬A13)",
+        "prover9": "(A14 -> -A13)",
+        "prover9_expression": "(loses_records(company) -> -maintains_proper_documentation(company))",
+        "natural": "If the company loses records, then the company does not maintain proper documentation."
+      },
+      "(A14 ∨ A15)": {
+        "formal": "(A14 ∨ A15)",
+        "prover9": "(A14 | A15)",
+        "prover9_expression": "(loses_records(company) | falsifies_data(company))",
+        "natural": "Either the company loses records or the company falsifies data."
+      },
+      "(A15 → ¬A13)": {
+        "formal": "(A15 → ¬A13)",
+        "prover9": "(A15 -> -A13)",
+        "prover9_expression": "(falsifies_data(company) -> -maintains_proper_documentation(company))",
+        "natural": "If the company falsifies data, then the company does not maintain proper documentation."
+      },
+      "(A16 → G)": {
+        "formal": "(A16 → G)",
+        "prover9": "(A16 -> G)",
+        "prover9_expression": "(passes_inspection(facility, fda) -> operates_legally(company))",
+        "natural": "If the facility passes FDA inspection, then the company operates legally."
+      },
+      "(A17 → A16)": {
+        "formal": "(A17 → A16)",
+        "prover9": "(A17 -> A16)",
+        "prover9_expression": "(meets_standards(equipment, gmp) -> passes_inspection(facility, fda))",
+        "natural": "If the equipment meets GMP standards, then the facility passes FDA inspection."
+      },
+      "(A18 → A17)": {
+        "formal": "(A18 → A17)",
+        "prover9": "(A18 -> A17)",
+        "prover9_expression": "(calibrated_properly(equipment) -> meets_standards(equipment, gmp))",
+        "natural": "If the equipment is calibrated properly, then the equipment meets GMP standards."
+      },
+      "(A19 ∨ ¬A13)": {
+        "formal": "(A19 ∨ ¬A13)",
+        "prover9": "(A19 | -A13)",
+        "prover9_expression": "(has_trained_staff(company) | -maintains_proper_documentation(company))",
+        "natural": "Either the company has trained staff or the company does not maintain proper documentation."
+      },
+      "(A2 → G)": {
+        "formal": "(A2 → G)",
+        "prover9": "(A2 -> G)",
+        "prover9_expression": "(requires_approval(manufacturing_facility, fda) -> operates_legally(company))",
+        "natural": "If the manufacturing facility requires FDA approval, then the company operates legally."
+      },
+      "(A20 → ¬A19)": {
+        "formal": "(A20 → ¬A19)",
+        "prover9": "(A20 -> -A19)",
+        "prover9_expression": "(fails_certification(staff) -> -has_trained_staff(company))",
+        "natural": "If the staff fails certification, then the company does not have trained staff."
+      },
+      "(A21 ∨ A20)": {
+        "formal": "(A21 ∨ A20)",
+        "prover9": "(A21 | A20)",
+        "prover9_expression": "(fails_certification(staff) | follows_procedures(staff))",
+        "natural": "Either the staff fails certification or the staff follows procedures."
+      },
+      "(A22 → ¬A21)": {
+        "formal": "(A22 → ¬A21)",
+        "prover9": "(A22 -> -A21)",
+        "prover9_expression": "(receives_insufficient_training(staff) -> -follows_procedures(staff))",
+        "natural": "If the staff receives insufficient training, then the staff does not follow procedures."
+      },
+      "(A22 ∨ A23)": {
+        "formal": "(A22 ∨ A23)",
+        "prover9": "(A22 | A23)",
+        "prover9_expression": "(receives_insufficient_training(staff) | ignores_protocols(staff))",
+        "natural": "Either the staff receives insufficient training or the staff ignores protocols."
+      },
+      "(A23 → ¬A21)": {
+        "formal": "(A23 → ¬A21)",
+        "prover9": "(A23 -> -A21)",
+        "prover9_expression": "(ignores_protocols(staff) -> -follows_procedures(staff))",
+        "natural": "If the staff ignores protocols, then the staff does not follow procedures."
+      },
+      "(A3 → G)": {
+        "formal": "(A3 → G)",
+        "prover9": "(A3 -> G)",
+        "prover9_expression": "(requires_approval(marketing_application, fda) -> operates_legally(company))",
+        "natural": "If the marketing application requires FDA approval, then the company operates legally."
+      },
+      "(A4 ∨ (A1 → A3))": {
+        "formal": "(A4 ∨ (A1 → A3))",
+        "prover9": "(A4 | (A1 -> A3))",
+        "prover9_expression": "(has_completed(clinical_trial, phase_3) | (requires_approval(clinical_trial, fda) -> requires_approval(marketing_application, fda)))",
+        "natural": "Either the clinical trial has completed phase 3 or if the clinical trial requires FDA approval, then the marketing application requires FDA approval."
+      },
+      "(A5 → A6)": {
+        "formal": "(A5 → A6)",
+        "prover9": "(A5 -> A6)",
+        "prover9_expression": "(contains_contaminants(drug_batch) -> fails_testing(drug_batch, quality_control))",
+        "natural": "If the drug batch contains contaminants, then the drug batch fails quality control testing."
+      },
+      "(A5 ∨ G)": {
+        "formal": "(A5 ∨ G)",
+        "prover9": "(A5 | G)",
+        "prover9_expression": "(contains_contaminants(drug_batch) | operates_legally(company))",
+        "natural": "Either the drug batch contains contaminants or the company operates legally."
+      },
+      "(A6 → A7)": {
+        "formal": "(A6 → A7)",
+        "prover9": "(A6 -> A7)",
+        "prover9_expression": "(fails_testing(drug_batch, quality_control) -> gets_recalled(drug_batch))",
+        "natural": "If the drug batch fails quality control testing, then the drug batch gets recalled."
+      },
+      "(A9 → ¬A8)": {
+        "formal": "(A9 → ¬A8)",
+        "prover9": "(A9 -> -A8)",
+        "prover9_expression": "(follows_protocols(company) -> -violates_regulations(company))",
+        "natural": "If the company follows protocols, then the company does not violate regulations."
+      },
+      "(¬(A9 → ¬A8) → A10)": {
+        "formal": "(¬(A9 → ¬A8) → A10)",
+        "prover9": "(-(A9 -> -A8) -> A10)",
+        "prover9_expression": "(-(follows_protocols(company) -> -violates_regulations(company)) -> receives_warning(company, fda))",
+        "natural": "If the company following protocols does not result in the company not violating regulations, then the company receives a warning from the FDA."
+      },
+      "(¬(A9 → ¬A8) → ¬A10)": {
+        "formal": "(¬(A9 → ¬A8) → ¬A10)",
+        "prover9": "(-(A9 -> -A8) -> -A10)",
+        "prover9_expression": "(-(follows_protocols(company) -> -violates_regulations(company)) -> -receives_warning(company, fda))",
+        "natural": "If the company following protocols does not result in the company not violating regulations, then the company does not receive a warning from the FDA."
+      },
+      "(¬G → A8)": {
+        "formal": "(¬G → A8)",
+        "prover9": "(-G -> A8)",
+        "prover9_expression": "(-operates_legally(company) -> violates_regulations(company))",
+        "natural": "If the company does not operate legally, then the company violates regulations."
+      },
+      "A16": {
+        "formal": "A16",
+        "prover9": "A16",
+        "prover9_expression": "passes_inspection(facility, fda)",
+        "natural": "The facility passes FDA inspection."
+      },
+      "A17": {
+        "formal": "A17",
+        "prover9": "A17",
+        "prover9_expression": "meets_standards(equipment, gmp)",
+        "natural": "The equipment meets GMP standards."
+      },
+      "A18": {
+        "formal": "A18",
+        "prover9": "A18",
+        "prover9_expression": "calibrated_properly(equipment)",
+        "natural": "The equipment is calibrated properly."
+      },
+      "A20": {
+        "formal": "A20",
+        "prover9": "A20",
+        "prover9_expression": "fails_certification(staff)",
+        "natural": "The staff fails certification."
+      },
+      "A9": {
+        "formal": "A9",
+        "prover9": "A9",
+        "prover9_expression": "follows_protocols(company)",
+        "natural": "The company follows protocols."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "operates_legally(company)",
+        "natural": "The company operates legally."
+      },
+      "¬A13": {
+        "formal": "¬A13",
+        "prover9": "-A13",
+        "prover9_expression": "-maintains_proper_documentation(company)",
+        "natural": "The company does not maintain proper documentation."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-has_trained_staff(company)",
+        "natural": "The company does not have trained staff."
+      },
+      "¬A21": {
+        "formal": "¬A21",
+        "prover9": "-A21",
+        "prover9_expression": "-follows_procedures(staff)",
+        "natural": "The staff does not follow procedures."
+      },
+      "¬A4": {
+        "formal": "¬A4",
+        "prover9": "-A4",
+        "prover9_expression": "-has_completed(clinical_trial, phase_3)",
+        "natural": "The clinical trial has not completed phase 3."
+      },
+      "¬A5": {
+        "formal": "¬A5",
+        "prover9": "-A5",
+        "prover9_expression": "-contains_contaminants(drug_batch)",
+        "natural": "The drug batch does not contain contaminants."
+      },
+      "¬A6": {
+        "formal": "¬A6",
+        "prover9": "-A6",
+        "prover9_expression": "-fails_testing(drug_batch, quality_control)",
+        "natural": "The drug batch does not fail quality control testing."
+      },
+      "¬A7": {
+        "formal": "¬A7",
+        "prover9": "-A7",
+        "prover9_expression": "-gets_recalled(drug_batch)",
+        "natural": "The drug batch does not get recalled."
+      },
+      "¬A8": {
+        "formal": "¬A8",
+        "prover9": "-A8",
+        "prover9_expression": "-violates_regulations(company)",
+        "natural": "The company does not violate regulations."
+      }
+    }
+  }
+}

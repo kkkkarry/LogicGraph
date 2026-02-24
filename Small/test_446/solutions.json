@@ -1,0 +1,501 @@
+{
+  "solution_stats": {
+    "total_solutions": 3,
+    "details": [
+      {
+        "solution_id": 1,
+        "steps_count": 5
+      },
+      {
+        "solution_id": 2,
+        "steps_count": 8
+      },
+      {
+        "solution_id": 3,
+        "steps_count": 8
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule18",
+              "prover9": "(-(A2 -> A5) -> A6)",
+              "prover9_expression": "(-(power_outage(neighborhood) -> generator_running(home_system)) -> manual_override_active(home_system))",
+              "natural": "If it is not the case that a power outage in the neighborhood implies the generator is running for the home system, then manual override is active for the home system."
+            },
+            {
+              "id": "Fact3",
+              "prover9": "-A6",
+              "prover9_expression": "-manual_override_active(home_system)",
+              "natural": "It is not the case that manual override is active for the home system."
+            }
+          ],
+          "conclusion": "(A2 -> A5)",
+          "natural": "In the event of a power outage in the neighborhood, the generator is running for the home system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A5)",
+              "prover9_expression": "(power_outage(neighborhood) -> generator_running(home_system))",
+              "natural": "In the event of a power outage in the neighborhood, the generator is running for the home system."
+            },
+            {
+              "id": "Rule15",
+              "prover9": "(A5 -> A4)",
+              "prover9_expression": "(generator_running(home_system) -> backup_power_active(home_system))",
+              "natural": "Should the generator be running for the home system, then backup power is active for the home system."
+            }
+          ],
+          "conclusion": "(A2 -> A4)",
+          "natural": "If a power outage occurs in the neighborhood, backup power is active for the home system."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A4)",
+              "prover9_expression": "(power_outage(neighborhood) -> backup_power_active(home_system))",
+              "natural": "If a power outage occurs in the neighborhood, backup power is active for the home system."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> (-G -> A1))",
+              "prover9_expression": "(backup_power_active(home_system) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "If backup power is active for the home system, then in the situation that the city's grid power is not stable, the home system becomes offline."
+            }
+          ],
+          "conclusion": "(A2 -> (-G -> A1))",
+          "natural": "Should there be a power outage in the neighborhood, then if the city's grid power is not stable, the home system becomes offline."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(power_outage(neighborhood) | grid_failure(city))",
+              "natural": "Either there is a power outage in the neighborhood, or the city is experiencing a grid failure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(power_outage(neighborhood) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "Should there be a power outage in the neighborhood, then if the city's grid power is not stable, the home system becomes offline."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(grid_failure(city) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "Whenever the city is experiencing a grid failure, then if the city's grid power is not stable, it results in the home system being offline."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Should the city's grid power not be stable, the home system is offline."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_stable(city) -> system_offline(home_system))",
+              "natural": "Should the city's grid power not be stable, the home system is offline."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-system_offline(home_system)",
+              "natural": "It is not the case that the home system is offline."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The city's grid power is stable."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule4",
+              "prover9": "(A12 | A13)",
+              "prover9_expression": "(internet_available(provider) | cellular_backup_active(home_system))",
+              "natural": "Either internet service is available from the provider, or cellular backup is active for the home system."
+            },
+            {
+              "id": "Rule3",
+              "prover9": "(A12 -> (A10 -> (A9 -> A7)))",
+              "prover9_expression": "(internet_available(provider) -> (router_online(home_network) -> (wifi_connected(living_room) -> lights_functional(living_room))))",
+              "natural": "If internet service is available from the provider, then given that the router is online for the home network, the implication that the living room being connected to Wi-Fi leads to the lights being functional in the living room holds."
+            },
+            {
+              "id": "Rule5",
+              "prover9": "(A13 -> (A10 -> (A9 -> A7)))",
+              "prover9_expression": "(cellular_backup_active(home_system) -> (router_online(home_network) -> (wifi_connected(living_room) -> lights_functional(living_room))))",
+              "natural": "In the event that cellular backup is active for the home system, then whenever the router is online for the home network, the condition that the living room is connected to Wi-Fi ensures that the lights are functional in the living room."
+            }
+          ],
+          "conclusion": "(A10 -> (A9 -> A7))",
+          "natural": "Provided that the router is online for the home network, if the living room is connected to Wi-Fi, then the lights are functional in the living room."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule1",
+              "prover9": "(A10 | A11)",
+              "prover9_expression": "(router_online(home_network) | mesh_node_online(living_room))",
+              "natural": "Either the router is online for the home network, or the mesh node is online in the living room."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A10 -> (A9 -> A7))",
+              "prover9_expression": "(router_online(home_network) -> (wifi_connected(living_room) -> lights_functional(living_room)))",
+              "natural": "Provided that the router is online for the home network, if the living room is connected to Wi-Fi, then the lights are functional in the living room."
+            },
+            {
+              "id": "Rule2",
+              "prover9": "(A11 -> (A9 -> A7))",
+              "prover9_expression": "(mesh_node_online(living_room) -> (wifi_connected(living_room) -> lights_functional(living_room)))",
+              "natural": "Whenever the mesh node is online in the living room, then should the living room be connected to Wi-Fi, it follows that the lights are functional in the living room."
+            }
+          ],
+          "conclusion": "(A9 -> A7)",
+          "natural": "If the living room is connected to Wi-Fi, then the lights are functional in the living room."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule17",
+              "prover9": "(A8 -> A9)",
+              "prover9_expression": "(smart_bulb_operational(living_room) -> wifi_connected(living_room))",
+              "natural": "Whenever the smart bulb is operational in the living room, the living room is connected to Wi-Fi."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A9 -> A7)",
+              "prover9_expression": "(wifi_connected(living_room) -> lights_functional(living_room))",
+              "natural": "If the living room is connected to Wi-Fi, then the lights are functional in the living room."
+            }
+          ],
+          "conclusion": "(A8 -> A7)",
+          "natural": "If the smart bulb is operational in the living room, then the lights are functional in the living room."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule11",
+              "prover9": "(A2 -> A8)",
+              "prover9_expression": "(power_outage(neighborhood) -> smart_bulb_operational(living_room))",
+              "natural": "If a power outage happens in the neighborhood, the smart bulb is operational in the living room."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A8 -> A7)",
+              "prover9_expression": "(smart_bulb_operational(living_room) -> lights_functional(living_room))",
+              "natural": "If the smart bulb is operational in the living room, then the lights are functional in the living room."
+            }
+          ],
+          "conclusion": "(A2 -> A7)",
+          "natural": "Provided there is a power outage in the neighborhood, the lights are functional in the living room."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A7)",
+              "prover9_expression": "(power_outage(neighborhood) -> lights_functional(living_room))",
+              "natural": "Provided there is a power outage in the neighborhood, the lights are functional in the living room."
+            },
+            {
+              "id": "Rule16",
+              "prover9": "(A7 -> A4)",
+              "prover9_expression": "(lights_functional(living_room) -> backup_power_active(home_system))",
+              "natural": "Provided the lights are functional in the living room, backup power is active for the home system."
+            }
+          ],
+          "conclusion": "(A2 -> A4)",
+          "natural": "If a power outage occurs in the neighborhood, backup power is active for the home system."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A4)",
+              "prover9_expression": "(power_outage(neighborhood) -> backup_power_active(home_system))",
+              "natural": "If a power outage occurs in the neighborhood, backup power is active for the home system."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> (-G -> A1))",
+              "prover9_expression": "(backup_power_active(home_system) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "If backup power is active for the home system, then in the situation that the city's grid power is not stable, the home system becomes offline."
+            }
+          ],
+          "conclusion": "(A2 -> (-G -> A1))",
+          "natural": "Should there be a power outage in the neighborhood, then if the city's grid power is not stable, the home system becomes offline."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(power_outage(neighborhood) | grid_failure(city))",
+              "natural": "Either there is a power outage in the neighborhood, or the city is experiencing a grid failure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(power_outage(neighborhood) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "Should there be a power outage in the neighborhood, then if the city's grid power is not stable, the home system becomes offline."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(grid_failure(city) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "Whenever the city is experiencing a grid failure, then if the city's grid power is not stable, it results in the home system being offline."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Should the city's grid power not be stable, the home system is offline."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_stable(city) -> system_offline(home_system))",
+              "natural": "Should the city's grid power not be stable, the home system is offline."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-system_offline(home_system)",
+              "natural": "It is not the case that the home system is offline."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The city's grid power is stable."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 1,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Rule19",
+              "prover9": "(-A18 -> A19)",
+              "prover9_expression": "(-maintenance_performed(battery_system) -> battery_degraded(battery_system))",
+              "natural": "In the event that maintenance has not been performed on the battery system, the battery system is degraded."
+            },
+            {
+              "id": "Fact2",
+              "prover9": "-A19",
+              "prover9_expression": "-battery_degraded(battery_system)",
+              "natural": "The battery system is not degraded."
+            }
+          ],
+          "conclusion": "A18",
+          "natural": "Maintenance has been performed on the battery system."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MP",
+          "premises_used": [
+            {
+              "id": "Rule9",
+              "prover9": "(A18 -> (A16 -> A17))",
+              "prover9_expression": "(maintenance_performed(battery_system) -> (grid_charged(battery_system) -> generator_charged(battery_system)))",
+              "natural": "If maintenance has been performed on the battery system, then whenever the battery system is grid charged, it follows that it is generator charged."
+            },
+            {
+              "id": "Derived",
+              "prover9": "A18",
+              "prover9_expression": "maintenance_performed(battery_system)",
+              "natural": "Maintenance has been performed on the battery system."
+            }
+          ],
+          "conclusion": "(A16 -> A17)",
+          "natural": "If the battery system is grid charged, then it is also generator charged."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> A17)",
+              "prover9_expression": "(grid_charged(battery_system) -> generator_charged(battery_system))",
+              "natural": "If the battery system is grid charged, then it is also generator charged."
+            },
+            {
+              "id": "Rule8",
+              "prover9": "(A17 -> (A14 -> A4))",
+              "prover9_expression": "(generator_charged(battery_system) -> (battery_power_active(home_system) -> backup_power_active(home_system)))",
+              "natural": "In cases where the battery system is generator charged, then if battery power is active for the home system, backup power will be active for the home system."
+            }
+          ],
+          "conclusion": "(A16 -> (A14 -> A4))",
+          "natural": "Provided that the battery system is grid charged, then the activation of battery power for the home system leads to backup power being active for the home system."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule7",
+              "prover9": "(A15 | A16)",
+              "prover9_expression": "(solar_charged(battery_system) | grid_charged(battery_system))",
+              "natural": "Either the battery system is solar charged, or it is grid charged."
+            },
+            {
+              "id": "Rule6",
+              "prover9": "(A15 -> (A14 -> A4))",
+              "prover9_expression": "(solar_charged(battery_system) -> (battery_power_active(home_system) -> backup_power_active(home_system)))",
+              "natural": "Should the battery system be solar charged, then if battery power is active for the home system, backup power becomes active for the home system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A16 -> (A14 -> A4))",
+              "prover9_expression": "(grid_charged(battery_system) -> (battery_power_active(home_system) -> backup_power_active(home_system)))",
+              "natural": "Provided that the battery system is grid charged, then the activation of battery power for the home system leads to backup power being active for the home system."
+            }
+          ],
+          "conclusion": "(A14 -> A4)",
+          "natural": "Whenever battery power is active for the home system, it results in the backup power being active for the home system."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Rule10",
+              "prover9": "(A2 -> A14)",
+              "prover9_expression": "(power_outage(neighborhood) -> battery_power_active(home_system))",
+              "natural": "Whenever there is a power outage in the neighborhood, battery power is active for the home system."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A14 -> A4)",
+              "prover9_expression": "(battery_power_active(home_system) -> backup_power_active(home_system))",
+              "natural": "Whenever battery power is active for the home system, it results in the backup power being active for the home system."
+            }
+          ],
+          "conclusion": "(A2 -> A4)",
+          "natural": "If a power outage occurs in the neighborhood, backup power is active for the home system."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "HS",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> A4)",
+              "prover9_expression": "(power_outage(neighborhood) -> backup_power_active(home_system))",
+              "natural": "If a power outage occurs in the neighborhood, backup power is active for the home system."
+            },
+            {
+              "id": "Rule14",
+              "prover9": "(A4 -> (-G -> A1))",
+              "prover9_expression": "(backup_power_active(home_system) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "If backup power is active for the home system, then in the situation that the city's grid power is not stable, the home system becomes offline."
+            }
+          ],
+          "conclusion": "(A2 -> (-G -> A1))",
+          "natural": "Should there be a power outage in the neighborhood, then if the city's grid power is not stable, the home system becomes offline."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "DE",
+          "premises_used": [
+            {
+              "id": "Rule12",
+              "prover9": "(A2 | A3)",
+              "prover9_expression": "(power_outage(neighborhood) | grid_failure(city))",
+              "natural": "Either there is a power outage in the neighborhood, or the city is experiencing a grid failure."
+            },
+            {
+              "id": "Derived",
+              "prover9": "(A2 -> (-G -> A1))",
+              "prover9_expression": "(power_outage(neighborhood) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "Should there be a power outage in the neighborhood, then if the city's grid power is not stable, the home system becomes offline."
+            },
+            {
+              "id": "Rule13",
+              "prover9": "(A3 -> (-G -> A1))",
+              "prover9_expression": "(grid_failure(city) -> (-grid_power_stable(city) -> system_offline(home_system)))",
+              "natural": "Whenever the city is experiencing a grid failure, then if the city's grid power is not stable, it results in the home system being offline."
+            }
+          ],
+          "conclusion": "(-G -> A1)",
+          "natural": "Should the city's grid power not be stable, the home system is offline."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "MT",
+          "premises_used": [
+            {
+              "id": "Derived",
+              "prover9": "(-G -> A1)",
+              "prover9_expression": "(-grid_power_stable(city) -> system_offline(home_system))",
+              "natural": "Should the city's grid power not be stable, the home system is offline."
+            },
+            {
+              "id": "Fact1",
+              "prover9": "-A1",
+              "prover9_expression": "-system_offline(home_system)",
+              "natural": "It is not the case that the home system is offline."
+            }
+          ],
+          "conclusion": "G",
+          "natural": "The city's grid power is stable."
+        }
+      ]
+    }
+  ]
+}

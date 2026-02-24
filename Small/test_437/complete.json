@@ -1,0 +1,768 @@
+{
+  "metadata": {
+    "graph_path": "./logic_graph.png",
+    "num_solutions": 3,
+    "family_stats": {
+      "1": {
+        "core": 1,
+        "branch": 2
+      }
+    }
+  },
+  "knowledge_base": {
+    "rules": [
+      {
+        "id": "Rule1",
+        "formal": "(A1 → G)",
+        "prover9_expression": "(assembled(engine, morning_shift) -> vehicle_complete(finished_car))",
+        "natural": "Provided that the engine was assembled during the morning shift, the finished car is a complete vehicle."
+      },
+      {
+        "id": "Rule2",
+        "formal": "(A12 ∨ (A10 → A11))",
+        "prover9_expression": "(assembled(suspension, morning_shift) | (assembled(electrical_system, morning_shift) -> assembled(brake_system, morning_shift)))",
+        "natural": "Either the suspension was assembled during the morning shift, or if the electrical system was assembled during the morning shift, then the brake system was assembled during the morning shift."
+      },
+      {
+        "id": "Rule3",
+        "formal": "(A13 → ¬A12)",
+        "prover9_expression": "(defective(engine) -> -assembled(suspension, morning_shift))",
+        "natural": "In the case that the engine is defective, the suspension was not assembled during the morning shift."
+      },
+      {
+        "id": "Rule4",
+        "formal": "(A2 → A1)",
+        "prover9_expression": "(assembled(transmission, morning_shift) -> assembled(engine, morning_shift))",
+        "natural": "Whenever the transmission is assembled during the morning shift, the engine is assembled during the morning shift."
+      },
+      {
+        "id": "Rule5",
+        "formal": "(A2 ∨ A3)",
+        "prover9_expression": "(assembled(transmission, morning_shift) | assembled(chassis, morning_shift))",
+        "natural": "Either the transmission was assembled during the morning shift, or the chassis was assembled during the morning shift."
+      },
+      {
+        "id": "Rule6",
+        "formal": "(A3 → A14)",
+        "prover9_expression": "(assembled(chassis, morning_shift) -> assembled(engine, afternoon_shift))",
+        "natural": "If the chassis was assembled during the morning shift, then the engine was assembled during the afternoon shift."
+      },
+      {
+        "id": "Rule7",
+        "formal": "(A5 ∨ A6)",
+        "prover9_expression": "(supervisor_approved(assembly_line) | manager_approved(assembly_line))",
+        "natural": "Either the supervisor approved the assembly line, or the manager approved the assembly line."
+      },
+      {
+        "id": "Rule8",
+        "formal": "(A6 → (¬(A3 → A1) → ¬A4))",
+        "prover9_expression": "(manager_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine)))",
+        "natural": "Under the condition that the manager approved the assembly line, then if the chassis being assembled does not necessitate the engine being assembled, the engine fails the quality check."
+      },
+      {
+        "id": "Rule9",
+        "formal": "(¬(A15 → (A14 → A1)) → ¬A16)",
+        "prover9_expression": "(-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> -overtime_scheduled(assembly_line))",
+        "natural": "Provided that it is not true that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is not scheduled for the assembly line."
+      },
+      {
+        "id": "Rule10",
+        "formal": "(¬(A3 → A1) → A4)",
+        "prover9_expression": "(-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> quality_check_passed(engine))",
+        "natural": "In the case that the chassis being assembled does not imply the engine being assembled, the engine passes the quality check."
+      },
+      {
+        "id": "Rule11",
+        "formal": "(¬(A5 → (¬(A3 → A1) → ¬A4)) → A7)",
+        "prover9_expression": "(-(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))) -> maintenance_scheduled(assembly_line))",
+        "natural": "Provided that it is not the case that supervisor approval implies that lack of chassis-engine assembly implication leads to failed quality check, then maintenance is scheduled for the assembly line."
+      },
+      {
+        "id": "Rule12",
+        "formal": "(¬(A5 → (¬(A3 → A1) → ¬A4)) → ¬A7)",
+        "prover9_expression": "(-(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))) -> -maintenance_scheduled(assembly_line))",
+        "natural": "If it is not true that supervisor approval leads to the condition that chassis assembly not implying engine assembly results in failed quality check, then maintenance is not scheduled for the assembly line."
+      },
+      {
+        "id": "Rule13",
+        "formal": "(¬(¬(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18) → A19) → A20)",
+        "prover9_expression": "(-(-(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line)) -> weekend_shift_activated(assembly_line)) -> emergency_maintenance(assembly_line))",
+        "natural": "If it is not the case that the negation of the previous complex condition implies weekend shift activation, then emergency maintenance occurs for the assembly line."
+      },
+      {
+        "id": "Rule14",
+        "formal": "(¬(¬(¬A1 → ¬A8) → A9) → A10)",
+        "prover9_expression": "(-(-(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift)) -> assembled(exterior, morning_shift)) -> assembled(electrical_system, morning_shift))",
+        "natural": "Provided that it is not true that the negation of engine assembly implying interior not being assembled leads to exterior assembly, then the electrical system is assembled during the morning shift."
+      },
+      {
+        "id": "Rule15",
+        "formal": "(¬A1 → A8)",
+        "prover9_expression": "(-assembled(engine, morning_shift) -> assembled(interior, morning_shift))",
+        "natural": "In the case that the engine is not assembled during the morning shift, the interior is assembled during the morning shift."
+      }
+    ],
+    "facts": [
+      {
+        "id": "Fact1",
+        "formal": "A13",
+        "prover9_expression": "defective(engine)",
+        "natural": "The engine is defective."
+      },
+      {
+        "id": "Fact2",
+        "formal": "A15",
+        "prover9_expression": "production_target_met(assembly_line)",
+        "natural": "The production target was met for the assembly line."
+      },
+      {
+        "id": "Fact3",
+        "formal": "¬A11",
+        "prover9_expression": "-assembled(brake_system, morning_shift)",
+        "natural": "The brake system was not assembled during the morning shift."
+      },
+      {
+        "id": "Fact4",
+        "formal": "¬A17",
+        "prover9_expression": "-shift_extended(assembly_line)",
+        "natural": "The shift was not extended for the assembly line."
+      },
+      {
+        "id": "Fact5",
+        "formal": "¬A18",
+        "prover9_expression": "-night_shift_activated(assembly_line)",
+        "natural": "The night shift was not activated for the assembly line."
+      },
+      {
+        "id": "Fact6",
+        "formal": "¬A19",
+        "prover9_expression": "-weekend_shift_activated(assembly_line)",
+        "natural": "The weekend shift was not activated for the assembly line."
+      },
+      {
+        "id": "Fact7",
+        "formal": "¬A20",
+        "prover9_expression": "-emergency_maintenance(assembly_line)",
+        "natural": "Emergency maintenance did not occur for the assembly line."
+      },
+      {
+        "id": "Fact8",
+        "formal": "¬A9",
+        "prover9_expression": "-assembled(exterior, morning_shift)",
+        "natural": "The exterior was not assembled during the morning shift."
+      }
+    ]
+  },
+  "target": {
+    "formal": "G",
+    "prover9": "G",
+    "prover9_expression": "vehicle_complete(finished_car)",
+    "natural": "The finished car is a complete vehicle."
+  },
+  "solutions": [
+    {
+      "id": 1,
+      "family_id": 1,
+      "path_type": "core",
+      "branch_from": null,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A5 -> (-(A3 -> A1) -> -A4)) -> A7)",
+            "(-(A5 -> (-(A3 -> A1) -> -A4)) -> -A7)"
+          ],
+          "conclusion": "(A5 -> (-(A3 -> A1) -> -A4))",
+          "natural": "If the supervisor approved the assembly line, then in the event that the chassis being assembled does not imply the engine being assembled, the engine does not pass the quality check."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A5 | A6)",
+            "(A5 -> (-(A3 -> A1) -> -A4))",
+            "(A6 -> (-(A3 -> A1) -> -A4))"
+          ],
+          "conclusion": "(-(A3 -> A1) -> -A4)",
+          "natural": "If the chassis being assembled does not necessitate the engine being assembled, then the engine does not pass the quality check."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A3 -> A1) -> A4)",
+            "(-(A3 -> A1) -> -A4)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Provided that the chassis was assembled during the morning shift, the engine was assembled during the morning shift."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> A1)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "A1",
+          "natural": "The engine was assembled during the morning shift."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The finished car is a complete vehicle."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 3,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A13 -> -A12)",
+            "A13"
+          ],
+          "conclusion": "-A12",
+          "natural": "The suspension was not assembled during the morning shift."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A12 | (A10 -> A11))",
+            "-A12"
+          ],
+          "conclusion": "(A10 -> A11)",
+          "natural": "Whenever the electrical system is assembled during the morning shift, the brake system is assembled during the morning shift."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(A10 -> A11)",
+            "-A11"
+          ],
+          "conclusion": "-A10",
+          "natural": "The electrical system was not assembled during the morning shift."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(-A1 -> -A8) -> A9) -> A10)",
+            "-A10"
+          ],
+          "conclusion": "(-(-A1 -> -A8) -> A9)",
+          "natural": "If the engine not being assembled implies that the interior is not assembled, then the exterior is assembled during the morning shift."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-A1 -> -A8) -> A9)",
+            "-A9"
+          ],
+          "conclusion": "(-A1 -> -A8)",
+          "natural": "If the engine is not assembled during the morning shift, then the interior is not assembled during the morning shift."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-A1 -> A8)",
+            "(-A1 -> -A8)"
+          ],
+          "conclusion": "A1",
+          "natural": "The engine was assembled during the morning shift."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The finished car is a complete vehicle."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "family_id": 1,
+      "path_type": "branch",
+      "branch_from": 2,
+      "steps": [
+        {
+          "step_number": 1,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18) -> A19) -> A20)",
+            "-A20"
+          ],
+          "conclusion": "(-(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18) -> A19)",
+          "natural": "In the event that it is not the case that the negation of the disjunction involving shift extension and production target implication leading to overtime implies night shift activation, then the weekend shift is activated for the assembly line."
+        },
+        {
+          "step_number": 2,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18) -> A19)",
+            "-A19"
+          ],
+          "conclusion": "(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18)",
+          "natural": "If it is not the case that either the shift is extended or the lack of production target implication leads to overtime, then the night shift is activated for the assembly line."
+        },
+        {
+          "step_number": 3,
+          "rule_applied": "MT",
+          "premises_used": [
+            "(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18)",
+            "-A18"
+          ],
+          "conclusion": "(A17 | (-(A15 -> (A14 -> A1)) -> A16))",
+          "natural": "Either the shift is extended for the assembly line, or if it is not the case that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is scheduled for the assembly line."
+        },
+        {
+          "step_number": 4,
+          "rule_applied": "DS",
+          "premises_used": [
+            "(A17 | (-(A15 -> (A14 -> A1)) -> A16))",
+            "-A17"
+          ],
+          "conclusion": "(-(A15 -> (A14 -> A1)) -> A16)",
+          "natural": "If it is not the case that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is scheduled for the assembly line."
+        },
+        {
+          "step_number": 5,
+          "rule_applied": "RAA",
+          "premises_used": [
+            "(-(A15 -> (A14 -> A1)) -> A16)",
+            "(-(A15 -> (A14 -> A1)) -> -A16)"
+          ],
+          "conclusion": "(A15 -> (A14 -> A1))",
+          "natural": "Under the condition that the production target is met for the assembly line, then if the engine was assembled during the afternoon shift, it was assembled during the morning shift."
+        },
+        {
+          "step_number": 6,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A15 -> (A14 -> A1))",
+            "A15"
+          ],
+          "conclusion": "(A14 -> A1)",
+          "natural": "If the engine was assembled during the afternoon shift, then it was also assembled during the morning shift."
+        },
+        {
+          "step_number": 7,
+          "rule_applied": "HS",
+          "premises_used": [
+            "(A3 -> A14)",
+            "(A14 -> A1)"
+          ],
+          "conclusion": "(A3 -> A1)",
+          "natural": "Provided that the chassis was assembled during the morning shift, the engine was assembled during the morning shift."
+        },
+        {
+          "step_number": 8,
+          "rule_applied": "DE",
+          "premises_used": [
+            "(A2 | A3)",
+            "(A2 -> A1)",
+            "(A3 -> A1)"
+          ],
+          "conclusion": "A1",
+          "natural": "The engine was assembled during the morning shift."
+        },
+        {
+          "step_number": 9,
+          "rule_applied": "MP",
+          "premises_used": [
+            "(A1 -> G)",
+            "A1"
+          ],
+          "conclusion": "G",
+          "natural": "The finished car is a complete vehicle."
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "domain_theme": "Vehicle Manufacturing Assembly Line",
+    "atomic_facts": {
+      "A1": "assembled(engine, morning_shift)",
+      "A2": "assembled(transmission, morning_shift)",
+      "A3": "assembled(chassis, morning_shift)",
+      "A4": "quality_check_passed(engine)",
+      "A5": "supervisor_approved(assembly_line)",
+      "A6": "manager_approved(assembly_line)",
+      "A7": "maintenance_scheduled(assembly_line)",
+      "A8": "assembled(interior, morning_shift)",
+      "A9": "assembled(exterior, morning_shift)",
+      "A10": "assembled(electrical_system, morning_shift)",
+      "A11": "assembled(brake_system, morning_shift)",
+      "A12": "assembled(suspension, morning_shift)",
+      "A13": "defective(engine)",
+      "A14": "assembled(engine, afternoon_shift)",
+      "A15": "production_target_met(assembly_line)",
+      "A16": "overtime_scheduled(assembly_line)",
+      "A17": "shift_extended(assembly_line)",
+      "A18": "night_shift_activated(assembly_line)",
+      "A19": "weekend_shift_activated(assembly_line)",
+      "A20": "emergency_maintenance(assembly_line)",
+      "G": "vehicle_complete(finished_car)"
+    },
+    "natural_facts": {
+      "A1": "The engine was assembled during the morning shift.",
+      "A2": "The transmission was assembled during the morning shift.",
+      "A3": "The chassis was assembled during the morning shift.",
+      "A4": "The engine passed the quality check.",
+      "A5": "The supervisor approved the assembly line.",
+      "A6": "The manager approved the assembly line.",
+      "A7": "Maintenance was scheduled for the assembly line.",
+      "A8": "The interior was assembled during the morning shift.",
+      "A9": "The exterior was assembled during the morning shift.",
+      "A10": "The electrical system was assembled during the morning shift.",
+      "A11": "The brake system was assembled during the morning shift.",
+      "A12": "The suspension was assembled during the morning shift.",
+      "A13": "The engine is defective.",
+      "A14": "The engine was assembled during the afternoon shift.",
+      "A15": "The production target was met for the assembly line.",
+      "A16": "Overtime was scheduled for the assembly line.",
+      "A17": "The shift was extended for the assembly line.",
+      "A18": "The night shift was activated for the assembly line.",
+      "A19": "The weekend shift was activated for the assembly line.",
+      "A20": "Emergency maintenance occurred for the assembly line.",
+      "G": "The finished car is a complete vehicle."
+    },
+    "prover9_expressions": [
+      "(assembled(engine, morning_shift) -> vehicle_complete(finished_car))",
+      "(assembled(electrical_system, morning_shift) -> assembled(brake_system, morning_shift))",
+      "(assembled(suspension, morning_shift) | (assembled(electrical_system, morning_shift) -> assembled(brake_system, morning_shift)))",
+      "(defective(engine) -> -assembled(suspension, morning_shift))",
+      "(assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))",
+      "(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift)))",
+      "(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line)))",
+      "(assembled(transmission, morning_shift) -> assembled(engine, morning_shift))",
+      "(assembled(transmission, morning_shift) | assembled(chassis, morning_shift))",
+      "(assembled(chassis, morning_shift) -> assembled(engine, morning_shift))",
+      "(assembled(chassis, morning_shift) -> assembled(engine, afternoon_shift))",
+      "(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine)))",
+      "(supervisor_approved(assembly_line) | manager_approved(assembly_line))",
+      "(manager_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine)))",
+      "(-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))",
+      "(-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> -overtime_scheduled(assembly_line))",
+      "(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line))",
+      "(-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> quality_check_passed(engine))",
+      "(-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))",
+      "(-(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))) -> maintenance_scheduled(assembly_line))",
+      "(-(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))) -> -maintenance_scheduled(assembly_line))",
+      "(-(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line)) -> weekend_shift_activated(assembly_line))",
+      "(-(-(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line)) -> weekend_shift_activated(assembly_line)) -> emergency_maintenance(assembly_line))",
+      "(-(-(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift)) -> assembled(exterior, morning_shift)) -> assembled(electrical_system, morning_shift))",
+      "(-(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift)) -> assembled(exterior, morning_shift))",
+      "(-assembled(engine, morning_shift) -> assembled(interior, morning_shift))",
+      "(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift))",
+      "assembled(engine, morning_shift)",
+      "defective(engine)",
+      "production_target_met(assembly_line)",
+      "vehicle_complete(finished_car)",
+      "-assembled(electrical_system, morning_shift)",
+      "-assembled(brake_system, morning_shift)",
+      "-assembled(suspension, morning_shift)",
+      "-shift_extended(assembly_line)",
+      "-night_shift_activated(assembly_line)",
+      "-weekend_shift_activated(assembly_line)",
+      "-emergency_maintenance(assembly_line)",
+      "-assembled(exterior, morning_shift)"
+    ],
+    "natural_expressions": [
+      "Provided that the engine was assembled during the morning shift, the finished car is a complete vehicle.",
+      "Whenever the electrical system is assembled during the morning shift, the brake system is assembled during the morning shift.",
+      "Either the suspension was assembled during the morning shift, or if the electrical system was assembled during the morning shift, then the brake system was assembled during the morning shift.",
+      "In the case that the engine is defective, the suspension was not assembled during the morning shift.",
+      "If the engine was assembled during the afternoon shift, then it was also assembled during the morning shift.",
+      "Under the condition that the production target is met for the assembly line, then if the engine was assembled during the afternoon shift, it was assembled during the morning shift.",
+      "Either the shift is extended for the assembly line, or if it is not the case that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is scheduled for the assembly line.",
+      "Whenever the transmission is assembled during the morning shift, the engine is assembled during the morning shift.",
+      "Either the transmission was assembled during the morning shift, or the chassis was assembled during the morning shift.",
+      "Provided that the chassis was assembled during the morning shift, the engine was assembled during the morning shift.",
+      "If the chassis was assembled during the morning shift, then the engine was assembled during the afternoon shift.",
+      "If the supervisor approved the assembly line, then in the event that the chassis being assembled does not imply the engine being assembled, the engine does not pass the quality check.",
+      "Either the supervisor approved the assembly line, or the manager approved the assembly line.",
+      "Under the condition that the manager approved the assembly line, then if the chassis being assembled does not necessitate the engine being assembled, the engine fails the quality check.",
+      "If it is not the case that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is scheduled for the assembly line.",
+      "Provided that it is not true that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is not scheduled for the assembly line.",
+      "If it is not the case that either the shift is extended or the lack of production target implication leads to overtime, then the night shift is activated for the assembly line.",
+      "In the case that the chassis being assembled does not imply the engine being assembled, the engine passes the quality check.",
+      "If the chassis being assembled does not necessitate the engine being assembled, then the engine does not pass the quality check.",
+      "Provided that it is not the case that supervisor approval implies that lack of chassis-engine assembly implication leads to failed quality check, then maintenance is scheduled for the assembly line.",
+      "If it is not true that supervisor approval leads to the condition that chassis assembly not implying engine assembly results in failed quality check, then maintenance is not scheduled for the assembly line.",
+      "In the event that it is not the case that the negation of the disjunction involving shift extension and production target implication leading to overtime implies night shift activation, then the weekend shift is activated for the assembly line.",
+      "If it is not the case that the negation of the previous complex condition implies weekend shift activation, then emergency maintenance occurs for the assembly line.",
+      "Provided that it is not true that the negation of engine assembly implying interior not being assembled leads to exterior assembly, then the electrical system is assembled during the morning shift.",
+      "If the engine not being assembled implies that the interior is not assembled, then the exterior is assembled during the morning shift.",
+      "In the case that the engine is not assembled during the morning shift, the interior is assembled during the morning shift.",
+      "If the engine is not assembled during the morning shift, then the interior is not assembled during the morning shift.",
+      "The engine was assembled during the morning shift.",
+      "The engine is defective.",
+      "The production target was met for the assembly line.",
+      "The finished car is a complete vehicle.",
+      "The electrical system was not assembled during the morning shift.",
+      "The brake system was not assembled during the morning shift.",
+      "The suspension was not assembled during the morning shift.",
+      "The shift was not extended for the assembly line.",
+      "The night shift was not activated for the assembly line.",
+      "The weekend shift was not activated for the assembly line.",
+      "Emergency maintenance did not occur for the assembly line.",
+      "The exterior was not assembled during the morning shift."
+    ],
+    "node_mappings": {
+      "(A1 → G)": {
+        "formal": "(A1 → G)",
+        "prover9": "(A1 -> G)",
+        "prover9_expression": "(assembled(engine, morning_shift) -> vehicle_complete(finished_car))",
+        "natural": "Provided that the engine was assembled during the morning shift, the finished car is a complete vehicle."
+      },
+      "(A10 → A11)": {
+        "formal": "(A10 → A11)",
+        "prover9": "(A10 -> A11)",
+        "prover9_expression": "(assembled(electrical_system, morning_shift) -> assembled(brake_system, morning_shift))",
+        "natural": "Whenever the electrical system is assembled during the morning shift, the brake system is assembled during the morning shift."
+      },
+      "(A12 ∨ (A10 → A11))": {
+        "formal": "(A12 ∨ (A10 → A11))",
+        "prover9": "(A12 | (A10 -> A11))",
+        "prover9_expression": "(assembled(suspension, morning_shift) | (assembled(electrical_system, morning_shift) -> assembled(brake_system, morning_shift)))",
+        "natural": "Either the suspension was assembled during the morning shift, or if the electrical system was assembled during the morning shift, then the brake system was assembled during the morning shift."
+      },
+      "(A13 → ¬A12)": {
+        "formal": "(A13 → ¬A12)",
+        "prover9": "(A13 -> -A12)",
+        "prover9_expression": "(defective(engine) -> -assembled(suspension, morning_shift))",
+        "natural": "In the case that the engine is defective, the suspension was not assembled during the morning shift."
+      },
+      "(A14 → A1)": {
+        "formal": "(A14 → A1)",
+        "prover9": "(A14 -> A1)",
+        "prover9_expression": "(assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))",
+        "natural": "If the engine was assembled during the afternoon shift, then it was also assembled during the morning shift."
+      },
+      "(A15 → (A14 → A1))": {
+        "formal": "(A15 → (A14 → A1))",
+        "prover9": "(A15 -> (A14 -> A1))",
+        "prover9_expression": "(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift)))",
+        "natural": "Under the condition that the production target is met for the assembly line, then if the engine was assembled during the afternoon shift, it was assembled during the morning shift."
+      },
+      "(A17 ∨ (¬(A15 → (A14 → A1)) → A16))": {
+        "formal": "(A17 ∨ (¬(A15 → (A14 → A1)) → A16))",
+        "prover9": "(A17 | (-(A15 -> (A14 -> A1)) -> A16))",
+        "prover9_expression": "(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line)))",
+        "natural": "Either the shift is extended for the assembly line, or if it is not the case that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is scheduled for the assembly line."
+      },
+      "(A2 → A1)": {
+        "formal": "(A2 → A1)",
+        "prover9": "(A2 -> A1)",
+        "prover9_expression": "(assembled(transmission, morning_shift) -> assembled(engine, morning_shift))",
+        "natural": "Whenever the transmission is assembled during the morning shift, the engine is assembled during the morning shift."
+      },
+      "(A2 ∨ A3)": {
+        "formal": "(A2 ∨ A3)",
+        "prover9": "(A2 | A3)",
+        "prover9_expression": "(assembled(transmission, morning_shift) | assembled(chassis, morning_shift))",
+        "natural": "Either the transmission was assembled during the morning shift, or the chassis was assembled during the morning shift."
+      },
+      "(A3 → A1)": {
+        "formal": "(A3 → A1)",
+        "prover9": "(A3 -> A1)",
+        "prover9_expression": "(assembled(chassis, morning_shift) -> assembled(engine, morning_shift))",
+        "natural": "Provided that the chassis was assembled during the morning shift, the engine was assembled during the morning shift."
+      },
+      "(A3 → A14)": {
+        "formal": "(A3 → A14)",
+        "prover9": "(A3 -> A14)",
+        "prover9_expression": "(assembled(chassis, morning_shift) -> assembled(engine, afternoon_shift))",
+        "natural": "If the chassis was assembled during the morning shift, then the engine was assembled during the afternoon shift."
+      },
+      "(A5 → (¬(A3 → A1) → ¬A4))": {
+        "formal": "(A5 → (¬(A3 → A1) → ¬A4))",
+        "prover9": "(A5 -> (-(A3 -> A1) -> -A4))",
+        "prover9_expression": "(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine)))",
+        "natural": "If the supervisor approved the assembly line, then in the event that the chassis being assembled does not imply the engine being assembled, the engine does not pass the quality check."
+      },
+      "(A5 ∨ A6)": {
+        "formal": "(A5 ∨ A6)",
+        "prover9": "(A5 | A6)",
+        "prover9_expression": "(supervisor_approved(assembly_line) | manager_approved(assembly_line))",
+        "natural": "Either the supervisor approved the assembly line, or the manager approved the assembly line."
+      },
+      "(A6 → (¬(A3 → A1) → ¬A4))": {
+        "formal": "(A6 → (¬(A3 → A1) → ¬A4))",
+        "prover9": "(A6 -> (-(A3 -> A1) -> -A4))",
+        "prover9_expression": "(manager_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine)))",
+        "natural": "Under the condition that the manager approved the assembly line, then if the chassis being assembled does not necessitate the engine being assembled, the engine fails the quality check."
+      },
+      "(¬(A15 → (A14 → A1)) → A16)": {
+        "formal": "(¬(A15 → (A14 → A1)) → A16)",
+        "prover9": "(-(A15 -> (A14 -> A1)) -> A16)",
+        "prover9_expression": "(-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))",
+        "natural": "If it is not the case that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is scheduled for the assembly line."
+      },
+      "(¬(A15 → (A14 → A1)) → ¬A16)": {
+        "formal": "(¬(A15 → (A14 → A1)) → ¬A16)",
+        "prover9": "(-(A15 -> (A14 -> A1)) -> -A16)",
+        "prover9_expression": "(-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> -overtime_scheduled(assembly_line))",
+        "natural": "Provided that it is not true that production target being met implies that afternoon engine assembly requires morning assembly, then overtime is not scheduled for the assembly line."
+      },
+      "(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18)": {
+        "formal": "(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18)",
+        "prover9": "(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18)",
+        "prover9_expression": "(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line))",
+        "natural": "If it is not the case that either the shift is extended or the lack of production target implication leads to overtime, then the night shift is activated for the assembly line."
+      },
+      "(¬(A3 → A1) → A4)": {
+        "formal": "(¬(A3 → A1) → A4)",
+        "prover9": "(-(A3 -> A1) -> A4)",
+        "prover9_expression": "(-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> quality_check_passed(engine))",
+        "natural": "In the case that the chassis being assembled does not imply the engine being assembled, the engine passes the quality check."
+      },
+      "(¬(A3 → A1) → ¬A4)": {
+        "formal": "(¬(A3 → A1) → ¬A4)",
+        "prover9": "(-(A3 -> A1) -> -A4)",
+        "prover9_expression": "(-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))",
+        "natural": "If the chassis being assembled does not necessitate the engine being assembled, then the engine does not pass the quality check."
+      },
+      "(¬(A5 → (¬(A3 → A1) → ¬A4)) → A7)": {
+        "formal": "(¬(A5 → (¬(A3 → A1) → ¬A4)) → A7)",
+        "prover9": "(-(A5 -> (-(A3 -> A1) -> -A4)) -> A7)",
+        "prover9_expression": "(-(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))) -> maintenance_scheduled(assembly_line))",
+        "natural": "Provided that it is not the case that supervisor approval implies that lack of chassis-engine assembly implication leads to failed quality check, then maintenance is scheduled for the assembly line."
+      },
+      "(¬(A5 → (¬(A3 → A1) → ¬A4)) → ¬A7)": {
+        "formal": "(¬(A5 → (¬(A3 → A1) → ¬A4)) → ¬A7)",
+        "prover9": "(-(A5 -> (-(A3 -> A1) -> -A4)) -> -A7)",
+        "prover9_expression": "(-(supervisor_approved(assembly_line) -> (-(assembled(chassis, morning_shift) -> assembled(engine, morning_shift)) -> -quality_check_passed(engine))) -> -maintenance_scheduled(assembly_line))",
+        "natural": "If it is not true that supervisor approval leads to the condition that chassis assembly not implying engine assembly results in failed quality check, then maintenance is not scheduled for the assembly line."
+      },
+      "(¬(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18) → A19)": {
+        "formal": "(¬(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18) → A19)",
+        "prover9": "(-(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18) -> A19)",
+        "prover9_expression": "(-(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line)) -> weekend_shift_activated(assembly_line))",
+        "natural": "In the event that it is not the case that the negation of the disjunction involving shift extension and production target implication leading to overtime implies night shift activation, then the weekend shift is activated for the assembly line."
+      },
+      "(¬(¬(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18) → A19) → A20)": {
+        "formal": "(¬(¬(¬(A17 ∨ (¬(A15 → (A14 → A1)) → A16)) → A18) → A19) → A20)",
+        "prover9": "(-(-(-(A17 | (-(A15 -> (A14 -> A1)) -> A16)) -> A18) -> A19) -> A20)",
+        "prover9_expression": "(-(-(-(shift_extended(assembly_line) | (-(production_target_met(assembly_line) -> (assembled(engine, afternoon_shift) -> assembled(engine, morning_shift))) -> overtime_scheduled(assembly_line))) -> night_shift_activated(assembly_line)) -> weekend_shift_activated(assembly_line)) -> emergency_maintenance(assembly_line))",
+        "natural": "If it is not the case that the negation of the previous complex condition implies weekend shift activation, then emergency maintenance occurs for the assembly line."
+      },
+      "(¬(¬(¬A1 → ¬A8) → A9) → A10)": {
+        "formal": "(¬(¬(¬A1 → ¬A8) → A9) → A10)",
+        "prover9": "(-(-(-A1 -> -A8) -> A9) -> A10)",
+        "prover9_expression": "(-(-(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift)) -> assembled(exterior, morning_shift)) -> assembled(electrical_system, morning_shift))",
+        "natural": "Provided that it is not true that the negation of engine assembly implying interior not being assembled leads to exterior assembly, then the electrical system is assembled during the morning shift."
+      },
+      "(¬(¬A1 → ¬A8) → A9)": {
+        "formal": "(¬(¬A1 → ¬A8) → A9)",
+        "prover9": "(-(-A1 -> -A8) -> A9)",
+        "prover9_expression": "(-(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift)) -> assembled(exterior, morning_shift))",
+        "natural": "If the engine not being assembled implies that the interior is not assembled, then the exterior is assembled during the morning shift."
+      },
+      "(¬A1 → A8)": {
+        "formal": "(¬A1 → A8)",
+        "prover9": "(-A1 -> A8)",
+        "prover9_expression": "(-assembled(engine, morning_shift) -> assembled(interior, morning_shift))",
+        "natural": "In the case that the engine is not assembled during the morning shift, the interior is assembled during the morning shift."
+      },
+      "(¬A1 → ¬A8)": {
+        "formal": "(¬A1 → ¬A8)",
+        "prover9": "(-A1 -> -A8)",
+        "prover9_expression": "(-assembled(engine, morning_shift) -> -assembled(interior, morning_shift))",
+        "natural": "If the engine is not assembled during the morning shift, then the interior is not assembled during the morning shift."
+      },
+      "A1": {
+        "formal": "A1",
+        "prover9": "A1",
+        "prover9_expression": "assembled(engine, morning_shift)",
+        "natural": "The engine was assembled during the morning shift."
+      },
+      "A13": {
+        "formal": "A13",
+        "prover9": "A13",
+        "prover9_expression": "defective(engine)",
+        "natural": "The engine is defective."
+      },
+      "A15": {
+        "formal": "A15",
+        "prover9": "A15",
+        "prover9_expression": "production_target_met(assembly_line)",
+        "natural": "The production target was met for the assembly line."
+      },
+      "G": {
+        "formal": "G",
+        "prover9": "G",
+        "prover9_expression": "vehicle_complete(finished_car)",
+        "natural": "The finished car is a complete vehicle."
+      },
+      "¬A10": {
+        "formal": "¬A10",
+        "prover9": "-A10",
+        "prover9_expression": "-assembled(electrical_system, morning_shift)",
+        "natural": "The electrical system was not assembled during the morning shift."
+      },
+      "¬A11": {
+        "formal": "¬A11",
+        "prover9": "-A11",
+        "prover9_expression": "-assembled(brake_system, morning_shift)",
+        "natural": "The brake system was not assembled during the morning shift."
+      },
+      "¬A12": {
+        "formal": "¬A12",
+        "prover9": "-A12",
+        "prover9_expression": "-assembled(suspension, morning_shift)",
+        "natural": "The suspension was not assembled during the morning shift."
+      },
+      "¬A17": {
+        "formal": "¬A17",
+        "prover9": "-A17",
+        "prover9_expression": "-shift_extended(assembly_line)",
+        "natural": "The shift was not extended for the assembly line."
+      },
+      "¬A18": {
+        "formal": "¬A18",
+        "prover9": "-A18",
+        "prover9_expression": "-night_shift_activated(assembly_line)",
+        "natural": "The night shift was not activated for the assembly line."
+      },
+      "¬A19": {
+        "formal": "¬A19",
+        "prover9": "-A19",
+        "prover9_expression": "-weekend_shift_activated(assembly_line)",
+        "natural": "The weekend shift was not activated for the assembly line."
+      },
+      "¬A20": {
+        "formal": "¬A20",
+        "prover9": "-A20",
+        "prover9_expression": "-emergency_maintenance(assembly_line)",
+        "natural": "Emergency maintenance did not occur for the assembly line."
+      },
+      "¬A9": {
+        "formal": "¬A9",
+        "prover9": "-A9",
+        "prover9_expression": "-assembled(exterior, morning_shift)",
+        "natural": "The exterior was not assembled during the morning shift."
+      }
+    }
+  }
+}
